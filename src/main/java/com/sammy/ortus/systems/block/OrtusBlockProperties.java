@@ -9,6 +9,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
@@ -28,8 +29,8 @@ public class OrtusBlockProperties extends BlockBehaviour.Properties {
         super(material, (state) -> material.getColor());
     }
 
-    public OrtusBlockProperties setOrtusBlockData(OrtusThrowawayBlockData data) {
-        DATA_CACHE.put(this, data);
+    public OrtusBlockProperties addThrowawayData(Function<OrtusThrowawayBlockData, OrtusThrowawayBlockData> function) {
+        DATA_CACHE.put(this, function.apply(DATA_CACHE.getOrDefault(this, new OrtusThrowawayBlockData())));
         return this;
     }
 

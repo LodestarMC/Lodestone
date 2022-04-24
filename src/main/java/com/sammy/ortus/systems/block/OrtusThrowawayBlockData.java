@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 /**
  * Various throwaway data stored in {@link #DATA_CACHE}, which is cleared after the game is finished loading.
- * All needsX parameters are used for datagen only.
+ * All needsX parameters are intended to be used for datagen only.
  */
 public class OrtusThrowawayBlockData {
 
