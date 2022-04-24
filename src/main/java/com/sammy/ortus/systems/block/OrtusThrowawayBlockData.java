@@ -1,6 +1,12 @@
 package com.sammy.ortus.systems.block;
 
+import com.sammy.ortus.helpers.DataHelper;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
@@ -13,6 +19,9 @@ public class OrtusThrowawayBlockData {
 
     public static HashMap<OrtusBlockProperties, OrtusThrowawayBlockData> DATA_CACHE = new HashMap<>();
 
+    public static void wipeCache(FMLCommonSetupEvent event) {
+        DATA_CACHE.clear();
+    }
     public boolean needsPickaxe;
     public boolean needsAxe;
     public boolean needsShovel;

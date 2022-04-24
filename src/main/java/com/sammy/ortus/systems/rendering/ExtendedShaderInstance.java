@@ -30,7 +30,7 @@ public class ExtendedShaderInstance extends ShaderInstance {
     }
 
     public void setUniformDefaults() {
-        getHolder().defaultUniformData.forEach(u -> u.setUniformValue(safeGetUniform(u.uniformName)));
+        getHolder().setUniformDefaults();
     }
 
     public ShaderHolder getHolder() {

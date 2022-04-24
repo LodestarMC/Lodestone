@@ -33,7 +33,6 @@ public class OrtusBlockProperties extends BlockBehaviour.Properties {
         super(material, (state) -> material.getColor());
     }
 
-
     public static void setRenderLayers(FMLClientSetupEvent event) {
         DataHelper.getAll(ForgeRegistries.BLOCKS.getValues(), b -> b.properties instanceof OrtusBlockProperties && ((OrtusBlockProperties) b.properties).getThrowawayData().isCutoutLayer).forEach(b -> ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped()));
     }

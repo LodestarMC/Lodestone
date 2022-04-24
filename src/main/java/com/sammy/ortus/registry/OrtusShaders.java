@@ -43,6 +43,6 @@ public class OrtusShaders {
     }
 
     public static void registerShader(RegisterShadersEvent event, ExtendedShaderInstance extendedShaderInstance) {
-        event.registerShader(extendedShaderInstance, s -> ((ExtendedShaderInstance) s).getHolder().setInstance(s));
+        event.registerShader(extendedShaderInstance, s -> ((ExtendedShaderInstance) s).getHolder().setInstance(((ExtendedShaderInstance) s)));
     }
 }
