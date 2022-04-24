@@ -1,9 +1,6 @@
 package com.sammy.ortus.registry;
 
-import com.sammy.ortus.network.SyncEntityCapabilityDataPacket;
-import com.sammy.ortus.network.SyncPlayerCapabilityDataPacket;
-import com.sammy.ortus.network.SyncPlayerCapabilityDataServerPacket;
-import com.sammy.ortus.network.SyncWorldEventPacket;
+import com.sammy.ortus.network.*;
 import com.sammy.ortus.network.interaction.ResetRightClickDelayPacket;
 import com.sammy.ortus.network.interaction.RightClickEmptyPacket;
 import com.sammy.ortus.network.interaction.UpdateLeftClickPacket;
@@ -39,5 +36,6 @@ public class OrtusPackets {
         UpdateLeftClickPacket.register(INSTANCE, index++);
         UpdateRightClickPacket.register(INSTANCE, index++);
         ResetRightClickDelayPacket.register(INSTANCE, index++);
+        TotemOfUndyingEffectPacket.register(INSTANCE, index++);
     }
 }

@@ -96,22 +96,6 @@ public class ItemHelper {
         return nonEmptyStacks;
     }
 
-    public static void giveAmplifyingEffect(MobEffect effect, LivingEntity target, int duration, int amplifier, int cap) {
-        MobEffectInstance instance = target.getEffect(effect);
-        if (instance != null) {
-            amplifier += instance.getAmplifier() + 1;
-        }
-        target.addEffect(new MobEffectInstance(effect, duration, Math.min(amplifier, cap)));
-    }
-
-    public static void giveStackingEffect(MobEffect effect, LivingEntity target, int duration, int amplifier) {
-        MobEffectInstance instance = target.getEffect(effect);
-        if (instance != null) {
-            duration += instance.getDuration();
-        }
-        target.addEffect(new MobEffectInstance(effect, duration, amplifier));
-    }
-
     public static void quietlyGiveItemToPlayer(Player player, @Nonnull ItemStack stack) {
         if (stack.isEmpty()) return;
         IItemHandler inventory = new PlayerMainInvWrapper(player.getInventory());

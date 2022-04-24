@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "ortus.refmap.json",
   "mixins": [
-    "EntityMixin"
+    "EntityMixin",
+    "ItemStackMixin"
   ],
   "client": [
     "AbstractContainerScreenMixin",

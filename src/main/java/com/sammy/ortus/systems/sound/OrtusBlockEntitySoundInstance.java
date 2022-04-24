@@ -5,11 +5,11 @@ import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 
-public class SimpleBlockEntitySoundInstance<T extends OrtusBlockEntity> extends AbstractTickableSoundInstance {
+public class OrtusBlockEntitySoundInstance<T extends OrtusBlockEntity> extends AbstractTickableSoundInstance {
 
     public T blockEntity;
 
-    public SimpleBlockEntitySoundInstance(T blockEntity, SoundEvent soundEvent, float volume, float pitch) {
+    public OrtusBlockEntitySoundInstance(T blockEntity, SoundEvent soundEvent, float volume, float pitch) {
         super(soundEvent, SoundSource.BLOCKS);
         this.blockEntity = blockEntity;
         this.volume = volume;

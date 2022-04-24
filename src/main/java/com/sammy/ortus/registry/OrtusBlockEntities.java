@@ -1,5 +1,8 @@
 package com.sammy.ortus.registry;
 
+import com.sammy.ortus.block.sign.OrtusStandingSignBlock;
+import com.sammy.ortus.block.sign.OrtusWallSignBlock;
+import com.sammy.ortus.blockentity.OrtusSignBlockEntity;
 import com.sammy.ortus.systems.multiblock.IOrtusMultiblockComponent;
 import com.sammy.ortus.systems.multiblock.MultiBlockComponentEntity;
 import net.minecraft.world.level.block.Block;
@@ -19,6 +22,7 @@ public class OrtusBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, ORTUS);
 
     public static final RegistryObject<BlockEntityType<MultiBlockComponentEntity>> MULTIBLOCK_COMPONENT = BLOCK_ENTITY_TYPES.register("multiblock_component", () -> BlockEntityType.Builder.of(MultiBlockComponentEntity::new, getBlocks(IOrtusMultiblockComponent.class)).build(null));
+    public static final RegistryObject<BlockEntityType<OrtusSignBlockEntity>> SIGN = BLOCK_ENTITY_TYPES.register("sign", () -> BlockEntityType.Builder.of(OrtusSignBlockEntity::new, getBlocks(OrtusStandingSignBlock.class, OrtusWallSignBlock.class)).build(null));
 
     public static Block[] getBlocks(Class<?>... blockClasses) {
         IForgeRegistry<Block> blocks = ForgeRegistries.BLOCKS;

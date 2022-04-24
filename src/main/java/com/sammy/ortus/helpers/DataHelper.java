@@ -33,13 +33,12 @@ public class DataHelper {
         return new Vec3(x, y, z);
     }
 
-    public static <T, K extends Collection<T>> K reverseOrder(Supplier<K> reversed, Collection<T> items) {
+    public static <T, K extends Collection<T>> K reverseOrder(K reversed, Collection<T> items) {
         ArrayList<T> original = new ArrayList<>(items);
-        K newCollection = reversed.get();
         for (int i = items.size() - 1; i >= 0; i--) {
-            newCollection.add(original.get(i));
+            reversed.add(original.get(i));
         }
-        return newCollection;
+        return reversed;
     }
 
     public static String toTitleCase(String givenString, String regex) {
