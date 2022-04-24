@@ -1,5 +1,8 @@
 package com.sammy.ortus.helpers;
 
+import com.mojang.blaze3d.platform.NativeImage;
+import com.sammy.ortus.systems.easing.Easing;
+import com.sammy.ortus.systems.textureloader.OrtusTextureLoader;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 
@@ -33,16 +36,25 @@ public class ColorHelper {
         return FastColor.ARGB32.color((int) (a * 255f), (int) (r * 255f), (int) (g * 255f), (int) (b * 255f));
     }
 
-    public static Color colorLerp(float pct, Color brightColor, Color darkColor) {
+    public static Color colorLerp(Easing easing, float pct, Color brightColor, Color darkColor) {
         pct = Mth.clamp(pct, 0, 1);
         int br = brightColor.getRed(), bg = brightColor.getGreen(), bb = brightColor.getBlue();
         int dr = darkColor.getRed(), dg = darkColor.getGreen(), db = darkColor.getBlue();
-        int red = (int) Mth.lerp(pct, dr, br);
-        int green = (int) Mth.lerp(pct, dg, bg);
-        int blue = (int) Mth.lerp(pct, db, bb);
+        int red = (int) easing.ease(pct, dr, br, 1);
+        int green = (int) easing.ease(pct, dg, bg, 1);
+        int blue = (int) easing.ease(pct, db, bb, 1);
         return new Color(red, green, blue);
     }
-
+    public static Color colorLerp(Easing easing, float pct, Color... colors) {
+        pct = Mth.clamp(pct, 0, 1);
+        int colorCount = colors.length - 1;
+        float lerp = easing.ease(pct, 0, 1, 1);
+        float colorIndex = colorCount * lerp;
+        int index = (int) Mth.clamp(colorIndex, 0, colorCount);
+        Color color = colors[index];
+        Color nextColor = index == colorCount ? color : colors[index + 1];
+        return ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), nextColor, color);
+    }
     public static Color darker(Color color, int times) {
         float FACTOR = (float) Math.pow(0.7f, times);
         return new Color(Math.max((int) (color.getRed() * FACTOR), 0),

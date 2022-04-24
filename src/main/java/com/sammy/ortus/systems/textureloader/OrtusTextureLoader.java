@@ -3,6 +3,7 @@ package com.sammy.ortus.systems.textureloader;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.datafixers.util.Pair;
 import com.sammy.ortus.helpers.ColorHelper;
+import com.sammy.ortus.systems.easing.Easing;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.metadata.animation.AnimationMetadataSection;
 import net.minecraft.resources.ResourceLocation;
@@ -86,7 +87,7 @@ public class OrtusTextureLoader {
                 int index = (int) Mth.clamp(colorIndex, 0, colorCount);
                 Color color = colors[index];
                 Color nextColor = index == colorCount ? color : colors[index + 1];
-                Color transition = ColorHelper.colorLerp(colorIndex - (int) (colorIndex), nextColor, color);
+                Color transition = ColorHelper.colorLerp(Easing.LINEAR, colorIndex - (int) (colorIndex), nextColor, color);
                 nativeimage.setPixelRGBA(x, y, NativeImage.combine((pixel >> 24) & 0xFF, transition.getBlue(), transition.getGreen(), transition.getRed()));
             }
         }
