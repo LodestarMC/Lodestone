@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * A powerful ItemStackHandler designed to work with block entities
  */
-public class SimpleBlockEntityInventory extends ItemStackHandler {
+public class OrtusBlockEntityInventory extends ItemStackHandler {
     public final int slotCount;
     public final int slotSize;
     public Predicate<ItemStack> inputPredicate;
@@ -38,17 +38,17 @@ public class SimpleBlockEntityInventory extends ItemStackHandler {
     public int nonEmptyItemAmount;
     public int firstEmptyItemIndex;
 
-    public SimpleBlockEntityInventory(int slotCount, int slotSize, Predicate<ItemStack> inputPredicate, Predicate<ItemStack> outputPredicate) {
+    public OrtusBlockEntityInventory(int slotCount, int slotSize, Predicate<ItemStack> inputPredicate, Predicate<ItemStack> outputPredicate) {
         this(slotCount, slotSize, inputPredicate);
         this.outputPredicate = outputPredicate;
     }
 
-    public SimpleBlockEntityInventory(int slotCount, int slotSize, Predicate<ItemStack> inputPredicate) {
+    public OrtusBlockEntityInventory(int slotCount, int slotSize, Predicate<ItemStack> inputPredicate) {
         this(slotCount, slotSize);
         this.inputPredicate = inputPredicate;
     }
 
-    public SimpleBlockEntityInventory(int slotCount, int slotSize) {
+    public OrtusBlockEntityInventory(int slotCount, int slotSize) {
         super(slotCount);
         this.slotCount = slotCount;
         this.slotSize = slotSize;

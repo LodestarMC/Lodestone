@@ -1,6 +1,5 @@
 package com.sammy.ortus.systems.blockentity;
 
-import com.sammy.ortus.helpers.DataHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -19,7 +18,7 @@ import javax.annotation.Nonnull;
  * A simple block entity which holds a single ItemStack
  */
 public abstract class ItemHolderBlockEntity extends OrtusBlockEntity {
-    public SimpleBlockEntityInventory inventory;
+    public OrtusBlockEntityInventory inventory;
 
     public ItemHolderBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
