@@ -19,7 +19,7 @@ public class OrtusScreenParticles {
     public static final ScreenParticleType<ScreenParticleOptions> SPARKLE = registerType(new OrtusScreenParticleType());
     public static final ScreenParticleType<ScreenParticleOptions> TWINKLE = registerType(new OrtusScreenParticleType());
     public static final ScreenParticleType<ScreenParticleOptions> STAR = registerType(new OrtusScreenParticleType());
-//
+
     public static void registerParticleFactory(ParticleFactoryRegisterEvent event) {
         registerProvider(WISP, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.prefix("wisp"))));
         registerProvider(SMOKE, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.prefix("smoke"))));
