@@ -33,7 +33,7 @@ public class RenderHandler {
 
     public static void renderLast(RenderLevelLastEvent event) {
         event.getPoseStack().pushPose();
-        if (ClientConfig.DELAYED_PARTICLE_RENDERING.getValue()) {
+        if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
             RenderSystem.getModelViewStack().pushPose();
             RenderSystem.getModelViewStack().setIdentity();
             if (PARTICLE_MATRIX != null) {

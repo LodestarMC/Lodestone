@@ -19,6 +19,6 @@ public class ScreenEffectRendererMixin {
 
     @Inject(method = "renderFire", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(DDD)V"))
     private static void ortusFireEffectOffset(Minecraft minecraft, PoseStack poseStack, CallbackInfo ci) {
-        poseStack.translate(0, -(ClientConfig.FIRE_OVERLAY_OFFSET.getValue()) * 0.3f, 0);
+        poseStack.translate(0, -(ClientConfig.FIRE_OVERLAY_OFFSET.getConfigValue()) * 0.3f, 0);
     }
 }

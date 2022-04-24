@@ -59,7 +59,7 @@ public abstract class FireEffectRenderer<T extends FireEffectInstance> {
         for (int i = 0; i < 2; ++i) {
             pPoseStack.pushPose();
             pPoseStack.translate(((float) (-(i * 2 - 1)) * 0.24F), -0.3F, 0.0D);
-            pPoseStack.translate(0, -(ClientConfig.FIRE_OVERLAY_OFFSET.getValue()) * 0.3f, 0);
+            pPoseStack.translate(0, -(ClientConfig.FIRE_OVERLAY_OFFSET.getConfigValue()) * 0.3f, 0);
             pPoseStack.mulPose(Vector3f.YP.rotationDegrees((float) (i * 2 - 1) * 10.0F));
             Matrix4f matrix4f = pPoseStack.last().pose();
             bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);

@@ -23,6 +23,7 @@ public class OrtusThrowawayBlockData {
     public boolean needsDiamond;
 
     public boolean isCutoutLayer;
+    public boolean hasCustomLoot;
 
     public OrtusThrowawayBlockData() {
 
@@ -65,6 +66,11 @@ public class OrtusThrowawayBlockData {
 
     public OrtusThrowawayBlockData isCutoutLayer() {
         isCutoutLayer = true;
+        return this;
+    }
+
+    public OrtusThrowawayBlockData hasCustomLoot() {
+        hasCustomLoot = true;
         return this;
     }
 }

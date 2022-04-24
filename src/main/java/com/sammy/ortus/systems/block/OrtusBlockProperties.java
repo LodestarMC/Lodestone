@@ -1,5 +1,8 @@
 package com.sammy.ortus.systems.block;
 
+import com.sammy.ortus.helpers.DataHelper;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -7,6 +10,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -28,9 +33,17 @@ public class OrtusBlockProperties extends BlockBehaviour.Properties {
         super(material, (state) -> material.getColor());
     }
 
+
+    public static void setRenderLayers(FMLClientSetupEvent event) {
+        DataHelper.getAll(ForgeRegistries.BLOCKS.getValues(), b -> b.properties instanceof OrtusBlockProperties && ((OrtusBlockProperties) b.properties).getThrowawayData().isCutoutLayer).forEach(b -> ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped()));
+    }
+
     public OrtusBlockProperties addThrowawayData(Function<OrtusThrowawayBlockData, OrtusThrowawayBlockData> function) {
         DATA_CACHE.put(this, function.apply(DATA_CACHE.getOrDefault(this, new OrtusThrowawayBlockData())));
         return this;
+    }
+    public OrtusThrowawayBlockData getThrowawayData() {
+        return DATA_CACHE.getOrDefault(this, new OrtusThrowawayBlockData());
     }
 
     public OrtusBlockProperties needsPickaxe() {
@@ -70,6 +83,11 @@ public class OrtusBlockProperties extends BlockBehaviour.Properties {
 
     public OrtusBlockProperties isCutoutLayer() {
         addThrowawayData(d -> d.isCutoutLayer());
+        return this;
+    }
+
+    public OrtusBlockProperties hasCustomLoot() {
+        addThrowawayData(d -> d.hasCustomLoot());
         return this;
     }
 

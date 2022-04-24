@@ -20,7 +20,7 @@ public class FireOffsetOption extends ProgressOption implements OrtusOption {
                 0.0D,
                 1.0D,
                 0.01F,
-                (options) -> ClientConfig.FIRE_OVERLAY_OFFSET.getValue(),
+                (options) -> ClientConfig.FIRE_OVERLAY_OFFSET.getConfigValue(),
                 (options, value) -> ClientConfig.FIRE_OVERLAY_OFFSET.set(Math.round(value * 100d) / 100d),
                 (options, progressOption) -> {
                     double value = progressOption.toPct(progressOption.get(options));

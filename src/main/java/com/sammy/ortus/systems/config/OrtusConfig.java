@@ -24,7 +24,7 @@ public class OrtusConfig {
         VALUE_HOLDERS.forEach(((s, h) -> {
             if (s.getFirst().equals(configType)) {
                 builder.push(List.of(s.getSecond()));
-                h.forEach(v -> v.value = v.valueSupplier.createBuilder(builder));
+                h.forEach(v -> v.config = v.valueSupplier.createBuilder(builder));
                 builder.pop(s.getSecond().length);
             }
         }));
@@ -33,12 +33,12 @@ public class OrtusConfig {
 
     public static class ConfigValueHolder<T> {
         private final BuilderSupplier<T> valueSupplier;
-        private ForgeConfigSpec.ConfigValue<T> value;
+        private ForgeConfigSpec.ConfigValue<T> config;
 
         /**
          * @param modId         - Your mod id. Must match whatever you few into the {@link OrtusConfig#OrtusConfig(String, ForgeConfigSpec.Builder)} constructor.
          * @param path          - Path towards your value separated with "/". The first string from a split of your path will be removed and added to the configType.
-         * @param valueSupplier - Supplier to your config value. {@link ConfigValueHolder#value} will be set to {@link ConfigValueHolder#valueSupplier#getValue()} when config is initialized.
+         * @param valueSupplier - Supplier to your config value. {@link ConfigValueHolder#config} will be set to {@link ConfigValueHolder#valueSupplier#getConfigValue()} when config is initialized.
          */
         public ConfigValueHolder(String modId, String path, BuilderSupplier<T> valueSupplier) {
             this.valueSupplier = valueSupplier;
@@ -49,14 +49,15 @@ public class OrtusConfig {
         }
 
         public void set(T t) {
-            value.set(t);
+            config.set(t);
         }
 
-        public ForgeConfigSpec.ConfigValue<T> get() {
-            return value;
+        public ForgeConfigSpec.ConfigValue<T> getConfig() {
+            return config;
         }
-        public T getValue() {
-            return value.get();
+
+        public T getConfigValue() {
+            return config.get();
         }
     }
 
