@@ -13,6 +13,7 @@ import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -34,7 +35,7 @@ public class OrtusBlockProperties extends BlockBehaviour.Properties {
     }
 
     public static void setRenderLayers(FMLClientSetupEvent event) {
-        DataHelper.getAll(ForgeRegistries.BLOCKS.getValues(), b -> b.properties instanceof OrtusBlockProperties && ((OrtusBlockProperties) b.properties).getThrowawayData().isCutoutLayer).forEach(b -> ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped()));
+        DataHelper.getAll(new ArrayList<>(ForgeRegistries.BLOCKS.getValues()), b -> b.properties instanceof OrtusBlockProperties && ((OrtusBlockProperties) b.properties).getThrowawayData().isCutoutLayer).forEach(b -> ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped()));
     }
 
     public OrtusBlockProperties addThrowawayData(Function<OrtusThrowawayBlockData, OrtusThrowawayBlockData> function) {

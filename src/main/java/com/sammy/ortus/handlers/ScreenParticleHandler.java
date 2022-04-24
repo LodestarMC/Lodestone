@@ -48,7 +48,7 @@ public class ScreenParticleHandler {
     public static boolean renderingHotbar;
 
     public static void registerParticleEmitters(FMLClientSetupEvent event) {
-        DataHelper.takeAll(ForgeRegistries.ITEMS.getValues(), i -> i instanceof ItemParticleEmitter).forEach(i -> {
+        DataHelper.takeAll(new ArrayList<>(ForgeRegistries.ITEMS.getValues()), i -> i instanceof ItemParticleEmitter).forEach(i -> {
                     ItemParticleEmitter emitter = (ItemParticleEmitter) i;
                     ScreenParticleHandler.registerItemParticleEmitter(i, emitter::particleTick);
                 }
