@@ -1,12 +1,18 @@
 package com.sammy.ortus.setup;
 
+import com.sammy.ortus.OrtusLib;
 import com.sammy.ortus.block.sign.OrtusStandingSignBlock;
 import com.sammy.ortus.block.sign.OrtusWallSignBlock;
 import com.sammy.ortus.blockentity.OrtusSignBlockEntity;
 import com.sammy.ortus.systems.multiblock.IOrtusMultiblockComponent;
 import com.sammy.ortus.systems.multiblock.MultiBlockComponentEntity;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -44,5 +50,13 @@ public class OrtusBlockEntities {
             }
         }
         return matchingBlocks.toArray(new Block[0]);
+    }
+
+    @Mod.EventBusSubscriber(modid = ORTUS, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class ClientOnly {
+        @SubscribeEvent
+        public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
+        }
     }
 }
