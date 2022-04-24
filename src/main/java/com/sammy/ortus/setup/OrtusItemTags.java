@@ -1,4 +1,4 @@
-package com.sammy.ortus.registry;
+package com.sammy.ortus.setup;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;

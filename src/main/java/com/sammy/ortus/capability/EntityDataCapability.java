@@ -1,9 +1,7 @@
 package com.sammy.ortus.capability;
 
 import com.sammy.ortus.OrtusLib;
-import com.sammy.ortus.helpers.DataHelper;
 import com.sammy.ortus.network.SyncEntityCapabilityDataPacket;
-import com.sammy.ortus.registry.OrtusPackets;
 import com.sammy.ortus.systems.capability.OrtusCapability;
 import com.sammy.ortus.systems.capability.OrtusCapabilityProvider;
 import com.sammy.ortus.systems.fireeffect.FireEffectInstance;
@@ -19,7 +17,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.network.PacketDistributor;
 
-import static com.sammy.ortus.registry.OrtusPackets.INSTANCE;
+import static com.sammy.ortus.setup.OrtusPackets.INSTANCE;
 
 public class EntityDataCapability implements OrtusCapability {
 

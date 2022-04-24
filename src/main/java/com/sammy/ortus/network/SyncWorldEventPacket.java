@@ -1,7 +1,7 @@
 package com.sammy.ortus.network;
 
 import com.sammy.ortus.handlers.WorldEventHandler;
-import com.sammy.ortus.registry.worldevent.OrtusWorldEventTypes;
+import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypes;
 import com.sammy.ortus.systems.worldevent.WorldEventInstance;
 import com.sammy.ortus.systems.worldevent.WorldEventType;
 import net.minecraft.client.Minecraft;

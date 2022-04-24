@@ -5,7 +5,6 @@ import com.sammy.ortus.network.SyncPlayerCapabilityDataPacket;
 import com.sammy.ortus.network.SyncPlayerCapabilityDataServerPacket;
 import com.sammy.ortus.network.interaction.UpdateLeftClickPacket;
 import com.sammy.ortus.network.interaction.UpdateRightClickPacket;
-import com.sammy.ortus.registry.OrtusPackets;
 import com.sammy.ortus.systems.capability.OrtusCapability;
 import com.sammy.ortus.systems.capability.OrtusCapabilityProvider;
 import net.minecraft.client.Minecraft;
@@ -25,7 +24,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.network.PacketDistributor;
 
-import static com.sammy.ortus.registry.OrtusPackets.INSTANCE;
+import static com.sammy.ortus.setup.OrtusPackets.INSTANCE;
 
 public class PlayerDataCapability implements OrtusCapability {
 

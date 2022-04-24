@@ -1,4 +1,4 @@
-package com.sammy.ortus.registry;
+package com.sammy.ortus.setup;
 
 import com.sammy.ortus.network.*;
 import com.sammy.ortus.network.interaction.ResetRightClickDelayPacket;

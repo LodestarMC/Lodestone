@@ -1,4 +1,4 @@
-package com.sammy.ortus.registry;
+package com.sammy.ortus.setup;
 
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;

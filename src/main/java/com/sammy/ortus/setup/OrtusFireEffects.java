@@ -1,4 +1,4 @@
-package com.sammy.ortus.registry;
+package com.sammy.ortus.setup;
 
 
 import com.sammy.ortus.systems.fireeffect.FireEffectType;

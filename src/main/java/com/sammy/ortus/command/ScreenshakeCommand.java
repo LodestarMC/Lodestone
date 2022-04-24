@@ -6,7 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.sammy.ortus.helpers.DataHelper;
 import com.sammy.ortus.network.screenshake.PositionedScreenshakePacket;
 import com.sammy.ortus.network.screenshake.ScreenshakePacket;
-import com.sammy.ortus.registry.OrtusPackets;
+import com.sammy.ortus.setup.OrtusPackets;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;

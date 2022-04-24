@@ -1,8 +1,8 @@
 package com.sammy.ortus.systems.worldevent;
 
 import com.sammy.ortus.network.SyncWorldEventPacket;
-import com.sammy.ortus.registry.OrtusPackets;
-import com.sammy.ortus.registry.worldevent.OrtusWorldEventTypes;
+import com.sammy.ortus.setup.OrtusPackets;
+import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;

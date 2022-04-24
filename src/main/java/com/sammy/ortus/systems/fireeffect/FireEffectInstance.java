@@ -1,6 +1,6 @@
 package com.sammy.ortus.systems.fireeffect;
 
-import com.sammy.ortus.registry.OrtusFireEffects;
+import com.sammy.ortus.setup.OrtusFireEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 

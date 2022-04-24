@@ -103,7 +103,7 @@ public class ScreenParticleHandler {
     public static void renderParticles(TickEvent.RenderTickEvent event) {
         if (event.phase.equals(TickEvent.Phase.END)) {
             Screen screen = Minecraft.getInstance().screen;
-            if (screen instanceof IRecipesGui) {
+            if (JeiCompat.LOADED && JeiCompat.LoadedOnly.isRecipesUi(screen)) {
                 renderParticles(AFTER_EVERYTHING);
             }
             if (screen == null || screen instanceof ChatScreen || screen instanceof GameModeSwitcherScreen) {

@@ -1,16 +1,11 @@
-package com.sammy.ortus.registry;
+package com.sammy.ortus.setup;
 
 import com.sammy.ortus.OrtusLib;
-import com.sammy.ortus.helpers.DataHelper;
 import com.sammy.ortus.systems.rendering.particle.screen.ScreenParticleOptions;
 import com.sammy.ortus.systems.rendering.particle.screen.ScreenParticleType;
 import com.sammy.ortus.systems.rendering.particle.type.OrtusScreenParticleType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.Registry;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 

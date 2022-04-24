@@ -1,6 +1,5 @@
 package com.sammy.ortus.events;
 
-import com.sammy.ortus.OrtusLib;
 import com.sammy.ortus.capability.PlayerDataCapability;
 import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.handlers.ScreenParticleHandler;
@@ -11,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
 import net.minecraft.client.gui.screens.SimpleOptionsSubScreen;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
@@ -20,7 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static com.sammy.ortus.OrtusLib.RANDOM;
-import static com.sammy.ortus.registry.OrtusOptions.OPTIONS;
+import static com.sammy.ortus.setup.OrtusOptions.OPTIONS;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClientRuntimeEvents {

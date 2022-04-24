@@ -1,4 +1,4 @@
-package com.sammy.ortus.registry.worldevent;
+package com.sammy.ortus.setup.worldevent;
 
 import com.sammy.ortus.systems.worldevent.WorldEventType;
 

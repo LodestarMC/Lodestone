@@ -6,7 +6,7 @@ import com.mojang.math.Matrix4f;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.helpers.RenderHelper;
 import com.sammy.ortus.systems.rendering.ExtendedShaderInstance;
-import com.sammy.ortus.registry.OrtusRenderTypes;
+import com.sammy.ortus.setup.OrtusRenderTypes;
 import com.sammy.ortus.systems.rendering.ShaderUniformHandler;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

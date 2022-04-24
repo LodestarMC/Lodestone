@@ -2,31 +2,21 @@ package com.sammy.ortus.handlers;
 
 import com.sammy.ortus.capability.PlayerDataCapability;
 import com.sammy.ortus.capability.WorldDataCapability;
-import com.sammy.ortus.registry.worldevent.OrtusWorldEventRenderers;
-import com.sammy.ortus.registry.worldevent.OrtusWorldEventTypes;
+import com.sammy.ortus.setup.worldevent.OrtusWorldEventRenderers;
+import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypes;
 import com.sammy.ortus.systems.worldevent.WorldEventInstance;
 import com.sammy.ortus.systems.worldevent.WorldEventRenderer;
 import com.sammy.ortus.systems.worldevent.WorldEventType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.world.BlockEvent;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class WorldEventHandler {

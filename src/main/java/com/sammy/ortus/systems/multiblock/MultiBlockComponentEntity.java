@@ -1,7 +1,7 @@
 package com.sammy.ortus.systems.multiblock;
 
 import com.sammy.ortus.helpers.BlockHelper;
-import com.sammy.ortus.registry.OrtusBlockEntities;
+import com.sammy.ortus.setup.OrtusBlockEntities;
 import com.sammy.ortus.systems.blockentity.OrtusBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

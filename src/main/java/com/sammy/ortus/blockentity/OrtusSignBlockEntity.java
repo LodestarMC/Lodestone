@@ -1,6 +1,6 @@
 package com.sammy.ortus.blockentity;
 
-import com.sammy.ortus.registry.OrtusBlockEntities;
+import com.sammy.ortus.setup.OrtusBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.SignBlockEntity;

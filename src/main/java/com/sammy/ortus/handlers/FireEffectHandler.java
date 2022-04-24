@@ -1,25 +1,13 @@
 package com.sammy.ortus.handlers;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import com.sammy.ortus.OrtusLib;
 import com.sammy.ortus.capability.EntityDataCapability;
-import com.sammy.ortus.config.ClientConfig;
-import com.sammy.ortus.registry.OrtusFireEffectRenderers;
+import com.sammy.ortus.setup.OrtusFireEffectRenderers;
 import com.sammy.ortus.systems.fireeffect.FireEffectInstance;
 import com.sammy.ortus.systems.fireeffect.FireEffectRenderer;
-import com.sammy.ortus.systems.fireeffect.FireEffectType;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
 public class FireEffectHandler {

@@ -3,7 +3,7 @@ package com.sammy.ortus.systems.rendering.particle.world;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.handlers.RenderHandler;
-import com.sammy.ortus.registry.OrtusRenderTypes;
+import com.sammy.ortus.setup.OrtusRenderTypes;
 import com.sammy.ortus.systems.rendering.particle.SimpleParticleOptions;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;

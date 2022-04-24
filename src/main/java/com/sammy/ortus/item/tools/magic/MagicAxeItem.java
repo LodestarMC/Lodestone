@@ -2,7 +2,7 @@ package com.sammy.ortus.item.tools.magic;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.sammy.ortus.item.tools.OrtusAxeItem;
-import com.sammy.ortus.registry.OrtusAttributes;
+import com.sammy.ortus.setup.OrtusAttributes;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;

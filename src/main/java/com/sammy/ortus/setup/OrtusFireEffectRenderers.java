@@ -1,10 +1,8 @@
-package com.sammy.ortus.registry;
+package com.sammy.ortus.setup;
 
 import com.sammy.ortus.systems.fireeffect.FireEffectInstance;
 import com.sammy.ortus.systems.fireeffect.FireEffectRenderer;
 import com.sammy.ortus.systems.fireeffect.FireEffectType;
-import com.sammy.ortus.systems.worldevent.WorldEventInstance;
-import com.sammy.ortus.systems.worldevent.WorldEventRenderer;
 
 import java.util.HashMap;
 

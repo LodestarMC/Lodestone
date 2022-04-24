@@ -1,4 +1,4 @@
-package com.sammy.ortus.registry;
+package com.sammy.ortus.setup;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.sammy.ortus.OrtusLib;

@@ -1,6 +1,6 @@
 package com.sammy.ortus.handlers;
 
-import com.sammy.ortus.registry.OrtusAttributes;
+import com.sammy.ortus.setup.OrtusAttributes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,7 +37,7 @@ public class OrtusAttributeEventHandler {
                 if (magicDamage != null) {
                     if (magicDamage.getValue() > 0 && target.isAlive()) {
                         target.invulnerableTime = 0;
-                        target.hurt(new EntityDamageSource(DamageSource.MAGIC.getMsgId(), attacker), (float) magicDamage.getValue());
+                        target.hurt(new EntityDamageSource(DamageSource.MAGIC.getMsgId(), attacker).setMagic(), (float) magicDamage.getValue());
                     }
                 }
             }

@@ -1,10 +1,8 @@
-package com.sammy.ortus.registry.worldevent;
+package com.sammy.ortus.setup.worldevent;
 
-import com.sammy.ortus.systems.fireeffect.FireEffectType;
 import com.sammy.ortus.systems.worldevent.WorldEventInstance;
 import com.sammy.ortus.systems.worldevent.WorldEventRenderer;
 import com.sammy.ortus.systems.worldevent.WorldEventType;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.HashMap;
 

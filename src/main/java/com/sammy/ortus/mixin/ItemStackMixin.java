@@ -1,6 +1,6 @@
 package com.sammy.ortus.mixin;
 
-import com.sammy.ortus.registry.OrtusAttributes;
+import com.sammy.ortus.setup.OrtusAttributes;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
@@ -12,8 +12,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-import static com.sammy.ortus.registry.OrtusAttributes.UUIDS;
-import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_UUID;
+import static com.sammy.ortus.setup.OrtusAttributes.UUIDS;
 
 @Mixin(ItemStack.class)
 public class ItemStackMixin {
