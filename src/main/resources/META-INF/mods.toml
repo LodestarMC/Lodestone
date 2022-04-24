@@ -1,0 +1,13 @@
+
+modLoader="javafml"
+loaderVersion="[39,)"
+license="All rights reserved"
+[[mods]]
+logoFile="ortus.png"
+modId="ortus"
+version="${file.jarVersion}"
+displayName="Ortus Lib"
+authors="Sammy;"
+description='''
+A library containing various utilities.
+'''

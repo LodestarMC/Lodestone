@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "package": "com.sammy.ortus.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "ortus.refmap.json",
+  "mixins": [
+    "EntityMixin"
+  ],
+  "client": [
+    "AbstractContainerScreenMixin",
+    "CameraMixin",
+    "EntityRenderDispatcherMixin",
+    "GuiMixin",
+    "ItemRendererMixin",
+    "ScreenEffectRendererMixin",
+    "ScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8.5"
+}
