@@ -1,6 +1,7 @@
 package com.sammy.ortus.events;
 
 import com.sammy.ortus.handlers.RenderHandler;
+import com.sammy.ortus.handlers.ScreenParticleHandler;
 import com.sammy.ortus.registry.OrtusParticles;
 import com.sammy.ortus.registry.OrtusScreenParticles;
 import com.sammy.ortus.registry.worldevent.OrtusWorldEventRenderers;
@@ -22,5 +23,6 @@ public class ClientSetupEvents {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         RenderHandler.onClientSetup(event);
+        ScreenParticleHandler.registerParticleEmitters(event);
     }
 }

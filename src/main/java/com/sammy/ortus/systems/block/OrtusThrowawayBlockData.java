@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class OrtusThrowawayBlockData {
 
-    public static HashMap<RegistryObject<Block>, OrtusThrowawayBlockData> DATA_CACHE = new HashMap<>();
+    public static HashMap<OrtusBlockProperties, OrtusThrowawayBlockData> DATA_CACHE = new HashMap<>();
 
     public boolean needsPickaxe;
     public boolean needsAxe;

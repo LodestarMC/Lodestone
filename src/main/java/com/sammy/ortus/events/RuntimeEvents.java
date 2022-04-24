@@ -3,13 +3,11 @@ package com.sammy.ortus.events;
 import com.sammy.ortus.capability.EntityDataCapability;
 import com.sammy.ortus.capability.PlayerDataCapability;
 import com.sammy.ortus.capability.WorldDataCapability;
-import com.sammy.ortus.handlers.AttributeEventHandler;
+import com.sammy.ortus.handlers.OrtusAttributeEventHandler;
 import com.sammy.ortus.handlers.ItemEventHandler;
 import com.sammy.ortus.handlers.WorldEventHandler;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -25,7 +23,7 @@ public class RuntimeEvents {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         ItemEventHandler.respondToHurt(event);
-        AttributeEventHandler.processAttributes(event);
+        OrtusAttributeEventHandler.processAttributes(event);
     }
 
     @SubscribeEvent

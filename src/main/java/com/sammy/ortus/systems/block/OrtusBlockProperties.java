@@ -20,7 +20,6 @@ import static com.sammy.ortus.systems.block.OrtusThrowawayBlockData.DATA_CACHE;
 @SuppressWarnings("ALL")
 public class OrtusBlockProperties extends BlockBehaviour.Properties {
 
-
     public OrtusBlockProperties(Material material, MaterialColor color) {
         super(material, (state) -> color);
     }
@@ -29,8 +28,8 @@ public class OrtusBlockProperties extends BlockBehaviour.Properties {
         super(material, (state) -> material.getColor());
     }
 
-    public OrtusBlockProperties setOrtusBlockData(RegistryObject<Block> block, OrtusThrowawayBlockData data) {
-        DATA_CACHE.put(block, data);
+    public OrtusBlockProperties setOrtusBlockData(OrtusThrowawayBlockData data) {
+        DATA_CACHE.put(this, data);
         return this;
     }
 

@@ -6,11 +6,13 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Matrix4f;
 import com.sammy.ortus.compability.JeiCompat;
+import com.sammy.ortus.helpers.DataHelper;
 import com.sammy.ortus.systems.rendering.particle.screen.GenericScreenParticle;
 import com.sammy.ortus.systems.rendering.particle.screen.ScreenParticleOptions;
 import com.sammy.ortus.systems.rendering.particle.screen.ScreenParticleType;
 import com.sammy.ortus.systems.rendering.particle.screen.base.ScreenParticle;
 import com.sammy.ortus.systems.rendering.particle.screen.base.ScreenParticle.RenderOrder;
+import com.sammy.ortus.systems.rendering.particle.screen.emitter.ItemParticleEmitter;
 import com.sammy.ortus.systems.rendering.particle.screen.emitter.ParticleEmitter;
 import mezz.jei.api.runtime.IRecipesGui;
 import net.minecraft.client.Minecraft;
@@ -21,6 +23,9 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.*;
 
@@ -42,6 +47,13 @@ public class ScreenParticleHandler {
     public static boolean canSpawnParticles;
     public static boolean renderingHotbar;
 
+    public static void registerParticleEmitters(FMLClientSetupEvent event) {
+        DataHelper.takeAll(ForgeRegistries.ITEMS.getValues(), i -> i instanceof ItemParticleEmitter).forEach(i -> {
+                    ItemParticleEmitter emitter = (ItemParticleEmitter) i;
+                    ScreenParticleHandler.registerItemParticleEmitter(i, emitter::particleTick);
+                }
+        );
+    }
     public static void clientTick(TickEvent.ClientTickEvent event) {
         PARTICLES.forEach((pair, particles) -> {
             Iterator<ScreenParticle> iterator = particles.iterator();

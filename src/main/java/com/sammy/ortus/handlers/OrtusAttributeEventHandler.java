@@ -10,7 +10,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 /**
  * A handler for common attributes I use in my mods.
  */
-public class AttributeEventHandler {
+public class OrtusAttributeEventHandler {
     public static void processAttributes(LivingHurtEvent event) {
         if (event.isCanceled() || event.getAmount() <= 0) {
             return;
