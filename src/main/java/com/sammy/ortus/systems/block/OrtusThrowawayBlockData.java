@@ -63,7 +63,7 @@ public class OrtusThrowawayBlockData {
         return this;
     }
 
-    public OrtusThrowawayBlockData needsCutout() {
+    public OrtusThrowawayBlockData isCutoutLayer() {
         isCutoutLayer = true;
         return this;
     }

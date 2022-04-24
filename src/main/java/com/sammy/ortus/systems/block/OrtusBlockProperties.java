@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -31,6 +30,46 @@ public class OrtusBlockProperties extends BlockBehaviour.Properties {
 
     public OrtusBlockProperties addThrowawayData(Function<OrtusThrowawayBlockData, OrtusThrowawayBlockData> function) {
         DATA_CACHE.put(this, function.apply(DATA_CACHE.getOrDefault(this, new OrtusThrowawayBlockData())));
+        return this;
+    }
+
+    public OrtusBlockProperties needsPickaxe() {
+        addThrowawayData(d -> d.needsPickaxe());
+        return this;
+    }
+
+    public OrtusBlockProperties needsAxe() {
+        addThrowawayData(d -> d.needsAxe());
+        return this;
+    }
+
+    public OrtusBlockProperties needsShovel() {
+        addThrowawayData(d -> d.needsShovel());
+        return this;
+    }
+
+    public OrtusBlockProperties needsHoe() {
+        addThrowawayData(d -> d.needsHoe());
+        return this;
+    }
+
+    public OrtusBlockProperties needsStone() {
+        addThrowawayData(d -> d.needsStone());
+        return this;
+    }
+
+    public OrtusBlockProperties needsIron() {
+        addThrowawayData(d -> d.needsIron());
+        return this;
+    }
+
+    public OrtusBlockProperties needsDiamond() {
+        addThrowawayData(d -> d.needsDiamond());
+        return this;
+    }
+
+    public OrtusBlockProperties isCutoutLayer() {
+        addThrowawayData(d -> d.isCutoutLayer());
         return this;
     }
 
