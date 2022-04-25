@@ -3,10 +3,7 @@ package com.sammy.ortus.systems.config;
 import com.mojang.datafixers.util.Pair;
 import net.minecraftforge.common.ForgeConfigSpec;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * A config system allowing for static initialization of config values.
@@ -15,7 +12,7 @@ import java.util.List;
 public class OrtusConfig {
 
     @SuppressWarnings("rawtypes")
-    public static final HashMap<Pair<String, String[]>, ArrayList<ConfigValueHolder>> VALUE_HOLDERS = new HashMap<>();
+    public static final HashMap<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> VALUE_HOLDERS = new HashMap<>();
 
     /**
      * @param configType - an id of sorts for your config to be used as key to your config values. For example: "ortus/common".
@@ -24,9 +21,9 @@ public class OrtusConfig {
     public OrtusConfig(String configType, ForgeConfigSpec.Builder builder) {
         VALUE_HOLDERS.forEach(((s, h) -> {
             if (s.getFirst().equals(configType)) {
-                builder.push(List.of(s.getSecond()));
+                builder.push(List.of(s.getSecond().strings));
                 h.forEach(v -> v.config = v.valueSupplier.createBuilder(builder));
-                builder.pop(s.getSecond().length);
+                builder.pop(s.getSecond().strings.length);
             }
         }));
 
@@ -45,8 +42,7 @@ public class OrtusConfig {
             this.valueSupplier = valueSupplier;
             ArrayList<String> entirePath = new ArrayList<>(List.of(path.split("/")));
             String configType = modId + "/" + entirePath.remove(0);
-            String[] newPath = entirePath.toArray(new String[]{});
-            VALUE_HOLDERS.computeIfAbsent(Pair.of(configType, newPath), (p) -> new ArrayList<>()).add(this);
+            VALUE_HOLDERS.computeIfAbsent(Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{}))), (p) -> new ArrayList<>()).add(this);
         }
 
         public void set(T t) {
@@ -64,5 +60,20 @@ public class OrtusConfig {
 
     public interface BuilderSupplier<T> {
         ForgeConfigSpec.ConfigValue<T> createBuilder(ForgeConfigSpec.Builder builder);
+    }
+
+    public record ConfigPath(String... strings) {
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            ConfigPath otherPath = (ConfigPath) o;
+            return Arrays.equals(strings, otherPath.strings);
+        }
+
+        @Override
+        public int hashCode() {
+            return Arrays.hashCode(strings);
+        }
     }
 }
