@@ -24,14 +24,14 @@ import static com.sammy.ortus.OrtusLib.ORTUS;
 public class OrtusAttributes {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, ORTUS);
     public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap<>();
-    public static final RegistryObject<Attribute> MAGIC_RESISTANCE = registerAttribute(ORTUS, "magic_resistance", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
-    public static final RegistryObject<Attribute> MAGIC_PROFICIENCY = registerAttribute(ORTUS, "magic_proficiency", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
-    public static final RegistryObject<Attribute> MAGIC_DAMAGE = registerAttribute(ORTUS, "magic_damage", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
+    public static final RegistryObject<Attribute> MAGIC_RESISTANCE = registerAttribute(ATTRIBUTES, ORTUS, "magic_resistance", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
+    public static final RegistryObject<Attribute> MAGIC_PROFICIENCY = registerAttribute(ATTRIBUTES, ORTUS, "magic_proficiency", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
+    public static final RegistryObject<Attribute> MAGIC_DAMAGE = registerAttribute(ATTRIBUTES, ORTUS, "magic_damage", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
 
     /**
      * Registers an attribute with a given name,
      */
-    public static RegistryObject<Attribute> registerAttribute(String modId, String name, Function<String, Attribute> attribute) {
+    public static RegistryObject<Attribute> registerAttribute(DeferredRegister<Attribute> registry, String modId, String name, Function<String, Attribute> attribute) {
         RegistryObject<Attribute> registryObject = ATTRIBUTES.register(name, () -> attribute.apply("attribute.name." + modId + "." + name));
         UUIDS.put(registryObject, UUID.randomUUID());
         return registryObject;
