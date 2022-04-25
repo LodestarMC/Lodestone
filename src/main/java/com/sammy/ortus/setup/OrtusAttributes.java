@@ -32,7 +32,7 @@ public class OrtusAttributes {
      * Registers an attribute with a given name,
      */
     public static RegistryObject<Attribute> registerAttribute(DeferredRegister<Attribute> registry, String modId, String name, Function<String, Attribute> attribute) {
-        RegistryObject<Attribute> registryObject = ATTRIBUTES.register(name, () -> attribute.apply("attribute.name." + modId + "." + name));
+        RegistryObject<Attribute> registryObject = registry.register(name, () -> attribute.apply("attribute.name." + modId + "." + name));
         UUIDS.put(registryObject, UUID.randomUUID());
         return registryObject;
     }
