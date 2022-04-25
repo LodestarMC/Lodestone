@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A config system allowing for static initialization of config values.
@@ -12,7 +13,7 @@ import java.util.*;
 public class OrtusConfig {
 
     @SuppressWarnings("rawtypes")
-    public static final HashMap<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> VALUE_HOLDERS = new HashMap<>();
+    public static final ConcurrentHashMap<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> VALUE_HOLDERS = new ConcurrentHashMap<>();
 
     /**
      * @param configType - an unique identifier for your config to be used as key to your config values. For example: "ortus/common".
@@ -20,9 +21,7 @@ public class OrtusConfig {
      */
     @SuppressWarnings("rawtypes")
     public OrtusConfig(String configType, ForgeConfigSpec.Builder builder) {
-        Iterator<Map.Entry<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>>> iterator = VALUE_HOLDERS.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> next = iterator.next();
+        for (Map.Entry<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> next : VALUE_HOLDERS.entrySet()) {
             Pair<String, ConfigPath> s = next.getKey();
             if (s.getFirst().equals(configType)) {
                 builder.push(List.of(s.getSecond().strings));
@@ -31,7 +30,6 @@ public class OrtusConfig {
                     configValueHolder.setConfig(builder);
                 }
                 builder.pop(s.getSecond().strings.length);
-                iterator.remove();
             }
         }
     }
@@ -45,15 +43,11 @@ public class OrtusConfig {
          * @param path          - Path towards your value separated with "/". The first string from a split of your path will be removed and added to the configType.
          * @param valueSupplier - Supplier to your config value. {@link ConfigValueHolder#config} will be set to {@link ConfigValueHolder#valueSupplier#getConfigValue()} when config is initialized.
          */
-        @SuppressWarnings("all")
         public ConfigValueHolder(String modId, String path, BuilderSupplier<T> valueSupplier) {
             this.valueSupplier = valueSupplier;
             ArrayList<String> entirePath = new ArrayList<>(List.of(path.split("/")));
             String configType = modId + "/" + entirePath.remove(0);
-            Pair<String, ConfigPath> pair = Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{})));
-            ArrayList<ConfigValueHolder> holders = VALUE_HOLDERS.containsKey(pair) ? VALUE_HOLDERS.get(pair) : new ArrayList<>();
-            holders.add(this);
-            VALUE_HOLDERS.put(pair, holders);
+            VALUE_HOLDERS.computeIfAbsent(Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{}))), s -> new ArrayList<>()).add(this);
         }
 
 
