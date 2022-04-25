@@ -18,14 +18,17 @@ public class OrtusConfig {
      * @param configType - an id of sorts for your config to be used as key to your config values. For example: "ortus/common".
      * @param builder    - a forge config builder instance.
      */
+    @SuppressWarnings("rawtypes")
     public OrtusConfig(String configType, ForgeConfigSpec.Builder builder) {
-        VALUE_HOLDERS.forEach(((s, h) -> {
+        for (Map.Entry<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> entry : VALUE_HOLDERS.entrySet()) {
+            Pair<String, ConfigPath> s = entry.getKey();
+            ArrayList<ConfigValueHolder> h = entry.getValue();
             if (s.getFirst().equals(configType)) {
                 builder.push(List.of(s.getSecond().strings));
                 h.forEach(v -> v.config = v.valueSupplier.createBuilder(builder));
                 builder.pop(s.getSecond().strings.length);
             }
-        }));
+        }
 
     }
 
