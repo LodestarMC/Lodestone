@@ -15,7 +15,7 @@ public class OrtusConfig {
     public static final HashMap<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> VALUE_HOLDERS = new HashMap<>();
 
     /**
-     * @param configType - an id of sorts for your config to be used as key to your config values. For example: "ortus/common".
+     * @param configType - an unique identifier for your config to be used as key to your config values. For example: "ortus/common".
      * @param builder    - a forge config builder instance.
      */
     @SuppressWarnings("rawtypes")
@@ -27,7 +27,9 @@ public class OrtusConfig {
             ArrayList<ConfigValueHolder> h = next.getValue();
             if (s.getFirst().equals(configType)) {
                 builder.push(List.of(s.getSecond().strings));
-                h.forEach(v -> v.config = v.valueSupplier.createBuilder(builder));
+                for (ConfigValueHolder configValueHolder : h) {
+                    configValueHolder.setConfig(builder);
+                }
                 builder.pop(s.getSecond().strings.length);
                 iterator.remove();
             }
@@ -50,7 +52,12 @@ public class OrtusConfig {
             VALUE_HOLDERS.computeIfAbsent(Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{}))), (p) -> new ArrayList<>()).add(this);
         }
 
-        public void set(T t) {
+
+        public void setConfig(ForgeConfigSpec.Builder builder) {
+            config = valueSupplier.createBuilder(builder);
+        }
+
+        public void setConfigValue(T t) {
             config.set(t);
         }
 
