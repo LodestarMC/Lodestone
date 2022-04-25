@@ -51,8 +51,9 @@ public class OrtusConfig {
             ArrayList<String> entirePath = new ArrayList<>(List.of(path.split("/")));
             String configType = modId + "/" + entirePath.remove(0);
             Pair<String, ConfigPath> pair = Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{})));
-            VALUE_HOLDERS.putIfAbsent(pair, new ArrayList<>());
-            VALUE_HOLDERS.get(pair).add(this);
+            ArrayList<ConfigValueHolder> holders = VALUE_HOLDERS.containsKey(pair) ? VALUE_HOLDERS.get(pair) : new ArrayList<>();
+            holders.add(this);
+            VALUE_HOLDERS.put(pair, holders);
         }
 
 
