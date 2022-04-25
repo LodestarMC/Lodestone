@@ -45,11 +45,12 @@ public class OrtusConfig {
          * @param path          - Path towards your value separated with "/". The first string from a split of your path will be removed and added to the configType.
          * @param valueSupplier - Supplier to your config value. {@link ConfigValueHolder#config} will be set to {@link ConfigValueHolder#valueSupplier#getConfigValue()} when config is initialized.
          */
+        @SuppressWarnings("all")
         public ConfigValueHolder(String modId, String path, BuilderSupplier<T> valueSupplier) {
             this.valueSupplier = valueSupplier;
             ArrayList<String> entirePath = new ArrayList<>(List.of(path.split("/")));
             String configType = modId + "/" + entirePath.remove(0);
-            VALUE_HOLDERS.getOrDefault(Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{}))), new ArrayList<>()).add(this);
+            VALUE_HOLDERS.putIfAbsent(Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{}))), new ArrayList<>()).add(this);
         }
 
 
