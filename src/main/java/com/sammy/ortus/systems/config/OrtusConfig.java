@@ -24,9 +24,9 @@ public class OrtusConfig {
         while (iterator.hasNext()) {
             Map.Entry<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> next = iterator.next();
             Pair<String, ConfigPath> s = next.getKey();
-            ArrayList<ConfigValueHolder> h = next.getValue();
             if (s.getFirst().equals(configType)) {
                 builder.push(List.of(s.getSecond().strings));
+                ArrayList<ConfigValueHolder> h = next.getValue();
                 for (ConfigValueHolder configValueHolder : h) {
                     configValueHolder.setConfig(builder);
                 }
@@ -49,7 +49,7 @@ public class OrtusConfig {
             this.valueSupplier = valueSupplier;
             ArrayList<String> entirePath = new ArrayList<>(List.of(path.split("/")));
             String configType = modId + "/" + entirePath.remove(0);
-            VALUE_HOLDERS.computeIfAbsent(Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{}))), (p) -> new ArrayList<>()).add(this);
+            VALUE_HOLDERS.getOrDefault(Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{}))), new ArrayList<>()).add(this);
         }
 
 
