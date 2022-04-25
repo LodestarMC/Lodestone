@@ -21,7 +21,7 @@ public class ScreenshakeOption extends ProgressOption implements OrtusOption {
                 1.0D,
                 0.01F,
                 (options) -> ClientConfig.SCREENSHAKE_INTENSITY.getConfigValue(),
-                (options, value) -> ClientConfig.SCREENSHAKE_INTENSITY.set(Math.round(value * 100d) / 100d),
+                (options, value) -> ClientConfig.SCREENSHAKE_INTENSITY.setConfigValue(Math.round(value * 100d) / 100d),
                 (options, progressOption) -> {
                     double value = progressOption.toPct(progressOption.get(options));
                     return value == 0.0D ? progressOption.genericValueLabel(CommonComponents.OPTION_OFF) : progressOption.percentValueLabel(value);
