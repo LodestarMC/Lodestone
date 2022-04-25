@@ -20,16 +20,18 @@ public class OrtusConfig {
      */
     @SuppressWarnings("rawtypes")
     public OrtusConfig(String configType, ForgeConfigSpec.Builder builder) {
-        for (Map.Entry<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> entry : VALUE_HOLDERS.entrySet()) {
-            Pair<String, ConfigPath> s = entry.getKey();
-            ArrayList<ConfigValueHolder> h = entry.getValue();
+        Iterator<Map.Entry<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>>> iterator = VALUE_HOLDERS.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> next = iterator.next();
+            Pair<String, ConfigPath> s = next.getKey();
+            ArrayList<ConfigValueHolder> h = next.getValue();
             if (s.getFirst().equals(configType)) {
                 builder.push(List.of(s.getSecond().strings));
                 h.forEach(v -> v.config = v.valueSupplier.createBuilder(builder));
                 builder.pop(s.getSecond().strings.length);
+                iterator.remove();
             }
         }
-
     }
 
     public static class ConfigValueHolder<T> {
