@@ -9,6 +9,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SetupEvents {
@@ -21,7 +22,7 @@ public class SetupEvents {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void lateSetup(FMLCommonSetupEvent event) {
+    public static void lateSetup(InterModEnqueueEvent event) {
         OrtusThrowawayBlockData.wipeCache(event);
     }
 }

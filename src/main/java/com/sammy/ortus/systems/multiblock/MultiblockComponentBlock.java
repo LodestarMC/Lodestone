@@ -4,7 +4,7 @@ import com.sammy.ortus.setup.OrtusBlockEntities;
 import com.sammy.ortus.systems.block.OrtusBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
-public class MultiblockComponentBlock extends OrtusBlock<MultiBlockComponentEntity> {
+public class MultiblockComponentBlock extends OrtusBlock<MultiBlockComponentEntity> implements IOrtusMultiblockComponent {
     public MultiblockComponentBlock(BlockBehaviour.Properties properties) {
         super(properties);
         setBlockEntity(OrtusBlockEntities.MULTIBLOCK_COMPONENT);

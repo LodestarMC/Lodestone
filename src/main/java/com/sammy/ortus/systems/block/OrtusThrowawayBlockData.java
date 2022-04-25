@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -19,7 +20,7 @@ public class OrtusThrowawayBlockData {
 
     public static HashMap<OrtusBlockProperties, OrtusThrowawayBlockData> DATA_CACHE = new HashMap<>();
 
-    public static void wipeCache(FMLCommonSetupEvent event) {
+    public static void wipeCache(InterModEnqueueEvent event) {
         DATA_CACHE.clear();
     }
     public boolean needsPickaxe;

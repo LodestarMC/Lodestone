@@ -20,11 +20,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.sammy.ortus.OrtusLib.ORTUS;
 import static com.sammy.ortus.setup.OrtusAttributes.ATTRIBUTES;
 
 public class OrtusLang extends LanguageProvider {
     public OrtusLang(DataGenerator gen) {
-        super(gen, OrtusLib.ORTUS, "en_us");
+        super(gen, ORTUS, "en_us");
     }
 
     @Override
@@ -35,6 +36,28 @@ public class OrtusLang extends LanguageProvider {
             String name = DataHelper.toTitleCase(a.getId().getPath(), "_");
             add("attribute.name.ortus." + a.get().getRegistryName().getPath(), name);
         });
+        addOption("screenshake_intensity", "Screenshake Intensity");
+        addOptionTooltip("screenshake_intensity", "Controls how much screenshake is applied to your screen.");
+
+        addOption("fire_offset", "Fire Overlay Offset");
+        addOptionTooltip("fire_offset", "Offsets the fire overlay effect downwards, clearing up your vision.");
+
+    }
+
+    public void addOption(String option, String result) {
+        add(getOption(option), result);
+    }
+
+    public static String getOption(String option) {
+        return "options." + ORTUS + "." + option;
+    }
+
+    public void addOptionTooltip(String option, String result) {
+        add(getOptionTooltip(option), result);
+    }
+
+    public static String getOptionTooltip(String option) {
+        return "options." + ORTUS + "." + option + ".tooltip";
     }
 
     @Override

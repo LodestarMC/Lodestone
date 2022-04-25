@@ -1,5 +1,9 @@
 {
   "attribute.name.ortus.magic_damage": "Magic Damage",
   "attribute.name.ortus.magic_proficiency": "Magic Proficiency",
-  "attribute.name.ortus.magic_resistance": "Magic Resistance"
+  "attribute.name.ortus.magic_resistance": "Magic Resistance",
+  "options.ortus.fire_offset": "Fire Overlay Offset",
+  "options.ortus.fire_offset.tooltip": "Offsets the fire overlay effect downwards, clearing up your vision.",
+  "options.ortus.screenshake_intensity": "Screenshake Intensity",
+  "options.ortus.screenshake_intensity.tooltip": "Controls how much screenshake is applied to your screen."
 }
