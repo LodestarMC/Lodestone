@@ -163,6 +163,7 @@ public class OrtusBlockProperties extends BlockBehaviour.Properties {
 
     @Override
     public OrtusBlockProperties lootFrom(Supplier<? extends Block> blockIn) {
+        hasCustomLoot();
         return (OrtusBlockProperties) super.lootFrom(blockIn);
     }
 
