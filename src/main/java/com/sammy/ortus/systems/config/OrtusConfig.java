@@ -50,7 +50,9 @@ public class OrtusConfig {
             this.valueSupplier = valueSupplier;
             ArrayList<String> entirePath = new ArrayList<>(List.of(path.split("/")));
             String configType = modId + "/" + entirePath.remove(0);
-            VALUE_HOLDERS.putIfAbsent(Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{}))), new ArrayList<>()).add(this);
+            Pair<String, ConfigPath> pair = Pair.of(configType, new ConfigPath(entirePath.toArray(new String[]{})));
+            VALUE_HOLDERS.putIfAbsent(pair, new ArrayList<>());
+            VALUE_HOLDERS.get(pair).add(this);
         }
 
 
