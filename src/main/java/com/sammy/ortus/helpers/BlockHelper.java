@@ -78,7 +78,7 @@ public class BlockHelper {
      * Loads a block position from nbt with extra text as input.
      */
     public static BlockPos loadBlockPos(CompoundTag tag, String extra) {
-        return tag.contains(extra + "X") ? new BlockPos(tag.getInt(extra + "X"), tag.getInt(extra + "Y"), tag.getInt(extra + "Z")) : null;
+        return tag.contains(extra + "_X") ? new BlockPos(tag.getInt(extra + "_X"), tag.getInt(extra + "_Y"), tag.getInt(extra + "_Z")) : null;
     }
 
     public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int range, Predicate<T> predicate) {
