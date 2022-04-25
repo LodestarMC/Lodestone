@@ -1,6 +1,6 @@
 package com.sammy.ortus.systems.blockentity;
 
-import com.sammy.ortus.systems.block.OrtusBlock;
+import com.sammy.ortus.systems.block.OrtusEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 
 /**
- * A simple block entity with various frequently used methods called from {@link OrtusBlock}
+ * A simple block entity with various frequently used methods called from {@link OrtusEntityBlock}
  */
 public class OrtusBlockEntity extends BlockEntity {
     public OrtusBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {

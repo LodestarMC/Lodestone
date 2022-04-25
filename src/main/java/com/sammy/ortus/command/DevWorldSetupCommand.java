@@ -1,6 +1,7 @@
 package com.sammy.ortus.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.sammy.ortus.data.OrtusLang;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -26,7 +27,7 @@ public class DevWorldSetupCommand {
                     rules.getRule(GameRules.RULE_WEATHER_CYCLE).set(false, server);
                     rules.getRule(GameRules.RULE_MOBGRIEFING).set(false, server);
                     source.getLevel().setDayTime(2_000);
-                    source.sendSuccess(new TranslatableComponent("command." + ORTUS + ".devsetup"), true);
+                    source.sendSuccess(new TranslatableComponent(OrtusLang.getCommand("devsetup")), true);
                     return 1;
                 });
     }

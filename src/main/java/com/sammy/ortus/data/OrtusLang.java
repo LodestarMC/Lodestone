@@ -42,6 +42,17 @@ public class OrtusLang extends LanguageProvider {
         addOption("fire_offset", "Fire Overlay Offset");
         addOptionTooltip("fire_offset", "Offsets the fire overlay effect downwards, clearing up your vision.");
 
+        addCommand("devsetup", "World setup for not-annoying development work");
+        addCommand("screenshake", "Command Successful, enjoy your screenshake.");
+
+    }
+
+    public void addCommand(String command, String feedback) {
+        add(getCommand(command), feedback);
+    }
+
+    public static String getCommand(String command) {
+        return "command." + ORTUS + "." + command;
     }
 
     public void addOption(String option, String result) {

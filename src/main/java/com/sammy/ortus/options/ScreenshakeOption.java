@@ -1,6 +1,7 @@
 package com.sammy.ortus.options;
 
 import com.sammy.ortus.config.ClientConfig;
+import com.sammy.ortus.data.OrtusLang;
 import com.sammy.ortus.systems.option.OrtusOption;
 import net.minecraft.client.ProgressOption;
 import net.minecraft.client.gui.screens.AccessibilityOptionsScreen;
@@ -13,10 +14,10 @@ import static com.sammy.ortus.OrtusLib.ORTUS;
 
 public class ScreenshakeOption extends ProgressOption implements OrtusOption {
 
-    private static final Component TOOLTIP = new TranslatableComponent("options." + ORTUS + ".screenshake_intensity.tooltip");
+    private static final Component TOOLTIP = new TranslatableComponent(OrtusLang.getOptionTooltip("screenshake_intensity"));
 
     public ScreenshakeOption() {
-        super("options." + ORTUS + ".screenshake_intensity",
+        super(OrtusLang.getOption("screenshake_intensity"),
                 0.0D,
                 1.0D,
                 0.01F,

@@ -1,9 +1,8 @@
 package com.sammy.ortus.setup;
 
-import com.sammy.ortus.OrtusLib;
-import com.sammy.ortus.block.sign.OrtusStandingSignBlock;
-import com.sammy.ortus.block.sign.OrtusWallSignBlock;
-import com.sammy.ortus.blockentity.OrtusSignBlockEntity;
+import com.sammy.ortus.systems.block.sign.OrtusStandingSignBlock;
+import com.sammy.ortus.systems.block.sign.OrtusWallSignBlock;
+import com.sammy.ortus.systems.blockentity.OrtusSignBlockEntity;
 import com.sammy.ortus.systems.multiblock.IOrtusMultiblockComponent;
 import com.sammy.ortus.systems.multiblock.MultiBlockComponentEntity;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
