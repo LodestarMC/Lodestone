@@ -7,6 +7,7 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public class OrtusBlockFiller {
     public ArrayList<BlockStateEntry> entries = new ArrayList<>();
@@ -25,12 +26,12 @@ public class OrtusBlockFiller {
         }
     }
 
-    public void replaceAt(int index, BlockStateEntry entry) {
-        entries.set(index, entry);
+    public void replace(int index, Function<BlockStateEntry, BlockStateEntry> function) {
+        entries.set(index, function.apply(entries.get(index)));
     }
 
     public static class BlockStateEntry {
-        public final BlockState state;
+        public BlockState state;
         public final BlockPos pos;
 
         public BlockStateEntry(BlockState state, BlockPos pos) {
@@ -38,6 +39,11 @@ public class OrtusBlockFiller {
             this.pos = pos;
         }
 
+        public BlockStateEntry replaceState(BlockState state) {
+            this.state = state;
+            return this;
+        }
+        
         public boolean canPlace(WorldGenLevel level) {
             return canPlace(level, pos);
         }
