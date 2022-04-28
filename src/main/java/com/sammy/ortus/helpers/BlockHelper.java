@@ -20,6 +20,7 @@ public class BlockHelper {
 
     /**
      * Copies all properties from oldState to newState, given that an individual property exists on the newState.
+     *
      * @param oldState - State to copy properties from.
      * @param newState - State to apply copied property values to.
      * @return - NewState with adjusted properties.
@@ -176,6 +177,36 @@ public class BlockHelper {
         for (int x = x1; x <= x2; x++) {
             for (int z = z1; z <= z2; z++) {
                 positions.add(new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z));
+            }
+        }
+        return positions;
+    }
+
+    public static ArrayList<BlockPos> getSphereOfBlocks(BlockPos pos, float range, Predicate<BlockPos> predicate) {
+        ArrayList<BlockPos> positions = getSphereOfBlocks(pos, range, range);
+        positions.removeIf(b -> !predicate.test(b));
+        return positions;
+    }
+
+    public static ArrayList<BlockPos> getSphereOfBlocks(BlockPos pos, float width, float height, Predicate<BlockPos> predicate) {
+        ArrayList<BlockPos> positions = getSphereOfBlocks(pos, width, height);
+        positions.removeIf(b -> !predicate.test(b));
+        return positions;
+    }
+
+    public static ArrayList<BlockPos> getSphereOfBlocks(BlockPos pos, float range) {
+        return getSphereOfBlocks(pos, range, range);
+    }
+
+    public static ArrayList<BlockPos> getSphereOfBlocks(BlockPos pos, float width, float height) {
+        ArrayList<BlockPos> positions = new ArrayList<>();
+        for (int x = (int) -width; x <= width; x++) {
+            for (int y = (int) -height; y <= height; y++) {
+                for (int z = (int) -width; z <= width; z++) {
+                    if (x * x + y * y + z * z < width * width) {
+                        positions.add(pos.offset(x, y, z));
+                    }
+                }
             }
         }
         return positions;
