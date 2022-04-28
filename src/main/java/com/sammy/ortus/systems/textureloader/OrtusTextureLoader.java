@@ -20,9 +20,9 @@ import java.util.function.Consumer;
 
 public class OrtusTextureLoader {
 
-    private static final ColorLerp GRADIENT = (image, x, y, luminosity) -> ((y % 16) / 16f);
-    private static final ColorLerp LUMINOUS_GRADIENT = (image, x, y, luminosity) -> (((y % 16) / 16f) + luminosity / 255f) / 2f;
-    private static final ColorLerp LUMINOUS = (image, x, y, luminosity) -> luminosity / 255f;
+    protected static final ColorLerp GRADIENT = (image, x, y, luminosity) -> ((y % 16) / 16f);
+    protected static final ColorLerp LUMINOUS_GRADIENT = (image, x, y, luminosity) -> (((y % 16) / 16f) + luminosity / 255f) / 2f;
+    protected static final ColorLerp LUMINOUS = (image, x, y, luminosity) -> luminosity / 255f;
 
     public static void setup() {
     }

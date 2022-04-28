@@ -27,11 +27,11 @@ public class OrtusItemTags {
     public static final TagKey<Item> NUGGETS_TIN = forgeTag("nuggets/tin");
     public static final TagKey<Item> INGOTS_TIN = forgeTag("ingots/tin");
 
-    private static TagKey<Item> modTag(String path) {
+    public static TagKey<Item> modTag(String path) {
         return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(path));
     }
 
-    private static TagKey<Item> forgeTag(String name) {
+    public static TagKey<Item> forgeTag(String name) {
         return ItemTags.create(new ResourceLocation("forge", name));
     }
 }

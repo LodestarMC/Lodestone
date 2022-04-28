@@ -8,7 +8,7 @@ public class OrtusWorldEventTypes {
 
     public static HashMap<String, WorldEventType> EVENT_TYPES = new HashMap<>();
 
-    private static WorldEventType registerEventType(WorldEventType eventType) {
+    public static WorldEventType registerEventType(WorldEventType eventType) {
         EVENT_TYPES.put(eventType.id, eventType);
         return eventType;
     }

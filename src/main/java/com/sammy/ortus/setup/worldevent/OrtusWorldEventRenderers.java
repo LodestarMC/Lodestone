@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class OrtusWorldEventRenderers {
     public static HashMap<WorldEventType, WorldEventRenderer<WorldEventInstance>> RENDERERS = new HashMap<>();
 
-    private static void registerRenderer(WorldEventType type, WorldEventRenderer renderer) {
+    public static void registerRenderer(WorldEventType type, WorldEventRenderer renderer) {
         RENDERERS.put(type, renderer);
     }
 }

@@ -32,7 +32,7 @@ public class OrtusCommands {
     public static void registerArgumentTypes() {
     }
 
-    private static <T extends ArgumentType<?>> void registerArgumentType(ResourceLocation key, Class<T> argumentClass, ArgumentSerializer<T> serializer) {
+    public static <T extends ArgumentType<?>> void registerArgumentType(ResourceLocation key, Class<T> argumentClass, ArgumentSerializer<T> serializer) {
         ArgumentTypes.register(key.toString(), argumentClass, serializer);
     }
 }

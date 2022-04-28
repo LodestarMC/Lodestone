@@ -21,7 +21,7 @@ public class OrtusPlacementFillers {
         });
     }
 
-    private static <P extends PlacementModifier> PlacementModifierType<P> register(String name, Codec<P> codec) {
+    public static <P extends PlacementModifier> PlacementModifierType<P> register(String name, Codec<P> codec) {
         return Registry.register(Registry.PLACEMENT_MODIFIERS, name, () -> codec);
     }
 }

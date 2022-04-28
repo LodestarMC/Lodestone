@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class OrtusFireEffectRenderers {
     public static HashMap<FireEffectType, FireEffectRenderer<FireEffectInstance>> RENDERERS = new HashMap<>();
 
-    private static void registerRenderer(FireEffectType type, FireEffectRenderer renderer) {
+    public static void registerRenderer(FireEffectType type, FireEffectRenderer renderer) {
         RENDERERS.put(type, renderer);
     }
 }

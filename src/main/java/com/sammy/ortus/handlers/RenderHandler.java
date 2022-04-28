@@ -2,15 +2,19 @@ package com.sammy.ortus.handlers;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix4f;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.helpers.RenderHelper;
 import com.sammy.ortus.systems.rendering.ExtendedShaderInstance;
 import com.sammy.ortus.setup.OrtusRenderTypes;
 import com.sammy.ortus.systems.rendering.ShaderUniformHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -26,12 +30,14 @@ public class RenderHandler {
     public static HashMap<RenderType, ShaderUniformHandler> HANDLERS = new HashMap<>();
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
     public static Matrix4f PARTICLE_MATRIX = null;
+    public static Frustum FRUSTUM;
 
     public static void onClientSetup(FMLClientSetupEvent event) {
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
     }
 
     public static void renderLast(RenderLevelLastEvent event) {
+        prepareFrustum(event.getPoseStack(), Minecraft.getInstance().getEntityRenderDispatcher().camera.getPosition(), event.getProjectionMatrix());
         event.getPoseStack().pushPose();
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
             RenderSystem.getModelViewStack().pushPose();
@@ -58,5 +64,14 @@ public class RenderHandler {
         }
         DELAYED_RENDER.endBatch();
         event.getPoseStack().popPose();
+    }
+
+    public static void prepareFrustum(PoseStack poseStack, Vec3 position, Matrix4f stack) {
+        Matrix4f matrix4f = poseStack.last().pose();
+        double d0 = position.x();
+        double d1 = position.y();
+        double d2 = position.z();
+        FRUSTUM = new Frustum(matrix4f, stack);
+        FRUSTUM.prepare(d0, d1, d2);
     }
 }
