@@ -1,7 +1,7 @@
 package com.sammy.ortus.network;
 
 import com.sammy.ortus.handlers.WorldEventHandler;
-import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypes;
+import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypeRegistry;
 import com.sammy.ortus.systems.worldevent.WorldEventInstance;
 import com.sammy.ortus.systems.worldevent.WorldEventType;
 import net.minecraft.client.Minecraft;
@@ -51,7 +51,7 @@ public class SyncWorldEventPacket {
 
     public static class ClientOnly {
         public static void addWorldEvent(String type, boolean start, CompoundTag eventData) {
-            WorldEventType eventType = OrtusWorldEventTypes.EVENT_TYPES.get(type);
+            WorldEventType eventType = OrtusWorldEventTypeRegistry.EVENT_TYPES.get(type);
             ClientLevel level = Minecraft.getInstance().level;
             WorldEventInstance instance = WorldEventHandler.addWorldEvent(level, eventType.createInstance(eventData));
             if (start) {

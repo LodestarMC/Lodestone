@@ -1,6 +1,6 @@
 package com.sammy.ortus.systems.fireeffect;
 
-import com.sammy.ortus.setup.OrtusFireEffects;
+import com.sammy.ortus.setup.OrtusFireEffectRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 
@@ -47,7 +47,7 @@ public class FireEffectInstance {
     }
 
     public static FireEffectInstance deserializeNBT(CompoundTag tag) {
-        FireEffectInstance instance = new FireEffectInstance(OrtusFireEffects.FIRE_TYPES.get(tag.getString("type")));
+        FireEffectInstance instance = new FireEffectInstance(OrtusFireEffectRegistry.FIRE_TYPES.get(tag.getString("type")));
         instance.setDuration(tag.getInt("duration"));
         return instance;
     }

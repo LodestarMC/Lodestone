@@ -1,8 +1,8 @@
 package com.sammy.ortus.systems.worldevent;
 
 import com.sammy.ortus.network.SyncWorldEventPacket;
-import com.sammy.ortus.setup.OrtusPackets;
-import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypes;
+import com.sammy.ortus.setup.OrtusPacketRegistry;
+import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypeRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -60,16 +60,16 @@ public abstract class WorldEventInstance {
 
     public WorldEventInstance deserializeNBT(CompoundTag tag) {
         uuid = tag.getUUID("uuid");
-        type = OrtusWorldEventTypes.EVENT_TYPES.get(tag.getString("type"));
+        type = OrtusWorldEventTypeRegistry.EVENT_TYPES.get(tag.getString("type"));
         discarded = tag.getBoolean("discarded");
         return this;
     }
 
     public static <T extends WorldEventInstance> void sync(T instance) {
-        OrtusPackets.INSTANCE.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
+        OrtusPacketRegistry.INSTANCE.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
     }
 
     public static <T extends WorldEventInstance> void sync(T instance, ServerPlayer player) {
-        OrtusPackets.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
+        OrtusPacketRegistry.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
     }
 }

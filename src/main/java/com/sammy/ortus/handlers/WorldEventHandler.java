@@ -2,8 +2,8 @@ package com.sammy.ortus.handlers;
 
 import com.sammy.ortus.capability.PlayerDataCapability;
 import com.sammy.ortus.capability.WorldDataCapability;
-import com.sammy.ortus.setup.worldevent.OrtusWorldEventRenderers;
-import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypes;
+import com.sammy.ortus.setup.worldevent.OrtusWorldEventRendererRegistry;
+import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypeRegistry;
 import com.sammy.ortus.systems.worldevent.WorldEventInstance;
 import com.sammy.ortus.systems.worldevent.WorldEventRenderer;
 import com.sammy.ortus.systems.worldevent.WorldEventType;
@@ -25,7 +25,7 @@ public class WorldEventHandler {
         public static void renderWorldEvents(RenderLevelLastEvent event) {
             WorldDataCapability.getCapability(Minecraft.getInstance().level).ifPresent(capability -> {
                 for (WorldEventInstance instance : capability.activeWorldEvents) {
-                    WorldEventRenderer<WorldEventInstance> renderer = OrtusWorldEventRenderers.RENDERERS.get(instance.type);
+                    WorldEventRenderer<WorldEventInstance> renderer = OrtusWorldEventRendererRegistry.RENDERERS.get(instance.type);
                     if (renderer != null) {
                         if (renderer.canRender(instance)) {
                             renderer.render(instance, event.getPoseStack(), RenderHandler.DELAYED_RENDER, event.getPartialTick());
@@ -100,7 +100,7 @@ public class WorldEventHandler {
         int starfallCount = tag.getInt("worldEventCount");
         for (int i = 0; i < starfallCount; i++) {
             CompoundTag instanceTag = tag.getCompound("worldEvent_" + i);
-            WorldEventType reader = OrtusWorldEventTypes.EVENT_TYPES.get(instanceTag.getString("type"));
+            WorldEventType reader = OrtusWorldEventTypeRegistry.EVENT_TYPES.get(instanceTag.getString("type"));
             WorldEventInstance eventInstance = reader.createInstance(instanceTag);
 
             capability.activeWorldEvents.add(eventInstance);

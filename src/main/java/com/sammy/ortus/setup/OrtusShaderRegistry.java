@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.io.IOException;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = OrtusLib.ORTUS, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class OrtusShaders {
+public class OrtusShaderRegistry {
 
     public static ShaderHolder ADDITIVE_TEXTURE = new ShaderHolder();
     public static ShaderHolder ADDITIVE_PARTICLE = new ShaderHolder();

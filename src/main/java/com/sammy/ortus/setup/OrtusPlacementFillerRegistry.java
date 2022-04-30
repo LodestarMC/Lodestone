@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class OrtusPlacementFillers {
+public class OrtusPlacementFillerRegistry {
 
     public static PlacementModifierType<ChancePlacementFilter> CHANCE;
 

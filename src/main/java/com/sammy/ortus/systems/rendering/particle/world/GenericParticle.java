@@ -3,7 +3,7 @@ package com.sammy.ortus.systems.rendering.particle.world;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.handlers.RenderHandler;
-import com.sammy.ortus.setup.OrtusRenderTypes;
+import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
 import com.sammy.ortus.systems.rendering.particle.SimpleParticleOptions;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -126,7 +126,7 @@ public class GenericParticle extends TextureSheetParticle {
 
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
-        super.render(ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() ? RenderHandler.DELAYED_RENDER.getBuffer(OrtusRenderTypes.ADDITIVE_PARTICLE) : consumer, camera, partialTicks);
+        super.render(ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() ? RenderHandler.DELAYED_RENDER.getBuffer(OrtusRenderTypeRegistry.ADDITIVE_PARTICLE) : consumer, camera, partialTicks);
     }
 
     @Override

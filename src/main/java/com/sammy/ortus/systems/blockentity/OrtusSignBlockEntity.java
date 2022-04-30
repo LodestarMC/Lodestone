@@ -1,6 +1,6 @@
 package com.sammy.ortus.systems.blockentity;
 
-import com.sammy.ortus.setup.OrtusBlockEntities;
+import com.sammy.ortus.setup.OrtusBlockEntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
@@ -15,6 +15,6 @@ public class OrtusSignBlockEntity extends SignBlockEntity
     @Override
     public BlockEntityType<?> getType()
     {
-        return OrtusBlockEntities.SIGN.get();
+        return OrtusBlockEntityRegistry.SIGN.get();
     }
 }

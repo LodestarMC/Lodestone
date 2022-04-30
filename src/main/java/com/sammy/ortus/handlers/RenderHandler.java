@@ -7,7 +7,7 @@ import com.mojang.math.Matrix4f;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.helpers.RenderHelper;
 import com.sammy.ortus.systems.rendering.ExtendedShaderInstance;
-import com.sammy.ortus.setup.OrtusRenderTypes;
+import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
 import com.sammy.ortus.systems.rendering.ShaderUniformHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -46,8 +46,8 @@ public class RenderHandler {
                 RenderSystem.getModelViewStack().mulPoseMatrix(PARTICLE_MATRIX);
             }
             RenderSystem.applyModelViewMatrix();
-            DELAYED_RENDER.endBatch(OrtusRenderTypes.ADDITIVE_PARTICLE);
-            DELAYED_RENDER.endBatch(OrtusRenderTypes.ADDITIVE_BLOCK_PARTICLE);
+            DELAYED_RENDER.endBatch(OrtusRenderTypeRegistry.ADDITIVE_PARTICLE);
+            DELAYED_RENDER.endBatch(OrtusRenderTypeRegistry.ADDITIVE_BLOCK_PARTICLE);
             RenderSystem.getModelViewStack().popPose();
             RenderSystem.applyModelViewMatrix();
         }

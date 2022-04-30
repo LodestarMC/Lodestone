@@ -1,7 +1,7 @@
 package com.sammy.ortus.systems.multiblock;
 
 import com.sammy.ortus.helpers.BlockHelper;
-import com.sammy.ortus.setup.OrtusBlockEntities;
+import com.sammy.ortus.setup.OrtusBlockEntityRegistry;
 import com.sammy.ortus.systems.blockentity.OrtusBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,7 +25,7 @@ public class MultiBlockComponentEntity extends OrtusBlockEntity {
     }
 
     public MultiBlockComponentEntity(BlockPos pos, BlockState state) {
-        super(OrtusBlockEntities.MULTIBLOCK_COMPONENT.get(), pos, state);
+        super(OrtusBlockEntityRegistry.MULTIBLOCK_COMPONENT.get(), pos, state);
     }
 
     @Override

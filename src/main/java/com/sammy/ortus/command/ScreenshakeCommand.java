@@ -7,15 +7,13 @@ import com.sammy.ortus.data.OrtusLang;
 import com.sammy.ortus.helpers.DataHelper;
 import com.sammy.ortus.network.screenshake.PositionedScreenshakePacket;
 import com.sammy.ortus.network.screenshake.ScreenshakePacket;
-import com.sammy.ortus.setup.OrtusPackets;
+import com.sammy.ortus.setup.OrtusPacketRegistry;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.PacketDistributor;
-
-import static com.sammy.ortus.OrtusLib.ORTUS;
 
 public class ScreenshakeCommand {
     public ScreenshakeCommand() {
@@ -32,7 +30,7 @@ public class ScreenshakeCommand {
                                                         .executes((context) -> {
                                                             CommandSourceStack source = context.getSource();
                                                             if (source.getEntity() instanceof ServerPlayer player) {
-                                                                OrtusPackets.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ScreenshakePacket(
+                                                                OrtusPacketRegistry.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ScreenshakePacket(
                                                                         FloatArgumentType.getFloat(context, "intensity"),
                                                                         FloatArgumentType.getFloat(context, "falloffTransformSpeed"),
                                                                         IntegerArgumentType.getInteger(context, "timeBeforeFastFalloff"),
@@ -53,7 +51,7 @@ public class ScreenshakeCommand {
                                                                                 .executes((context) -> {
                                                                                     CommandSourceStack source = context.getSource();
                                                                                     if (source.getEntity() instanceof ServerPlayer player) {
-                                                                                        OrtusPackets.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PositionedScreenshakePacket(
+                                                                                        OrtusPacketRegistry.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PositionedScreenshakePacket(
                                                                                                 DataHelper.fromBlockPos(BlockPosArgument.getLoadedBlockPos(context, "position")),
                                                                                                 FloatArgumentType.getFloat(context, "falloffDistance"),
                                                                                                 FloatArgumentType.getFloat(context, "maxDistance"),

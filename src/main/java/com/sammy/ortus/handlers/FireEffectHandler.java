@@ -2,7 +2,7 @@ package com.sammy.ortus.handlers;
 
 import com.mojang.blaze3d.vertex.*;
 import com.sammy.ortus.capability.EntityDataCapability;
-import com.sammy.ortus.setup.OrtusFireEffectRenderers;
+import com.sammy.ortus.setup.OrtusFireEffectRendererRegistry;
 import com.sammy.ortus.systems.fireeffect.FireEffectInstance;
 import com.sammy.ortus.systems.fireeffect.FireEffectRenderer;
 import net.minecraft.client.Camera;
@@ -54,7 +54,7 @@ public class FireEffectHandler {
                 }
             }
             FireEffectInstance instance = getFireEffectInstance(pMinecraft.player);
-            FireEffectRenderer<FireEffectInstance> renderer = OrtusFireEffectRenderers.RENDERERS.get(instance.type);
+            FireEffectRenderer<FireEffectInstance> renderer = OrtusFireEffectRendererRegistry.RENDERERS.get(instance.type);
             if (renderer.canRender(instance)) {
                 renderer.renderScreen(instance, pMinecraft, pPoseStack);
             }
@@ -65,7 +65,7 @@ public class FireEffectHandler {
                 return;
             }
             FireEffectInstance instance = getFireEffectInstance(pEntity);
-            FireEffectRenderer<FireEffectInstance> renderer = OrtusFireEffectRenderers.RENDERERS.get(instance.type);
+            FireEffectRenderer<FireEffectInstance> renderer = OrtusFireEffectRendererRegistry.RENDERERS.get(instance.type);
             if (renderer.canRender(instance)) {
                 renderer.renderWorld(instance, pMatrixStack, pBuffer, camera, pEntity);
             }

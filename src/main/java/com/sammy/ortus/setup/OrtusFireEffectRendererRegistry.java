@@ -10,7 +10,7 @@ import java.util.HashMap;
  * Register renderers in FMLClientSetupEvent.
  */
 @SuppressWarnings("all")
-public class OrtusFireEffectRenderers {
+public class OrtusFireEffectRendererRegistry {
     public static HashMap<FireEffectType, FireEffectRenderer<FireEffectInstance>> RENDERERS = new HashMap<>();
 
     public static void registerRenderer(FireEffectType type, FireEffectRenderer renderer) {

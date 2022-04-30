@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings("ALL")
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class OrtusOptions {
+public class OrtusOptionRegistry {
     public static final ArrayList<OrtusOption> OPTIONS = new ArrayList<>();
 
     @SubscribeEvent

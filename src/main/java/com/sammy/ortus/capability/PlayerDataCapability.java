@@ -24,7 +24,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.network.PacketDistributor;
 
-import static com.sammy.ortus.setup.OrtusPackets.INSTANCE;
+import static com.sammy.ortus.setup.OrtusPacketRegistry.INSTANCE;
 
 public class PlayerDataCapability implements OrtusCapability {
 
@@ -120,6 +120,22 @@ public class PlayerDataCapability implements OrtusCapability {
 
     public static LazyOptional<PlayerDataCapability> getCapability(Player player) {
         return player.getCapability(CAPABILITY);
+    }
+
+    public static int getRightClickTime(Player player) {
+        return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).rightClickTime;
+    }
+
+    public static int getLeftClickTime(Player player) {
+        return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).leftClickTime;
+    }
+
+    public static boolean getRightClickHeld(Player player) {
+        return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).rightClickHeld;
+    }
+
+    public static boolean getLeftClickHeld(Player player) {
+        return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).leftClickHeld;
     }
 
     public static class ClientOnly {

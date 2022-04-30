@@ -18,7 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static com.sammy.ortus.OrtusLib.RANDOM;
-import static com.sammy.ortus.setup.OrtusOptions.OPTIONS;
+import static com.sammy.ortus.setup.OrtusOptionRegistry.OPTIONS;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClientRuntimeEvents {

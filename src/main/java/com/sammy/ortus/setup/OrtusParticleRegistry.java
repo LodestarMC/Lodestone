@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 @SuppressWarnings("unused")
-public class OrtusParticles {
+public class OrtusParticleRegistry {
     public static DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, OrtusLib.ORTUS);
 
     public static RegistryObject<OrtusParticleType> WISP_PARTICLE = PARTICLES.register("wisp", OrtusParticleType::new);

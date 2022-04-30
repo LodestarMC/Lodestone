@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.sammy.ortus.handlers.RenderHandler;
-import com.sammy.ortus.setup.OrtusShaders;
+import com.sammy.ortus.setup.OrtusShaderRegistry;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -19,7 +19,7 @@ public class ParticleRenderTypes {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            RenderSystem.setShader(OrtusShaders.ADDITIVE_PARTICLE.getInstance());
+            RenderSystem.setShader(OrtusShaderRegistry.ADDITIVE_PARTICLE.getInstance());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderHandler.PARTICLE_MATRIX = RenderSystem.getModelViewMatrix();
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);

@@ -17,7 +17,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.network.PacketDistributor;
 
-import static com.sammy.ortus.setup.OrtusPackets.INSTANCE;
+import static com.sammy.ortus.setup.OrtusPacketRegistry.INSTANCE;
 
 public class EntityDataCapability implements OrtusCapability {
 

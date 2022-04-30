@@ -1,7 +1,7 @@
 package com.sammy.ortus.systems.worldgen;
 
 import com.mojang.serialization.Codec;
-import com.sammy.ortus.setup.OrtusPlacementFillers;
+import com.sammy.ortus.setup.OrtusPlacementFillerRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
@@ -24,6 +24,6 @@ public class ChancePlacementFilter extends PlacementFilter {
    }
 
    public PlacementModifierType<?> type() {
-      return OrtusPlacementFillers.CHANCE;
+      return OrtusPlacementFillerRegistry.CHANCE;
    }
 }

@@ -2,8 +2,8 @@ package com.sammy.ortus.events;
 
 import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.handlers.ScreenParticleHandler;
-import com.sammy.ortus.setup.OrtusParticles;
-import com.sammy.ortus.setup.OrtusScreenParticles;
+import com.sammy.ortus.setup.OrtusParticleRegistry;
+import com.sammy.ortus.setup.OrtusScreenParticleRegistry;
 import com.sammy.ortus.systems.block.OrtusBlockProperties;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
@@ -16,8 +16,8 @@ public class ClientSetupEvents {
 
     @SubscribeEvent
     public static void registerParticleFactory(ParticleFactoryRegisterEvent event) {
-        OrtusParticles.registerParticleFactory(event);
-        OrtusScreenParticles.registerParticleFactory(event);
+        OrtusParticleRegistry.registerParticleFactory(event);
+        OrtusScreenParticleRegistry.registerParticleFactory(event);
     }
 
     @SubscribeEvent

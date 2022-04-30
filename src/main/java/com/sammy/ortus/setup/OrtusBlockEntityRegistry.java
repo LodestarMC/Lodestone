@@ -23,7 +23,7 @@ import java.util.Arrays;
 import static com.sammy.ortus.OrtusLib.ORTUS;
 
 
-public class OrtusBlockEntities {
+public class OrtusBlockEntityRegistry {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, ORTUS);
 
     public static final RegistryObject<BlockEntityType<MultiBlockComponentEntity>> MULTIBLOCK_COMPONENT = BLOCK_ENTITY_TYPES.register("multiblock_component", () -> BlockEntityType.Builder.of(MultiBlockComponentEntity::new, getBlocks(IOrtusMultiblockComponent.class)).build(null));

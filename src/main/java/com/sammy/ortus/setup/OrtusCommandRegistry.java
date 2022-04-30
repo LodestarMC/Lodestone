@@ -17,7 +17,8 @@ import net.minecraftforge.fml.common.Mod;
 import static com.sammy.ortus.OrtusLib.ORTUS;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class OrtusCommands {
+public class OrtusCommandRegistry {
+
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();

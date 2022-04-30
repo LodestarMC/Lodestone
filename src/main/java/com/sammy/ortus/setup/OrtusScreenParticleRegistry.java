@@ -11,7 +11,7 @@ import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 
 import java.util.ArrayList;
 
-public class OrtusScreenParticles {
+public class OrtusScreenParticleRegistry {
 
     public static final ArrayList<ScreenParticleType<?>> PARTICLE_TYPES = new ArrayList<>();
     public static final ScreenParticleType<ScreenParticleOptions> WISP = registerType(new OrtusScreenParticleType());
