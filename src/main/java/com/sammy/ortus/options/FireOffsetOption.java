@@ -1,7 +1,7 @@
 package com.sammy.ortus.options;
 
 import com.sammy.ortus.config.ClientConfig;
-import com.sammy.ortus.data.OrtusLang;
+import com.sammy.ortus.data.OrtusLangDatagen;
 import com.sammy.ortus.systems.option.OrtusOption;
 import net.minecraft.client.ProgressOption;
 import net.minecraft.client.gui.screens.AccessibilityOptionsScreen;
@@ -10,14 +10,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.event.ScreenEvent;
 
-import static com.sammy.ortus.OrtusLib.ORTUS;
-
 public class FireOffsetOption extends ProgressOption implements OrtusOption {
 
-    private static final Component TOOLTIP = new TranslatableComponent(OrtusLang.getOptionTooltip("fire_offset"));
+    private static final Component TOOLTIP = new TranslatableComponent(OrtusLangDatagen.getOptionTooltip("fire_offset"));
 
     public FireOffsetOption() {
-        super(OrtusLang.getOption("fire_offset"),
+        super(OrtusLangDatagen.getOption("fire_offset"),
                 0.0D,
                 1.0D,
                 0.01F,

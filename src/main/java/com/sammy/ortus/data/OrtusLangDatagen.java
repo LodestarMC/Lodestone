@@ -12,8 +12,8 @@ import java.util.Set;
 import static com.sammy.ortus.OrtusLib.ORTUS;
 import static com.sammy.ortus.setup.OrtusAttributeRegistry.ATTRIBUTES;
 
-public class OrtusLang extends LanguageProvider {
-    public OrtusLang(DataGenerator gen) {
+public class OrtusLangDatagen extends LanguageProvider {
+    public OrtusLangDatagen(DataGenerator gen) {
         super(gen, ORTUS, "en_us");
     }
 

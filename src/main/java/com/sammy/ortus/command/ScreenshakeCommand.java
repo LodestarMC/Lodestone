@@ -3,7 +3,7 @@ package com.sammy.ortus.command;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.sammy.ortus.data.OrtusLang;
+import com.sammy.ortus.data.OrtusLangDatagen;
 import com.sammy.ortus.helpers.DataHelper;
 import com.sammy.ortus.network.screenshake.PositionedScreenshakePacket;
 import com.sammy.ortus.network.screenshake.ScreenshakePacket;
@@ -37,7 +37,7 @@ public class ScreenshakeCommand {
                                                                         FloatArgumentType.getFloat(context, "slowFalloff"),
                                                                         FloatArgumentType.getFloat(context, "fastFalloff")));
                                                             }
-                                                            source.sendSuccess(new TranslatableComponent(OrtusLang.getCommand("screenshake")), true);
+                                                            source.sendSuccess(new TranslatableComponent(OrtusLangDatagen.getCommand("screenshake")), true);
                                                             return 1;
                                                         }))))))
                 .then(Commands.argument("position", BlockPosArgument.blockPos())
@@ -61,7 +61,7 @@ public class ScreenshakeCommand {
                                                                                                 FloatArgumentType.getFloat(context, "slowFalloff"),
                                                                                                 FloatArgumentType.getFloat(context, "fastFalloff")));
                                                                                     }
-                                                                                    source.sendSuccess(new TranslatableComponent(OrtusLang.getCommand("screenshake")), true);
+                                                                                    source.sendSuccess(new TranslatableComponent(OrtusLangDatagen.getCommand("screenshake")), true);
                                                                                     return 1;
                                                                                 })))))))));
     }

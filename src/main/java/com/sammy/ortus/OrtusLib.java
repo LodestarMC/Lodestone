@@ -3,7 +3,8 @@ package com.sammy.ortus;
 import com.sammy.ortus.compability.CuriosCompat;
 import com.sammy.ortus.compability.JeiCompat;
 import com.sammy.ortus.config.ClientConfig;
-import com.sammy.ortus.data.OrtusLang;
+import com.sammy.ortus.data.OrtusBlockTagDatagen;
+import com.sammy.ortus.data.OrtusLangDatagen;
 import com.sammy.ortus.setup.OrtusCommandRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -47,6 +48,7 @@ public class OrtusLib {
     }
 
     public void gatherData(GatherDataEvent event) {
-        event.getGenerator().addProvider(new OrtusLang(event.getGenerator()));
+        event.getGenerator().addProvider(new OrtusLangDatagen(event.getGenerator()));
+        event.getGenerator().addProvider(new OrtusBlockTagDatagen(event.getGenerator(), event.getExistingFileHelper()));
     }
 }
