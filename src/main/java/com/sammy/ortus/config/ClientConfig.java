@@ -19,7 +19,7 @@ public class ClientConfig extends OrtusConfig {
                     .defineInRange("screenshake_intensity", 1d, 0d, 1d));
 
     public ClientConfig(ForgeConfigSpec.Builder builder) {
-        super("ortus/client", builder);
+        super(ORTUS, "client", builder);
     }
 
     public static final ClientConfig INSTANCE;

@@ -16,14 +16,15 @@ public class OrtusConfig {
     public static final ConcurrentHashMap<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> VALUE_HOLDERS = new ConcurrentHashMap<>();
 
     /**
-     * @param configType - an unique identifier for your config to be used as key to your config values. For example: "ortus/common".
+     * @param modId      - Your mod id.
+     * @param configType - a unique identifier for your config to be used as key to your config values. For example: "common/trinkets/".
      * @param builder    - a forge config builder instance.
      */
     @SuppressWarnings("rawtypes")
-    public OrtusConfig(String configType, ForgeConfigSpec.Builder builder) {
+    public OrtusConfig(String modId, String configType, ForgeConfigSpec.Builder builder) {
         for (Map.Entry<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> next : VALUE_HOLDERS.entrySet()) {
             Pair<String, ConfigPath> s = next.getKey();
-            if (s.getFirst().equals(configType)) {
+            if (s.getFirst().equals(modId + "/" + configType)) {
                 builder.push(List.of(s.getSecond().strings));
                 ArrayList<ConfigValueHolder> h = next.getValue();
                 for (ConfigValueHolder configValueHolder : h) {
@@ -39,7 +40,7 @@ public class OrtusConfig {
         private ForgeConfigSpec.ConfigValue<T> config;
 
         /**
-         * @param modId         - Your mod id. Must match whatever you few into the {@link OrtusConfig#OrtusConfig(String, ForgeConfigSpec.Builder)} constructor.
+         * @param modId         - Your mod id. Must match whatever you passed into the {@link OrtusConfig#OrtusConfig(String, String, ForgeConfigSpec.Builder)} constructor.
          * @param path          - Path towards your value separated with "/". The first string from a split of your path will be removed and added to the configType.
          * @param valueSupplier - Supplier to your config value. {@link ConfigValueHolder#config} will be set to {@link ConfigValueHolder#valueSupplier#getConfigValue()} when config is initialized.
          */
