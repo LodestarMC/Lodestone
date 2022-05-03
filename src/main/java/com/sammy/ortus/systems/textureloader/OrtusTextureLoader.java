@@ -75,17 +75,39 @@ public class OrtusTextureLoader {
 
     public static NativeImage multiColorGradient(Easing easing, NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
         int colorCount = colors.length - 1;
+        float lowestLuminosity = 1;
+        float highestLuminosity = 0;
         for (int x = 0; x < nativeimage.getWidth(); x++) {
             for (int y = 0; y < nativeimage.getHeight(); y++) {
                 int pixel = nativeimage.getPixelRGBA(x, y);
+                int alpha = (pixel >> 24) & 0xFF;
+                if (alpha == 0) {
+                    continue;
+                }
+                int luminosity = (int) (0.299D * ((pixel) & 0xFF) + 0.587D * ((pixel >> 8) & 0xFF) + 0.114D * ((pixel >> 16) & 0xFF));
+                if (luminosity < lowestLuminosity) {
+                    lowestLuminosity = luminosity;
+                }
+                if (luminosity > highestLuminosity) {
+                    highestLuminosity = luminosity;
+                }
+            }
+        }
+        for (int x = 0; x < nativeimage.getWidth(); x++) {
+            for (int y = 0; y < nativeimage.getHeight(); y++) {
+                int pixel = nativeimage.getPixelRGBA(x, y);
+                int alpha = (pixel >> 24) & 0xFF;
+                if (alpha == 0) {
+                    continue;
+                }
                 int luminosity = (int) (0.299D * ((pixel) & 0xFF) + 0.587D * ((pixel >> 8) & 0xFF) + 0.114D * ((pixel >> 16) & 0xFF));
                 float lerp = 1 - colorLerp.lerp(pixel, x, y, luminosity);
                 float colorIndex = colorCount * lerp;
                 int index = (int) Mth.clamp(colorIndex, 0, colorCount);
                 Color color = colors[index];
                 Color nextColor = index == colorCount ? color : colors[index + 1];
-                Color transition = ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), nextColor, color);
-                nativeimage.setPixelRGBA(x, y, NativeImage.combine((pixel >> 24) & 0xFF, transition.getBlue(), transition.getGreen(), transition.getRed()));
+                Color transition = ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), lowestLuminosity, highestLuminosity, nextColor, color);
+                nativeimage.setPixelRGBA(x, y, NativeImage.combine(alpha, transition.getBlue(), transition.getGreen(), transition.getRed()));
             }
         }
         return nativeimage;
