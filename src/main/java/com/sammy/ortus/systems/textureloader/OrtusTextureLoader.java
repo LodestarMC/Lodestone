@@ -73,7 +73,7 @@ public class OrtusTextureLoader {
         return nativeimage;
     }
 
-    public static NativeImage multiColorGradient(NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
+    public static NativeImage multiColorGradient(Easing easing, NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
         int colorCount = colors.length - 1;
         for (int x = 0; x < nativeimage.getWidth(); x++) {
             for (int y = 0; y < nativeimage.getHeight(); y++) {
@@ -84,7 +84,7 @@ public class OrtusTextureLoader {
                 int index = (int) Mth.clamp(colorIndex, 0, colorCount);
                 Color color = colors[index];
                 Color nextColor = index == colorCount ? color : colors[index + 1];
-                Color transition = ColorHelper.colorLerp(Easing.LINEAR, colorIndex - (int) (colorIndex), nextColor, color);
+                Color transition = ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), nextColor, color);
                 nativeimage.setPixelRGBA(x, y, NativeImage.combine((pixel >> 24) & 0xFF, transition.getBlue(), transition.getGreen(), transition.getRed()));
             }
         }
