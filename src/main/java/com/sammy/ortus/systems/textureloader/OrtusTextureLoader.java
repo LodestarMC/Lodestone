@@ -101,12 +101,14 @@ public class OrtusTextureLoader {
                     continue;
                 }
                 int luminosity = (int) (0.299D * ((pixel) & 0xFF) + 0.587D * ((pixel >> 8) & 0xFF) + 0.114D * ((pixel >> 16) & 0xFF));
-                float lerp = 1 - colorLerp.lerp(pixel, x, y, luminosity);
+
+                float lerp = 1 - Mth.lerp(colorLerp.lerp(pixel, x, y, luminosity), lowestLuminosity, highestLuminosity);
                 float colorIndex = colorCount * lerp;
+
                 int index = (int) Mth.clamp(colorIndex, 0, colorCount);
                 Color color = colors[index];
                 Color nextColor = index == colorCount ? color : colors[index + 1];
-                Color transition = ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), lowestLuminosity, highestLuminosity, nextColor, color);
+                Color transition = ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), nextColor, color);
                 nativeimage.setPixelRGBA(x, y, NativeImage.combine(alpha, transition.getBlue(), transition.getGreen(), transition.getRed()));
             }
         }
