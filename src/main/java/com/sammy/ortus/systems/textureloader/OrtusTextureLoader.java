@@ -62,7 +62,7 @@ public class OrtusTextureLoader {
         busMod.addListener((Consumer<TextureStitchEvent.Pre>) event -> event.addSprite(targetPath));
     }
 
-    public static NativeImage grayscale(NativeImage nativeimage) {
+    public NativeImage grayscale(NativeImage nativeimage) {
         for (int x = 0; x < nativeimage.getWidth(); x++) {
             for (int y = 0; y < nativeimage.getHeight(); y++) {
                 int pixel = nativeimage.getPixelRGBA(x, y);
@@ -73,7 +73,7 @@ public class OrtusTextureLoader {
         return nativeimage;
     }
 
-    public static NativeImage multiColorGradient(NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
+    public NativeImage multiColorGradient(NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
         int colorCount = colors.length - 1;
         for (int x = 0; x < nativeimage.getWidth(); x++) {
             for (int y = 0; y < nativeimage.getHeight(); y++) {
