@@ -43,7 +43,7 @@ public class ColorHelper {
         int red = (int) easing.ease(pct, dr, br, 1);
         int green = (int) easing.ease(pct, dg, bg, 1);
         int blue = (int) easing.ease(pct, db, bb, 1);
-        return new Color(red, green, blue);
+        return new Color(Mth.clamp(red, 0, 255), Mth.clamp(green, 0, 255), Mth.clamp(blue, 0, 255));
     }
     public static Color multicolorLerp(Easing easing, float pct, Color... colors) {
         pct = Mth.clamp(pct, 0, 1);

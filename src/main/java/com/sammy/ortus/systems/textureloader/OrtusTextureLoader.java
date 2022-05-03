@@ -24,9 +24,6 @@ public class OrtusTextureLoader {
     protected static final ColorLerp LUMINOUS_GRADIENT = (image, x, y, luminosity) -> (((y % 16) / 16f) + luminosity / 255f) / 2f;
     protected static final ColorLerp LUMINOUS = (image, x, y, luminosity) -> luminosity / 255f;
 
-    public static void setup() {
-    }
-
     public static void copyTextureWithChanges(ResourceLocation loaderName, ResourceLocation targetPath, ResourceLocation sourcePath, TextureModifier modifier) {
         IEventBus busMod = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForgeClient.registerTextureAtlasSpriteLoader(loaderName, (atlas, resourceManager, textureInfo, resource, atlasWidth, atlasHeight, spriteX, spriteY, mipmapLevel, image) -> {

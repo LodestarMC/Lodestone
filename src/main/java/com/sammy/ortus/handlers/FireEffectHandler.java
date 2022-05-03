@@ -55,8 +55,10 @@ public class FireEffectHandler {
             }
             FireEffectInstance instance = getFireEffectInstance(pMinecraft.player);
             FireEffectRenderer<FireEffectInstance> renderer = OrtusFireEffectRendererRegistry.RENDERERS.get(instance.type);
-            if (renderer.canRender(instance)) {
-                renderer.renderScreen(instance, pMinecraft, pPoseStack);
+            if (renderer != null) {
+                if (renderer.canRender(instance)) {
+                    renderer.renderScreen(instance, pMinecraft, pPoseStack);
+                }
             }
         }
 
@@ -66,8 +68,10 @@ public class FireEffectHandler {
             }
             FireEffectInstance instance = getFireEffectInstance(pEntity);
             FireEffectRenderer<FireEffectInstance> renderer = OrtusFireEffectRendererRegistry.RENDERERS.get(instance.type);
-            if (renderer.canRender(instance)) {
-                renderer.renderWorld(instance, pMatrixStack, pBuffer, camera, pEntity);
+            if (renderer != null) {
+                if (renderer.canRender(instance)) {
+                    renderer.renderWorld(instance, pMatrixStack, pBuffer, camera, pEntity);
+                }
             }
         }
 
