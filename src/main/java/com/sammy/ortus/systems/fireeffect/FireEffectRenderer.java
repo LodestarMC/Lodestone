@@ -22,7 +22,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public abstract class FireEffectRenderer<T extends FireEffectInstance> {
 
     public boolean canRender(T instance) {
-        return false;
+        return true;
     }
 
     public Material getFirstFlame() {
