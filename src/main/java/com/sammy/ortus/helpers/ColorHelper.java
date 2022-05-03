@@ -40,9 +40,9 @@ public class ColorHelper {
         pct = Mth.clamp(pct, 0, 1);
         int br = brightColor.getRed(), bg = brightColor.getGreen(), bb = brightColor.getBlue();
         int dr = darkColor.getRed(), dg = darkColor.getGreen(), db = darkColor.getBlue();
-        int red = (int) easing.ease(pct, dr, br, 1);
-        int green = (int) easing.ease(pct, dg, bg, 1);
-        int blue = (int) easing.ease(pct, db, bb, 1);
+        int red = (int) Mth.lerp(easing.ease(pct, 0, 1, 1), br, dr);
+        int green = (int) Mth.lerp(easing.ease(pct, 0, 1, 1), bg, dg);
+        int blue = (int) Mth.lerp(easing.ease(pct, 0, 1, 1), bb, db);
         return new Color(Mth.clamp(red, 0, 255), Mth.clamp(green, 0, 255), Mth.clamp(blue, 0, 255));
     }
     public static Color multicolorLerp(Easing easing, float pct, Color... colors) {
