@@ -166,13 +166,9 @@ public class ParticleBuilders {
             return this;
         }
 
-        public WorldParticleBuilder enableGravity() {
-            data.gravity = true;
-            return this;
-        }
 
-        public WorldParticleBuilder disableGravity() {
-            data.gravity = false;
+        public WorldParticleBuilder setGravity(float gravity) {
+            data.gravity = gravity;
             return this;
         }
 
@@ -540,13 +536,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder enableGravity() {
-            data.gravity = true;
-            return this;
-        }
-
-        public ScreenParticleBuilder disableGravity() {
-            data.gravity = false;
+        public ScreenParticleBuilder setGravity(float gravity) {
+            data.gravity = gravity;
             return this;
         }
 

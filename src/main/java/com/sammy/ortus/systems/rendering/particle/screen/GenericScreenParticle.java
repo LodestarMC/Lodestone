@@ -29,7 +29,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         }
         this.setRenderOrder(data.renderOrder);
         this.setLifetime(data.lifetime);
-        this.gravity = data.gravity ? 1 : 0;
+        this.gravity = data.gravity;
         this.friction = 1;
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, data.r1)), (int) (255 * Math.min(1.0f, data.g1)), (int) (255 * Math.min(1.0f, data.b1)), hsv1);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, data.r2)), (int) (255 * Math.min(1.0f, data.g2)), (int) (255 * Math.min(1.0f, data.b2)), hsv2);

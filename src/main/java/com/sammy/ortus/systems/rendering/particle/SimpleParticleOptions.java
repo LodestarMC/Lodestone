@@ -33,7 +33,7 @@ public class SimpleParticleOptions {
     public Easing spinEasing = Easing.LINEAR;
 
     public int lifetime = 20;
-    public boolean gravity = false;
+    public float gravity = 0f;
     public boolean noClip = false;
 
     public SimpleParticleOptions() {
