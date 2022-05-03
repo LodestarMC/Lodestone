@@ -55,6 +55,25 @@ public class ColorHelper {
         Color nextColor = index == colorCount ? color : colors[index + 1];
         return ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), nextColor, color);
     }
+
+    public static Color colorLerp(float pct, Color brightColor, Color darkColor) {
+        pct = Mth.clamp(pct, 0, 1);
+        int br = brightColor.getRed(), bg = brightColor.getGreen(), bb = brightColor.getBlue();
+        int dr = darkColor.getRed(), dg = darkColor.getGreen(), db = darkColor.getBlue();
+        int red = (int) Mth.lerp(pct, br, dr);
+        int green = (int) Mth.lerp(pct, bg, dg);
+        int blue = (int) Mth.lerp(pct, bb, db);
+        return new Color(Mth.clamp(red, 0, 255), Mth.clamp(green, 0, 255), Mth.clamp(blue, 0, 255));
+    }
+    public static Color multicolorLerp(float pct, Color... colors) {
+        pct = Mth.clamp(pct, 0, 1);
+        int colorCount = colors.length - 1;
+        float colorIndex = colorCount * pct;
+        int index = (int) Mth.clamp(colorIndex, 0, colorCount);
+        Color color = colors[index];
+        Color nextColor = index == colorCount ? color : colors[index + 1];
+        return ColorHelper.colorLerp(colorIndex - (int) (colorIndex), nextColor, color);
+    }
     public static Color darker(Color color, int times) {
         float FACTOR = (float) Math.pow(0.7f, times);
         return new Color(Math.max((int) (color.getRed() * FACTOR), 0),
