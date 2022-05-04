@@ -20,9 +20,9 @@ import java.util.function.Consumer;
 
 public class OrtusTextureLoader {
 
-    protected static final ColorLerp GRADIENT = (image, x, y, luminosity) -> ((y % 16) / 16f);
-    protected static final ColorLerp LUMINOUS_GRADIENT = (image, x, y, luminosity) -> (((y % 16) / 16f) + luminosity / 255f) / 2f;
-    protected static final ColorLerp LUMINOUS = (image, x, y, luminosity) -> luminosity / 255f;
+    protected static final ColorLerp GRADIENT = (image, x, y, luminosity, s) -> ((y % 16) / 16f);
+    protected static final ColorLerp LUMINOUS_GRADIENT = (image, x, y, luminosity, s) -> (((y % 16) / 16f) + luminosity) / 2f;
+    protected static final ColorLerp LUMINOUS = (image, x, y, luminosity, s) -> luminosity / s;
 
     public static void copyTextureWithChanges(ResourceLocation loaderName, ResourceLocation targetPath, ResourceLocation sourcePath, TextureModifier modifier) {
         IEventBus busMod = FMLJavaModLoadingContext.get().getModEventBus();
@@ -93,6 +93,9 @@ public class OrtusTextureLoader {
                 }
             }
         }
+        lowestLuminosity/=255f;
+        highestLuminosity/=255f;
+        float scale = highestLuminosity - lowestLuminosity;
         for (int x = 0; x < nativeimage.getWidth(); x++) {
             for (int y = 0; y < nativeimage.getHeight(); y++) {
                 int pixel = nativeimage.getPixelRGBA(x, y);
@@ -102,7 +105,9 @@ public class OrtusTextureLoader {
                 }
                 int luminosity = (int) (0.299D * ((pixel) & 0xFF) + 0.587D * ((pixel >> 8) & 0xFF) + 0.114D * ((pixel >> 16) & 0xFF));
 
-                float lerp = highestLuminosity / 255f - Mth.lerp(colorLerp.lerp(pixel, x, y, luminosity), lowestLuminosity / 255f, highestLuminosity / 255f);
+                float pct = luminosity/255f;
+                int newLuminosity = (int) Mth.lerp(pct, lowestLuminosity, highestLuminosity);
+                float lerp = 1 - colorLerp.lerp(pixel, x, y, newLuminosity, scale);
                 float colorIndex = colorCount * lerp;
 
                 int index = (int) Mth.clamp(colorIndex, 0, colorCount);
@@ -116,7 +121,7 @@ public class OrtusTextureLoader {
     }
 
     public interface ColorLerp {
-        float lerp(int pixel, int x, int y, int luminosity);
+        float lerp(int pixel, int x, int y, float luminosity, float luminosityScale);
     }
 
     public interface TextureModifier {
