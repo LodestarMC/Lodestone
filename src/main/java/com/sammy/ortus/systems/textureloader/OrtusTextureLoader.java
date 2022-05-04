@@ -74,8 +74,8 @@ public class OrtusTextureLoader {
     }
     public static NativeImage multiColorGradient(Easing easing, NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
         int colorCount = colors.length - 1;
-        int lowestLuminosity = 255;
-        int highestLuminosity = 0;
+        float lowestLuminosity = 255;
+        float highestLuminosity = 0;
         for (int x = 0; x < nativeimage.getWidth(); x++) {
             for (int y = 0; y < nativeimage.getHeight(); y++) {
                 int pixel = nativeimage.getPixelRGBA(x, y);
@@ -101,11 +101,10 @@ public class OrtusTextureLoader {
                 }
                 int luminosity = (int) (0.299D * ((pixel) & 0xFF) + 0.587D * ((pixel >> 8) & 0xFF) + 0.114D * ((pixel >> 16) & 0xFF));
 
-                float pct = luminosity/255f;
+                float pct = (luminosity - lowestLuminosity)/(highestLuminosity - lowestLuminosity);
                 float newLuminosity =  Mth.lerp(pct, lowestLuminosity, highestLuminosity);
                 float lerp = 1 - colorLerp.lerp(pixel, x, y, newLuminosity, highestLuminosity);
-                float colorIndex = 2 * colorCount * lerp;
-
+                float colorIndex = colorCount * lerp;
                 int index = (int) Mth.clamp(colorIndex, 0, colorCount);
                 Color color = colors[index];
                 Color nextColor = index == colorCount ? color : colors[index + 1];
