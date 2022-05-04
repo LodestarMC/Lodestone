@@ -75,7 +75,7 @@ public class OrtusTextureLoader {
 
     public static NativeImage multiColorGradient(Easing easing, NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
         int colorCount = colors.length - 1;
-        float lowestLuminosity = 1;
+        float lowestLuminosity = 255;
         float highestLuminosity = 0;
         for (int x = 0; x < nativeimage.getWidth(); x++) {
             for (int y = 0; y < nativeimage.getHeight(); y++) {
