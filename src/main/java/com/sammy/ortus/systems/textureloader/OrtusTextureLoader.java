@@ -104,7 +104,7 @@ public class OrtusTextureLoader {
                 float pct = (luminosity - lowestLuminosity)/(highestLuminosity - lowestLuminosity);
                 float newLuminosity =  Mth.lerp(pct, lowestLuminosity, highestLuminosity);
                 float lerp = 1 - colorLerp.lerp(pixel, x, y, newLuminosity, highestLuminosity);
-                float colorIndex = colorCount * lerp;
+                float colorIndex = 2 * colorCount * lerp;
                 int index = (int) Mth.clamp(colorIndex, 0, colorCount);
                 Color color = colors[index];
                 Color nextColor = index == colorCount ? color : colors[index + 1];
