@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 public class OrtusTextureLoader {
 
     protected static final ColorLerp GRADIENT = (image, x, y, luminosity, s) -> ((y % 16) / 16f);
-    protected static final ColorLerp LUMINOUS_GRADIENT = (image, x, y, luminosity, s) -> (((y % 16) / 16f) + luminosity) / 2f;
+    protected static final ColorLerp LUMINOUS_GRADIENT = (image, x, y, luminosity, s) -> (((y % 16) / 16f) + luminosity / s) / 2f;
     protected static final ColorLerp LUMINOUS = (image, x, y, luminosity, s) -> luminosity / s;
 
     public static void copyTextureWithChanges(ResourceLocation loaderName, ResourceLocation targetPath, ResourceLocation sourcePath, TextureModifier modifier) {
@@ -75,8 +75,8 @@ public class OrtusTextureLoader {
 
     public static NativeImage multiColorGradient(Easing easing, NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
         int colorCount = colors.length - 1;
-        float lowestLuminosity = 255;
-        float highestLuminosity = 0;
+        int lowestLuminosity = 255;
+        int highestLuminosity = 0;
         for (int x = 0; x < nativeimage.getWidth(); x++) {
             for (int y = 0; y < nativeimage.getHeight(); y++) {
                 int pixel = nativeimage.getPixelRGBA(x, y);
@@ -93,9 +93,7 @@ public class OrtusTextureLoader {
                 }
             }
         }
-        lowestLuminosity/=255f;
-        highestLuminosity/=255f;
-        float scale = highestLuminosity - lowestLuminosity;
+        int scale = highestLuminosity - lowestLuminosity;
         for (int x = 0; x < nativeimage.getWidth(); x++) {
             for (int y = 0; y < nativeimage.getHeight(); y++) {
                 int pixel = nativeimage.getPixelRGBA(x, y);
