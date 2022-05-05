@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -18,6 +19,37 @@ import static net.minecraft.util.Mth.sqrt;
  * A collection of various helper methods related to collections, vectors, etc
  */
 public class DataHelper {
+
+    public static ArrayList<Vec3> trackPastPositions(ArrayList<Vec3> pastPositions, Vec3 currentPosition, float distanceThreshold, int minimumPositions, float fadeoutRate) {
+        if (!pastPositions.isEmpty()) {
+            Vec3 latest = pastPositions.get(pastPositions.size() - 1);
+            float distance = (float) latest.distanceTo(currentPosition);
+            if (distance > distanceThreshold) {
+                pastPositions.add(currentPosition);
+            }
+            int excess = pastPositions.size() - 1;
+            if (excess > minimumPositions) {
+                ArrayList<Vec3> toRemove = new ArrayList<>();
+                float efficiency = (float) (excess * (fadeoutRate * 0.4f) + Math.exp((Math.max(0, excess - 20)) * (fadeoutRate * 0.6f)));
+                if (efficiency > 0f) {
+                    for (int i = minimumPositions; i < excess; i++) {
+                        Vec3 excessPosition = pastPositions.get(i);
+                        Vec3 nextExcessPosition = pastPositions.get(i + 1);
+                        pastPositions.set(i, excessPosition.lerp(nextExcessPosition, Math.min(1, fadeoutRate * (excess - i) * (fadeoutRate + efficiency))));
+                        float excessDistance = (float) excessPosition.distanceTo(nextExcessPosition);
+                        if (excessDistance < distanceThreshold / 2f) {
+                            toRemove.add(pastPositions.get(i));
+                        }
+                    }
+                    pastPositions.removeAll(toRemove);
+                }
+            }
+        } else {
+            pastPositions.add(currentPosition);
+        }
+        return pastPositions;
+    }
+
     public static Vec3 fromBlockPos(BlockPos pos) {
         return new Vec3(pos.getX(), pos.getY(), pos.getZ());
     }
