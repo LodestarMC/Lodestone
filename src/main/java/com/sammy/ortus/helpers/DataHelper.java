@@ -32,7 +32,7 @@ public class DataHelper {
                 ArrayList<Vec3> toRemove = new ArrayList<>();
                 float efficiency = (float) (excess * (fadeoutRate * 0.4f) + Math.exp((Math.max(0, excess - 20)) * (fadeoutRate * 0.6f)));
                 if (efficiency > 0f) {
-                    for (int i = minimumPositions; i < excess; i++) {
+                    for (int i = 0; i < excess; i++) {
                         Vec3 excessPosition = pastPositions.get(i);
                         Vec3 nextExcessPosition = pastPositions.get(i + 1);
                         pastPositions.set(i, excessPosition.lerp(nextExcessPosition, Math.min(1, fadeoutRate * (excess - i) * (fadeoutRate + efficiency))));
