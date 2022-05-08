@@ -250,13 +250,11 @@ public class RenderHelper {
         public VertexBuilder renderPoints(VertexConsumer vertexConsumer, List<TrailPoint> trailPoints, float u0, float v0, float u1, float v1) {
             int count = trailPoints.size();
             float increment = 1.0F / count;
-            for (int i = 1; i < count; i++) {
+            for (int i = 0; i < count; i++) {
                 float current = Mth.lerp(i * increment, v0, v1);
                 float next = Mth.lerp((i + 1) * increment, v0, v1);
-                TrailPoint previousPoint = trailPoints.get(i - 1);
                 TrailPoint point = trailPoints.get(i);
-                previousPoint.renderStart(vertexConsumer, light, r, g, b, a, u0, current, u1, next);
-                point.renderEnd(vertexConsumer, light, r, g, b, a, u0, current, u1, next);
+                point.render(vertexConsumer, light, r, g, b, a, u0, current, u1, next);
             }
             return this;
         }
