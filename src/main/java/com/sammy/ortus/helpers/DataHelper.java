@@ -160,7 +160,7 @@ public class DataHelper {
 
     public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distanceX, float distanceZ, float total, long gameTime, float time) {
         ArrayList<Vec3> positions = new ArrayList<>();
-        for (int i = 0; i < total; i++) {
+        for (int i = 0; i <= total; i++) {
             positions.add(rotatingRadialOffset(pos, distanceX, distanceZ, i, total, gameTime, time));
         }
         return positions;

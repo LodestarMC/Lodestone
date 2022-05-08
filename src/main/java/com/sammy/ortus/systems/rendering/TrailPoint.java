@@ -19,18 +19,10 @@ public class TrailPoint {
         this.z = z;
     }
 
-    public void renderStart(VertexConsumer builder, int packedLight, float r, float g, float b, float a, float u0, float v0, float u1, float v1) {
+    public void render(VertexConsumer builder, int packedLight, float r, float g, float b, float a, float u0, float v0, float u1, float v1) {
         builder.vertex(xp, yp, z).color(r, g, b, a).uv(u0, v0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).endVertex();
         builder.vertex(xn, yn, z).color(r, g, b, a).uv(u1, v0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).endVertex();
-    }
-
-    public void renderEnd(VertexConsumer builder, int packedLight, float r, float g, float b, float a, float u0, float v0, float u1, float v1) {
         builder.vertex(xn, yn, z).color(r, g, b, a).uv(u1, v1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).endVertex();
         builder.vertex(xp, yp, z).color(r, g, b, a).uv(u0, v1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).endVertex();
-    }
-
-    public void renderMid(VertexConsumer builder, int packedLight, float r, float g, float b, float a, float u0, float v0, float u1, float v1) {
-        renderEnd(builder, packedLight, r, g, b, a, u0, v0, u1, v1);
-        renderStart(builder, packedLight, r, g, b, a, u0, v0, u1, v1);
     }
 }
