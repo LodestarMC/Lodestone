@@ -1,5 +1,6 @@
 package com.sammy.ortus.systems.fireeffect;
 
+import com.sammy.ortus.capability.EntityDataCapability;
 import com.sammy.ortus.setup.OrtusFireEffectRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -19,6 +20,11 @@ public class FireEffectInstance {
 
     public FireEffectInstance setDuration(int duration) {
         this.duration = duration;
+        return this;
+    }
+
+    public FireEffectInstance sync(Entity target) {
+        EntityDataCapability.syncTrackingAndSelf(target);
         return this;
     }
 

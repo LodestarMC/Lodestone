@@ -53,7 +53,7 @@ public class ColorHelper {
         int index = (int) Mth.clamp(colorIndex, 0, colorCount);
         Color color = colors[index];
         Color nextColor = index == colorCount ? color : colors[index + 1];
-        return ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), nextColor, color);
+        return ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), color, nextColor);
     }
 
     public static Color colorLerp(Easing easing, float pct, float min, float max, Color brightColor, Color darkColor) {

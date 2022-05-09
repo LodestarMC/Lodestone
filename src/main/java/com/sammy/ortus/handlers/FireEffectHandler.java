@@ -34,13 +34,13 @@ public class FireEffectHandler {
     public static void setCustomFireInstance(Entity entity, FireEffectInstance instance) {
         EntityDataCapability.getCapability(entity).ifPresent(c -> {
             c.fireEffectInstance = instance;
-            if (instance != null) {
+            if (c.fireEffectInstance != null) {
                 if (entity.getRemainingFireTicks() > 0) {
                     entity.setRemainingFireTicks(0);
                 }
-            }
-            if (!entity.level.isClientSide) {
-                EntityDataCapability.syncTrackingAndSelf(entity);
+                if (!entity.level.isClientSide) {
+                    c.fireEffectInstance.sync(entity);
+                }
             }
         });
     }
