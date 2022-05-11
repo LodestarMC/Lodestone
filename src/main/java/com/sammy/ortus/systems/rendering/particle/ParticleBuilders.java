@@ -212,6 +212,11 @@ public class ParticleBuilders {
             return this;
         }
 
+        public WorldParticleBuilder setMotionCurveMultiplier(float motionCurveMultiplier) {
+            data.motionCurveMultiplier = motionCurveMultiplier;
+            return this;
+        }
+
         public WorldParticleBuilder randomMotion(double maxSpeed) {
             return randomMotion(maxSpeed, maxSpeed, maxSpeed);
         }
