@@ -14,6 +14,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.awt.*;
@@ -57,8 +58,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public WorldParticleBuilder setColorCurveMultiplier(float colorCurveMultiplier) {
-            data.colorCurveMultiplier = colorCurveMultiplier;
+        public WorldParticleBuilder setColorCoefficient(float colorCoefficient) {
+            data.colorCoefficient = colorCoefficient;
             return this;
         }
 
@@ -115,8 +116,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public WorldParticleBuilder setAlphaCurveMultiplier(float alphaCurveMultiplier) {
-            data.alphaCurveMultiplier = alphaCurveMultiplier;
+        public WorldParticleBuilder setAlphaCoefficient(float alphaCoefficient) {
+            data.alphaCoefficient = alphaCoefficient;
             return this;
         }
 
@@ -146,8 +147,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public WorldParticleBuilder setScaleCurveMultiplier(float scaleCurveMultiplier) {
-            data.scaleCurveMultiplier = scaleCurveMultiplier;
+        public WorldParticleBuilder setScaleCoefficient(float scaleCoefficient) {
+            data.scaleCoefficient = scaleCoefficient;
             return this;
         }
 
@@ -187,8 +188,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public WorldParticleBuilder setSpinCurveMultiplier(float spinCurveMultiplier) {
-            data.spinCurveMultiplier = spinCurveMultiplier;
+        public WorldParticleBuilder setSpinCoefficient(float spinCoefficient) {
+            data.spinCoefficient = spinCoefficient;
             return this;
         }
 
@@ -212,8 +213,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public WorldParticleBuilder setMotionCurveMultiplier(float motionCurveMultiplier) {
-            data.motionCurveMultiplier = motionCurveMultiplier;
+        public WorldParticleBuilder setMotionCoefficient(float motionCoefficient) {
+            data.motionCoefficient = motionCoefficient;
             return this;
         }
 
@@ -440,8 +441,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder setColorCurveMultiplier(float colorCurveMultiplier) {
-            data.colorCurveMultiplier = colorCurveMultiplier;
+        public ScreenParticleBuilder setColorCoefficient(float colorCoefficient) {
+            data.colorCoefficient = colorCoefficient;
             return this;
         }
 
@@ -498,8 +499,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder setAlphaCurveMultiplier(float alphaCurveMultiplier) {
-            data.alphaCurveMultiplier = alphaCurveMultiplier;
+        public ScreenParticleBuilder setAlphaCoefficient(float alphaCoefficient) {
+            data.alphaCoefficient = alphaCoefficient;
             return this;
         }
 
@@ -529,8 +530,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder setScaleCurveMultiplier(float scaleCurveMultiplier) {
-            data.scaleCurveMultiplier = scaleCurveMultiplier;
+        public ScreenParticleBuilder setScaleCoefficient(float scaleCoefficient) {
+            data.scaleCoefficient = scaleCoefficient;
             return this;
         }
 
@@ -569,8 +570,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder setSpinCurveMultiplier(float spinCurveMultiplier) {
-            data.spinCurveMultiplier = spinCurveMultiplier;
+        public ScreenParticleBuilder setSpinCoefficient(float spinCoefficient) {
+            data.spinCoefficient = spinCoefficient;
             return this;
         }
 
@@ -594,8 +595,8 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder setMotionCurveMultiplier(float motionCurveMultiplier) {
-            data.motionCurveMultiplier = motionCurveMultiplier;
+        public ScreenParticleBuilder setMotionCoefficient(float motionCoefficient) {
+            data.motionCoefficient = motionCoefficient;
             return this;
         }
         public ScreenParticleBuilder randomMotion(double maxSpeed) {
@@ -620,7 +621,7 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder setForcedMotion(Vector3f startingMotion, Vector3f endingMotion) {
+        public ScreenParticleBuilder setForcedMotion(Vec2 startingMotion, Vec2 endingMotion) {
             data.forcedMotion = true;
             data.motionStyle = SimpleParticleOptions.MotionStyle.START_TO_END;
             data.startingMotion = startingMotion;
@@ -628,7 +629,7 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder setForcedMotion(Vector3f endingMotion) {
+        public ScreenParticleBuilder setForcedMotion(Vec2 endingMotion) {
             data.forcedMotion = true;
             data.motionStyle = SimpleParticleOptions.MotionStyle.CURRENT_TO_END;
             data.endingMotion = endingMotion;

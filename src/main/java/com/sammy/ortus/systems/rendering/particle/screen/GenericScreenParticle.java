@@ -9,6 +9,7 @@ import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec2;
 
 import java.awt.*;
 
@@ -16,7 +17,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     public ScreenParticleOptions data;
     private final ParticleRenderType renderType;
     protected final ParticleEngine.MutableSpriteSet spriteSet;
-    private final Vector3f startingMotion;
+    private final Vec2 startingMotion;
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
     public GenericScreenParticle(ClientLevel world, ScreenParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double xMotion, double yMotion) {
@@ -32,7 +33,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         this.setLifetime(data.lifetime);
         this.gravity = data.gravity;
         this.friction = 1;
-        this.startingMotion = data.motionStyle == SimpleParticleOptions.MotionStyle.START_TO_END ? data.startingMotion : new Vector3f((float)xMotion, (float)yMotion, 0);
+        this.startingMotion = data.motionStyle == SimpleParticleOptions.MotionStyle.START_TO_END ? data.startingMotion : new Vec2((float)xMotion, (float)yMotion);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, data.r1)), (int) (255 * Math.min(1.0f, data.g1)), (int) (255 * Math.min(1.0f, data.b1)), hsv1);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, data.r2)), (int) (255 * Math.min(1.0f, data.g2)), (int) (255 * Math.min(1.0f, data.b2)), hsv2);
         updateTraits();
@@ -74,37 +75,37 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     }
 
     protected void updateTraits() {
-        pickColor(data.colorCurveEasing.ease(getCurve(data.colorCurveMultiplier), 0, 1, 1));
+        pickColor(data.colorCurveEasing.ease(getCurve(data.colorCoefficient), 0, 1, 1));
         if (data.isTrinaryScale()) {
-            float trinaryAge = getCurve(data.scaleCurveMultiplier);
+            float trinaryAge = getCurve(data.scaleCoefficient);
             if (trinaryAge >= 0.5f) {
                 quadSize = Mth.lerp(data.scaleCurveEndEasing.ease(trinaryAge - 0.5f, 0, 1, 0.5f), data.scale2, data.scale3);
             } else {
                 quadSize = Mth.lerp(data.scaleCurveStartEasing.ease(trinaryAge, 0, 1, 0.5f), data.scale1, data.scale2);
             }
         } else {
-            quadSize = Mth.lerp(data.scaleCurveStartEasing.ease(getCurve(data.scaleCurveMultiplier), 0, 1, 1), data.scale1, data.scale2);
+            quadSize = Mth.lerp(data.scaleCurveStartEasing.ease(getCurve(data.scaleCoefficient), 0, 1, 1), data.scale1, data.scale2);
         }
         if (data.isTrinaryAlpha()) {
-            float trinaryAge = getCurve(data.alphaCurveMultiplier);
+            float trinaryAge = getCurve(data.alphaCoefficient);
             if (trinaryAge >= 0.5f) {
                 alpha = Mth.lerp(data.alphaCurveStartEasing.ease(trinaryAge - 0.5f, 0, 1, 0.5f), data.alpha2, data.alpha3);
             } else {
                 alpha = Mth.lerp(data.alphaCurveStartEasing.ease(trinaryAge, 0, 1, 0.5f), data.alpha1, data.alpha2);
             }
         } else {
-            alpha = Mth.lerp(data.alphaCurveStartEasing.ease(getCurve(data.alphaCurveMultiplier), 0, 1, 1), data.alpha1, data.alpha2);
+            alpha = Mth.lerp(data.alphaCurveStartEasing.ease(getCurve(data.alphaCoefficient), 0, 1, 1), data.alpha1, data.alpha2);
         }
         oRoll = roll;
-        roll += Mth.lerp(data.spinEasing.ease(getCurve(data.spinCurveMultiplier), 0, 1, 1), data.spin1, data.spin2);
+        roll += Mth.lerp(data.spinEasing.ease(getCurve(data.spinCoefficient), 0, 1, 1), data.spin1, data.spin2);
         if (data.forcedMotion) {
-            float motionAge = getCurve(data.motionCurveMultiplier);
-            Vector3f currentMotion = data.motionStyle == SimpleParticleOptions.MotionStyle.START_TO_END ? startingMotion : new Vector3f((float) xMotion, (float) yMotion, 0);
-            xMotion = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), currentMotion.x(), data.endingMotion.x());
-            yMotion = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), currentMotion.y(), data.endingMotion.y());
+            float motionAge = getCurve(data.motionCoefficient);
+            Vec2 currentMotion = data.motionStyle == SimpleParticleOptions.MotionStyle.START_TO_END ? startingMotion : new Vec2((float) xMotion, (float) yMotion);
+            xMotion = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), currentMotion.x, data.endingMotion.x);
+            yMotion = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), currentMotion.y, data.endingMotion.y);
         } else {
-            xMotion *= data.motionCurveMultiplier;
-            yMotion *= data.motionCurveMultiplier;
+            xMotion *= data.motionCoefficient;
+            yMotion *= data.motionCoefficient;
         }
     }
 
