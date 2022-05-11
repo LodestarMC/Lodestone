@@ -8,6 +8,9 @@ public class SimpleParticleOptions {
     public enum Animator {
         FIRST_INDEX, LAST_INDEX, WITH_AGE, RANDOM_SPRITE
     }
+    public enum MotionStyle {
+        START_TO_END, CURRENT_TO_END
+    }
 
     public ParticleRenderType renderType = ParticleRenderTypes.ADDITIVE;
     public Animator animator = Animator.FIRST_INDEX;
@@ -24,6 +27,7 @@ public class SimpleParticleOptions {
     public Easing alphaCurveStartEasing = Easing.LINEAR, alphaCurveEndEasing = Easing.LINEAR;
 
     public boolean forcedMotion = false;
+    public MotionStyle motionStyle = MotionStyle.START_TO_END;
     public Vector3f startingMotion = Vector3f.ZERO, endingMotion = Vector3f.ZERO;
     public float motionCurveMultiplier = 1f;
     public Easing motionEasing = Easing.LINEAR;

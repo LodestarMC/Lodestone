@@ -243,7 +243,15 @@ public class ParticleBuilders {
 
         public WorldParticleBuilder setForcedMotion(Vector3f startingMotion, Vector3f endingMotion) {
             data.forcedMotion = true;
+            data.motionStyle = SimpleParticleOptions.MotionStyle.START_TO_END;
             data.startingMotion = startingMotion;
+            data.endingMotion = endingMotion;
+            return this;
+        }
+
+        public WorldParticleBuilder setForcedMotion(Vector3f endingMotion) {
+            data.forcedMotion = true;
+            data.motionStyle = SimpleParticleOptions.MotionStyle.CURRENT_TO_END;
             data.endingMotion = endingMotion;
             return this;
         }
@@ -609,7 +617,15 @@ public class ParticleBuilders {
 
         public ScreenParticleBuilder setForcedMotion(Vector3f startingMotion, Vector3f endingMotion) {
             data.forcedMotion = true;
+            data.motionStyle = SimpleParticleOptions.MotionStyle.START_TO_END;
             data.startingMotion = startingMotion;
+            data.endingMotion = endingMotion;
+            return this;
+        }
+
+        public ScreenParticleBuilder setForcedMotion(Vector3f endingMotion) {
+            data.forcedMotion = true;
+            data.motionStyle = SimpleParticleOptions.MotionStyle.CURRENT_TO_END;
             data.endingMotion = endingMotion;
             return this;
         }

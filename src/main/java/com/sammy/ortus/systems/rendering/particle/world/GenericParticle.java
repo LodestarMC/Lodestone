@@ -1,6 +1,7 @@
 package com.sammy.ortus.systems.rendering.particle.world;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
@@ -15,11 +16,13 @@ import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 
 import java.awt.*;
+import java.util.Vector;
 
 public class GenericParticle extends TextureSheetParticle {
     protected WorldParticleOptions data;
     private final ParticleRenderType renderType;
     protected final ParticleEngine.MutableSpriteSet spriteSet;
+    private final Vector3f startingMotion;
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
     public GenericParticle(ClientLevel world, WorldParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
@@ -28,15 +31,14 @@ public class GenericParticle extends TextureSheetParticle {
         this.renderType = data.renderType;
         this.spriteSet = spriteSet;
         this.roll = data.spinOffset + data.spin1;
-        if (!data.forcedMotion) {
-            this.xd = xd;
-            this.yd = yd;
-            this.zd = zd;
-        }
+        this.xd = xd;
+        this.yd = yd;
+        this.zd = zd;
         this.setLifetime(data.lifetime);
         this.gravity = data.gravity;
         this.hasPhysics = !data.noClip;
         this.friction = 1;
+        this.startingMotion = data.motionStyle == SimpleParticleOptions.MotionStyle.START_TO_END ? data.startingMotion : new Vector3f((float)xd, (float)yd, (float)zd);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, data.r1)), (int) (255 * Math.min(1.0f, data.g1)), (int) (255 * Math.min(1.0f, data.b1)), hsv1);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, data.r2)), (int) (255 * Math.min(1.0f, data.g2)), (int) (255 * Math.min(1.0f, data.b2)), hsv2);
         if (spriteSet != null) {
@@ -93,7 +95,7 @@ public class GenericParticle extends TextureSheetParticle {
         if (data.isTrinaryAlpha()) {
             float trinaryAge = getCurve(data.alphaCurveMultiplier);
             if (trinaryAge >= 0.5f) {
-                alpha = Mth.lerp(data.alphaCurveStartEasing.ease(trinaryAge-0.5f, 0, 1, 0.5f), data.alpha2, data.alpha3);
+                alpha = Mth.lerp(data.alphaCurveStartEasing.ease(trinaryAge - 0.5f, 0, 1, 0.5f), data.alpha2, data.alpha3);
             } else {
                 alpha = Mth.lerp(data.alphaCurveStartEasing.ease(trinaryAge, 0, 1, 0.5f), data.alpha1, data.alpha2);
             }
@@ -104,9 +106,10 @@ public class GenericParticle extends TextureSheetParticle {
         roll += Mth.lerp(data.spinEasing.ease(getCurve(data.spinCurveMultiplier), 0, 1, 1), data.spin1, data.spin2);
         if (data.forcedMotion) {
             float motionAge = getCurve(data.motionCurveMultiplier);
-            xd = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), data.startingMotion.x(), data.endingMotion.x());
-            yd = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), data.startingMotion.y(), data.endingMotion.y());
-            zd = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), data.startingMotion.z(), data.endingMotion.z());
+            Vector3f currentMotion = data.motionStyle == SimpleParticleOptions.MotionStyle.START_TO_END ? startingMotion : new Vector3f((float) xd, (float) yd, (float) zd);
+            xd = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), currentMotion.x(), data.endingMotion.x());
+            yd = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), currentMotion.y(), data.endingMotion.y());
+            zd = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), currentMotion.z(), data.endingMotion.z());
         } else {
             xd *= data.motionCurveMultiplier;
             yd *= data.motionCurveMultiplier;

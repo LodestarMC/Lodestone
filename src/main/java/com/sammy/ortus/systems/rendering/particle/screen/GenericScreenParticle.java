@@ -1,5 +1,6 @@
 package com.sammy.ortus.systems.rendering.particle.screen;
 
+import com.mojang.math.Vector3f;
 import com.sammy.ortus.handlers.ScreenParticleHandler;
 import com.sammy.ortus.systems.rendering.particle.SimpleParticleOptions;
 import com.sammy.ortus.systems.rendering.particle.screen.base.TextureSheetScreenParticle;
@@ -15,6 +16,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     public ScreenParticleOptions data;
     private final ParticleRenderType renderType;
     protected final ParticleEngine.MutableSpriteSet spriteSet;
+    private final Vector3f startingMotion;
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
     public GenericScreenParticle(ClientLevel world, ScreenParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double xMotion, double yMotion) {
@@ -23,14 +25,14 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         this.renderType = data.renderType;
         this.spriteSet = spriteSet;
         this.roll = data.spinOffset + data.spin1;
-        if (!data.forcedMotion) {
-            this.xMotion = xMotion;
-            this.yMotion = yMotion;
-        }
+        this.xMotion = xMotion;
+        this.yMotion = yMotion;
+
         this.setRenderOrder(data.renderOrder);
         this.setLifetime(data.lifetime);
         this.gravity = data.gravity;
         this.friction = 1;
+        this.startingMotion = data.motionStyle == SimpleParticleOptions.MotionStyle.START_TO_END ? data.startingMotion : new Vector3f((float)xMotion, (float)yMotion, 0);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, data.r1)), (int) (255 * Math.min(1.0f, data.g1)), (int) (255 * Math.min(1.0f, data.b1)), hsv1);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, data.r2)), (int) (255 * Math.min(1.0f, data.g2)), (int) (255 * Math.min(1.0f, data.b2)), hsv2);
         updateTraits();
@@ -97,8 +99,9 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         roll += Mth.lerp(data.spinEasing.ease(getCurve(data.spinCurveMultiplier), 0, 1, 1), data.spin1, data.spin2);
         if (data.forcedMotion) {
             float motionAge = getCurve(data.motionCurveMultiplier);
-            xMotion = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), data.startingMotion.x(), data.endingMotion.x());
-            yMotion = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), data.startingMotion.y(), data.endingMotion.y());
+            Vector3f currentMotion = data.motionStyle == SimpleParticleOptions.MotionStyle.START_TO_END ? startingMotion : new Vector3f((float) xMotion, (float) yMotion, 0);
+            xMotion = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), currentMotion.x(), data.endingMotion.x());
+            yMotion = Mth.lerp(data.motionEasing.ease(motionAge, 0, 1, 1), currentMotion.y(), data.endingMotion.y());
         } else {
             xMotion *= data.motionCurveMultiplier;
             yMotion *= data.motionCurveMultiplier;
