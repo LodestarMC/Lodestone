@@ -46,6 +46,6 @@ void main() {
     float time = Intensity*toCenter;
     uv = uv*rot(time+gameTime+scatter(uv, ScatterFrequency));
     uv = uv*rot(sin(time*XFrequency));
-    uv = uv*rot(cos(time*XFrequency));
+    uv = uv*rot(cos(time*YFrequency));
     fragColor = vertexColor * texture(Sampler0, uv) * ColorModulator - toCenter*DistanceFalloff;
 }

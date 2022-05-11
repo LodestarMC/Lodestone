@@ -24,6 +24,7 @@ public class OrtusShaderRegistry {
 
     public static ShaderHolder SCROLLING_TEXTURE = new ShaderHolder("Speed");
     public static ShaderHolder TRIANGLE_TEXTURE = new ShaderHolder();
+    public static ShaderHolder COLOR_GRADIENT_TEXTURE = new ShaderHolder("DarkColor");
     public static ShaderHolder SCROLLING_TRIANGLE_TEXTURE = new ShaderHolder("Speed");
 
 
@@ -39,6 +40,7 @@ public class OrtusShaderRegistry {
 
         registerShader(event, ExtendedShaderInstance.createShaderInstance(SCROLLING_TEXTURE, event.getResourceManager(), OrtusLib.prefix("vfx/scrolling_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(TRIANGLE_TEXTURE, event.getResourceManager(), OrtusLib.prefix("vfx/triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(COLOR_GRADIENT_TEXTURE, event.getResourceManager(), OrtusLib.prefix("vfx/color_gradient_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(SCROLLING_TRIANGLE_TEXTURE, event.getResourceManager(), OrtusLib.prefix("vfx/scrolling_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
     }
 
