@@ -253,10 +253,9 @@ public class RenderHelper {
             trailPoints.get(0).renderStart(vertexConsumer, light, r, g, b, a, u0, v0, u1, Mth.lerp(increment, v0, v1));
             for (int i = 1; i < count; i++) {
                 float current = Mth.lerp(i * increment, v0, v1);
-                float next = Mth.lerp((i + 1) * increment, v0, v1);
-                trailPoints.get(i).renderMid(vertexConsumer, light, r, g, b, a, u0, current, u1, next);
+                trailPoints.get(i).renderMid(vertexConsumer, light, r, g, b, a, u0, current, u1, current);
             }
-            trailPoints.get(count).renderEnd(vertexConsumer, light, r, g, b, a, u0, Mth.lerp((count - 1) * increment, v0, v1), u1, v1);
+            trailPoints.get(count).renderEnd(vertexConsumer, light, r, g, b, a, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
             return this;
         }
 

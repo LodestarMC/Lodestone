@@ -30,7 +30,7 @@ public class TrailPoint {
     }
 
     public void renderMid(VertexConsumer builder, int packedLight, float r, float g, float b, float a, float u0, float v0, float u1, float v1) {
-        renderEnd(builder, packedLight, a, r, g, b, u0, v0, u1, v1);
-        renderStart(builder, packedLight, a, r, g, b, u0, v0, u1, v1);
+        renderEnd(builder, packedLight, r, g, b, a, u0, v0, u1, v1);
+        renderStart(builder, packedLight, r, g, b, a, u0, v0, u1, v1);
     }
 }
