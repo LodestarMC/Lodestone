@@ -121,6 +121,9 @@ public class PlayerDataCapability implements OrtusCapability {
     public static LazyOptional<PlayerDataCapability> getCapability(Player player) {
         return player.getCapability(CAPABILITY);
     }
+    public static boolean getHasJoinedBefore(Player player) {
+        return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).hasJoinedBefore;
+    }
 
     public static int getRightClickTime(Player player) {
         return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).rightClickTime;
