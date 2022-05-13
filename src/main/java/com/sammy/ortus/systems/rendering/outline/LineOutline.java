@@ -21,36 +21,4 @@ public class LineOutline extends Outline {
         renderCuboidLine(ps, buffer, start, end);
     }
 
-    public static class EndChasingLineOutline extends LineOutline {
-
-        float prevProgress = 0;
-        float progress = 0;
-
-        @Override
-        public void tick() {
-        }
-
-        public EndChasingLineOutline setProgress(float progress) {
-            prevProgress = this.progress;
-            this.progress = progress;
-            return this;
-        }
-
-        @Override
-        public LineOutline set(Vec3 start, Vec3 end) {
-            if (!end.equals(this.end))
-                super.set(start, end);
-            return this;
-        }
-
-        @Override
-        public void render(PoseStack ps, SuperRenderTypeBuffer buffer, float pt) {
-            float distanceToTarget = 1 - Mth.lerp(pt, prevProgress, progress);
-            Vec3 start = end.add(this.start.subtract(end)
-                    .scale(distanceToTarget));
-            renderCuboidLine(ps, buffer, start, end);
-        }
-
-    }
-
 }

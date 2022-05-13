@@ -12,12 +12,7 @@ import net.minecraft.world.phys.Vec3;
 
 @SuppressWarnings("PointlessBitwiseExpression")
 public class Color {
-    public final static Color TRANSPARENT_BLACK = new Color(0, 0, 0, 0).setImmutable();
-    public final static Color BLACK = new Color(0, 0, 0).setImmutable();
     public final static Color WHITE = new Color(255, 255, 255).setImmutable();
-    public final static Color RED = new Color(255, 0, 0).setImmutable();
-    public final static Color GREEN = new Color(0, 255, 0).setImmutable();
-    public final static Color SPRING_GREEN = new Color(0, 255, 187).setImmutable();
 
     protected boolean mutable = true;
     protected int value;
@@ -143,48 +138,12 @@ public class Color {
         return value;
     }
 
-    public Vec3 asVector() {
-        return new Vec3(getRedAsFloat(), getGreenAsFloat(), getBlueAsFloat());
-    }
-
-    public Vector3f asVectorF() {
-        return new Vector3f(getRedAsFloat(), getGreenAsFloat(), getBlueAsFloat());
-    }
-
-    public Color setRed(int r) {
-        return ensureMutable().setRedUnchecked(r);
-    }
-
-    public Color setGreen(int g) {
-        return ensureMutable().setGreenUnchecked(g);
-    }
-
-    public Color setBlue(int b) {
-        return ensureMutable().setBlueUnchecked(b);
-    }
-
     public Color setAlpha(int a) {
         return ensureMutable().setAlphaUnchecked(a);
     }
 
-    public Color setRed(float r) {
-        return ensureMutable().setRedUnchecked((int) (0xff * Mth.clamp(r, 0, 1)));
-    }
-
-    public Color setGreen(float g) {
-        return ensureMutable().setGreenUnchecked((int) (0xff * Mth.clamp(g, 0, 1)));
-    }
-
-    public Color setBlue(float b) {
-        return ensureMutable().setBlueUnchecked((int) (0xff * Mth.clamp(b, 0, 1)));
-    }
-
     public Color setAlpha(float a) {
         return ensureMutable().setAlphaUnchecked((int) (0xff * Mth.clamp(a, 0, 1)));
-    }
-
-    public Color scaleAlpha(float factor) {
-        return ensureMutable().setAlphaUnchecked((int) (getAlpha() * Mth.clamp(factor, 0, 1)));
     }
 
     public Color mixWith(Color other, float weight) {
@@ -195,27 +154,10 @@ public class Color {
                 .setAlphaUnchecked((int) (getAlpha() + (other.getAlpha() - getAlpha()) * weight));
     }
 
-    public Color darker() {
-        int a = getAlpha();
-        return ensureMutable().mixWith(BLACK, .25f).setAlphaUnchecked(a);
-    }
-
-    public Color brighter() {
-        int a = getAlpha();
-        return ensureMutable().mixWith(WHITE, .25f).setAlphaUnchecked(a);
-    }
-
     public Color setValue(int value) {
         return ensureMutable().setValueUnchecked(value);
     }
 
-    public Color modifyValue(UnaryOperator<Integer> function) {
-        int newValue = function.apply(value);
-        if (newValue == value)
-            return this;
-
-        return ensureMutable().setValueUnchecked(newValue);
-    }
 
     // ********* //
 
@@ -262,27 +204,6 @@ public class Color {
         );
     }
 
-    public static Color mixColors(@Nonnull Couple<Color> colors, float w) {
-        return mixColors(colors.getFirst(), colors.getSecond(), w);
-    }
-
-    public static int mixColors(int color1, int color2, float w) {
-        int a1 = (color1 >> 24);
-        int r1 = (color1 >> 16) & 0xFF;
-        int g1 = (color1 >> 8) & 0xFF;
-        int b1 = color1 & 0xFF;
-        int a2 = (color2 >> 24);
-        int r2 = (color2 >> 16) & 0xFF;
-        int g2 = (color2 >> 8) & 0xFF;
-        int b2 = color2 & 0xFF;
-
-        return
-                ((int) (a1 + (a2 - a1) * w) << 24) +
-                        ((int) (r1 + (r2 - r1) * w) << 16) +
-                        ((int) (g1 + (g2 - g1) * w) << 8) +
-                        ((int) (b1 + (b2 - b1) * w) << 0);
-    }
-
     public static Color rainbowColor(int timeStep) {
         int localTimeStep = Math.abs(timeStep) % 1536;
         int timeStepInPhase = localTimeStep % 256;
@@ -303,11 +224,6 @@ public class Color {
             return 255;
         else
             return 255 - progress;
-    }
-
-    public static Color generateFromLong(long l) {
-        return rainbowColor(Hashing.crc32().hashLong(l).asInt())
-                .mixWith(WHITE, 0.5f);
     }
 
 }

@@ -2,7 +2,6 @@ package com.sammy.ortus.systems.rendering.ghost;
 
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
-import org.jetbrains.annotations.Nullable;
 
 public enum VirtualEmptyModelData implements IModelData {
     INSTANCE;

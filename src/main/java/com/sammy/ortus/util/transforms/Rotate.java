@@ -30,22 +30,6 @@ public interface Rotate<Self> {
         return multiply(Vector3f.YP, angle);
     }
 
-    default Self rotateZ(double angle) {
-        return multiply(Vector3f.ZP, angle);
-    }
-
-    default Self rotateXRadians(double angle) {
-        return multiplyRadians(Vector3f.XP, angle);
-    }
-
-    default Self rotateYRadians(double angle) {
-        return multiplyRadians(Vector3f.YP, angle);
-    }
-
-    default Self rotateZRadians(double angle) {
-        return multiplyRadians(Vector3f.ZP, angle);
-    }
-
     default Self multiply(Vector3f axis, double angle) {
         if (angle == 0)
             return (Self) this;
@@ -56,17 +40,5 @@ public interface Rotate<Self> {
         if (angle == 0)
             return (Self) this;
         return multiply(axis.rotation((float) angle));
-    }
-
-    default Self rotateToFace(Direction facing) {
-        switch (facing) {
-            case SOUTH -> multiply(Vector3f.YP.rotationDegrees(180));
-            case WEST -> multiply(Vector3f.YP.rotationDegrees(90));
-            case NORTH -> multiply(Vector3f.YP.rotationDegrees(0));
-            case EAST -> multiply(Vector3f.YP.rotationDegrees(270));
-            case UP -> multiply(Vector3f.XP.rotationDegrees(90));
-            case DOWN -> multiply(Vector3f.XN.rotationDegrees(90));
-        }
-        return (Self) this;
     }
 }

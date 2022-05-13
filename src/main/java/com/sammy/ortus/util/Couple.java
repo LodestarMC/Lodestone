@@ -9,11 +9,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import com.google.common.base.Supplier;
-import com.google.common.collect.ImmutableList;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-
 public class Couple<T> extends Pair<T, T> implements Iterable<T> {
 
     private static Couple<Boolean> TRUE_AND_FALSE = Couple.create(true, false);
@@ -30,10 +25,6 @@ public class Couple<T> extends Pair<T, T> implements Iterable<T> {
         return new Couple<>(factory.get(), factory.get());
     }
 
-    public static <T> Couple<T> createWithContext(Function<Boolean, T> factory) {
-        return new Couple<>(factory.apply(true), factory.apply(false));
-    }
-
     public T get(boolean first) {
         return first ? getFirst() : getSecond();
     }
@@ -45,32 +36,15 @@ public class Couple<T> extends Pair<T, T> implements Iterable<T> {
             setSecond(value);
     }
 
-    @Override
-    public Couple<T> copy() {
-        return create(first, second);
-    }
 
     public <S> Couple<S> map(Function<T, S> function) {
         return Couple.create(function.apply(first), function.apply(second));
-    }
-
-    public <S> Couple<S> mapWithContext(BiFunction<T, Boolean, S> function) {
-        return Couple.create(function.apply(first, true), function.apply(second, false));
-    }
-
-    public <S, R> Couple<S> mapWithParams(BiFunction<T, R, S> function, Couple<R> values) {
-        return Couple.create(function.apply(first, values.first), function.apply(second, values.second));
     }
 
     public void replace(Function<T, T> function) {
         setFirst(function.apply(getFirst()));
         setSecond(function.apply(getSecond()));
     }
-
-    public void replaceWithContext(BiFunction<T, Boolean, T> function) {
-        replaceWithParams(function, TRUE_AND_FALSE);
-    }
-
     public <S> void replaceWithParams(BiFunction<T, S, T> function, Couple<S> values) {
         setFirst(function.apply(getFirst(), values.getFirst()));
         setSecond(function.apply(getSecond(), values.getSecond()));
@@ -80,15 +54,6 @@ public class Couple<T> extends Pair<T, T> implements Iterable<T> {
     public void forEach(Consumer<? super T> consumer) {
         consumer.accept(getFirst());
         consumer.accept(getSecond());
-    }
-
-    public void forEachWithContext(BiConsumer<T, Boolean> consumer) {
-        forEachWithParams(consumer, TRUE_AND_FALSE);
-    }
-
-    public <S> void forEachWithParams(BiConsumer<T, S> function, Couple<S> values) {
-        function.accept(getFirst(), values.getFirst());
-        function.accept(getSecond(), values.getSecond());
     }
 
     public Couple<T> swap() {

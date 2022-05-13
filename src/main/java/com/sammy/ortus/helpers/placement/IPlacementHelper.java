@@ -1,7 +1,7 @@
 package com.sammy.ortus.helpers.placement;
 
 import com.sammy.ortus.OrtusLibClient;
-import com.sammy.ortus.helpers.MathHelpers.VecHelper;
+import com.sammy.ortus.helpers.math.VecHelper;
 import com.sammy.ortus.util.Iterate;
 import com.sammy.ortus.util.Pair;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -76,23 +76,6 @@ public interface IPlacementHelper {
         displayGhost(offset);
     }
 
-    //RIP
-    static void renderArrow(Vec3 center, Vec3 target, Direction arrowPlane) {
-        renderArrow(center, target, arrowPlane, 1D);
-    }
-    static void renderArrow(Vec3 center, Vec3 target, Direction arrowPlane, double distanceFromCenter) {
-        Vec3 direction = target.subtract(center).normalize();
-        Vec3 facing = Vec3.atLowerCornerOf(arrowPlane.getNormal());
-        Vec3 start = center.add(direction);
-        Vec3 offset = direction.scale(distanceFromCenter - 1);
-        Vec3 offsetA = direction.cross(facing).normalize().scale(.25);
-        Vec3 offsetB = facing.cross(direction).normalize().scale(.25);
-        Vec3 endA = center.add(direction.scale(.75)).add(offsetA);
-        Vec3 endB = center.add(direction.scale(.75)).add(offsetB);
-        OrtusLibClient.OUTLINER.showLine("placementArrowA" + center + target, start.add(offset), endA.add(offset)).lineWidth(1 / 16f);
-        OrtusLibClient.OUTLINER.showLine("placementArrowB" + center + target, start.add(offset), endB.add(offset)).lineWidth(1 / 16f);
-    }
-
     default void displayGhost(PlacementOffset offset) {
         if (!offset.hasGhostState())
             return;
@@ -100,35 +83,6 @@ public interface IPlacementHelper {
         OrtusLibClient.GHOST_BLOCKS.showGhostState(this, offset.getTransform().apply(offset.getGhostState()))
                 .at(offset.getBlockPos());
     }
-
-    static List<Direction> orderedByDistanceOnlyAxis(BlockPos pos, Vec3 hit, Direction.Axis axis) {
-        return orderedByDistance(pos, hit, dir -> dir.getAxis() == axis);
-    }
-
-    static List<Direction> orderedByDistanceOnlyAxis(BlockPos pos, Vec3 hit, Direction.Axis axis, Predicate<Direction> includeDirection) {
-        return orderedByDistance(pos, hit, ((Predicate<Direction>) dir -> dir.getAxis() == axis).and(includeDirection));
-    }
-
-    static List<Direction> orderedByDistanceExceptAxis(BlockPos pos, Vec3 hit, Direction.Axis axis) {
-        return orderedByDistance(pos, hit, dir -> dir.getAxis() != axis);
-    }
-
-    static List<Direction> orderedByDistanceExceptAxis(BlockPos pos, Vec3 hit, Direction.Axis axis, Predicate<Direction> includeDirection) {
-        return orderedByDistance(pos, hit, ((Predicate<Direction>) dir -> dir.getAxis() != axis).and(includeDirection));
-    }
-
-    static List<Direction> orderedByDistanceExceptAxis(BlockPos pos, Vec3 hit, Direction.Axis first, Direction.Axis second) {
-        return orderedByDistanceExceptAxis(pos, hit, first, d -> d.getAxis() != second);
-    }
-
-    static List<Direction> orderedByDistanceExceptAxis(BlockPos pos, Vec3 hit, Direction.Axis first, Direction.Axis second, Predicate<Direction> includeDirection) {
-        return orderedByDistanceExceptAxis(pos, hit, first, ((Predicate<Direction>) d -> d.getAxis() != second).and(includeDirection));
-    }
-
-    static List<Direction> orderedByDistance(BlockPos pos, Vec3 hit) {
-        return orderedByDistance(pos, hit, _$ -> true);
-    }
-
     static List<Direction> orderedByDistance(BlockPos pos, Vec3 hit, Predicate<Direction> includeDirection) {
         Vec3 centerToHit = hit.subtract(VecHelper.getCenterOf(pos));
         return Arrays.stream(Iterate.directions)

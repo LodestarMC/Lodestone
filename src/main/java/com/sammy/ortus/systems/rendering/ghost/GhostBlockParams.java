@@ -38,8 +38,4 @@ public class GhostBlockParams {
         this.alphaSupplier = alphaSupplier;
         return this;
     }
-
-    public GhostBlockParams withAlpha(float alpha) {
-        return withAlpha(() -> alpha);
-    }
 }

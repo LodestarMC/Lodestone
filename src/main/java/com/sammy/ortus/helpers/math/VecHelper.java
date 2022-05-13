@@ -1,8 +1,8 @@
-package com.sammy.ortus.helpers.MathHelpers;
+package com.sammy.ortus.helpers.math;
 
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
-import com.sammy.ortus.mixin.GameRendererAccessor;
+import com.sammy.ortus.mixin.GameRendererMixin;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
@@ -25,10 +25,6 @@ public class VecHelper {
     public static Vec3 axisAlignedPlaneOf(Vec3 vec) {
         vec = vec.normalize();
         return new Vec3(1, 1, 1).subtract(Math.abs(vec.x), Math.abs(vec.y), Math.abs(vec.z));
-    }
-
-    public static Vec3 axisAlignedPlaneOf(Direction face) {
-        return axisAlignedPlaneOf(Vec3.atLowerCornerOf(face.getNormal()));
     }
 
     public static Vec3 rotate(Vec3 vec, double deg, Direction.Axis axis) {
@@ -99,7 +95,7 @@ public class VecHelper {
         }
 
         // ----- adjust for fov -----
-        float fov = (float) ((GameRendererAccessor) mc.gameRenderer).ortus$callGetFov(ari, partialTicks, true);
+        float fov = (float) ((GameRendererMixin) mc.gameRenderer).ortus$callGetFov(ari, partialTicks, true);
 
         float half_height = (float) mc.getWindow()
                 .getGuiScaledHeight() / 2;

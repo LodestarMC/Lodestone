@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.sammy.ortus.helpers.AngleHelper;
-import com.sammy.ortus.helpers.MathHelpers.VecHelper;
+import com.sammy.ortus.helpers.math.VecHelper;
 import com.sammy.ortus.helpers.animation.LerpedFloat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

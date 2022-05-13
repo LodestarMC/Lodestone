@@ -11,11 +11,11 @@
     "AbstractContainerScreenMixin",
     "CameraMixin",
     "EntityRenderDispatcherMixin",
+    "GameRendererMixin",
     "GuiMixin",
     "ItemRendererMixin",
     "ScreenEffectRendererMixin",
-    "ScreenMixin",
-    "GameRendererAccessor"
+    "ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

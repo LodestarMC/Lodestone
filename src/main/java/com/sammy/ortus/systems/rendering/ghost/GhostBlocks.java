@@ -1,8 +1,6 @@
 package com.sammy.ortus.systems.rendering.ghost;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.sammy.ortus.helpers.placement.IPlacementHelper;
-import com.sammy.ortus.helpers.placement.PlacementOffset;
 import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -34,10 +32,6 @@ public class GhostBlocks {
         entry.ghost = ghost;
         return entry;
     }
-    public void tickGhosts() {
-        ghosts.forEach((slot, entry) -> entry.ticksToLive--);
-        ghosts.entrySet().removeIf(entry -> !entry.getValue().isAlive());
-    }
 
     public void renderAll(PoseStack ps, SuperRenderTypeBuffer buffer) {
         ghosts.forEach((slot, entry) -> {
@@ -51,9 +45,6 @@ public class GhostBlocks {
         private GhostBlockParams params;
         private int ticksToLive;
 
-        public Entry(GhostBlockRenderer ghost, GhostBlockParams params){
-            this(ghost, params, 1);
-        }
 
         public Entry(GhostBlockRenderer ghost, GhostBlockParams params, int ticksToLive){
             this.ghost = ghost;
@@ -61,9 +52,6 @@ public class GhostBlocks {
             this.ticksToLive = ticksToLive;
         }
 
-        public boolean isAlive(){
-            return ticksToLive >= 0;
-        }
     }
 
 }

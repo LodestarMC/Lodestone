@@ -17,12 +17,8 @@ public enum SpecialTextures {
     public static final String PATH_TO_ASSET = "textures/special/";
     private ResourceLocation location;
 
-    private SpecialTextures(String name) {
+    SpecialTextures(String name) {
         location = new ResourceLocation(PATH_TO_ASSET + name);
-    }
-
-    public void bind(){
-        RenderSystem.setShaderTexture(0, location);
     }
 
     public ResourceLocation getLocation() {

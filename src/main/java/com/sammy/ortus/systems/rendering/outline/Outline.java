@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.sammy.ortus.helpers.AngleHelper;
-import com.sammy.ortus.helpers.MathHelpers.VecHelper;
+import com.sammy.ortus.helpers.math.VecHelper;
 import com.sammy.ortus.systems.rendering.RenderTypes;
 import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
 import com.sammy.ortus.util.Color;
@@ -16,7 +16,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 public abstract class Outline {
@@ -181,53 +180,8 @@ public abstract class Outline {
 
         // builder
 
-        public OutlineParams colored(int color) {
-            rgb = new Color(color, false);
-            return this;
-        }
-
-        public OutlineParams colored(Color c) {
-            rgb = c.copy();
-            return this;
-        }
-
-        public OutlineParams lightMap(int light) {
-            lightMap = light;
-            return this;
-        }
-
         public OutlineParams lineWidth(float width) {
             this.lineWidth = width;
-            return this;
-        }
-
-        public OutlineParams withFaceTexture(SpecialTextures texture) {
-            this.faceTexture = Optional.ofNullable(texture);
-            return this;
-        }
-
-        public OutlineParams clearTextures() {
-            return this.withFaceTextures(null, null);
-        }
-
-        public OutlineParams withFaceTextures(SpecialTextures texture, SpecialTextures highlightTexture) {
-            this.faceTexture = Optional.ofNullable(texture);
-            this.hightlightedFaceTexture = Optional.ofNullable(highlightTexture);
-            return this;
-        }
-
-        public OutlineParams highlightFace(@Nullable Direction face) {
-            highlightedFace = face;
-            return this;
-        }
-
-        public OutlineParams disableNormals() {
-            disableNormals = true;
-            return this;
-        }
-
-        public OutlineParams disableCull() {
-            disableCull = true;
             return this;
         }
 
