@@ -14,7 +14,8 @@
     "GuiMixin",
     "ItemRendererMixin",
     "ScreenEffectRendererMixin",
-    "ScreenMixin"
+    "ScreenMixin",
+    "GameRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
