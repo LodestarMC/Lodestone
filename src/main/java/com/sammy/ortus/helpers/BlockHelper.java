@@ -212,6 +212,55 @@ public class BlockHelper {
         return positions;
     }
 
+    /**
+     * Quick method to get all blocks neighboring a block.
+     */
+    public static ArrayList<BlockPos> getNeighboringBlocks(BlockPos current) {
+        return getBlocks(current, -1, -1, -1, 1, 1, 1);
+    }
+
+    /*
+     * A* pathfinding algorithm for finding a path between two BlockPos. Must not be done in an event.
+    * */
+    public ArrayList<BlockPos> getShortestPath(BlockPos start, BlockPos end, Level level) {
+        ArrayList<BlockPos> path = new ArrayList<>();
+        ArrayList<BlockPos> open = new ArrayList<>();
+        ArrayList<BlockPos> closed = new ArrayList<>();
+        open.add(start);
+        while (!open.isEmpty()) {
+            BlockPos current = open.get(0);
+            BlockPos next;
+            for (int i = 1; i < open.size(); i++) {
+                if (open.get(i).distManhattan(end) < current.distManhattan(end)) {
+                    current = open.get(i);
+                }
+            }
+            if (current.equals(end)) {
+                while (!current.equals(start)) {
+                    path.add(current);
+                    // TODO: This needs to be normalized IDK HOW TO NORMALIZE A BLOCKPOS HELP MEEEEEEEEE
+                    current = current.subtract(current.subtract(start));
+
+                }
+                path.add(start);
+                return path;
+            }
+            open.remove(current);
+            closed.add(current);
+            for (int x = -1; x <= 1; x++) {
+                for (int y = -1; y <= 1; y++) {
+                    for (int z = -1; z <= 1; z++) {
+                        next = current.offset(x, y, z);
+                        if (!closed.contains(next) && !next.equals(current) && level.getBlockState(next).isAir()) {
+                            open.add(next);
+                        }
+                    }
+                }
+            }
+        }
+        return path;
+    }
+
     public static void updateState(Level level, BlockPos pos) {
         updateState(level.getBlockState(pos), level, pos);
     }
