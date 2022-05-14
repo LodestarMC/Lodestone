@@ -7,7 +7,10 @@ import com.sammy.ortus.data.OrtusBlockTagDatagen;
 import com.sammy.ortus.data.OrtusLangDatagen;
 import com.sammy.ortus.setup.OrtusCommandRegistry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -30,6 +33,7 @@ public class OrtusLib {
 
     public OrtusLib() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus forgeBus = MinecraftForge.EVENT_BUS;
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         OrtusCommandRegistry.registerArgumentTypes();
 
@@ -41,6 +45,8 @@ public class OrtusLib {
         CuriosCompat.init();
 
         modBus.addListener(this::gatherData);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                () -> () -> OrtusLibClient.onOrtus(modBus, forgeBus));
     }
 
     public static ResourceLocation prefix(String path) {

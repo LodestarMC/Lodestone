@@ -2,11 +2,15 @@ package com.sammy.ortus.helpers;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.pathfinder.Node;
+import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
@@ -244,6 +248,35 @@ public class BlockHelper {
                     }
                 }
             }
+        }
+        return positions;
+    }
+
+    /**
+     * Quick method to get all blocks neighboring a block.
+     */
+    public static ArrayList<BlockPos> getNeighboringBlocks(BlockPos current) {
+        return getBlocks(current, -1, -1, -1, 1, 1, 1);
+    }
+
+    /* Javadoc
+    * @param inclusive Whether to include the start and the end pos itself in the list.
+    * */
+    public static ArrayList<BlockPos> getPath(BlockPos start, BlockPos end, int speed, boolean inclusive, Level level){
+        Parrot parrot = new Parrot(EntityType.PARROT, level);
+        parrot.setPos(start.getX() + 0.5, start.getY() - 0.5, start.getZ() + 0.5);
+        parrot.getNavigation().moveTo(end.getX() + 0.5, end.getY() - 0.5, end.getZ() + 0.5, speed);
+        Path path = parrot.getNavigation().getPath();
+        parrot.discard();
+        int nodes = path.getNodeCount();
+        ArrayList<BlockPos> positions = new ArrayList<>();
+        for (int i = 0; i < nodes; i++) {
+            Node node = path.getNode(i);
+            positions.add(new BlockPos(node.x, node.y-0.5, node.z));
+        }
+        if(!inclusive){
+            positions.remove(0);
+            positions.remove(positions.size() - 1);
         }
         return positions;
     }

@@ -1,10 +1,14 @@
 package com.sammy.ortus.events;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.sammy.ortus.OrtusLibClient;
 import com.sammy.ortus.capability.PlayerDataCapability;
 import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.handlers.ScreenParticleHandler;
 import com.sammy.ortus.handlers.ScreenshakeHandler;
 import com.sammy.ortus.handlers.WorldEventHandler;
+import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
+import com.sammy.ortus.util.AnimationTickHolder;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
@@ -43,6 +47,11 @@ public class ClientRuntimeEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void renderLast(RenderLevelLastEvent event) {
+        PoseStack ps = event.getPoseStack();
+        SuperRenderTypeBuffer buffer = SuperRenderTypeBuffer.getInstance();
+        float partial = AnimationTickHolder.getPartialTicks();
+        OrtusLibClient.GHOST_BLOCKS.renderAll(ps, buffer);
+        OrtusLibClient.OUTLINER.renderOutlines(ps, buffer, partial);
         RenderHandler.renderLast(event);
         WorldEventHandler.ClientOnly.renderWorldEvents(event);
     }

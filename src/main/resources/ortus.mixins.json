@@ -11,6 +11,7 @@
     "AbstractContainerScreenMixin",
     "CameraMixin",
     "EntityRenderDispatcherMixin",
+    "GameRendererMixin",
     "GuiMixin",
     "ItemRendererMixin",
     "ScreenEffectRendererMixin",
