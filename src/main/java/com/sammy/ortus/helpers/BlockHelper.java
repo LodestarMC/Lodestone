@@ -82,38 +82,62 @@ public class BlockHelper {
         return tag.contains(extra + "_X") ? new BlockPos(tag.getInt(extra + "_X"), tag.getInt(extra + "_Y"), tag.getInt(extra + "_Z")) : null;
     }
 
+    /**
+     * Returns a list of block entities within a range, with a predicate for conditional checks.
+     */
     public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int range, Predicate<T> predicate) {
         return getBlockEntities(type, level, pos, range, range, range, predicate);
     }
 
+    /**
+     * Returns a list of block entities within an XZ range, with a predicate for conditional checks.
+     */
     public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int z, Predicate<T> predicate) {
         ArrayList<T> blockEntities = getBlockEntities(type, level, pos, x, z);
         blockEntities.removeIf(b -> !predicate.test(b));
         return blockEntities;
     }
 
+    /**
+     * Returns a list of block entities within an XYZ range, with a predicate for conditional checks.
+     */
     public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int y, int z, Predicate<T> predicate) {
         ArrayList<T> blockEntities = getBlockEntities(type, level, pos, x, y, z);
         blockEntities.removeIf(b -> !predicate.test(b));
         return blockEntities;
     }
 
+    /**
+     * Returns a list of block entities within a radius around a position.
+     */
     public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int range) {
         return getBlockEntities(type, level, pos, range, range, range);
     }
 
+    /**
+     * Returns a list of block entities within an XZ radius around a position.
+     */
     public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int z) {
         return getBlockEntities(type, level, new AABB(pos.getX() - x, pos.getY(), pos.getZ() - z, pos.getX() + x, pos.getY() + 1, pos.getZ() + z));
     }
 
+    /**
+     * Returns a list of block entities within an XYZ radius around a position.
+     */
     public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int y, int z) {
         return getBlockEntities(type, level, pos, -x, -y, -z, x, y, z);
     }
 
+    /**
+     * Returns a list of block entities within set coordinates.
+     */
     public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
         return getBlockEntities(type, level, new AABB(pos.getX() + x1, pos.getY() + y1, pos.getZ() + z1, pos.getX() + x2, pos.getY() + y2, pos.getZ() + z2));
     }
 
+    /**
+     * Returns a list of block entities within an AABB.
+     */
     public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level world, AABB bb) {
         ArrayList<T> tileList = new ArrayList<>();
         for (int i = (int) Math.floor(bb.minX); i < (int) Math.ceil(bb.maxX) + 16; i += 16) {
@@ -132,20 +156,32 @@ public class BlockHelper {
         return tileList;
     }
 
+    /**
+     * Returns a list of block positions within a radius around a position, with a predicate for conditional checks.
+     */
     public static ArrayList<BlockPos> getBlocks(BlockPos pos, int range, Predicate<BlockPos> predicate) {
         return getBlocks(pos, range, range, range, predicate);
     }
 
+    /**
+     * Returns a list of block positions within a XYZ radius around a position, with a predicate for conditional checks.
+     */
     public static ArrayList<BlockPos> getBlocks(BlockPos pos, int x, int y, int z, Predicate<BlockPos> predicate) {
         ArrayList<BlockPos> blocks = getBlocks(pos, x, y, z);
         blocks.removeIf(b -> !predicate.test(b));
         return blocks;
     }
 
+    /**
+     * Returns a list of block positions within a XYZ radius around a position.
+     */
     public static ArrayList<BlockPos> getBlocks(BlockPos pos, int x, int y, int z) {
         return getBlocks(pos, -x, -y, -z, x, y, z);
     }
 
+    /**
+     * Returns a list of block positions within set coordinates.
+     */
     public static ArrayList<BlockPos> getBlocks(BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
         ArrayList<BlockPos> positions = new ArrayList<>();
         for (int x = x1; x <= x2; x++) {
