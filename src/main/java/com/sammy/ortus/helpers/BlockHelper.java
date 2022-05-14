@@ -223,8 +223,8 @@ public class BlockHelper {
         return getBlocks(current, -1, -1, -1, 1, 1, 1);
     }
 
-    /*
-     * A* pathfinding algorithm for finding a path between two BlockPos. Must not be done in an event.
+    /* Javadoc
+    * @param inclusive
     * */
     public static ArrayList<BlockPos> getPath(BlockPos start, BlockPos end, int speed, boolean inclusive, Level level){
         Parrot parrot = new Parrot(EntityType.PARROT, level);
@@ -237,6 +237,10 @@ public class BlockHelper {
         for (int i = 0; i < nodes; i++) {
             Node node = path.getNode(i);
             positions.add(new BlockPos(node.x, node.y, node.z));
+        }
+        if(!inclusive){
+            positions.remove(0);
+            positions.remove(positions.size() - 1);
         }
         return positions;
     }
