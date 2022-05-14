@@ -224,12 +224,12 @@ public class BlockHelper {
     }
 
     /* Javadoc
-    * @param inclusive
+    * @param inclusive Whether to include the start and the end pos itself in the list.
     * */
     public static ArrayList<BlockPos> getPath(BlockPos start, BlockPos end, int speed, boolean inclusive, Level level){
         Parrot parrot = new Parrot(EntityType.PARROT, level);
-        parrot.setPos(start.getX() + 0.5, start.getY() + 0.5, start.getZ() + 0.5);
-        parrot.getNavigation().moveTo(end.getX() + 0.5, end.getY() + 0.5, end.getZ() + 0.5, speed);
+        parrot.setPos(start.getX() + 0.5, start.getY() - 0.5, start.getZ() + 0.5);
+        parrot.getNavigation().moveTo(end.getX() + 0.5, end.getY() - 0.5, end.getZ() + 0.5, speed);
         Path path = parrot.getNavigation().getPath();
         parrot.discard();
         int nodes = path.getNodeCount();
