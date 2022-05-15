@@ -1,11 +1,7 @@
-package com.sammy.ortus.util.transforms;
+package com.sammy.ortus.helpers.util.transforms;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
-
-import net.minecraft.core.Direction;
 
 public interface Transform<Self extends Transform<Self>> extends Translate<Self>, Rotate<Self> {
     Self mulPose(Matrix4f pose);

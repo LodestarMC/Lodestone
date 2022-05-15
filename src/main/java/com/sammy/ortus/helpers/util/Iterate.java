@@ -1,4 +1,4 @@
-package com.sammy.ortus.util;
+package com.sammy.ortus.helpers.util;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;

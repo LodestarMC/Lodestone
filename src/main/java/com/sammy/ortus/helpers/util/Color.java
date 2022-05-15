@@ -1,14 +1,8 @@
-package com.sammy.ortus.util;
-
-import java.util.function.UnaryOperator;
+package com.sammy.ortus.helpers.util;
 
 import javax.annotation.Nonnull;
 
-import com.google.common.hash.Hashing;
-import com.mojang.math.Vector3f;
-
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 
 @SuppressWarnings("PointlessBitwiseExpression")
 public class Color {

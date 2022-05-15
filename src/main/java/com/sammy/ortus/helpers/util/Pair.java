@@ -1,4 +1,4 @@
-package com.sammy.ortus.util;
+package com.sammy.ortus.helpers.util;
 
 import java.util.Objects;
 
