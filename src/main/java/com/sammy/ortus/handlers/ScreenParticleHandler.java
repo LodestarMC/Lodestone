@@ -29,6 +29,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.*;
 
+import static com.sammy.ortus.config.ClientConfig.ENABLE_SCREEN_PARTICLES;
 import static com.sammy.ortus.systems.rendering.particle.screen.base.ScreenParticle.RenderOrder.*;
 
 /**
@@ -55,6 +56,9 @@ public class ScreenParticleHandler {
         );
     }
     public static void clientTick(TickEvent.ClientTickEvent event) {
+        if (!ENABLE_SCREEN_PARTICLES.getConfigValue()) {
+            return;
+        }
         PARTICLES.forEach((pair, particles) -> {
             Iterator<ScreenParticle> iterator = particles.iterator();
             while (iterator.hasNext()) {
@@ -69,6 +73,9 @@ public class ScreenParticleHandler {
     }
 
     public static void renderItem(ItemStack stack) {
+        if (!ENABLE_SCREEN_PARTICLES.getConfigValue()) {
+            return;
+        }
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level != null && minecraft.player != null) {
             if (minecraft.isPaused()) {
@@ -115,6 +122,9 @@ public class ScreenParticleHandler {
     }
 
     public static void renderParticles(RenderOrder... renderOrders) {
+        if (!ENABLE_SCREEN_PARTICLES.getConfigValue()) {
+            return;
+        }
         PARTICLES.forEach((pair, particles) -> {
             ParticleRenderType type = pair.getFirst();
             if (Arrays.stream(renderOrders).anyMatch(o -> o.equals(pair.getSecond()))) {

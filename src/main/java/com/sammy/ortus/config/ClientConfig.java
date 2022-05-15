@@ -17,6 +17,9 @@ public class ClientConfig extends OrtusConfig {
     public static ConfigValueHolder<Double> SCREENSHAKE_INTENSITY  = new ConfigValueHolder<>(ORTUS, "client/screenshake", builder ->
             builder.comment("Intensity of screenshake. Higher numbers increase amplitude.")
                     .defineInRange("screenshake_intensity", 1d, 0d, 1d));
+    public static ConfigValueHolder<Boolean> ENABLE_SCREEN_PARTICLES  = new ConfigValueHolder<>(ORTUS, "client/screen_particles", builder ->
+            builder.comment("Are screen particles enabled?")
+                    .define("enable_screen_particles", true));
 
     public ClientConfig(ForgeConfigSpec.Builder builder) {
         super(ORTUS, "client", builder);
