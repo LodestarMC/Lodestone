@@ -8,7 +8,7 @@ import com.sammy.ortus.handlers.ScreenParticleHandler;
 import com.sammy.ortus.handlers.ScreenshakeHandler;
 import com.sammy.ortus.handlers.WorldEventHandler;
 import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
-import com.sammy.ortus.util.AnimationTickHolder;
+import com.sammy.ortus.helpers.util.AnimationTickHolder;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;

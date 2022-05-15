@@ -2,8 +2,8 @@ package com.sammy.ortus.helpers.placement;
 
 import com.sammy.ortus.OrtusLibClient;
 import com.sammy.ortus.helpers.math.VecHelper;
-import com.sammy.ortus.util.Iterate;
-import com.sammy.ortus.util.Pair;
+import com.sammy.ortus.helpers.util.Iterate;
+import com.sammy.ortus.helpers.util.Pair;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

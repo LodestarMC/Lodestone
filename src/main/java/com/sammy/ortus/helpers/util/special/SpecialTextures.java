@@ -1,4 +1,4 @@
-package com.sammy.ortus.util.special;
+package com.sammy.ortus.helpers.util.special;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.resources.ResourceLocation;

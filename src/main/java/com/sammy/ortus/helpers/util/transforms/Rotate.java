@@ -1,4 +1,4 @@
-package com.sammy.ortus.util.transforms;
+package com.sammy.ortus.helpers.util.transforms;
 
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
