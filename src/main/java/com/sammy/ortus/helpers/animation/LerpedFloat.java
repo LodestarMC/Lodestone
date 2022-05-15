@@ -45,40 +45,40 @@ public class LerpedFloat {
         return this;
     }
 
-    public void updateChaseTarget(float target){
+    public void updateChaseTarget(float target) {
         this.chaseTarget = target;
     }
 
-    public void updateSpeed(float speed){
+    public void updateSpeed(float speed) {
         this.chaseSpeed = speed;
     }
 
-    public boolean updateChaseSpeed(double speed){
+    public boolean updateChaseSpeed(double speed) {
         float previousSpeed = this.chaseSpeed;
         this.chaseSpeed = (float) speed;
         return !Mth.equal(previousSpeed, speed);
     }
 
-    public void tickChaser(){
+    public void tickChaser() {
         previousValue = currentValue;
         if (chaser == null) return;
-        if(Mth.equal((double) currentValue, (double) chaseTarget)){
+        if (Mth.equal((double) currentValue, (double) chaseTarget)) {
             currentValue = chaseTarget;
             return;
         }
         currentValue = chaser.chase(currentValue, chaseSpeed, chaseTarget);
     }
 
-    public void setValue(double value){
+    public void setValue(double value) {
         this.previousValue = this.currentValue;
         this.currentValue = (float) value;
     }
 
-    public float getCurrentValue(){
+    public float getCurrentValue() {
         return getCurrentValue(1);
     }
 
-    public float getCurrentValue(float partialTicks){
+    public float getCurrentValue(float partialTicks) {
         return Mth.lerp(partialTicks, previousValue, currentValue);
     }
 
@@ -90,7 +90,7 @@ public class LerpedFloat {
         return chaseTarget;
     }
 
-    public void forceNextSync(){
+    public void forceNextSync() {
         forcedSync = true;
     }
 
@@ -110,7 +110,7 @@ public class LerpedFloat {
         readChaseNBT(tag);
     }
 
-    protected void readChaseNBT(CompoundTag tag){
+    protected void readChaseNBT(CompoundTag tag) {
         chaseSpeed = tag.getFloat("Speed");
         chaseTarget = tag.getFloat("Target");
     }
@@ -134,5 +134,4 @@ public class LerpedFloat {
 
         float chase(float current, float speed, float target);
     }
-
 }

@@ -83,6 +83,12 @@ public class DataHelper {
         return !Arrays.stream(things).allMatch(thingSet::add);
     }
 
+    @SuppressWarnings("varargs")
+    public static <T> T take(Collection<? extends T> src, T item) {
+        src.remove(item);
+        return item;
+    }
+
     @SafeVarargs
     @SuppressWarnings("varargs")
     public static <T> Collection<T> takeAll(Collection<? extends T> src, T... items) {

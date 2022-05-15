@@ -13,9 +13,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 
 public class OrtusArmorModel extends HumanoidModel<LivingEntity> {
-    //TODO: port to ortus
     public EquipmentSlot slot;
-    ModelPart root, head, body, leftArm, rightArm, leggings, leftLegging, rightLegging, leftFoot, rightFoot;
+    public ModelPart root, head, body, leftArm, rightArm, leggings, leftLegging, rightLegging, leftFoot, rightFoot;
 
 //	public ModelPart copyWithoutBoxes(ModelPart box) {
 //		ModelPart newbox = new ModelPart(this);
