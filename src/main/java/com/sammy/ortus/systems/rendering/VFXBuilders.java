@@ -78,6 +78,11 @@ public class VFXBuilders {
             return this;
         }
 
+        public ScreenVFXBuilder overrideBufferBuilder(BufferBuilder builder) {
+            this.bufferbuilder = builder;
+            return this;
+        }
+
         public ScreenVFXBuilder setLight(int light) {
             this.light = light;
             return this;
