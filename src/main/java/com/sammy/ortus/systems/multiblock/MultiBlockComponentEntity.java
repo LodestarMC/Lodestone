@@ -51,11 +51,11 @@ public class MultiBlockComponentEntity extends OrtusBlockEntity {
     }
 
     @Override
-    public void onBreak() {
+    public void onBreak(@Nullable Player player) {
         if (corePos != null && level.getBlockEntity(corePos) instanceof MultiBlockCoreEntity core) {
-            core.onBreak();
+            core.onBreak(player);
         }
-        super.onBreak();
+        super.onBreak(player);
     }
 
     @NotNull

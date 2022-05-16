@@ -17,7 +17,7 @@ public class MultiBlockItem extends BlockItem {
 
     @Override
     protected boolean canPlace(BlockPlaceContext context, BlockState state) {
-        if (!structure.get().canPlace(context.getClickedPos(), context.getLevel())) {
+        if (!structure.get().canPlace(context)) {
             return false;
         }
         return super.canPlace(context, state);

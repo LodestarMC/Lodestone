@@ -83,20 +83,20 @@ public class OrtusEntityBlock<T extends OrtusBlockEntity> extends Block implemen
 
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        onBlockBroken(state, level, pos);
+        onBlockBroken(state, level, pos, null);
         super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
     public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
-        onBlockBroken(state, level, pos);
+        onBlockBroken(state, level, pos, null);
         super.onBlockExploded(state, level, pos, explosion);
     }
 
-    public void onBlockBroken(BlockState state, BlockGetter level, BlockPos pos) {
+    public void onBlockBroken(BlockState state, BlockGetter level, BlockPos pos, @Nullable Player player) {
         if (hasTileEntity(state)) {
             if (level.getBlockEntity(pos) instanceof OrtusBlockEntity simpleBlockEntity) {
-                simpleBlockEntity.onBreak();
+                simpleBlockEntity.onBreak(player);
             }
         }
     }

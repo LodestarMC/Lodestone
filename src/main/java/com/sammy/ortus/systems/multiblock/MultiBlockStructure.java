@@ -2,9 +2,11 @@ package com.sammy.ortus.systems.multiblock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +18,8 @@ public class MultiBlockStructure {
         this.structurePieces = structurePieces;
     }
 
-    public boolean canPlace(BlockPos core, Level level) {
-        return structurePieces.stream().allMatch(p -> p.canPlace(core, level));
+    public boolean canPlace(BlockPlaceContext context) {
+        return structurePieces.stream().allMatch(p -> p.canPlace(context));
     }
 
     public void place(BlockPlaceContext context) {
@@ -37,10 +39,13 @@ public class MultiBlockStructure {
             this.state = state;
         }
 
-        public boolean canPlace(BlockPos core, Level level) {
-            BlockPos pos = core.offset(offset);
-            BlockState existingState = level.getBlockState(pos);
-            return existingState.getMaterial().isReplaceable();
+        public boolean canPlace(BlockPlaceContext context) {
+            Level level = context.getLevel();
+            Player player = context.getPlayer();
+            BlockPos pos = context.getClickedPos().offset(offset);
+            BlockState existingState = context.getLevel().getBlockState(pos);
+            CollisionContext collisioncontext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
+            return existingState.getMaterial().isReplaceable() && level.isUnobstructed(state, pos, collisioncontext);
         }
 
         public void place(BlockPos core, Level level) {

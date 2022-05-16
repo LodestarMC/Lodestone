@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A simple block entity with various frequently used methods called from {@link OrtusEntityBlock}
@@ -26,7 +27,7 @@ public class OrtusBlockEntity extends BlockEntity {
         super(type, pos, state);
     }
 
-    public void onBreak() {
+    public void onBreak(@Nullable Player player) {
         invalidateCaps();
     }
 
