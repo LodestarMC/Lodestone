@@ -1,6 +1,7 @@
 package com.sammy.ortus.setup;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
 import com.sammy.ortus.handlers.RenderHandler;
@@ -12,12 +13,12 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
+import org.codehaus.plexus.util.dag.Vertex;
 
 import java.util.HashMap;
 import java.util.function.Function;
 
-import static com.mojang.blaze3d.vertex.DefaultVertexFormat.PARTICLE;
-import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP;
+import static com.mojang.blaze3d.vertex.DefaultVertexFormat.*;
 import static com.sammy.ortus.OrtusLib.ORTUS;
 
 public class OrtusRenderTypeRegistry extends RenderStateShard {
@@ -35,7 +36,7 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
     public static final RenderType ADDITIVE_PARTICLE = createGenericRenderType(ORTUS, "additive_particle", PARTICLE, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_PARTICLE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     public static final RenderType ADDITIVE_BLOCK_PARTICLE = createGenericRenderType(ORTUS, "additive_block_particle", PARTICLE, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_PARTICLE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
     public static final RenderType ADDITIVE_BLOCK = createGenericRenderType(ORTUS, "block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
-
+    public static final RenderType OUTLINE_SOLID = createGenericRenderType(ORTUS, "outline_solid", NEW_ENTITY, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
     /**
      * Render Functions. You can create Render Types by statically applying these to your texture. Alternatively, use {@link #GENERIC} if none of the presets suit your needs.
      */
@@ -87,6 +88,22 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
         return COPIES.computeIfAbsent(Pair.of(index, type), (p) -> GENERIC.apply(new RenderTypeData((RenderType.CompositeRenderType) type)));
     }
 
+    /*
+     * This needs to be rewritten, but I don't have the brainpower to do it rn
+     * */
+    public static RenderType getOutlineTranslucent(ResourceLocation texture, boolean cull) {
+        return RenderType.create(ORTUS + ":outline_translucent",
+                DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
+                        .setShaderState(cull ? RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER : RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setCullState(cull ? CULL : NO_CULL)
+                        .setLightmapState(LIGHTMAP)
+                        .setOverlayState(OVERLAY)
+                        .setWriteMaskState(COLOR_WRITE)
+                        .createCompositeState(false));
+    }
+
     /**
      * Stores all relevant data from a RenderType.
      */
@@ -114,5 +131,7 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
         public RenderTypeData(RenderType.CompositeRenderType type) {
             this(type.name, type.format(), type.mode(), type.state.shaderState, type.state.transparencyState, type.state.textureState.cutoutTexture().get());
         }
+
+
     }
 }
