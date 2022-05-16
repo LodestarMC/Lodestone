@@ -14,13 +14,13 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 import static com.sammy.ortus.OrtusLib.ORTUS;
-import static com.sammy.ortus.OrtusLib.prefix;
+import static com.sammy.ortus.OrtusLib.ortusPrefix;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = ORTUS, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class OrtusPacketRegistry {
     public static final String PROTOCOL_VERSION = "1";
-    public static SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(prefix("main"), () -> OrtusPacketRegistry.PROTOCOL_VERSION, OrtusPacketRegistry.PROTOCOL_VERSION::equals, OrtusPacketRegistry.PROTOCOL_VERSION::equals);
+    public static SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(ortusPrefix("main"), () -> OrtusPacketRegistry.PROTOCOL_VERSION, OrtusPacketRegistry.PROTOCOL_VERSION::equals, OrtusPacketRegistry.PROTOCOL_VERSION::equals);
 
     @SuppressWarnings("UnusedAssignment")
     @SubscribeEvent

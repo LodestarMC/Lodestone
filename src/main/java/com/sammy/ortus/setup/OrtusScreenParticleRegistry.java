@@ -21,11 +21,11 @@ public class OrtusScreenParticleRegistry {
     public static final ScreenParticleType<ScreenParticleOptions> STAR = registerType(new OrtusScreenParticleType());
 
     public static void registerParticleFactory(ParticleFactoryRegisterEvent event) {
-        registerProvider(WISP, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.prefix("wisp"))));
-        registerProvider(SMOKE, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.prefix("smoke"))));
-        registerProvider(SPARKLE, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.prefix("sparkle"))));
-        registerProvider(TWINKLE, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.prefix("twinkle"))));
-        registerProvider(STAR, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.prefix("star"))));
+        registerProvider(WISP, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.ortusPrefix("wisp"))));
+        registerProvider(SMOKE, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.ortusPrefix("smoke"))));
+        registerProvider(SPARKLE, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.ortusPrefix("sparkle"))));
+        registerProvider(TWINKLE, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.ortusPrefix("twinkle"))));
+        registerProvider(STAR, new OrtusScreenParticleType.Factory(getSpriteSet(OrtusLib.ortusPrefix("star"))));
     }
 
     public static <T extends ScreenParticleOptions> ScreenParticleType<T> registerType(ScreenParticleType<T> type) {

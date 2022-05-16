@@ -17,15 +17,12 @@ public class TextureSurgeon {
         PoseStack posestack = RenderSystem.getModelViewStack();
         posestack.pushPose();
         posestack.setIdentity();
+        int size = 256;
         for (ShaderInstance shader : shaders) {
-            RenderHelper.blit(posestack, shader, 0, 0, 16, 16, 0, 0, tex.getWidth(), tex.getHeight(), tex.getWidth(), tex.getHeight());
+            RenderHelper.blit(posestack, shader, 0, 0,size,size);
         }
         posestack.popPose();
         RenderSystem.clear(256, Minecraft.ON_OSX);
         mc.getMainRenderTarget().bindWrite(true);
-
-        tex.download();
-        tex.getPixels().setPixelRGBA(1, 2, 0x00ffff);
-        tex.upload();
     }
 }

@@ -50,7 +50,7 @@ public class PlayerDataCapability implements OrtusCapability {
     public static void attachPlayerCapability(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player) {
             final PlayerDataCapability capability = new PlayerDataCapability();
-            event.addCapability(OrtusLib.prefix("player_data"), new OrtusCapabilityProvider<>(PlayerDataCapability.CAPABILITY, () -> capability));
+            event.addCapability(OrtusLib.ortusPrefix("player_data"), new OrtusCapabilityProvider<>(PlayerDataCapability.CAPABILITY, () -> capability));
         }
     }
 

@@ -36,7 +36,7 @@ public class EntityDataCapability implements OrtusCapability {
 
     public static void attachEntityCapability(AttachCapabilitiesEvent<Entity> event) {
         final EntityDataCapability capability = new EntityDataCapability();
-        event.addCapability(OrtusLib.prefix("entity_data"), new OrtusCapabilityProvider<>(EntityDataCapability.CAPABILITY, () -> capability));
+        event.addCapability(OrtusLib.ortusPrefix("entity_data"), new OrtusCapabilityProvider<>(EntityDataCapability.CAPABILITY, () -> capability));
     }
 
     public static void syncEntityCapability(PlayerEvent.StartTracking event) {

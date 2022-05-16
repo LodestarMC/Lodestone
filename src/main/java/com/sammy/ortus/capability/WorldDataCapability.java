@@ -2,7 +2,6 @@ package com.sammy.ortus.capability;
 
 import com.sammy.ortus.OrtusLib;
 import com.sammy.ortus.handlers.WorldEventHandler;
-import com.sammy.ortus.helpers.DataHelper;
 import com.sammy.ortus.systems.capability.OrtusCapability;
 import com.sammy.ortus.systems.capability.OrtusCapabilityProvider;
 import com.sammy.ortus.systems.worldevent.WorldEventInstance;
@@ -35,7 +34,7 @@ public class WorldDataCapability implements OrtusCapability {
 
     public static void attachWorldCapability(AttachCapabilitiesEvent<Level> event) {
         final WorldDataCapability capability = new WorldDataCapability();
-        event.addCapability(OrtusLib.prefix("world_data"), new OrtusCapabilityProvider<>(WorldDataCapability.CAPABILITY, () -> capability));
+        event.addCapability(OrtusLib.ortusPrefix("world_data"), new OrtusCapabilityProvider<>(WorldDataCapability.CAPABILITY, () -> capability));
     }
 
     @Override

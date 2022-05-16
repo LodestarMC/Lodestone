@@ -30,18 +30,18 @@ public class OrtusShaderRegistry {
 
     @SubscribeEvent
     public static void shaderRegistry(RegisterShadersEvent event) throws IOException {
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(ADDITIVE_TEXTURE, event.getResourceManager(), OrtusLib.prefix("additive_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(ADDITIVE_PARTICLE, event.getResourceManager(), OrtusLib.prefix("additive_particle"), DefaultVertexFormat.PARTICLE));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(ADDITIVE_TEXTURE, event.getResourceManager(), OrtusLib.ortusPrefix("additive_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(ADDITIVE_PARTICLE, event.getResourceManager(), OrtusLib.ortusPrefix("additive_particle"), DefaultVertexFormat.PARTICLE));
 
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(DISTORTED_TEXTURE, event.getResourceManager(), OrtusLib.prefix("noise/distorted_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(METALLIC_NOISE, event.getResourceManager(), OrtusLib.prefix("noise/metallic"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(RADIAL_NOISE, event.getResourceManager(), OrtusLib.prefix("noise/radial_noise"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(RADIAL_SCATTER_NOISE, event.getResourceManager(), OrtusLib.prefix("noise/radial_scatter_noise"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(DISTORTED_TEXTURE, event.getResourceManager(), OrtusLib.ortusPrefix("noise/distorted_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(METALLIC_NOISE, event.getResourceManager(), OrtusLib.ortusPrefix("noise/metallic"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(RADIAL_NOISE, event.getResourceManager(), OrtusLib.ortusPrefix("noise/radial_noise"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(RADIAL_SCATTER_NOISE, event.getResourceManager(), OrtusLib.ortusPrefix("noise/radial_scatter_noise"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
 
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(SCROLLING_TEXTURE, event.getResourceManager(), OrtusLib.prefix("vfx/scrolling_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(TRIANGLE_TEXTURE, event.getResourceManager(), OrtusLib.prefix("vfx/triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(COLOR_GRADIENT_TEXTURE, event.getResourceManager(), OrtusLib.prefix("vfx/color_gradient_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(SCROLLING_TRIANGLE_TEXTURE, event.getResourceManager(), OrtusLib.prefix("vfx/scrolling_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(SCROLLING_TEXTURE, event.getResourceManager(), OrtusLib.ortusPrefix("vfx/scrolling_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(TRIANGLE_TEXTURE, event.getResourceManager(), OrtusLib.ortusPrefix("vfx/triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(COLOR_GRADIENT_TEXTURE, event.getResourceManager(), OrtusLib.ortusPrefix("vfx/color_gradient_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(SCROLLING_TRIANGLE_TEXTURE, event.getResourceManager(), OrtusLib.ortusPrefix("vfx/scrolling_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
     }
 
     public static void registerShader(RegisterShadersEvent event, ExtendedShaderInstance extendedShaderInstance) {

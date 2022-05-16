@@ -35,6 +35,13 @@ public class RenderHelper {
         return null;
     }
 
+    public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height) {
+        innerBlit(stack, shader, x, y, width, height, 0,0, 1, 1);
+    }
+    public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float u, float v) {
+        innerBlit(stack, shader, x, y, width, height, (float)(u / width), (float)(v / width), 1, 1);
+    }
+
     public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float u, float v, float xCanvasSize, float yCanvasSize) {
         innerBlit(stack, shader, x, y, width, height, u / xCanvasSize, v / yCanvasSize, (float) width / xCanvasSize, (float) height / yCanvasSize);
     }
@@ -91,6 +98,13 @@ public class RenderHelper {
         bufferbuilder.vertex(last, (float) x, (float) y, 0).uv(u, v).endVertex();
         bufferbuilder.end();
         BufferUploader.end(bufferbuilder);
+    }
+
+    public static void blit(PoseStack stack, int x, int y, double width, double height) {
+        innerBlit(stack, x, y, width, height, 0,0, 1, 1);
+    }
+    public static void blit(PoseStack stack, int x, int y, double width, double height, float u, float v) {
+        innerBlit(stack, x, y, width, height, (float)(u / width), (float)(v / width), 1, 1);
     }
 
     public static void blit(PoseStack stack, int x, int y, double width, double height, float u, float v, float xCanvasSize, float yCanvasSize) {

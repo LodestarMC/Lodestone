@@ -49,7 +49,7 @@ public class OrtusLib {
                 () -> () -> OrtusLibClient.onOrtus(modBus, forgeBus));
     }
 
-    public static ResourceLocation prefix(String path) {
+    public static ResourceLocation ortusPrefix(String path) {
         return new ResourceLocation(ORTUS, path);
     }
 
