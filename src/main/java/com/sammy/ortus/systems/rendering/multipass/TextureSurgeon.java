@@ -8,11 +8,12 @@ import com.mojang.math.Matrix4f;
 import com.sammy.ortus.helpers.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraftforge.client.ForgeHooksClient;
 
 public class TextureSurgeon {
-    public static void operate(FrameBufferBackedDynamicTexture tex, RenderType... batches) {
+    public static void operate(FrameBufferBackedDynamicTexture tex, ShaderInstance... shaders) {
         Minecraft mc = Minecraft.getInstance();
         RenderTarget frameBuffer = tex.getFrameBuffer();
         frameBuffer.clear(Minecraft.ON_OSX);
@@ -33,8 +34,8 @@ public class TextureSurgeon {
         posestack.translate(0.0D, 0.0D, 1000F - ForgeHooksClient.getGuiFarPlane());
         RenderSystem.applyModelViewMatrix();
         Lighting.setupFor3DItems();
-        for (RenderType batch : batches) {
-            RenderHelper.blit(posestack, RenderHelper.getShader(batch), 0, 0, 16, 16, 0, 0, tex.getWidth(), tex.getHeight(), tex.getWidth(), tex.getHeight());
+        for (ShaderInstance shader : shaders) {
+            RenderHelper.blit(posestack, shader, 0, 0, 16, 16, 0, 0, tex.getWidth(), tex.getHeight(), tex.getWidth(), tex.getHeight());
         }
 
         posestack.popPose();
