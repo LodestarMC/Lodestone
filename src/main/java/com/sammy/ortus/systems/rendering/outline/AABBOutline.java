@@ -2,7 +2,7 @@ package com.sammy.ortus.systems.rendering.outline;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.sammy.ortus.systems.rendering.RenderTypes;
+import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
 import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
@@ -81,7 +81,7 @@ public class AABBOutline extends Outline {
         params.alpha =
                 (direction == params.getHighlightedFace() && params.hightlightedFaceTexture.isPresent()) ? 1 : 0.5f;
 
-        RenderType translucentType = RenderTypes.getOutlineTranslucent(faceTexture, !noCull);
+        RenderType translucentType = OrtusRenderTypeRegistry.getOutlineTranslucent(faceTexture, !noCull);
         VertexConsumer builder = buffer.getLateBuffer(translucentType);
 
         Axis axis = direction.getAxis();

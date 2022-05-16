@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.sammy.ortus.helpers.AngleHelper;
 import com.sammy.ortus.helpers.math.VecHelper;
-import com.sammy.ortus.systems.rendering.RenderTypes;
+import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
 import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
 import com.sammy.ortus.helpers.util.Color;
 import com.sammy.ortus.helpers.util.special.SpecialTextures;
@@ -55,7 +55,7 @@ public abstract class Outline {
         if (lineWidth == 0)
             return;
 
-        VertexConsumer builder = buffer.getBuffer(RenderTypes.getOutlineSolid());
+        VertexConsumer builder = buffer.getBuffer(OrtusRenderTypeRegistry.OUTLINE_SOLID);
 
         Vec3 diff = end.subtract(start);
         if (diff.x + diff.y + diff.z < 0) {

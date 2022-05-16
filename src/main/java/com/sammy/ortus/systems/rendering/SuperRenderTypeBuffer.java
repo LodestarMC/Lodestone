@@ -2,6 +2,7 @@ package com.sammy.ortus.systems.rendering;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.ChunkBufferBuilderPack;
@@ -77,7 +78,7 @@ public class SuperRenderTypeBuffer implements MultiBufferSource {
             put(map, RenderType.entityGlint());
             put(map, RenderType.entityGlintDirect());
             put(map, RenderType.waterMask());
-            put(map, RenderTypes.getOutlineSolid());
+            put(map, OrtusRenderTypeRegistry.OUTLINE_SOLID);
             ModelBakery.DESTROY_TYPES.forEach((type) -> {
                 put(map, type);
             });
