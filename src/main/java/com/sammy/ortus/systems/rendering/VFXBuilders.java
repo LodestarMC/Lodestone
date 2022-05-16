@@ -9,6 +9,7 @@ import com.sammy.ortus.helpers.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -20,7 +21,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class VFXBuilders {
-    public static ScreenVFXBuilder createScreenVFXBuilder() {
+    public static ScreenVFXBuilder createScreen() {
         return new ScreenVFXBuilder();
     }
 
@@ -58,8 +59,17 @@ public class VFXBuilders {
             return this;
         }
 
+        public ScreenVFXBuilder setShaderTexture(ResourceLocation location) {
+            RenderSystem.setShaderTexture(0, location);
+            return this;
+        }
         public ScreenVFXBuilder setShader(Supplier<ShaderInstance> shader) {
             this.shader = shader;
+            return this;
+        }
+
+        public ScreenVFXBuilder setShader(ShaderInstance shader) {
+            this.shader = ()->shader;
             return this;
         }
 
@@ -146,8 +156,8 @@ public class VFXBuilders {
             RenderSystem.setShader(shader);
             supplier.placeVertex(bufferbuilder, last, x0, y1, u0, v1);
             supplier.placeVertex(bufferbuilder, last, x1, y1, u1, v1);
-            supplier.placeVertex(bufferbuilder, last, x1, v0, u1, v0);
-            supplier.placeVertex(bufferbuilder, last, x0, v0, u0, v0);
+            supplier.placeVertex(bufferbuilder, last, x1, y0, u1, v0);
+            supplier.placeVertex(bufferbuilder, last, x0, y0, u0, v0);
             return this;
         }
 
@@ -167,7 +177,7 @@ public class VFXBuilders {
         }
     }
 
-    public static WorldVFXBuilder createWorldVFXBuilder() {
+    public static WorldVFXBuilder createWorld() {
         return new WorldVFXBuilder();
     }
 
