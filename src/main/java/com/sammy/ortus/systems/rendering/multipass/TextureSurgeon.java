@@ -3,12 +3,21 @@ package com.sammy.ortus.systems.rendering.multipass;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.sammy.ortus.OrtusLib;
 import com.sammy.ortus.helpers.RenderHelper;
+import com.sammy.ortus.systems.rendering.VFXBuilders;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class TextureSurgeon {
-    public static void operate(FrameBufferBackedDynamicTexture tex, ShaderInstance... shaders) {
+    private static boolean dumpTextures = false;
+
+    public static void operate(FrameBufferBackedDynamicTexture tex, VFXBuilders.ScreenVFXBuilder builder, ShaderInstance... shaders) {
         Minecraft mc = Minecraft.getInstance();
         RenderTarget frameBuffer = tex.getFrameBuffer();
         frameBuffer.clear(Minecraft.ON_OSX);
@@ -17,12 +26,29 @@ public class TextureSurgeon {
         PoseStack posestack = RenderSystem.getModelViewStack();
         posestack.pushPose();
         posestack.setIdentity();
-        int size = 256;
+        int size = 16;
         for (ShaderInstance shader : shaders) {
-            RenderHelper.blit(posestack, shader, 0, 0,size,size);
+            RenderSystem.setShaderTexture(0, tex.getTextureLocation());
+            builder.setShader(() -> shader).setPositionWithWidth(0, 0, size, size).begin().blit(posestack).end();
+        }
+        if (dumpTextures) {
+            try {
+                Path outputFolder = Paths.get("texture_dump");
+                outputFolder = Files.createDirectories(outputFolder);
+                tex.saveTextureToFile(outputFolder);
+            } catch (IOException e) {
+                OrtusLib.LOGGER.error("Failed to dump texture maps with error.", e);
+            }
         }
         posestack.popPose();
-        RenderSystem.clear(256, Minecraft.ON_OSX);
         mc.getMainRenderTarget().bindWrite(true);
+    }
+
+    public static void enableTextureDump() {
+        dumpTextures = true;
+    }
+
+    public static void disableTextureDump() {
+        dumpTextures = false;
     }
 }
