@@ -83,7 +83,7 @@ public class OrtusEntityBlock<T extends OrtusBlockEntity> extends Block implemen
 
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        onBlockBroken(state, level, pos, null);
+        onBlockBroken(state, level, pos, player);
         super.playerWillDestroy(level, pos, state, player);
     }
 
