@@ -2,8 +2,10 @@ package com.sammy.ortus.systems.multiblock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 
 public interface IMultiBlockCore {
@@ -19,14 +21,15 @@ public interface IMultiBlockCore {
         });
     }
 
-    default void destroyMultiblock(Level level, BlockPos pos) {
+    default void destroyMultiblock(@Nullable Player player, Level level, BlockPos pos) {
         getComponentPositions().forEach(p -> {
             if (level.getBlockEntity(p) instanceof MultiBlockComponentEntity) {
                 level.destroyBlock(p, false);
             }
         });
+        boolean dropBlock = player == null || !player.isCreative();
         if (level.getBlockEntity(pos) instanceof MultiBlockCoreEntity) {
-            level.destroyBlock(pos, true);
+            level.destroyBlock(pos, dropBlock);
         }
     }
 }

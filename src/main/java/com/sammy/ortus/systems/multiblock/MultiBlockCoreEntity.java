@@ -34,9 +34,6 @@ public abstract class MultiBlockCoreEntity extends OrtusBlockEntity implements I
 
     @Override
     public void onBreak(@Nullable Player player) {
-        if (player != null && player.isCreative()) {
-            return;
-        }
-        destroyMultiblock(level, worldPosition);
+        destroyMultiblock(player, level, worldPosition);
     }
 }
