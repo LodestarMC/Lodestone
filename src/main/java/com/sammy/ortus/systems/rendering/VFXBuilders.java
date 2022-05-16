@@ -20,8 +20,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class VFXBuilders {
-    public static ScreenVFXBuilder createScreen() {
-        return new ScreenVFXBuilder().setPosTexDefaultFormat();
+    public static ScreenVFXBuilder createScreenVFXBuilder() {
+        return new ScreenVFXBuilder();
     }
 
     public static class ScreenVFXBuilder {
@@ -167,7 +167,7 @@ public class VFXBuilders {
         }
     }
 
-    public static WorldVFXBuilder create() {
+    public static WorldVFXBuilder createWorldVFXBuilder() {
         return new WorldVFXBuilder();
     }
 
