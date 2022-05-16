@@ -35,41 +35,41 @@ public class RenderHelper {
         return null;
     }
 
-    public static void blit(PoseStack stack, ShaderHolder shader, int x, int y, double width, double height, float u, float v, float xCanvasSize, float yCanvasSize) {
+    public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float u, float v, float xCanvasSize, float yCanvasSize) {
         innerBlit(stack, shader, x, y, width, height, u / xCanvasSize, v / yCanvasSize, (float) width / xCanvasSize, (float) height / yCanvasSize);
     }
 
-    public static void blit(PoseStack stack, ShaderHolder shader, int x, int y, double width, double height, float u, float v, float uWidth, float vHeight, float xCanvasSize, float yCanvasSize) {
+    public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float u, float v, float uWidth, float vHeight, float xCanvasSize, float yCanvasSize) {
         innerBlit(stack, shader, x, y, width, height, u / xCanvasSize, v / yCanvasSize, uWidth / xCanvasSize, vHeight / yCanvasSize);
     }
 
-    public static void blit(PoseStack stack, ShaderHolder shader, int x, int y, double width, double height, float u, float v, float canvasSize) {
+    public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float u, float v, float canvasSize) {
         innerBlit(stack, shader, x, y, width, height, u / canvasSize, v / canvasSize, (float) (x + width) / canvasSize, (float) (y + height) / canvasSize);
     }
 
-    public static void blit(PoseStack stack, ShaderHolder shader, int x, int y, double width, double height, float u, float v, float uWidth, float vHeight, float canvasSize) {
+    public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float u, float v, float uWidth, float vHeight, float canvasSize) {
         innerBlit(stack, shader, x, y, width, height, u / canvasSize, v / canvasSize, uWidth / canvasSize, vHeight / canvasSize);
     }
 
-    public static void blit(PoseStack stack, ShaderHolder shader, int x, int y, double width, double height, float r, float g, float b, float a, float u, float v, float xCanvasSize, float yCanvasSize) {
+    public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float r, float g, float b, float a, float u, float v, float xCanvasSize, float yCanvasSize) {
         innerBlit(stack, shader, x, y, width, height, r, g, b, a, u / xCanvasSize, v / yCanvasSize, (float) width / xCanvasSize, (float) height / yCanvasSize);
     }
 
-    public static void blit(PoseStack stack, ShaderHolder shader, int x, int y, double width, double height, float r, float g, float b, float a, float u, float v, float uWidth, float vHeight, float xCanvasSize, float yCanvasSize) {
+    public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float r, float g, float b, float a, float u, float v, float uWidth, float vHeight, float xCanvasSize, float yCanvasSize) {
         innerBlit(stack, shader, x, y, width, height, r, g, b, a, u / xCanvasSize, v / yCanvasSize, uWidth / xCanvasSize, vHeight / yCanvasSize);
     }
 
-    public static void blit(PoseStack stack, ShaderHolder shader, int x, int y, double width, double height, float r, float g, float b, float a, float u, float v, float canvasSize) {
+    public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float r, float g, float b, float a, float u, float v, float canvasSize) {
         innerBlit(stack, shader, x, y, width, height, r, g, b, a, u / canvasSize, v / canvasSize, (float) width / canvasSize, (float) height / canvasSize);
     }
 
-    public static void blit(PoseStack stack, ShaderHolder shader, int x, int y, double width, double height, float r, float g, float b, float a, float u, float v, float uWidth, float vHeight, float canvasSize) {
+    public static void blit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float r, float g, float b, float a, float u, float v, float uWidth, float vHeight, float canvasSize) {
         innerBlit(stack, shader, x, y, width, height, r, g, b, a, u / canvasSize, v / canvasSize, uWidth / canvasSize, vHeight / canvasSize);
     }
 
-    public static void innerBlit(PoseStack stack, ShaderHolder shader, int x, int y, double width, double height, float r, float g, float b, float a, float u, float v, float uWidth, float vHeight) {
+    public static void innerBlit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float r, float g, float b, float a, float u, float v, float uWidth, float vHeight) {
         Matrix4f last = stack.last().pose();
-        RenderSystem.setShader(shader.getInstance());
+        RenderSystem.setShader(()->shader);
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
         bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
         bufferbuilder.vertex(last, (float) x, (float) y + (float) height, 0).color(r, g, b, a).uv(u, v + vHeight).endVertex();
@@ -80,9 +80,9 @@ public class RenderHelper {
         BufferUploader.end(bufferbuilder);
     }
 
-    public static void innerBlit(PoseStack stack, ShaderHolder shader, int x, int y, double width, double height, float u, float v, float uWidth, float vHeight) {
+    public static void innerBlit(PoseStack stack, ShaderInstance shader, int x, int y, double width, double height, float u, float v, float uWidth, float vHeight) {
         Matrix4f last = stack.last().pose();
-        RenderSystem.setShader(shader.getInstance());
+        RenderSystem.setShader(()->shader);
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
         bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         bufferbuilder.vertex(last, (float) x, (float) y + (float) height, 0).uv(u, v + vHeight).endVertex();
