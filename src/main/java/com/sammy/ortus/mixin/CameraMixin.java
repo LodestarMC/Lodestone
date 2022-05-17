@@ -17,7 +17,7 @@ import static com.sammy.ortus.OrtusLib.RANDOM;
 public class CameraMixin {
 
     @Inject(method = "setup", at = @At("RETURN"))
-    private void fundamentalForcesScreenshake(BlockGetter area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
+    private void ortusScreenshake(BlockGetter area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
         if (ClientConfig.SCREENSHAKE_INTENSITY.getConfigValue() > 0) {
             ScreenshakeHandler.cameraTick((Camera) (Object) this, RANDOM);
         }

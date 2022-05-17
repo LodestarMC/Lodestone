@@ -4,9 +4,11 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "ortus.refmap.json",
   "mixins": [
+    "BlockItemMixin",
     "EntityMixin",
     "ItemStackMixin",
-    "LevelRendererMixin"
+    "LevelRendererMixin",
+    "LivingEntityMixin"
   ],
   "client": [
     "AbstractContainerScreenMixin",
@@ -15,6 +17,7 @@
     "GameRendererMixin",
     "GuiMixin",
     "ItemRendererMixin",
+    "MultiPlayerGameModeMixin",
     "ScreenEffectRendererMixin",
     "ScreenMixin"
   ],
