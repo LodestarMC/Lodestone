@@ -76,6 +76,6 @@ public class ExtendedSoundType extends ForgeSoundType {
      * <pre>{@code level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), getFallSound(), category, getVolume() * 0.5F, getPitch() * 0.75f);}</pre>
      *
      */
-    public void onPlayFallSound(Level level, SoundSource category) {
+    public void onPlayFallSound(Level level, BlockPos pos, SoundSource category) {
     }
 }

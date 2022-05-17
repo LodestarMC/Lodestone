@@ -29,7 +29,7 @@ public class LivingEntityMixin {
     private void ortusCallExtendedStepSound(CallbackInfo ci) {
         if (type instanceof ExtendedSoundType extendedSoundType) {
             Entity entity = ((Entity)(Object)this);
-            extendedSoundType.onPlayFallSound(entity.level, entity.getSoundSource());
+            extendedSoundType.onPlayFallSound(entity.level, entity.getOnPos(), entity.getSoundSource());
         }
     }
 }
