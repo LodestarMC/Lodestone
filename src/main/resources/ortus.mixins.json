@@ -5,7 +5,8 @@
   "refmap": "ortus.refmap.json",
   "mixins": [
     "EntityMixin",
-    "ItemStackMixin"
+    "ItemStackMixin",
+    "LevelRendererMixin"
   ],
   "client": [
     "AbstractContainerScreenMixin",
