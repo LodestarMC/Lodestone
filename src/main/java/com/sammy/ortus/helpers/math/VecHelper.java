@@ -12,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
+//TODO: re-implement all NECESSARY functions into the new vecHelper method and remove ones that are not required.
 public class VecHelper {
     public static final Vec3 CENTER_OF_ORIGIN = new Vec3(.5, .5, .5);
 
