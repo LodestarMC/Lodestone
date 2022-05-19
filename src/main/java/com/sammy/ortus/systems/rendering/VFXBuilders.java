@@ -34,6 +34,7 @@ public class VFXBuilders {
 
         VertexFormat format;
         Supplier<ShaderInstance> shader = GameRenderer::getPositionTexShader;
+        ResourceLocation texture;
         VertexPlacementSupplier supplier; //TODO: this is actually a pretty cool way of allowing X vertex format on a per-builder basis. Would be nice to port it to the WorldVFXBuilder too
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
 
@@ -60,8 +61,8 @@ public class VFXBuilders {
             return this;
         }
 
-        public ScreenVFXBuilder setShaderTexture(ResourceLocation location) {
-            RenderSystem.setShaderTexture(0, location);
+        public ScreenVFXBuilder setShaderTexture(ResourceLocation texture) {
+            this.texture = texture;
             return this;
         }
         public ScreenVFXBuilder setShader(Supplier<ShaderInstance> shader) {
@@ -160,6 +161,7 @@ public class VFXBuilders {
         public ScreenVFXBuilder blit(PoseStack stack) {
             Matrix4f last = stack.last().pose();
             RenderSystem.setShader(shader);
+            RenderSystem.setShaderTexture(0, texture);
             supplier.placeVertex(bufferbuilder, last, x0, y1, u0, v1);
             supplier.placeVertex(bufferbuilder, last, x1, y1, u1, v1);
             supplier.placeVertex(bufferbuilder, last, x1, y0, u1, v0);
