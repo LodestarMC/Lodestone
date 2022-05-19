@@ -161,7 +161,9 @@ public class VFXBuilders {
         public ScreenVFXBuilder blit(PoseStack stack) {
             Matrix4f last = stack.last().pose();
             RenderSystem.setShader(shader);
-            RenderSystem.setShaderTexture(0, texture);
+            if (texture != null) {
+                RenderSystem.setShaderTexture(0, texture);
+            }
             supplier.placeVertex(bufferbuilder, last, x0, y1, u0, v1);
             supplier.placeVertex(bufferbuilder, last, x1, y1, u1, v1);
             supplier.placeVertex(bufferbuilder, last, x1, y0, u1, v0);
