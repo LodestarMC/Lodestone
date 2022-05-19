@@ -26,6 +26,7 @@ public class VFXBuilders {
     }
 
     public static class ScreenVFXBuilder {
+        float canvasSize = -1;
         float r = 1, g = 1, b = 1, a = 1;
         int light = -1;
         float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
@@ -164,6 +165,20 @@ public class VFXBuilders {
             supplier.placeVertex(bufferbuilder, last, x1, y0, u1, v0);
             supplier.placeVertex(bufferbuilder, last, x0, y0, u0, v0);
             return this;
+        }
+
+        public ScreenVFXBuilder draw(PoseStack stack) {
+            if (bufferbuilder.building()) {
+                bufferbuilder.end();
+            }
+            begin();
+            blit(stack);
+            end();
+            return this;
+        }
+
+        public ScreenVFXBuilder endAndProceed() {
+            return end().begin();
         }
 
         public ScreenVFXBuilder begin() {
