@@ -1,6 +1,8 @@
 package com.sammy.ortus.handlers;
 
+import com.sammy.ortus.helpers.DataHelper;
 import com.sammy.ortus.systems.placementassistance.IPlacementAssistant;
+import com.sammy.ortus.systems.rendering.particle.screen.emitter.ItemParticleEmitter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -11,6 +13,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +27,14 @@ public class PlacementAssistantHandler {
     public static final ArrayList<IPlacementAssistant> ASSISTANTS = new ArrayList<>();
     private static int animationTick = 0;
     private static BlockPos target;
+
+    public static void registerPlacementAssistants(FMLCommonSetupEvent event) {
+        DataHelper.takeAll(new ArrayList<>(ForgeRegistries.ITEMS.getValues()), i -> i instanceof IPlacementAssistant).forEach(i -> {
+                IPlacementAssistant assistant = (IPlacementAssistant) i;
+                ASSISTANTS.add(assistant);
+            }
+        );
+    }
 
     @OnlyIn(Dist.CLIENT)
     public static void clientTick() {

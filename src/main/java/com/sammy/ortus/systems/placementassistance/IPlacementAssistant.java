@@ -16,5 +16,6 @@ public interface IPlacementAssistant {
     @OnlyIn(Dist.CLIENT)
     public void displayGhost(ClientLevel level, BlockHitResult hit, BlockState blockState);
 
+    @OnlyIn(Dist.CLIENT)
     public Predicate<ItemStack> shouldRenderSimple();
 }

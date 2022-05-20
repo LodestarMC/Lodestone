@@ -1,5 +1,6 @@
 package com.sammy.ortus.events;
 
+import com.sammy.ortus.handlers.PlacementAssistantHandler;
 import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.handlers.ScreenParticleHandler;
 import com.sammy.ortus.setup.OrtusParticleRegistry;
