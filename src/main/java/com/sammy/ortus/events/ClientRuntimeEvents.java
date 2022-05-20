@@ -9,6 +9,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
 import net.minecraft.client.gui.screens.SimpleOptionsSubScreen;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.client.event.ScreenEvent;
@@ -44,12 +45,16 @@ public class ClientRuntimeEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void renderLast(RenderLevelLastEvent event) {
-        PoseStack ps = event.getPoseStack();
+        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         float partial = AnimationTickHolder.getPartialTicks();
-        GhostBlockHandler.renderGhosts(ps);
-        OrtusLibClient.OUTLINER.renderOutlines(ps, partial);
-        RenderHandler.renderLast(event);
+        PoseStack poseStack = event.getPoseStack();
+        poseStack.pushPose();
+        poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
+        GhostBlockHandler.renderGhosts(poseStack);
+        OrtusLibClient.OUTLINER.renderOutlines(poseStack, partial);
         WorldEventHandler.ClientOnly.renderWorldEvents(event);
+        RenderHandler.renderLast(event);
+        poseStack.popPose();
     }
 
     @SubscribeEvent
