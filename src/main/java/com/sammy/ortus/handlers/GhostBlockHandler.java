@@ -11,21 +11,21 @@ public class GhostBlockHandler {
     public static final Map<Object, GhostEntry> GHOSTS = new HashMap<>();
 
     public static GhostBlockOptions addGhost(Object slot, BlockState state) {
-        return addGhost(slot, state, 1);
+        return addGhost(slot, state, 0);
     }
 
     public static GhostBlockOptions addGhost(Object slot, BlockState state, int timeLeft) {
         GhostEntry ghostEntry = addGhost(slot, GhostBlockRenderer.TRANSPARENT, GhostBlockOptions.create(state), timeLeft);
-        return ghostEntry.params;
+        return ghostEntry.options;
     }
 
-    public static GhostEntry addGhost(Object slot, GhostBlockRenderer ghost, GhostBlockOptions params, int timeLeft) {
+    public static GhostEntry addGhost(Object slot, GhostBlockRenderer ghost, GhostBlockOptions options, int timeLeft) {
         if (!GHOSTS.containsKey(slot)) {
-            GHOSTS.put(slot, new GhostEntry(ghost, params, timeLeft));
+            GHOSTS.put(slot, new GhostEntry(ghost, options, timeLeft));
         }
         GhostEntry ghostEntry = GHOSTS.get(slot);
         ghostEntry.timeLeft = timeLeft;
-        ghostEntry.params = params;
+        ghostEntry.options = options;
         ghostEntry.ghost = ghost;
         return ghostEntry;
     }
@@ -33,7 +33,7 @@ public class GhostBlockHandler {
     public static void renderGhosts(PoseStack ps) {
         GHOSTS.forEach((slot, ghostEntry) -> {
             GhostBlockRenderer ghost = ghostEntry.ghost;
-            ghost.render(ps, ghostEntry.params);
+            ghost.render(ps, ghostEntry.options);
         });
     }
 
@@ -52,12 +52,12 @@ public class GhostBlockHandler {
 
     static class GhostEntry {
         private GhostBlockRenderer ghost;
-        private GhostBlockOptions params;
+        private GhostBlockOptions options;
         private int timeLeft;
 
-        public GhostEntry(GhostBlockRenderer ghost, GhostBlockOptions params, int timeLeft) {
+        public GhostEntry(GhostBlockRenderer ghost, GhostBlockOptions options, int timeLeft) {
             this.ghost = ghost;
-            this.params = params;
+            this.options = options;
             this.timeLeft = timeLeft;
         }
     }

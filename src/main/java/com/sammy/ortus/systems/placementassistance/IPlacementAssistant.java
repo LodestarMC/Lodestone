@@ -13,9 +13,10 @@ import java.util.function.Predicate;
 
 public interface IPlacementAssistant {
 
-    @OnlyIn(Dist.CLIENT)
-    public void displayGhost(ClientLevel level, BlockHitResult hit, BlockState blockState);
+    public void assist(Level level, BlockHitResult hit, BlockState blockState);
 
     @OnlyIn(Dist.CLIENT)
-    public Predicate<ItemStack> shouldRenderSimple();
+    public void showAssistance(ClientLevel level, BlockHitResult hit, BlockState blockState);
+
+    public Predicate<ItemStack> canAssist();
 }

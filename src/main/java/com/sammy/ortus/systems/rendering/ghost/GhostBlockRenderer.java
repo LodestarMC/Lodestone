@@ -36,16 +36,16 @@ public abstract class GhostBlockRenderer {
 
     private static class DefaultGhostBlockRenderer extends GhostBlockRenderer {
         @Override
-        public void render(PoseStack ps, GhostBlockOptions params) {
+        public void render(PoseStack ps, GhostBlockOptions options) {
             ps.pushPose();
             BlockRenderDispatcher dispatch = Minecraft.getInstance().getBlockRenderer();
-            BakedModel bakedModel = dispatch.getBlockModel(params.blockState);
-            RenderType renderType = ItemBlockRenderTypes.getRenderType(params.blockState, false);
+            BakedModel bakedModel = dispatch.getBlockModel(options.blockState);
+            RenderType renderType = ItemBlockRenderTypes.getRenderType(options.blockState, false);
             VertexConsumer consumer = RenderHandler.EARLY_DELAYED_RENDER.getBuffer(renderType);
-            BlockPos pos = params.blockPos;
+            BlockPos pos = options.blockPos;
 
             ps.translate(pos.getX(), pos.getY(), pos.getZ());
-            dispatch.getModelRenderer().renderModel(ps.last(), consumer, params.blockState, bakedModel, 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT,
+            dispatch.getModelRenderer().renderModel(ps.last(), consumer, options.blockState, bakedModel, 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT,
                     OverlayTexture.NO_OVERLAY, VirtualEmptyModelData.INSTANCE);
             ps.popPose();
         }
@@ -53,14 +53,14 @@ public abstract class GhostBlockRenderer {
 
     private static class TransparentGhostBlockRenderer extends GhostBlockRenderer {
         @Override
-        public void render(PoseStack ps, GhostBlockOptions params) {
+        public void render(PoseStack ps, GhostBlockOptions options) {
             ps.pushPose();
             Minecraft minecraft = Minecraft.getInstance();
             BlockRenderDispatcher dispatch = minecraft.getBlockRenderer();
-            BakedModel bakedModel = dispatch.getBlockModel(params.blockState);
+            BakedModel bakedModel = dispatch.getBlockModel(options.blockState);
             RenderType renderType = RenderType.translucent();
             VertexConsumer consumer = RenderHandler.EARLY_DELAYED_RENDER.getBuffer(renderType);
-            BlockPos pos = params.blockPos;
+            BlockPos pos = options.blockPos;
 
             ps.translate(pos.getX(), pos.getY(), pos.getZ());
 
@@ -68,8 +68,8 @@ public abstract class GhostBlockRenderer {
             ps.scale(0.85F, 0.85F, 0.85F);
             ps.translate(-0.5D, -0.5D, -0.5D);
 
-            float alpha = params.alphaSupplier.get() * 0.75F * PlacementAssistantHandler.getCurrentAlpha();
-            renderModel(ps.last(), consumer, params.blockState, bakedModel, 1.0F, 1.0F, 1.0F, alpha, LevelRenderer.getLightColor(minecraft.level, pos),
+            float alpha = options.alphaSupplier.get() * 0.75F * PlacementAssistantHandler.getCurrentAlpha();
+            renderModel(ps.last(), consumer, options.blockState, bakedModel, 1.0F, 1.0F, 1.0F, alpha, LevelRenderer.getLightColor(minecraft.level, pos),
                     OverlayTexture.NO_OVERLAY, VirtualEmptyModelData.INSTANCE);
 
             ps.popPose();
