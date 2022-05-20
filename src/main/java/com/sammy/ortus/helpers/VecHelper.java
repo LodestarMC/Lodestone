@@ -45,6 +45,14 @@ public class VecHelper {
         }
         return outVector;
     }
+
+    /**
+     * A method that returns a position on the perimeter of a circle around a given Vec3 position
+     * @param pos - Defines the center of the circle
+     * @param distance - Defines the radius of your circle
+     * @param current - Defines the current point we are calculating the position for on the circle
+     * @param total - Defines the total amount of points in the circle
+     */
     public static Vec3 radialOffset(Vec3 pos, float distance, float current, float total) {
         double angle = current / total * (Math.PI * 2);
         double dx2 = (distance * Math.cos(angle));
@@ -56,22 +64,43 @@ public class VecHelper {
         return pos.add(new Vec3(x, 0, z));
     }
 
+    /**
+     * A method that returns an array list of positions on the perimeter of a circle around a given Vec3 position.
+     * These positions constantly rotate around the center of the circle based on gameTime
+     * @param pos - Defines the center of the circle
+     * @param distance - Defines the radius of your circle
+     * @param total - Defines the total amount of points in the circle
+     * @param gameTime - Defines the current game time value
+     * @param time - Defines the total time for one position to complete a full rotation cycle
+     */
     public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distance, float total, long gameTime, float time) {
         return rotatingRadialOffsets(pos, distance, distance, total, gameTime, time);
     }
 
+    /**
+     * A method that returns an array list of positions on the perimeter of a sphere around a given Vec3 position.
+     * These positions constantly rotate around the center of the circle based on gameTime.
+     */
     public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distanceX, float distanceZ, float total, long gameTime, float time) {
         ArrayList<Vec3> positions = new ArrayList<>();
-        for (int i = 0; i <= total; i++) {
+        for (int i = 0; i < total; i++) {
             positions.add(rotatingRadialOffset(pos, distanceX, distanceZ, i, total, gameTime, time));
         }
         return positions;
     }
 
+    /**
+     * A method that returns a single position on the perimeter of a circle around a given Vec3 position.
+     * These positions constantly rotate around the center of the circle based on gameTime
+     */
     public static Vec3 rotatingRadialOffset(Vec3 pos, float distance, float current, float total, long gameTime, float time) {
         return rotatingRadialOffset(pos, distance, distance, current, total, gameTime, time);
     }
 
+    /**
+     * A method that returns a single position on the perimeter of a circle around a given Vec3 position.
+     * These positions constantly rotate around the center of the circle based on gameTime
+     */
     public static Vec3 rotatingRadialOffset(Vec3 pos, float distanceX, float distanceZ, float current, float total, long gameTime, float time) {
         double angle = current / total * (Math.PI * 2);
         angle += ((gameTime % time) / time) * (Math.PI * 2);
