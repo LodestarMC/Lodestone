@@ -15,7 +15,7 @@ public class PaintingRegistry {
     public static void register(IEventBus bus){
         PAINTING_MOTIVES.register(bus);
         PAINTING_MOTIVES.register("lefunny",()-> new Motive(64,64));
-        OrtusTextureLoader.registerTextureLoader(OrtusLib.ortusPrefix("lefunny.png"),OrtusLib.ortusPrefix("microfunny.png"),OrtusLib.ortusPrefix("textures/painting/microfunny.png"),(image) -> image);
+        OrtusTextureLoader.copyTextureWithChanges(OrtusLib.ortusPrefix("lefunny"),OrtusLib.ortusPrefix("painting/microfunny"),OrtusLib.ortusPrefix("textures/painting/microfunny.png"),(image) -> image);
         PAINTING_MOTIVES.register("microfunny",()-> new Motive(16,16));
     }
 }
