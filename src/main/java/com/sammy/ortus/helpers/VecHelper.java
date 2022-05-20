@@ -16,9 +16,35 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+/**
+ * A collection of methods designed to simplify and unify the use of vectors
+ */
 public class VecHelper {
+    //TODO: re-implement all NECESSARY functions into the new vecHelper method and remove ones that are not required.
     public static final Vec3 CENTER_OF_ORIGIN = new Vec3(.5, .5, .5);
+    /**
+     * A directional enum for each of the cardinal directions.
+     */
+    enum Dir {
+        UP, DOWN, NORTH, EAST, SOUTH, WEST
+    }
+
+    /**
+     * A method that takes in a direction enum (E.G. "UP") and returns a Vec3i object facing that direction
+     */
+    public static Vec3i offsetDir(Dir dir) {
+        Vec3i outVector = new Vec3i(0, 0, 0);
+        switch (dir) {
+
+            case UP -> {outVector.offset(0, 1, 0);}
+            case DOWN -> {outVector.offset(0, -1, 0);}
+            case NORTH -> {outVector.offset(0, 0, -1);}
+            case EAST -> {outVector.offset(1, 0, 0);}
+            case SOUTH -> {outVector.offset(0, 0, 1);}
+            case WEST -> {outVector.offset(-1, 0,0 );}
+        }
+        return outVector;
+    }
 
     public static Vec3 radialOffset(Vec3 pos, float distance, float current, float total) {
         double angle = current / total * (Math.PI * 2);
