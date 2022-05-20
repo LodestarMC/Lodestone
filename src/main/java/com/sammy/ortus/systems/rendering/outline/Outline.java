@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.sammy.ortus.helpers.AngleHelper;
-import com.sammy.ortus.helpers.math.VecHelper;
+import com.sammy.ortus.helpers.VecHelper;
 import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
 import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
 import com.sammy.ortus.helpers.util.Color;

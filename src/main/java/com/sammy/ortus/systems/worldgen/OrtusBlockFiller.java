@@ -3,6 +3,7 @@ package com.sammy.ortus.systems.worldgen;
 import com.sammy.ortus.helpers.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -17,7 +18,7 @@ public class OrtusBlockFiller {
         this.careful = careful;
     }
 
-    public void fill(WorldGenLevel level) {
+    public void fill(LevelAccessor level) {
         for (BlockStateEntry entry : entries) {
             if (careful && !entry.canPlace(level)) {
                 continue;
@@ -44,11 +45,11 @@ public class OrtusBlockFiller {
             return this;
         }
 
-        public boolean canPlace(WorldGenLevel level) {
+        public boolean canPlace(LevelAccessor level) {
             return canPlace(level, pos);
         }
 
-        public boolean canPlace(WorldGenLevel level, BlockPos pos) {
+        public boolean canPlace(LevelAccessor level, BlockPos pos) {
             if (level.isOutsideBuildHeight(pos)) {
                 return false;
             }
@@ -56,7 +57,7 @@ public class OrtusBlockFiller {
             return level.isEmptyBlock(pos) || state.getMaterial().isReplaceable();
         }
 
-        public void place(WorldGenLevel level) {
+        public void place(LevelAccessor level) {
             level.setBlock(pos, state, 19);
             if (level instanceof Level) {
                 BlockHelper.updateState((Level) level, pos);

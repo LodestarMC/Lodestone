@@ -1,7 +1,7 @@
 package com.sammy.ortus.helpers.placement;
 
 import com.sammy.ortus.OrtusLibClient;
-import com.sammy.ortus.helpers.math.VecHelper;
+import com.sammy.ortus.helpers.VecHelper;
 import com.sammy.ortus.helpers.util.Iterate;
 import com.sammy.ortus.helpers.util.Pair;
 import net.minecraft.MethodsReturnNonnullByDefault;

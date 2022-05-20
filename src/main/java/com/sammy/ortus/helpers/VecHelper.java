@@ -1,19 +1,80 @@
-package com.sammy.ortus.helpers.math;
+package com.sammy.ortus.helpers;
 
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import com.sammy.ortus.mixin.GameRendererMixin;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class VecHelper {
     public static final Vec3 CENTER_OF_ORIGIN = new Vec3(.5, .5, .5);
+
+    public static Vec3 radialOffset(Vec3 pos, float distance, float current, float total) {
+        double angle = current / total * (Math.PI * 2);
+        double dx2 = (distance * Math.cos(angle));
+        double dz2 = (distance * Math.sin(angle));
+
+        Vec3 vector = new Vec3(dx2, 0, dz2);
+        double x = vector.x * distance;
+        double z = vector.z * distance;
+        return pos.add(new Vec3(x, 0, z));
+    }
+
+    public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distance, float total, long gameTime, float time) {
+        return rotatingRadialOffsets(pos, distance, distance, total, gameTime, time);
+    }
+
+    public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distanceX, float distanceZ, float total, long gameTime, float time) {
+        ArrayList<Vec3> positions = new ArrayList<>();
+        for (int i = 0; i <= total; i++) {
+            positions.add(rotatingRadialOffset(pos, distanceX, distanceZ, i, total, gameTime, time));
+        }
+        return positions;
+    }
+
+    public static Vec3 rotatingRadialOffset(Vec3 pos, float distance, float current, float total, long gameTime, float time) {
+        return rotatingRadialOffset(pos, distance, distance, current, total, gameTime, time);
+    }
+
+    public static Vec3 rotatingRadialOffset(Vec3 pos, float distanceX, float distanceZ, float current, float total, long gameTime, float time) {
+        double angle = current / total * (Math.PI * 2);
+        angle += ((gameTime % time) / time) * (Math.PI * 2);
+        double dx2 = (distanceX * Math.cos(angle));
+        double dz2 = (distanceZ * Math.sin(angle));
+
+        Vec3 vector2f = new Vec3(dx2, 0, dz2);
+        double x = vector2f.x * distanceX;
+        double z = vector2f.z * distanceZ;
+        return pos.add(x, 0, z);
+    }
+
+    public static ArrayList<Vec3> blockOutlinePositions(Level level, BlockPos pos) {
+        ArrayList<Vec3> arrayList = new ArrayList<>();
+        double d0 = 0.5625D;
+        Random random = level.random;
+        for (Direction direction : Direction.values()) {
+            BlockPos blockpos = pos.relative(direction);
+            if (!level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
+                Direction.Axis direction$axis = direction.getAxis();
+                double d1 = direction$axis == Direction.Axis.X ? 0.5D + d0 * (double) direction.getStepX() : (double) random.nextFloat();
+                double d2 = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : (double) random.nextFloat();
+                double d3 = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : (double) random.nextFloat();
+                arrayList.add(new Vec3((double) pos.getX() + d1, (double) pos.getY() + d2, (double) pos.getZ() + d3));
+            }
+        }
+        return arrayList;
+    }
 
     public static Vec3 getCenterOf(Vec3i pos) {
         if (pos.equals(Vec3i.ZERO))

@@ -15,11 +15,12 @@ public class OrtusBlockTagDatagen extends BlockTagsProvider {
 
     @Override
     public String getName() {
-        return "Space Mod Block Tags";
+        return "Ortus Block Tags";
     }
 
     @Override
     protected void addTags() {
         tag(OrtusBlockTags.TERRACOTTA).add(Registry.BLOCK.stream().filter(b -> b.getRegistryName().getPath().endsWith("terracotta")).toArray(Block[]::new));
+
     }
 }
