@@ -13,6 +13,8 @@ import java.util.function.Predicate;
 
 public interface IPlacementAssistant {
 
+    public void onPlace(Level level, BlockHitResult hit, BlockState blockState);
+
     public void assist(Level level, BlockHitResult hit, BlockState blockState);
 
     @OnlyIn(Dist.CLIENT)

@@ -5,6 +5,7 @@ import com.sammy.ortus.capability.PlayerDataCapability;
 import com.sammy.ortus.capability.WorldDataCapability;
 import com.sammy.ortus.handlers.OrtusAttributeEventHandler;
 import com.sammy.ortus.handlers.ItemEventHandler;
+import com.sammy.ortus.handlers.PlacementAssistantHandler;
 import com.sammy.ortus.handlers.WorldEventHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -14,6 +15,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -40,6 +42,11 @@ public class RuntimeEvents {
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
         PlayerDataCapability.playerTick(event);
+    }
+
+    @SubscribeEvent
+    public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
+        PlacementAssistantHandler.placeBlock(event);
     }
 
     @SubscribeEvent

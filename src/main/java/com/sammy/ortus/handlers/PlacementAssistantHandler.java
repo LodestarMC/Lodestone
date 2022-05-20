@@ -14,6 +14,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -39,6 +41,15 @@ public class PlacementAssistantHandler {
         );
     }
 
+    public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
+        Player player = event.getPlayer();
+        Level level = player.level;
+        List<IPlacementAssistant> assistants = findAssistants(level, player, event.getHitVec());
+        for (IPlacementAssistant assistant : assistants) {
+            BlockState state = level.getBlockState(event.getPos());
+            assistant.onPlace(level, event.getHitVec(), state);
+        }
+    }
     @OnlyIn(Dist.CLIENT)
     public static void clientTick() {
         Minecraft minecraft = Minecraft.getInstance();
