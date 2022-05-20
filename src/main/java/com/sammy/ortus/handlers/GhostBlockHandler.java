@@ -46,7 +46,6 @@ public class GhostBlockHandler {
                 iterator.remove();
             } else {
                 entry.timeLeft--;
-                iterator.next();
             }
         }
     }

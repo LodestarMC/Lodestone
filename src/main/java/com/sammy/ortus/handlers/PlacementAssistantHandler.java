@@ -54,7 +54,7 @@ public class PlacementAssistantHandler {
     private static void findTarget() {
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel level = minecraft.level;
-        if (level == null || !(minecraft.hitResult instanceof BlockHitResult hit) || minecraft.player == null || !minecraft.player.isShiftKeyDown()) {
+        if (level == null || !(minecraft.hitResult instanceof BlockHitResult hit) || minecraft.player == null || minecraft.player.isShiftKeyDown()) {
             return;
         }
         BlockPos blockPos = target = hit.getBlockPos();
