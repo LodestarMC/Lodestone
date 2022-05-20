@@ -4,6 +4,7 @@ import com.sammy.ortus.handlers.GhostBlockHandler;
 import com.sammy.ortus.helpers.VecHelper;
 import com.sammy.ortus.helpers.util.Iterate;
 import com.sammy.ortus.helpers.util.Pair;
+import com.sammy.ortus.setup.OrtusPaintings;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

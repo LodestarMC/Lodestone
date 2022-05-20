@@ -5,7 +5,7 @@ import com.sammy.ortus.compability.JeiCompat;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.data.OrtusBlockTagDatagen;
 import com.sammy.ortus.data.OrtusLangDatagen;
-import com.sammy.ortus.misc.PaintingRegistry;
+import com.sammy.ortus.setup.OrtusPaintings;
 import com.sammy.ortus.setup.OrtusCommandRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -41,7 +41,7 @@ public class OrtusLib {
         BLOCK_ENTITY_TYPES.register(modBus);
         PARTICLES.register(modBus);
         ATTRIBUTES.register(modBus);
-        PaintingRegistry.register(modBus);
+        OrtusPaintings.register(modBus);
 
         JeiCompat.init();
         CuriosCompat.init();
