@@ -14,13 +14,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-<<<<<<<< HEAD:src/main/java/com/sammy/ortus/helpers/VecHelper.java
 import java.util.ArrayList;
 import java.util.Random;
 
-========
-//TODO: re-implement all NECESSARY functions into the new vecHelper method and remove ones that are not required.
->>>>>>>> 7c94f077d68a2703a35503e5e6b917d2681f34fc:src/main/java/com/sammy/ortus/helpers/math/VecHelper.java
 public class VecHelper {
     public static final Vec3 CENTER_OF_ORIGIN = new Vec3(.5, .5, .5);
 
