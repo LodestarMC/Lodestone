@@ -1,4 +1,4 @@
-package com.sammy.ortus.helpers.placement;
+package com.sammy.ortus.systems.placementassistance;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;

@@ -6,35 +6,36 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.Supplier;
 
-public class GhostBlockParams {
+public class GhostBlockOptions {
 
     protected final BlockState blockState;
     protected BlockPos blockPos;
     protected Supplier<Float> alphaSupplier;
 
-    private GhostBlockParams(BlockState state) {
+    private GhostBlockOptions(BlockState state) {
         this.blockState = state;
         this.blockPos = BlockPos.ZERO;
         this.alphaSupplier = () -> 1.0F;
     }
 
-    public static GhostBlockParams create(BlockState state) {
-        return new GhostBlockParams(state);
+    public static GhostBlockOptions create(BlockState state) {
+        return new GhostBlockOptions(state);
     }
 
-    public static GhostBlockParams create(Block block) {
+    public static GhostBlockOptions create(Block block) {
         return create(block.defaultBlockState());
     }
 
-    public GhostBlockParams at(BlockPos pos) {
+    public GhostBlockOptions at(BlockPos pos) {
         this.blockPos = pos;
         return this;
     }
 
-    public GhostBlockParams at(int x, int y, int z) {
+    public GhostBlockOptions at(int x, int y, int z) {
         return at(new BlockPos(x, y, z));
     }
-    public GhostBlockParams withAlpha(Supplier<Float> alphaSupplier) {
+
+    public GhostBlockOptions withAlpha(Supplier<Float> alphaSupplier) {
         this.alphaSupplier = alphaSupplier;
         return this;
     }

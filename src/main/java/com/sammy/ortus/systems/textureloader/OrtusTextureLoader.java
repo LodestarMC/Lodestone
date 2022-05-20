@@ -24,13 +24,41 @@ public class OrtusTextureLoader {
     protected static final ColorLerp LUMINOUS_GRADIENT = (image, x, y, luminosity, s) -> (((y % 16) / 16f) + luminosity / s) / 2f;
     protected static final ColorLerp LUMINOUS = (image, x, y, luminosity, s) -> luminosity / s;
 
-    public static void copyTextureWithChanges(ResourceLocation loaderName, ResourceLocation targetPath, ResourceLocation sourcePath, TextureModifier modifier) {
+    public static void registerTextureLoader(ResourceLocation loaderName, ResourceLocation targetPath, ResourceLocation inputImage) {
         IEventBus busMod = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForgeClient.registerTextureAtlasSpriteLoader(loaderName, (atlas, resourceManager, textureInfo, resource, atlasWidth, atlasHeight, spriteX, spriteY, mipmapLevel, image) -> {
             Resource r = null;
             try {
-                r = resourceManager.getResource(sourcePath);
-                image = modifier.modifyTexture(NativeImage.read(r.getInputStream()));
+                r = resourceManager.getResource(inputImage);
+            } catch (Throwable throwable1) {
+                throwable1.printStackTrace();
+            }
+            TextureAtlasSprite.Info info = null;
+            if (r != null) {
+                try {
+                    AnimationMetadataSection section = r.getMetadata(AnimationMetadataSection.SERIALIZER);
+                    if (section == null) {
+                        section = AnimationMetadataSection.EMPTY;
+                    }
+                    Pair<Integer, Integer> pair = section.getFrameSize(image.getWidth(), image.getHeight());
+                    info = new TextureAtlasSprite.Info(textureInfo.name(), pair.getFirst(), pair.getSecond(), section);
+                    r.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return new TextureAtlasSprite(atlas, info == null ? textureInfo : info, mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
+            };
+        });
+        busMod.addListener((Consumer<TextureStitchEvent.Pre>) event -> event.addSprite(targetPath));
+    }
+    public static void registerTextureLoader(ResourceLocation loaderName, ResourceLocation targetPath, ResourceLocation inputImage, TextureModifier textureModifier) {
+        IEventBus busMod = FMLJavaModLoadingContext.get().getModEventBus();
+        MinecraftForgeClient.registerTextureAtlasSpriteLoader(loaderName, (atlas, resourceManager, textureInfo, resource, atlasWidth, atlasHeight, spriteX, spriteY, mipmapLevel, image) -> {
+            Resource r = null;
+            try {
+                r = resourceManager.getResource(inputImage);
+                image = textureModifier.modifyTexture(NativeImage.read(r.getInputStream()));
             } catch (Throwable throwable1) {
                 if (r != null) {
                     try {
@@ -62,7 +90,7 @@ public class OrtusTextureLoader {
         busMod.addListener((Consumer<TextureStitchEvent.Pre>) event -> event.addSprite(targetPath));
     }
 
-    public static NativeImage grayscale(NativeImage nativeimage) {
+    public static NativeImage applyGrayscale(NativeImage nativeimage) {
         for (int x = 0; x < nativeimage.getWidth(); x++) {
             for (int y = 0; y < nativeimage.getHeight(); y++) {
                 int pixel = nativeimage.getPixelRGBA(x, y);
@@ -72,7 +100,7 @@ public class OrtusTextureLoader {
         }
         return nativeimage;
     }
-    public static NativeImage multiColorGradient(Easing easing, NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
+    public static NativeImage applyMultiColorGradient(Easing easing, NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
         int colorCount = colors.length - 1;
         int lowestLuminosity = 255;
         int highestLuminosity = 0;

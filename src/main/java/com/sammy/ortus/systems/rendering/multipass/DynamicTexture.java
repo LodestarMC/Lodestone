@@ -23,7 +23,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FrameBufferBackedDynamicTexture extends AbstractTexture {
+public class DynamicTexture extends AbstractTexture {
 
     //thing where it renders stuff on
     private RenderTarget frameBuffer;
@@ -36,7 +36,7 @@ public class FrameBufferBackedDynamicTexture extends AbstractTexture {
     @Nullable
     private NativeImage cpuImage;
 
-    public FrameBufferBackedDynamicTexture(ResourceLocation resourceLocation, int width, int height) {
+    public DynamicTexture(ResourceLocation resourceLocation, int width, int height) {
         // super(width, height, false);
         this.width = width;
         this.height = height;
@@ -45,7 +45,7 @@ public class FrameBufferBackedDynamicTexture extends AbstractTexture {
         Minecraft.getInstance().getTextureManager().register(resourceLocation, this);
     }
 
-    public FrameBufferBackedDynamicTexture(ResourceLocation resourceLocation, int size) {
+    public DynamicTexture(ResourceLocation resourceLocation, int size) {
         this(resourceLocation, size, size);
     }
 

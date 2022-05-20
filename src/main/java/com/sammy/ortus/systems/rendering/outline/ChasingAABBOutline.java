@@ -1,7 +1,6 @@
 package com.sammy.ortus.systems.rendering.outline;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 
@@ -27,8 +26,8 @@ public class ChasingAABBOutline extends AABBOutline {
     }
 
     @Override
-    public void render(PoseStack ps, SuperRenderTypeBuffer buffer, float pt) {
-        renderBB(ps, buffer, interpolateBBs(prevBB, bb, pt));
+    public void render(PoseStack ps, float pt) {
+        renderBB(ps, interpolateBBs(prevBB, bb, pt));
     }
 
     private static AABB interpolateBBs(AABB current, AABB target, float pt) {
@@ -37,5 +36,4 @@ public class ChasingAABBOutline extends AABBOutline {
                 Mth.lerp(pt, current.maxX, target.maxX), Mth.lerp(pt, current.maxY, target.maxY),
                 Mth.lerp(pt, current.maxZ, target.maxZ));
     }
-
 }

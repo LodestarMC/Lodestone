@@ -1,7 +1,7 @@
 package com.sammy.ortus.helpers.placement.util;
 
-import com.sammy.ortus.helpers.placement.IPlacementHelper;
-import com.sammy.ortus.helpers.placement.PlacementOffset;
+import com.sammy.ortus.systems.placementassistance.IPlacementHelper;
+import com.sammy.ortus.systems.placementassistance.PlacementOffset;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

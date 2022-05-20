@@ -2,8 +2,8 @@ package com.sammy.ortus.systems.rendering.outline;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
-import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
@@ -21,11 +21,11 @@ public class AABBOutline extends Outline {
     }
 
     @Override
-    public void render(PoseStack ms, SuperRenderTypeBuffer buffer, float pt) {
-        renderBB(ms, buffer, bb);
+    public void render(PoseStack ms, float pt) {
+        renderBB(ms, bb);
     }
 
-    public void renderBB(PoseStack ms, SuperRenderTypeBuffer buffer, AABB bb) {
+    public void renderBB(PoseStack ms, AABB bb) {
         Vec3 projectedView = Minecraft.getInstance().gameRenderer.getMainCamera()
                 .getPosition();
         boolean noCull = bb.contains(projectedView);
@@ -42,35 +42,35 @@ public class AABBOutline extends Outline {
         Vec3 XYZ = new Vec3(bb.maxX, bb.maxY, bb.maxZ);
 
         Vec3 start = xyz;
-        renderAACuboidLine(ms, buffer, start, Xyz);
-        renderAACuboidLine(ms, buffer, start, xYz);
-        renderAACuboidLine(ms, buffer, start, xyZ);
+        renderAACuboidLine(ms, start, Xyz);
+        renderAACuboidLine(ms, start, xYz);
+        renderAACuboidLine(ms, start, xyZ);
 
         start = XyZ;
-        renderAACuboidLine(ms, buffer, start, xyZ);
-        renderAACuboidLine(ms, buffer, start, XYZ);
-        renderAACuboidLine(ms, buffer, start, Xyz);
+        renderAACuboidLine(ms, start, xyZ);
+        renderAACuboidLine(ms, start, XYZ);
+        renderAACuboidLine(ms, start, Xyz);
 
         start = XYz;
-        renderAACuboidLine(ms, buffer, start, xYz);
-        renderAACuboidLine(ms, buffer, start, Xyz);
-        renderAACuboidLine(ms, buffer, start, XYZ);
+        renderAACuboidLine(ms, start, xYz);
+        renderAACuboidLine(ms, start, Xyz);
+        renderAACuboidLine(ms, start, XYZ);
 
         start = xYZ;
-        renderAACuboidLine(ms, buffer, start, XYZ);
-        renderAACuboidLine(ms, buffer, start, xyZ);
-        renderAACuboidLine(ms, buffer, start, xYz);
+        renderAACuboidLine(ms, start, XYZ);
+        renderAACuboidLine(ms, start, xyZ);
+        renderAACuboidLine(ms, start, xYz);
 
-        renderFace(ms, buffer, Direction.NORTH, xYz, XYz, Xyz, xyz, noCull);
-        renderFace(ms, buffer, Direction.SOUTH, XYZ, xYZ, xyZ, XyZ, noCull);
-        renderFace(ms, buffer, Direction.EAST, XYz, XYZ, XyZ, Xyz, noCull);
-        renderFace(ms, buffer, Direction.WEST, xYZ, xYz, xyz, xyZ, noCull);
-        renderFace(ms, buffer, Direction.UP, xYZ, XYZ, XYz, xYz, noCull);
-        renderFace(ms, buffer, Direction.DOWN, xyz, Xyz, XyZ, xyZ, noCull);
+        renderFace(ms, Direction.NORTH, xYz, XYz, Xyz, xyz, noCull);
+        renderFace(ms, Direction.SOUTH, XYZ, xYZ, xyZ, XyZ, noCull);
+        renderFace(ms, Direction.EAST, XYz, XYZ, XyZ, Xyz, noCull);
+        renderFace(ms, Direction.WEST, xYZ, xYz, xyz, xyZ, noCull);
+        renderFace(ms, Direction.UP, xYZ, XYZ, XYz, xYz, noCull);
+        renderFace(ms, Direction.DOWN, xyz, Xyz, XyZ, xyZ, noCull);
 
     }
 
-    protected void renderFace(PoseStack ms, SuperRenderTypeBuffer buffer, Direction direction, Vec3 p1, Vec3 p2,
+    protected void renderFace(PoseStack ms, Direction direction, Vec3 p1, Vec3 p2,
                               Vec3 p3, Vec3 p4, boolean noCull) {
         if (!params.faceTexture.isPresent())
             return;
@@ -82,7 +82,7 @@ public class AABBOutline extends Outline {
                 (direction == params.getHighlightedFace() && params.hightlightedFaceTexture.isPresent()) ? 1 : 0.5f;
 
         RenderType translucentType = OrtusRenderTypeRegistry.getOutlineTranslucent(faceTexture, !noCull);
-        VertexConsumer builder = buffer.getLateBuffer(translucentType);
+        VertexConsumer builder = RenderHandler.LATE_DELAYED_RENDER.getBuffer(translucentType);
 
         Axis axis = direction.getAxis();
         Vec3 uDiff = p2.subtract(p1);

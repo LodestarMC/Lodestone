@@ -1,12 +1,13 @@
 package com.sammy.ortus.systems.rendering.outline;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
+import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.helpers.AngleHelper;
 import com.sammy.ortus.helpers.VecHelper;
 import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
-import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
 import com.sammy.ortus.helpers.util.Color;
 import com.sammy.ortus.helpers.util.special.SpecialTextures;
 import com.sammy.ortus.helpers.util.transforms.TransformStack;
@@ -27,7 +28,7 @@ public abstract class Outline {
         params = new OutlineParams();
     }
 
-    public abstract void render(PoseStack ms, SuperRenderTypeBuffer buffer, float pt);
+    public abstract void render(PoseStack ms, float pt);
 
     public void tick() {
     }
@@ -36,7 +37,7 @@ public abstract class Outline {
         return params;
     }
 
-    public void renderCuboidLine(PoseStack ms, SuperRenderTypeBuffer buffer, Vec3 start, Vec3 end) {
+    public void renderCuboidLine(PoseStack ms, Vec3 start, Vec3 end) {
         Vec3 diff = end.subtract(start);
         float hAngle = AngleHelper.deg(Mth.atan2(diff.x, diff.z));
         float hDistance = (float) diff.multiply(1, 0, 1)
@@ -46,16 +47,16 @@ public abstract class Outline {
         TransformStack.cast(ms)
                 .translate(start)
                 .rotateY(hAngle).rotateX(vAngle);
-        renderAACuboidLine(ms, buffer, Vec3.ZERO, new Vec3(0, 0, diff.length()));
+        renderAACuboidLine(ms, Vec3.ZERO, new Vec3(0, 0, diff.length()));
         ms.popPose();
     }
 
-    public void renderAACuboidLine(PoseStack ms, SuperRenderTypeBuffer buffer, Vec3 start, Vec3 end) {
+    public void renderAACuboidLine(PoseStack ms, Vec3 start, Vec3 end) {
         float lineWidth = params.getLineWidth();
         if (lineWidth == 0)
             return;
 
-        VertexConsumer builder = buffer.getBuffer(OrtusRenderTypeRegistry.OUTLINE_SOLID);
+        VertexConsumer builder = RenderHandler.DELAYED_RENDER.getBuffer(OrtusRenderTypeRegistry.OUTLINE_SOLID);
 
         Vec3 diff = end.subtract(start);
         if (diff.x + diff.y + diff.z < 0) {

@@ -28,12 +28,16 @@ import java.util.HashMap;
 public class RenderHandler {
     public static HashMap<RenderType, BufferBuilder> BUFFERS = new HashMap<>();
     public static HashMap<RenderType, ShaderUniformHandler> HANDLERS = new HashMap<>();
+    public static MultiBufferSource.BufferSource EARLY_DELAYED_RENDER;
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
+    public static MultiBufferSource.BufferSource LATE_DELAYED_RENDER;
     public static Matrix4f PARTICLE_MATRIX = null;
     public static Frustum FRUSTUM;
 
     public static void onClientSetup(FMLClientSetupEvent event) {
+        EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
+        LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
     }
 
     public static void renderLast(RenderLevelLastEvent event) {

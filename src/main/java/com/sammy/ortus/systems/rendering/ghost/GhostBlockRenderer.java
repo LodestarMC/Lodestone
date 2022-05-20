@@ -2,13 +2,10 @@ package com.sammy.ortus.systems.rendering.ghost;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.sammy.ortus.helpers.placement.PlacementHelpers;
-import com.sammy.ortus.systems.rendering.SuperRenderTypeBuffer;
+import com.sammy.ortus.handlers.RenderHandler;
+import com.sammy.ortus.handlers.PlacementAssistantHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -24,8 +21,8 @@ import java.util.Random;
 
 public abstract class GhostBlockRenderer {
 
-    private static final GhostBlockRenderer STANDARD = new DefaultGhostBlockRenderer();
-    private static final GhostBlockRenderer TRANSPARENT = new TransparentGhostBlockRenderer();
+    public static final GhostBlockRenderer STANDARD = new DefaultGhostBlockRenderer();
+    public static final GhostBlockRenderer TRANSPARENT = new TransparentGhostBlockRenderer();
 
     public static GhostBlockRenderer standard() {
         return STANDARD;
@@ -35,16 +32,16 @@ public abstract class GhostBlockRenderer {
         return TRANSPARENT;
     }
 
-    public abstract void render(PoseStack ps, SuperRenderTypeBuffer buffer, GhostBlockParams params);
+    public abstract void render(PoseStack ps, GhostBlockOptions params);
 
     private static class DefaultGhostBlockRenderer extends GhostBlockRenderer {
         @Override
-        public void render(PoseStack ps, SuperRenderTypeBuffer buffer, GhostBlockParams params) {
+        public void render(PoseStack ps, GhostBlockOptions params) {
             ps.pushPose();
             BlockRenderDispatcher dispatch = Minecraft.getInstance().getBlockRenderer();
             BakedModel bakedModel = dispatch.getBlockModel(params.blockState);
             RenderType renderType = ItemBlockRenderTypes.getRenderType(params.blockState, false);
-            VertexConsumer consumer = buffer.getEarlyBuffer(renderType);
+            VertexConsumer consumer = RenderHandler.EARLY_DELAYED_RENDER.getBuffer(renderType);
             BlockPos pos = params.blockPos;
 
             ps.translate(pos.getX(), pos.getY(), pos.getZ());
@@ -56,13 +53,13 @@ public abstract class GhostBlockRenderer {
 
     private static class TransparentGhostBlockRenderer extends GhostBlockRenderer {
         @Override
-        public void render(PoseStack ps, SuperRenderTypeBuffer buffer, GhostBlockParams params) {
+        public void render(PoseStack ps, GhostBlockOptions params) {
             ps.pushPose();
             Minecraft minecraft = Minecraft.getInstance();
             BlockRenderDispatcher dispatch = minecraft.getBlockRenderer();
             BakedModel bakedModel = dispatch.getBlockModel(params.blockState);
             RenderType renderType = RenderType.translucent();
-            VertexConsumer consumer = buffer.getEarlyBuffer(renderType);
+            VertexConsumer consumer = RenderHandler.EARLY_DELAYED_RENDER.getBuffer(renderType);
             BlockPos pos = params.blockPos;
 
             ps.translate(pos.getX(), pos.getY(), pos.getZ());
@@ -71,7 +68,7 @@ public abstract class GhostBlockRenderer {
             ps.scale(0.85F, 0.85F, 0.85F);
             ps.translate(-0.5D, -0.5D, -0.5D);
 
-            float alpha = params.alphaSupplier.get() * 0.75F * PlacementHelpers.getCurrentAlpha();
+            float alpha = params.alphaSupplier.get() * 0.75F * PlacementAssistantHandler.getCurrentAlpha();
             renderModel(ps.last(), consumer, params.blockState, bakedModel, 1.0F, 1.0F, 1.0F, alpha, LevelRenderer.getLightColor(minecraft.level, pos),
                     OverlayTexture.NO_OVERLAY, VirtualEmptyModelData.INSTANCE);
 

@@ -1,6 +1,6 @@
-package com.sammy.ortus.helpers.placement;
+package com.sammy.ortus.systems.placementassistance;
 
-import com.sammy.ortus.OrtusLibClient;
+import com.sammy.ortus.handlers.GhostBlockHandler;
 import com.sammy.ortus.helpers.VecHelper;
 import com.sammy.ortus.helpers.util.Iterate;
 import com.sammy.ortus.helpers.util.Pair;
@@ -57,8 +57,7 @@ public interface IPlacementHelper {
     //sets the offset's ghost state with the default state of the held block item, this is used in PlacementHelpers and can be ignored in most cases
     default PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos, BlockHitResult ray, ItemStack heldItem) {
         PlacementOffset offset = getOffset(player, world, state, pos, ray);
-        if (heldItem.getItem() instanceof BlockItem) {
-            BlockItem blockItem = (BlockItem) heldItem.getItem();
+        if (heldItem.getItem() instanceof BlockItem blockItem) {
             offset = offset.withGhostState(blockItem.getBlock().defaultBlockState());
         }
         return offset;
@@ -80,7 +79,7 @@ public interface IPlacementHelper {
         if (!offset.hasGhostState())
             return;
 
-        OrtusLibClient.GHOST_BLOCKS.showGhostState(this, offset.getTransform().apply(offset.getGhostState()))
+        GhostBlockHandler.addGhost(this, offset.getTransform().apply(offset.getGhostState()))
                 .at(offset.getBlockPos());
     }
     static List<Direction> orderedByDistance(BlockPos pos, Vec3 hit, Predicate<Direction> includeDirection) {

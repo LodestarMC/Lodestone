@@ -4,7 +4,6 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.sammy.ortus.OrtusLib;
-import com.sammy.ortus.helpers.RenderHelper;
 import com.sammy.ortus.systems.rendering.VFXBuilders;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -17,7 +16,7 @@ import java.nio.file.Paths;
 public class TextureSurgeon {
     private static boolean dumpTextures = false;
 
-    public static void operate(FrameBufferBackedDynamicTexture tex, VFXBuilders.ScreenVFXBuilder builder, ShaderInstance... shaders) {
+    public static void operate(DynamicTexture tex, VFXBuilders.ScreenVFXBuilder builder, ShaderInstance... shaders) {
         Minecraft mc = Minecraft.getInstance();
         RenderTarget frameBuffer = tex.getFrameBuffer();
         frameBuffer.clear(Minecraft.ON_OSX);
