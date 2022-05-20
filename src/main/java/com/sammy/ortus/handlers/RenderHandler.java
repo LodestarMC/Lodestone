@@ -55,21 +55,26 @@ public class RenderHandler {
             RenderSystem.getModelViewStack().popPose();
             RenderSystem.applyModelViewMatrix();
         }
+        endBatches(EARLY_DELAYED_RENDER);
+        endBatches(DELAYED_RENDER);
+        endBatches(LATE_DELAYED_RENDER);
+        event.getPoseStack().popPose();
+    }
+
+    public static void endBatches(MultiBufferSource.BufferSource source) {
         for (RenderType type : BUFFERS.keySet()) {
             ShaderInstance instance = RenderHelper.getShader(type);
             if (HANDLERS.containsKey(type)) {
                 ShaderUniformHandler handler = HANDLERS.get(type);
                 handler.updateShaderData(instance);
             }
-            DELAYED_RENDER.endBatch(type);
+            source.endBatch(type);
             if (instance instanceof ExtendedShaderInstance extendedShaderInstance) {
                 extendedShaderInstance.setUniformDefaults();
             }
         }
-        DELAYED_RENDER.endBatch();
-        event.getPoseStack().popPose();
+        source.endBatch();
     }
-
     public static void prepareFrustum(PoseStack poseStack, Vec3 position, Matrix4f stack) {
         Matrix4f matrix4f = poseStack.last().pose();
         double d0 = position.x();
