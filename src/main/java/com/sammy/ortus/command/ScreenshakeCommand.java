@@ -4,7 +4,7 @@ import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.sammy.ortus.data.OrtusLangDatagen;
-import com.sammy.ortus.helpers.DataHelper;
+import com.sammy.ortus.helpers.BlockHelper;
 import com.sammy.ortus.network.screenshake.PositionedScreenshakePacket;
 import com.sammy.ortus.network.screenshake.ScreenshakePacket;
 import com.sammy.ortus.setup.OrtusPacketRegistry;
@@ -52,7 +52,7 @@ public class ScreenshakeCommand {
                                                                                     CommandSourceStack source = context.getSource();
                                                                                     if (source.getEntity() instanceof ServerPlayer player) {
                                                                                         OrtusPacketRegistry.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PositionedScreenshakePacket(
-                                                                                                DataHelper.fromBlockPos(BlockPosArgument.getLoadedBlockPos(context, "position")),
+                                                                                                BlockHelper.fromBlockPos(BlockPosArgument.getLoadedBlockPos(context, "position")),
                                                                                                 FloatArgumentType.getFloat(context, "falloffDistance"),
                                                                                                 FloatArgumentType.getFloat(context, "maxDistance"),
                                                                                                 FloatArgumentType.getFloat(context, "intensity"),

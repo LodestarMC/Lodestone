@@ -2,6 +2,7 @@ package com.sammy.ortus.helpers;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.level.Level;
@@ -12,8 +13,10 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -298,5 +301,30 @@ public class BlockHelper {
         updateState(state, level, pos);
         state.updateNeighbourShapes(level, pos, 2);
         level.updateNeighbourForOutputSignal(pos, state.getBlock());
+    }
+
+
+    /**
+     * Converts a block position into a Vec3 entry.
+     * @param pos the block position
+     * @return the vec3 representation.
+     */
+    public static Vec3 fromBlockPos(BlockPos pos) {
+        return new Vec3(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    /**
+     * Generates a random block position
+     * @param pos the position the block is centered around
+     * @param min the minimum distance from the center
+     * @param max the maximum distance from the distance
+     * @return The new block position
+     */
+    public static Vec3 randPos(BlockPos pos, double min, double max) {
+        Random rand = new Random();
+        double x = Mth.nextDouble(rand, min, max) + pos.getX();
+        double y = Mth.nextDouble(rand, min, max) + pos.getY();
+        double z = Mth.nextDouble(rand, min, max) + pos.getZ();
+        return new Vec3(x, y, z);
     }
 }

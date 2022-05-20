@@ -16,37 +16,12 @@ import java.util.stream.Collectors;
 import static net.minecraft.util.Mth.sqrt;
 
 /**
- * A collection of various helper methods related to collections, vectors, etc
+ * A collection of helper methods for data manipulation
  */
 public class DataHelper {
-
-    public static void trackPastPositions(ArrayList<Vec3> pastPositions, Vec3 currentPosition, float distanceThreshold) {
-        if (!pastPositions.isEmpty()) {
-            Vec3 latest = pastPositions.get(pastPositions.size() - 1);
-            float distance = (float) latest.distanceTo(currentPosition);
-            if (distance > distanceThreshold) {
-                pastPositions.add(currentPosition);
-            }
-        } else {
-            pastPositions.add(currentPosition);
-        }
-    }
-
-    public static Vec3 fromBlockPos(BlockPos pos) {
-        return new Vec3(pos.getX(), pos.getY(), pos.getZ());
-    }
-
-    public static Vector3f fromBlockPosVec3f(BlockPos pos) {
-        return new Vector3f(pos.getX(), pos.getY(), pos.getZ());
-    }
-
-    public static Vec3 randPos(BlockPos pos, Random rand, double min, double max) {
-        double x = Mth.nextDouble(rand, min, max) + pos.getX();
-        double y = Mth.nextDouble(rand, min, max) + pos.getY();
-        double z = Mth.nextDouble(rand, min, max) + pos.getZ();
-        return new Vec3(x, y, z);
-    }
-
+    /**
+     * Reverses the order of any K collection of T entries
+     */
     public static <T, K extends Collection<T>> K reverseOrder(K reversed, Collection<T> items) {
         ArrayList<T> original = new ArrayList<>(items);
         for (int i = items.size() - 1; i >= 0; i--) {
@@ -55,6 +30,9 @@ public class DataHelper {
         return reversed;
     }
 
+    /**
+     * Capitalizes the first character in each word and replaces [regex] with space
+     */
     public static String toTitleCase(String givenString, String regex) {
         String[] stringArray = givenString.split(regex);
         StringBuilder stringBuilder = new StringBuilder();
@@ -64,7 +42,13 @@ public class DataHelper {
         return stringBuilder.toString().trim().replaceAll(regex, " ").substring(0, stringBuilder.length() - 1);
     }
 
-    public static int[] nextInts(Random rand, int count, int range) {
+    /**
+     * returns an integer array of random ints
+     * @param count the amount of integers
+     * @param range the range the random function uses
+     */
+    public static int[] nextInts(int count, int range) {
+        Random rand = new Random();
         int[] ints = new int[count];
         for (int i = 0; i < count; i++) {
             while (true) {
@@ -78,17 +62,26 @@ public class DataHelper {
         return ints;
     }
 
+    /**
+     * returns whether an array of items has any duplicates
+     */
     public static <T> boolean hasDuplicate(T[] things) {
         Set<T> thingSet = new HashSet<>();
         return !Arrays.stream(things).allMatch(thingSet::add);
     }
 
+    /**
+     * removes an entry from a collection and returns it if removed
+     */
     @SuppressWarnings("varargs")
     public static <T> T take(Collection<? extends T> src, T item) {
         src.remove(item);
         return item;
     }
 
+    /**
+     * removes all entry from a collection and returns all items removed in a new collection
+     */
     @SafeVarargs
     @SuppressWarnings("varargs")
     public static <T> Collection<T> takeAll(Collection<? extends T> src, T... items) {
@@ -104,6 +97,9 @@ public class DataHelper {
         return ret;
     }
 
+    /**
+     * removes all entry from a collection based off of a predicate and returns all items removed in a new collection
+     */
     public static <T> Collection<T> takeAll(Collection<T> src, Predicate<T> pred) {
         List<T> ret = new ArrayList<>();
 
@@ -121,12 +117,17 @@ public class DataHelper {
         }
         return ret;
     }
-
+    /**
+     * create a copy of all items in a list that match from another list of items
+     * */
     @SafeVarargs
     public static <T> Collection<T> getAll(Collection<? extends T> src, T... items) {
         return List.copyOf(getAll(src, t -> Arrays.stream(items).anyMatch(tAgain -> tAgain.getClass().isInstance(t))));
     }
 
+    /**
+     * create a copy of all items in a list that match from a predicate
+     * */
     public static <T> Collection<T> getAll(Collection<T> src, Predicate<T> pred) {
         return src.stream().filter(pred).collect(Collectors.toList());
     }
