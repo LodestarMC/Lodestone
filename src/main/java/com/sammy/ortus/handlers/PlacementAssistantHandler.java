@@ -29,7 +29,7 @@ public class PlacementAssistantHandler {
     private static BlockPos target;
 
     public static void registerPlacementAssistants(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> DataHelper.getAll(new ArrayList<>(ForgeRegistries.ITEMS.getValues()), i -> i instanceof IPlacementAssistant).forEach(i -> {
+        event.enqueueWork(() -> DataHelper.getAll(new ArrayList<>(ForgeRegistries.BLOCKS.getValues()), b -> b instanceof IPlacementAssistant).forEach(i -> {
                             IPlacementAssistant assistant = (IPlacementAssistant) i;
                             ASSISTANTS.add(assistant);
                         }
