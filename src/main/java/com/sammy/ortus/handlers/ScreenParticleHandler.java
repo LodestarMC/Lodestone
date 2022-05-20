@@ -56,7 +56,7 @@ public class ScreenParticleHandler {
         );
     }
 
-    public static void clientTick(TickEvent.ClientTickEvent event) {
+    public static void clientTick() {
         if (!ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }

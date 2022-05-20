@@ -32,12 +32,12 @@ public class ClientRuntimeEvents {
                     return;
                 }
                 Camera camera = minecraft.gameRenderer.getMainCamera();
-                ScreenParticleHandler.clientTick(event);
                 GhostBlockHandler.tickGhosts();
                 WorldEventHandler.tick(minecraft.level);
+                PlacementAssistantHandler.clientTick();
                 ScreenshakeHandler.clientTick(camera, RANDOM);
                 PlayerDataCapability.ClientOnly.clientTick(event);
-                ScreenParticleHandler.clientTick(event);
+                ScreenParticleHandler.clientTick();
             }
         }
     }

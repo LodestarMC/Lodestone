@@ -2,8 +2,8 @@ package com.sammy.ortus.systems.rendering.ghost;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.handlers.PlacementAssistantHandler;
+import com.sammy.ortus.handlers.RenderHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;

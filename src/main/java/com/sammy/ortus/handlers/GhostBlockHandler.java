@@ -5,9 +5,7 @@ import com.sammy.ortus.systems.rendering.ghost.GhostBlockOptions;
 import com.sammy.ortus.systems.rendering.ghost.GhostBlockRenderer;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class GhostBlockHandler {
     public static final Map<Object, GhostEntry> GHOSTS = new HashMap<>();
