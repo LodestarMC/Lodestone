@@ -6,9 +6,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
@@ -16,6 +19,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber
@@ -36,8 +41,16 @@ public class PlacementAssistantHandler {
 
     @OnlyIn(Dist.CLIENT)
     public static void clientTick() {
-        findTarget();
-
+        Minecraft minecraft = Minecraft.getInstance();
+        ClientLevel level = minecraft.level;
+        List<IPlacementAssistant> assistants = findAssistants(level, minecraft.player, minecraft.hitResult);
+        if ((minecraft.hitResult instanceof BlockHitResult blockHitResult)) {
+            for (IPlacementAssistant assistant : assistants) {
+                BlockState state = minecraft.level.getBlockState(blockHitResult.getBlockPos());
+                assistant.assist(level, blockHitResult, state);
+                assistant.showAssistance(level, blockHitResult, state);
+            }
+        }
         if (target == null) {
             if (animationTick > 0)
                 animationTick = Math.max(animationTick - 2, 0);
@@ -47,40 +60,16 @@ public class PlacementAssistantHandler {
             animationTick++;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    private static void findTarget() {
-        Minecraft minecraft = Minecraft.getInstance();
-        ClientLevel level = minecraft.level;
-        if (level == null || !(minecraft.hitResult instanceof BlockHitResult hit) || minecraft.player == null || minecraft.player.isShiftKeyDown()) {
-            return;
+    private static List<IPlacementAssistant> findAssistants(Level level, Player player, HitResult hitResult) {
+        if (level == null || !(hitResult instanceof BlockHitResult) || player == null || player.isShiftKeyDown()) {
+            return Collections.emptyList();
         }
-
-        BlockPos blockPos = target = hit.getBlockPos();
-        BlockState blockState = level.getBlockState(blockPos);
+        ArrayList<IPlacementAssistant> matchingAssistants = new ArrayList<>();
         for (InteractionHand hand : InteractionHand.values()) {
-            ItemStack held = minecraft.player.getItemInHand(hand);
-
-            ArrayList<IPlacementAssistant> matchingAssistants = ASSISTANTS.stream().filter(s -> s.canAssist().test(held)).collect(Collectors.toCollection(ArrayList::new));
-
-            for (IPlacementAssistant matchingAssistant : matchingAssistants) {
-                matchingAssistant.showAssistance(level, hit, blockState);
-            }
-//            List<IPlacementHelper> filteredForState = filterForHeldItem.stream().filter(s -> s.matchesState(blockState)).collect(Collectors.toList());
-//            if (filteredForState.isEmpty()) continue;
-//
-//            boolean oneMatch = false;
-//
-//            for (IPlacementHelper helper : filteredForState) {
-//                PlacementOffset offset = helper.getOffset(minecraft.player, level, blockState, blockPos, hit, held);
-//                if (offset.isSuccessful()) {
-//                    helper.renderAt(blockPos, blockState, hit, offset);
-//                    setTarget(offset.getBlockPos());
-//                    oneMatch = true;
-//                    break;
-//                }
-//            }
-//            if (oneMatch) return;
+            ItemStack held = player.getItemInHand(hand);
+            matchingAssistants.addAll(ASSISTANTS.stream().filter(s -> s.canAssist().test(held)).collect(Collectors.toCollection(ArrayList::new)));
         }
+        return matchingAssistants;
     }
 
     public static float getCurrentAlpha() {
