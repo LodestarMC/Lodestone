@@ -19,7 +19,7 @@ public class GhostBlockHandler {
         return ghostEntry.params;
     }
 
-    private static GhostEntry addGhost(Object slot, GhostBlockRenderer ghost, GhostBlockOptions params, int timeLeft) {
+    public static GhostEntry addGhost(Object slot, GhostBlockRenderer ghost, GhostBlockOptions params, int timeLeft) {
         if (!GHOSTS.containsKey(slot)) {
             GHOSTS.put(slot, new GhostEntry(ghost, params, timeLeft));
         }
