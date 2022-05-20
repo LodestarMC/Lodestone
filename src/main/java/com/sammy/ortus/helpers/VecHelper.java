@@ -45,7 +45,6 @@ public class VecHelper {
         }
         return outVector;
     }
-
     public static Vec3 radialOffset(Vec3 pos, float distance, float current, float total) {
         double angle = current / total * (Math.PI * 2);
         double dx2 = (distance * Math.cos(angle));

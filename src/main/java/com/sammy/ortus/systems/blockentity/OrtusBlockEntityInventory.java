@@ -1,6 +1,6 @@
 package com.sammy.ortus.systems.blockentity;
 
-import com.sammy.ortus.helpers.DataHelper;
+import com.sammy.ortus.helpers.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -166,7 +166,7 @@ public class OrtusBlockEntityInventory extends ItemStackHandler {
     }
 
     public void dumpItems(Level level, BlockPos pos) {
-        dumpItems(level, DataHelper.fromBlockPos(pos).add(0.5, 0.5, 0.5));
+        dumpItems(level, BlockHelper.fromBlockPos(pos).add(0.5, 0.5, 0.5));
     }
 
     public void dumpItems(Level level, Vec3 pos) {
