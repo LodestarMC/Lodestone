@@ -65,22 +65,20 @@ public class RenderHelper {
     public static Vec2 corners(Vector4f start, Vector4f end, float width) {
         float x = -start.x();
         float y = -start.y();
-        float z = Math.abs(start.z());
-        if (z <= 0) {
-            x += end.x();
-            y += end.y();
-        } else if (z > 0) {
+        if (Math.abs(start.z()) > 0) {
             float ratio = end.z() / start.z();
             x = end.x() + x * ratio;
             y = end.y() + y * ratio;
+        } else if (Math.abs(end.z()) <= 0) {
+            x += end.x();
+            y += end.y();
         }
         if (start.z() > 0) {
             x = -x;
             y = -y;
         }
-        float distance = DataHelper.distance(x, y);
-        if (distance > 0F) {
-            float normalize = width * 0.5F / (float) Math.sqrt(distance);
+        if (x * x + y * y > 0F) {
+            float normalize = width * 0.5F / DataHelper.distance(x, y);
             x *= normalize;
             y *= normalize;
         }

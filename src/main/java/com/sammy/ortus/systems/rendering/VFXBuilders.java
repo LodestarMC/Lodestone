@@ -26,7 +26,6 @@ public class VFXBuilders {
     }
 
     public static class ScreenVFXBuilder {
-        float canvasSize = -1;
         float r = 1, g = 1, b = 1, a = 1;
         int light = -1;
         float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
@@ -35,7 +34,7 @@ public class VFXBuilders {
         VertexFormat format;
         Supplier<ShaderInstance> shader = GameRenderer::getPositionTexShader;
         ResourceLocation texture;
-        VertexPlacementSupplier supplier; //TODO: this is actually a pretty cool way of allowing X vertex format on a per-builder basis. Would be nice to port it to the WorldVFXBuilder too
+        ScreenVertexPlacementSupplier supplier;
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
 
         public ScreenVFXBuilder setPosTexDefaultFormat() {
@@ -75,7 +74,7 @@ public class VFXBuilders {
             return this;
         }
 
-        public ScreenVFXBuilder setVertexSupplier(VertexPlacementSupplier supplier) {
+        public ScreenVFXBuilder setVertexSupplier(ScreenVertexPlacementSupplier supplier) {
             this.supplier = supplier;
             return this;
         }
@@ -196,7 +195,7 @@ public class VFXBuilders {
             return this;
         }
 
-        private interface VertexPlacementSupplier {
+        private interface ScreenVertexPlacementSupplier {
             void placeVertex(BufferBuilder bufferBuilder, Matrix4f last, float x, float y, float u, float v);
         }
     }
@@ -211,6 +210,30 @@ public class VFXBuilders {
         int light = RenderHelper.FULL_BRIGHT;
         float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
 
+        VertexFormat format;
+        WorldVertexPlacementSupplier supplier;
+
+        public WorldVFXBuilder setPosTexDefaultFormat() {
+            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(l, x, y, z).uv(u, v).endVertex()).setFormat(DefaultVertexFormat.POSITION_TEX);
+        }
+
+        public WorldVFXBuilder setPosColorTexDefaultFormat() {
+            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX);
+        }
+
+        public WorldVFXBuilder setPosColorTexLightmapDefaultFormat() {
+            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
+        }
+
+        public WorldVFXBuilder setFormat(VertexFormat format) {
+            this.format = format;
+            return this;
+        }
+
+        public WorldVFXBuilder setVertexSupplier(WorldVertexPlacementSupplier supplier) {
+            this.supplier = supplier;
+            return this;
+        }
 
         public WorldVFXBuilder setColor(Color color) {
             return setColor(color.getRed(), color.getGreen(), color.getBlue());
@@ -256,19 +279,6 @@ public class VFXBuilders {
             return this;
         }
 
-        public WorldVFXBuilder renderTriangle(VertexConsumer vertexConsumer, PoseStack stack, float size) {
-            return renderTriangle(vertexConsumer, stack, size, size);
-        }
-
-        public WorldVFXBuilder renderTriangle(VertexConsumer vertexConsumer, PoseStack stack, float width, float height) {
-            Matrix4f last = stack.last().pose();
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, -width, -height, 0, r, g, b, a, 0, 1, light);
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, width, -height, 0, r, g, b, a, 1, 1, light);
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, 0, height, 0, r, g, b, a, 0.5f, 0, light);
-            return this;
-        }
-
-
         public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, java.util.List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
             return renderTrail(vertexConsumer, stack.last().pose(), trailSegments, widthFunc);
         }
@@ -289,10 +299,7 @@ public class VFXBuilders {
                 float width = widthFunc.apply(increment * i);
                 Vector4f start = trailSegments.get(i);
                 Vector4f end = trailSegments.get(i + 1);
-                Vector4f mid = RenderHelper.midpoint(start, end);
-                Vec2 offset = RenderHelper.corners(start, end, width);
-                Vector4f positions = new Vector4f(mid.x() + offset.x, mid.x() - offset.x, mid.y() + offset.y, mid.y() - offset.y);
-                points.add(new TrailPoint(positions.x(), positions.y(), positions.z(), positions.w(), mid.z()));
+                points.add(new TrailPoint(RenderHelper.midpoint(start, end), RenderHelper.corners(start, end, width)));
             }
             return renderPoints(vertexConsumer, points, u0, v0, u1, v1);
         }
@@ -319,10 +326,11 @@ public class VFXBuilders {
             Vec3 normal = start.subtract(cameraPosition).cross(delta).normalize().multiply(width / 2f, width / 2f, width / 2f);
             Matrix4f last = stack.last().pose();
             Vec3[] positions = new Vec3[]{start.subtract(normal), start.add(normal), end.add(normal), end.subtract(normal)};
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, (float) positions[0].x, (float) positions[0].y, (float) positions[0].z, r, g, b, a, u0, v1, light);
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, (float) positions[1].x, (float) positions[1].y, (float) positions[1].z, r, g, b, a, u1, v1, light);
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, (float) positions[2].x, (float) positions[2].y, (float) positions[2].z, r, g, b, a, u1, v0, light);
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, (float) positions[3].x, (float) positions[3].y, (float) positions[3].z, r, g, b, a, u0, v0, light);
+
+            supplier.placeVertex(vertexConsumer, last, (float) positions[0].x, (float) positions[0].y, (float) positions[0].z, u0, v1);
+            supplier.placeVertex(vertexConsumer, last, (float) positions[1].x, (float) positions[1].y, (float) positions[1].z, u1, v1);
+            supplier.placeVertex(vertexConsumer, last, (float) positions[2].x, (float) positions[2].y, (float) positions[2].z, u1, v0);
+            supplier.placeVertex(vertexConsumer, last, (float) positions[3].x, (float) positions[3].y, (float) positions[3].z, u0, v0);
             stack.translate(start.x, start.y, start.z);
             return this;
         }
@@ -346,10 +354,10 @@ public class VFXBuilders {
             for (Vector3f position : positions) {
                 position.mul(width, height, width);
             }
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, positions[0].x(), positions[0].y(), positions[0].z(), r, g, b, a, u0, v1, light);
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, positions[1].x(), positions[1].y(), positions[1].z(), r, g, b, a, u1, v1, light);
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, positions[2].x(), positions[2].y(), positions[2].z(), r, g, b, a, u1, v0, light);
-            RenderHelper.vertexPosColorUVLight(vertexConsumer, last, positions[3].x(), positions[3].y(), positions[3].z(), r, g, b, a, u0, v0, light);
+            supplier.placeVertex(vertexConsumer, last, positions[0].x(), positions[0].y(), positions[0].z(), u0, v1);
+            supplier.placeVertex(vertexConsumer, last, positions[1].x(), positions[1].y(), positions[1].z(), u1, v1);
+            supplier.placeVertex(vertexConsumer, last, positions[2].x(), positions[2].y(), positions[2].z(), u1, v0);
+            supplier.placeVertex(vertexConsumer, last, positions[3].x(), positions[3].y(), positions[3].z(), u0, v0);
             stack.translate(-xOffset, -yOffset, -zOffset);
             return this;
         }
@@ -389,6 +397,11 @@ public class VFXBuilders {
                 }
             }
             return this;
+        }
+
+
+        private interface WorldVertexPlacementSupplier {
+            void placeVertex(VertexConsumer consumer, Matrix4f last, float x, float y, float z, float u, float v);
         }
     }
 }
