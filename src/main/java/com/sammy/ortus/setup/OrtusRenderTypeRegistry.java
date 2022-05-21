@@ -54,38 +54,32 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
     public static final Function<ResourceLocation, RenderType> SCROLLING_TEXTURE_TRIANGLE = (texture) -> createGenericRenderType(ORTUS, "scrolling_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.SCROLLING_TRIANGLE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
 
     public static final Function<RenderTypeData, RenderType> GENERIC = (data) -> createGenericRenderType(data.name, data.format, data.mode, data.shader, data.transparency, data.texture);
+    
 
-
-    public static RenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture) {
-        return createGenericRenderType(name.substring(0, name.indexOf(":")), name.substring(name.indexOf(":") + 1), format, mode, shader, transparency, texture);
+    /**
+     * Creates a custom render type with a texture.
+     */
+    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture) {
+        return createGenericRenderType(modId + ":" + name, format, mode, shader, transparency, new TextureStateShard(texture, false, false));
+    }
+    /**
+     * Creates a custom render type with an empty texture.
+     */
+    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency) {
+        return createGenericRenderType(modId + ":" + name, format, mode, shader, transparency, RenderStateShard.NO_TEXTURE);
     }
 
     /**
      * Creates a custom render type and creates a buffer builder for it.
      */
-    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture) {
+    public static RenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture) {
         RenderType type = RenderType.create(
-                modId + ":" + name, format, mode, 256, false, false, RenderType.CompositeState.builder()
+                name, format, mode, 256, false, false, RenderType.CompositeState.builder()
                         .setShaderState(shader)
                         .setWriteMaskState(new WriteMaskStateShard(true, true))
                         .setLightmapState(new LightmapStateShard(false))
                         .setTransparencyState(transparency)
-                        .setTextureState(new TextureStateShard(texture, false, false))
-                        .setCullState(new CullStateShard(true))
-                        .createCompositeState(true)
-        );
-        RenderHandler.BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
-        return type;
-    }
-
-    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency) {
-        RenderType type = RenderType.create(
-                modId + ":" + name, format, mode, 256, false, false, RenderType.CompositeState.builder()
-                        .setShaderState(shader)
-                        .setWriteMaskState(new WriteMaskStateShard(true, true))
-                        .setLightmapState(new LightmapStateShard(false))
-                        .setTransparencyState(transparency)
-                        .setTextureState(RenderStateShard.NO_TEXTURE)
+                        .setTextureState(texture)
                         .setCullState(new CullStateShard(true))
                         .createCompositeState(true)
         );
@@ -134,9 +128,9 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
         public final VertexFormat.Mode mode;
         public final ShaderStateShard shader;
         public TransparencyStateShard transparency = StateShards.ADDITIVE_TRANSPARENCY;
-        public final ResourceLocation texture;
+        public final EmptyTextureStateShard texture;
 
-        public RenderTypeData(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, ResourceLocation texture) {
+        public RenderTypeData(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, EmptyTextureStateShard texture) {
             this.name = name;
             this.format = format;
             this.mode = mode;
@@ -144,13 +138,13 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
             this.texture = texture;
         }
 
-        public RenderTypeData(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture) {
+        public RenderTypeData(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture) {
             this(name, format, mode, shader, texture);
             this.transparency = transparency;
         }
 
         public RenderTypeData(RenderType.CompositeRenderType type) {
-            this(type.name, type.format(), type.mode(), type.state.shaderState, type.state.transparencyState, type.state.textureState.cutoutTexture().get());
+            this(type.name, type.format(), type.mode(), type.state.shaderState, type.state.transparencyState, type.state.textureState);
         }
     }
 }

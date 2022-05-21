@@ -145,10 +145,12 @@ jar {
 jar.finalizedBy('reobfJar')
 
 tasks.withType(GenerateModuleMetadata) {
-
     enabled = false
 }
-
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -156,6 +158,7 @@ publishing {
             artifactId project.archivesBaseName
             version project.version
             artifact jar
+            from components.java
 
             pom.withXml {
 
