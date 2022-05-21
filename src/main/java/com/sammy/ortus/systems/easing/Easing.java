@@ -4,7 +4,7 @@ package com.sammy.ortus.systems.easing;
  * <p>The Easing class holds a set of general-purpose motion 
  * tweening functions by Robert Penner. This class is 
  * essentially a port from Penner's ActionScript utility, 
- * with a few added tweaks.</p> 
+ * with a few added tweaks.
  * <p>Examples:<pre>
  *    //no tween
  *    Easing e1 = Easing.LINEAR;
@@ -14,7 +14,7 @@ package com.sammy.ortus.systems.easing;
  *
  *    //backOut tween, the overshoot is 1.85f
  *    Easing.Back e3 = new Easing.BackOut(1.85f);
- * </pre></p>
+ * </pre>
  * <a href="http://www.robertpenner.com/easing/">Robert Penner's Easing Functions</a>
  * @author Robert Penner (functions)
  * @author davedes (java port)

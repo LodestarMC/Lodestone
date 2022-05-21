@@ -42,7 +42,7 @@ public class OrtusConfig {
         /**
          * @param modId         - Your mod id. Must match whatever you passed into the {@link OrtusConfig#OrtusConfig(String, String, ForgeConfigSpec.Builder)} constructor.
          * @param path          - Path towards your value separated with "/". The first string from a split of your path will be removed and added to the configType.
-         * @param valueSupplier - Supplier to your config value. {@link ConfigValueHolder#config} will be set to {@link ConfigValueHolder#valueSupplier#getConfigValue()} when config is initialized.
+         * @param valueSupplier - Supplier to your config value. {@link ConfigValueHolder#config} will be set to the supplied value when config is initialized.
          */
         public ConfigValueHolder(String modId, String path, BuilderSupplier<T> valueSupplier) {
             this.valueSupplier = valueSupplier;
