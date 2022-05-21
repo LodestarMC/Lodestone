@@ -7,6 +7,7 @@ import com.mojang.datafixers.util.Pair;
 import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.systems.rendering.ShaderUniformHandler;
 import com.sammy.ortus.systems.rendering.StateShards;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -40,8 +41,12 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
     /**
      * Render Functions. You can create Render Types by statically applying these to your texture. Alternatively, use {@link #GENERIC} if none of the presets suit your needs.
      */
-    public static final Function<ResourceLocation, RenderType> SOLID_TEXTURE = (texture) -> createGenericRenderType(ORTUS, "solid_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER, StateShards.ADDITIVE_TRANSPARENCY, texture);
+    public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(ORTUS, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.TRANSLUCENT_TRANSPARENCY);
+    public static final RenderType ADDITIVE_SOLID = createGenericRenderType(ORTUS, "additive_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.ADDITIVE_TRANSPARENCY);
+
+    public static final Function<ResourceLocation, RenderType> TRANSPARENT_TEXTURE = (texture) -> createGenericRenderType(ORTUS, "transparent_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER, StateShards.TRANSLUCENT_TRANSPARENCY, texture);
     public static final Function<ResourceLocation, RenderType> ADDITIVE_TEXTURE = (texture) -> createGenericRenderType(ORTUS, "additive_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
+
     public static final Function<ResourceLocation, RenderType> RADIAL_NOISE = (texture) -> createGenericRenderType(ORTUS, "radial_noise", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.RADIAL_NOISE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
     public static final Function<ResourceLocation, RenderType> RADIAL_SCATTER_NOISE = (texture) -> createGenericRenderType(ORTUS, "radial_scatter_noise", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.RADIAL_SCATTER_NOISE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
     public static final Function<ResourceLocation, RenderType> SCROLLING_TEXTURE = (texture) -> createGenericRenderType(ORTUS, "scrolling_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.SCROLLING_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
@@ -54,6 +59,7 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
     public static RenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture) {
         return createGenericRenderType(name.substring(0, name.indexOf(":")), name.substring(name.indexOf(":") + 1), format, mode, shader, transparency, texture);
     }
+
     /**
      * Creates a custom render type and creates a buffer builder for it.
      */
@@ -65,6 +71,21 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
                         .setLightmapState(new LightmapStateShard(false))
                         .setTransparencyState(transparency)
                         .setTextureState(new TextureStateShard(texture, false, false))
+                        .setCullState(new CullStateShard(true))
+                        .createCompositeState(true)
+        );
+        RenderHandler.BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
+        return type;
+    }
+
+    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency) {
+        RenderType type = RenderType.create(
+                modId + ":" + name, format, mode, 256, false, false, RenderType.CompositeState.builder()
+                        .setShaderState(shader)
+                        .setWriteMaskState(new WriteMaskStateShard(true, true))
+                        .setLightmapState(new LightmapStateShard(false))
+                        .setTransparencyState(transparency)
+                        .setTextureState(RenderStateShard.NO_TEXTURE)
                         .setCullState(new CullStateShard(true))
                         .createCompositeState(true)
         );
@@ -131,7 +152,5 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
         public RenderTypeData(RenderType.CompositeRenderType type) {
             this(type.name, type.format(), type.mode(), type.state.shaderState, type.state.transparencyState, type.state.textureState.cutoutTexture().get());
         }
-
-
     }
 }
