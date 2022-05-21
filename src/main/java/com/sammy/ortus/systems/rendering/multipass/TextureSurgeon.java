@@ -21,14 +21,13 @@ public class TextureSurgeon {
         RenderTarget frameBuffer = tex.getFrameBuffer();
         frameBuffer.clear(Minecraft.ON_OSX);
         frameBuffer.bindWrite(true);
-        RenderSystem.clear(256, Minecraft.ON_OSX);
+
         PoseStack posestack = RenderSystem.getModelViewStack();
         posestack.pushPose();
         posestack.setIdentity();
         int size = 16;
         for (ShaderInstance shader : shaders) {
-            RenderSystem.setShaderTexture(0, tex.getTextureLocation());
-            builder.setShader(() -> shader).setPositionWithWidth(0, 0, size, size).begin().blit(posestack).end();
+            builder.setShaderTexture(tex.getTextureLocation()).setShader(() -> shader).setPositionWithWidth(0, 0, size, size).draw(posestack);
         }
         if (dumpTextures) {
             try {

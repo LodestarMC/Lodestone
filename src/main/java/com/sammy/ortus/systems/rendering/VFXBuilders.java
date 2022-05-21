@@ -219,7 +219,7 @@ public class VFXBuilders {
         public WorldVFXBuilder setPosColorLightmapDefaultFormat() {
             return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR_LIGHTMAP);
         }
-        
+
         public WorldVFXBuilder setPosTexDefaultFormat() {
             return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(l, x, y, z).uv(u, v).endVertex()).setFormat(DefaultVertexFormat.POSITION_TEX);
         }
