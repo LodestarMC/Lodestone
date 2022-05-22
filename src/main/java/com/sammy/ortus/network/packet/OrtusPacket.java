@@ -1,12 +1,9 @@
 package com.sammy.ortus.network.packet;
 
-import com.sammy.ortus.capability.EntityDataCapability;
-import com.sammy.ortus.network.SyncEntityCapabilityDataPacket;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -31,23 +28,25 @@ public class OrtusPacket {
     public void handle(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             if (FMLEnvironment.dist == Dist.CLIENT) {
-                OrtusPacket.ClientOnly.syncData(data,context);
+                OrtusPacket.ClientOnly.clientData(this,data,context);
             }
-            execute(data,context);
+            serverExecute(data,context);
         });
         context.get().setPacketHandled(true);
     }
-    public void execute(CompoundTag data,Supplier<NetworkEvent.Context> context){};
+    //Overwrite Methods that are called when a packet is recieved by a client or a server (note they do nothing in this class)
+    public void serverExecute(CompoundTag data,Supplier<NetworkEvent.Context> context){}
+
+    @OnlyIn(Dist.CLIENT)
+    public void clientExecute(CompoundTag data, Supplier<NetworkEvent.Context> context){}
+
     public static void register(SimpleChannel instance, int index) {
         instance.registerMessage(index, OrtusPacket.class, OrtusPacket::encode, OrtusPacket::decode, OrtusPacket::handle);
     }
 
     public static class ClientOnly {
-        public static void syncData(CompoundTag data,Supplier<NetworkEvent.Context> context) {
-            Entity entity = context.get().getSender();
-            if (entity != null) {
-                EntityDataCapability.getCapability(entity).ifPresent(c -> c.deserializeNBT(data));
-            }
+        public static void clientData(OrtusPacket packet,CompoundTag data, Supplier<NetworkEvent.Context> context) {
+            packet.clientExecute(data,context);
         }
     }
 }
