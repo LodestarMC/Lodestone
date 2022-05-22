@@ -1,0 +1,12 @@
+{
+  "targets": [
+    "swap"
+  ],
+  "passes": [
+    {
+      "name": "fufo:scanline",
+      "intarget": "minecraft:main",
+      "outtarget": "swap"
+    }
+  ]
+}

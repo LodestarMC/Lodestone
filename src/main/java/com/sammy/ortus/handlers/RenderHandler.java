@@ -31,6 +31,7 @@ public class RenderHandler {
     public static MultiBufferSource.BufferSource EARLY_DELAYED_RENDER;
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
     public static MultiBufferSource.BufferSource LATE_DELAYED_RENDER;
+    public static MultiBufferSource.BufferSource BLOOM_BUFFER;
     public static Matrix4f PARTICLE_MATRIX = null;
     public static Frustum FRUSTUM;
 
