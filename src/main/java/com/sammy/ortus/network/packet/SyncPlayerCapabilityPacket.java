@@ -48,8 +48,7 @@ public class SyncPlayerCapabilityPacket extends OrtusSyncPacket{
 
     @Override
     public void modifyServer(Supplier<NetworkEvent.Context> context, CompoundTag tag) {
-        assert Minecraft.getInstance().level != null;
-        Player player = Minecraft.getInstance().level.getPlayerByUUID(uuid);
+        Player player = Objects.requireNonNull(context.get().getSender()).level.getPlayerByUUID(uuid);
         assert player != null;
         PlayerDataCapability.getCapability(player).ifPresent(c -> c.deserializeNBT(tag));
     }
