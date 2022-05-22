@@ -30,7 +30,9 @@ public class OrtusPacket {
             if (FMLEnvironment.dist == Dist.CLIENT) {
                 OrtusPacket.ClientOnly.clientData(this,data,context);
             }
-            serverExecute(context);
+            else {
+                serverExecute(context);
+            }
         });
         context.get().setPacketHandled(true);
     }
