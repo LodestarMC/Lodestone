@@ -30,15 +30,15 @@ public class OrtusPacket {
             if (FMLEnvironment.dist == Dist.CLIENT) {
                 OrtusPacket.ClientOnly.clientData(this,data,context);
             }
-            serverExecute(data,context);
+            serverExecute(context);
         });
         context.get().setPacketHandled(true);
     }
     //Overwrite Methods that are called when a packet is recieved by a client or a server (note they do nothing in this class)
-    public void serverExecute(CompoundTag data,Supplier<NetworkEvent.Context> context){}
+    public void serverExecute(Supplier<NetworkEvent.Context> context){}
 
     @OnlyIn(Dist.CLIENT)
-    public void clientExecute(CompoundTag data, Supplier<NetworkEvent.Context> context){}
+    public void clientExecute(Supplier<NetworkEvent.Context> context){}
 
     public static void register(SimpleChannel instance, int index) {
         instance.registerMessage(index, OrtusPacket.class, OrtusPacket::encode, OrtusPacket::decode, OrtusPacket::handle);
@@ -46,7 +46,7 @@ public class OrtusPacket {
 
     public static class ClientOnly {
         public static void clientData(OrtusPacket packet,CompoundTag data, Supplier<NetworkEvent.Context> context) {
-            packet.clientExecute(data,context);
+            packet.clientExecute(context);
         }
     }
 }
