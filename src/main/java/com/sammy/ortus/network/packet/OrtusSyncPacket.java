@@ -3,6 +3,7 @@ package com.sammy.ortus.network.packet;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public abstract class OrtusSyncPacket extends OrtusPacket{
@@ -12,19 +13,19 @@ public abstract class OrtusSyncPacket extends OrtusPacket{
 
     @Override
     public void clientExecute(Supplier<NetworkEvent.Context> context) {
-        modifyClient(context,modifyTag(modifyTag(getClientTag(context))));
+        modifyClient(context,modifyTag(getClientTag(context)));
     }
 
     @Override
     public void serverExecute(Supplier<NetworkEvent.Context> context) {
-        modifyServer(context,modifyTag(modifyTag(getServerTag(context))));
+        modifyServer(context,modifyTag(getServerTag(context)));
     }
 
     //Sync methods
     public CompoundTag modifyTag(CompoundTag inTag){
         for(String key: data.getAllKeys()){
             if(inTag.contains(key)){
-                inTag.put(key,data.get(key));
+                inTag.put(key, Objects.requireNonNull(data.get(key)));
             }
         }
         return inTag;
