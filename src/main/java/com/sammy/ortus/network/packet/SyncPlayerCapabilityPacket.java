@@ -12,6 +12,10 @@ import java.util.function.Supplier;
 
 public class SyncPlayerCapabilityPacket extends OrtusSyncPacket{
     private final UUID uuid;
+    public SyncPlayerCapabilityPacket(CompoundTag tag){
+        super(tag);
+        this.uuid = tag.getUUID("SyncPlayerCapabilityPacket");
+    }
     public SyncPlayerCapabilityPacket(UUID uuid, CompoundTag tag) {
         super(handleTag(uuid,tag));
         this.uuid = uuid;
