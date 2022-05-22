@@ -25,7 +25,8 @@ public class OrtusShaderRegistry {
     public static ShaderHolder RADIAL_NOISE = new ShaderHolder("Speed", "XFrequency", "YFrequency", "Intensity", "ScatterPower", "ScatterFrequency", "DistanceFalloff");
     public static ShaderHolder RADIAL_SCATTER_NOISE = new ShaderHolder("Speed", "XFrequency", "YFrequency", "Intensity", "ScatterPower", "ScatterFrequency", "DistanceFalloff");
 
-    public static ShaderHolder BLOOM = new ShaderHolder();
+    public static ShaderHolder VERTEX_DISTORTION = new ShaderHolder();
+    //public static ShaderHolder BLOOM = new ShaderHolder();
 
     public static ShaderHolder SCROLLING_TEXTURE = new ShaderHolder("Speed");
     public static ShaderHolder TRIANGLE_TEXTURE = new ShaderHolder();
@@ -38,7 +39,8 @@ public class OrtusShaderRegistry {
         registerShader(event, ExtendedShaderInstance.createShaderInstance(ADDITIVE_TEXTURE, event.getResourceManager(), OrtusLib.ortusPrefix("additive_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(ADDITIVE_PARTICLE, event.getResourceManager(), OrtusLib.ortusPrefix("additive_particle"), DefaultVertexFormat.PARTICLE));
 
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(BLOOM, event.getResourceManager(), OrtusLib.ortusPrefix("bloom"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(VERTEX_DISTORTION, event.getResourceManager(), OrtusLib.ortusPrefix("vertex_distortion"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        //registerShader(event, ExtendedShaderInstance.createShaderInstance(BLOOM, event.getResourceManager(), OrtusLib.ortusPrefix("bloom"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
 
         registerShader(event, ExtendedShaderInstance.createShaderInstance(MASKED_TEXTURE, event.getResourceManager(), OrtusLib.ortusPrefix("masked_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(DISTORTED_TEXTURE, event.getResourceManager(), OrtusLib.ortusPrefix("noise/distorted_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
