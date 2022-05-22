@@ -4,8 +4,8 @@
     "srcrgb": "srcalpha",
     "dstrgb": "1-srcalpha"
   },
-  "vertex": "vertex_distortion",
-  "fragment": "vertex_distortion",
+  "vertex": "ortus:vertex_distortion",
+  "fragment": "ortus:vertex_distortion",
   "attributes": [
     "Position",
     "Color",
