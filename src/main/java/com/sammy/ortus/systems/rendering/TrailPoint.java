@@ -22,7 +22,6 @@ public class TrailPoint {
     }
 
     public TrailPoint(Vector4f pos, Vec2 perp) {
-
         this(pos.x() + perp.x, pos.x() - perp.x, pos.y() + perp.y, pos.y() - perp.y, pos.z());
     }
 

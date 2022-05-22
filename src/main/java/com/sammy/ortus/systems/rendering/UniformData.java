@@ -2,7 +2,7 @@ package com.sammy.ortus.systems.rendering;
 
 import com.mojang.blaze3d.shaders.AbstractUniform;
 
-public class UniformData {
+public abstract class UniformData {
     public final String uniformName;
     public final int uniformType;
 

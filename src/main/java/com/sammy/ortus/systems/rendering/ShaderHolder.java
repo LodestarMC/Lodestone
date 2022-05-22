@@ -1,7 +1,9 @@
 package com.sammy.ortus.systems.rendering;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class ShaderHolder {
     }
 
     public void setUniformDefaults() {
+        RenderSystem.setShaderTexture(1, TextureAtlas.LOCATION_BLOCKS);
         defaultUniformData.forEach(u -> u.setUniformValue(instance.safeGetUniform(u.uniformName)));
     }
 

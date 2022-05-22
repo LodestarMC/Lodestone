@@ -1,0 +1,18 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "srcalpha",
+    "dstrgb": "1-srcalpha"
+  },
+  "vertex": "sobel",
+  "fragment": "fufo:horizontal_bloom",
+  "attributes": [ "Position" ],
+  "samplers": [
+    { "name": "DiffuseSampler" }
+  ],
+  "uniforms": [
+    { "name": "Brightness", "type":  "float", "count":  1, "values": [0.65]},
+    { "name": "KernelSize", "type": "int", "count":  1, "values":  [3]},
+    {"name": "BlurDeviation", "type":  "float", "count": 1, "values":  [0.65]}
+  ]
+}

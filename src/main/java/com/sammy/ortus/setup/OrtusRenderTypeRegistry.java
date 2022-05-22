@@ -38,6 +38,11 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
     public static final RenderType ADDITIVE_BLOCK_PARTICLE = createGenericRenderType(ORTUS, "additive_block_particle", PARTICLE, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_PARTICLE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
     public static final RenderType ADDITIVE_BLOCK = createGenericRenderType(ORTUS, "block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
     public static final RenderType OUTLINE_SOLID = createGenericRenderType(ORTUS, "outline_solid", NEW_ENTITY, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
+
+    public static final RenderType VERTEX_DISTORTION = createGenericRenderType(ORTUS, "vertex_distortion", PARTICLE, VertexFormat.Mode.QUADS, OrtusShaderRegistry.VERTEX_DISTORTION.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+
+    //public static final RenderType BLOOM = createGenericRenderType(ORTUS, "bloom", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.BLOOM.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+
     /**
      * Render Functions. You can create Render Types by statically applying these to your texture. Alternatively, use {@link #GENERIC} if none of the presets suit your needs.
      */
@@ -46,12 +51,15 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
 
     public static final Function<ResourceLocation, RenderType> TRANSPARENT_TEXTURE = (texture) -> createGenericRenderType(ORTUS, "transparent_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER, StateShards.TRANSLUCENT_TRANSPARENCY, texture);
     public static final Function<ResourceLocation, RenderType> ADDITIVE_TEXTURE = (texture) -> createGenericRenderType(ORTUS, "additive_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
+    //public static final Function<ResourceLocation, RenderType> BLOOM_TEXTURE = (texture) -> createGenericRenderType(ORTUS, "bloom", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.BLOOM.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
+    public static final Function<ResourceLocation, RenderType> VERTEX_DISTORTION_TEXTURE = (texture) -> createGenericRenderType(ORTUS, "vertex_distortion_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.VERTEX_DISTORTION.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
 
     public static final Function<ResourceLocation, RenderType> RADIAL_NOISE = (texture) -> createGenericRenderType(ORTUS, "radial_noise", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.RADIAL_NOISE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
     public static final Function<ResourceLocation, RenderType> RADIAL_SCATTER_NOISE = (texture) -> createGenericRenderType(ORTUS, "radial_scatter_noise", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.RADIAL_SCATTER_NOISE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
     public static final Function<ResourceLocation, RenderType> SCROLLING_TEXTURE = (texture) -> createGenericRenderType(ORTUS, "scrolling_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.SCROLLING_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
     public static final Function<ResourceLocation, RenderType> TEXTURE_TRIANGLE = (texture) -> createGenericRenderType(ORTUS, "texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.TRIANGLE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
     public static final Function<ResourceLocation, RenderType> SCROLLING_TEXTURE_TRIANGLE = (texture) -> createGenericRenderType(ORTUS, "scrolling_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.SCROLLING_TRIANGLE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
+
 
     public static final Function<RenderTypeData, RenderType> GENERIC = (data) -> createGenericRenderType(data.name, data.format, data.mode, data.shader, data.transparency, data.texture);
 
