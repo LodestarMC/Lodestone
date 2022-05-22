@@ -42,10 +42,6 @@ public class OrtusPacket {
     @OnlyIn(Dist.CLIENT)
     public void clientExecute(Supplier<NetworkEvent.Context> context){}
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, OrtusPacket.class, OrtusPacket::encode, OrtusPacket::decode, OrtusPacket::handle);
-    }
-
     public static class ClientOnly {
         public static void clientData(OrtusPacket packet,CompoundTag data, Supplier<NetworkEvent.Context> context) {
             packet.clientExecute(context);
