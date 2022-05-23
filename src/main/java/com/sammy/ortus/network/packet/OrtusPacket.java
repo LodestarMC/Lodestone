@@ -17,13 +17,14 @@ public class OrtusPacket {
         data = tag;
     }
 
-    public static OrtusPacket decode(FriendlyByteBuf buf) {
+    public OrtusPacket decode(FriendlyByteBuf buf) {
         return new OrtusPacket(buf.readNbt());
     }
 
     public void encode(FriendlyByteBuf buf) {
         buf.writeNbt(data);
     }
+
 
     public void handle(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
