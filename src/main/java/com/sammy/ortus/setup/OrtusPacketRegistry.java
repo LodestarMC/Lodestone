@@ -5,6 +5,8 @@ import com.sammy.ortus.network.interaction.ResetRightClickDelayPacket;
 import com.sammy.ortus.network.interaction.RightClickEmptyPacket;
 import com.sammy.ortus.network.interaction.UpdateLeftClickPacket;
 import com.sammy.ortus.network.interaction.UpdateRightClickPacket;
+import com.sammy.ortus.network.packet.SyncOrtusEntityCapabilityPacket;
+import com.sammy.ortus.network.packet.SyncOrtusPlayerCapabilityPacket;
 import com.sammy.ortus.network.screenshake.PositionedScreenshakePacket;
 import com.sammy.ortus.network.screenshake.ScreenshakePacket;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,12 +28,12 @@ public class OrtusPacketRegistry {
     @SubscribeEvent
     public static void registerPackets(FMLCommonSetupEvent event) {
         int index = 0;
+        SyncOrtusPlayerCapabilityPacket.register(SyncOrtusPlayerCapabilityPacket.class, b -> new SyncOrtusPlayerCapabilityPacket(b.readNbt()), INSTANCE, index++);
+        SyncOrtusEntityCapabilityPacket.register(SyncOrtusEntityCapabilityPacket.class, b -> new SyncOrtusEntityCapabilityPacket(b.readNbt()), INSTANCE, index++);
+
         ScreenshakePacket.register(INSTANCE, index++);
         PositionedScreenshakePacket.register(INSTANCE, index++);
         SyncWorldEventPacket.register(INSTANCE, index++);
-        SyncPlayerCapabilityDataPacket.register(INSTANCE, index++);
-        SyncPlayerCapabilityDataServerPacket.register(INSTANCE, index++);
-        SyncEntityCapabilityDataPacket.register(INSTANCE, index++);
         RightClickEmptyPacket.register(INSTANCE, index++);
         UpdateLeftClickPacket.register(INSTANCE, index++);
         UpdateRightClickPacket.register(INSTANCE, index++);
