@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -25,7 +26,7 @@ public class OrtusPacket {
 
     public void handle(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
-            if (FMLEnvironment.dist == Dist.CLIENT) {
+            if (context.get().getDirection().getReceptionSide().equals(LogicalSide.CLIENT)) {
                 OrtusPacket.ClientOnly.clientData(this, data, context);
             } else {
                 serverExecute(context, data);
