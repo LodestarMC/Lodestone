@@ -13,12 +13,12 @@ public abstract class OrtusSyncPacket extends OrtusPacket{
 
     @Override
     public void clientExecute(Supplier<NetworkEvent.Context> context) {
-        modifyClient(context,modifyTag(getClientTag(context)));
+        modifyClient(context,modifyTag(getServerTag(context)));
     }
 
     @Override
     public void serverExecute(Supplier<NetworkEvent.Context> context) {
-        modifyServer(context,modifyTag(getServerTag(context)));
+        modifyServer(context,modifyTag(getClientTag(context)));
     }
 
     //Sync methods
