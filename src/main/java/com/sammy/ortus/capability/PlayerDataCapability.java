@@ -1,10 +1,9 @@
 package com.sammy.ortus.capability;
 
 import com.sammy.ortus.OrtusLib;
-import com.sammy.ortus.network.SyncPlayerCapabilityDataPacket;
-import com.sammy.ortus.network.SyncPlayerCapabilityDataServerPacket;
 import com.sammy.ortus.network.interaction.UpdateLeftClickPacket;
 import com.sammy.ortus.network.interaction.UpdateRightClickPacket;
+import com.sammy.ortus.network.packet.SyncOrtusPlayerCapabilityPacket;
 import com.sammy.ortus.systems.capability.OrtusCapability;
 import com.sammy.ortus.systems.capability.OrtusCapabilityProvider;
 import net.minecraft.client.Minecraft;
@@ -111,11 +110,11 @@ public class PlayerDataCapability implements OrtusCapability {
     }
 
     public static void sync(Player player, PacketDistributor.PacketTarget target) {
-        getCapability(player).ifPresent(c -> INSTANCE.send(target, new SyncPlayerCapabilityDataPacket(player.getUUID(), c.serializeNBT())));
+        getCapability(player).ifPresent(c -> INSTANCE.send(target, new SyncOrtusPlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
     }
 
     public static void syncServer(Player player) {
-        getCapability(player).ifPresent(c -> INSTANCE.send(PacketDistributor.SERVER.noArg(), new SyncPlayerCapabilityDataServerPacket(player.getUUID(), c.serializeNBT())));
+        getCapability(player).ifPresent(c -> INSTANCE.send(PacketDistributor.SERVER.noArg(), new SyncOrtusPlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
     }
 
     public static LazyOptional<PlayerDataCapability> getCapability(Player player) {

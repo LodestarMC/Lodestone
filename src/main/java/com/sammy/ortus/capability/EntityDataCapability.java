@@ -1,7 +1,7 @@
 package com.sammy.ortus.capability;
 
 import com.sammy.ortus.OrtusLib;
-import com.sammy.ortus.network.SyncEntityCapabilityDataPacket;
+import com.sammy.ortus.network.packet.SyncOrtusEntityCapabilityPacket;
 import com.sammy.ortus.systems.capability.OrtusCapability;
 import com.sammy.ortus.systems.capability.OrtusCapabilityProvider;
 import com.sammy.ortus.systems.fireeffect.FireEffectInstance;
@@ -72,7 +72,7 @@ public class EntityDataCapability implements OrtusCapability {
     }
 
     public static void sync(Entity entity, PacketDistributor.PacketTarget target) {
-        getCapability(entity).ifPresent(c -> INSTANCE.send(target, new SyncEntityCapabilityDataPacket(entity.getId(), c.serializeNBT())));
+        getCapability(entity).ifPresent(c -> INSTANCE.send(target, new SyncOrtusEntityCapabilityPacket(entity.getId(), c.serializeNBT())));
     }
 
     public static LazyOptional<EntityDataCapability> getCapability(Entity entity) {
