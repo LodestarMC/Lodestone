@@ -46,6 +46,9 @@ public class FireEffectHandler {
                     c.fireEffectInstance.sync(entity);
                 }
             }
+            else {
+
+            }
         });
     }
 

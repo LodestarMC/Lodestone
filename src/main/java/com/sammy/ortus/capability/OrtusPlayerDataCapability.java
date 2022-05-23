@@ -93,20 +93,36 @@ public class OrtusPlayerDataCapability implements OrtusCapability {
         hasJoinedBefore = tag.getBoolean("firstTimeJoin");
     }
 
-    public static void syncSelf(ServerPlayer player, String... filter) {
+
+    public static void syncSelf(ServerPlayer player, NBTHelper.TagFilter filter) {
         sync(player, PacketDistributor.PLAYER.with(() -> player), filter);
     }
 
-    public static void syncTrackingAndSelf(Player player, String... filter) {
+    public static void syncTrackingAndSelf(Player player, NBTHelper.TagFilter filter) {
         sync(player, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), filter);
     }
 
-    public static void syncTracking(Player player, String... filter) {
+    public static void syncTracking(Player player, NBTHelper.TagFilter filter) {
         sync(player, PacketDistributor.TRACKING_ENTITY.with(() -> player), filter);
     }
 
-    public static void sync(Player player, PacketDistributor.PacketTarget target, String... filter) {
+    public static void sync(Player player, PacketDistributor.PacketTarget target, NBTHelper.TagFilter filter) {
         getCapabilityOptional(player).ifPresent(c -> INSTANCE.send(target, new SyncOrtusPlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTag(c.serializeNBT(), filter))));
+    }
+    public static void syncSelf(ServerPlayer player) {
+        sync(player, PacketDistributor.PLAYER.with(() -> player));
+    }
+
+    public static void syncTrackingAndSelf(Player player) {
+        sync(player, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player));
+    }
+
+    public static void syncTracking(Player player) {
+        sync(player, PacketDistributor.TRACKING_ENTITY.with(() -> player));
+    }
+
+    public static void sync(Player player, PacketDistributor.PacketTarget target) {
+        getCapabilityOptional(player).ifPresent(c -> INSTANCE.send(target, new SyncOrtusPlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
     }
 
     public static LazyOptional<OrtusPlayerDataCapability> getCapabilityOptional(Player player) {

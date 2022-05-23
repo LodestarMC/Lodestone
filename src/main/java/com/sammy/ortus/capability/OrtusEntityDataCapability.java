@@ -60,15 +60,27 @@ public class OrtusEntityDataCapability implements OrtusCapability {
         FireEffectHandler.deserializeNBT(this, tag);
     }
 
-    public static void syncTrackingAndSelf(Entity entity, String... filter) {
+    public static void syncTrackingAndSelf(Entity entity) {
+        sync(entity, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity));
+    }
+
+    public static void syncTracking(Entity entity) {
+        sync(entity, PacketDistributor.TRACKING_ENTITY.with(() -> entity));
+    }
+
+    public static void sync(Entity entity, PacketDistributor.PacketTarget target) {
+        getCapabilityOptional(entity).ifPresent(c -> INSTANCE.send(target, new SyncOrtusEntityCapabilityPacket(entity.getId(), c.serializeNBT())));
+    }
+
+    public static void syncTrackingAndSelf(Entity entity, NBTHelper.TagFilter filter) {
         sync(entity, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), filter);
     }
 
-    public static void syncTracking(Entity entity, String... filter) {
+    public static void syncTracking(Entity entity, NBTHelper.TagFilter filter) {
         sync(entity, PacketDistributor.TRACKING_ENTITY.with(() -> entity), filter);
     }
 
-    public static void sync(Entity entity, PacketDistributor.PacketTarget target, String... filter) {
+    public static void sync(Entity entity, PacketDistributor.PacketTarget target, NBTHelper.TagFilter filter) {
         getCapabilityOptional(entity).ifPresent(c -> INSTANCE.send(target, new SyncOrtusEntityCapabilityPacket(entity.getId(), NBTHelper.filterTag(c.serializeNBT(), filter))));
     }
 

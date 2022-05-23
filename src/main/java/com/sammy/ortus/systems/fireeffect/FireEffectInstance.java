@@ -1,6 +1,7 @@
 package com.sammy.ortus.systems.fireeffect;
 
 import com.sammy.ortus.capability.OrtusEntityDataCapability;
+import com.sammy.ortus.helpers.NBTHelper;
 import com.sammy.ortus.setup.OrtusFireEffectRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -24,9 +25,14 @@ public class FireEffectInstance {
     }
 
     public FireEffectInstance sync(Entity target) {
-        OrtusEntityDataCapability.syncTrackingAndSelf(target, "fireEffect");
+        OrtusEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create().setRoot("fireEffect"));
         return this;
     }
+    public FireEffectInstance syncDuration(Entity target) {
+        OrtusEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create().setRoot("fireEffect").exclude("type"));
+        return this;
+    }
+
     public void tick(Entity target) {
         if ((target.isInPowderSnow || target.isInWaterRainOrBubble())) {
             type.extinguish(this, target);
