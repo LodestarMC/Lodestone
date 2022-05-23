@@ -182,6 +182,10 @@ public class ParticleBuilders {
             data.noClip = false;
             return this;
         }
+        public WorldParticleBuilder setSpinEasing(Easing easing) {
+            data.spinCurveStartEasing = easing;
+            return this;
+        }
         public WorldParticleBuilder setSpinEasing(Easing startEasing, Easing endEasing) {
             data.spinCurveStartEasing = startEasing;
             data.spinCurveEndEasing = endEasing;
