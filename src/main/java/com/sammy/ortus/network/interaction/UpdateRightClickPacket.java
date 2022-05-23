@@ -1,6 +1,7 @@
 package com.sammy.ortus.network.interaction;
 
 import com.sammy.ortus.capability.OrtusPlayerDataCapability;
+import com.sammy.ortus.events.types.RightClickEmptyServer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -10,6 +11,7 @@ import java.util.function.Supplier;
 public class UpdateRightClickPacket {
 
     private final boolean rightClickHeld;
+
     public UpdateRightClickPacket(boolean rightClick) {
         this.rightClickHeld = rightClick;
     }
@@ -23,7 +25,12 @@ public class UpdateRightClickPacket {
     }
 
     public void execute(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> OrtusPlayerDataCapability.getCapabilityOptional(context.get().getSender()).ifPresent(c -> c.rightClickHeld = rightClickHeld));
+        context.get().enqueueWork(() -> {
+            if (rightClickHeld) {
+                RightClickEmptyServer.onRightClickEmptyServer(context.get().getSender());
+            }
+            OrtusPlayerDataCapability.getCapabilityOptional(context.get().getSender()).ifPresent(c -> c.rightClickHeld = rightClickHeld);
+        });
         context.get().setPacketHandled(true);
     }
 

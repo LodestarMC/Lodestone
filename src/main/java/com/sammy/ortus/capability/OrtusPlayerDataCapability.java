@@ -2,6 +2,7 @@ package com.sammy.ortus.capability;
 
 import com.sammy.ortus.OrtusLib;
 import com.sammy.ortus.helpers.NBTHelper;
+import com.sammy.ortus.network.interaction.RightClickEmptyPacket;
 import com.sammy.ortus.network.interaction.UpdateLeftClickPacket;
 import com.sammy.ortus.network.interaction.UpdateRightClickPacket;
 import com.sammy.ortus.network.packet.SyncOrtusPlayerCapabilityPacket;
@@ -22,6 +23,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.network.PacketDistributor;
 
 import static com.sammy.ortus.setup.OrtusPacketRegistry.INSTANCE;
@@ -92,7 +94,6 @@ public class OrtusPlayerDataCapability implements OrtusCapability {
     public void deserializeNBT(CompoundTag tag) {
         hasJoinedBefore = tag.getBoolean("firstTimeJoin");
     }
-
 
     public static void syncServer(Player player, NBTHelper.TagFilter filter) {
         sync(player, PacketDistributor.SERVER.noArg(), filter);
