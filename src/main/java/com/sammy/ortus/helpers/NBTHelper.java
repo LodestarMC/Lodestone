@@ -12,7 +12,7 @@ public class NBTHelper {
         if (filter.isEmpty()) {
             return orig;
         }
-        CompoundTag copy = new CompoundTag(orig.tags){};
+        CompoundTag copy = orig.copy();
         removeTags(copy, filter);
         return copy;
     }
