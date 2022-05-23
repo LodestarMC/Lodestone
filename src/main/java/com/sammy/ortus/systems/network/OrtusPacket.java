@@ -18,13 +18,10 @@ public class OrtusPacket {
         data = tag;
     }
 
-    public static OrtusPacket decode(FriendlyByteBuf buf) {
-        return new OrtusPacket(buf.readNbt());
-    }
-
     public void encode(FriendlyByteBuf buf) {
         buf.writeNbt(data);
     }
+
 
     public void handle(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
@@ -47,6 +44,10 @@ public class OrtusPacket {
 
     @OnlyIn(Dist.CLIENT)
     public void clientExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
+    }
+
+    public static <T extends OrtusPacket> void register(Class<T> type, Function<FriendlyByteBuf, T> decoder, SimpleChannel instance, int index) {
+        instance.registerMessage(index, type, T::encode, decoder, T::handle);
     }
 
     public static class ClientOnly {
