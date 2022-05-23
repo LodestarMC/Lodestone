@@ -25,11 +25,11 @@ public class FireEffectInstance {
     }
 
     public FireEffectInstance sync(Entity target) {
-        OrtusEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create().setRoot("fireEffect"));
+        OrtusEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create("fireEffect", "type", "duration").setWhitelist());
         return this;
     }
     public FireEffectInstance syncDuration(Entity target) {
-        OrtusEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create().setRoot("fireEffect").exclude("type"));
+        OrtusEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create("fireEffect", "duration").setWhitelist());
         return this;
     }
 

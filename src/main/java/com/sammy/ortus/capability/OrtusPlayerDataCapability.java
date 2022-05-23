@@ -94,6 +94,10 @@ public class OrtusPlayerDataCapability implements OrtusCapability {
     }
 
 
+    public static void syncServer(Player player, NBTHelper.TagFilter filter) {
+        sync(player, PacketDistributor.SERVER.noArg(), filter);
+    }
+
     public static void syncSelf(ServerPlayer player, NBTHelper.TagFilter filter) {
         sync(player, PacketDistributor.PLAYER.with(() -> player), filter);
     }
@@ -109,6 +113,11 @@ public class OrtusPlayerDataCapability implements OrtusCapability {
     public static void sync(Player player, PacketDistributor.PacketTarget target, NBTHelper.TagFilter filter) {
         getCapabilityOptional(player).ifPresent(c -> INSTANCE.send(target, new SyncOrtusPlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTag(c.serializeNBT(), filter))));
     }
+
+    public static void syncServer(Player player) {
+        sync(player, PacketDistributor.SERVER.noArg());
+    }
+
     public static void syncSelf(ServerPlayer player) {
         sync(player, PacketDistributor.PLAYER.with(() -> player));
     }

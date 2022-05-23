@@ -9,7 +9,7 @@ import java.util.*;
 public class NBTHelper {
 
     public static CompoundTag filterTag(CompoundTag orig, TagFilter filter) {
-        if (filter.isEmpty()) {
+        if (filter.filters.isEmpty()) {
             return orig;
         }
         CompoundTag copy = orig.copy();
@@ -17,50 +17,45 @@ public class NBTHelper {
         return copy;
     }
 
-    public static void removeTags(CompoundTag tag, TagFilter filter) {
-        Iterator<Map.Entry<String, Tag>> iterator = tag.tags.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Tag> next = iterator.next();
-            String key = next.getKey();
-
-            if (filter.excluded.stream().anyMatch(p -> p.equals(key)) || filter.permitted.stream().noneMatch(p -> p.equals(key))) {
-                iterator.remove();
-            } else if (next.getValue() instanceof CompoundTag compoundTag) {
-                removeTags(compoundTag, filter);
+    public static CompoundTag removeTags(CompoundTag tag, TagFilter filter) {
+        CompoundTag newTag = new CompoundTag();
+        for (String i : filter.filters) {
+            if (tag.contains(i)) {
+                if (filter.isWhitelist) {
+                    newTag.put(i, newTag);
+                } else {
+                    tag.remove(i);
+                }
+            } else {
+                for (String key : tag.getAllKeys()) {
+                    Tag value = tag.get(key);
+                    if (value instanceof CompoundTag ctag) {
+                        removeTags(ctag, filter);
+                    }
+                }
             }
         }
+        if (filter.isWhitelist) {
+            tag = newTag;
+        }
+        return tag;
     }
 
-    public static TagFilter create() {
-        return new TagFilter();
+    public static TagFilter create(String... filters) {
+        return new TagFilter(filters);
     }
 
     public static class TagFilter {
-        public String root;
-        public ArrayList<String> permitted = new ArrayList<>();
-        public ArrayList<String> excluded = new ArrayList<>();
+        public final ArrayList<String> filters = new ArrayList<>();
+        public boolean isWhitelist;
 
-        public TagFilter() {
-
+        public TagFilter(String... filters) {
+            this.filters.addAll(List.of(filters));
         }
 
-        public TagFilter setRoot(String root) {
-            this.root = root;
+        public TagFilter setWhitelist() {
+            this.isWhitelist = true;
             return this;
-        }
-
-        public TagFilter permit(String... permitted) {
-            this.permitted.addAll(List.of(permitted));
-            return this;
-        }
-
-        public TagFilter exclude(String... excluded) {
-            this.excluded.addAll(List.of(excluded));
-            return this;
-        }
-
-        public boolean isEmpty() {
-            return permitted.isEmpty() && excluded.isEmpty();
         }
     }
 }
