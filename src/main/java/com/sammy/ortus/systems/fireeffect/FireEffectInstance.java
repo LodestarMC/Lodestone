@@ -28,6 +28,7 @@ public class FireEffectInstance {
         OrtusEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create("fireEffect", "type", "duration").setWhitelist());
         return this;
     }
+
     public FireEffectInstance syncDuration(Entity target) {
         OrtusEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create("fireEffect", "duration").setWhitelist());
         return this;
@@ -59,6 +60,9 @@ public class FireEffectInstance {
     }
 
     public static FireEffectInstance deserializeNBT(CompoundTag tag) {
+        if (!tag.contains("fireEffect")) {
+            return null;
+        }
         CompoundTag fireTag = tag.getCompound("fireEffect");
         FireEffectInstance instance = new FireEffectInstance(OrtusFireEffectRegistry.FIRE_TYPES.get(fireTag.getString("type")));
         instance.setDuration(fireTag.getInt("duration"));
