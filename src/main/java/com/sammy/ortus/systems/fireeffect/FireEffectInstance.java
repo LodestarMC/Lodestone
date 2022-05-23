@@ -47,8 +47,8 @@ public class FireEffectInstance {
 
     public void serializeNBT(CompoundTag tag) {
         CompoundTag fireTag = new CompoundTag();
-        tag.putString("type", type.id);
-        tag.putInt("duration", duration);
+        fireTag.putString("type", type.id);
+        fireTag.putInt("duration", duration);
         tag.put("fireEffect", fireTag);
     }
 
