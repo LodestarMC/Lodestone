@@ -8,6 +8,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class OrtusPacket {
@@ -38,6 +39,10 @@ public class OrtusPacket {
 
     @OnlyIn(Dist.CLIENT)
     public void clientExecute(Supplier<NetworkEvent.Context> context){}
+
+    public static <T extends OrtusPacket> void register(Class<T> type, Function<FriendlyByteBuf, T> decoder, SimpleChannel instance, int index) {
+        instance.registerMessage(index, type, T::encode, decoder, T::handle);
+    }
 
     public static class ClientOnly {
         public static void clientData(OrtusPacket packet,CompoundTag data, Supplier<NetworkEvent.Context> context) {
