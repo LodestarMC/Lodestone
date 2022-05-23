@@ -1,6 +1,5 @@
 package com.sammy.ortus.systems.rendering.particle.screen;
 
-import com.mojang.math.Vector3f;
 import com.sammy.ortus.handlers.ScreenParticleHandler;
 import com.sammy.ortus.systems.rendering.particle.SimpleParticleOptions;
 import com.sammy.ortus.systems.rendering.particle.screen.base.TextureSheetScreenParticle;
@@ -89,7 +88,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         if (data.isTrinaryAlpha()) {
             float trinaryAge = getCurve(data.alphaCoefficient);
             if (trinaryAge >= 0.5f) {
-                alpha = Mth.lerp(data.alphaCurveStartEasing.ease(trinaryAge - 0.5f, 0, 1, 0.5f), data.alpha2, data.alpha3);
+                alpha = Mth.lerp(data.alphaCurveEndEasing.ease(trinaryAge - 0.5f, 0, 1, 0.5f), data.alpha2, data.alpha3);
             } else {
                 alpha = Mth.lerp(data.alphaCurveStartEasing.ease(trinaryAge, 0, 1, 0.5f), data.alpha1, data.alpha2);
             }
@@ -97,7 +96,17 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
             alpha = Mth.lerp(data.alphaCurveStartEasing.ease(getCurve(data.alphaCoefficient), 0, 1, 1), data.alpha1, data.alpha2);
         }
         oRoll = roll;
-        roll += Mth.lerp(data.spinEasing.ease(getCurve(data.spinCoefficient), 0, 1, 1), data.spin1, data.spin2);
+
+        if (data.isTrinarySpin()) {
+            float trinaryAge = getCurve(data.spinCoefficient);
+            if (trinaryAge >= 0.5f) {
+                roll += Mth.lerp(data.spinCurveEndEasing.ease(trinaryAge - 0.5f, 0, 1, 0.5f), data.spin2, data.spin3);
+            } else {
+                roll += Mth.lerp(data.spinCurveStartEasing.ease(trinaryAge, 0, 1, 0.5f), data.spin1, data.spin2);
+            }
+        } else {
+            roll += Mth.lerp(data.spinCurveStartEasing.ease(getCurve(data.alphaCoefficient), 0, 1, 1), data.spin1, data.spin2);
+        }
         if (data.forcedMotion) {
             float motionAge = getCurve(data.motionCoefficient);
             Vec2 currentMotion = data.motionStyle == SimpleParticleOptions.MotionStyle.START_TO_END ? startingMotion : new Vec2((float) xMotion, (float) yMotion);

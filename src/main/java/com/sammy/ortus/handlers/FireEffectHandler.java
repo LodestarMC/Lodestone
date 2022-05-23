@@ -1,13 +1,18 @@
 package com.sammy.ortus.handlers;
 
 import com.mojang.blaze3d.vertex.*;
-import com.sammy.ortus.capability.EntityDataCapability;
+import com.sammy.ortus.capability.OrtusEntityDataCapability;
+import com.sammy.ortus.capability.OrtusWorldDataCapability;
 import com.sammy.ortus.setup.OrtusFireEffectRendererRegistry;
+import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypeRegistry;
 import com.sammy.ortus.systems.fireeffect.FireEffectInstance;
 import com.sammy.ortus.systems.fireeffect.FireEffectRenderer;
+import com.sammy.ortus.systems.worldevent.WorldEventInstance;
+import com.sammy.ortus.systems.worldevent.WorldEventType;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 
 public class FireEffectHandler {
@@ -27,12 +32,11 @@ public class FireEffectHandler {
     }
 
     public static FireEffectInstance getFireEffectInstance(Entity entity) {
-        EntityDataCapability capability = EntityDataCapability.getCapability(entity).orElse(new EntityDataCapability());
-        return capability.fireEffectInstance;
+        return OrtusEntityDataCapability.getCapability(entity).fireEffectInstance;
     }
 
     public static void setCustomFireInstance(Entity entity, FireEffectInstance instance) {
-        EntityDataCapability.getCapability(entity).ifPresent(c -> {
+        OrtusEntityDataCapability.getCapabilityOptional(entity).ifPresent(c -> {
             c.fireEffectInstance = instance;
             if (c.fireEffectInstance != null) {
                 if (entity.getRemainingFireTicks() > 0) {
@@ -45,8 +49,17 @@ public class FireEffectHandler {
         });
     }
 
-    public static class ClientOnly {
+    public static void serializeNBT(OrtusEntityDataCapability capability, CompoundTag tag) {
+        if (capability.fireEffectInstance != null) {
+            capability.fireEffectInstance.serializeNBT(tag);
+        }
+    }
 
+    public static void deserializeNBT(OrtusEntityDataCapability capability, CompoundTag tag) {
+        capability.fireEffectInstance = FireEffectInstance.deserializeNBT(tag);
+    }
+
+    public static class ClientOnly {
         public static void renderUIMeteorFire(Minecraft pMinecraft, PoseStack pPoseStack) {
             if (pMinecraft.player != null) {
                 if (getFireEffectInstance(pMinecraft.player) == null) {

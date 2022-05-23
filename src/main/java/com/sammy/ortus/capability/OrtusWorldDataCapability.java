@@ -16,25 +16,23 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 
 import java.util.ArrayList;
 
-public class WorldDataCapability implements OrtusCapability {
+public class OrtusWorldDataCapability implements OrtusCapability {
 
-    //shove all level data here, use WorldDataCapability.getCapability(level) to access data.
-    //level refers to dimension, not world. Each dimension will have it's own capability instance.
-    public static Capability<WorldDataCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
+    public static Capability<OrtusWorldDataCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
     });
     public final ArrayList<WorldEventInstance> activeWorldEvents = new ArrayList<>();
     public final ArrayList<WorldEventInstance> inboundWorldEvents = new ArrayList<>();
 
-    public WorldDataCapability() {
+    public OrtusWorldDataCapability() {
     }
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.register(WorldDataCapability.class);
+        event.register(OrtusWorldDataCapability.class);
     }
 
     public static void attachWorldCapability(AttachCapabilitiesEvent<Level> event) {
-        final WorldDataCapability capability = new WorldDataCapability();
-        event.addCapability(OrtusLib.ortusPrefix("world_data"), new OrtusCapabilityProvider<>(WorldDataCapability.CAPABILITY, () -> capability));
+        final OrtusWorldDataCapability capability = new OrtusWorldDataCapability();
+        event.addCapability(OrtusLib.ortusPrefix("world_data"), new OrtusCapabilityProvider<>(OrtusWorldDataCapability.CAPABILITY, () -> capability));
     }
 
     @Override
@@ -49,7 +47,11 @@ public class WorldDataCapability implements OrtusCapability {
         WorldEventHandler.deserializeNBT(this, nbt);
     }
 
-    public static LazyOptional<WorldDataCapability> getCapability(Level level) {
+    public static LazyOptional<OrtusWorldDataCapability> getCapabilityOptional(Level level) {
         return level.getCapability(CAPABILITY);
+    }
+
+    public static OrtusWorldDataCapability getCapability(Level level) {
+        return level.getCapability(CAPABILITY).orElse(new OrtusWorldDataCapability());
     }
 }

@@ -1,8 +1,8 @@
 package com.sammy.ortus.events;
 
-import com.sammy.ortus.capability.EntityDataCapability;
-import com.sammy.ortus.capability.PlayerDataCapability;
-import com.sammy.ortus.capability.WorldDataCapability;
+import com.sammy.ortus.capability.OrtusEntityDataCapability;
+import com.sammy.ortus.capability.OrtusPlayerDataCapability;
+import com.sammy.ortus.capability.OrtusWorldDataCapability;
 import com.sammy.ortus.handlers.OrtusAttributeEventHandler;
 import com.sammy.ortus.handlers.ItemEventHandler;
 import com.sammy.ortus.handlers.PlacementAssistantHandler;
@@ -31,17 +31,17 @@ public class RuntimeEvents {
     @SubscribeEvent
     public static void entityJoin(EntityJoinWorldEvent event) {
         WorldEventHandler.playerJoin(event);
-        PlayerDataCapability.playerJoin(event);
+        OrtusPlayerDataCapability.playerJoin(event);
     }
 
     @SubscribeEvent
     public static void playerClone(PlayerEvent.Clone event) {
-        PlayerDataCapability.playerClone(event);
+        OrtusPlayerDataCapability.playerClone(event);
     }
 
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
-        PlayerDataCapability.playerTick(event);
+        OrtusPlayerDataCapability.playerTick(event);
     }
 
     @SubscribeEvent
@@ -61,18 +61,18 @@ public class RuntimeEvents {
 
     @SubscribeEvent
     public static void attachWorldCapability(AttachCapabilitiesEvent<Level> event) {
-        WorldDataCapability.attachWorldCapability(event);
+        OrtusWorldDataCapability.attachWorldCapability(event);
     }
 
     @SubscribeEvent
     public static void attachEntityCapability(AttachCapabilitiesEvent<Entity> event) {
-        PlayerDataCapability.attachPlayerCapability(event);
-        EntityDataCapability.attachEntityCapability(event);
+        OrtusPlayerDataCapability.attachPlayerCapability(event);
+        OrtusEntityDataCapability.attachEntityCapability(event);
     }
 
     @SubscribeEvent
     public static void startTracking(PlayerEvent.StartTracking event) {
-        PlayerDataCapability.syncPlayerCapability(event);
-        EntityDataCapability.syncEntityCapability(event);
+        OrtusPlayerDataCapability.syncPlayerCapability(event);
+        OrtusEntityDataCapability.syncEntityCapability(event);
     }
 }

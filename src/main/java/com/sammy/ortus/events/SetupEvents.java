@@ -1,8 +1,8 @@
 package com.sammy.ortus.events;
 
-import com.sammy.ortus.capability.EntityDataCapability;
-import com.sammy.ortus.capability.PlayerDataCapability;
-import com.sammy.ortus.capability.WorldDataCapability;
+import com.sammy.ortus.capability.OrtusEntityDataCapability;
+import com.sammy.ortus.capability.OrtusPlayerDataCapability;
+import com.sammy.ortus.capability.OrtusWorldDataCapability;
 import com.sammy.ortus.handlers.PlacementAssistantHandler;
 import com.sammy.ortus.systems.block.OrtusThrowawayBlockData;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -17,9 +17,9 @@ public class SetupEvents {
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        WorldDataCapability.registerCapabilities(event);
-        EntityDataCapability.registerCapabilities(event);
-        PlayerDataCapability.registerCapabilities(event);
+        OrtusWorldDataCapability.registerCapabilities(event);
+        OrtusEntityDataCapability.registerCapabilities(event);
+        OrtusPlayerDataCapability.registerCapabilities(event);
     }
 
     @SubscribeEvent

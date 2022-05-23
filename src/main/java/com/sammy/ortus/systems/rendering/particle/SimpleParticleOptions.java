@@ -31,9 +31,9 @@ public class SimpleParticleOptions {
     public float motionCoefficient = 1f;
     public Easing motionEasing = Easing.LINEAR;
 
-    public float spin1 = 0, spin2 = 0;
+    public float spin1 = 0, spin2 = 0, spin3 = 0;
     public float spinCoefficient = 1f, spinOffset = 0;
-    public Easing spinEasing = Easing.LINEAR;
+    public Easing spinCurveStartEasing = Easing.LINEAR, spinCurveEndEasing = Easing.LINEAR;
 
     public int lifetime = 20;
     public float gravity = 0f;
@@ -48,5 +48,9 @@ public class SimpleParticleOptions {
     public boolean isTrinaryAlpha()
     {
         return alpha2 != alpha3;
+    }
+    public boolean isTrinarySpin()
+    {
+        return spin2 != spin3;
     }
 }

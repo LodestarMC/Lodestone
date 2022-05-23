@@ -1,6 +1,6 @@
 package com.sammy.ortus.network.interaction;
 
-import com.sammy.ortus.capability.PlayerDataCapability;
+import com.sammy.ortus.capability.OrtusPlayerDataCapability;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -23,7 +23,7 @@ public class UpdateRightClickPacket {
     }
 
     public void execute(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> PlayerDataCapability.getCapability(context.get().getSender()).ifPresent(c -> c.rightClickHeld = rightClickHeld));
+        context.get().enqueueWork(() -> OrtusPlayerDataCapability.getCapabilityOptional(context.get().getSender()).ifPresent(c -> c.rightClickHeld = rightClickHeld));
         context.get().setPacketHandled(true);
     }
 

@@ -1,6 +1,6 @@
 package com.sammy.ortus.systems.fireeffect;
 
-import com.sammy.ortus.capability.EntityDataCapability;
+import com.sammy.ortus.capability.OrtusEntityDataCapability;
 import com.sammy.ortus.setup.OrtusFireEffectRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -24,10 +24,9 @@ public class FireEffectInstance {
     }
 
     public FireEffectInstance sync(Entity target) {
-        EntityDataCapability.syncTrackingAndSelf(target);
+        OrtusEntityDataCapability.syncTrackingAndSelf(target, "fireEffect");
         return this;
     }
-
     public void tick(Entity target) {
         if ((target.isInPowderSnow || target.isInWaterRainOrBubble())) {
             type.extinguish(this, target);
@@ -46,15 +45,17 @@ public class FireEffectInstance {
         return type.isValid(this);
     }
 
-    public CompoundTag serializeNBT(CompoundTag tag) {
+    public void serializeNBT(CompoundTag tag) {
+        CompoundTag fireTag = new CompoundTag();
         tag.putString("type", type.id);
         tag.putInt("duration", duration);
-        return tag;
+        tag.put("fireEffect", fireTag);
     }
 
     public static FireEffectInstance deserializeNBT(CompoundTag tag) {
-        FireEffectInstance instance = new FireEffectInstance(OrtusFireEffectRegistry.FIRE_TYPES.get(tag.getString("type")));
-        instance.setDuration(tag.getInt("duration"));
+        CompoundTag fireTag = tag.getCompound("fireEffect");
+        FireEffectInstance instance = new FireEffectInstance(OrtusFireEffectRegistry.FIRE_TYPES.get(fireTag.getString("type")));
+        instance.setDuration(fireTag.getInt("duration"));
         return instance;
     }
 }

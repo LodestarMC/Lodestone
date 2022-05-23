@@ -182,9 +182,9 @@ public class ParticleBuilders {
             data.noClip = false;
             return this;
         }
-
-        public WorldParticleBuilder setSpinEasing(Easing easing) {
-            data.spinEasing = easing;
+        public WorldParticleBuilder setSpinEasing(Easing startEasing, Easing endEasing) {
+            data.spinCurveStartEasing = startEasing;
+            data.spinCurveEndEasing = endEasing;
             return this;
         }
 
@@ -203,8 +203,13 @@ public class ParticleBuilders {
         }
 
         public WorldParticleBuilder setSpin(float spin1, float spin2) {
+            return setSpin(spin1, spin2, spin2);
+        }
+
+        public WorldParticleBuilder setSpin(float spin1, float spin2, float spin3) {
             data.spin1 = spin1;
             data.spin2 = spin2;
+            data.spin3 = spin3;
             return this;
         }
 
@@ -566,7 +571,13 @@ public class ParticleBuilders {
         }
 
         public ScreenParticleBuilder setSpinEasing(Easing easing) {
-            data.spinEasing = easing;
+            data.spinCurveStartEasing = easing;
+            return this;
+        }
+
+        public ScreenParticleBuilder setSpinEasing(Easing startEasing, Easing endEasing) {
+            data.spinCurveStartEasing = startEasing;
+            data.spinCurveEndEasing = endEasing;
             return this;
         }
 
@@ -585,8 +596,13 @@ public class ParticleBuilders {
         }
 
         public ScreenParticleBuilder setSpin(float spin1, float spin2) {
+            return setSpin(spin1, spin2, spin2);
+        }
+
+        public ScreenParticleBuilder setSpin(float spin1, float spin2, float spin3) {
             data.spin1 = spin1;
             data.spin2 = spin2;
+            data.spin3 = spin3;
             return this;
         }
 

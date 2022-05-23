@@ -1,6 +1,6 @@
 package com.sammy.ortus.network.packet;
 
-import com.sammy.ortus.capability.EntityDataCapability;
+import com.sammy.ortus.capability.OrtusEntityDataCapability;
 import com.sammy.ortus.systems.network.OrtusSyncPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -33,12 +33,12 @@ public class SyncOrtusEntityCapabilityPacket extends OrtusSyncPacket {
     @Override
     public void modifyClient(Supplier<NetworkEvent.Context> context, CompoundTag tag) {
         Entity entity = Minecraft.getInstance().level.getEntity(entityID);
-        EntityDataCapability.getCapability(entity).ifPresent(c -> c.deserializeNBT(tag));
+        OrtusEntityDataCapability.getCapabilityOptional(entity).ifPresent(c -> c.deserializeNBT(tag));
     }
 
     @Override
     public void modifyServer(Supplier<NetworkEvent.Context> context, CompoundTag tag) {
         Entity entity = context.get().getSender().level.getEntity(entityID);
-        EntityDataCapability.getCapability(entity).ifPresent(c -> c.deserializeNBT(tag));
+        OrtusEntityDataCapability.getCapabilityOptional(entity).ifPresent(c -> c.deserializeNBT(tag));
     }
 }

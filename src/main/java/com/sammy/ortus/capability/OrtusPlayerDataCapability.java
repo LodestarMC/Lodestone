@@ -1,6 +1,7 @@
 package com.sammy.ortus.capability;
 
 import com.sammy.ortus.OrtusLib;
+import com.sammy.ortus.helpers.NBTHelper;
 import com.sammy.ortus.network.interaction.UpdateLeftClickPacket;
 import com.sammy.ortus.network.interaction.UpdateRightClickPacket;
 import com.sammy.ortus.network.packet.SyncOrtusPlayerCapabilityPacket;
@@ -25,11 +26,9 @@ import net.minecraftforge.network.PacketDistributor;
 
 import static com.sammy.ortus.setup.OrtusPacketRegistry.INSTANCE;
 
-public class PlayerDataCapability implements OrtusCapability {
+public class OrtusPlayerDataCapability implements OrtusCapability {
 
-    //shove all player data here, use PlayerDataCapability.getCapability(player) to access data.
-
-    public static Capability<PlayerDataCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
+    public static Capability<OrtusPlayerDataCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
     });
 
     public boolean hasJoinedBefore;
@@ -39,26 +38,24 @@ public class PlayerDataCapability implements OrtusCapability {
     public int leftClickTime;
 
 
-    public PlayerDataCapability() {
+    public OrtusPlayerDataCapability() {
     }
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.register(PlayerDataCapability.class);
+        event.register(OrtusPlayerDataCapability.class);
     }
 
     public static void attachPlayerCapability(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player) {
-            final PlayerDataCapability capability = new PlayerDataCapability();
-            event.addCapability(OrtusLib.ortusPrefix("player_data"), new OrtusCapabilityProvider<>(PlayerDataCapability.CAPABILITY, () -> capability));
+            final OrtusPlayerDataCapability capability = new OrtusPlayerDataCapability();
+            event.addCapability(OrtusLib.ortusPrefix("player_data"), new OrtusCapabilityProvider<>(OrtusPlayerDataCapability.CAPABILITY, () -> capability));
         }
     }
 
     public static void playerJoin(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            PlayerDataCapability.getCapability(player).ifPresent(capability -> capability.hasJoinedBefore = true);
-            if (player instanceof ServerPlayer serverPlayer) {
-                syncSelf(serverPlayer);
-            }
+        if (event.getEntity() instanceof ServerPlayer serverPlayer) {
+            OrtusPlayerDataCapability.getCapabilityOptional(serverPlayer).ifPresent(capability -> capability.hasJoinedBefore = true);
+            syncSelf(serverPlayer);
         }
     }
 
@@ -71,8 +68,7 @@ public class PlayerDataCapability implements OrtusCapability {
     }
 
     public static void playerTick(TickEvent.PlayerTickEvent event) {
-        PlayerDataCapability.getCapability(event.player).ifPresent(c ->
-        {
+        OrtusPlayerDataCapability.getCapabilityOptional(event.player).ifPresent(c -> {
             c.rightClickTime = c.rightClickHeld ? c.rightClickTime + 1 : 0;
             c.leftClickTime = c.leftClickHeld ? c.leftClickTime + 1 : 0;
         });
@@ -80,7 +76,7 @@ public class PlayerDataCapability implements OrtusCapability {
 
     public static void playerClone(PlayerEvent.Clone event) {
         event.getOriginal().revive();
-        PlayerDataCapability.getCapability(event.getOriginal()).ifPresent(o -> PlayerDataCapability.getCapability(event.getPlayer()).ifPresent(c -> {
+        OrtusPlayerDataCapability.getCapabilityOptional(event.getOriginal()).ifPresent(o -> OrtusPlayerDataCapability.getCapabilityOptional(event.getPlayer()).ifPresent(c -> {
             c.deserializeNBT(o.serializeNBT());
         }));
     }
@@ -97,54 +93,35 @@ public class PlayerDataCapability implements OrtusCapability {
         hasJoinedBefore = tag.getBoolean("firstTimeJoin");
     }
 
-    public static void syncSelf(ServerPlayer player) {
-        sync(player, PacketDistributor.PLAYER.with(() -> player));
+    public static void syncSelf(ServerPlayer player, String... filter) {
+        sync(player, PacketDistributor.PLAYER.with(() -> player), filter);
     }
 
-    public static void syncTrackingAndSelf(Player player) {
-        sync(player, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player));
+    public static void syncTrackingAndSelf(Player player, String... filter) {
+        sync(player, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), filter);
     }
 
-    public static void syncTracking(Player player) {
-        sync(player, PacketDistributor.TRACKING_ENTITY.with(() -> player));
+    public static void syncTracking(Player player, String... filter) {
+        sync(player, PacketDistributor.TRACKING_ENTITY.with(() -> player), filter);
     }
 
-    public static void sync(Player player, PacketDistributor.PacketTarget target) {
-        getCapability(player).ifPresent(c -> INSTANCE.send(target, new SyncOrtusPlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
+    public static void sync(Player player, PacketDistributor.PacketTarget target, String... filter) {
+        getCapabilityOptional(player).ifPresent(c -> INSTANCE.send(target, new SyncOrtusPlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTag(c.serializeNBT(), filter))));
     }
 
-    public static void syncServer(Player player) {
-        getCapability(player).ifPresent(c -> INSTANCE.send(PacketDistributor.SERVER.noArg(), new SyncOrtusPlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
-    }
-
-    public static LazyOptional<PlayerDataCapability> getCapability(Player player) {
+    public static LazyOptional<OrtusPlayerDataCapability> getCapabilityOptional(Player player) {
         return player.getCapability(CAPABILITY);
     }
-    public static boolean getHasJoinedBefore(Player player) {
-        return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).hasJoinedBefore;
-    }
 
-    public static int getRightClickTime(Player player) {
-        return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).rightClickTime;
-    }
-
-    public static int getLeftClickTime(Player player) {
-        return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).leftClickTime;
-    }
-
-    public static boolean getRightClickHeld(Player player) {
-        return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).rightClickHeld;
-    }
-
-    public static boolean getLeftClickHeld(Player player) {
-        return player.getCapability(CAPABILITY).orElse(new PlayerDataCapability()).leftClickHeld;
+    public static OrtusPlayerDataCapability getCapability(Player player) {
+        return player.getCapability(CAPABILITY).orElse(new OrtusPlayerDataCapability());
     }
 
     public static class ClientOnly {
         public static void clientTick(TickEvent.ClientTickEvent event) {
             Minecraft minecraft = Minecraft.getInstance();
             Player player = minecraft.player;
-            PlayerDataCapability.getCapability(player).ifPresent(c -> {
+            OrtusPlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> {
                 boolean left = minecraft.options.keyAttack.isDown();
                 boolean right = minecraft.options.keyUse.isDown();
                 if (left != c.leftClickHeld) {

@@ -1,6 +1,6 @@
 package com.sammy.ortus.network.packet;
 
-import com.sammy.ortus.capability.PlayerDataCapability;
+import com.sammy.ortus.capability.OrtusPlayerDataCapability;
 import com.sammy.ortus.systems.network.OrtusSyncPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -34,12 +34,12 @@ public class SyncOrtusPlayerCapabilityPacket extends OrtusSyncPacket {
     @Override
     public void modifyClient(Supplier<NetworkEvent.Context> context, CompoundTag tag) {
         Player player = Minecraft.getInstance().level.getPlayerByUUID(uuid);
-        PlayerDataCapability.getCapability(player).ifPresent(c -> c.deserializeNBT(tag));
+        OrtusPlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.deserializeNBT(tag));
     }
 
     @Override
     public void modifyServer(Supplier<NetworkEvent.Context> context, CompoundTag tag) {
         Player player = context.get().getSender().level.getPlayerByUUID(uuid);
-        PlayerDataCapability.getCapability(player).ifPresent(c -> c.deserializeNBT(tag));
+        OrtusPlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.deserializeNBT(tag));
     }
 }

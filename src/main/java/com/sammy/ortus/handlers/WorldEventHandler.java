@@ -1,7 +1,7 @@
 package com.sammy.ortus.handlers;
 
-import com.sammy.ortus.capability.PlayerDataCapability;
-import com.sammy.ortus.capability.WorldDataCapability;
+import com.sammy.ortus.capability.OrtusPlayerDataCapability;
+import com.sammy.ortus.capability.OrtusWorldDataCapability;
 import com.sammy.ortus.setup.worldevent.OrtusWorldEventRendererRegistry;
 import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypeRegistry;
 import com.sammy.ortus.systems.worldevent.WorldEventInstance;
@@ -23,7 +23,7 @@ public class WorldEventHandler {
 
     public static class ClientOnly {
         public static void renderWorldEvents(RenderLevelLastEvent event) {
-            WorldDataCapability.getCapability(Minecraft.getInstance().level).ifPresent(capability -> {
+            OrtusWorldDataCapability.getCapabilityOptional(Minecraft.getInstance().level).ifPresent(capability -> {
                 for (WorldEventInstance instance : capability.activeWorldEvents) {
                     WorldEventRenderer<WorldEventInstance> renderer = OrtusWorldEventRendererRegistry.RENDERERS.get(instance.type);
                     if (renderer != null) {
@@ -37,7 +37,7 @@ public class WorldEventHandler {
     }
 
     public static <T extends WorldEventInstance> T addWorldEvent(Level level, T instance) {
-        WorldDataCapability.getCapability(level).ifPresent(capability -> {
+        OrtusWorldDataCapability.getCapabilityOptional(level).ifPresent(capability -> {
             capability.inboundWorldEvents.add(instance);
             instance.start(level);
             instance.sync(level);
@@ -48,7 +48,7 @@ public class WorldEventHandler {
     public static void playerJoin(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (player.level instanceof ServerLevel level) {
-                PlayerDataCapability.getCapability(player).ifPresent(capability -> WorldDataCapability.getCapability(level).ifPresent(worldCapability -> {
+                OrtusPlayerDataCapability.getCapabilityOptional(player).ifPresent(capability -> OrtusWorldDataCapability.getCapabilityOptional(level).ifPresent(worldCapability -> {
                     if (player instanceof ServerPlayer serverPlayer) {
                         for (WorldEventInstance instance : worldCapability.activeWorldEvents) {
                             if (instance.isClientSynced()) {
@@ -70,10 +70,10 @@ public class WorldEventHandler {
     }
 
     public static void tick(Level level) {
-        WorldDataCapability.getCapability(level).ifPresent(capability -> {
-            capability.activeWorldEvents.addAll(capability.inboundWorldEvents);
-            capability.inboundWorldEvents.clear();
-            Iterator<WorldEventInstance> iterator = capability.activeWorldEvents.iterator();
+        OrtusWorldDataCapability.getCapabilityOptional(level).ifPresent(c -> {
+            c.activeWorldEvents.addAll(c.inboundWorldEvents);
+            c.inboundWorldEvents.clear();
+            Iterator<WorldEventInstance> iterator = c.activeWorldEvents.iterator();
             while (iterator.hasNext()) {
                 WorldEventInstance instance = iterator.next();
                 if (instance.discarded) {
@@ -85,24 +85,26 @@ public class WorldEventHandler {
         });
     }
 
-    public static void serializeNBT(WorldDataCapability capability, CompoundTag tag) {
-        tag.putInt("worldEventCount", capability.activeWorldEvents.size());
+    public static void serializeNBT(OrtusWorldDataCapability capability, CompoundTag tag) {
+        CompoundTag worldTag = new CompoundTag();
+        worldTag.putInt("worldEventCount", capability.activeWorldEvents.size());
         for (int i = 0; i < capability.activeWorldEvents.size(); i++) {
             WorldEventInstance instance = capability.activeWorldEvents.get(i);
             CompoundTag instanceTag = new CompoundTag();
             instance.serializeNBT(instanceTag);
-            tag.put("worldEvent_" + i, instanceTag);
+            worldTag.put("worldEvent_" + i, instanceTag);
         }
+        tag.put("worldEventData", worldTag);
     }
 
-    public static void deserializeNBT(WorldDataCapability capability, CompoundTag tag) {
+    public static void deserializeNBT(OrtusWorldDataCapability capability, CompoundTag tag) {
         capability.activeWorldEvents.clear();
-        int starfallCount = tag.getInt("worldEventCount");
-        for (int i = 0; i < starfallCount; i++) {
-            CompoundTag instanceTag = tag.getCompound("worldEvent_" + i);
+        CompoundTag worldTag = tag.getCompound("worldEventData");
+        int worldEventCount = worldTag.getInt("worldEventCount");
+        for (int i = 0; i < worldEventCount; i++) {
+            CompoundTag instanceTag = worldTag.getCompound("worldEvent_" + i);
             WorldEventType reader = OrtusWorldEventTypeRegistry.EVENT_TYPES.get(instanceTag.getString("type"));
             WorldEventInstance eventInstance = reader.createInstance(instanceTag);
-
             capability.activeWorldEvents.add(eventInstance);
         }
     }

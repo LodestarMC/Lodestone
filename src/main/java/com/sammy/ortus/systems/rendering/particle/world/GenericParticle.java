@@ -16,7 +16,6 @@ import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 
 import java.awt.*;
-import java.util.Vector;
 
 public class GenericParticle extends TextureSheetParticle {
     protected WorldParticleOptions data;
@@ -103,7 +102,7 @@ public class GenericParticle extends TextureSheetParticle {
             alpha = Mth.lerp(data.alphaCurveStartEasing.ease(getCurve(data.alphaCoefficient), 0, 1, 1), data.alpha1, data.alpha2);
         }
         oRoll = roll;
-        roll += Mth.lerp(data.spinEasing.ease(getCurve(data.spinCoefficient), 0, 1, 1), data.spin1, data.spin2);
+        roll += Mth.lerp(data.spinCurveStartEasing.ease(getCurve(data.spinCoefficient), 0, 1, 1), data.spin1, data.spin2);
         if (data.forcedMotion) {
             float motionAge = getCurve(data.motionCoefficient);
             Vector3f currentMotion = data.motionStyle == SimpleParticleOptions.MotionStyle.START_TO_END ? startingMotion : new Vector3f((float) xd, (float) yd, (float) zd);

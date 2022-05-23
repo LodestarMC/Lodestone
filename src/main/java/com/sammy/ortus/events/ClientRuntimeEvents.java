@@ -2,7 +2,7 @@ package com.sammy.ortus.events;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.sammy.ortus.OrtusLibClient;
-import com.sammy.ortus.capability.PlayerDataCapability;
+import com.sammy.ortus.capability.OrtusPlayerDataCapability;
 import com.sammy.ortus.handlers.*;
 import com.sammy.ortus.helpers.util.AnimationTickHolder;
 import net.minecraft.client.Camera;
@@ -37,7 +37,7 @@ public class ClientRuntimeEvents {
                 WorldEventHandler.tick(minecraft.level);
                 PlacementAssistantHandler.clientTick();
                 ScreenshakeHandler.clientTick(camera, RANDOM);
-                PlayerDataCapability.ClientOnly.clientTick(event);
+                OrtusPlayerDataCapability.ClientOnly.clientTick(event);
                 ScreenParticleHandler.clientTick();
             }
         }
