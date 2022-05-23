@@ -17,10 +17,6 @@ public class OrtusPacket {
         data = tag;
     }
 
-    public OrtusPacket decode(FriendlyByteBuf buf) {
-        return new OrtusPacket(buf.readNbt());
-    }
-
     public void encode(FriendlyByteBuf buf) {
         buf.writeNbt(data);
     }
