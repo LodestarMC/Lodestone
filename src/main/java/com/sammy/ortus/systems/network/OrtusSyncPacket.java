@@ -1,4 +1,4 @@
-package com.sammy.ortus.systems.network;
+package com.sammy.ortus.network.packet;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.network.NetworkEvent;
@@ -32,6 +32,5 @@ public abstract class OrtusSyncPacket extends OrtusPacket {
     }
 
     public abstract void modifyClient(Supplier<NetworkEvent.Context> context, CompoundTag tag);
-
     public abstract void modifyServer(Supplier<NetworkEvent.Context> context, CompoundTag tag);
 }
