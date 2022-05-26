@@ -347,7 +347,7 @@ public class VFXBuilders {
         }
 
         public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, PoseStack stack, float width, float height) {
-            Vector3f[] positions = new Vector3f[]{new Vector3f(-width, -height, 0), new Vector3f(width, -height, 0), new Vector3f(width, height, 0), new Vector3f(-width, height, 0)};
+            Vector3f[] positions = new Vector3f[]{new Vector3f(-1, -1, 0), new Vector3f(1, -1, 0), new Vector3f(1, 1, 0), new Vector3f(-1, 1, 0)};
             return renderQuad(vertexConsumer, stack, positions, width, height);
         }
 
