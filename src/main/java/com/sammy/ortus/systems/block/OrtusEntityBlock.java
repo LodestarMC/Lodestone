@@ -39,10 +39,10 @@ public class OrtusEntityBlock<T extends OrtusBlockEntity> extends Block implemen
 
     }
 
-    public OrtusEntityBlock<T> setBlockEntity(Supplier<BlockEntityType<T>> type) {
+    public <Y extends OrtusEntityBlock<T>> Y setBlockEntity(Supplier<BlockEntityType<T>> type) {
         this.blockEntityType = type;
         this.ticker = (l, p, s, t) -> t.tick();
-        return this;
+        return (Y) this;
     }
 
     @Override

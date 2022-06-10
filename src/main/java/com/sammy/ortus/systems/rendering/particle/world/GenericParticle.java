@@ -1,12 +1,15 @@
 package com.sammy.ortus.systems.rendering.particle.world;
 
+import com.lowdragmc.shimmer.client.postprocessing.PostProcessing;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.handlers.RenderHandler;
+import com.sammy.ortus.setup.OrtusParticleRegistry;
 import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
 import com.sammy.ortus.systems.rendering.particle.ParticleRenderTypes;
 import com.sammy.ortus.systems.rendering.particle.SimpleParticleOptions;
+import com.sammy.ortus.systems.rendering.particle.type.OrtusParticleType;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
