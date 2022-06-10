@@ -49,8 +49,8 @@ public class EntityHelper {
     }
 
     public static class PastPosition {
-        private Vec3 position;
-        private int time;
+        public Vec3 position;
+        public int time;
 
         public PastPosition(Vec3 position, int time) {
             this.position = position;
