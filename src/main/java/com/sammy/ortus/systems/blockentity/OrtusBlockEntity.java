@@ -23,6 +23,9 @@ import org.jetbrains.annotations.Nullable;
  * A simple block entity with various frequently used methods called from {@link OrtusEntityBlock}
  */
 public class OrtusBlockEntity extends BlockEntity {
+
+    public boolean needsSync;
+
     public OrtusBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -62,6 +65,12 @@ public class OrtusBlockEntity extends BlockEntity {
     }
 
     @Override
+    public void load(CompoundTag pTag) {
+        needsSync = true;
+        super.load(pTag);
+    }
+
+    @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
@@ -73,6 +82,13 @@ public class OrtusBlockEntity extends BlockEntity {
     }
 
     public void tick() {
+        if (needsSync) {
+            init();
+            needsSync = false;
+        }
+    }
+
+    public void init() {
 
     }
 }
