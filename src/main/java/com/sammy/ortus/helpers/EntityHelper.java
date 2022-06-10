@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EntityHelper {
 
@@ -24,21 +25,36 @@ public class EntityHelper {
         }
         target.addEffect(new MobEffectInstance(effect, duration, amplifier));
     }
+
     /**
-     * Tracks the travel path of of an entity or other object
-     * @param pastPositions An ArrayList that houses all the past positions.
-     * @param currentPosition The current position to be added to the list.
+     * Tracks the travel path of an entity or other object
+     *
+     * @param pastPositions     An ArrayList that houses all the past positions.
+     * @param currentPosition   The current position to be added to the list.
      * @param distanceThreshold the minimum distance from the latest PastPos before a new position is added.
      */
-    public static void trackPastPositions(ArrayList<Vec3> pastPositions, Vec3 currentPosition, float distanceThreshold) {
+    public static void trackPastPositions(ArrayList<PastPosition> pastPositions, Vec3 currentPosition, float distanceThreshold) {
+        for (PastPosition pastPosition : pastPositions) {
+            pastPosition.time++;
+        }
         if (!pastPositions.isEmpty()) {
-            Vec3 latest = pastPositions.get(pastPositions.size() - 1);
-            float distance = (float) latest.distanceTo(currentPosition);
+            PastPosition latest = pastPositions.get(pastPositions.size() - 1);
+            float distance = (float) latest.position.distanceTo(currentPosition);
             if (distance > distanceThreshold) {
-                pastPositions.add(currentPosition);
+                pastPositions.add(new PastPosition(currentPosition, 0));
             }
         } else {
-            pastPositions.add(currentPosition);
+            pastPositions.add(new PastPosition(currentPosition, 0));
+        }
+    }
+
+    public static class PastPosition {
+        private Vec3 position;
+        private int time;
+
+        public PastPosition(Vec3 position, int time) {
+            this.position = position;
+            this.time = time;
         }
     }
 }
