@@ -307,8 +307,8 @@ public class ParticleBuilders {
             this.dx = Math.sin(yaw2) * Math.cos(pitch2) * xDist;
             this.dy = Math.sin(pitch2) * yDist;
             this.dz = Math.cos(yaw2) * Math.cos(pitch2) * zDist;
-            //level.addParticle(data, x + dx + dx2, y + dy, z + dz + dz2, vx, ySpeed, vz);
-            PostProcessing.BLOOM_UNREAL.postParticle(data, x + dx + dx2, y + dy, z + dz + dz2, vx, ySpeed, vz);
+            level.addParticle(data, x + dx + dx2, y + dy, z + dz + dz2, vx, ySpeed, vz);
+//            PostProcessing.BLOOM_UNREAL.postParticle(data, x + dx + dx2, y + dy, z + dz + dz2, vx, ySpeed, vz);
             return this;
         }
 
@@ -322,8 +322,8 @@ public class ParticleBuilders {
             this.dy = Math.sin(pitch2) * yDist;
             this.dz = Math.cos(yaw2) * Math.cos(pitch2) * zDist;
 
-            //level.addParticle(data, x + dx, y + dy, z + dz, vx, vy, vz);
-            PostProcessing.BLOOM_UNREAL.postParticle(data, x + dx, y + dy, z + dz, vx, vy, vz);
+            level.addParticle(data, x + dx, y + dy, z + dz, vx, vy, vz);
+//            PostProcessing.BLOOM_UNREAL.postParticle(data, x + dx, y + dy, z + dz, vx, vy, vz);
             return this;
         }
 
@@ -340,8 +340,8 @@ public class ParticleBuilders {
                 this.dy = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : (double) random.nextFloat();
                 this.dz = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : (double) random.nextFloat();
 
-                //level.addParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
-                PostProcessing.BLOOM_UNREAL.postParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
+                level.addParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
+//                PostProcessing.BLOOM_UNREAL.postParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
 
             }
             return this;
@@ -360,8 +360,8 @@ public class ParticleBuilders {
                 this.dy = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : (double) random.nextFloat();
                 this.dz = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : (double) random.nextFloat();
 
-                //level.addParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
-                PostProcessing.BLOOM_UNREAL.postParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
+                level.addParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
+//                PostProcessing.BLOOM_UNREAL.postParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
 
             }
             return this;
@@ -380,8 +380,8 @@ public class ParticleBuilders {
             this.dy = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : (double) random.nextFloat();
             this.dz = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : (double) random.nextFloat();
 
-            //level.addParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
-            PostProcessing.BLOOM_UNREAL.postParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
+            level.addParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
+//            PostProcessing.BLOOM_UNREAL.postParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
             return this;
         }
 

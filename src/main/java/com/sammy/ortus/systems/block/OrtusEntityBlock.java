@@ -36,7 +36,6 @@ public class OrtusEntityBlock<T extends OrtusBlockEntity> extends Block implemen
 
     public OrtusEntityBlock(Properties properties) {
         super(properties);
-
     }
 
     public <Y extends OrtusEntityBlock<T>> Y setBlockEntity(Supplier<BlockEntityType<T>> type) {
