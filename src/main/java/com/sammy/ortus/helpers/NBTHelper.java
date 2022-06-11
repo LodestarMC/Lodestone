@@ -1,12 +1,23 @@
 package com.sammy.ortus.helpers;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.protocol.game.ClientboundLevelChunkPacketData;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
 
 public class NBTHelper {
+
+    public static ClientboundLevelChunkPacketData.BlockEntityInfo createFriendlyBlockEntityPacket(BlockEntity blockEntity) {
+        CompoundTag compoundtag = blockEntity.getUpdateTag();
+        BlockPos blockpos = blockEntity.getBlockPos();
+        int i = SectionPos.sectionRelative(blockpos.getX()) << 4 | SectionPos.sectionRelative(blockpos.getZ());
+        return new ClientboundLevelChunkPacketData.BlockEntityInfo(i, blockpos.getY(), blockEntity.getType(), compoundtag);
+    }
 
     public static CompoundTag filterTag(CompoundTag orig, TagFilter filter) {
         if (filter.filters.isEmpty()) {
