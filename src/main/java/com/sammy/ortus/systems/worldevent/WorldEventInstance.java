@@ -66,10 +66,10 @@ public abstract class WorldEventInstance {
     }
 
     public static <T extends WorldEventInstance> void sync(T instance) {
-        OrtusPacketRegistry.INSTANCE.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
+        OrtusPacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
     }
 
     public static <T extends WorldEventInstance> void sync(T instance, ServerPlayer player) {
-        OrtusPacketRegistry.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
+        OrtusPacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
     }
 }

@@ -10,7 +10,6 @@ import com.sammy.ortus.systems.fireeffect.FireEffectInstance;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -20,7 +19,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.network.PacketDistributor;
 
-import static com.sammy.ortus.setup.OrtusPacketRegistry.INSTANCE;
+import static com.sammy.ortus.setup.OrtusPacketRegistry.ORTUS_CHANNEL;
 
 public class OrtusEntityDataCapability implements OrtusCapability {
 
@@ -69,7 +68,7 @@ public class OrtusEntityDataCapability implements OrtusCapability {
     }
 
     public static void sync(Entity entity, PacketDistributor.PacketTarget target) {
-        getCapabilityOptional(entity).ifPresent(c -> INSTANCE.send(target, new SyncOrtusEntityCapabilityPacket(entity.getId(), c.serializeNBT())));
+        getCapabilityOptional(entity).ifPresent(c -> ORTUS_CHANNEL.send(target, new SyncOrtusEntityCapabilityPacket(entity.getId(), c.serializeNBT())));
     }
 
     public static void syncTrackingAndSelf(Entity entity, NBTHelper.TagFilter filter) {
@@ -81,7 +80,7 @@ public class OrtusEntityDataCapability implements OrtusCapability {
     }
 
     public static void sync(Entity entity, PacketDistributor.PacketTarget target, NBTHelper.TagFilter filter) {
-        getCapabilityOptional(entity).ifPresent(c -> INSTANCE.send(target, new SyncOrtusEntityCapabilityPacket(entity.getId(), NBTHelper.filterTag(c.serializeNBT(), filter))));
+        getCapabilityOptional(entity).ifPresent(c -> ORTUS_CHANNEL.send(target, new SyncOrtusEntityCapabilityPacket(entity.getId(), NBTHelper.filterTag(c.serializeNBT(), filter))));
     }
 
     public static LazyOptional<OrtusEntityDataCapability> getCapabilityOptional(Entity entity) {

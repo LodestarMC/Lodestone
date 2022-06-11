@@ -5,29 +5,27 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class OrtusPacket {
+public abstract class OrtusTwoWayNBTPacket extends OrtusTwoWayPacket {
     protected CompoundTag data;
 
-    public OrtusPacket(CompoundTag tag) {
-        data = tag;
+    public OrtusTwoWayNBTPacket(CompoundTag data) {
+        this.data = data;
     }
 
     public void encode(FriendlyByteBuf buf) {
         buf.writeNbt(data);
     }
 
-
     public void handle(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             if (context.get().getDirection().getReceptionSide().equals(LogicalSide.CLIENT)) {
-                OrtusPacket.ClientOnly.clientData(this, data, context);
+                OrtusTwoWayNBTPacket.ClientOnly.clientData(this, data, context);
             } else {
                 serverExecute(context, data);
             }
@@ -35,11 +33,16 @@ public class OrtusPacket {
         context.get().setPacketHandled(true);
     }
 
-    public static <T extends OrtusPacket> void register(Class<T> type, Function<FriendlyByteBuf, T> decoder, SimpleChannel instance, int index) {
-        instance.registerMessage(index, type, T::encode, decoder, T::handle);
+    @Override
+    public final void serverExecute(Supplier<NetworkEvent.Context> context) {
+        serverExecute(context, data);
     }
 
-    //Overwrite Methods that are called when a packet is recieved by a client or a server (note they do nothing in this class)
+    @Override
+    public final void clientExecute(Supplier<NetworkEvent.Context> context) {
+        clientExecute(context, data);
+    }
+
     public void serverExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
     }
 
@@ -48,7 +51,7 @@ public class OrtusPacket {
     }
 
     public static class ClientOnly {
-        public static void clientData(OrtusPacket packet, CompoundTag data, Supplier<NetworkEvent.Context> context) {
+        public static void clientData(OrtusTwoWayNBTPacket packet, CompoundTag data, Supplier<NetworkEvent.Context> context) {
             packet.clientExecute(context, data);
         }
     }

@@ -38,16 +38,19 @@ public class FireEffectInstance {
         if ((target.isInPowderSnow || target.isInWaterRainOrBubble())) {
             type.extinguish(this, target);
         }
-        if (target.fireImmune()) {
-            duration -= 4;
-        } else {
+        if (canDamageTarget(target)) {
             duration--;
             if (type.isValid(this) && duration % type.getTickInterval(this) == 0) {
                 type.tick(this, target);
             }
+        } else {
+            duration -= 4;
         }
     }
 
+    public boolean canDamageTarget(Entity target) {
+        return !target.fireImmune();
+    }
     public boolean isValid() {
         return type.isValid(this);
     }

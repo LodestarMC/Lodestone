@@ -22,22 +22,22 @@ import static com.sammy.ortus.OrtusLib.ortusPrefix;
 @Mod.EventBusSubscriber(modid = ORTUS, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class OrtusPacketRegistry {
     public static final String PROTOCOL_VERSION = "1";
-    public static SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(ortusPrefix("main"), () -> OrtusPacketRegistry.PROTOCOL_VERSION, OrtusPacketRegistry.PROTOCOL_VERSION::equals, OrtusPacketRegistry.PROTOCOL_VERSION::equals);
+    public static SimpleChannel ORTUS_CHANNEL = NetworkRegistry.newSimpleChannel(ortusPrefix("main"), () -> OrtusPacketRegistry.PROTOCOL_VERSION, OrtusPacketRegistry.PROTOCOL_VERSION::equals, OrtusPacketRegistry.PROTOCOL_VERSION::equals);
 
     @SuppressWarnings("UnusedAssignment")
     @SubscribeEvent
     public static void registerPackets(FMLCommonSetupEvent event) {
         int index = 0;
-        SyncOrtusPlayerCapabilityPacket.register(SyncOrtusPlayerCapabilityPacket.class, b -> new SyncOrtusPlayerCapabilityPacket(b.readNbt()), INSTANCE, index++);
-        SyncOrtusEntityCapabilityPacket.register(SyncOrtusEntityCapabilityPacket.class, b -> new SyncOrtusEntityCapabilityPacket(b.readNbt()), INSTANCE, index++);
+        SyncOrtusPlayerCapabilityPacket.register(ORTUS_CHANNEL, index++);
+        SyncOrtusEntityCapabilityPacket.register(ORTUS_CHANNEL, index++);
 
-        ScreenshakePacket.register(INSTANCE, index++);
-        PositionedScreenshakePacket.register(INSTANCE, index++);
-        SyncWorldEventPacket.register(INSTANCE, index++);
-        RightClickEmptyPacket.register(INSTANCE, index++);
-        UpdateLeftClickPacket.register(INSTANCE, index++);
-        UpdateRightClickPacket.register(INSTANCE, index++);
-        ResetRightClickDelayPacket.register(INSTANCE, index++);
-        TotemOfUndyingEffectPacket.register(INSTANCE, index++);
+        ScreenshakePacket.register(ORTUS_CHANNEL, index++);
+        PositionedScreenshakePacket.register(ORTUS_CHANNEL, index++);
+        SyncWorldEventPacket.register(ORTUS_CHANNEL, index++);
+        RightClickEmptyPacket.register(ORTUS_CHANNEL, index++);
+        UpdateLeftClickPacket.register(ORTUS_CHANNEL, index++);
+        UpdateRightClickPacket.register(ORTUS_CHANNEL, index++);
+        ResetRightClickDelayPacket.register(ORTUS_CHANNEL, index++);
+        TotemOfUndyingEffectPacket.register(ORTUS_CHANNEL, index++);
     }
 }

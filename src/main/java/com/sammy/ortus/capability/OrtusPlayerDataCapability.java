@@ -2,7 +2,6 @@ package com.sammy.ortus.capability;
 
 import com.sammy.ortus.OrtusLib;
 import com.sammy.ortus.helpers.NBTHelper;
-import com.sammy.ortus.network.interaction.RightClickEmptyPacket;
 import com.sammy.ortus.network.interaction.UpdateLeftClickPacket;
 import com.sammy.ortus.network.interaction.UpdateRightClickPacket;
 import com.sammy.ortus.network.packet.SyncOrtusPlayerCapabilityPacket;
@@ -23,10 +22,9 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.network.PacketDistributor;
 
-import static com.sammy.ortus.setup.OrtusPacketRegistry.INSTANCE;
+import static com.sammy.ortus.setup.OrtusPacketRegistry.ORTUS_CHANNEL;
 
 public class OrtusPlayerDataCapability implements OrtusCapability {
 
@@ -112,7 +110,7 @@ public class OrtusPlayerDataCapability implements OrtusCapability {
     }
 
     public static void sync(Player player, PacketDistributor.PacketTarget target, NBTHelper.TagFilter filter) {
-        getCapabilityOptional(player).ifPresent(c -> INSTANCE.send(target, new SyncOrtusPlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTag(c.serializeNBT(), filter))));
+        getCapabilityOptional(player).ifPresent(c -> ORTUS_CHANNEL.send(target, new SyncOrtusPlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTag(c.serializeNBT(), filter))));
     }
 
     public static void syncServer(Player player) {
@@ -132,7 +130,7 @@ public class OrtusPlayerDataCapability implements OrtusCapability {
     }
 
     public static void sync(Player player, PacketDistributor.PacketTarget target) {
-        getCapabilityOptional(player).ifPresent(c -> INSTANCE.send(target, new SyncOrtusPlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
+        getCapabilityOptional(player).ifPresent(c -> ORTUS_CHANNEL.send(target, new SyncOrtusPlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
     }
 
     public static LazyOptional<OrtusPlayerDataCapability> getCapabilityOptional(Player player) {
@@ -152,11 +150,11 @@ public class OrtusPlayerDataCapability implements OrtusCapability {
                 boolean right = minecraft.options.keyUse.isDown();
                 if (left != c.leftClickHeld) {
                     c.leftClickHeld = left;
-                    INSTANCE.send(PacketDistributor.SERVER.noArg(), new UpdateLeftClickPacket(c.leftClickHeld));
+                    ORTUS_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateLeftClickPacket(c.leftClickHeld));
                 }
                 if (right != c.rightClickHeld) {
                     c.rightClickHeld = right;
-                    INSTANCE.send(PacketDistributor.SERVER.noArg(), new UpdateRightClickPacket(c.rightClickHeld));
+                    ORTUS_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateRightClickPacket(c.rightClickHeld));
                 }
             });
         }

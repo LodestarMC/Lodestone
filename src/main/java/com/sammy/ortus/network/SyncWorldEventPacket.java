@@ -2,6 +2,7 @@ package com.sammy.ortus.network;
 
 import com.sammy.ortus.handlers.WorldEventHandler;
 import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypeRegistry;
+import com.sammy.ortus.systems.network.OrtusClientPacket;
 import com.sammy.ortus.systems.worldevent.WorldEventInstance;
 import com.sammy.ortus.systems.worldevent.WorldEventType;
 import net.minecraft.client.Minecraft;
@@ -15,7 +16,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.function.Supplier;
 
-public class SyncWorldEventPacket {
+public class SyncWorldEventPacket extends OrtusClientPacket {
     String type;
     public boolean start;
     public CompoundTag eventData;
@@ -46,17 +47,14 @@ public class SyncWorldEventPacket {
     }
 
     public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, SyncWorldEventPacket.class, SyncWorldEventPacket::encode, SyncWorldEventPacket::decode, SyncWorldEventPacket::execute);
+        instance.registerMessage(index, SyncWorldEventPacket.class, SyncWorldEventPacket::encode, SyncWorldEventPacket::decode, SyncWorldEventPacket::handle);
     }
 
     public static class ClientOnly {
         public static void addWorldEvent(String type, boolean start, CompoundTag eventData) {
             WorldEventType eventType = OrtusWorldEventTypeRegistry.EVENT_TYPES.get(type);
             ClientLevel level = Minecraft.getInstance().level;
-            WorldEventInstance instance = WorldEventHandler.addWorldEvent(level, eventType.createInstance(eventData));
-            if (start) {
-                instance.start(level);
-            }
+            WorldEventHandler.addWorldEvent(level, start, eventType.createInstance(eventData));
         }
     }
 }

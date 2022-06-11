@@ -30,7 +30,7 @@ public class ScreenshakeCommand {
                                                         .executes((context) -> {
                                                             CommandSourceStack source = context.getSource();
                                                             if (source.getEntity() instanceof ServerPlayer player) {
-                                                                OrtusPacketRegistry.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new ScreenshakePacket(
+                                                                OrtusPacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new ScreenshakePacket(
                                                                         FloatArgumentType.getFloat(context, "intensity"),
                                                                         FloatArgumentType.getFloat(context, "falloffTransformSpeed"),
                                                                         IntegerArgumentType.getInteger(context, "timeBeforeFastFalloff"),
@@ -51,7 +51,7 @@ public class ScreenshakeCommand {
                                                                                 .executes((context) -> {
                                                                                     CommandSourceStack source = context.getSource();
                                                                                     if (source.getEntity() instanceof ServerPlayer player) {
-                                                                                        OrtusPacketRegistry.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new PositionedScreenshakePacket(
+                                                                                        OrtusPacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new PositionedScreenshakePacket(
                                                                                                 BlockHelper.fromBlockPos(BlockPosArgument.getLoadedBlockPos(context, "position")),
                                                                                                 FloatArgumentType.getFloat(context, "falloffDistance"),
                                                                                                 FloatArgumentType.getFloat(context, "maxDistance"),

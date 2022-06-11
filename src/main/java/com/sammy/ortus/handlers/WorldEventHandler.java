@@ -37,9 +37,14 @@ public class WorldEventHandler {
     }
 
     public static <T extends WorldEventInstance> T addWorldEvent(Level level, T instance) {
+        return addWorldEvent(level, true, instance);
+    }
+    public static <T extends WorldEventInstance> T addWorldEvent(Level level, boolean shouldStart, T instance) {
         OrtusWorldDataCapability.getCapabilityOptional(level).ifPresent(capability -> {
             capability.inboundWorldEvents.add(instance);
-            instance.start(level);
+            if (shouldStart) {
+                instance.start(level);
+            }
             instance.sync(level);
         });
         return instance;
