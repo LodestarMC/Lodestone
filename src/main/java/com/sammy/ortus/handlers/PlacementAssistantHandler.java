@@ -62,14 +62,18 @@ public class PlacementAssistantHandler {
                 assistant.assist(level, blockHitResult, state);
                 assistant.showAssistance(level, blockHitResult, state);
             }
+        } else {
+            target = null;
         }
         if (target == null) {
-            if (animationTick > 0)
+            if (animationTick > 0) {
                 animationTick = Math.max(animationTick - 2, 0);
+            }
             return;
         }
-        if (animationTick < 10)
+        if (animationTick < 10) {
             animationTick++;
+        }
     }
 
     private static List<IPlacementAssistant> findAssistants(Level level, Player player, HitResult hitResult) {
