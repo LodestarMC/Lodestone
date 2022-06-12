@@ -5,8 +5,8 @@ import com.sammy.ortus.network.interaction.ResetRightClickDelayPacket;
 import com.sammy.ortus.network.interaction.RightClickEmptyPacket;
 import com.sammy.ortus.network.interaction.UpdateLeftClickPacket;
 import com.sammy.ortus.network.interaction.UpdateRightClickPacket;
-import com.sammy.ortus.network.packet.SyncOrtusEntityCapabilityPacket;
-import com.sammy.ortus.network.packet.SyncOrtusPlayerCapabilityPacket;
+import com.sammy.ortus.network.capability.SyncOrtusEntityCapabilityPacket;
+import com.sammy.ortus.network.capability.SyncOrtusPlayerCapabilityPacket;
 import com.sammy.ortus.network.screenshake.PositionedScreenshakePacket;
 import com.sammy.ortus.network.screenshake.ScreenshakePacket;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,7 +30,7 @@ public class OrtusPacketRegistry {
         int index = 0;
         SyncOrtusPlayerCapabilityPacket.register(ORTUS_CHANNEL, index++);
         SyncOrtusEntityCapabilityPacket.register(ORTUS_CHANNEL, index++);
-
+        ClearFireEffectInstancePacket.register(ORTUS_CHANNEL, index++);
         ScreenshakePacket.register(ORTUS_CHANNEL, index++);
         PositionedScreenshakePacket.register(ORTUS_CHANNEL, index++);
         SyncWorldEventPacket.register(ORTUS_CHANNEL, index++);

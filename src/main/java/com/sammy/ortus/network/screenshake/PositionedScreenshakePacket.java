@@ -1,11 +1,12 @@
 package com.sammy.ortus.network.screenshake;
 
 import com.sammy.ortus.handlers.ScreenshakeHandler;
-import com.sammy.ortus.network.packet.SyncOrtusPlayerCapabilityPacket;
 import com.sammy.ortus.systems.network.OrtusClientPacket;
 import com.sammy.ortus.systems.screenshake.PositionedScreenshakeInstance;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 
@@ -45,8 +46,9 @@ public class PositionedScreenshakePacket extends OrtusClientPacket {
         buf.writeFloat(fastFalloff);
     }
 
+    @OnlyIn(value = Dist.CLIENT)
     @Override
-    public void handle(Supplier<NetworkEvent.Context> context) {
+    public void execute(Supplier<NetworkEvent.Context> context) {
         ScreenshakeHandler.addScreenshake(new PositionedScreenshakeInstance(position, falloffDistance, maxDistance, intensity, falloffTransformSpeed, timeBeforeFastFalloff, slowFalloff, fastFalloff));
     }
 

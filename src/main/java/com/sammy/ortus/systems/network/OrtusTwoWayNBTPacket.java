@@ -22,7 +22,7 @@ public abstract class OrtusTwoWayNBTPacket extends OrtusTwoWayPacket {
         buf.writeNbt(data);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> context) {
+    public final void handle(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             if (context.get().getDirection().getReceptionSide().equals(LogicalSide.CLIENT)) {
                 OrtusTwoWayNBTPacket.ClientOnly.clientData(this, data, context);

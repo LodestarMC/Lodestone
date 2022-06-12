@@ -3,7 +3,7 @@ package com.sammy.ortus.capability;
 import com.sammy.ortus.OrtusLib;
 import com.sammy.ortus.handlers.FireEffectHandler;
 import com.sammy.ortus.helpers.NBTHelper;
-import com.sammy.ortus.network.packet.SyncOrtusEntityCapabilityPacket;
+import com.sammy.ortus.network.capability.SyncOrtusEntityCapabilityPacket;
 import com.sammy.ortus.systems.capability.OrtusCapability;
 import com.sammy.ortus.systems.capability.OrtusCapabilityProvider;
 import com.sammy.ortus.systems.fireeffect.FireEffectInstance;

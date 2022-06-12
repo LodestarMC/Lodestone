@@ -10,6 +10,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -27,34 +28,25 @@ public class SyncWorldEventPacket extends OrtusClientPacket {
         this.eventData = eventData;
     }
 
-    public static SyncWorldEventPacket decode(FriendlyByteBuf buf) {
-        return new SyncWorldEventPacket(buf.readUtf(), buf.readBoolean(), buf.readNbt());
-    }
-
     public void encode(FriendlyByteBuf buf) {
         buf.writeUtf(type);
         buf.writeBoolean(start);
         buf.writeNbt(eventData);
     }
 
+    @OnlyIn(value = Dist.CLIENT)
+    @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            if (FMLEnvironment.dist == Dist.CLIENT) {
-                ClientOnly.addWorldEvent(type, start, eventData);
-            }
-        });
-        context.get().setPacketHandled(true);
+        WorldEventType eventType = OrtusWorldEventTypeRegistry.EVENT_TYPES.get(type);
+        ClientLevel level = Minecraft.getInstance().level;
+        WorldEventHandler.addWorldEvent(level, start, eventType.createInstance(eventData));
     }
 
     public static void register(SimpleChannel instance, int index) {
         instance.registerMessage(index, SyncWorldEventPacket.class, SyncWorldEventPacket::encode, SyncWorldEventPacket::decode, SyncWorldEventPacket::handle);
     }
 
-    public static class ClientOnly {
-        public static void addWorldEvent(String type, boolean start, CompoundTag eventData) {
-            WorldEventType eventType = OrtusWorldEventTypeRegistry.EVENT_TYPES.get(type);
-            ClientLevel level = Minecraft.getInstance().level;
-            WorldEventHandler.addWorldEvent(level, start, eventType.createInstance(eventData));
-        }
+    public static SyncWorldEventPacket decode(FriendlyByteBuf buf) {
+        return new SyncWorldEventPacket(buf.readUtf(), buf.readBoolean(), buf.readNbt());
     }
 }

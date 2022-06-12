@@ -6,6 +6,10 @@ import com.sammy.ortus.setup.OrtusFireEffectRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 
+/**
+ * A FireEffectInstance is a custom instance of a fire effect, functioning pretty much exactly as a normal fire effect would do
+ * You must register a type and can manage a players fire effect through the {@link com.sammy.ortus.handlers.FireEffectHandler}
+ */
 public class FireEffectInstance {
     public int duration;
     public final FireEffectType type;
@@ -48,9 +52,14 @@ public class FireEffectInstance {
         }
     }
 
+    public void entityAttack() {
+
+    }
+
     public boolean canDamageTarget(Entity target) {
         return !target.fireImmune();
     }
+
     public boolean isValid() {
         return type.isValid(this);
     }

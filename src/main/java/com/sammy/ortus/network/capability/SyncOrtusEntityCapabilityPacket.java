@@ -1,14 +1,11 @@
-package com.sammy.ortus.network.packet;
+package com.sammy.ortus.network.capability;
 
 import com.sammy.ortus.capability.OrtusEntityDataCapability;
-import com.sammy.ortus.network.screenshake.PositionedScreenshakePacket;
 import com.sammy.ortus.systems.network.OrtusTwoWayNBTPacket;
-import com.sammy.ortus.systems.network.OrtusTwoWayPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;

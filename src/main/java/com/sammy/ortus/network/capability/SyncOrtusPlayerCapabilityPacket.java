@@ -1,9 +1,7 @@
-package com.sammy.ortus.network.packet;
+package com.sammy.ortus.network.capability;
 
 import com.sammy.ortus.capability.OrtusPlayerDataCapability;
-import com.sammy.ortus.network.screenshake.ScreenshakePacket;
 import com.sammy.ortus.systems.network.OrtusTwoWayNBTPacket;
-import com.sammy.ortus.systems.network.OrtusTwoWayPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;

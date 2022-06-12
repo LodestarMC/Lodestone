@@ -13,7 +13,7 @@ public abstract class OrtusServerPacket {
     public void encode(FriendlyByteBuf buf) {
     }
 
-    public void handle(Supplier<NetworkEvent.Context> context) {
+    public final void handle(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> execute(context));
         context.get().setPacketHandled(true);
     }

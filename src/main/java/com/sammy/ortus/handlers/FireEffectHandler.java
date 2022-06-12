@@ -3,6 +3,9 @@ package com.sammy.ortus.handlers;
 import com.mojang.blaze3d.vertex.*;
 import com.sammy.ortus.capability.OrtusEntityDataCapability;
 import com.sammy.ortus.capability.OrtusWorldDataCapability;
+import com.sammy.ortus.helpers.NBTHelper;
+import com.sammy.ortus.network.ClearFireEffectInstancePacket;
+import com.sammy.ortus.network.capability.SyncOrtusEntityCapabilityPacket;
 import com.sammy.ortus.setup.OrtusFireEffectRendererRegistry;
 import com.sammy.ortus.setup.worldevent.OrtusWorldEventTypeRegistry;
 import com.sammy.ortus.systems.fireeffect.FireEffectInstance;
@@ -14,6 +17,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import net.minecraftforge.network.PacketDistributor;
+
+import static com.sammy.ortus.setup.OrtusPacketRegistry.ORTUS_CHANNEL;
 
 public class FireEffectHandler {
 
@@ -46,8 +52,8 @@ public class FireEffectHandler {
                     c.fireEffectInstance.sync(entity);
                 }
             }
-            else {
-
+            else if (!entity.level.isClientSide) {
+                ORTUS_CHANNEL.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
             }
         });
     }

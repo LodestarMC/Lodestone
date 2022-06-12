@@ -16,7 +16,7 @@ public abstract class OrtusTwoWayPacket {
     public void encode(FriendlyByteBuf buf) {
     }
 
-    public void handle(Supplier<NetworkEvent.Context> context) {
+    public final void handle(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
             if (context.get().getDirection().getReceptionSide().equals(LogicalSide.CLIENT)) {
                 OrtusTwoWayPacket.ClientOnly.clientData(this, context);

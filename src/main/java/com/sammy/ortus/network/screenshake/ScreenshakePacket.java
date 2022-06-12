@@ -5,6 +5,8 @@ import com.sammy.ortus.systems.network.OrtusClientPacket;
 import com.sammy.ortus.systems.screenshake.ScreenshakeInstance;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 
@@ -33,8 +35,9 @@ public class ScreenshakePacket extends OrtusClientPacket {
         buf.writeFloat(fastFalloff);
     }
 
+    @OnlyIn(value = Dist.CLIENT)
     @Override
-    public void handle(Supplier<NetworkEvent.Context> context) {
+    public void execute(Supplier<NetworkEvent.Context> context) {
         ScreenshakeHandler.addScreenshake(new ScreenshakeInstance(intensity, falloffTransformSpeed, timeBeforeFastFalloff, slowFalloff, fastFalloff));
     }
 

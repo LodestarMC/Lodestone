@@ -4,7 +4,7 @@ import com.sammy.ortus.OrtusLib;
 import com.sammy.ortus.helpers.NBTHelper;
 import com.sammy.ortus.network.interaction.UpdateLeftClickPacket;
 import com.sammy.ortus.network.interaction.UpdateRightClickPacket;
-import com.sammy.ortus.network.packet.SyncOrtusPlayerCapabilityPacket;
+import com.sammy.ortus.network.capability.SyncOrtusPlayerCapabilityPacket;
 import com.sammy.ortus.systems.capability.OrtusCapability;
 import com.sammy.ortus.systems.capability.OrtusCapabilityProvider;
 import net.minecraft.client.Minecraft;
