@@ -55,7 +55,7 @@ public class PlacementAssistantHandler {
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel level = minecraft.level;
         List<IPlacementAssistant> assistants = findAssistants(level, minecraft.player, minecraft.hitResult);
-        if ((minecraft.hitResult instanceof BlockHitResult blockHitResult)) {
+        if (minecraft.hitResult instanceof BlockHitResult blockHitResult && !blockHitResult.getType().equals(HitResult.Type.MISS)) {
             target = blockHitResult.getBlockPos();
             for (IPlacementAssistant assistant : assistants) {
                 BlockState state = minecraft.level.getBlockState(blockHitResult.getBlockPos());
