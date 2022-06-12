@@ -32,7 +32,7 @@ public class ClearFireEffectInstancePacket extends OrtusClientPacket {
     }
 
     public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, ScreenshakePacket.class, ScreenshakePacket::encode, ScreenshakePacket::decode, ScreenshakePacket::handle);
+        instance.registerMessage(index, ClearFireEffectInstancePacket.class, ClearFireEffectInstancePacket::encode, ClearFireEffectInstancePacket::decode, ClearFireEffectInstancePacket::handle);
     }
 
     public static ClearFireEffectInstancePacket decode(FriendlyByteBuf buf) {
