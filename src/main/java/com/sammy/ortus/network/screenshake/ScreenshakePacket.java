@@ -35,7 +35,6 @@ public class ScreenshakePacket extends OrtusClientPacket {
         buf.writeFloat(fastFalloff);
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
         ScreenshakeHandler.addScreenshake(new ScreenshakeInstance(intensity, falloffTransformSpeed, timeBeforeFastFalloff, slowFalloff, fastFalloff));

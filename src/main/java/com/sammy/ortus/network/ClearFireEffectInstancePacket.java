@@ -26,7 +26,6 @@ public class ClearFireEffectInstancePacket extends OrtusClientPacket {
         buf.writeInt(entityID);
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
         FireEffectHandler.setCustomFireInstance(Minecraft.getInstance().level.getEntity(entityID), null);

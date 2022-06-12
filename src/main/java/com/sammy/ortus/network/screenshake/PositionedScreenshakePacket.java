@@ -46,7 +46,6 @@ public class PositionedScreenshakePacket extends OrtusClientPacket {
         buf.writeFloat(fastFalloff);
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
         ScreenshakeHandler.addScreenshake(new PositionedScreenshakeInstance(position, falloffDistance, maxDistance, intensity, falloffTransformSpeed, timeBeforeFastFalloff, slowFalloff, fastFalloff));

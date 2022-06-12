@@ -36,7 +36,6 @@ public class SyncOrtusPlayerCapabilityPacket extends OrtusTwoWayNBTPacket {
         return tag;
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     @Override
     public void clientExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
         Player player = Minecraft.getInstance().level.getPlayerByUUID(uuid);

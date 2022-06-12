@@ -34,7 +34,6 @@ public class SyncWorldEventPacket extends OrtusClientPacket {
         buf.writeNbt(eventData);
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
         WorldEventType eventType = OrtusWorldEventTypeRegistry.EVENT_TYPES.get(type);

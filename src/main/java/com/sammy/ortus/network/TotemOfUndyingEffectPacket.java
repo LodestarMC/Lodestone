@@ -35,7 +35,6 @@ public class TotemOfUndyingEffectPacket extends OrtusClientPacket {
         buf.writeItem(stack);
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
         Minecraft minecraft = Minecraft.getInstance();

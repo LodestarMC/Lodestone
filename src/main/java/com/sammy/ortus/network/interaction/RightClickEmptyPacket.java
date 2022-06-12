@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 
 public class RightClickEmptyPacket extends OrtusServerPacket {
 
+    @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
         RightClickEmptyServer.onRightClickEmptyServer(context.get().getSender());
     }

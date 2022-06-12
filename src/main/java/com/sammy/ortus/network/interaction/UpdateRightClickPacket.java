@@ -21,6 +21,7 @@ public class UpdateRightClickPacket extends OrtusServerPacket {
         buf.writeBoolean(rightClickHeld);
     }
 
+    @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
         if (rightClickHeld) {
             RightClickEmptyServer.onRightClickEmptyServer(context.get().getSender());

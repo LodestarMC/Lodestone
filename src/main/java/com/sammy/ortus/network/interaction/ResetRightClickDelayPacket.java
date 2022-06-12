@@ -13,7 +13,6 @@ import java.util.function.Supplier;
 
 public class ResetRightClickDelayPacket extends OrtusClientPacket {
 
-    @OnlyIn(value = Dist.CLIENT)
     @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
         Minecraft.getInstance().rightClickDelay = 0;

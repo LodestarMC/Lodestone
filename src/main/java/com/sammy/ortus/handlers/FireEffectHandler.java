@@ -53,7 +53,7 @@ public class FireEffectHandler {
                 }
             }
             else if (!entity.level.isClientSide) {
-                ORTUS_CHANNEL.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
+                ORTUS_CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
             }
         });
     }

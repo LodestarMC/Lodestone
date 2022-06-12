@@ -35,7 +35,6 @@ public class SyncOrtusEntityCapabilityPacket extends OrtusTwoWayNBTPacket {
         return tag;
     }
 
-    @OnlyIn(value = Dist.CLIENT)
     @Override
     public void clientExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
         Entity entity = Minecraft.getInstance().level.getEntity(entityID);
