@@ -91,9 +91,7 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
                         .setCullState(new CullStateShard(true))
                         .createCompositeState(true)
         );
-        RenderHandler.EARLY_BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
-        RenderHandler.BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
-        RenderHandler.LATE_BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
+        RenderHandler.addRenderType(type);
         return type;
     }
 

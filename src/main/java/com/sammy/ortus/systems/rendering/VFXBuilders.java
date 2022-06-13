@@ -314,14 +314,15 @@ public class VFXBuilders {
             return this;
         }
 
-        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, java.util.List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
             return renderTrail(vertexConsumer, stack.last().pose(), trailSegments, widthFunc);
         }
 
-        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, java.util.List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
             if (trailSegments.size() < 3) {
                 return this;
             }
+            trailSegments = new ArrayList<>(trailSegments);
             for (Vector4f pos : trailSegments) {
                 pos.add(xOffset, yOffset, zOffset, 0);
                 pos.transform(pose);
@@ -336,10 +337,10 @@ public class VFXBuilders {
                 Vector4f end = trailSegments.get(i + 1);
                 points.add(new TrailPoint(RenderHelper.midpoint(start, end), RenderHelper.corners(start, end, width)));
             }
-            return renderPoints(vertexConsumer, pose, points, u0, v0, u1, v1);
+            return renderPoints(vertexConsumer, points, u0, v0, u1, v1);
         }
 
-        public WorldVFXBuilder renderPoints(VertexConsumer vertexConsumer, Matrix4f pose, List<TrailPoint> trailPoints, float u0, float v0, float u1, float v1) {
+        public WorldVFXBuilder renderPoints(VertexConsumer vertexConsumer, List<TrailPoint> trailPoints, float u0, float v0, float u1, float v1) {
             int count = trailPoints.size() - 1;
             float increment = 1.0F / count;
             trailPoints.get(0).renderStart(vertexConsumer, supplier, u0, v0, u1, Mth.lerp(increment, v0, v1));

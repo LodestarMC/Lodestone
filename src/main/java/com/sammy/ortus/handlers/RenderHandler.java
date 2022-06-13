@@ -86,4 +86,10 @@ public class RenderHandler {
         FRUSTUM = new Frustum(matrix4f, stack);
         FRUSTUM.prepare(d0, d1, d2);
     }
+
+    public static void addRenderType(RenderType type) {
+        RenderHandler.EARLY_BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
+        RenderHandler.BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
+        RenderHandler.LATE_BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
+    }
 }
