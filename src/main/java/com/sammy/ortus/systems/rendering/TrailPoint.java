@@ -26,18 +26,18 @@ public class TrailPoint {
         this(pos.x() + perp.x, pos.x() - perp.x, pos.y() + perp.y, pos.y() - perp.y, pos.z());
     }
 
-    public void renderStart(VertexConsumer builder, Matrix4f last, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
-        supplier.placeVertex(builder, last, xp, yp, z, u0, v0);
-        supplier.placeVertex(builder, last, xn, yn, z, u1, v0);
+    public void renderStart(VertexConsumer builder, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
+        supplier.placeVertex(builder, null, xp, yp, z, u0, v0);
+        supplier.placeVertex(builder, null, xn, yn, z, u1, v0);
     }
 
-    public void renderEnd(VertexConsumer builder, Matrix4f last, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
-        supplier.placeVertex(builder, last, xn, yn, z, u1, v1);
-        supplier.placeVertex(builder, last, xp, yp, z, u0, v1);
+    public void renderEnd(VertexConsumer builder, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
+        supplier.placeVertex(builder, null, xn, yn, z, u1, v1);
+        supplier.placeVertex(builder, null, xp, yp, z, u0, v1);
     }
 
-    public void renderMid(VertexConsumer builder, Matrix4f last, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
-        renderEnd(builder, last, supplier, u0, v0, u1, v1);
-        renderStart(builder, last, supplier, u0, v0, u1, v1);
+    public void renderMid(VertexConsumer builder, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
+        renderEnd(builder, supplier, u0, v0, u1, v1);
+        renderStart(builder, supplier, u0, v0, u1, v1);
     }
 }
