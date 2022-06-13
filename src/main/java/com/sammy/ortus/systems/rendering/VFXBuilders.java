@@ -64,13 +64,14 @@ public class VFXBuilders {
             this.texture = texture;
             return this;
         }
+
         public ScreenVFXBuilder setShader(Supplier<ShaderInstance> shader) {
             this.shader = shader;
             return this;
         }
 
         public ScreenVFXBuilder setShader(ShaderInstance shader) {
-            this.shader = ()->shader;
+            this.shader = () -> shader;
             return this;
         }
 
@@ -213,44 +214,50 @@ public class VFXBuilders {
         VertexFormat format;
         WorldVertexPlacementSupplier supplier;
 
-        public WorldVFXBuilder setPosColorDefaultFormatNoViewMatrix() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR);
-        }
-
-        public WorldVFXBuilder setPosColorLightmapDefaultFormatNoViewMatrix() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR_LIGHTMAP);
-        }
-
-        public WorldVFXBuilder setPosTexDefaultFormatNoViewMatrix() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(x, y, z).uv(u, v).endVertex()).setFormat(DefaultVertexFormat.POSITION_TEX);
-        }
-
-        public WorldVFXBuilder setPosColorTexDefaultFormatNoViewMatrix() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX);
-        }
-
-        public WorldVFXBuilder setPosColorTexLightmapDefaultFormatNoViewMatrix() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
-        }
-        
         public WorldVFXBuilder setPosColorDefaultFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR);
+            return setVertexSupplier((c, l, x, y, z, u, v) -> {
+                if (l == null)
+                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).endVertex();
+                else
+                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).endVertex();
+            }).setFormat(DefaultVertexFormat.POSITION_COLOR);
         }
-        
+
         public WorldVFXBuilder setPosColorLightmapDefaultFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR_LIGHTMAP);
+            return setVertexSupplier((c, l, x, y, z, u, v) -> {
+                if (l == null)
+                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
+                else
+                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
+
+            }).setFormat(DefaultVertexFormat.POSITION_COLOR_LIGHTMAP);
         }
 
         public WorldVFXBuilder setPosTexDefaultFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(l, x, y, z).uv(u, v).endVertex()).setFormat(DefaultVertexFormat.POSITION_TEX);
+            return setVertexSupplier((c, l, x, y, z, u, v) -> {
+                if (l == null)
+                    c.vertex(x, y, z).uv(u, v).endVertex();
+                else
+                    c.vertex(l, x, y, z).uv(u, v).endVertex();
+            }).setFormat(DefaultVertexFormat.POSITION_TEX);
         }
 
         public WorldVFXBuilder setPosColorTexDefaultFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX);
+            return setVertexSupplier((c, l, x, y, z, u, v) -> {
+                if (l == null)
+                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex();
+                else
+                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex();
+            }).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX);
         }
 
         public WorldVFXBuilder setPosColorTexLightmapDefaultFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex()).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
+            return setVertexSupplier((c, l, x, y, z, u, v) -> {
+                if (l == null)
+                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex();
+                else
+                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex();
+            }).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
         public WorldVFXBuilder setFormat(VertexFormat format) {
