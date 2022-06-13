@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class VFXBuilders {
     public static ScreenVFXBuilder createScreen() {
@@ -322,7 +323,7 @@ public class VFXBuilders {
             if (trailSegments.size() < 3) {
                 return this;
             }
-            trailSegments = new ArrayList<>(trailSegments);
+            trailSegments = trailSegments.stream().map(v -> new Vector4f(v.x(), v.y(), v.z(), v.w())).collect(Collectors.toList());
             for (Vector4f pos : trailSegments) {
                 pos.add(xOffset, yOffset, zOffset, 0);
                 pos.transform(pose);
