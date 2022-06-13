@@ -36,9 +36,9 @@ public class RenderHandler {
     public static Frustum FRUSTUM;
 
     public static void onClientSetup(FMLClientSetupEvent event) {
-        EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
+        EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(new HashMap<>(), new BufferBuilder(256));
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
-        LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
+        LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(new HashMap<>(), new BufferBuilder(256));
     }
 
     public static void renderLast(RenderLevelLastEvent event) {
