@@ -26,7 +26,9 @@ import java.util.HashMap;
  * This happens for particles, as well as all of our custom RenderTypes
  */
 public class RenderHandler {
+    public static HashMap<RenderType, BufferBuilder> EARLY_BUFFERS = new HashMap<>();
     public static HashMap<RenderType, BufferBuilder> BUFFERS = new HashMap<>();
+    public static HashMap<RenderType, BufferBuilder> LATE_BUFFERS = new HashMap<>();
     public static HashMap<RenderType, ShaderUniformHandler> HANDLERS = new HashMap<>();
     public static MultiBufferSource.BufferSource EARLY_DELAYED_RENDER;
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
@@ -36,9 +38,9 @@ public class RenderHandler {
     public static Frustum FRUSTUM;
 
     public static void onClientSetup(FMLClientSetupEvent event) {
-        EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(new HashMap<>(), new BufferBuilder(256));
+        EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(256));
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
-        LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(new HashMap<>(), new BufferBuilder(256));
+        LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(LATE_BUFFERS, new BufferBuilder(256));
     }
 
     public static void renderLast(RenderLevelLastEvent event) {
@@ -56,14 +58,14 @@ public class RenderHandler {
             RenderSystem.getModelViewStack().popPose();
             RenderSystem.applyModelViewMatrix();
         }
-        endBatches(EARLY_DELAYED_RENDER);
-        endBatches(DELAYED_RENDER);
-        endBatches(LATE_DELAYED_RENDER);
+        endBatches(EARLY_DELAYED_RENDER, EARLY_BUFFERS);
+        endBatches(DELAYED_RENDER, BUFFERS);
+        endBatches(LATE_DELAYED_RENDER, LATE_BUFFERS);
         event.getPoseStack().popPose();
     }
 
-    public static void endBatches(MultiBufferSource.BufferSource source) {
-        for (RenderType type : BUFFERS.keySet()) {
+    public static void endBatches(MultiBufferSource.BufferSource source, HashMap<RenderType, BufferBuilder> buffers) {
+        for (RenderType type : buffers.keySet()) {
             ShaderInstance instance = RenderHelper.getShader(type);
             if (HANDLERS.containsKey(type)) {
                 ShaderUniformHandler handler = HANDLERS.get(type);
