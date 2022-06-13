@@ -15,12 +15,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.awt.*;
 import java.util.Random;
 
+@SuppressWarnings("ALL")
 public class ParticleBuilders {
 
     public static WorldParticleBuilder create(ParticleType<?> type) {
@@ -328,22 +331,7 @@ public class ParticleBuilders {
         }
 
         public WorldParticleBuilder evenlySpawnAtEdges(Level level, BlockPos pos) {
-            for (Direction direction : Direction.values()) {
-                double yaw = random.nextFloat() * Math.PI * 2, pitch = random.nextFloat() * Math.PI - Math.PI / 2, xSpeed = random.nextFloat() * maxXSpeed, ySpeed = random.nextFloat() * maxYSpeed, zSpeed = random.nextFloat() * maxZSpeed;
-                this.vx += Math.sin(yaw) * Math.cos(pitch) * xSpeed;
-                this.vy += Math.sin(pitch) * ySpeed;
-                this.vz += Math.cos(yaw) * Math.cos(pitch) * zSpeed;
-
-                Direction.Axis direction$axis = direction.getAxis();
-                double d0 = 0.5625D;
-                this.dx = direction$axis == Direction.Axis.X ? 0.5D + d0 * (double) direction.getStepX() : (double) random.nextFloat();
-                this.dy = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : (double) random.nextFloat();
-                this.dz = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : (double) random.nextFloat();
-
-                level.addParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
-//                PostProcessing.BLOOM_UNREAL.postParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
-
-            }
+            evenlySpawnAtEdges(level, pos, Direction.values());
             return this;
         }
 
@@ -356,9 +344,9 @@ public class ParticleBuilders {
 
                 Direction.Axis direction$axis = direction.getAxis();
                 double d0 = 0.5625D;
-                this.dx = direction$axis == Direction.Axis.X ? 0.5D + d0 * (double) direction.getStepX() : (double) random.nextFloat();
-                this.dy = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : (double) random.nextFloat();
-                this.dz = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : (double) random.nextFloat();
+                this.dx = direction$axis == Direction.Axis.X ? 0.5D + d0 * (double) direction.getStepX() : random.nextDouble();
+                this.dy = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : random.nextDouble();
+                this.dz = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : random.nextDouble();
 
                 level.addParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
 //                PostProcessing.BLOOM_UNREAL.postParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
@@ -376,11 +364,32 @@ public class ParticleBuilders {
 
             Direction.Axis direction$axis = direction.getAxis();
             double d0 = 0.5625D;
-            this.dx = direction$axis == Direction.Axis.X ? 0.5D + d0 * (double) direction.getStepX() : (double) random.nextFloat();
-            this.dy = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : (double) random.nextFloat();
-            this.dz = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : (double) random.nextFloat();
+            this.dx = direction$axis == Direction.Axis.X ? 0.5D + d0 * (double) direction.getStepX() : random.nextDouble();
+            this.dy = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : random.nextDouble();
+            this.dz = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : random.nextDouble();
 
             level.addParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
+//            PostProcessing.BLOOM_UNREAL.postParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
+            return this;
+        }
+
+        public WorldParticleBuilder spawnAtAABBBoundaries(Level level, AABB aabb) { //TODO: test if this works as intended
+            Direction direction = Direction.values()[level.random.nextInt(Direction.values().length)];
+            double yaw = random.nextFloat() * Math.PI * 2, pitch = random.nextFloat() * Math.PI - Math.PI / 2, xSpeed = random.nextFloat() * maxXSpeed, ySpeed = random.nextFloat() * maxYSpeed, zSpeed = random.nextFloat() * maxZSpeed;
+            this.vx += Math.sin(yaw) * Math.cos(pitch) * xSpeed;
+            this.vy += Math.sin(pitch) * ySpeed;
+            this.vz += Math.cos(yaw) * Math.cos(pitch) * zSpeed;
+
+            Direction.Axis direction$axis = direction.getAxis();
+            double xSize = aabb.getXsize();
+            double ySize = aabb.getYsize();
+            double zSize = aabb.getZsize();
+            double d0 = 0.5;
+            this.dx = direction$axis == Direction.Axis.X ? d0 * xSize : random.nextDouble();
+            this.dy = direction$axis == Direction.Axis.Y ? d0 * ySize : random.nextDouble();
+            this.dz = direction$axis == Direction.Axis.Z ? d0 * zSize : random.nextDouble();
+            Vec3 pos = aabb.getCenter();
+            level.addParticle(data, pos.x + dx, pos.y + dy, pos.z + dz, vx, vy, vz);
 //            PostProcessing.BLOOM_UNREAL.postParticle(data, pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz, vx, vy, vz);
             return this;
         }

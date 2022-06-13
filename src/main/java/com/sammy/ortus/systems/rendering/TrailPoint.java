@@ -1,6 +1,7 @@
 package com.sammy.ortus.systems.rendering;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector4f;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.phys.Vec2;
@@ -25,18 +26,18 @@ public class TrailPoint {
         this(pos.x() + perp.x, pos.x() - perp.x, pos.y() + perp.y, pos.y() - perp.y, pos.z());
     }
 
-    public void renderStart(VertexConsumer builder, int packedLight, float r, float g, float b, float a, float u0, float v0, float u1, float v1) {
-        builder.vertex(xp, yp, z).color(r, g, b, a).uv(u0, v0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).endVertex();
-        builder.vertex(xn, yn, z).color(r, g, b, a).uv(u1, v0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).endVertex();
+    public void renderStart(VertexConsumer builder, Matrix4f last, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
+        supplier.placeVertex(builder, last, xp, yp, z, u0, v0);
+        supplier.placeVertex(builder, last, xn, yn, z, u1, v0);
     }
 
-    public void renderEnd(VertexConsumer builder, int packedLight, float r, float g, float b, float a, float u0, float v0, float u1, float v1) {
-        builder.vertex(xn, yn, z).color(r, g, b, a).uv(u1, v1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).endVertex();
-        builder.vertex(xp, yp, z).color(r, g, b, a).uv(u0, v1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(packedLight).endVertex();
+    public void renderEnd(VertexConsumer builder, Matrix4f last, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
+        supplier.placeVertex(builder, last, xn, yn, z, u1, v1);
+        supplier.placeVertex(builder, last, xp, yp, z, u0, v1);
     }
 
-    public void renderMid(VertexConsumer builder, int packedLight, float r, float g, float b, float a, float u0, float v0, float u1, float v1) {
-        renderEnd(builder, packedLight, r, g, b, a, u0, v0, u1, v1);
-        renderStart(builder, packedLight, r, g, b, a, u0, v0, u1, v1);
+    public void renderMid(VertexConsumer builder, Matrix4f last, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
+        renderEnd(builder, last, supplier, u0, v0, u1, v1);
+        renderStart(builder, last, supplier, u0, v0, u1, v1);
     }
 }

@@ -308,18 +308,18 @@ public class VFXBuilders {
                 Vector4f end = trailSegments.get(i + 1);
                 points.add(new TrailPoint(RenderHelper.midpoint(start, end), RenderHelper.corners(start, end, width)));
             }
-            return renderPoints(vertexConsumer, points, u0, v0, u1, v1);
+            return renderPoints(vertexConsumer, pose, points, u0, v0, u1, v1);
         }
 
-        public WorldVFXBuilder renderPoints(VertexConsumer vertexConsumer, List<TrailPoint> trailPoints, float u0, float v0, float u1, float v1) {
+        public WorldVFXBuilder renderPoints(VertexConsumer vertexConsumer, Matrix4f pose, List<TrailPoint> trailPoints, float u0, float v0, float u1, float v1) {
             int count = trailPoints.size() - 1;
             float increment = 1.0F / count;
-            trailPoints.get(0).renderStart(vertexConsumer, light, r, g, b, a, u0, v0, u1, Mth.lerp(increment, v0, v1));
+            trailPoints.get(0).renderStart(vertexConsumer, pose, supplier, u0, v0, u1, Mth.lerp(increment, v0, v1));
             for (int i = 1; i < count; i++) {
                 float current = Mth.lerp(i * increment, v0, v1);
-                trailPoints.get(i).renderMid(vertexConsumer, light, r, g, b, a, u0, current, u1, current);
+                trailPoints.get(i).renderMid(vertexConsumer, pose, supplier, u0, current, u1, current);
             }
-            trailPoints.get(count).renderEnd(vertexConsumer, light, r, g, b, a, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
+            trailPoints.get(count).renderEnd(vertexConsumer, pose, supplier, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
             return this;
         }
 
@@ -407,7 +407,7 @@ public class VFXBuilders {
         }
 
 
-        private interface WorldVertexPlacementSupplier {
+        public interface WorldVertexPlacementSupplier {
             void placeVertex(VertexConsumer consumer, Matrix4f last, float x, float y, float z, float u, float v);
         }
     }
