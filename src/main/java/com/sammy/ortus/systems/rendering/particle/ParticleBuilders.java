@@ -49,12 +49,17 @@ public class ParticleBuilders {
             this.data = new WorldParticleOptions(type);
         }
 
+        //TODO: I just realized these methods are all named 'overwrite' and not 'override', if anyone feels like it do me a favor and fix it, preferably updating it in malum too
         public WorldParticleBuilder overwriteAnimator(SimpleParticleOptions.Animator animator) {
             data.animator = animator;
             return this;
         }
         public WorldParticleBuilder overwriteRenderType(ParticleRenderType renderType) {
             data.renderType = renderType;
+            return this;
+        }
+        public WorldParticleBuilder overwriteRemovalProtocol(SimpleParticleOptions.SpecialRemovalProtocol removalProtocol) {
+            data.removalProtocol = removalProtocol;
             return this;
         }
         public WorldParticleBuilder setColorEasing(Easing easing) {
@@ -444,6 +449,10 @@ public class ParticleBuilders {
         }
         public ScreenParticleBuilder overwriteRenderType(ParticleRenderType renderType) {
             data.renderType = renderType;
+            return this;
+        }
+        public ScreenParticleBuilder overwriteRemovalProtocol(SimpleParticleOptions.SpecialRemovalProtocol removalProtocol) {
+            data.removalProtocol = removalProtocol;
             return this;
         }
         public ScreenParticleBuilder overwriteRenderOrder(ScreenParticle.RenderOrder renderOrder) {

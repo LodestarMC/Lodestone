@@ -25,6 +25,9 @@ public class GenericParticle extends TextureSheetParticle {
     private final ParticleRenderType renderType;
     protected final ParticleEngine.MutableSpriteSet spriteSet;
     private final Vector3f startingMotion;
+    private boolean reachedPositiveAlpha;
+    private boolean reachedPositiveScale;
+
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
     public GenericParticle(ClientLevel world, WorldParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
@@ -83,6 +86,19 @@ public class GenericParticle extends TextureSheetParticle {
     }
 
     protected void updateTraits() {
+        if (data.removalProtocol == SimpleParticleOptions.SpecialRemovalProtocol.INVISIBLE ||
+                (data.removalProtocol == SimpleParticleOptions.SpecialRemovalProtocol.ENDING_CURVE_INVISIBLE && (getCurve(data.scaleCoefficient) > 0.5f || getCurve(data.alphaCoefficient) > 0.5f))) {
+            if ((reachedPositiveAlpha && alpha <= 0) || (reachedPositiveScale && quadSize <= 0)) {
+                remove();
+                return;
+            }
+        }
+        if (alpha > 0) {
+            reachedPositiveAlpha = true;
+        }
+        if (quadSize > 0) {
+            reachedPositiveScale = true;
+        }
         pickColor(data.colorCurveEasing.ease(getCurve(data.colorCoefficient), 0, 1, 1));
         if (data.isTrinaryScale()) {
             float trinaryAge = getCurve(data.scaleCoefficient);

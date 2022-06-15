@@ -11,9 +11,13 @@ public class SimpleParticleOptions {
     public enum MotionStyle {
         START_TO_END, CURRENT_TO_END
     }
+    public enum SpecialRemovalProtocol {
+        NONE, INVISIBLE, ENDING_CURVE_INVISIBLE
+    }
 
     public ParticleRenderType renderType = ParticleRenderTypes.ADDITIVE;
     public Animator animator = Animator.FIRST_INDEX;
+    public SpecialRemovalProtocol removalProtocol = SpecialRemovalProtocol.NONE;
     public float r1 = 1, g1 = 1, b1 = 1, r2 = 1, g2 = 1, b2 = 1;
     public float colorCoefficient = 1f;
     public Easing colorCurveEasing = Easing.LINEAR;
