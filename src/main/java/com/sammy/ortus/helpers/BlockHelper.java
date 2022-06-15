@@ -16,6 +16,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -262,6 +263,104 @@ public class BlockHelper {
         return getBlocks(current, -1, -1, -1, 1, 1, 1);
     }
 
+    /**
+     * Returns a set of block positions within a radius around a position, with a predicate for conditional checks.
+     */
+    public static HashSet<BlockPos> getBlockSet(BlockPos pos, int range, Predicate<BlockPos> predicate) {
+        return getBlockSet(pos, range, range, range, predicate);
+    }
+
+    /**
+     * Returns a set of block positions within a XYZ radius around a position, with a predicate for conditional checks.
+     */
+    public static HashSet<BlockPos> getBlockSet(BlockPos pos, int x, int y, int z, Predicate<BlockPos> predicate) {
+        HashSet<BlockPos> blocks = getBlockSet(pos, x, y, z);
+        blocks.removeIf(b -> !predicate.test(b));
+        return blocks;
+    }
+
+    /**
+     * Returns a set of block positions within a XYZ radius around a position.
+     */
+    public static HashSet<BlockPos> getBlockSet(BlockPos pos, int x, int y, int z) {
+        return getBlockSet(pos, -x, -y, -z, x, y, z);
+    }
+
+    /**
+     * Returns a set of block positions within set coordinates.
+     */
+    public static HashSet<BlockPos> getBlockSet(BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
+        HashSet<BlockPos> positions = new HashSet<>();
+        for (int x = x1; x <= x2; x++) {
+            for (int y = y1; y <= y2; y++) {
+                for (int z = z1; z <= z2; z++) {
+                    positions.add(pos.offset(x, y, z));
+                }
+            }
+        }
+        return positions;
+    }
+
+    public static HashSet<BlockPos> getPlaneOfBlocksAsSet(BlockPos pos, int range, Predicate<BlockPos> predicate) {
+        return getPlaneOfBlocksAsSet(pos, range, range, predicate);
+    }
+
+    public static HashSet<BlockPos> getPlaneOfBlocksAsSet(BlockPos pos, int x, int z, Predicate<BlockPos> predicate) {
+        HashSet<BlockPos> blocks = getPlaneOfBlocksAsSet(pos, x, z);
+        blocks.removeIf(b -> !predicate.test(b));
+        return blocks;
+    }
+
+    public static HashSet<BlockPos> getPlaneOfBlocksAsSet(BlockPos pos, int x, int z) {
+        return getPlaneOfBlocksAsSet(pos, -x, -z, x, z);
+    }
+
+    public static HashSet<BlockPos> getPlaneOfBlocksAsSet(BlockPos pos, int x1, int z1, int x2, int z2) {
+        HashSet<BlockPos> positions = new HashSet<>();
+        for (int x = x1; x <= x2; x++) {
+            for (int z = z1; z <= z2; z++) {
+                positions.add(new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z));
+            }
+        }
+        return positions;
+    }
+
+    public static HashSet<BlockPos> getSphereOfBlocksAsSet(BlockPos pos, float range, Predicate<BlockPos> predicate) {
+        HashSet<BlockPos> positions = getSphereOfBlocksAsSet(pos, range, range);
+        positions.removeIf(b -> !predicate.test(b));
+        return positions;
+    }
+
+    public static HashSet<BlockPos> getSphereOfBlocksAsSet(BlockPos pos, float width, float height, Predicate<BlockPos> predicate) {
+        HashSet<BlockPos> positions = getSphereOfBlocksAsSet(pos, width, height);
+        positions.removeIf(b -> !predicate.test(b));
+        return positions;
+    }
+
+    public static HashSet<BlockPos> getSphereOfBlocksAsSet(BlockPos pos, float range) {
+        return getSphereOfBlocksAsSet(pos, range, range);
+    }
+
+    public static HashSet<BlockPos> getSphereOfBlocksAsSet(BlockPos pos, float width, float height) {
+        HashSet<BlockPos> positions = new HashSet<>();
+        for (int x = (int) -width; x <= width; x++) {
+            for (int y = (int) -height; y <= height; y++) {
+                for (int z = (int) -width; z <= width; z++) {
+                    if (x * x + y * y + z * z < width * width) {
+                        positions.add(pos.offset(x, y, z));
+                    }
+                }
+            }
+        }
+        return positions;
+    }
+
+    /**
+     * Quick method to get all blocks neighboring a block.
+     */
+    public static HashSet<BlockPos> getNeighboringBlockSet(BlockPos current) {
+        return getBlockSet(current, -1, -1, -1, 1, 1, 1);
+    }
     /* Javadoc
     * @param inclusive Whether to include the start and the end pos itself in the list.
     * */
