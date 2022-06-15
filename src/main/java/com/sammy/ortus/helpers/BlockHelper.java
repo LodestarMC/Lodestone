@@ -6,7 +6,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -16,15 +15,22 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Random;
-import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * A collection of various helper methods related to all your blocky needs.
  */
+@SuppressWarnings("unused") // don't need warnings about unused, this is a library class
 public class BlockHelper {
+    // private constructor, prevent instantiation
+    private BlockHelper() {
+    }
+
 
     /**
      * Copies all properties from oldState to newState, given that an individual property exists on the newState.
@@ -93,284 +99,328 @@ public class BlockHelper {
     /**
      * Returns a list of block entities within a range, with a predicate for conditional checks.
      */
-    public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int range, Predicate<T> predicate) {
-        return getBlockEntities(type, level, pos, range, range, range, predicate);
+    public static <T> Collection<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int range, Predicate<T> predicate) {
+        return getBlockEntitiesStream(type, level, pos, range, predicate).collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns a list of block entities within a range, with a predicate for conditional checks, as stream
+     */
+    public static <T> Stream<T> getBlockEntitiesStream(Class<T> type, Level level, BlockPos pos, int range, Predicate<T> predicate) {
+        return getBlockEntitiesStream(type, level, pos, range, range, range, predicate);
     }
 
     /**
      * Returns a list of block entities within an XZ range, with a predicate for conditional checks.
      */
-    public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int z, Predicate<T> predicate) {
-        ArrayList<T> blockEntities = getBlockEntities(type, level, pos, x, z);
-        blockEntities.removeIf(b -> !predicate.test(b));
-        return blockEntities;
+    public static <T> Collection<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int z, Predicate<T> predicate) {
+        return getBlockEntitiesStream(type, level, pos, x, z, predicate).collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns a list of block entities within an XZ range, with a predicate for conditional checks, as stream
+     */
+    public static <T> Stream<T> getBlockEntitiesStream(Class<T> type, Level level, BlockPos pos, int x, int z, Predicate<T> predicate) {
+        return getBlockEntitiesStream(type, level, pos, x, z).filter(predicate);
     }
 
     /**
      * Returns a list of block entities within an XYZ range, with a predicate for conditional checks.
      */
-    public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int y, int z, Predicate<T> predicate) {
-        ArrayList<T> blockEntities = getBlockEntities(type, level, pos, x, y, z);
-        blockEntities.removeIf(b -> !predicate.test(b));
-        return blockEntities;
+    public static <T> Collection<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int y, int z, Predicate<T> predicate) {
+        return getBlockEntitiesStream(type, level, pos, x, y, z, predicate).collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns a list of block entities within an XYZ range, with a predicate for conditional checks, as streamq
+     */
+    public static <T> Stream<T> getBlockEntitiesStream(Class<T> type, Level level, BlockPos pos, int x, int y, int z, Predicate<T> predicate) {
+        return getBlockEntitiesStream(type, level, pos, x, y, z).filter(predicate);
     }
 
     /**
      * Returns a list of block entities within a radius around a position.
      */
-    public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int range) {
+    public static <T> Collection<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int range) {
         return getBlockEntities(type, level, pos, range, range, range);
+    }
+
+    /**
+     * Returns a list of block entities within a radius around a position, as stream
+     *
+     * @param type  - Class of the block entity to search for
+     * @param level - Level to search in
+     * @param pos   - Position to search around
+     * @param range - Radius to search in
+     * @return - Stream of block entities
+     */
+    public static <T> Stream<T> getBlockEntitiesStream(Class<T> type, Level level, BlockPos pos, int range) {
+        return getBlockEntitiesStream(type, level, pos, range, range, range);
     }
 
     /**
      * Returns a list of block entities within an XZ radius around a position.
      */
-    public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int z) {
-        return getBlockEntities(type, level, new AABB(pos.getX() - x, pos.getY(), pos.getZ() - z, pos.getX() + x, pos.getY() + 1, pos.getZ() + z));
+    public static <T> Collection<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int z) {
+        return getBlockEntitiesStream(type, level, pos, x, z).collect(Collectors.toSet());
     }
+
+    /**
+     * Returns a list of block entities within an XZ radius around a position, as stream
+     *
+     * @param type  - Class of the block entity to search for
+     * @param level - Level to search in
+     * @param pos   - Position to search around
+     * @param x     - Radius to search in X
+     * @param z     - Radius to search in Z
+     * @return - Stream of block entities
+     */
+    public static <T> Stream<T> getBlockEntitiesStream(Class<T> type, Level level, BlockPos pos, int x, int z) {
+        return getBlockEntitiesStream(type, level, new AABB((double) pos.getX() - x, pos.getY(), (double) pos.getZ() - z, (double) pos.getX() + x, (double) pos.getY() + 1, (double) pos.getZ() + z));
+    }
+
 
     /**
      * Returns a list of block entities within an XYZ radius around a position.
      */
-    public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int y, int z) {
-        return getBlockEntities(type, level, pos, -x, -y, -z, x, y, z);
+    public static <T> Collection<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x, int y, int z) {
+        return getBlockEntitiesStream(type, level, pos, x, y, z).collect(Collectors.toSet());
     }
+
+    /**
+     * Returns a list of block entities within an XYZ radius around a position, as stream
+     *
+     * @param type  - Class of the block entity to search for
+     * @param level - Level to search in
+     * @param pos   - Position to search around
+     * @param x     - Radius to search in X
+     * @param y     - Radius to search in Y
+     * @param z     - Radius to search in Z
+     * @return - Stream of block entities
+     */
+    public static <T> Stream<T> getBlockEntitiesStream(Class<T> type, Level level, BlockPos pos, int x, int y, int z) {
+        return getBlockEntitiesStream(type, level, pos, -x, -y, -z, x, y, z);
+    }
+
 
     /**
      * Returns a list of block entities within set coordinates.
      */
-    public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
-        return getBlockEntities(type, level, new AABB(pos.getX() + x1, pos.getY() + y1, pos.getZ() + z1, pos.getX() + x2, pos.getY() + y2, pos.getZ() + z2));
+    public static <T> Collection<T> getBlockEntities(Class<T> type, Level level, BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
+        return getBlockEntitiesStream(type, level, pos, x1, y1, z1, x2, y2, z2).collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns a list of block entities within set coordinates, as stream
+     */
+    public static <T> Stream<T> getBlockEntitiesStream(Class<T> type, Level level, BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
+        return getBlockEntitiesStream(type, level, new AABB((double) pos.getX() + x1, (double) pos.getY() + y1, (double) pos.getZ() + z1, (double) pos.getX() + x2, (double) pos.getY() + y2, (double) pos.getZ() + z2));
     }
 
     /**
      * Returns a list of block entities within an AABB.
      */
-    public static <T> ArrayList<T> getBlockEntities(Class<T> type, Level world, AABB bb) {
-        ArrayList<T> tileList = new ArrayList<>();
-        for (int i = (int) Math.floor(bb.minX); i < (int) Math.ceil(bb.maxX) + 16; i += 16) {
-            for (int j = (int) Math.floor(bb.minZ); j < (int) Math.ceil(bb.maxZ) + 16; j += 16) {
-                ChunkAccess c = world.getChunk(new BlockPos(i, 0, j));
-                Set<BlockPos> tiles = c.getBlockEntitiesPos();
-                for (BlockPos p : tiles)
-                    if (bb.contains(p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5)) {
-                        BlockEntity t = world.getBlockEntity(p);
-                        if (type.isInstance(t)) {
-                            tileList.add((T) t);
-                        }
-                    }
-            }
-        }
-        return tileList;
+    public static <T> Collection<T> getBlockEntities(Class<T> type, Level world, AABB bb) {
+        return getBlockEntitiesStream(type, world, bb).collect(Collectors.toSet());
     }
+
+    /**
+     * Returns a list of block entities within an AABB, as stream
+     */
+    public static <T> Stream<T> getBlockEntitiesStream(Class<T> type, Level world, AABB bb) {
+
+        // Int stream from min to max + 16 (to get all chunks), step 16
+        return IntStream.iterate((int) Math.floor(bb.minX), i -> i < Math.ceil(bb.maxX) + 16, i -> i + 16)
+                .boxed()
+                .flatMap(i ->
+                        // Int stream from min to max + 16 (to get all chunks), step 16
+                        IntStream.iterate((int) Math.floor(bb.minZ), j -> j < Math.ceil(bb.maxZ) + 16, j -> j + 16)
+                                .boxed().flatMap(j -> {
+                                    // get chunk access
+                                    ChunkAccess c = world.getChunk(new BlockPos(i, 0, j));
+                                    // get block entities in chunk
+                                    return c.getBlockEntitiesPos().stream();
+                                })
+                )
+                .map(world::getBlockEntity)
+                .filter(type::isInstance)
+                .map(type::cast);
+    }
+
 
     /**
      * Returns a list of block positions within a radius around a position, with a predicate for conditional checks.
      */
-    public static ArrayList<BlockPos> getBlocks(BlockPos pos, int range, Predicate<BlockPos> predicate) {
-        return getBlocks(pos, range, range, range, predicate);
+    public static Collection<BlockPos> getBlocks(BlockPos pos, int range, Predicate<BlockPos> predicate) {
+        return getBlocksStream(pos, range, predicate).collect(Collectors.toSet());
     }
+
+    /**
+     * Returns a list of block positions within a radius around a position, with a predicate for conditional checks, as stream
+     */
+    public static Stream<BlockPos> getBlocksStream(BlockPos pos, int range, Predicate<BlockPos> predicate) {
+        return getBlocksStream(pos, range, range, range, predicate);
+    }
+
 
     /**
      * Returns a list of block positions within a XYZ radius around a position, with a predicate for conditional checks.
      */
-    public static ArrayList<BlockPos> getBlocks(BlockPos pos, int x, int y, int z, Predicate<BlockPos> predicate) {
-        ArrayList<BlockPos> blocks = getBlocks(pos, x, y, z);
-        blocks.removeIf(b -> !predicate.test(b));
-        return blocks;
+    public static Collection<BlockPos> getBlocks(BlockPos pos, int x, int y, int z, Predicate<BlockPos> predicate) {
+        return getBlocksStream(pos, x, y, z, predicate).collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns a list of block positions within a XYZ radius around a position, with a predicate for conditional checks, as stream
+     */
+    public static Stream<BlockPos> getBlocksStream(BlockPos pos, int x, int y, int z, Predicate<BlockPos> predicate) {
+        return getBlocksStream(pos, x, y, z).filter(predicate);
     }
 
     /**
      * Returns a list of block positions within a XYZ radius around a position.
      */
-    public static ArrayList<BlockPos> getBlocks(BlockPos pos, int x, int y, int z) {
-        return getBlocks(pos, -x, -y, -z, x, y, z);
+    public static Collection<BlockPos> getBlocks(BlockPos pos, int x, int y, int z) {
+        return getBlocksStream(pos, x, y, z).collect(Collectors.toSet());
+    }
+
+    /**
+     * Returns a list of block positions within a XYZ radius around a position, as stream
+     */
+    public static Stream<BlockPos> getBlocksStream(BlockPos pos, int x, int y, int z) {
+        return getBlocksStream(pos, -x, -y, -z, x, y, z);
     }
 
     /**
      * Returns a list of block positions within set coordinates.
      */
-    public static ArrayList<BlockPos> getBlocks(BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
-        ArrayList<BlockPos> positions = new ArrayList<>();
-        for (int x = x1; x <= x2; x++) {
-            for (int y = y1; y <= y2; y++) {
-                for (int z = z1; z <= z2; z++) {
-                    positions.add(pos.offset(x, y, z));
-                }
-            }
-        }
-        return positions;
+    public static Collection<BlockPos> getBlocks(BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
+        return getBlocksStream(pos, x1, y1, z1, x2, y2, z2).collect(Collectors.toSet());
     }
 
-    public static ArrayList<BlockPos> getPlaneOfBlocks(BlockPos pos, int range, Predicate<BlockPos> predicate) {
-        return getPlaneOfBlocks(pos, range, range, predicate);
+    /**
+     * Returns a list of block positions within set coordinates, as stream
+     */
+    public static Stream<BlockPos> getBlocksStream(BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
+        return IntStream.rangeClosed(x1, x2)
+                .boxed()
+                .flatMap(i ->
+                        IntStream.rangeClosed(y1, y2)
+                                .boxed().flatMap(j ->
+                                        IntStream.rangeClosed(z1, z2)
+                                                .boxed().map(k ->
+                                                        pos.offset(i, j, k)
+                                                )
+                                )
+                );
     }
 
-    public static ArrayList<BlockPos> getPlaneOfBlocks(BlockPos pos, int x, int z, Predicate<BlockPos> predicate) {
-        ArrayList<BlockPos> blocks = getPlaneOfBlocks(pos, x, z);
-        blocks.removeIf(b -> !predicate.test(b));
-        return blocks;
+    public static Collection<BlockPos> getPlaneOfBlocks(BlockPos pos, int range, Predicate<BlockPos> predicate) {
+        return getPlaneOfBlocksStream(pos, range, predicate).collect(Collectors.toSet());
     }
 
-    public static ArrayList<BlockPos> getPlaneOfBlocks(BlockPos pos, int x, int z) {
-        return getPlaneOfBlocks(pos, -x, -z, x, z);
+    public static Stream<BlockPos> getPlaneOfBlocksStream(BlockPos pos, int range, Predicate<BlockPos> predicate) {
+        return getPlaneOfBlocksStream(pos, range, range, predicate);
     }
 
-    public static ArrayList<BlockPos> getPlaneOfBlocks(BlockPos pos, int x1, int z1, int x2, int z2) {
-        ArrayList<BlockPos> positions = new ArrayList<>();
-        for (int x = x1; x <= x2; x++) {
-            for (int z = z1; z <= z2; z++) {
-                positions.add(new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z));
-            }
-        }
-        return positions;
+    public static Collection<BlockPos> getPlaneOfBlocks(BlockPos pos, int x, int z, Predicate<BlockPos> predicate) {
+        return getPlaneOfBlocksStream(pos, x, z, predicate).collect(Collectors.toSet());
     }
 
-    public static ArrayList<BlockPos> getSphereOfBlocks(BlockPos pos, float range, Predicate<BlockPos> predicate) {
-        ArrayList<BlockPos> positions = getSphereOfBlocks(pos, range, range);
-        positions.removeIf(b -> !predicate.test(b));
-        return positions;
+    public static Stream<BlockPos> getPlaneOfBlocksStream(BlockPos pos, int x, int z, Predicate<BlockPos> predicate) {
+        return getPlaneOfBlocksStream(pos, x, z).filter(predicate);
     }
 
-    public static ArrayList<BlockPos> getSphereOfBlocks(BlockPos pos, float width, float height, Predicate<BlockPos> predicate) {
-        ArrayList<BlockPos> positions = getSphereOfBlocks(pos, width, height);
-        positions.removeIf(b -> !predicate.test(b));
-        return positions;
+    public static Collection<BlockPos> getPlaneOfBlocks(BlockPos pos, int x, int z) {
+        return getPlaneOfBlocksStream(pos, x, z).collect(Collectors.toSet());
     }
 
-    public static ArrayList<BlockPos> getSphereOfBlocks(BlockPos pos, float range) {
-        return getSphereOfBlocks(pos, range, range);
+    public static Stream<BlockPos> getPlaneOfBlocksStream(BlockPos pos, int x, int z) {
+        return getPlaneOfBlocksStream(pos, -x, -z, x, z);
     }
 
-    public static ArrayList<BlockPos> getSphereOfBlocks(BlockPos pos, float width, float height) {
-        ArrayList<BlockPos> positions = new ArrayList<>();
-        for (int x = (int) -width; x <= width; x++) {
-            for (int y = (int) -height; y <= height; y++) {
-                for (int z = (int) -width; z <= width; z++) {
-                    if (x * x + y * y + z * z < width * width) {
-                        positions.add(pos.offset(x, y, z));
-                    }
-                }
-            }
-        }
-        return positions;
+    public static Collection<BlockPos> getPlaneOfBlocks(BlockPos pos, int x1, int z1, int x2, int z2) {
+        return getPlaneOfBlocksStream(pos, x1, z1, x2, z2).collect(Collectors.toSet());
+    }
+
+    public static Stream<BlockPos> getPlaneOfBlocksStream(BlockPos pos, int x1, int z1, int x2, int z2) {
+        return IntStream.rangeClosed(x1, x2)
+                .boxed()
+                .flatMap(x ->
+                        IntStream.rangeClosed(z1, z2)
+                                .boxed().map(z ->
+                                        pos.offset(x, 0, z)
+                                )
+                );
+    }
+
+    public static Collection<BlockPos> getSphereOfBlocks(BlockPos pos, float range, Predicate<BlockPos> predicate) {
+        return getSphereOfBlocksStream(pos, range, predicate).collect(Collectors.toSet());
+    }
+
+    public static Stream<BlockPos> getSphereOfBlocksStream(BlockPos pos, float range, Predicate<BlockPos> predicate) {
+        return getSphereOfBlocksStream(pos, range, range).filter(predicate);
+    }
+
+
+    public static Collection<BlockPos> getSphereOfBlocks(BlockPos pos, float width, float height, Predicate<BlockPos> predicate) {
+        return getSphereOfBlocksStream(pos, width, height, predicate).collect(Collectors.toSet());
+    }
+
+    public static Stream<BlockPos> getSphereOfBlocksStream(BlockPos pos, float width, float height, Predicate<BlockPos> predicate) {
+        return getSphereOfBlocksStream(pos, width, height).filter(predicate);
+    }
+
+    public static Collection<BlockPos> getSphereOfBlocks(BlockPos pos, float range) {
+        return getSphereOfBlocksStream(pos, range).collect(Collectors.toSet());
+    }
+
+    public static Stream<BlockPos> getSphereOfBlocksStream(BlockPos pos, float range) {
+        return getSphereOfBlocksStream(pos, range, range);
+    }
+
+    public static Collection<BlockPos> getSphereOfBlocks(BlockPos pos, float width, float height) {
+        return getSphereOfBlocksStream(pos, width, height).collect(Collectors.toSet());
+    }
+
+    public static Stream<BlockPos> getSphereOfBlocksStream(BlockPos pos, float width, float height) {
+        return IntStream.rangeClosed((int) -width, (int) width)
+                .boxed()
+                .flatMap(x ->
+                        IntStream.rangeClosed((int) -height, (int) height)
+                                .boxed().flatMap(y ->
+                                        IntStream.rangeClosed((int) -width, (int) width)
+                                                .boxed().map(z ->
+                                                        pos.offset(x, y, z)
+                                                )
+                                )
+                );
     }
 
     /**
      * Quick method to get all blocks neighboring a block.
      */
-    public static ArrayList<BlockPos> getNeighboringBlocks(BlockPos current) {
+    public static Collection<BlockPos> getNeighboringBlocks(BlockPos current) {
         return getBlocks(current, -1, -1, -1, 1, 1, 1);
     }
 
     /**
-     * Returns a set of block positions within a radius around a position, with a predicate for conditional checks.
+     * Quick method to get all blocks neighboring a block, as stream.
      */
-    public static HashSet<BlockPos> getBlockSet(BlockPos pos, int range, Predicate<BlockPos> predicate) {
-        return getBlockSet(pos, range, range, range, predicate);
+    public static Stream<BlockPos> getNeighboringBlocksStream(BlockPos current) {
+        return getBlocksStream(current, -1, -1, -1, 1, 1, 1);
     }
 
-    /**
-     * Returns a set of block positions within a XYZ radius around a position, with a predicate for conditional checks.
-     */
-    public static HashSet<BlockPos> getBlockSet(BlockPos pos, int x, int y, int z, Predicate<BlockPos> predicate) {
-        HashSet<BlockPos> blocks = getBlockSet(pos, x, y, z);
-        blocks.removeIf(b -> !predicate.test(b));
-        return blocks;
-    }
-
-    /**
-     * Returns a set of block positions within a XYZ radius around a position.
-     */
-    public static HashSet<BlockPos> getBlockSet(BlockPos pos, int x, int y, int z) {
-        return getBlockSet(pos, -x, -y, -z, x, y, z);
-    }
-
-    /**
-     * Returns a set of block positions within set coordinates.
-     */
-    public static HashSet<BlockPos> getBlockSet(BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
-        HashSet<BlockPos> positions = new HashSet<>();
-        for (int x = x1; x <= x2; x++) {
-            for (int y = y1; y <= y2; y++) {
-                for (int z = z1; z <= z2; z++) {
-                    positions.add(pos.offset(x, y, z));
-                }
-            }
-        }
-        return positions;
-    }
-
-    public static HashSet<BlockPos> getPlaneOfBlocksAsSet(BlockPos pos, int range, Predicate<BlockPos> predicate) {
-        return getPlaneOfBlocksAsSet(pos, range, range, predicate);
-    }
-
-    public static HashSet<BlockPos> getPlaneOfBlocksAsSet(BlockPos pos, int x, int z, Predicate<BlockPos> predicate) {
-        HashSet<BlockPos> blocks = getPlaneOfBlocksAsSet(pos, x, z);
-        blocks.removeIf(b -> !predicate.test(b));
-        return blocks;
-    }
-
-    public static HashSet<BlockPos> getPlaneOfBlocksAsSet(BlockPos pos, int x, int z) {
-        return getPlaneOfBlocksAsSet(pos, -x, -z, x, z);
-    }
-
-    public static HashSet<BlockPos> getPlaneOfBlocksAsSet(BlockPos pos, int x1, int z1, int x2, int z2) {
-        HashSet<BlockPos> positions = new HashSet<>();
-        for (int x = x1; x <= x2; x++) {
-            for (int z = z1; z <= z2; z++) {
-                positions.add(new BlockPos(pos.getX() + x, pos.getY(), pos.getZ() + z));
-            }
-        }
-        return positions;
-    }
-
-    public static HashSet<BlockPos> getSphereOfBlocksAsSet(BlockPos pos, float range, Predicate<BlockPos> predicate) {
-        HashSet<BlockPos> positions = getSphereOfBlocksAsSet(pos, range, range);
-        positions.removeIf(b -> !predicate.test(b));
-        return positions;
-    }
-
-    public static HashSet<BlockPos> getSphereOfBlocksAsSet(BlockPos pos, float width, float height, Predicate<BlockPos> predicate) {
-        HashSet<BlockPos> positions = getSphereOfBlocksAsSet(pos, width, height);
-        positions.removeIf(b -> !predicate.test(b));
-        return positions;
-    }
-
-    public static HashSet<BlockPos> getSphereOfBlocksAsSet(BlockPos pos, float range) {
-        return getSphereOfBlocksAsSet(pos, range, range);
-    }
-
-    public static HashSet<BlockPos> getSphereOfBlocksAsSet(BlockPos pos, float width, float height) {
-        HashSet<BlockPos> positions = new HashSet<>();
-        for (int x = (int) -width; x <= width; x++) {
-            for (int y = (int) -height; y <= height; y++) {
-                for (int z = (int) -width; z <= width; z++) {
-                    if (x * x + y * y + z * z < width * width) {
-                        positions.add(pos.offset(x, y, z));
-                    }
-                }
-            }
-        }
-        return positions;
-    }
-
-    /**
-     * Quick method to get all blocks neighboring a block.
-     */
-    public static HashSet<BlockPos> getNeighboringBlockSet(BlockPos current) {
-        return getBlockSet(current, -1, -1, -1, 1, 1, 1);
-    }
     /* Javadoc
-    * @param inclusive Whether to include the start and the end pos itself in the list.
-    * */
-    public static ArrayList<BlockPos> getPath(BlockPos start, BlockPos end, int speed, boolean inclusive, Level level){
+     * @param inclusive Whether to include the start and the end pos itself in the list.
+     * */
+    public static Collection<BlockPos> getPath(BlockPos start, BlockPos end, int speed, boolean inclusive, Level level){
         Parrot parrot = new Parrot(EntityType.PARROT, level);
         parrot.setPos(start.getX() + 0.5, start.getY() - 0.5, start.getZ() + 0.5);
         parrot.getNavigation().moveTo(end.getX() + 0.5, end.getY() - 0.5, end.getZ() + 0.5, speed);
         Path path = parrot.getNavigation().getPath();
         parrot.discard();
-        int nodes = path.getNodeCount();
+        int nodes = path != null ? path.getNodeCount() : 0;
         ArrayList<BlockPos> positions = new ArrayList<>();
         for (int i = 0; i < nodes; i++) {
             Node node = path.getNode(i);
@@ -418,7 +468,10 @@ public class BlockHelper {
      * @param min the minimum distance from the center
      * @param max the maximum distance from the distance
      * @return The new block position
+     *
+     * @deprecated Probably crashes sometimes, also isn't really random. Avoid.
      */
+    @Deprecated(since = "1.1", forRemoval = true)
     public static Vec3 randPos(BlockPos pos, double min, double max) {
         Random rand = new Random();
         double x = Mth.nextDouble(rand, min, max) + pos.getX();
