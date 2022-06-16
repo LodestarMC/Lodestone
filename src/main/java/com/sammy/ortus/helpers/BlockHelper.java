@@ -417,7 +417,7 @@ public class BlockHelper {
     /* Javadoc
      * @param inclusive Whether to include the start and the end pos itself in the list.
      * */
-    public static Collection<BlockPos> getPath(BlockPos start, BlockPos end, int speed, boolean inclusive, Level level){
+    public static Collection<BlockPos> getPath(BlockPos start, BlockPos end, int speed, boolean inclusive, Level level) {
         Parrot parrot = new Parrot(EntityType.PARROT, level);
         parrot.setPos(start.getX() + 0.5, start.getY() - 0.5, start.getZ() + 0.5);
         parrot.getNavigation().moveTo(end.getX() + 0.5, end.getY() - 0.5, end.getZ() + 0.5, speed);
@@ -427,9 +427,9 @@ public class BlockHelper {
         ArrayList<BlockPos> positions = new ArrayList<>();
         for (int i = 0; i < nodes; i++) {
             Node node = path.getNode(i);
-            positions.add(new BlockPos(node.x, node.y-0.5, node.z));
+            positions.add(new BlockPos(node.x, node.y - 0.5, node.z));
         }
-        if(!inclusive){
+        if (!inclusive) {
             positions.remove(0);
             positions.remove(positions.size() - 1);
         }
@@ -458,6 +458,7 @@ public class BlockHelper {
 
     /**
      * Converts a block position into a Vec3 entry.
+     *
      * @param pos the block position
      * @return the vec3 representation.
      */
@@ -466,20 +467,16 @@ public class BlockHelper {
     }
 
     /**
-     * Generates a random block position
+     * Generates a randomly picked position within a block
+     * @param rand an instance of random
      * @param pos the position the block is centered around
-     * @param min the minimum distance from the center
-     * @param max the maximum distance from the distance
-     * @return The new block position
-     *
-     * @deprecated Probably crashes sometimes, also isn't really random. Avoid.
+     * @return The randomized vector position
      */
     @Deprecated(since = "1.1", forRemoval = true)
-    public static Vec3 randPos(BlockPos pos, double min, double max) {
-        Random rand = new Random();
-        double x = Mth.nextDouble(rand, min, max) + pos.getX();
-        double y = Mth.nextDouble(rand, min, max) + pos.getY();
-        double z = Mth.nextDouble(rand, min, max) + pos.getZ();
+    public static Vec3 withinBlock(Random rand, BlockPos pos) {
+        double x = pos.getX() + rand.nextDouble();
+        double y = pos.getY() + rand.nextDouble();
+        double z = pos.getZ() + rand.nextDouble();
         return new Vec3(x, y, z);
     }
 }

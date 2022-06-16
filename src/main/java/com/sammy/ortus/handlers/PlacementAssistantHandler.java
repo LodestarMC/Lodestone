@@ -49,6 +49,7 @@ public class PlacementAssistantHandler {
             BlockState state = level.getBlockState(event.getPos());
             assistant.onPlace(level, event.getHitVec(), state);
         }
+        animationTick=Math.max(0, animationTick-5);
     }
     @OnlyIn(Dist.CLIENT)
     public static void clientTick() {
