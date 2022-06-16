@@ -472,7 +472,6 @@ public class BlockHelper {
      * @param pos the position the block is centered around
      * @return The randomized vector position
      */
-    @Deprecated(since = "1.1", forRemoval = true)
     public static Vec3 withinBlock(Random rand, BlockPos pos) {
         double x = pos.getX() + rand.nextDouble();
         double y = pos.getY() + rand.nextDouble();
