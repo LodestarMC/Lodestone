@@ -390,7 +390,10 @@ public class BlockHelper {
                         IntStream.rangeClosed((int) -height, (int) height)
                                 .boxed().flatMap(y ->
                                         IntStream.rangeClosed((int) -width, (int) width)
-                                                .boxed().map(z ->
+                                                .boxed().filter(z -> {
+                                                    double d = Math.sqrt(x * x + y * y + z * z);
+                                                    return d <= width;
+                                                }).map(z ->
                                                         pos.offset(x, y, z)
                                                 )
                                 )
