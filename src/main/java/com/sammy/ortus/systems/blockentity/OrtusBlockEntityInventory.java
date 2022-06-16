@@ -27,31 +27,31 @@ import java.util.stream.Collectors;
  */
 public class OrtusBlockEntityInventory extends ItemStackHandler {
     public final int slotCount;
-    public final int slotSize;
+    public final int allowedItemSize;
     public Predicate<ItemStack> inputPredicate;
     public Predicate<ItemStack> outputPredicate;
     public final LazyOptional<IItemHandler> inventoryOptional = LazyOptional.of(() -> this);
 
-    public ArrayList<Item> items = new ArrayList<>();
-    public ArrayList<ItemStack> nonEmptyStacks = new ArrayList<>();
+    public ArrayList<ItemStack> nonEmptyItemStacks = new ArrayList<>();
+
     public int emptyItemAmount;
     public int nonEmptyItemAmount;
     public int firstEmptyItemIndex;
 
-    public OrtusBlockEntityInventory(int slotCount, int slotSize, Predicate<ItemStack> inputPredicate, Predicate<ItemStack> outputPredicate) {
-        this(slotCount, slotSize, inputPredicate);
+    public OrtusBlockEntityInventory(int slotCount, int allowedItemSize, Predicate<ItemStack> inputPredicate, Predicate<ItemStack> outputPredicate) {
+        this(slotCount, allowedItemSize, inputPredicate);
         this.outputPredicate = outputPredicate;
     }
 
-    public OrtusBlockEntityInventory(int slotCount, int slotSize, Predicate<ItemStack> inputPredicate) {
-        this(slotCount, slotSize);
+    public OrtusBlockEntityInventory(int slotCount, int allowedItemSize, Predicate<ItemStack> inputPredicate) {
+        this(slotCount, allowedItemSize);
         this.inputPredicate = inputPredicate;
     }
 
-    public OrtusBlockEntityInventory(int slotCount, int slotSize) {
+    public OrtusBlockEntityInventory(int slotCount, int allowedItemSize) {
         super(slotCount);
         this.slotCount = slotCount;
-        this.slotSize = slotSize;
+        this.allowedItemSize = allowedItemSize;
         updateData();
     }
 
@@ -67,7 +67,7 @@ public class OrtusBlockEntityInventory extends ItemStackHandler {
 
     @Override
     public int getSlotLimit(int slot) {
-        return slotSize;
+        return allowedItemSize;
     }
 
     @Override
@@ -92,11 +92,11 @@ public class OrtusBlockEntityInventory extends ItemStackHandler {
     }
 
     public void updateData() {
-        items = getItems();
-        nonEmptyStacks = getNonEmptyItemStacks();
-        emptyItemAmount = getEmptyItemCount();
-        nonEmptyItemAmount = getNonEmptyItemCount();
-        firstEmptyItemIndex = getFirstEmptyItemIndex();
+        NonNullList<ItemStack> stacks = getStacks();
+        nonEmptyItemStacks = stacks.stream().filter(s -> !s.isEmpty()).collect(Collectors.toCollection(ArrayList::new));
+        nonEmptyItemAmount = nonEmptyItemStacks.size();
+        emptyItemAmount = (int) stacks.stream().filter(ItemStack::isEmpty).count();
+        firstEmptyItemIndex = this.stacks.indexOf(ItemStack.EMPTY);
     }
 
     public void load(CompoundTag compound) {
@@ -122,41 +122,12 @@ public class OrtusBlockEntityInventory extends ItemStackHandler {
         compound.put(name, serializeNBT());
     }
 
-    public int getFirstEmptyItemIndex() {
-        for (int i = 0; i < slotCount; i++) {
-            if (getStackInSlot(i).isEmpty()) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public NonNullList<ItemStack> getStacks() {
         return stacks;
     }
 
     public boolean isEmpty() {
         return nonEmptyItemAmount == 0;
-    }
-
-    protected int getNonEmptyItemCount() {
-        return (int) getStacks().stream().filter(s -> !s.isEmpty()).count();
-    }
-
-    protected int getEmptyItemCount() {
-        return (int) getStacks().stream().filter(ItemStack::isEmpty).count();
-    }
-
-    protected ArrayList<ItemStack> getNonEmptyItemStacks() {
-        return getStacks().stream().filter(s -> !s.isEmpty()).collect(Collectors.toCollection(ArrayList::new));
-    }
-
-    protected ArrayList<Item> getItems() {
-        return getStacks().stream().map(ItemStack::getItem).collect(Collectors.toCollection(ArrayList::new));
-    }
-
-    protected ArrayList<Item> getNonEmptyItems() {
-        return getNonEmptyItemStacks().stream().map(ItemStack::getItem).collect(Collectors.toCollection(ArrayList::new));
     }
 
     public void clear() {
@@ -181,9 +152,9 @@ public class OrtusBlockEntityInventory extends ItemStackHandler {
     public ItemStack interact(Level level, Player player, InteractionHand handIn) {
         ItemStack held = player.getItemInHand(handIn);
         player.swing(handIn, true);
-        int size = nonEmptyStacks.size() - 1;
+        int size = nonEmptyItemStacks.size() - 1;
         if ((held.isEmpty() || firstEmptyItemIndex == -1) && size != -1) {
-            ItemStack takeOutStack = nonEmptyStacks.get(size);
+            ItemStack takeOutStack = nonEmptyItemStacks.get(size);
             if (takeOutStack.getItem().equals(held.getItem())) {
                 return insertItem(level, held);
             }
@@ -200,7 +171,7 @@ public class OrtusBlockEntityInventory extends ItemStackHandler {
 
     public ItemStack extractItem(Level level, ItemStack heldStack, Player player) {
         if (!level.isClientSide) {
-            List<ItemStack> nonEmptyStacks = this.nonEmptyStacks;
+            List<ItemStack> nonEmptyStacks = this.nonEmptyItemStacks;
             if (nonEmptyStacks.isEmpty()) {
                 return heldStack;
             }
@@ -228,8 +199,8 @@ public class OrtusBlockEntityInventory extends ItemStackHandler {
                     return ItemStack.EMPTY;
                 }
                 int count = stack.getCount() - simulate.getCount();
-                if (count > slotSize) {
-                    count = slotSize;
+                if (count > allowedItemSize) {
+                    count = allowedItemSize;
                 }
                 ItemStack input = stack.split(count);
                 insertItem(input, false);
