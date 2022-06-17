@@ -26,9 +26,7 @@ public class FireEffectType {
 
     public void extinguish(FireEffectInstance instance, Entity target) {
         instance.duration = 0;
-
-        //TODO: test if the sound actually plays
-        target.level.playSound(null, target.blockPosition(), SoundEvents.GENERIC_EXTINGUISH_FIRE, target.getSoundSource(),0.7F, 1.6F + (target.level.getRandom().nextFloat() - target.level.getRandom().nextFloat()) * 0.4F);
+        target.playSound(SoundEvents.GENERIC_EXTINGUISH_FIRE, 0.7F, 1.6F + (target.level.getRandom().nextFloat() - target.level.getRandom().nextFloat()) * 0.4F);
     }
 
     public void tick(FireEffectInstance instance, Entity target) {

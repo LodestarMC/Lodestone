@@ -1,18 +1,20 @@
 package com.sammy.ortus.setup;
 
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
 import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.systems.rendering.ShaderUniformHandler;
 import com.sammy.ortus.systems.rendering.StateShards;
-import net.minecraft.Util;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
+import org.codehaus.plexus.util.dag.Vertex;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -38,24 +40,25 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
     public static final RenderType OUTLINE_SOLID = createGenericRenderType(ORTUS, "outline_solid", NEW_ENTITY, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
 
     public static final RenderType VERTEX_DISTORTION = createGenericRenderType(ORTUS, "vertex_distortion", PARTICLE, VertexFormat.Mode.QUADS, OrtusShaderRegistry.VERTEX_DISTORTION.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
-    public static final RenderType ADDITIVE_SOLID = createGenericRenderType(ORTUS, "additive_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.ADDITIVE_TRANSPARENCY);
-    public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(ORTUS, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.TRANSLUCENT_TRANSPARENCY);
+
+    //public static final RenderType BLOOM = createGenericRenderType(ORTUS, "bloom", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.BLOOM.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+
     /**
      * Render Functions. You can create Render Types by statically applying these to your texture. Alternatively, use {@link #GENERIC} if none of the presets suit your needs.
      */
+    public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(ORTUS, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.TRANSLUCENT_TRANSPARENCY);
+    public static final RenderType ADDITIVE_SOLID = createGenericRenderType(ORTUS, "additive_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.ADDITIVE_TRANSPARENCY);
 
+    public static final Function<ResourceLocation, RenderType> TRANSPARENT_TEXTURE = (texture) -> createGenericRenderType(texture.getNamespace(), "transparent_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER, StateShards.TRANSLUCENT_TRANSPARENCY, texture);
+    public static final Function<ResourceLocation, RenderType> ADDITIVE_TEXTURE = (texture) -> createGenericRenderType(texture.getNamespace(), "additive_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
+    //public static final Function<ResourceLocation, RenderType> BLOOM_TEXTURE = (texture) -> createGenericRenderType(ORTUS, "bloom", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.BLOOM.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
+    public static final Function<ResourceLocation, RenderType> VERTEX_DISTORTION_TEXTURE = (texture) -> createGenericRenderType(texture.getNamespace(), "vertex_distortion_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.VERTEX_DISTORTION.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
 
-    public static final RenderTypeProvider TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NO_TRANSPARENCY, texture));
-    public static final RenderTypeProvider TRANSPARENT_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "transparent_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER, StateShards.TRANSLUCENT_TRANSPARENCY, texture));
-    public static final RenderTypeProvider ADDITIVE_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "additive_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
-    //public static final Function<ResourceLocation, RenderType> BLOOM_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(ORTUS, "bloom", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.BLOOM.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
-    public static final RenderTypeProvider VERTEX_DISTORTION_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "vertex_distortion_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.VERTEX_DISTORTION.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
-
-    public static final RenderTypeProvider RADIAL_NOISE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "radial_noise", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.RADIAL_NOISE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
-    public static final RenderTypeProvider RADIAL_SCATTER_NOISE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "radial_scatter_noise", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.RADIAL_SCATTER_NOISE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
-    public static final RenderTypeProvider SCROLLING_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "scrolling_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.SCROLLING_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
-    public static final RenderTypeProvider TEXTURE_TRIANGLE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.TRIANGLE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
-    public static final RenderTypeProvider SCROLLING_TEXTURE_TRIANGLE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "scrolling_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.SCROLLING_TRIANGLE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
+    public static final Function<ResourceLocation, RenderType> RADIAL_NOISE = (texture) -> createGenericRenderType(texture.getNamespace(), "radial_noise", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.RADIAL_NOISE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
+    public static final Function<ResourceLocation, RenderType> RADIAL_SCATTER_NOISE = (texture) -> createGenericRenderType(texture.getNamespace(), "radial_scatter_noise", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.RADIAL_SCATTER_NOISE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
+    public static final Function<ResourceLocation, RenderType> SCROLLING_TEXTURE = (texture) -> createGenericRenderType(texture.getNamespace(), "scrolling_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.SCROLLING_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
+    public static final Function<ResourceLocation, RenderType> TEXTURE_TRIANGLE = (texture) -> createGenericRenderType(texture.getNamespace(), "texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.TRIANGLE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
+    public static final Function<ResourceLocation, RenderType> SCROLLING_TEXTURE_TRIANGLE = (texture) -> createGenericRenderType(texture.getNamespace(), "scrolling_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.SCROLLING_TRIANGLE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture);
 
 
     public static final Function<RenderTypeData, RenderType> GENERIC = (data) -> createGenericRenderType(data.name, data.format, data.mode, data.shader, data.transparency, data.texture);
@@ -67,7 +70,6 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
     public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture) {
         return createGenericRenderType(modId + ":" + name, format, mode, shader, transparency, new TextureStateShard(texture, false, false));
     }
-
     /**
      * Creates a custom render type with an empty texture.
      */
@@ -151,24 +153,6 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
 
         public RenderTypeData(RenderType.CompositeRenderType type) {
             this(type.name, type.format(), type.mode(), type.state.shaderState, type.state.transparencyState, type.state.textureState);
-        }
-    }
-
-    public static class RenderTypeProvider {
-        private final Function<ResourceLocation, RenderType> function;
-        private final Function<ResourceLocation, RenderType> memorizedFunction;
-
-        public RenderTypeProvider(Function<ResourceLocation, RenderType> function) {
-            this.function = function;
-            this.memorizedFunction = Util.memoize(function);
-        }
-
-        public RenderType apply(ResourceLocation texture) {
-            return function.apply(texture);
-        }
-
-        public RenderType applyAndCache(ResourceLocation texture) {
-            return this.memorizedFunction.apply(texture);
         }
     }
 }
