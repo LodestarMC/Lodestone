@@ -242,7 +242,7 @@ public class BlockHelper {
                                     return c.getBlockEntitiesPos().stream();
                                 })
                 )
-                .filter(p -> bb.contains(p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5))
+                .filter(p -> bb.contains(p.getX(), p.getY(), p.getZ()))
                 .map(world::getBlockEntity)
                 .filter(type::isInstance)
                 .map(type::cast);
