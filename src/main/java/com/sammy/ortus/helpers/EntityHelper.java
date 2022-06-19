@@ -11,16 +11,25 @@ import java.util.Objects;
 public class EntityHelper {
 
     public static void amplifyEffect(MobEffect effect, MobEffectInstance instance, LivingEntity target, int addedAmplifier, int cap) {
-        target.addEffect(new MobEffectInstance(effect, instance.getDuration(), Math.min(cap,instance.getAmplifier()+addedAmplifier)));
+        target.addEffect(new MobEffectInstance(effect, instance.getDuration(), Math.min(cap, instance.getAmplifier() + addedAmplifier)));
     }
 
     public static void extendEffect(MobEffect effect, MobEffectInstance instance, LivingEntity target, int addedDuration, int cap) {
-        target.addEffect(new MobEffectInstance(effect, Math.min(cap,instance.getDuration()+addedDuration), instance.getAmplifier()));
+        target.addEffect(new MobEffectInstance(effect, Math.min(cap, instance.getDuration() + addedDuration), instance.getAmplifier()));
+    }
+
+    public static void amplifyEffect(MobEffect effect, MobEffectInstance instance, LivingEntity target, int addedAmplifier) {
+        target.addEffect(new MobEffectInstance(effect, instance.getDuration(), instance.getAmplifier() + addedAmplifier));
+    }
+
+    public static void extendEffect(MobEffect effect, MobEffectInstance instance, LivingEntity target, int addedDuration) {
+        target.addEffect(new MobEffectInstance(effect, instance.getDuration() + addedDuration, instance.getAmplifier()));
     }
 
     public static void shortenEffect(MobEffect effect, MobEffectInstance instance, LivingEntity target, int removedDuration) {
-        target.addEffect(new MobEffectInstance(effect, Math.max(0,instance.getDuration()+removedDuration), instance.getAmplifier()));
+        target.addEffect(new MobEffectInstance(effect, Math.max(0, instance.getDuration() + removedDuration), instance.getAmplifier()));
     }
+
 
     /**
      * Tracks the travel path of an entity or other object
@@ -54,4 +63,3 @@ public class EntityHelper {
         }
     }
 }
-
