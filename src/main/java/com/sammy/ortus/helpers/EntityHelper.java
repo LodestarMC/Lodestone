@@ -13,26 +13,31 @@ public class EntityHelper {
     public static void amplifyEffect(MobEffectInstance instance, LivingEntity target, int addedAmplifier, int cap) {
         target.effectsDirty = true;
         instance.amplifier = Math.min(cap, instance.getAmplifier() + addedAmplifier);
+        target.onEffectUpdated(instance, true, target);
     }
 
     public static void amplifyEffect(MobEffectInstance instance, LivingEntity target, int addedAmplifier) {
         target.effectsDirty = true;
         instance.amplifier = instance.getAmplifier() + addedAmplifier;
+        target.onEffectUpdated(instance, true, target);
     }
 
     public static void extendEffect(MobEffectInstance instance, LivingEntity target, int addedDuration, int cap) {
         target.effectsDirty = true;
         instance.duration = Math.min(cap, instance.getDuration() + addedDuration);
+        target.onEffectUpdated(instance, true, target);
     }
 
     public static void extendEffect(MobEffectInstance instance, LivingEntity target, int addedDuration) {
         target.effectsDirty = true;
         instance.duration = instance.getDuration() + addedDuration;
+        target.onEffectUpdated(instance, true, target);
     }
 
     public static void shortenEffect(MobEffectInstance instance, LivingEntity target, int removedDuration) {
         target.effectsDirty = true;
         instance.duration = instance.getDuration() - removedDuration;
+        target.onEffectUpdated(instance, true, target);
     }
 
 
