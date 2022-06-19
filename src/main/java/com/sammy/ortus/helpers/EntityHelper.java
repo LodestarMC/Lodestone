@@ -10,24 +10,13 @@ import java.util.Objects;
 
 public class EntityHelper {
 
-    public static void amplifyEffect(MobEffect effect, LivingEntity target, int amplifier, int cap) {
-        MobEffectInstance instance = target.getEffect(effect);
-        int duration = 0;
-        if (instance != null) {
-            amplifier += instance.getAmplifier() + 1;
-            duration = instance.getDuration();
-        }
-        target.addEffect(new MobEffectInstance(effect, duration, Math.min(amplifier, cap)));
+    public static void amplifyEffect(MobEffect effect, MobEffectInstance instance, LivingEntity target, int addedAmplifier, int cap) {
+        target.addEffect(new MobEffectInstance(effect, instance.getDuration(), Math.min(cap,instance.getAmplifier()+addedAmplifier)));
     }
 
-    public static void extendEffect(MobEffect effect, LivingEntity target, int duration, int cap) {
-        MobEffectInstance instance = target.getEffect(effect);
-        int amplifier = 0;
-        if (instance != null) {
-            duration += instance.getDuration();
-            amplifier = instance.getAmplifier();
-        }
-        target.addEffect(new MobEffectInstance(effect, Math.min(duration, cap), amplifier));
+    public static void extendEffect(MobEffect effect, MobEffectInstance instance, LivingEntity target, int addedDuration, int cap) {
+        target.addEffect(new MobEffectInstance(effect, Math.min(cap,instance.getDuration()+addedDuration), instance.getAmplifier()));
+
     }
 
     /**
