@@ -16,7 +16,10 @@ public class EntityHelper {
 
     public static void extendEffect(MobEffect effect, MobEffectInstance instance, LivingEntity target, int addedDuration, int cap) {
         target.addEffect(new MobEffectInstance(effect, Math.min(cap,instance.getDuration()+addedDuration), instance.getAmplifier()));
+    }
 
+    public static void shortenEffect(MobEffect effect, MobEffectInstance instance, LivingEntity target, int removedDuration) {
+        target.addEffect(new MobEffectInstance(effect, Math.max(0,instance.getDuration()+removedDuration), instance.getAmplifier()));
     }
 
     /**
