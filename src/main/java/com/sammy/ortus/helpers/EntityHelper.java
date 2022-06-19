@@ -30,9 +30,9 @@ public class EntityHelper {
         instance.duration = instance.getDuration() + addedDuration;
     }
 
-    public static void shortenEffect(MobEffect effect, MobEffectInstance instance, LivingEntity target, int removedDuration) {
+    public static void shortenEffect(MobEffectInstance instance, LivingEntity target, int removedDuration) {
+        target.effectsDirty = true;
         instance.duration = instance.getDuration() - removedDuration;
-        target.addEffect(new MobEffectInstance(effect, Math.max(0, instance.getDuration() + removedDuration), instance.getAmplifier()));
     }
 
 
