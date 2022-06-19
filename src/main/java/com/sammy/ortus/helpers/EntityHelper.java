@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class EntityHelper {
 
-    public static void giveAmplifyingEffect(MobEffect effect, LivingEntity target, int duration, int amplifier, int cap) {
+    public static void amplifyEffect(MobEffect effect, LivingEntity target, int duration, int amplifier, int cap) {
         MobEffectInstance instance = target.getEffect(effect);
         if (instance != null) {
             amplifier += instance.getAmplifier() + 1;
@@ -18,12 +18,12 @@ public class EntityHelper {
         target.addEffect(new MobEffectInstance(effect, duration, Math.min(amplifier, cap)));
     }
 
-    public static void giveStackingEffect(MobEffect effect, LivingEntity target, int duration, int amplifier) {
+    public static void extendEffect(MobEffect effect, LivingEntity target, int duration, int amplifier, int cap) {
         MobEffectInstance instance = target.getEffect(effect);
         if (instance != null) {
             duration += instance.getDuration();
         }
-        target.addEffect(new MobEffectInstance(effect, duration, amplifier));
+        target.addEffect(new MobEffectInstance(effect, Math.min(duration, cap), amplifier));
     }
 
     /**
