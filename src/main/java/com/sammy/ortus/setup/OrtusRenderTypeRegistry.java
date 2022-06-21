@@ -67,6 +67,9 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
     public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture) {
         return createGenericRenderType(modId + ":" + name, format, mode, shader, transparency, new TextureStateShard(texture, false, false));
     }
+    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture) {
+        return createGenericRenderType(modId + ":" + name, format, mode, shader, transparency, texture);
+    }
 
     /**
      * Creates a custom render type with an empty texture.
