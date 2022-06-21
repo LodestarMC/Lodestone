@@ -77,15 +77,21 @@ public class ColorHelper {
     }
 
     public static Color darker(Color color, int times) {
-        float FACTOR = (float) Math.pow(0.7f, times);
+        return darker(color, times, 0.7f);
+    }
+    public static Color darker(Color color, int power, float factor) {
+        float FACTOR = (float) Math.pow(factor, power);
         return new Color(Math.max((int) (color.getRed() * FACTOR), 0),
                 Math.max((int) (color.getGreen() * FACTOR), 0),
                 Math.max((int) (color.getBlue() * FACTOR), 0),
                 color.getAlpha());
     }
 
-    public static Color brighter(Color color, int times) {
-        float FACTOR = (float) Math.pow(0.7f, times);
+    public static Color brighter(Color color, int power) {
+        return brighter(color, power, 0.7f);
+    }
+    public static Color brighter(Color color, int power, float factor) {
+        float FACTOR = (float) Math.pow(factor, power);
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
