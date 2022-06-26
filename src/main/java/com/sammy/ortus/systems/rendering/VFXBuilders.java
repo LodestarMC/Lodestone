@@ -398,6 +398,33 @@ public class VFXBuilders {
             stack.translate(-xOffset, -yOffset, -zOffset);
             return this;
         }
+        public WorldVFXBuilder renderScreenSpaceQuad(VertexConsumer vertexConsumer, PoseStack stack, float size) {
+            return renderScreenSpaceQuad(vertexConsumer, stack, size, size);
+        }
+
+        public WorldVFXBuilder renderScreenSpaceQuad(VertexConsumer vertexConsumer, PoseStack stack, float width, float height) {
+            Vector3f[] positions = new Vector3f[]{new Vector3f(-1, -1, 0), new Vector3f(1, -1, 0), new Vector3f(1, 1, 0), new Vector3f(-1, 1, 0)};
+            return renderScreenSpaceQuad(vertexConsumer, stack, positions, width, height);
+        }
+
+        public WorldVFXBuilder renderScreenSpaceQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions, float size) {
+            return renderScreenSpaceQuad(vertexConsumer, stack, positions, size, size);
+        }
+
+        public WorldVFXBuilder renderScreenSpaceQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions, float width, float height) {
+            Matrix4f last = stack.last().pose();
+            stack.translate(xOffset, yOffset, zOffset);
+            for (Vector3f position : positions) {
+                position.mul(width, height, width);
+                position.transform(stack.last().normal());
+            }
+            supplier.placeVertex(vertexConsumer, last, positions[0].x(), positions[0].y(), positions[0].z(), u0, v1);
+            supplier.placeVertex(vertexConsumer, last, positions[1].x(), positions[1].y(), positions[1].z(), u1, v1);
+            supplier.placeVertex(vertexConsumer, last, positions[2].x(), positions[2].y(), positions[2].z(), u1, v0);
+            supplier.placeVertex(vertexConsumer, last, positions[3].x(), positions[3].y(), positions[3].z(), u0, v0);
+            stack.translate(-xOffset, -yOffset, -zOffset);
+            return this;
+        }
 
         public WorldVFXBuilder renderSphere(VertexConsumer vertexConsumer, PoseStack stack, float radius, int longs, int lats) {
             Matrix4f last = stack.last().pose();
