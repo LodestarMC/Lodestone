@@ -316,6 +316,9 @@ public class VFXBuilders {
             return this;
         }
 
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
+            return renderTrail(vertexConsumer, stack, trailSegments, widthFunc, f -> {});
+        }
         public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
             return renderTrail(vertexConsumer, stack.last().pose(), trailSegments, widthFunc, vfxOperator);
         }
