@@ -17,6 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -315,11 +316,11 @@ public class VFXBuilders {
             return this;
         }
 
-        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
-            return renderTrail(vertexConsumer, stack.last().pose(), trailSegments, widthFunc);
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
+            return renderTrail(vertexConsumer, stack.last().pose(), trailSegments, widthFunc, vfxOperator);
         }
 
-        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, List<Vector4f> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
             if (trailSegments.size() < 3) {
                 return this;
             }
@@ -338,15 +339,16 @@ public class VFXBuilders {
                 Vector4f end = trailSegments.get(i + 1);
                 points.add(new TrailPoint(RenderHelper.midpoint(start, end), RenderHelper.corners(start, end, width)));
             }
-            return renderPoints(vertexConsumer, points, u0, v0, u1, v1);
+            return renderPoints(vertexConsumer, points, u0, v0, u1, v1, vfxOperator);
         }
 
-        public WorldVFXBuilder renderPoints(VertexConsumer vertexConsumer, List<TrailPoint> trailPoints, float u0, float v0, float u1, float v1) {
+        public WorldVFXBuilder renderPoints(VertexConsumer vertexConsumer, List<TrailPoint> trailPoints, float u0, float v0, float u1, float v1, Consumer<Float> vfxOperator) {
             int count = trailPoints.size() - 1;
             float increment = 1.0F / count;
             trailPoints.get(0).renderStart(vertexConsumer, supplier, u0, v0, u1, Mth.lerp(increment, v0, v1));
             for (int i = 1; i < count; i++) {
                 float current = Mth.lerp(i * increment, v0, v1);
+                vfxOperator.accept(current);
                 trailPoints.get(i).renderMid(vertexConsumer, supplier, u0, current, u1, current);
             }
             trailPoints.get(count).renderEnd(vertexConsumer, supplier, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);

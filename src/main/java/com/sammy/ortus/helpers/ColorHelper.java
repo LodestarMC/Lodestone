@@ -35,14 +35,27 @@ public class ColorHelper {
     public static int getColor(float r, float g, float b, float a) {
         return FastColor.ARGB32.color((int) (a * 255f), (int) (r * 255f), (int) (g * 255f), (int) (b * 255f));
     }
+    public static Color SHVColorLerp(Easing easing, float pct, float[] brightColor, float[] darkColor) {
+        pct = Mth.clamp(pct, 0, 1);
+        float ease = easing.ease(pct, 0, 1, 1);
+        float h = Mth.rotLerp(ease, 360f * brightColor[0], 360f * darkColor[0]) / 360f;
+        float s = Mth.lerp(ease, brightColor[1], darkColor[1]);
+        float v = Mth.lerp(ease, brightColor[2], darkColor[2]);
+        int packed = Color.HSBtoRGB(h, s, v);
+        float r = FastColor.ARGB32.red(packed) / 255.0f;
+        float g = FastColor.ARGB32.green(packed) / 255.0f;
+        float b = FastColor.ARGB32.blue(packed) / 255.0f;
+        return new Color(r, g, b);
+    }
 
     public static Color colorLerp(Easing easing, float pct, Color brightColor, Color darkColor) {
         pct = Mth.clamp(pct, 0, 1);
         int br = brightColor.getRed(), bg = brightColor.getGreen(), bb = brightColor.getBlue();
         int dr = darkColor.getRed(), dg = darkColor.getGreen(), db = darkColor.getBlue();
-        int red = (int) Mth.lerp(easing.ease(pct, 0, 1, 1), br, dr);
-        int green = (int) Mth.lerp(easing.ease(pct, 0, 1, 1), bg, dg);
-        int blue = (int) Mth.lerp(easing.ease(pct, 0, 1, 1), bb, db);
+        float ease = easing.ease(pct, 0, 1, 1);
+        int red = (int) Mth.lerp(ease, br, dr);
+        int green = (int) Mth.lerp(ease, bg, dg);
+        int blue = (int) Mth.lerp(ease, bb, db);
         return new Color(Mth.clamp(red, 0, 255), Mth.clamp(green, 0, 255), Mth.clamp(blue, 0, 255));
     }
     public static Color multicolorLerp(Easing easing, float pct, Color... colors) {
@@ -60,9 +73,10 @@ public class ColorHelper {
         pct = Mth.clamp(pct, 0, 1);
         int br = brightColor.getRed(), bg = brightColor.getGreen(), bb = brightColor.getBlue();
         int dr = darkColor.getRed(), dg = darkColor.getGreen(), db = darkColor.getBlue();
-        int red = (int) Mth.lerp(easing.ease(pct, min, max, 1), br, dr);
-        int green = (int) Mth.lerp(easing.ease(pct, min, max, 1), bg, dg);
-        int blue = (int) Mth.lerp(easing.ease(pct, min, max, 1), bb, db);
+        float ease = easing.ease(pct, min, max, 1);
+        int red = (int) Mth.lerp(ease, br, dr);
+        int green = (int) Mth.lerp(ease, bg, dg);
+        int blue = (int) Mth.lerp(ease, bb, db);
         return new Color(Mth.clamp(red, 0, 255), Mth.clamp(green, 0, 255), Mth.clamp(blue, 0, 255));
     }
     public static Color multicolorLerp(Easing easing, float pct, float min, float max, Color... colors) {

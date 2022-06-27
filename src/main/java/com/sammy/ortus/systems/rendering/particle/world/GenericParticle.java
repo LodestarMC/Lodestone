@@ -5,8 +5,10 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.handlers.RenderHandler;
+import com.sammy.ortus.helpers.ColorHelper;
 import com.sammy.ortus.setup.OrtusParticleRegistry;
 import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
+import com.sammy.ortus.systems.easing.Easing;
 import com.sammy.ortus.systems.rendering.particle.ParticleRenderTypes;
 import com.sammy.ortus.systems.rendering.particle.SimpleParticleOptions;
 import com.sammy.ortus.systems.rendering.particle.type.OrtusParticleType;
@@ -60,6 +62,31 @@ public class GenericParticle extends TextureSheetParticle {
         updateTraits();
     }
 
+    @Override
+    public void tick() {
+        updateTraits();
+        if (spriteSet != null) {
+            if (data.animator.equals(SimpleParticleOptions.Animator.WITH_AGE)) {
+                setSpriteFromAge(spriteSet);
+            }
+        }
+        super.tick();
+    }
+
+    @Override
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        super.render((ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && getRenderType().equals(ParticleRenderTypes.ADDITIVE)) ? RenderHandler.DELAYED_RENDER.getBuffer(OrtusRenderTypeRegistry.ADDITIVE_PARTICLE) : consumer, camera, partialTicks);
+    }
+
+    @Override
+    public ParticleRenderType getRenderType() {
+        return renderType;
+    }
+
+    public void setColor(Color color) {
+        setColor(color.getRed(), color.getGreen(), color.getBlue());
+    }
+
     public SimpleParticleOptions.Animator getAnimator() {
         return data.animator;
     }
@@ -71,14 +98,7 @@ public class GenericParticle extends TextureSheetParticle {
     }
 
     public void pickColor(float colorCoeff) {
-        float h = Mth.rotLerp(colorCoeff, 360f * hsv1[0], 360f * hsv2[0]) / 360f;
-        float s = Mth.lerp(colorCoeff, hsv1[1], hsv2[1]);
-        float v = Mth.lerp(colorCoeff, hsv1[2], hsv2[2]);
-        int packed = Color.HSBtoRGB(h, s, v);
-        float r = FastColor.ARGB32.red(packed) / 255.0f;
-        float g = FastColor.ARGB32.green(packed) / 255.0f;
-        float b = FastColor.ARGB32.blue(packed) / 255.0f;
-        setColor(r, g, b);
+        setColor(ColorHelper.SHVColorLerp(Easing.LINEAR, colorCoeff, hsv1, hsv2));
     }
 
     public float getCurve(float multiplier) {
@@ -133,26 +153,5 @@ public class GenericParticle extends TextureSheetParticle {
             yd *= data.motionCoefficient;
             zd *= data.motionCoefficient;
         }
-    }
-
-    @Override
-    public void tick() {
-        updateTraits();
-        if (spriteSet != null) {
-            if (data.animator.equals(SimpleParticleOptions.Animator.WITH_AGE)) {
-                setSpriteFromAge(spriteSet);
-            }
-        }
-        super.tick();
-    }
-
-    @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
-        super.render((ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && getRenderType().equals(ParticleRenderTypes.ADDITIVE)) ? RenderHandler.DELAYED_RENDER.getBuffer(OrtusRenderTypeRegistry.ADDITIVE_PARTICLE) : consumer, camera, partialTicks);
-    }
-
-    @Override
-    public ParticleRenderType getRenderType() {
-        return renderType;
     }
 }
