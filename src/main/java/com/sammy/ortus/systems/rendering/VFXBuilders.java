@@ -352,6 +352,7 @@ public class VFXBuilders {
                 trailPoints.get(i).renderMid(vertexConsumer, supplier, u0, current, u1, current);
             }
             trailPoints.get(count).renderEnd(vertexConsumer, supplier, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
+            vfxOperator.accept(0f);
             return this;
         }
 
