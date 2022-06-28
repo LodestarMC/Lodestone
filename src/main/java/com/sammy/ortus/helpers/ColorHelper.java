@@ -35,12 +35,12 @@ public class ColorHelper {
     public static int getColor(float r, float g, float b, float a) {
         return FastColor.ARGB32.color((int) (a * 255f), (int) (r * 255f), (int) (g * 255f), (int) (b * 255f));
     }
-    public static Color SHVColorLerp(Easing easing, float pct, float[] brightColor, float[] darkColor) {
+    public static Color SHVColorLerp(Easing easing, float pct, float[] startColor, float[] endColor) {
         pct = Mth.clamp(pct, 0, 1);
         float ease = easing.ease(pct, 0, 1, 1);
-        float h = Mth.rotLerp(ease, 360f * brightColor[0], 360f * darkColor[0]) / 360f;
-        float s = Mth.lerp(ease, brightColor[1], darkColor[1]);
-        float v = Mth.lerp(ease, brightColor[2], darkColor[2]);
+        float h = Mth.rotLerp(ease, 360f * startColor[0], 360f * endColor[0]) / 360f;
+        float s = Mth.lerp(ease, startColor[1], endColor[1]);
+        float v = Mth.lerp(ease, startColor[2], endColor[2]);
         int packed = Color.HSBtoRGB(h, s, v);
         float r = FastColor.ARGB32.red(packed) / 255.0f;
         float g = FastColor.ARGB32.green(packed) / 255.0f;
@@ -48,10 +48,10 @@ public class ColorHelper {
         return new Color(r, g, b);
     }
 
-    public static Color colorLerp(Easing easing, float pct, Color brightColor, Color darkColor) {
+    public static Color colorLerp(Easing easing, float pct, Color startColor, Color endColor) {
         pct = Mth.clamp(pct, 0, 1);
-        int br = brightColor.getRed(), bg = brightColor.getGreen(), bb = brightColor.getBlue();
-        int dr = darkColor.getRed(), dg = darkColor.getGreen(), db = darkColor.getBlue();
+        int br = startColor.getRed(), bg = startColor.getGreen(), bb = startColor.getBlue();
+        int dr = endColor.getRed(), dg = endColor.getGreen(), db = endColor.getBlue();
         float ease = easing.ease(pct, 0, 1, 1);
         int red = (int) Mth.lerp(ease, br, dr);
         int green = (int) Mth.lerp(ease, bg, dg);
@@ -69,10 +69,10 @@ public class ColorHelper {
         return ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), color, nextColor);
     }
 
-    public static Color colorLerp(Easing easing, float pct, float min, float max, Color brightColor, Color darkColor) {
+    public static Color colorLerp(Easing easing, float pct, float min, float max, Color startColor, Color endColor) {
         pct = Mth.clamp(pct, 0, 1);
-        int br = brightColor.getRed(), bg = brightColor.getGreen(), bb = brightColor.getBlue();
-        int dr = darkColor.getRed(), dg = darkColor.getGreen(), db = darkColor.getBlue();
+        int br = startColor.getRed(), bg = startColor.getGreen(), bb = startColor.getBlue();
+        int dr = endColor.getRed(), dg = endColor.getGreen(), db = endColor.getBlue();
         float ease = easing.ease(pct, min, max, 1);
         int red = (int) Mth.lerp(ease, br, dr);
         int green = (int) Mth.lerp(ease, bg, dg);
