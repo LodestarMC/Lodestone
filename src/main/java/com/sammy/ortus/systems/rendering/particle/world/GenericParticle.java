@@ -5,10 +5,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.handlers.RenderHandler;
-import com.sammy.ortus.helpers.ColorHelper;
 import com.sammy.ortus.setup.OrtusParticleRegistry;
 import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
-import com.sammy.ortus.systems.easing.Easing;
 import com.sammy.ortus.systems.rendering.particle.ParticleRenderTypes;
 import com.sammy.ortus.systems.rendering.particle.SimpleParticleOptions;
 import com.sammy.ortus.systems.rendering.particle.type.OrtusParticleType;
@@ -83,10 +81,6 @@ public class GenericParticle extends TextureSheetParticle {
         return renderType;
     }
 
-    public void setColor(Color color) {
-        setColor(color.getRed(), color.getGreen(), color.getBlue());
-    }
-
     public SimpleParticleOptions.Animator getAnimator() {
         return data.animator;
     }
@@ -98,7 +92,14 @@ public class GenericParticle extends TextureSheetParticle {
     }
 
     public void pickColor(float colorCoeff) {
-        setColor(ColorHelper.SHVColorLerp(Easing.LINEAR, colorCoeff, hsv1, hsv2));
+        float h = Mth.rotLerp(colorCoeff, 360f * hsv1[0], 360f * hsv2[0]) / 360f;
+        float s = Mth.lerp(colorCoeff, hsv1[1], hsv2[1]);
+        float v = Mth.lerp(colorCoeff, hsv1[2], hsv2[2]);
+        int packed = Color.HSBtoRGB(h, s, v);
+        float r = FastColor.ARGB32.red(packed) / 255.0f;
+        float g = FastColor.ARGB32.green(packed) / 255.0f;
+        float b = FastColor.ARGB32.blue(packed) / 255.0f;
+        setColor(r, g, b);
     }
 
     public float getCurve(float multiplier) {

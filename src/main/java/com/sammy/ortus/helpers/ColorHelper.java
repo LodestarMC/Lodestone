@@ -35,18 +35,6 @@ public class ColorHelper {
     public static int getColor(float r, float g, float b, float a) {
         return FastColor.ARGB32.color((int) (a * 255f), (int) (r * 255f), (int) (g * 255f), (int) (b * 255f));
     }
-    public static Color SHVColorLerp(Easing easing, float pct, float[] startColor, float[] endColor) {
-        pct = Mth.clamp(pct, 0, 1);
-        float ease = easing.ease(pct, 0, 1, 1);
-        float h = Mth.rotLerp(ease, 360f * startColor[0], 360f * endColor[0]) / 360f;
-        float s = Mth.lerp(ease, startColor[1], endColor[1]);
-        float v = Mth.lerp(ease, startColor[2], endColor[2]);
-        int packed = Color.HSBtoRGB(h, s, v);
-        float r = FastColor.ARGB32.red(packed) / 255.0f;
-        float g = FastColor.ARGB32.green(packed) / 255.0f;
-        float b = FastColor.ARGB32.blue(packed) / 255.0f;
-        return new Color(r, g, b);
-    }
 
     public static Color colorLerp(Easing easing, float pct, Color startColor, Color endColor) {
         pct = Mth.clamp(pct, 0, 1);
