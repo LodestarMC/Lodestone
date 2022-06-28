@@ -348,6 +348,7 @@ public class VFXBuilders {
         public WorldVFXBuilder renderPoints(VertexConsumer vertexConsumer, List<TrailPoint> trailPoints, float u0, float v0, float u1, float v1, Consumer<Float> vfxOperator) {
             int count = trailPoints.size() - 1;
             float increment = 1.0F / count;
+            vfxOperator.accept(0f);
             trailPoints.get(0).renderStart(vertexConsumer, supplier, u0, v0, u1, Mth.lerp(increment, v0, v1));
             for (int i = 1; i < count; i++) {
                 float current = Mth.lerp(i * increment, v0, v1);
