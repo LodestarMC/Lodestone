@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 import java.awt.*;
@@ -340,7 +339,7 @@ public class VFXBuilders {
                 float width = widthFunc.apply(increment * i);
                 Vector4f start = trailSegments.get(i);
                 Vector4f end = trailSegments.get(i + 1);
-                points.add(new TrailPoint(RenderHelper.midpoint(start, end), RenderHelper.corners(start, end, width)));
+                points.add(new TrailPoint(RenderHelper.midpoint(start, end), RenderHelper.screenSpaceQuadOffsets(start, end, width)));
             }
             return renderPoints(vertexConsumer, points, u0, v0, u1, v1, vfxOperator);
         }
@@ -357,7 +356,6 @@ public class VFXBuilders {
             }
             vfxOperator.accept(1f);
             trailPoints.get(count).renderEnd(vertexConsumer, supplier, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
-            vfxOperator.accept(0f);
             return this;
         }
 
