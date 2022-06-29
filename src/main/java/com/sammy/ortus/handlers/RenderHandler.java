@@ -35,7 +35,6 @@ public class RenderHandler {
     public static MultiBufferSource.BufferSource LATE_DELAYED_RENDER;
     public static MultiBufferSource.BufferSource BLOOM_BUFFER;
     public static Matrix4f PARTICLE_MATRIX = null;
-    public static Frustum FRUSTUM;
 
     public static void onClientSetup(FMLClientSetupEvent event) {
         EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(256));
@@ -44,7 +43,6 @@ public class RenderHandler {
     }
 
     public static void renderLast(RenderLevelLastEvent event) {
-        prepareFrustum(event.getPoseStack(), Minecraft.getInstance().getEntityRenderDispatcher().camera.getPosition(), event.getProjectionMatrix());
         event.getPoseStack().pushPose();
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
             RenderSystem.getModelViewStack().pushPose();
@@ -77,14 +75,6 @@ public class RenderHandler {
             }
         }
         source.endBatch();
-    }
-    public static void prepareFrustum(PoseStack poseStack, Vec3 position, Matrix4f stack) {
-        Matrix4f matrix4f = poseStack.last().pose();
-        double d0 = position.x();
-        double d1 = position.y();
-        double d2 = position.z();
-        FRUSTUM = new Frustum(matrix4f, stack);
-        FRUSTUM.prepare(d0, d1, d2);
     }
 
     public static void addRenderType(RenderType type) {
