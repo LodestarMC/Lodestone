@@ -33,7 +33,7 @@ public class PositionedScreenshakePacket extends ScreenshakePacket {
 
     @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
-        ScreenshakeHandler.addScreenshake(new PositionedScreenshakeInstance(duration, position, falloffDistance, maxDistance, falloffEasing));
+        ScreenshakeHandler.addScreenshake(new PositionedScreenshakeInstance(duration, position, falloffDistance, maxDistance, falloffEasing).setIntensity(intensity1, intensity2, intensity3).setEasing(intensityCurveStartEasing, intensityCurveEndEasing));
     }
 
     @Override
