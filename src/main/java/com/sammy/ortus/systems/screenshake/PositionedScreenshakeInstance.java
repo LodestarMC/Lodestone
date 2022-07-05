@@ -1,24 +1,32 @@
 package com.sammy.ortus.systems.screenshake;
 
 import com.mojang.math.Vector3f;
+import com.sammy.ortus.systems.easing.Easing;
 import net.minecraft.client.Camera;
 import net.minecraft.world.phys.Vec3;
 
-public class PositionedScreenshakeInstance extends ScreenshakeInstance{
-    public Vec3 position;
-    public float falloffDistance;
-    public float maxDistance;
+import java.util.Random;
 
-    public PositionedScreenshakeInstance(Vec3 position, float falloffDistance, float maxDistance, float intensity, float falloffTransformSpeed, int timeBeforeFastFalloff, float slowFalloff, float fastFalloff) {
-        super(intensity, falloffTransformSpeed, timeBeforeFastFalloff, slowFalloff, fastFalloff);
+public class PositionedScreenshakeInstance extends ScreenshakeInstance{
+    public final Vec3 position;
+    public final float falloffDistance;
+    public final float maxDistance;
+    public final Easing falloffEasing;
+
+    public PositionedScreenshakeInstance(int duration, Vec3 position, float falloffDistance, float maxDistance, Easing falloffEasing) {
+        super(duration);
         this.position = position;
         this.falloffDistance = falloffDistance;
         this.maxDistance = maxDistance;
+        this.falloffEasing = falloffEasing;
+    }
+    public PositionedScreenshakeInstance(int duration, Vec3 position, float falloffDistance, float maxDistance) {
+        this(duration, position, falloffDistance, maxDistance, Easing.LINEAR);
     }
 
     @Override
-    public float updateIntensity(Camera camera, float falloff) {
-        float intensity = super.updateIntensity(camera, falloff);
+    public float updateIntensity(Camera camera, Random random) {
+        float intensity = super.updateIntensity(camera, random);
         float distance = (float) position.distanceTo(camera.getPosition());
         if (distance > maxDistance)
         {
@@ -33,11 +41,7 @@ public class PositionedScreenshakeInstance extends ScreenshakeInstance{
         }
         Vector3f lookDirection = camera.getLookVector();
         Vec3 directionToScreenshake = position.subtract(camera.getPosition()).normalize();
-        float angle = lookDirection.dot(new Vector3f(directionToScreenshake));
-        if (angle < 0)
-        {
-            return 0;
-        }
+        float angle = Math.max(0, lookDirection.dot(new Vector3f(directionToScreenshake)));
         return intensity * distanceMultiplier * angle;
     }
 }

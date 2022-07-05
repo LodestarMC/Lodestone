@@ -1,6 +1,7 @@
 package com.sammy.ortus.network.screenshake;
 
 import com.sammy.ortus.handlers.ScreenshakeHandler;
+import com.sammy.ortus.systems.easing.Easing;
 import com.sammy.ortus.systems.network.OrtusClientPacket;
 import com.sammy.ortus.systems.screenshake.PositionedScreenshakeInstance;
 import net.minecraft.network.FriendlyByteBuf;
@@ -12,43 +13,43 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.function.Supplier;
 
-public class PositionedScreenshakePacket extends OrtusClientPacket {
-    Vec3 position;
-    public float falloffDistance;
-    public float maxDistance;
-    float intensity;
-    float falloffTransformSpeed;
-    int timeBeforeFastFalloff;
-    float slowFalloff;
-    float fastFalloff;
+public class PositionedScreenshakePacket extends ScreenshakePacket {
+    public final Vec3 position;
+    public final float falloffDistance;
+    public final float maxDistance;
+    public final Easing falloffEasing;
 
-    public PositionedScreenshakePacket(Vec3 position, float falloffDistance, float maxDistance, float intensity, float falloffTransformSpeed, int timeBeforeFastFalloff, float slowFalloff, float fastFalloff) {
+    public PositionedScreenshakePacket(int duration, Vec3 position, float falloffDistance, float maxDistance, Easing falloffEasing) {
+        super(duration);
         this.position = position;
         this.falloffDistance = falloffDistance;
         this.maxDistance = maxDistance;
-        this.intensity = intensity;
-        this.falloffTransformSpeed = falloffTransformSpeed;
-        this.timeBeforeFastFalloff = timeBeforeFastFalloff;
-        this.slowFalloff = slowFalloff;
-        this.fastFalloff = fastFalloff;
+        this.falloffEasing = falloffEasing;
     }
 
+    public PositionedScreenshakePacket(int duration, Vec3 position, float falloffDistance, float maxDistance) {
+        this(duration, position, falloffDistance, maxDistance, Easing.LINEAR);
+    }
+
+    @Override
+    public void execute(Supplier<NetworkEvent.Context> context) {
+        ScreenshakeHandler.addScreenshake(new PositionedScreenshakeInstance(duration, position, falloffDistance, maxDistance, falloffEasing));
+    }
+
+    @Override
     public void encode(FriendlyByteBuf buf) {
+        buf.writeInt(duration);
         buf.writeDouble(position.x);
         buf.writeDouble(position.y);
         buf.writeDouble(position.z);
         buf.writeFloat(falloffDistance);
         buf.writeFloat(maxDistance);
-        buf.writeFloat(intensity);
-        buf.writeFloat(falloffTransformSpeed);
-        buf.writeInt(timeBeforeFastFalloff);
-        buf.writeFloat(slowFalloff);
-        buf.writeFloat(fastFalloff);
-    }
-
-    @Override
-    public void execute(Supplier<NetworkEvent.Context> context) {
-        ScreenshakeHandler.addScreenshake(new PositionedScreenshakeInstance(position, falloffDistance, maxDistance, intensity, falloffTransformSpeed, timeBeforeFastFalloff, slowFalloff, fastFalloff));
+        buf.writeUtf(falloffEasing.name);
+        buf.writeFloat(intensity1);
+        buf.writeFloat(intensity2);
+        buf.writeFloat(intensity3);
+        buf.writeUtf(intensityCurveStartEasing.name);
+        buf.writeUtf(intensityCurveEndEasing.name);
     }
 
     public static void register(SimpleChannel instance, int index) {
@@ -56,6 +57,20 @@ public class PositionedScreenshakePacket extends OrtusClientPacket {
     }
 
     public static PositionedScreenshakePacket decode(FriendlyByteBuf buf) {
-        return new PositionedScreenshakePacket(new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readInt(), buf.readFloat(), buf.readFloat());
+        //TODO: this is messy, but oh well
+        return ((PositionedScreenshakePacket)new PositionedScreenshakePacket(
+                buf.readInt(),
+                new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()),
+                buf.readFloat(),
+                buf.readFloat(),
+                Easing.valueOf(buf.readUtf())
+        ).setIntensity(
+                buf.readFloat(),
+                buf.readFloat(),
+                buf.readFloat()
+        ).setEasing(
+                Easing.valueOf(buf.readUtf()),
+                Easing.valueOf(buf.readUtf())
+        ));
     }
 }

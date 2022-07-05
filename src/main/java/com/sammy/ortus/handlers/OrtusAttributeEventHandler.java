@@ -44,7 +44,7 @@ public class OrtusAttributeEventHandler {
         }
     }
 
-    public static double applyMagicResistance(double originalDamage) {
-        return ((1 - (0.5 * (1 / (0.6 * originalDamage)))) * 0.6);
+    public static double applyMagicResistance(double magicResistance) {
+        return (1 - (0.75 * (1 / (0.2 * (magicResistance+1))))) * 0.8;
     }
 }

@@ -1,5 +1,7 @@
 package com.sammy.ortus.systems.easing;
 
+import java.util.*;
+
 /**
  * <p>The Easing class holds a set of general-purpose motion 
  * tweening functions by Robert Penner. This class is 
@@ -19,7 +21,18 @@ package com.sammy.ortus.systems.easing;
  * @author Robert Penner (functions)
  * @author davedes (java port)
  */
-public interface Easing {
+public abstract class Easing {
+
+    public static final HashMap<String, Easing> EASINGS = new HashMap<>();
+    public final String name;
+    public Easing(String name) {
+        this.name = name;
+        EASINGS.put(name, this);
+    }
+
+    public static Easing valueOf(String name) {
+        return EASINGS.get(name);
+    }
 
     /**
      * The basic function for easing.
@@ -30,12 +43,12 @@ public interface Easing {
      * @param d the duration time
      * @return the eased value
      */
-    public float ease(float t, float b, float c, float d);
+    public abstract float ease(float t, float b, float c, float d);
 
     /**
      * Simple linear tweening - no easing.
      */
-    public static final Easing LINEAR = new Easing() {
+    public static final Easing LINEAR = new Easing("linear") {
         public float ease(float t, float b, float c, float d) {
             return c * t / d + b;
         }
@@ -46,16 +59,18 @@ public interface Easing {
     /**
      * Quadratic easing in - accelerating from zero velocity.
      */
-    public static final Easing QUAD_IN = new Easing() {
+    public static final Easing QUAD_IN = new Easing("quadIn") {
         public float ease(float t, float b, float c, float d) {
             return c * (t /= d) * t + b;
         }
     };
 
+
+
     /**
      * Quadratic easing out - decelerating to zero velocity.
      */
-    public static final Easing QUAD_OUT = new Easing() {
+    public static final Easing QUAD_OUT = new Easing("quadOut") {
         public float ease(float t, float b, float c, float d) {
             return -c * (t /= d) * (t - 2) + b;
         }
@@ -64,7 +79,7 @@ public interface Easing {
     /**
      * Quadratic easing in/out - acceleration until halfway, then deceleration
      */
-    public static final Easing QUAD_IN_OUT = new Easing() {
+    public static final Easing QUAD_IN_OUT = new Easing("quadInOut") {
         public float ease(float t, float b, float c, float d) {
             if ((t /= d / 2) < 1) return c / 2 * t * t + b;
             return -c / 2 * ((--t) * (t - 2) - 1) + b;
@@ -77,7 +92,7 @@ public interface Easing {
     /**
      * Cubic easing in - accelerating from zero velocity.
      */
-    public static final Easing CUBIC_IN = new Easing() {
+    public static final Easing CUBIC_IN = new Easing("cubicIn") {
         public float ease(float t, float b, float c, float d) {
             return c * (t /= d) * t * t + b;
         }
@@ -86,7 +101,7 @@ public interface Easing {
     /**
      * Cubic easing out - decelerating to zero velocity.
      */
-    public static final Easing CUBIC_OUT = new Easing() {
+    public static final Easing CUBIC_OUT = new Easing("cubicOut") {
         public float ease(float t, float b, float c, float d) {
             return c * ((t = t / d - 1) * t * t + 1) + b;
         }
@@ -95,7 +110,7 @@ public interface Easing {
     /**
      * Cubic easing in/out - acceleration until halfway, then deceleration.
      */
-    public static final Easing CUBIC_IN_OUT = new Easing() {
+    public static final Easing CUBIC_IN_OUT = new Easing("cubicInOut") {
         public float ease(float t, float b, float c, float d) {
             if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
             return c / 2 * ((t -= 2) * t * t + 2) + b;
@@ -107,7 +122,7 @@ public interface Easing {
     /**
      * Quartic easing in - accelerating from zero velocity.
      */
-    public static final Easing QUARTIC_IN = new Easing() {
+    public static final Easing QUARTIC_IN = new Easing("quarticIn") {
         public float ease(float t, float b, float c, float d) {
             return c * (t /= d) * t * t * t + b;
         }
@@ -116,7 +131,7 @@ public interface Easing {
     /**
      * Quartic easing out - decelerating to zero velocity.
      */
-    public static final Easing QUARTIC_OUT = new Easing() {
+    public static final Easing QUARTIC_OUT = new Easing("quarticOut") {
         public float ease(float t, float b, float c, float d) {
             return -c * ((t = t / d - 1) * t * t * t - 1) + b;
         }
@@ -125,7 +140,7 @@ public interface Easing {
     /**
      * Quartic easing in/out - acceleration until halfway, then deceleration.
      */
-    public static final Easing QUARTIC_IN_OUT = new Easing() {
+    public static final Easing QUARTIC_IN_OUT = new Easing("quarticInOut") {
         public float ease(float t, float b, float c, float d) {
             if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
             return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
@@ -137,7 +152,7 @@ public interface Easing {
     /**
      * Quintic easing in - accelerating from zero velocity.
      */
-    public static final Easing QUINTIC_IN = new Easing() {
+    public static final Easing QUINTIC_IN = new Easing("quinticIn") {
         public float ease(float t, float b, float c, float d) {
             return c * (t /= d) * t * t * t * t + b;
         }
@@ -146,7 +161,7 @@ public interface Easing {
     /**
      * Quintic easing out - decelerating to zero velocity.
      */
-    public static final Easing QUINTIC_OUT = new Easing() {
+    public static final Easing QUINTIC_OUT = new Easing("quinticOut") {
         public float ease(float t, float b, float c, float d) {
             return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
         }
@@ -155,7 +170,7 @@ public interface Easing {
     /**
      * Quintic easing in/out - acceleration until halfway, then deceleration.
      */
-    public static final Easing QUINTIC_IN_OUT = new Easing() {
+    public static final Easing QUINTIC_IN_OUT = new Easing("quinticInOut") {
         public float ease(float t, float b, float c, float d) {
             if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
             return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
@@ -168,7 +183,7 @@ public interface Easing {
     /**
      * Sinusoidal easing in - accelerating from zero velocity.
      */
-    public static final Easing SINE_IN = new Easing() {
+    public static final Easing SINE_IN = new Easing("sineIn") {
         public float ease(float t, float b, float c, float d) {
             return -c * (float) Math.cos(t / d * (Math.PI / 2)) + c + b;
         }
@@ -177,7 +192,7 @@ public interface Easing {
     /**
      * Sinusoidal easing out - decelerating to zero velocity.
      */
-    public static final Easing SINE_OUT = new Easing() {
+    public static final Easing SINE_OUT = new Easing("sineOut") {
         public float ease(float t, float b, float c, float d) {
             return c * (float) Math.sin(t / d * (Math.PI / 2)) + b;
         }
@@ -186,7 +201,7 @@ public interface Easing {
     /**
      * Sinusoidal easing in/out - accelerating until halfway, then decelerating.
      */
-    public static final Easing SINE_IN_OUT = new Easing() {
+    public static final Easing SINE_IN_OUT = new Easing("sineInOut") {
         public float ease(float t, float b, float c, float d) {
             return -c / 2 * ((float) Math.cos(Math.PI * t / d) - 1) + b;
         }
@@ -197,7 +212,7 @@ public interface Easing {
     /**
      * Exponential easing in - accelerating from zero velocity.
      */
-    public static final Easing EXPO_IN = new Easing() {
+    public static final Easing EXPO_IN = new Easing("expoIn") {
         public float ease(float t, float b, float c, float d) {
             return (t == 0) ? b : c * (float) Math.pow(2, 10 * (t / d - 1)) + b;
         }
@@ -206,7 +221,7 @@ public interface Easing {
     /**
      * Exponential easing out - decelerating to zero velocity.
      */
-    public static final Easing EXPO_OUT = new Easing() {
+    public static final Easing EXPO_OUT = new Easing("expoOut") {
         public float ease(float t, float b, float c, float d) {
             return (t == d) ? b + c : c * (-(float) Math.pow(2, -10 * t / d) + 1) + b;
         }
@@ -215,7 +230,7 @@ public interface Easing {
     /**
      * Exponential easing in/out - accelerating until halfway, then decelerating.
      */
-    public static final Easing EXPO_IN_OUT = new Easing() {
+    public static final Easing EXPO_IN_OUT = new Easing("expoInOut") {
         public float ease(float t, float b, float c, float d) {
             if (t == 0) return b;
             if (t == d) return b + c;
@@ -230,7 +245,7 @@ public interface Easing {
     /**
      * Circular easing in - accelerating from zero velocity.
      */
-    public static final Easing CIRC_IN = new Easing() {
+    public static final Easing CIRC_IN = new Easing("circIn") {
         public float ease(float t, float b, float c, float d) {
             return -c * ((float) Math.sqrt(1 - (t /= d) * t) - 1) + b;
         }
@@ -239,7 +254,7 @@ public interface Easing {
     /**
      * Circular easing out - decelerating to zero velocity.
      */
-    public static final Easing CIRC_OUT = new Easing() {
+    public static final Easing CIRC_OUT = new Easing("circOut") {
         public float ease(float t, float b, float c, float d) {
             return c * (float) Math.sqrt(1 - (t = t / d - 1) * t) + b;
         }
@@ -248,7 +263,7 @@ public interface Easing {
     /**
      * Circular easing in/out - acceleration until halfway, then deceleration.
      */
-    public static final Easing CIRC_IN_OUT = new Easing() {
+    public static final Easing CIRC_IN_OUT = new Easing("circInOut") {
         public float ease(float t, float b, float c, float d) {
             if ((t /= d / 2) < 1) return -c / 2 * ((float) Math.sqrt(1 - t * t) - 1) + b;
             return c / 2 * ((float) Math.sqrt(1 - (t -= 2) * t) + 1) + b;
@@ -260,7 +275,7 @@ public interface Easing {
     /**
      * A base class for elastic easings.
      */
-    public static abstract class Elastic implements Easing {
+    public static abstract class Elastic extends Easing {
         private float amplitude;
         private float period;
 
@@ -270,7 +285,8 @@ public interface Easing {
          * @param amplitude the amplitude for the elastic function
          * @param period    the period for the elastic function
          */
-        public Elastic(float amplitude, float period) {
+        public Elastic(String name, float amplitude, float period) {
+            super(name);
             this.amplitude = amplitude;
             this.period = period;
         }
@@ -278,8 +294,8 @@ public interface Easing {
         /**
          * Creates a new Elastic easing with default settings (-1f, 0f).
          */
-        public Elastic() {
-            this(-1f, 0f);
+        public Elastic(String name) {
+            this(name, -1f, 0f);
         }
 
         /**
@@ -329,11 +345,11 @@ public interface Easing {
      */
     public static class ElasticIn extends Elastic {
         public ElasticIn(float amplitude, float period) {
-            super(amplitude, period);
+            super("elasticIn", amplitude, period);
         }
 
         public ElasticIn() {
-            super();
+            super("elasticIn");
         }
 
         public float ease(float t, float b, float c, float d) {
@@ -361,11 +377,11 @@ public interface Easing {
      */
     public static class ElasticOut extends Elastic {
         public ElasticOut(float amplitude, float period) {
-            super(amplitude, period);
+            super("elasticOut", amplitude, period);
         }
 
         public ElasticOut() {
-            super();
+            super("elasticOut");
         }
 
         public float ease(float t, float b, float c, float d) {
@@ -393,11 +409,11 @@ public interface Easing {
      */
     public static class ElasticInOut extends Elastic {
         public ElasticInOut(float amplitude, float period) {
-            super(amplitude, period);
+            super("elasticInOut", amplitude, period);
         }
 
         public ElasticInOut() {
-            super();
+            super("elasticInOut");
         }
 
         public float ease(float t, float b, float c, float d) {
@@ -422,7 +438,7 @@ public interface Easing {
     /**
      * A base class for Back easings.
      */
-    public static abstract class Back implements Easing {
+    public static abstract class Back extends Easing {
         /**
          * The default overshoot is 10% (1.70158).
          */
@@ -433,8 +449,8 @@ public interface Easing {
         /**
          * Creates a new Back instance with the default overshoot (1.70158).
          */
-        public Back() {
-            this(DEFAULT_OVERSHOOT);
+        public Back(String name) {
+            this(name, DEFAULT_OVERSHOOT);
         }
 
         /**
@@ -444,7 +460,8 @@ public interface Easing {
          *                  means more overshoot and an overshoot of 0 results in
          *                  cubic easing with no overshoot
          */
-        public Back(float overshoot) {
+        public Back(String name, float overshoot) {
+            super(name);
             this.overshoot = overshoot;
         }
 
@@ -477,11 +494,11 @@ public interface Easing {
      */
     public static class BackIn extends Back {
         public BackIn() {
-            super();
+            super("backIn");
         }
 
         public BackIn(float overshoot) {
-            super(overshoot);
+            super("backIn" ,overshoot);
         }
 
         public float ease(float t, float b, float c, float d) {
@@ -502,11 +519,11 @@ public interface Easing {
      */
     public static class BackOut extends Back {
         public BackOut() {
-            super();
+            super("backOut");
         }
 
         public BackOut(float overshoot) {
-            super(overshoot);
+            super("backOut", overshoot);
         }
 
         public float ease(float t, float b, float c, float d) {
@@ -526,11 +543,11 @@ public interface Easing {
      */
     public static class BackInOut extends Back {
         public BackInOut() {
-            super();
+            super("backInOut");
         }
 
         public BackInOut(float overshoot) {
-            super(overshoot);
+            super("backInOut", overshoot);
         }
 
         public float ease(float t, float b, float c, float d) {
@@ -545,7 +562,7 @@ public interface Easing {
     /**
      * Bounce easing in.
      */
-    public static final Easing BOUNCE_IN = new Easing() {
+    public static final Easing BOUNCE_IN = new Easing("bounceIn") {
         public float ease(float t, float b, float c, float d) {
             return c - Easing.BOUNCE_OUT.ease(d - t, 0, c, d) + b;
         }
@@ -554,7 +571,7 @@ public interface Easing {
     /**
      * Bounce easing out.
      */
-    public static final Easing BOUNCE_OUT = new Easing() {
+    public static final Easing BOUNCE_OUT = new Easing("bounceOut") {
         public float ease(float t, float b, float c, float d) {
             if ((t /= d) < (1 / 2.75f)) {
                 return c * (7.5625f * t * t) + b;
@@ -571,7 +588,7 @@ public interface Easing {
     /**
      * Bounce easing in/out.
      */
-    public static final Easing BOUNCE_IN_OUT = new Easing() {
+    public static final Easing BOUNCE_IN_OUT = new Easing("bounceInOut") {
         public float ease(float t, float b, float c, float d) {
             if (t < d / 2) return Easing.BOUNCE_IN.ease(t * 2, 0, c, d) * .5f + b;
             return Easing.BOUNCE_OUT.ease(t * 2 - d, 0, c, d) * .5f + c * .5f + b;

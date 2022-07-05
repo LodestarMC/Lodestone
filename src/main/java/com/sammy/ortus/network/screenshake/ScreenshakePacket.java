@@ -1,6 +1,7 @@
 package com.sammy.ortus.network.screenshake;
 
 import com.sammy.ortus.handlers.ScreenshakeHandler;
+import com.sammy.ortus.systems.easing.Easing;
 import com.sammy.ortus.systems.network.OrtusClientPacket;
 import com.sammy.ortus.systems.screenshake.ScreenshakeInstance;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,31 +14,54 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import java.util.function.Supplier;
 
 public class ScreenshakePacket extends OrtusClientPacket {
-    float intensity;
-    float falloffTransformSpeed;
-    int timeBeforeFastFalloff;
-    float slowFalloff;
-    float fastFalloff;
+    public final int duration;
+    public float intensity1, intensity2, intensity3;
+    public Easing intensityCurveStartEasing = Easing.LINEAR, intensityCurveEndEasing = Easing.LINEAR;
 
-    public ScreenshakePacket(float intensity, float falloffTransformSpeed, int timeBeforeFastFalloff, float slowFalloff, float fastFalloff) {
-        this.intensity = intensity;
-        this.falloffTransformSpeed = falloffTransformSpeed;
-        this.timeBeforeFastFalloff = timeBeforeFastFalloff;
-        this.slowFalloff = slowFalloff;
-        this.fastFalloff = fastFalloff;
+    public ScreenshakePacket(int duration) {
+        this.duration = duration;
+    }
+
+    public ScreenshakePacket setIntensity(float intensity) {
+        return setIntensity(intensity, intensity);
+    }
+
+    public ScreenshakePacket setIntensity(float intensity1, float intensity2) {
+        return setIntensity(intensity1, intensity2, intensity2);
+    }
+
+    public ScreenshakePacket setIntensity(float intensity1, float intensity2, float intensity3) {
+        this.intensity1 = intensity1;
+        this.intensity2 = intensity2;
+        this.intensity3 = intensity3;
+        return this;
+    }
+
+    public ScreenshakePacket setEasing(Easing easing) {
+        this.intensityCurveStartEasing = easing;
+        this.intensityCurveEndEasing = easing;
+        return this;
+    }
+
+    public ScreenshakePacket setEasing(Easing intensityCurveStartEasing, Easing intensityCurveEndEasing) {
+        this.intensityCurveStartEasing = intensityCurveStartEasing;
+        this.intensityCurveEndEasing = intensityCurveEndEasing;
+        return this;
     }
 
     public void encode(FriendlyByteBuf buf) {
-        buf.writeFloat(intensity);
-        buf.writeFloat(falloffTransformSpeed);
-        buf.writeInt(timeBeforeFastFalloff);
-        buf.writeFloat(slowFalloff);
-        buf.writeFloat(fastFalloff);
+        buf.writeInt(duration);
+        buf.writeFloat(intensity1);
+        buf.writeFloat(intensity2);
+        buf.writeFloat(intensity3);
+        buf.writeUtf(intensityCurveStartEasing.name);
+        buf.writeUtf(intensityCurveEndEasing.name);
     }
 
     @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
-        ScreenshakeHandler.addScreenshake(new ScreenshakeInstance(intensity, falloffTransformSpeed, timeBeforeFastFalloff, slowFalloff, fastFalloff));
+        //TODO: fix this
+        ScreenshakeHandler.addScreenshake(new ScreenshakeInstance(duration).setIntensity(intensity1, intensity2, intensity3).setEasing(intensityCurveStartEasing, intensityCurveEndEasing));
     }
 
     public static void register(SimpleChannel instance, int index) {
@@ -45,6 +69,15 @@ public class ScreenshakePacket extends OrtusClientPacket {
     }
 
     public static ScreenshakePacket decode(FriendlyByteBuf buf) {
-        return new ScreenshakePacket(buf.readFloat(), buf.readFloat(), buf.readInt(), buf.readFloat(), buf.readFloat());
+        return new ScreenshakePacket(
+                buf.readInt()
+        ).setIntensity(
+                buf.readFloat(),
+                buf.readFloat(),
+                buf.readFloat()
+        ).setEasing(
+                Easing.valueOf(buf.readUtf()),
+                Easing.valueOf(buf.readUtf())
+        );
     }
 }

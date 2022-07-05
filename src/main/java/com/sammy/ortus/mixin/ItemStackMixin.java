@@ -39,12 +39,14 @@ public class ItemStackMixin {
     private double getTooltip(double value, @Nullable Player player, TooltipFlag flag) {
         if (player != null) {
             if (attributeModifier.getId().equals(UUIDS.get(OrtusAttributeRegistry.MAGIC_DAMAGE))) {
-                value += player.getAttributeBaseValue(OrtusAttributeRegistry.MAGIC_DAMAGE.get());
-                AttributeInstance instance = player.getAttribute(OrtusAttributeRegistry.MAGIC_PROFICIENCY.get());
+                AttributeInstance instance = player.getAttribute(OrtusAttributeRegistry.MAGIC_DAMAGE.get());
+                if (instance != null && instance.getValue() > 0) {
+                    value += instance.getValue();
+                }
+                instance = player.getAttribute(OrtusAttributeRegistry.MAGIC_PROFICIENCY.get());
                 if (instance != null && instance.getValue() > 0) {
                     value += instance.getValue() * 0.5f;
                 }
-                return value;
             }
         }
         return value;

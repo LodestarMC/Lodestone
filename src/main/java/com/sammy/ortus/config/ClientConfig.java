@@ -15,8 +15,8 @@ public class ClientConfig extends OrtusConfig {
             builder.comment("Downwards offset of Minecraft's first-person fire overlay. Higher numbers cause it to visually display lower and free up more screen space.")
                     .defineInRange("fire_overlay_offset", 0d, 0d, 1d));
     public static ConfigValueHolder<Double> SCREENSHAKE_INTENSITY  = new ConfigValueHolder<>(ORTUS, "client/screenshake", builder ->
-            builder.comment("Intensity of screenshake. Higher numbers increase amplitude.")
-                    .defineInRange("screenshake_intensity", 1d, 0d, 1d));
+            builder.comment("Intensity of screenshake. Higher numbers increase amplitude. Disable to turn off screenshake.")
+                    .defineInRange("screenshake_intensity", 1d, 0d, 5d));
     public static ConfigValueHolder<Boolean> ENABLE_SCREEN_PARTICLES  = new ConfigValueHolder<>(ORTUS, "client/screen_particles", builder ->
             builder.comment("Are screen particles enabled?")
                     .define("enable_screen_particles", true));

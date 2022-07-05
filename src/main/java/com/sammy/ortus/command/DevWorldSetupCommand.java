@@ -24,7 +24,8 @@ public class DevWorldSetupCommand {
                     rules.getRule(GameRules.RULE_DAYLIGHT).set(false, server);
                     rules.getRule(GameRules.RULE_WEATHER_CYCLE).set(false, server);
                     rules.getRule(GameRules.RULE_MOBGRIEFING).set(false, server);
-                    source.getLevel().setDayTime(2_000);
+                    source.getLevel().setWeatherParameters(6000, 0, false, false);
+                    source.getLevel().setDayTime(16000);
                     source.sendSuccess(new TranslatableComponent(OrtusLangDatagen.getCommand("devsetup")), true);
                     return 1;
                 });
