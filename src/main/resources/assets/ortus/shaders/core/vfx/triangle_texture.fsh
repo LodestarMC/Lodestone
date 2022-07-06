@@ -20,7 +20,9 @@ void main() {
         return;
     }
     uv.x -= 0.5*width;
-    uv.x /= y;
+    if (y != 0.){
+        uv.x /= y;
+    }
     vec4 color = texture(Sampler0, uv) * vertexColor;
     fragColor = color * ColorModulator;
 }
