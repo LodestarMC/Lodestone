@@ -39,7 +39,7 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
 
     public static final RenderType VERTEX_DISTORTION = createGenericRenderType(ORTUS, "vertex_distortion", PARTICLE, VertexFormat.Mode.QUADS, OrtusShaderRegistry.VERTEX_DISTORTION.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     public static final RenderType ADDITIVE_SOLID = createGenericRenderType(ORTUS, "additive_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.ADDITIVE_TRANSPARENCY);
-    public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(ORTUS, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.TRANSLUCENT_TRANSPARENCY);
+    public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(ORTUS, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY);
     /**
      * Render Functions. You can create Render Types by statically applying these to your texture. Alternatively, use {@link #GENERIC} if none of the presets suit your needs.
      */
@@ -47,8 +47,8 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
 
     public static final RenderTypeProvider TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NO_TRANSPARENCY, texture));
 
-    public static final RenderTypeProvider TRANSPARENT_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "transparent_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER, StateShards.TRANSLUCENT_TRANSPARENCY, texture));
-    public static final RenderTypeProvider TRANSPARENT_TEXTURE_TRIANGLE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "transparent_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.TRIANGLE_TEXTURE.shard, StateShards.TRANSLUCENT_TRANSPARENCY, texture));
+    public static final RenderTypeProvider TRANSPARENT_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "transparent_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY, texture));
+    public static final RenderTypeProvider TRANSPARENT_TEXTURE_TRIANGLE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "transparent_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.TRIANGLE_TEXTURE.shard, StateShards.NORMAL_TRANSPARENCY, texture));
 
     public static final RenderTypeProvider ADDITIVE_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "additive_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
     public static final RenderTypeProvider ADDITIVE_TEXTURE_TRIANGLE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "additive_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.TRIANGLE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
