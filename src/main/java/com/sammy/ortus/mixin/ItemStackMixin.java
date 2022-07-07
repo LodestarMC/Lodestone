@@ -52,11 +52,7 @@ public class ItemStackMixin {
                 AttributeModifier modifier = entry.getValue();
                 double amount = modifier.getAmount();
                 if (modifier.getId().equals(UUIDS.get(MAGIC_DAMAGE))) {
-                    AttributeInstance instance = player.getAttribute(OrtusAttributeRegistry.MAGIC_DAMAGE.get());
-                    if (instance != null && instance.getValue() > 0) {
-                        amount += instance.getValue();
-                    }
-                    instance = player.getAttribute(OrtusAttributeRegistry.MAGIC_PROFICIENCY.get());
+                    AttributeInstance instance = player.getAttribute(OrtusAttributeRegistry.MAGIC_PROFICIENCY.get());
                     if (instance != null && instance.getValue() > 0) {
                         amount += instance.getValue() * 0.5f;
                     }
