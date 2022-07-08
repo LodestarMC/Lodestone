@@ -29,5 +29,5 @@ void main() {
     uv.x = clamp(uv.x, uCap.x, uCap.y);
     uv.y = clamp(uv.y, vCap.x, vCap.y);
     vec4 color = texture(Sampler0, uv);
-    fragColor = color * ColorModulator;
+    fragColor = color * ColorModulator * vertexColor;
 }
