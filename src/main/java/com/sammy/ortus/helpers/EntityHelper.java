@@ -12,7 +12,7 @@ public class EntityHelper {
 
     public static void amplifyEffect(MobEffectInstance instance, LivingEntity target, int addedAmplifier, int cap) {
         target.effectsDirty = true;
-        instance.amplifier = Math.min(cap, instance.getAmplifier() + addedAmplifier);
+        instance.amplifier = Math.max(Math.min(cap, instance.getAmplifier() + addedAmplifier), instance.getAmplifier());
         target.onEffectUpdated(instance, true, target);
     }
 
@@ -24,7 +24,7 @@ public class EntityHelper {
 
     public static void extendEffect(MobEffectInstance instance, LivingEntity target, int addedDuration, int cap) {
         target.effectsDirty = true;
-        instance.duration = Math.min(cap, instance.getDuration() + addedDuration);
+        instance.duration = Math.max(Math.min(cap, instance.getDuration() + addedDuration), instance.getDuration());
         target.onEffectUpdated(instance, true, target);
     }
 
