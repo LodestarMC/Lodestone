@@ -31,6 +31,7 @@ public class VFXBuilders {
         int light = -1;
         float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
         float x0 = 0, y0 = 0, x1 = 1, y1 = 1;
+        int zLevel;
 
         VertexFormat format;
         Supplier<ShaderInstance> shader = GameRenderer::getPositionTexShader;
@@ -39,19 +40,19 @@ public class VFXBuilders {
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
 
         public ScreenVFXBuilder setPosTexDefaultFormat() {
-            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, 0).uv(u, v).endVertex();
+            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, this.zLevel).uv(u, v).endVertex();
             format = DefaultVertexFormat.POSITION_TEX;
             return this;
         }
 
         public ScreenVFXBuilder setPosColorTexDefaultFormat() {
-            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, 0).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex();
+            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, this.zLevel).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex();
             format = DefaultVertexFormat.POSITION_COLOR_TEX;
             return this;
         }
 
         public ScreenVFXBuilder setPosColorTexLightmapDefaultFormat() {
-            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, 0).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex();
+            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, this.zLevel).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex();
             format = DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP;
             return this;
         }
@@ -124,6 +125,11 @@ public class VFXBuilders {
             this.y0 = y0;
             this.x1 = x1;
             this.y1 = y1;
+            return this;
+        }
+
+        public ScreenVFXBuilder setZLevel(int z) {
+            this.zLevel = z;
             return this;
         }
 
