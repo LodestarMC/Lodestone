@@ -37,7 +37,7 @@ public class ParticleRenderTypes {
     public static final ParticleRenderType TRANSPARENT = new ParticleRenderType() {
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(true);
+            RenderSystem.depthMask(false);
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -48,6 +48,7 @@ public class ParticleRenderTypes {
         @Override
         public void end(Tesselator tesselator) {
             tesselator.end();
+            RenderSystem.depthMask(true);
             RenderSystem.disableBlend();
             RenderSystem.defaultBlendFunc();
         }
