@@ -18,7 +18,7 @@ void main() {
     float width = (1.-y);
     if (abs(uv.x-0.5)*2. > y)
     {
-        return;
+        discard;
     }
     uv.x -= 0.5*width;
     uv.x /= y;
