@@ -7,7 +7,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Random;
 
-public class PositionedScreenshakeInstance extends ScreenshakeInstance{
+public class PositionedScreenshakeInstance extends ScreenshakeInstance {
     public final Vec3 position;
     public final float falloffDistance;
     public final float maxDistance;
@@ -20,6 +20,7 @@ public class PositionedScreenshakeInstance extends ScreenshakeInstance{
         this.maxDistance = maxDistance;
         this.falloffEasing = falloffEasing;
     }
+
     public PositionedScreenshakeInstance(int duration, Vec3 position, float falloffDistance, float maxDistance) {
         this(duration, position, falloffDistance, maxDistance, Easing.LINEAR);
     }
@@ -28,20 +29,18 @@ public class PositionedScreenshakeInstance extends ScreenshakeInstance{
     public float updateIntensity(Camera camera, Random random) {
         float intensity = super.updateIntensity(camera, random);
         float distance = (float) position.distanceTo(camera.getPosition());
-        if (distance > maxDistance)
-        {
+        if (distance > maxDistance) {
             return 0;
         }
         float distanceMultiplier = 1;
-        if (distance > falloffDistance)
-        {
-            float remaining = maxDistance-falloffDistance;
-            float current = distance-falloffDistance;
-            distanceMultiplier = 1-current/remaining;
+        if (distance > falloffDistance) {
+            float remaining = maxDistance - falloffDistance;
+            float current = distance - falloffDistance;
+            distanceMultiplier = 1 - current / remaining;
         }
         Vector3f lookDirection = camera.getLookVector();
         Vec3 directionToScreenshake = position.subtract(camera.getPosition()).normalize();
         float angle = Math.max(0, lookDirection.dot(new Vector3f(directionToScreenshake)));
-        return intensity * distanceMultiplier * angle;
+        return ((intensity * distanceMultiplier) + (intensity * angle)) * 0.5f;
     }
 }
