@@ -210,7 +210,7 @@ public class VecHelper {
         }
 
         // ----- adjust for fov -----
-        float fov = (float) ((GameRendererMixin) mc.gameRenderer).ortus$callGetFov(ari, partialTicks, true);
+        float fov = (float) mc.gameRenderer.getFov(ari, partialTicks, true);
 
         float half_height = (float) mc.getWindow()
                 .getGuiScaledHeight() / 2;
