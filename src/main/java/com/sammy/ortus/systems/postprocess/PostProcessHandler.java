@@ -42,7 +42,8 @@ public class PostProcessHandler {
     public static void onWorldRenderLast(RenderLevelLastEvent event) {
         copyDepthBuffer(); // copy the depth buffer if the mixin didn't trigger
 
-        instances.forEach(i -> i.applyPostProcess(event.getPoseStack()));
+        PostProcessor.viewModelStack = event.getPoseStack();
+        instances.forEach(PostProcessor::applyPostProcess);
 
         didCopyDepth = false; // reset for next frame
     }
