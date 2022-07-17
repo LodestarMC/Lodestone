@@ -12,14 +12,15 @@
   "client": [
     "AbstractContainerScreenMixin",
     "CameraMixin",
+    "EffectProgramMixin",
     "EntityRenderDispatcherMixin",
     "GameRendererMixin",
     "GuiMixin",
     "ItemRendererMixin",
+    "LevelRendererMixin",
     "MultiPlayerGameModeMixin",
     "ScreenEffectRendererMixin",
-    "ScreenMixin",
-    "LevelRendererMixin"
+    "ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
