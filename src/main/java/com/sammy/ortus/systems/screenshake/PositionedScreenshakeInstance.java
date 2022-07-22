@@ -13,6 +13,7 @@ public class PositionedScreenshakeInstance extends ScreenshakeInstance {
     public final float maxDistance;
     public final Easing falloffEasing;
 
+    //TODO: make falloff affect duration; the further away a player is the less the screenshake lasts
     public PositionedScreenshakeInstance(int duration, Vec3 position, float falloffDistance, float maxDistance, Easing falloffEasing) {
         super(duration);
         this.position = position;

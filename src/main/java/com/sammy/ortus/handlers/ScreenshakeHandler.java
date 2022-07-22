@@ -24,8 +24,9 @@ public class ScreenshakeHandler {
     }
 
     public static void clientTick(Camera camera, Random random) {
-        double sum = INSTANCES.stream().mapToDouble(i1 -> i1.updateIntensity(camera, random)).sum();
-        intensity = (float) (Math.pow(sum, 3) * ClientConfig.SCREENSHAKE_INTENSITY.getConfigValue());
+        double sum = Math.min(INSTANCES.stream().mapToDouble(i1 -> i1.updateIntensity(camera, random)).sum(), ClientConfig.SCREENSHAKE_INTENSITY.getConfigValue());
+
+        intensity = (float) Math.pow(sum, 3);
         INSTANCES.removeIf(i -> i.progress >= i.duration);
     }
 
