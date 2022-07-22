@@ -88,4 +88,19 @@ public class RenderHelper {
     public static Vector4f midpoint(Vector4f a, Vector4f b) {
         return new Vector4f((a.x() + b.x()) * 0.5F, (a.y() + b.y()) * 0.5F, (a.z() + b.z()) * 0.5F, (a.w() + b.w()) * 0.5F);
     }
+
+    public static Vec2 worldPosToTexCoord(Vector3f worldPos, PoseStack viewModelStack) {
+        Matrix4f viewMat = viewModelStack.last().pose();
+        Matrix4f projMat = RenderSystem.getProjectionMatrix();
+
+        Vector3f localPos = worldPos.copy();
+        localPos.sub(new Vector3f(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition()));
+
+        Vector4f pos = new Vector4f(localPos);
+        pos.transform(viewMat);
+        pos.transform(projMat);
+        pos.perspectiveDivide();
+
+        return new Vec2((pos.x()+1F)/2F, (pos.y()+1F)/2F);
+    }
 }

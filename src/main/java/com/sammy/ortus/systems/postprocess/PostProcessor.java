@@ -1,21 +1,30 @@
 package com.sammy.ortus.systems.postprocess;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.shaders.Uniform;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 import com.sammy.ortus.OrtusLib;
+import com.sammy.ortus.helpers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.function.Consumer;
 
 import static com.mojang.blaze3d.platform.GlConst.*;
-
-//TODO: move to ortus lib
 
 /**
  * Abstract world space post-process pass.
@@ -24,10 +33,38 @@ import static com.mojang.blaze3d.platform.GlConst.*;
 public abstract class PostProcessor {
     protected static final Minecraft MC = Minecraft.getInstance();
 
+    public static final Collection<Pair<String, Consumer<Uniform>>> COMMON_UNIFORMS = Lists.newArrayList(
+        Pair.of("cameraPos", u -> u.set(new Vector3f(MC.gameRenderer.getMainCamera().getPosition()))),
+        Pair.of("lookVector", u -> u.set(MC.gameRenderer.getMainCamera().getLookVector())),
+        Pair.of("upVector", u -> u.set(MC.gameRenderer.getMainCamera().getUpVector())),
+        Pair.of("leftVector", u -> u.set(MC.gameRenderer.getMainCamera().getLeftVector())),
+        Pair.of("invViewMat", u -> {
+            Matrix4f invertedViewMatrix = new Matrix4f(PostProcessor.viewModelStack.last().pose());
+            invertedViewMatrix.invert();
+            u.set(invertedViewMatrix);
+        }),
+        Pair.of("invProjMat", u -> {
+            Matrix4f invertedProjectionMatrix = new Matrix4f(RenderSystem.getProjectionMatrix());
+            invertedProjectionMatrix.invert();
+            u.set(invertedProjectionMatrix);
+        }),
+        Pair.of("nearPlaneDistance", u -> u.set(GameRenderer.PROJECTION_Z_NEAR)),
+        Pair.of("farPlaneDistance", u -> u.set(MC.gameRenderer.getDepthFar())),
+        Pair.of("fov", u -> u.set((float) Math.toRadians(MC.gameRenderer.getFov(MC.gameRenderer.getMainCamera(), MC.getFrameTime(), true)))),
+        Pair.of("aspectRatio", u -> u.set((float) MC.getWindow().getWidth() / (float) MC.getWindow().getHeight()))
+    );
+
+    /**
+     * Being updated every frame before calling applyPostProcess() by PostProcessHandler
+     */
+    public static PoseStack viewModelStack;
+
     private boolean initialized = false;
     protected PostChain postChain;
     protected EffectInstance[] effects;
     private RenderTarget tempDepthBuffer;
+    private Collection<Pair<Uniform, Consumer<Uniform>>> defaultUniforms;
+
     private boolean isActive = true;
 
     protected double time;
@@ -42,6 +79,16 @@ public abstract class PostProcessor {
 
         if (postChain != null) {
             tempDepthBuffer = postChain.getTempTarget("depthMain");
+
+            defaultUniforms = new ArrayList<>();
+            for (EffectInstance e : effects) {
+                for (Pair<String, Consumer<Uniform>> pair : COMMON_UNIFORMS) {
+                    Uniform u = e.getUniform(pair.getFirst());
+                    if (u != null) {
+                        defaultUniforms.add(Pair.of(u, pair.getSecond()));
+                    }
+                }
+            }
         }
 
         initialized = true;
@@ -79,7 +126,7 @@ public abstract class PostProcessor {
             tempDepthBuffer.copyDepthFrom(MC.getMainRenderTarget());
 
             // rebind the main framebuffer so that we don't mess up other things
-            GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, Minecraft.getInstance().getMainRenderTarget().frameBufferId);
+            GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, MC.getMainRenderTarget().frameBufferId);
         }
     }
 
@@ -91,7 +138,13 @@ public abstract class PostProcessor {
         }
     }
 
-    public final void applyPostProcess(PoseStack viewModelStack) {
+    private void applyDefaultUniforms() {
+        Arrays.stream(effects).forEach(e -> e.safeGetUniform("time").set((float) time));
+
+        defaultUniforms.forEach(pair -> pair.getSecond().accept(pair.getFirst()));
+    }
+
+    public final void applyPostProcess() {
         if (isActive) {
             if (!initialized)
                 init();
@@ -99,10 +152,13 @@ public abstract class PostProcessor {
             if (postChain != null) {
                 time += MC.getDeltaFrameTime() / 20.0;
 
+                applyDefaultUniforms();
+
                 beforeProcess(viewModelStack);
                 if (!isActive) return;
                 postChain.process(MC.getFrameTime());
-                GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, Minecraft.getInstance().getMainRenderTarget().frameBufferId);
+
+                GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, MC.getMainRenderTarget().frameBufferId);
                 afterProcess();
             }
         }
