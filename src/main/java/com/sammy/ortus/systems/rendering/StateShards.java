@@ -22,11 +22,13 @@ public class StateShards extends RenderStateShard {
     });
 
     public static final TransparencyStateShard NORMAL_TRANSPARENCY = new TransparencyStateShard("normal_transparency", () -> {
+        RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
     }, () -> {
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
+        RenderSystem.depthMask(true);
     });
 
 
