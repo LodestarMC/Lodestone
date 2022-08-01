@@ -51,6 +51,7 @@ public class RenderHandler {
                 RenderSystem.getModelViewStack().mulPoseMatrix(PARTICLE_MATRIX);
             }
             RenderSystem.applyModelViewMatrix();
+            DELAYED_RENDER.endBatch(OrtusRenderTypeRegistry.TRANSPARENT_PARTICLE);
             DELAYED_RENDER.endBatch(OrtusRenderTypeRegistry.ADDITIVE_PARTICLE);
             RenderSystem.getModelViewStack().popPose();
             RenderSystem.applyModelViewMatrix();
