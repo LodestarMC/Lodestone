@@ -7,6 +7,7 @@ import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.systems.rendering.ShaderUniformHandler;
 import com.sammy.ortus.systems.rendering.StateShards;
 import net.minecraft.Util;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -36,7 +37,7 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
     public static final RenderType ADDITIVE_BLOCK = createGenericRenderType(ORTUS, "block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
     public static final RenderType ADDITIVE_SOLID = createGenericRenderType(ORTUS, "additive_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.ADDITIVE_TRANSPARENCY);
 
-    public static final RenderType TRANSPARENT_PARTICLE = createGenericRenderType(ORTUS, "transparent_particle", PARTICLE, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+    public static final RenderType TRANSPARENT_PARTICLE = createGenericRenderType(ORTUS, "transparent_particle", PARTICLE, VertexFormat.Mode.QUADS, new ShaderStateShard(GameRenderer::getParticleShader), StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     public static final RenderType TRANSPARENT_BLOCK = createGenericRenderType(ORTUS, "transparent_block", PARTICLE, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(ORTUS, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY);
 
