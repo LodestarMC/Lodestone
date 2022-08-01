@@ -22,6 +22,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.awt.*;
 import java.util.Random;
+import java.util.function.Consumer;
 
 @SuppressWarnings("ALL")
 public class ParticleBuilders {
@@ -297,6 +298,11 @@ public class ParticleBuilders {
             this.maxXDist = maxXDist;
             this.maxYDist = maxYDist;
             this.maxZDist = maxZDist;
+            return this;
+        }
+
+        public WorldParticleBuilder consume(Consumer<WorldParticleBuilder> particleBuilderConsumer) {
+            particleBuilderConsumer.accept(this);
             return this;
         }
 
@@ -692,6 +698,11 @@ public class ParticleBuilders {
         public ScreenParticleBuilder randomOffset(double maxXDist, double maxYDist) {
             this.maxXDist = maxXDist;
             this.maxYDist = maxYDist;
+            return this;
+        }
+
+        public ScreenParticleBuilder consume(Consumer<ScreenParticleBuilder> particleBuilderConsumer) {
+            particleBuilderConsumer.accept(this);
             return this;
         }
 
