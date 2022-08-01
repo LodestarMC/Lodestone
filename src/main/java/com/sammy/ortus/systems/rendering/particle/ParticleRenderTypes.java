@@ -38,10 +38,9 @@ public class ParticleRenderTypes {
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            RenderSystem.setShader(OrtusShaderRegistry.ORTUS_PARTICLE.getInstance());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderHandler.PARTICLE_MATRIX = RenderSystem.getModelViewMatrix();
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
