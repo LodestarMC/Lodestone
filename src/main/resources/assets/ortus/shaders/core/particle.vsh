@@ -21,3 +21,4 @@ void main() {
     texCoord0 = UV0;
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
 }
+ 
