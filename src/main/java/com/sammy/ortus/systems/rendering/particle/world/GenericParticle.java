@@ -73,6 +73,15 @@ public class GenericParticle extends TextureSheetParticle {
 
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        VertexConsumer consumerToUse = consumer;
+        if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
+            if (getRenderType().equals(ParticleRenderTypes.ADDITIVE)) {
+                consumerToUse = RenderHandler.DELAYED_RENDER.getBuffer(OrtusRenderTypeRegistry.ADDITIVE_PARTICLE);
+            }
+            if (getRenderType().equals(ParticleRenderTypes.TRANSPARENT)) {
+                consumerToUse = RenderHandler.DELAYED_RENDER.getBuffer(OrtusRenderTypeRegistry.TRANSPARENT_PARTICLE);
+            }
+        }
         super.render((ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && getRenderType().equals(ParticleRenderTypes.ADDITIVE)) ? RenderHandler.DELAYED_RENDER.getBuffer(OrtusRenderTypeRegistry.ADDITIVE_PARTICLE) : consumer, camera, partialTicks);
     }
 

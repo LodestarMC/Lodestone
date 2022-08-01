@@ -17,6 +17,7 @@ public class ScreenshakeHandler {
 
     public static void cameraTick(Camera camera, Random random) {
         if (intensity >= 0.1) {
+            //TODO: make this perlin noise based rather than just random gibberish
             yawOffset = randomizeOffset(random);
             pitchOffset = randomizeOffset(random);
             camera.setRotation(camera.getYRot() + yawOffset, camera.getXRot() + pitchOffset);

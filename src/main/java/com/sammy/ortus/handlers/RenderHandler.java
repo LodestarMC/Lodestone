@@ -52,7 +52,6 @@ public class RenderHandler {
             }
             RenderSystem.applyModelViewMatrix();
             DELAYED_RENDER.endBatch(OrtusRenderTypeRegistry.ADDITIVE_PARTICLE);
-            DELAYED_RENDER.endBatch(OrtusRenderTypeRegistry.ADDITIVE_BLOCK_PARTICLE);
             RenderSystem.getModelViewStack().popPose();
             RenderSystem.applyModelViewMatrix();
         }
