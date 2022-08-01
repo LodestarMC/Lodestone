@@ -33,11 +33,11 @@ public class OrtusRenderTypeRegistry extends RenderStateShard {
      */
     public static final HashMap<Pair<Integer, RenderType>, RenderType> COPIES = new HashMap<>();
 
-    public static final RenderType ADDITIVE_PARTICLE = createGenericRenderType(ORTUS, "additive_particle", PARTICLE, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_PARTICLE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+    public static final RenderType ADDITIVE_PARTICLE = createGenericRenderType(ORTUS, "additive_particle", PARTICLE, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ORTUS_PARTICLE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     public static final RenderType ADDITIVE_BLOCK = createGenericRenderType(ORTUS, "block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
     public static final RenderType ADDITIVE_SOLID = createGenericRenderType(ORTUS, "additive_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.ADDITIVE_TRANSPARENCY);
 
-    public static final RenderType TRANSPARENT_PARTICLE = createGenericRenderType(ORTUS, "transparent_particle", PARTICLE, VertexFormat.Mode.QUADS, new ShaderStateShard(GameRenderer::getParticleShader), StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+    public static final RenderType TRANSPARENT_PARTICLE = createGenericRenderType(ORTUS, "transparent_particle", PARTICLE, VertexFormat.Mode.QUADS, OrtusShaderRegistry.ORTUS_PARTICLE.shard, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     public static final RenderType TRANSPARENT_BLOCK = createGenericRenderType(ORTUS, "transparent_block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(ORTUS, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY);
 

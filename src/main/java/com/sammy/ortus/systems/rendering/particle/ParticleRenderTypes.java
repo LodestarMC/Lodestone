@@ -20,7 +20,7 @@ public class ParticleRenderTypes {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            RenderSystem.setShader(OrtusShaderRegistry.ADDITIVE_PARTICLE.getInstance());
+            RenderSystem.setShader(OrtusShaderRegistry.ORTUS_PARTICLE.getInstance());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderHandler.PARTICLE_MATRIX = RenderSystem.getModelViewMatrix();
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);

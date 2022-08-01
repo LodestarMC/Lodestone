@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.sammy.ortus.OrtusLib;
 import com.sammy.ortus.systems.rendering.ExtendedShaderInstance;
 import com.sammy.ortus.systems.rendering.ShaderHolder;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,7 +16,8 @@ public class OrtusShaderRegistry {
 
 
     public static ShaderHolder ADDITIVE_TEXTURE = new ShaderHolder();
-    public static ShaderHolder ADDITIVE_PARTICLE = new ShaderHolder();
+    public static ShaderHolder ORTUS_PARTICLE = new ShaderHolder();
+    public static ShaderHolder PARTICLE = new ShaderHolder();
 
     public static ShaderHolder MASKED_TEXTURE = new ShaderHolder();
     public static ShaderHolder DISTORTED_TEXTURE = new ShaderHolder("Speed", "TimeOffset", "Intensity", "XFrequency", "YFrequency", "UVCoordinates");
@@ -37,7 +37,8 @@ public class OrtusShaderRegistry {
     @SubscribeEvent
     public static void shaderRegistry(RegisterShadersEvent event) throws IOException {
         registerShader(event, ExtendedShaderInstance.createShaderInstance(ADDITIVE_TEXTURE, event.getResourceManager(), OrtusLib.ortusPrefix("additive_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(ADDITIVE_PARTICLE, event.getResourceManager(), OrtusLib.ortusPrefix("additive_particle"), DefaultVertexFormat.PARTICLE));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(ORTUS_PARTICLE, event.getResourceManager(), OrtusLib.ortusPrefix("particle"), DefaultVertexFormat.PARTICLE));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(PARTICLE, event.getResourceManager(), OrtusLib.ortusPrefix("particle"), DefaultVertexFormat.PARTICLE));
 
         registerShader(event, ExtendedShaderInstance.createShaderInstance(VERTEX_DISTORTION, event.getResourceManager(), OrtusLib.ortusPrefix("vertex_distortion"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         //registerShader(event, ExtendedShaderInstance.createShaderInstance(BLOOM, event.getResourceManager(), OrtusLib.ortusPrefix("bloom"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
