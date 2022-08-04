@@ -1,5 +1,6 @@
 package com.sammy.ortus.mixin;
 
+import com.sammy.ortus.handlers.RenderHandler;
 import com.sammy.ortus.systems.postprocess.PostProcessHandler;
 import com.sammy.ortus.systems.sound.ExtendedSoundType;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -41,5 +42,6 @@ public class LevelRendererMixin {
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "net.minecraft.client.renderer.PostChain.process(F)V", ordinal = 1))
     public void injectionBeforeTransparencyChainProcess(CallbackInfo ci) {
         PostProcessHandler.copyDepthBuffer();
+        RenderHandler.copyDepthBuffer();
     }
 }

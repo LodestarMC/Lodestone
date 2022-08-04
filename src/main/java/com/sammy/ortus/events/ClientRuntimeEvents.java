@@ -5,6 +5,7 @@ import com.sammy.ortus.OrtusLibClient;
 import com.sammy.ortus.capability.OrtusPlayerDataCapability;
 import com.sammy.ortus.handlers.*;
 import com.sammy.ortus.helpers.util.AnimationTickHolder;
+import com.sammy.ortus.systems.client.ClientTickCounter;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
@@ -29,6 +30,7 @@ public class ClientRuntimeEvents {
         if (event.phase.equals(TickEvent.Phase.END)) {
             Minecraft minecraft = Minecraft.getInstance();
             if (minecraft.level != null) {
+                ClientTickCounter.clientTick();
                 if (minecraft.isPaused()) {
                     return;
                 }
@@ -67,5 +69,6 @@ public class ClientRuntimeEvents {
     @SubscribeEvent
     public static void renderTick(TickEvent.RenderTickEvent event) {
         ScreenParticleHandler.renderParticles(event);
+        ClientTickCounter.renderTick(event);
     }
 }

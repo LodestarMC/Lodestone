@@ -1,11 +1,14 @@
 package com.sammy.ortus.handlers;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix4f;
 import com.sammy.ortus.config.ClientConfig;
 import com.sammy.ortus.helpers.RenderHelper;
+import com.sammy.ortus.systems.postprocess.PostProcessor;
 import com.sammy.ortus.systems.rendering.ExtendedShaderInstance;
 import com.sammy.ortus.setup.OrtusRenderTypeRegistry;
 import com.sammy.ortus.systems.rendering.ShaderUniformHandler;
@@ -19,6 +22,8 @@ import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.HashMap;
+
+import static com.mojang.blaze3d.platform.GlConst.GL_DRAW_FRAMEBUFFER;
 
 /**
  * A handler responsible for all the backend rendering processes.
@@ -35,6 +40,8 @@ public class RenderHandler {
     public static MultiBufferSource.BufferSource LATE_DELAYED_RENDER;
     public static MultiBufferSource.BufferSource BLOOM_BUFFER;
     public static Matrix4f PARTICLE_MATRIX = null;
+    public static boolean COPIED_DEPTH_BUFFER = false;
+    public static RenderTarget PARTICLE_DEPTH_BUFFER = null;
 
     public static void onClientSetup(FMLClientSetupEvent event) {
         EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(256));
@@ -43,6 +50,7 @@ public class RenderHandler {
     }
 
     public static void renderLast(RenderLevelLastEvent event) {
+        copyDepthBuffer();
         event.getPoseStack().pushPose();
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
             RenderSystem.getModelViewStack().pushPose();
@@ -60,6 +68,8 @@ public class RenderHandler {
         endBatches(DELAYED_RENDER, BUFFERS);
         endBatches(LATE_DELAYED_RENDER, LATE_BUFFERS);
         event.getPoseStack().popPose();
+
+        COPIED_DEPTH_BUFFER = false;
     }
 
     public static void endBatches(MultiBufferSource.BufferSource source, HashMap<RenderType, BufferBuilder> buffers) {
@@ -81,5 +91,13 @@ public class RenderHandler {
         RenderHandler.EARLY_BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
         RenderHandler.BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
         RenderHandler.LATE_BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
+    }
+
+    public static void copyDepthBuffer() {
+        if (COPIED_DEPTH_BUFFER) return;
+        RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
+        PARTICLE_DEPTH_BUFFER.copyDepthFrom(mainRenderTarget);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
+        COPIED_DEPTH_BUFFER = true;
     }
 }

@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -22,6 +23,7 @@ import static com.sammy.ortus.systems.block.OrtusThrowawayBlockData.DATA_CACHE;
 
 /**
  * An extension of Block Properties, allowing you to add {@link OrtusThrowawayBlockData}
+ * Some of these values are optional; they only get added during datagen.
  */
 @SuppressWarnings("ALL")
 public class OrtusBlockProperties extends BlockBehaviour.Properties {
@@ -38,56 +40,64 @@ public class OrtusBlockProperties extends BlockBehaviour.Properties {
         DataHelper.getAll(new ArrayList<>(ForgeRegistries.BLOCKS.getValues()), b -> b.properties instanceof OrtusBlockProperties && ((OrtusBlockProperties) b.properties).getThrowawayData().isCutoutLayer).forEach(b -> ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped()));
     }
 
+    public OrtusBlockProperties addOptionalThrowawayData(Function<OrtusThrowawayBlockData, OrtusThrowawayBlockData> function) {
+        if (DatagenModLoader.isRunningDataGen()) {
+            addThrowawayData(function);
+        }
+        return this;
+    }
+
     public OrtusBlockProperties addThrowawayData(Function<OrtusThrowawayBlockData, OrtusThrowawayBlockData> function) {
         DATA_CACHE.put(this, function.apply(DATA_CACHE.getOrDefault(this, new OrtusThrowawayBlockData())));
         return this;
     }
+
     public OrtusThrowawayBlockData getThrowawayData() {
         return DATA_CACHE.getOrDefault(this, new OrtusThrowawayBlockData());
     }
 
     public OrtusBlockProperties needsPickaxe() {
-        addThrowawayData(d -> d.needsPickaxe());
+        addOptionalThrowawayData(d -> d.needsPickaxe());
         return this;
     }
 
     public OrtusBlockProperties needsAxe() {
-        addThrowawayData(d -> d.needsAxe());
+        addOptionalThrowawayData(d -> d.needsAxe());
         return this;
     }
 
     public OrtusBlockProperties needsShovel() {
-        addThrowawayData(d -> d.needsShovel());
+        addOptionalThrowawayData(d -> d.needsShovel());
         return this;
     }
 
     public OrtusBlockProperties needsHoe() {
-        addThrowawayData(d -> d.needsHoe());
+        addOptionalThrowawayData(d -> d.needsHoe());
         return this;
     }
 
     public OrtusBlockProperties needsStone() {
-        addThrowawayData(d -> d.needsStone());
+        addOptionalThrowawayData(d -> d.needsStone());
         return this;
     }
 
     public OrtusBlockProperties needsIron() {
-        addThrowawayData(d -> d.needsIron());
+        addOptionalThrowawayData(d -> d.needsIron());
         return this;
     }
 
     public OrtusBlockProperties needsDiamond() {
-        addThrowawayData(d -> d.needsDiamond());
+        addOptionalThrowawayData(d -> d.needsDiamond());
+        return this;
+    }
+
+    public OrtusBlockProperties hasCustomLoot() {
+        addOptionalThrowawayData(d -> d.hasCustomLoot());
         return this;
     }
 
     public OrtusBlockProperties isCutoutLayer() {
         addThrowawayData(d -> d.isCutoutLayer());
-        return this;
-    }
-
-    public OrtusBlockProperties hasCustomLoot() {
-        addThrowawayData(d -> d.hasCustomLoot());
         return this;
     }
 
