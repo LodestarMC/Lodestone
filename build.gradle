@@ -21,7 +21,7 @@ version = "${project.minecraftVersion}-${project.modVersion}"
 if (System.getenv('BUILD_NUMBER') != null) {
     version += "." + System.getenv('BUILD_NUMBER')
 }
-group = 'com.sammy.ortus'
+group = 'team.lodestar.lodestone'
 archivesBaseName = project.modId
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -131,7 +131,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title": "ortuslib",
+                "Specification-Title": "lodestone",
                 "Specification-Vendor": "sammy",
                 "Specification-Version": "1",
                 "Implementation-Title": project.name,

@@ -3,11 +3,11 @@ modLoader="javafml"
 loaderVersion="[39,)"
 license="All rights reserved"
 [[mods]]
-logoFile="ortus.png"
-modId="ortus"
+logoFile="lodestone.png"
+modId="lodestone"
 version="${file.jarVersion}"
-displayName="Ortus Lib"
-authors="Sammy;"
+displayName="Lodestone"
+authors="The Lodestar Team;"
 description='''
 A library containing various utilities.
 '''
