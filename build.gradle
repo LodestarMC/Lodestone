@@ -132,7 +132,7 @@ jar {
     manifest {
         attributes([
                 "Specification-Title": "lodestone",
-                "Specification-Vendor": "sammy",
+                "Specification-Vendor": "lodestar",
                 "Specification-Version": "1",
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
