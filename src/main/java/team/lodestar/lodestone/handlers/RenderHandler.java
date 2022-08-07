@@ -46,13 +46,6 @@ public class RenderHandler {
         EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(256));
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
         LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(LATE_BUFFERS, new BufferBuilder(256));
-
-        if (RenderSystem.isOnRenderThread()) {
-            Window window = Minecraft.getInstance().getWindow();
-            PARTICLE_DEPTH_BUFFER = new MainTarget(window.getWidth(), window.getHeight());
-            PARTICLE_DEPTH_BUFFER.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
-            PARTICLE_DEPTH_BUFFER.clear(ON_OSX);
-        }
     }
     public static void resize(int width, int height) {
         if (PARTICLE_DEPTH_BUFFER != null) {
@@ -104,7 +97,13 @@ public class RenderHandler {
     }
 
     public static void copyDepthBuffer() {
-        if (COPIED_DEPTH_BUFFER || PARTICLE_DEPTH_BUFFER == null) return;
+        if (COPIED_DEPTH_BUFFER || PARTICLE_DEPTH_BUFFER == null) {
+            Window window = Minecraft.getInstance().getWindow();
+            PARTICLE_DEPTH_BUFFER = new MainTarget(window.getWidth(), window.getHeight());
+            PARTICLE_DEPTH_BUFFER.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+            PARTICLE_DEPTH_BUFFER.clear(ON_OSX);
+            return;
+        }
         RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
         PARTICLE_DEPTH_BUFFER.copyDepthFrom(mainRenderTarget);
         GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
