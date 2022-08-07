@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 
 public class LodestonePaintings {
-    public static final DeferredRegister<Motive> PAINTING_MOTIVES = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, LodestoneLib.ORTUS);
+    public static final DeferredRegister<Motive> PAINTING_MOTIVES = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, LodestoneLib.LODESTONE);
 
     public static void register(IEventBus bus) {
         PAINTING_MOTIVES.register(bus);

@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.io.IOException;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = LodestoneLib.ORTUS, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = LodestoneLib.LODESTONE, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class LodestoneShaderRegistry {
 
     public static ShaderHolder ADDITIVE_TEXTURE = new ShaderHolder();

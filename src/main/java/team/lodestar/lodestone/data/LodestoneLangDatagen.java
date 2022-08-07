@@ -10,11 +10,11 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.HashSet;
 import java.util.Set;
 
-import static team.lodestar.lodestone.LodestoneLib.ORTUS;
+import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 public class LodestoneLangDatagen extends LanguageProvider {
     public LodestoneLangDatagen(DataGenerator gen) {
-        super(gen, ORTUS, "en_us");
+        super(gen, LODESTONE, "en_us");
     }
 
     @Override
@@ -41,7 +41,7 @@ public class LodestoneLangDatagen extends LanguageProvider {
     }
 
     public static String getCommand(String command) {
-        return "command." + ORTUS + "." + command;
+        return "command." + LODESTONE + "." + command;
     }
 
     public void addOption(String option, String result) {
@@ -49,7 +49,7 @@ public class LodestoneLangDatagen extends LanguageProvider {
     }
 
     public static String getOption(String option) {
-        return "options." + ORTUS + "." + option;
+        return "options." + LODESTONE + "." + option;
     }
 
     public void addOptionTooltip(String option, String result) {
@@ -57,7 +57,7 @@ public class LodestoneLangDatagen extends LanguageProvider {
     }
 
     public static String getOptionTooltip(String option) {
-        return "options." + ORTUS + "." + option + ".tooltip";
+        return "options." + LODESTONE + "." + option + ".tooltip";
     }
 
     @Override

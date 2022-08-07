@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 import static com.mojang.blaze3d.vertex.DefaultVertexFormat.*;
-import static team.lodestar.lodestone.LodestoneLib.ORTUS;
+import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public LodestoneRenderTypeRegistry(String p_110161_, Runnable p_110162_, Runnable p_110163_) {
@@ -32,17 +32,17 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
      */
     public static final HashMap<Pair<Integer, RenderType>, RenderType> COPIES = new HashMap<>();
 
-    public static final RenderType ADDITIVE_PARTICLE = createGenericRenderType(ORTUS, "additive_particle", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ORTUS_PARTICLE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
-    public static final RenderType ADDITIVE_BLOCK = createGenericRenderType(ORTUS, "block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
-    public static final RenderType ADDITIVE_SOLID = createGenericRenderType(ORTUS, "additive_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.ADDITIVE_TRANSPARENCY);
+    public static final RenderType ADDITIVE_PARTICLE = createGenericRenderType(LODESTONE, "additive_particle", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ORTUS_PARTICLE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+    public static final RenderType ADDITIVE_BLOCK = createGenericRenderType(LODESTONE, "block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
+    public static final RenderType ADDITIVE_SOLID = createGenericRenderType(LODESTONE, "additive_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.ADDITIVE_TRANSPARENCY);
 
-    public static final RenderType TRANSPARENT_PARTICLE = createGenericRenderType(ORTUS, "transparent_particle", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ORTUS_PARTICLE.shard, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
-    public static final RenderType TRANSPARENT_BLOCK = createGenericRenderType(ORTUS, "transparent_block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
-    public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(ORTUS, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY);
+    public static final RenderType TRANSPARENT_PARTICLE = createGenericRenderType(LODESTONE, "transparent_particle", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ORTUS_PARTICLE.shard, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+    public static final RenderType TRANSPARENT_BLOCK = createGenericRenderType(LODESTONE, "transparent_block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+    public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(LODESTONE, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY);
 
-    public static final RenderType OUTLINE_SOLID = createGenericRenderType(ORTUS, "outline_solid", NEW_ENTITY, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
+    public static final RenderType OUTLINE_SOLID = createGenericRenderType(LODESTONE, "outline_solid", NEW_ENTITY, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
 
-    public static final RenderType VERTEX_DISTORTION = createGenericRenderType(ORTUS, "vertex_distortion", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.VERTEX_DISTORTION.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+    public static final RenderType VERTEX_DISTORTION = createGenericRenderType(LODESTONE, "vertex_distortion", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.VERTEX_DISTORTION.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     /**
      * Render Functions. You can create Render Types by statically applying these to your texture. Alternatively, use {@link #GENERIC} if none of the presets suit your needs.
      */
@@ -122,7 +122,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
      * This needs to be rewritten, but I don't have the brainpower to do it rn
      * */
     public static RenderType getOutlineTranslucent(ResourceLocation texture, boolean cull) {
-        return RenderType.create(ORTUS + ":outline_translucent",
+        return RenderType.create(LODESTONE + ":outline_translucent",
                 DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
                         .setShaderState(cull ? RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER : RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
                         .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))

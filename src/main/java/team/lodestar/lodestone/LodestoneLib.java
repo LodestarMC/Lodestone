@@ -2,6 +2,7 @@ package team.lodestar.lodestone;
 
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.data.LodestoneBlockTagDatagen;
+import team.lodestar.lodestone.data.LodestoneItemTagDatagen;
 import team.lodestar.lodestone.data.LodestoneLangDatagen;
 import team.lodestar.lodestone.setup.*;
 import team.lodestar.lodestone.compability.CuriosCompat;
@@ -23,10 +24,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Random;
 
-@Mod(LodestoneLib.ORTUS)
+@Mod(LodestoneLib.LODESTONE)
 public class LodestoneLib {
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final String ORTUS = "lodestone";
+    public static final String LODESTONE = "lodestone";
     public static final Random RANDOM = new Random();
 
     public LodestoneLib() {
@@ -49,11 +50,13 @@ public class LodestoneLib {
     }
 
     public static ResourceLocation lodestonePath(String path) {
-        return new ResourceLocation(ORTUS, path);
+        return new ResourceLocation(LODESTONE, path);
     }
 
     public void gatherData(GatherDataEvent event) {
         event.getGenerator().addProvider(new LodestoneLangDatagen(event.getGenerator()));
-        event.getGenerator().addProvider(new LodestoneBlockTagDatagen(event.getGenerator(), event.getExistingFileHelper()));
+        LodestoneBlockTagDatagen blockTagDatagen = new LodestoneBlockTagDatagen(event.getGenerator(), event.getExistingFileHelper());
+        event.getGenerator().addProvider(blockTagDatagen);
+        event.getGenerator().addProvider(new LodestoneItemTagDatagen(event.getGenerator(), blockTagDatagen, event.getExistingFileHelper()));
     }
 }

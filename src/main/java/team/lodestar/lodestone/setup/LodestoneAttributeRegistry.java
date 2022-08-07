@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Function;
 
-import static team.lodestar.lodestone.LodestoneLib.ORTUS;
+import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 
 /**
@@ -22,11 +22,11 @@ import static team.lodestar.lodestone.LodestoneLib.ORTUS;
  */
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class LodestoneAttributeRegistry {
-    public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, ORTUS);
+    public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, LODESTONE);
     public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap<>();
-    public static final RegistryObject<Attribute> MAGIC_RESISTANCE = registerAttribute(ATTRIBUTES, ORTUS, "magic_resistance", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
-    public static final RegistryObject<Attribute> MAGIC_PROFICIENCY = registerAttribute(ATTRIBUTES, ORTUS, "magic_proficiency", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
-    public static final RegistryObject<Attribute> MAGIC_DAMAGE = registerAttribute(ATTRIBUTES, ORTUS, "magic_damage", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
+    public static final RegistryObject<Attribute> MAGIC_RESISTANCE = registerAttribute(ATTRIBUTES, LODESTONE, "magic_resistance", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
+    public static final RegistryObject<Attribute> MAGIC_PROFICIENCY = registerAttribute(ATTRIBUTES, LODESTONE, "magic_proficiency", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
+    public static final RegistryObject<Attribute> MAGIC_DAMAGE = registerAttribute(ATTRIBUTES, LODESTONE, "magic_damage", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));
 
     /**
      * Registers an attribute with a given name,

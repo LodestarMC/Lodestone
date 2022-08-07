@@ -17,11 +17,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
-import static team.lodestar.lodestone.LodestoneLib.ORTUS;
+import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(modid = ORTUS, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = LODESTONE, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class LodestonePacketRegistry {
     public static final String PROTOCOL_VERSION = "1";
     public static SimpleChannel ORTUS_CHANNEL = NetworkRegistry.newSimpleChannel(lodestonePath("main"), () -> LodestonePacketRegistry.PROTOCOL_VERSION, LodestonePacketRegistry.PROTOCOL_VERSION::equals, LodestonePacketRegistry.PROTOCOL_VERSION::equals);

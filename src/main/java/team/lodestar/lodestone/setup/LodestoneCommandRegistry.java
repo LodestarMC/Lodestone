@@ -14,7 +14,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static team.lodestar.lodestone.LodestoneLib.ORTUS;
+import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class LodestoneCommandRegistry {
@@ -26,7 +26,7 @@ public class LodestoneCommandRegistry {
                 .then(DevWorldSetupCommand.register())
                 .then(ScreenshakeCommand.register())
         );
-        dispatcher.register(Commands.literal(ORTUS)
+        dispatcher.register(Commands.literal(LODESTONE)
                 .redirect(cmd));
     }
 

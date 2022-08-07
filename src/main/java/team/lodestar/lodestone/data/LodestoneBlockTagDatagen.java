@@ -10,7 +10,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class LodestoneBlockTagDatagen extends BlockTagsProvider {
     public LodestoneBlockTagDatagen(DataGenerator generatorIn, ExistingFileHelper existingFileHelper) {
-        super(generatorIn, LodestoneLib.ORTUS, existingFileHelper);
+        super(generatorIn, LodestoneLib.LODESTONE, existingFileHelper);
     }
 
     @Override
