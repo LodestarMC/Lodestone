@@ -97,6 +97,9 @@ public class RenderHandler {
     }
 
     public static void copyDepthBuffer() {
+        if (true) { //TODO: make this whole temp render buffer thing actually work, so far it just progressively makes the game slower and slower when fabulous graphics are enabled. Also fucks up a ton.
+            return;
+        }
         if (COPIED_DEPTH_BUFFER || PARTICLE_DEPTH_BUFFER == null) {
             Window window = Minecraft.getInstance().getWindow();
             PARTICLE_DEPTH_BUFFER = new MainTarget(window.getWidth(), window.getHeight());
