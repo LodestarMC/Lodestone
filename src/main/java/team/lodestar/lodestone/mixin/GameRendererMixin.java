@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.mixin;
 
+import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.systems.postprocess.PostProcessHandler;
 import net.minecraft.client.renderer.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,5 +13,6 @@ public class GameRendererMixin {
     @Inject(method = "resize", at = @At(value = "HEAD"))
     public void injectionResizeListener(int width, int height, CallbackInfo ci) {
         PostProcessHandler.resize(width, height);
+        RenderHandler.resize(width, height);
     }
 }

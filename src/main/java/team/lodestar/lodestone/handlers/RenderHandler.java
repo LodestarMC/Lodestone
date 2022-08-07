@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.handlers;
 
+import com.mojang.blaze3d.pipeline.MainTarget;
+import com.mojang.blaze3d.platform.Window;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
@@ -20,6 +22,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import java.util.HashMap;
 
 import static com.mojang.blaze3d.platform.GlConst.GL_DRAW_FRAMEBUFFER;
+import static net.minecraft.client.Minecraft.ON_OSX;
 
 /**
  * A handler responsible for all the backend rendering processes.
@@ -43,8 +46,19 @@ public class RenderHandler {
         EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(256));
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
         LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(LATE_BUFFERS, new BufferBuilder(256));
-    }
 
+        if (RenderSystem.isOnRenderThread()) {
+            Window window = Minecraft.getInstance().getWindow();
+            PARTICLE_DEPTH_BUFFER = new MainTarget(window.getWidth(), window.getHeight());
+            PARTICLE_DEPTH_BUFFER.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+            PARTICLE_DEPTH_BUFFER.clear(ON_OSX);
+        }
+    }
+    public static void resize(int width, int height) {
+        if (PARTICLE_DEPTH_BUFFER != null) {
+            PARTICLE_DEPTH_BUFFER.resize(width, height, Minecraft.ON_OSX);
+        }
+    }
     public static void renderLast(RenderLevelLastEvent event) {
         copyDepthBuffer();
         event.getPoseStack().pushPose();
@@ -90,7 +104,7 @@ public class RenderHandler {
     }
 
     public static void copyDepthBuffer() {
-        if (COPIED_DEPTH_BUFFER) return;
+        if (COPIED_DEPTH_BUFFER || PARTICLE_DEPTH_BUFFER == null) return;
         RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
         PARTICLE_DEPTH_BUFFER.copyDepthFrom(mainRenderTarget);
         GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
