@@ -16,6 +16,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * A basic Multiblock component block entity. Defers some important actions to the core of the multiblock.
+ */
 public class MultiBlockComponentEntity extends LodestoneBlockEntity {
 
     public BlockPos corePos;

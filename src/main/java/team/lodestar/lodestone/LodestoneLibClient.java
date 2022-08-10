@@ -8,7 +8,7 @@ public class LodestoneLibClient {
 
     public static final Outliner OUTLINER = new Outliner();
 
-    //TODO:
+    //TODO: get rid of this?
     public static void onLodestone(IEventBus modEventBus, IEventBus forgeEventBus) {
         modEventBus.addListener(LodestoneLibClient::clientInit);
     }
