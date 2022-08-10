@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class NBTCarryRecipeBuilder { //TODO: Rewrite this bloody mess
+public class NBTCarryRecipeBuilder { //TODO: Rewrite this bloody mess, please.
     private final Item result;
     private final int count;
     private final List<String> pattern = Lists.newArrayList();
