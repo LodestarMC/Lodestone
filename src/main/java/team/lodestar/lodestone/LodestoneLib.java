@@ -39,6 +39,7 @@ public class LodestoneLib {
         LodestoneBlockEntityRegistry.BLOCK_ENTITY_TYPES.register(modBus);
         LodestoneParticleRegistry.PARTICLES.register(modBus);
         LodestoneAttributeRegistry.ATTRIBUTES.register(modBus);
+        LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register(modBus);
         LodestonePaintings.register(modBus);
 
         JeiCompat.init();
