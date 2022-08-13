@@ -2,6 +2,7 @@ package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.platform.Window;
+import net.minecraftforge.fml.ModList;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
@@ -43,15 +44,18 @@ public class RenderHandler {
     public static RenderTarget PARTICLE_DEPTH_BUFFER = null;
 
     public static void onClientSetup(FMLClientSetupEvent event) {
-        EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(256));
-        DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(256));
-        LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(LATE_BUFFERS, new BufferBuilder(256));
+        boolean expandedBuffer = ModList.get().isLoaded("rubidium");
+        int size = expandedBuffer ? 262144 : 256;
+        EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(size));
+        DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size));
+        LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(LATE_BUFFERS, new BufferBuilder(size));
     }
     public static void resize(int width, int height) {
         if (PARTICLE_DEPTH_BUFFER != null) {
             PARTICLE_DEPTH_BUFFER.resize(width, height, Minecraft.ON_OSX);
         }
     }
+    //TODO: look into RenderLevelStageEvent
     public static void renderLast(RenderLevelLastEvent event) {
         copyDepthBuffer();
         event.getPoseStack().pushPose();
