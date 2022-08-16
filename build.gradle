@@ -34,7 +34,7 @@ mixin {
 }
 
 minecraft {
-    mappings channel: 'parchment', version: '2022.03.13-1.18.2'
+    mappings channel: 'parchment', version: "${parchmentVersion}-${minecraftVersion}"
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
@@ -86,18 +86,18 @@ repositories {
     mavenCentral()
     maven {
         name 'Curios maven'
-        url = "https://maven.theillusivec4.top/"
+        url "https://maven.theillusivec4.top/"
     }
 
     maven {
         name 'JEI maven'
-        url = "https://dvs1.progwml6.com/files/maven"
+        url "https://dvs1.progwml6.com/files/maven"
     }
     maven {
-        name = "CTM Maven"
-        url = "https://maven.tterrag.com/"
+        name "CTM Maven"
+        url "https://maven.tterrag.com/"
     }
-    maven { url = 'https://maven.blamejared.com/' }
+    maven { url 'https://maven.blamejared.com/' }
     maven {
         name = "Curse Maven"
         url "https://cursemaven.com"
@@ -109,23 +109,21 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}"
 
+    // Use this to make sure it functions in the intellij environment
     if (System.getProperty("idea.sync.active") != "true") {
-        annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+        annotationProcessor "org.spongepowered:mixin:${mixinVersion}:processor"
     }
 
-//    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18-5.0.2.4:api")
-//    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18-5.0.2.4")
+    // JEI Dependency
+    compileOnly fg.deobf("mezz.jei:jei-${minecraftVersion}:${jeiVersion}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraftVersion}:${jeiVersion}")
 
-    compileOnly fg.deobf('mezz.jei:jei-1.18.2:9.7.0.193:api')
-    runtimeOnly fg.deobf('mezz.jei:jei-1.18.2:9.7.0.193')
+    // Curios dependency
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraftVersion}-${curiosVersion}:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraftVersion}-${curiosVersion}")
 
-//    implementation fg.deobf("se.mickelus.mutil:mutil:1.18.1-4.4.0")
-//    implementation fg.deobf("se.mickelus.tetra:tetra:1.18.1-4.8.0")
-    implementation fg.deobf("curse.maven:curios-309927:3748873")
-    implementation fg.deobf("curse.maven:shimmer-627824:3808077")
+    // Other Mod Compatibility
     implementation fg.deobf("curse.maven:farmers_delight-398521:3739914")
-//    implementation fg.deobf("curse.maven:selene-499980:3742343")
-//    implementation fg.deobf("curse.maven:supplementaries-412082:3749228")
 }
 
 jar {
