@@ -55,7 +55,7 @@ public class LodestoneBlockEntityRegistry {
     public static class ClientOnly {
         @SubscribeEvent
         public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
+         //   event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
         }
     }
 }

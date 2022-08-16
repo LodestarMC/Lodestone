@@ -17,7 +17,7 @@ import team.lodestar.lodestone.setup.LodestoneRecipeSerializerRegistry;
 import javax.annotation.Nonnull;
 
 public class NBTCarryRecipe extends ShapedRecipe {
-    public static final String NAME = "spirit_infusion";
+    public static final String NAME = "nbt_carry";
 
     public static class Type implements RecipeType<NBTCarryRecipe> {
         @Override
@@ -53,6 +53,10 @@ public class NBTCarryRecipe extends ShapedRecipe {
     @Override
     public RecipeSerializer<?> getSerializer() {
         return LodestoneRecipeSerializerRegistry.NBT_CARRY_RECIPE_SERIALIZER.get();
+    }
+    @Override
+    public RecipeType<?> getType() {
+        return Type.INSTANCE;
     }
 
     public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<NBTCarryRecipe> {
