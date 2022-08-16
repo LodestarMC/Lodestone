@@ -55,7 +55,9 @@ public class NBTCarryRecipe extends ShapedRecipe  {
         @SuppressWarnings("ConstantConditions")
         @Override
         public NBTCarryRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull FriendlyByteBuf buffer) {
-            return new NBTCarryRecipe(SHAPED_RECIPE.fromNetwork(recipeId, buffer), Ingredient.fromNetwork(buffer));
+            ShapedRecipe recipe = SHAPED_RECIPE.fromNetwork(recipeId, buffer);
+            Ingredient nbtCarry = Ingredient.fromNetwork(buffer);
+            return new NBTCarryRecipe(recipe, nbtCarry);
         }
 
         @Override
