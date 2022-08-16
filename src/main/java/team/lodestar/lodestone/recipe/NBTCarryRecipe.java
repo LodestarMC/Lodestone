@@ -54,6 +54,7 @@ public class NBTCarryRecipe extends ShapedRecipe {
     public RecipeSerializer<?> getSerializer() {
         return LodestoneRecipeSerializerRegistry.NBT_CARRY_RECIPE_SERIALIZER.get();
     }
+
     @Override
     public RecipeType<?> getType() {
         return Type.INSTANCE;
@@ -62,7 +63,7 @@ public class NBTCarryRecipe extends ShapedRecipe {
     public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<NBTCarryRecipe> {
         @Override
         public NBTCarryRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
-            return new NBTCarryRecipe(SHAPED_RECIPE.fromJson(recipeId, json), Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "nbt_carry")));
+            return new NBTCarryRecipe(SHAPED_RECIPE.fromJson(recipeId, json), Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "nbtCarry")));
         }
 
         @SuppressWarnings("ConstantConditions")
