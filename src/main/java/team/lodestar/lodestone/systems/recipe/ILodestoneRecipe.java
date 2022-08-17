@@ -31,7 +31,6 @@ public abstract class ILodestoneRecipe implements Recipe<Container> {
         return ItemStack.EMPTY;
     }
 
-
     @Override
     public boolean isSpecial() {
         return true;

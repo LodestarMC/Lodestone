@@ -27,7 +27,7 @@ public class IngredientWithCount implements IRecipeComponent {
     }
 
     @Override
-    public ArrayList<ItemStack> getStacks() {
+    public List<ItemStack> getStacks() {
         return ItemHelper.copyWithNewCount(List.of(ingredient.getItems()), getCount());
     }
 

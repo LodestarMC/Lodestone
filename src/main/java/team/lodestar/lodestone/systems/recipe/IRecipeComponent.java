@@ -5,11 +5,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IRecipeComponent {
     ItemStack getStack();
 
-    ArrayList<ItemStack> getStacks();
+    List<ItemStack> getStacks();
 
     Item getItem();
 
