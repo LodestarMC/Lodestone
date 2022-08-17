@@ -4,9 +4,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
@@ -17,9 +17,10 @@ import java.util.function.Predicate;
 
 public class CurioHelper {
 
-    public static Optional<ImmutableTriple<String, Integer, ItemStack>> getEquippedCurio(LivingEntity entity, Item curio) {
-        return CuriosApi.getCuriosHelper().findEquippedCurio(curio, entity);
+    public static Optional<SlotResult> getEquippedCurio(LivingEntity entity, Item curio) {
+        return CuriosApi.getCuriosHelper().findFirstCurio(entity, curio);
     }
+
     public static boolean hasCurioEquipped(LivingEntity entity, Item curio) {
         return getEquippedCurio(entity, curio).isPresent();
     }
