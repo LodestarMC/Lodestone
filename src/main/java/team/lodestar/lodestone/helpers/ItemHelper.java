@@ -102,7 +102,7 @@ public class ItemHelper {
     }
 
     public static ArrayList<ItemStack> getEventResponders(LivingEntity attacker) {
-        ArrayList<ItemStack> itemStacks = CuriosCompat.LOADED ? CurioHelper.equippedCurios(attacker, p -> p.getItem() instanceof IEventResponderItem) : new ArrayList<>();
+        ArrayList<ItemStack> itemStacks = CuriosCompat.LOADED ? CurioHelper.getEquippedCurios(attacker, p -> p.getItem() instanceof IEventResponderItem) : new ArrayList<>();
         ItemStack stack = attacker.getMainHandItem();
         if (stack.getItem() instanceof IEventResponderItem) {
             itemStacks.add(stack);
