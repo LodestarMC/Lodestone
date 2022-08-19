@@ -27,9 +27,7 @@ group = 'team.lodestar.lodestone'
 archivesBaseName = project.modId
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-sourceSets {
-    main.resources.srcDirs += 'src/main/generated_resources'
-}
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 mixin {
     add sourceSets.main, "${project.modId}.refmap.json"
@@ -73,7 +71,7 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', "${project.modId}", '--all', '--output', file('src/main/generated_resources/'), '--existing', file('src/main/resources/')
+            args '--mod', "${project.modId}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
                 self {
