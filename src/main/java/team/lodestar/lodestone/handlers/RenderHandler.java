@@ -42,10 +42,10 @@ public class RenderHandler {
     public static Matrix4f PARTICLE_MATRIX = null;
     public static boolean COPIED_DEPTH_BUFFER = false;
     public static RenderTarget PARTICLE_DEPTH_BUFFER = null;
+    public static boolean EXPAND_THE_BUFFERS = ModList.get().isLoaded("rubidium");
 
     public static void onClientSetup(FMLClientSetupEvent event) {
-        boolean expandedBuffer = ModList.get().isLoaded("rubidium");
-        int size = expandedBuffer ? 262144 : 256;
+        int size = EXPAND_THE_BUFFERS ? 262144 : 256;
         EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(size));
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size));
         LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(LATE_BUFFERS, new BufferBuilder(size));
@@ -95,9 +95,10 @@ public class RenderHandler {
     }
 
     public static void addRenderType(RenderType type) {
-        RenderHandler.EARLY_BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
-        RenderHandler.BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
-        RenderHandler.LATE_BUFFERS.put(type, new BufferBuilder(type.bufferSize()));
+        int size = EXPAND_THE_BUFFERS ? 262144 : type.bufferSize();
+        RenderHandler.EARLY_BUFFERS.put(type, new BufferBuilder(size));
+        RenderHandler.BUFFERS.put(type, new BufferBuilder(size));
+        RenderHandler.LATE_BUFFERS.put(type, new BufferBuilder(size));
     }
 
     public static void copyDepthBuffer() {
