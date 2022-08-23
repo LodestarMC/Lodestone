@@ -6,9 +6,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-        classpath 'org.parchmentmc:librarian:1.+'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: "${forgegradleVersion}", changing: false
+        classpath "org.spongepowered:mixingradle:${mixingradleVersion}"
+        classpath "org.parchmentmc:librarian:${librarianVersion}"
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -145,6 +145,12 @@ jar {
                 "MixinConfigs" :"${project.modId}.mixins.json"
         ])
     }
+}
+
+// Workaround for SpongePowered/MixinGradle#38
+afterEvaluate {
+    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
+    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)
 }
 
 tasks.withType(GenerateModuleMetadata) {
