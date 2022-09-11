@@ -43,7 +43,7 @@ public class DimensionPlacementFilter extends PlacementFilter {
     return LodestonePlacementFillerRegistry.DIMENSION;
   }
 
-  public Set<ResourceKey<Level>> fromStrings(List<? extends String> dimensions) {
+  public static Set<ResourceKey<Level>> fromStrings(List<? extends String> dimensions) {
     return dimensions.stream().map(o -> ResourceKey.create(Registry.DIMENSION_REGISTRY, (new ResourceLocation(o)))).collect(Collectors.toSet());
   }
 }
