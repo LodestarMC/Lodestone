@@ -17,7 +17,7 @@ public class ScreenshakeOption extends ProgressOption implements LodestoneOption
     public ScreenshakeOption() {
         super(LodestoneLangDatagen.getOption("screenshake_intensity"),
                 0.0D,
-                1.0D,
+                5.0D,
                 0.01F,
                 (options) -> ClientConfig.SCREENSHAKE_INTENSITY.getConfigValue(),
                 (options, value) -> ClientConfig.SCREENSHAKE_INTENSITY.setConfigValue(Math.round(value * 100d) / 100d),

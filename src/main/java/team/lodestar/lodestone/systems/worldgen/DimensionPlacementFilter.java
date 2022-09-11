@@ -13,13 +13,14 @@ import net.minecraft.world.level.levelgen.placement.PlacementFilter;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import team.lodestar.lodestone.setup.LodestonePlacementFillerRegistry;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DimensionPlacementFilter extends PlacementFilter {
   public static final Codec<DimensionPlacementFilter> CODEC = RecordCodecBuilder.create((codec) -> codec.group(
-      ResourceLocation.CODEC.listOf().fieldOf("dimensions").forGetter(o -> o.dimensions.stream().map(ResourceKey::location).collect(Collectors.toList()))).apply(codec, (r) -> new DimensionPlacementFilter(r.stream().map(o -> ResourceKey.create(Registry.DIMENSION_REGISTRY, o)).collect(Collectors.toSet()))));
+          ResourceLocation.CODEC.listOf().fieldOf("dimensions").forGetter(o -> o.dimensions.stream().map(ResourceKey::location).collect(Collectors.toList()))).apply(codec, (r) -> new DimensionPlacementFilter(r.stream().map(o -> ResourceKey.create(Registry.DIMENSION_REGISTRY, o)).collect(Collectors.toSet()))));
 
   private final Set<ResourceKey<Level>> dimensions;
 
@@ -42,10 +43,7 @@ public class DimensionPlacementFilter extends PlacementFilter {
     return LodestonePlacementFillerRegistry.DIMENSION;
   }
 
-  public static class Type implements PlacementModifierType<DimensionPlacementFilter> {
-    @Override
-    public Codec<DimensionPlacementFilter> codec() {
-      return DimensionPlacementFilter.CODEC;
-    }
+  public Set<ResourceKey<Level>> fromStrings(List<? extends String> dimensions) {
+    return dimensions.stream().map(o -> ResourceKey.create(Registry.DIMENSION_REGISTRY, (new ResourceLocation(o)))).collect(Collectors.toSet());
   }
 }
