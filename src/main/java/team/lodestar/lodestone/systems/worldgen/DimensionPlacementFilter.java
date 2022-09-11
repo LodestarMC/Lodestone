@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementFilter;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
+import team.lodestar.lodestone.setup.LodestonePlacementFillerRegistry;
 
 import java.util.Random;
 import java.util.Set;
@@ -38,7 +39,7 @@ public class DimensionPlacementFilter extends PlacementFilter {
 
   @Override
   public PlacementModifierType<?> type() {
-    return ModFeatures.DIMENSION_PLACEMENT.get();
+    return LodestonePlacementFillerRegistry.DIMENSION;
   }
 
   public static class Type implements PlacementModifierType<DimensionPlacementFilter> {
