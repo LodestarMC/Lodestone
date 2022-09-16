@@ -28,7 +28,7 @@ import java.util.function.Supplier;
  * A SimpleBlock is an implementation of EntityBlock that allows most frequently used logic to be handled in a SimpleBlockEntity
  * It's important to still utilize generic, T extends YourBlockEntity, in order to allow for other mods to extend your block and use a different block entity
  */
-@SuppressWarnings("all")
+@SuppressWarnings("unchecked")
 public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block implements EntityBlock {
 
     protected Supplier<BlockEntityType<T>> blockEntityType = null;
@@ -54,8 +54,8 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return (BlockEntityTicker<T>) ticker;
+    public <Y extends BlockEntity> BlockEntityTicker<Y> getTicker(Level level, BlockState state, BlockEntityType<Y> type) {
+        return (BlockEntityTicker<Y>) ticker;
     }
 
     @Override
