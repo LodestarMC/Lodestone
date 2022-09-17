@@ -136,7 +136,7 @@ public class ScreenParticleHandler {
         });
     }
 
-    @SuppressWarnings("ALL")
+    @SuppressWarnings("unchecked")
     public static <T extends ScreenParticleOptions> ScreenParticle addParticle(T options, double pX, double pY, double pXSpeed, double pYSpeed) {
         Minecraft minecraft = Minecraft.getInstance();
         ScreenParticleType<T> type = (ScreenParticleType<T>) options.type;

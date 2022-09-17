@@ -9,11 +9,11 @@ import java.util.HashMap;
 /**
  * Register renderers in FMLClientSetupEvent.
  */
-@SuppressWarnings("all")
 public class LodestoneFireEffectRendererRegistry {
     public static HashMap<FireEffectType, FireEffectRenderer<FireEffectInstance>> RENDERERS = new HashMap<>();
 
-    public static void registerRenderer(FireEffectType type, FireEffectRenderer renderer) {
-        RENDERERS.put(type, renderer);
+    @SuppressWarnings("unchecked")
+    public static void registerRenderer(FireEffectType type, FireEffectRenderer<? extends FireEffectInstance> renderer) {
+        RENDERERS.put(type, (FireEffectRenderer<FireEffectInstance>) renderer);
     }
 }

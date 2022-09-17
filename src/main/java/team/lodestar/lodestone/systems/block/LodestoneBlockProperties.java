@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.block;
 
+import org.jetbrains.annotations.NotNull;
 import team.lodestar.lodestone.helpers.DataHelper;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -23,7 +24,7 @@ import java.util.function.ToIntFunction;
  * An extension of Block Properties, allowing you to add {@link LodestoneThrowawayBlockData}
  * Some of these values are optional; they only get added during datagen.
  */
-@SuppressWarnings("ALL")
+@SuppressWarnings({"UnusedReturnValue", "unused"})
 public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
     public LodestoneBlockProperties(Material material, MaterialColor color) {
@@ -55,178 +56,211 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     }
 
     public LodestoneBlockProperties needsPickaxe() {
-        addOptionalThrowawayData(d -> d.needsPickaxe());
+        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsPickaxe);
         return this;
     }
 
     public LodestoneBlockProperties needsAxe() {
-        addOptionalThrowawayData(d -> d.needsAxe());
+        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsAxe);
         return this;
     }
 
     public LodestoneBlockProperties needsShovel() {
-        addOptionalThrowawayData(d -> d.needsShovel());
+        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsShovel);
         return this;
     }
 
     public LodestoneBlockProperties needsHoe() {
-        addOptionalThrowawayData(d -> d.needsHoe());
+        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsHoe);
         return this;
     }
 
     public LodestoneBlockProperties needsStone() {
-        addOptionalThrowawayData(d -> d.needsStone());
+        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsStone);
         return this;
     }
 
     public LodestoneBlockProperties needsIron() {
-        addOptionalThrowawayData(d -> d.needsIron());
+        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsIron);
         return this;
     }
 
     public LodestoneBlockProperties needsDiamond() {
-        addOptionalThrowawayData(d -> d.needsDiamond());
+        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsDiamond);
         return this;
     }
 
     public LodestoneBlockProperties hasCustomLoot() {
-        addOptionalThrowawayData(d -> d.hasCustomLoot());
+        addOptionalThrowawayData(LodestoneThrowawayBlockData::hasCustomLoot);
         return this;
     }
 
     public LodestoneBlockProperties isCutoutLayer() {
-        addThrowawayData(d -> d.isCutoutLayer());
+        addThrowawayData(LodestoneThrowawayBlockData::isCutoutLayer);
         return this;
     }
 
+    // this method name keeps me up at night
     @Override
+    @NotNull
     public LodestoneBlockProperties noCollission() {
         return (LodestoneBlockProperties) super.noCollission();
     }
 
+    @NotNull
+    public LodestoneBlockProperties noCollision() {
+        return noCollission();
+    }
+
     @Override
+    @NotNull
     public LodestoneBlockProperties noOcclusion() {
         return (LodestoneBlockProperties) super.noOcclusion();
     }
 
     @Override
-    public LodestoneBlockProperties friction(float p_60912_) {
-        return (LodestoneBlockProperties) super.friction(p_60912_);
+    @NotNull
+    public LodestoneBlockProperties friction(float friction) {
+        return (LodestoneBlockProperties) super.friction(friction);
     }
 
     @Override
-    public LodestoneBlockProperties speedFactor(float p_60957_) {
-        return (LodestoneBlockProperties) super.speedFactor(p_60957_);
+    @NotNull
+    public LodestoneBlockProperties speedFactor(float factor) {
+        return (LodestoneBlockProperties) super.speedFactor(factor);
     }
 
     @Override
-    public LodestoneBlockProperties jumpFactor(float p_60968_) {
-        return (LodestoneBlockProperties) super.jumpFactor(p_60968_);
+    @NotNull
+    public LodestoneBlockProperties jumpFactor(float factor) {
+        return (LodestoneBlockProperties) super.jumpFactor(factor);
     }
 
     @Override
-    public LodestoneBlockProperties sound(SoundType p_60919_) {
-        return (LodestoneBlockProperties) super.sound(p_60919_);
+    @NotNull
+    public LodestoneBlockProperties sound(@NotNull SoundType type) {
+        return (LodestoneBlockProperties) super.sound(type);
     }
 
     @Override
-    public LodestoneBlockProperties lightLevel(ToIntFunction<BlockState> p_60954_) {
-        return (LodestoneBlockProperties) super.lightLevel(p_60954_);
+    @NotNull
+    public LodestoneBlockProperties lightLevel(@NotNull ToIntFunction<BlockState> lightMap) {
+        return (LodestoneBlockProperties) super.lightLevel(lightMap);
     }
 
     @Override
-    public LodestoneBlockProperties strength(float p_60914_, float p_60915_) {
-        return (LodestoneBlockProperties) super.strength(p_60914_, p_60915_);
+    @NotNull
+    public LodestoneBlockProperties strength(float destroyTime, float explosionResistance) {
+        return (LodestoneBlockProperties) super.strength(destroyTime, explosionResistance);
     }
 
     @Override
+    @NotNull
     public LodestoneBlockProperties instabreak() {
         return (LodestoneBlockProperties) super.instabreak();
     }
 
     @Override
-    public LodestoneBlockProperties strength(float p_60979_) {
-        return (LodestoneBlockProperties) super.strength(p_60979_);
+    @NotNull
+    public LodestoneBlockProperties strength(float strength) {
+        return (LodestoneBlockProperties) super.strength(strength);
     }
 
     @Override
+    @NotNull
     public LodestoneBlockProperties randomTicks() {
         return (LodestoneBlockProperties) super.randomTicks();
     }
 
     @Override
+    @NotNull
     public LodestoneBlockProperties dynamicShape() {
         return (LodestoneBlockProperties) super.dynamicShape();
     }
 
     @Override
+    @NotNull
     public LodestoneBlockProperties noDrops() {
         return (LodestoneBlockProperties) super.noDrops();
     }
 
     @Override
-    public LodestoneBlockProperties dropsLike(Block p_60917_) {
-        return (LodestoneBlockProperties) super.dropsLike(p_60917_);
+    @NotNull
+    @SuppressWarnings("deprecation")
+    public LodestoneBlockProperties dropsLike(@NotNull Block block) {
+        return (LodestoneBlockProperties) super.dropsLike(block);
     }
 
     @Override
-    public LodestoneBlockProperties lootFrom(Supplier<? extends Block> blockIn) {
+    @NotNull
+    public LodestoneBlockProperties lootFrom(@NotNull Supplier<? extends Block> blockIn) {
         hasCustomLoot();
         return (LodestoneBlockProperties) super.lootFrom(blockIn);
     }
 
     @Override
+    @NotNull
     public LodestoneBlockProperties air() {
         return (LodestoneBlockProperties) super.air();
     }
 
     @Override
-    public LodestoneBlockProperties isValidSpawn(BlockBehaviour.StateArgumentPredicate<EntityType<?>> p_60923_) {
-        return (LodestoneBlockProperties) super.isValidSpawn(p_60923_);
+    @NotNull
+    public LodestoneBlockProperties isValidSpawn(@NotNull BlockBehaviour.StateArgumentPredicate<EntityType<?>> predicate) {
+        return (LodestoneBlockProperties) super.isValidSpawn(predicate);
     }
 
     @Override
-    public LodestoneBlockProperties isRedstoneConductor(BlockBehaviour.StatePredicate p_60925_) {
-        return (LodestoneBlockProperties) super.isRedstoneConductor(p_60925_);
+    @NotNull
+    public LodestoneBlockProperties isRedstoneConductor(@NotNull BlockBehaviour.StatePredicate predicate) {
+        return (LodestoneBlockProperties) super.isRedstoneConductor(predicate);
     }
 
     @Override
-    public LodestoneBlockProperties isSuffocating(BlockBehaviour.StatePredicate p_60961_) {
-        return (LodestoneBlockProperties) super.isSuffocating(p_60961_);
+    @NotNull
+    public LodestoneBlockProperties isSuffocating(@NotNull BlockBehaviour.StatePredicate predicate) {
+        return (LodestoneBlockProperties) super.isSuffocating(predicate);
     }
 
     @Override
-    public LodestoneBlockProperties isViewBlocking(BlockBehaviour.StatePredicate p_60972_) {
-        return (LodestoneBlockProperties) super.isViewBlocking(p_60972_);
+    @NotNull
+    public LodestoneBlockProperties isViewBlocking(@NotNull BlockBehaviour.StatePredicate predicate) {
+        return (LodestoneBlockProperties) super.isViewBlocking(predicate);
     }
 
     @Override
-    public LodestoneBlockProperties hasPostProcess(BlockBehaviour.StatePredicate p_60983_) {
-        return (LodestoneBlockProperties) super.hasPostProcess(p_60983_);
+    @NotNull
+    public LodestoneBlockProperties hasPostProcess(@NotNull BlockBehaviour.StatePredicate predicate) {
+        return (LodestoneBlockProperties) super.hasPostProcess(predicate);
     }
 
     @Override
-    public LodestoneBlockProperties emissiveRendering(BlockBehaviour.StatePredicate p_60992_) {
-        return (LodestoneBlockProperties) super.emissiveRendering(p_60992_);
+    @NotNull
+    public LodestoneBlockProperties emissiveRendering(@NotNull BlockBehaviour.StatePredicate predicate) {
+        return (LodestoneBlockProperties) super.emissiveRendering(predicate);
     }
 
     @Override
+    @NotNull
     public LodestoneBlockProperties requiresCorrectToolForDrops() {
         return (LodestoneBlockProperties) super.requiresCorrectToolForDrops();
     }
 
     @Override
-    public LodestoneBlockProperties color(MaterialColor p_155950_) {
-        return (LodestoneBlockProperties) super.color(p_155950_);
+    @NotNull
+    public LodestoneBlockProperties color(@NotNull MaterialColor materialColor) {
+        return (LodestoneBlockProperties) super.color(materialColor);
     }
 
     @Override
-    public LodestoneBlockProperties destroyTime(float p_155955_) {
-        return (LodestoneBlockProperties) super.destroyTime(p_155955_);
+    @NotNull
+    public LodestoneBlockProperties destroyTime(float destroyTime) {
+        return (LodestoneBlockProperties) super.destroyTime(destroyTime);
     }
 
     @Override
-    public LodestoneBlockProperties explosionResistance(float p_155957_) {
-        return (LodestoneBlockProperties) super.explosionResistance(p_155957_);
+    @NotNull
+    public LodestoneBlockProperties explosionResistance(float explosionResistance) {
+        return (LodestoneBlockProperties) super.explosionResistance(explosionResistance);
     }
 }

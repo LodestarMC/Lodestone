@@ -9,11 +9,11 @@ import java.util.HashMap;
 /**
  * Register renderers in FMLClientSetupEvent.
  */
-@SuppressWarnings("all")
 public class LodestoneWorldEventRendererRegistry {
     public static HashMap<WorldEventType, WorldEventRenderer<WorldEventInstance>> RENDERERS = new HashMap<>();
 
-    public static void registerRenderer(WorldEventType type, WorldEventRenderer renderer) {
-        RENDERERS.put(type, renderer);
+    @SuppressWarnings("unchecked")
+    public static void registerRenderer(WorldEventType type, WorldEventRenderer<? extends WorldEventInstance> renderer) {
+        RENDERERS.put(type, (WorldEventRenderer<WorldEventInstance>) renderer);
     }
 }

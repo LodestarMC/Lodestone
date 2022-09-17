@@ -23,7 +23,7 @@ import java.awt.*;
 import java.util.Random;
 import java.util.function.Consumer;
 
-@SuppressWarnings("ALL")
+@SuppressWarnings({"UnusedReturnValue", "unused"})
 public class ParticleBuilders {
 
     public static WorldParticleBuilder create(ParticleType<?> type) {

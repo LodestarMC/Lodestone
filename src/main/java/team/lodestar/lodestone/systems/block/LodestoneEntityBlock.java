@@ -38,10 +38,10 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
         super(properties);
     }
 
-    public <Y extends LodestoneEntityBlock<T>> Y setBlockEntity(Supplier<BlockEntityType<T>> type) {
+    public LodestoneEntityBlock<T> setBlockEntity(Supplier<BlockEntityType<T>> type) {
         this.blockEntityType = type;
         this.ticker = (l, p, s, t) -> t.tick();
-        return (Y) this;
+        return this;
     }
 
     @Override

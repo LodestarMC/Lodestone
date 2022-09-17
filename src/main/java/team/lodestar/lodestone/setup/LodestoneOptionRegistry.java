@@ -10,7 +10,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("ALL")
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class LodestoneOptionRegistry {
     public static final ArrayList<LodestoneOption> OPTIONS = new ArrayList<>();

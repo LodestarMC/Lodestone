@@ -13,24 +13,29 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("all")
-public class LodestoneBoatEntity extends Boat
-{
+public class LodestoneBoatEntity extends Boat {
     private final RegistryObject<Item> boatItem;
-    private final RegistryObject<Item> plankItem;
-    public LodestoneBoatEntity(EntityType<? extends LodestoneBoatEntity> type, Level level, RegistryObject<Item> boatItem, RegistryObject<Item> plankItem)
-    {
+
+    /**
+     * @deprecated Use {@link LodestoneBoatEntity#LodestoneBoatEntity(EntityType, Level, RegistryObject)}} instead
+     */
+    @Deprecated
+    public LodestoneBoatEntity(EntityType<? extends LodestoneBoatEntity> type, Level level, RegistryObject<Item> boatItem, RegistryObject<Item> plankItem) {
+        this(type, level, boatItem);
+    }
+
+    public LodestoneBoatEntity(EntityType<? extends LodestoneBoatEntity> type, Level level, RegistryObject<Item> boatItem) {
         super(type, level);
         this.boatItem = boatItem;
-        this.plankItem = plankItem;
     }
 
     @Override
-    protected void checkFallDamage(double p_38307_, boolean p_38308_, BlockState p_38309_, BlockPos p_38310_) {
+    protected void checkFallDamage(double dY, boolean onGround, @NotNull BlockState state, @NotNull BlockPos pos) {
         this.lastYd = this.getDeltaMovement().y;
         if (!this.isPassenger()) {
-            if (p_38308_) {
+            if (onGround) {
                 if (this.fallDistance > 3.0F) {
                     if (this.status != Status.ON_LAND) {
                         this.fallDistance = 0.0F;
@@ -41,11 +46,11 @@ public class LodestoneBoatEntity extends Boat
                     if (!this.level.isClientSide && !this.isRemoved()) {
                         this.kill();
                         if (this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
-                            for(int i = 0; i < 3; ++i) {
+                            for (int i = 0; i < 3; ++i) {
                                 this.spawnAtLocation(this.getBoatType().getPlanks());
                             }
 
-                            for(int j = 0; j < 2; ++j) {
+                            for (int j = 0; j < 2; ++j) {
                                 this.spawnAtLocation(Items.STICK);
                             }
                         }
@@ -53,21 +58,22 @@ public class LodestoneBoatEntity extends Boat
                 }
 
                 this.fallDistance = 0.0F;
-            } else if (!this.level.getFluidState(this.blockPosition().below()).is(FluidTags.WATER) && p_38307_ < 0.0D) {
-                this.fallDistance = (float)((double)this.fallDistance - p_38307_);
+            } else if (!this.level.getFluidState(this.blockPosition().below()).is(FluidTags.WATER) && dY < 0.0D) {
+                this.fallDistance = (float) ((double) this.fallDistance - dY);
             }
 
         }
     }
 
     @Override
-    public Item getDropItem()
-    {
+    @NotNull
+    public Item getDropItem() {
         return boatItem.get();
     }
+
     @Override
-    public Packet<?> getAddEntityPacket()
-    {
+    @NotNull
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }
