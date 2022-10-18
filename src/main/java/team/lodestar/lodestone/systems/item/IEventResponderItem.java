@@ -11,7 +11,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
  */
 public interface IEventResponderItem {
     default void takeDamageEvent(LivingHurtEvent event, LivingEntity attacker, LivingEntity attacked, ItemStack stack) {
-        hurtEvent(attacker, attacked, stack);
+        takeDamageEvent(attacker, attacked, stack);
     }
 
     default void takeDamageEvent(LivingEntity attacker, LivingEntity attacked, ItemStack stack) {
