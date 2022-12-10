@@ -44,6 +44,11 @@ public class VFXBuilders {
             format = DefaultVertexFormat.POSITION_TEX;
             return this;
         }
+        public ScreenVFXBuilder setPosColorDefaultFormat() {
+            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, this.zLevel).color(this.r, this.g, this.b, this.a).endVertex();
+            format = DefaultVertexFormat.POSITION_COLOR;
+            return this;
+        }
 
         public ScreenVFXBuilder setPosColorTexDefaultFormat() {
             supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, this.zLevel).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex();
