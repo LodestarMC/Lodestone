@@ -4,7 +4,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import team.lodestar.lodestone.helpers.BlockHelper;
-import team.lodestar.lodestone.helpers.VecHelper;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleOptions;
 import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleType;
@@ -19,7 +18,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
@@ -364,20 +362,9 @@ public class ParticleBuilders {
             return this;
         }
 
-        public WorldParticleBuilder surroundBlockOutline(Level level, BlockPos pos, BlockState state) {
-            return repeatSurroundBlockOutline(level, pos, state, 2);
-        }
-        public WorldParticleBuilder repeatSurroundBlockOutline(Level level, BlockPos pos, BlockState state, int max) {
-            VoxelShape voxelShape = state.getShape(level, pos);
-            if(voxelShape.isEmpty()) {
-                voxelShape = Shapes.block();
-            }
-            return repeatSurroundBlockOutline(level, pos, state, voxelShape, max);
-        }
-
-        public WorldParticleBuilder repeatSurroundBlockOutline(Level level, BlockPos pos, BlockState state, VoxelShape voxelShape, int max) {
+        public WorldParticleBuilder surroundVoxelShape(Level level, BlockPos pos, VoxelShape voxelShape, int max) {
             int[] c = new int[1];
-            int perBoxMax = (int) max/voxelShape.toAabbs().size();
+            int perBoxMax = max/voxelShape.toAabbs().size();
             Supplier<Boolean> r = () -> {
                 c[0]++;
                 if(c[0] >= perBoxMax) {
@@ -415,6 +402,14 @@ public class ParticleBuilders {
             );
             return this;
         }
+        public WorldParticleBuilder surroundVoxelShape(Level level, BlockPos pos, BlockState state, int max) {
+            VoxelShape voxelShape = state.getShape(level, pos);
+            if(voxelShape.isEmpty()) {
+                voxelShape = Shapes.block();
+            }
+            return surroundVoxelShape(level, pos, voxelShape, max);
+        }
+        
         public WorldParticleBuilder spawnAtRandomFace(Level level, BlockPos pos) {
             Direction direction = Direction.values()[level.random.nextInt(Direction.values().length)];
             double yaw = random.nextFloat() * Math.PI * 2, pitch = random.nextFloat() * Math.PI - Math.PI / 2, xSpeed = random.nextFloat() * maxXSpeed, ySpeed = random.nextFloat() * maxYSpeed, zSpeed = random.nextFloat() * maxZSpeed;
