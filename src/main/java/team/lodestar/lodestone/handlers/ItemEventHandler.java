@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.handlers;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 import team.lodestar.lodestone.helpers.ItemHelper;
 import team.lodestar.lodestone.setup.LodestoneParticleRegistry;
 import team.lodestar.lodestone.systems.easing.Easing;
