@@ -17,7 +17,7 @@ public class ParticleRenderTypes {
     public static final ParticleRenderType ADDITIVE = new ParticleRenderType() {
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(true);
+            RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
             RenderSystem.setShader(LodestoneShaderRegistry.ORTUS_PARTICLE.getInstance());
