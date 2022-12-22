@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.pipeline.MainTarget;
+import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraftforge.fml.ModList;
 import team.lodestar.lodestone.config.ClientConfig;
@@ -39,9 +40,9 @@ public class RenderHandler {
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
     public static MultiBufferSource.BufferSource LATE_DELAYED_RENDER;
     public static MultiBufferSource.BufferSource BLOOM_BUFFER;
-    public static Matrix4f PARTICLE_MATRIX = null;
+    public static Matrix4f PARTICLE_MATRIX;
     public static boolean COPIED_DEPTH_BUFFER = false;
-    public static RenderTarget PARTICLE_DEPTH_BUFFER = null;
+    public static RenderTarget PARTICLE_DEPTH_BUFFER;
     public static boolean EXPAND_THE_BUFFERS = ModList.get().isLoaded("rubidium");
 
     public static void onClientSetup(FMLClientSetupEvent event) {
@@ -59,6 +60,7 @@ public class RenderHandler {
     public static void renderLast(RenderLevelLastEvent event) {
         copyDepthBuffer();
         event.getPoseStack().pushPose();
+        RenderSystem.setShaderTexture(2, PARTICLE_DEPTH_BUFFER.getDepthTextureId());
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
             RenderSystem.getModelViewStack().pushPose();
             RenderSystem.getModelViewStack().setIdentity();
@@ -102,12 +104,12 @@ public class RenderHandler {
     }
 
     public static void copyDepthBuffer() {
-        if (true) { //TODO: make this whole temp render buffer thing actually work, so far it just progressively makes the game slower and slower when fabulous graphics are enabled. Also fucks up a ton.
+        if (COPIED_DEPTH_BUFFER) {
             return;
         }
-        if (COPIED_DEPTH_BUFFER || PARTICLE_DEPTH_BUFFER == null) {
+        if (PARTICLE_DEPTH_BUFFER == null) {
             Window window = Minecraft.getInstance().getWindow();
-            PARTICLE_DEPTH_BUFFER = new MainTarget(window.getWidth(), window.getHeight());
+            PARTICLE_DEPTH_BUFFER = new TextureTarget(window.getWidth(), window.getHeight(), true, Minecraft.ON_OSX);
             PARTICLE_DEPTH_BUFFER.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
             PARTICLE_DEPTH_BUFFER.clear(ON_OSX);
             return;

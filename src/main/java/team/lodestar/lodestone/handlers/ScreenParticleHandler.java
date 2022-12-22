@@ -122,6 +122,7 @@ public class ScreenParticleHandler {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
+
         PARTICLES.forEach((pair, particles) -> {
             ParticleRenderType type = pair.getFirst();
             if (Arrays.stream(renderOrders).anyMatch(o -> o.equals(pair.getSecond()))) {
