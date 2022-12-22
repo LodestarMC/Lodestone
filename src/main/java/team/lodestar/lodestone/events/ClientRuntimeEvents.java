@@ -40,7 +40,7 @@ public class ClientRuntimeEvents {
                 PlacementAssistantHandler.clientTick();
                 ScreenshakeHandler.clientTick(camera, RANDOM);
                 LodestonePlayerDataCapability.ClientOnly.clientTick(event);
-                ScreenParticleHandler.clientTick();
+                ScreenParticleHandler.tickParticles();
             }
         }
     }

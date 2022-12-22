@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.rendering.particle.screen;
 
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import team.lodestar.lodestone.systems.rendering.particle.screen.base.TextureSheetScreenParticle;
 import team.lodestar.lodestone.handlers.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.rendering.particle.SimpleParticleOptions;
@@ -127,7 +128,14 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         super.tick();
     }
 
+    @Override
+    public void render(BufferBuilder bufferBuilder) {
+        trackStack();
+        super.render(bufferBuilder);
+    }
+
     public void trackStack() {
+        if (data.stack != null)
         for (ScreenParticleHandler.StackTracker renderedStack : ScreenParticleHandler.RENDERED_STACKS) {
             //&& renderedStack.xOrigin() == data.xOrigin && renderedStack.yOrigin() == data.yOrigin
             if (renderedStack.stack().equals(data.stack) && renderedStack.order().equals(data.renderOrder)) {

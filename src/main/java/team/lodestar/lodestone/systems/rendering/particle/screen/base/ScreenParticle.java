@@ -37,7 +37,7 @@ public abstract class ScreenParticle {
    public float roll;
    public float oRoll;
    public float friction = 0.98F;
-   public RenderOrder renderOrder = RenderOrder.AFTER_EVERYTHING;
+   private RenderOrder renderOrder = RenderOrder.AFTER_EVERYTHING;
 
    protected ScreenParticle(ClientLevel pLevel, double pX, double pY) {
       this.level = pLevel;

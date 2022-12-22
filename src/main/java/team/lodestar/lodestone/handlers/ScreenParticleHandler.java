@@ -36,9 +36,10 @@ import java.util.*;
  */
 public class ScreenParticleHandler {
 
-    public static Map<Pair<ParticleRenderType, ScreenParticle.RenderOrder>, ArrayList<ScreenParticle>> PARTICLES = new HashMap<>();
-    public static ArrayList<StackTracker> RENDERED_STACKS = new ArrayList<>();
-    public static Map<Item, ParticleEmitter> EMITTERS = new HashMap<>();
+    public static final Map<Pair<ParticleRenderType, ScreenParticle.RenderOrder>, ArrayList<ScreenParticle>> PARTICLES = new HashMap<>();
+    public static final Map<Item, ParticleEmitter> EMITTERS = new HashMap<>();
+    public static final ArrayList<StackTracker> RENDERED_STACKS = new ArrayList<>();
+
     public static final Tesselator TESSELATOR = new Tesselator();
     public static boolean canSpawnParticles;
     public static boolean renderingHotbar;
@@ -51,7 +52,7 @@ public class ScreenParticleHandler {
         );
     }
 
-    public static void clientTick() {
+    public static void tickParticles() {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
@@ -68,7 +69,7 @@ public class ScreenParticleHandler {
         canSpawnParticles = true;
     }
 
-    public static void renderItem(ItemStack stack) {
+    public static void spawnItemParticles(ItemStack stack) {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
@@ -126,9 +127,6 @@ public class ScreenParticleHandler {
             if (Arrays.stream(renderOrders).anyMatch(o -> o.equals(pair.getSecond()))) {
                 type.begin(TESSELATOR.getBuilder(), Minecraft.getInstance().textureManager);
                 for (ScreenParticle next : particles) {
-                    if (next instanceof GenericScreenParticle genericScreenParticle) {
-                        genericScreenParticle.trackStack();
-                    }
                     next.render(TESSELATOR.getBuilder());
                 }
                 type.end(TESSELATOR);
@@ -142,7 +140,7 @@ public class ScreenParticleHandler {
         ScreenParticleType<T> type = (ScreenParticleType<T>) options.type;
         ScreenParticleType.ParticleProvider<T> provider = type.provider;
         ScreenParticle particle = provider.createParticle(minecraft.level, options, pX, pY, pXSpeed, pYSpeed);
-        ArrayList<ScreenParticle> list = PARTICLES.computeIfAbsent(Pair.of(particle.getRenderType(), particle.renderOrder), (a) -> new ArrayList<>());
+        ArrayList<ScreenParticle> list = PARTICLES.computeIfAbsent(Pair.of(particle.getRenderType(), particle.getRenderOrder()), (a) -> new ArrayList<>());
         list.add(particle);
         return particle;
     }
