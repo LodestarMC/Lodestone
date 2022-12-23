@@ -45,10 +45,10 @@ public abstract class QuadScreenParticle extends ScreenParticle {
          Expose z level to particles on a per-object basis.
        */
       int z = 390;
-      bufferBuilder.vertex(vectors[0].x(), vectors[0].y(), z).uv(u1, v1).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(FULL_BRIGHT).endVertex();
-      bufferBuilder.vertex(vectors[1].x(), vectors[1].y(), z).uv(u1, v0).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(FULL_BRIGHT).endVertex();
-      bufferBuilder.vertex(vectors[2].x(), vectors[2].y(), z).uv(u0, v0).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(FULL_BRIGHT).endVertex();
-      bufferBuilder.vertex(vectors[3].x(), vectors[3].y(), z).uv(u0, v1).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(FULL_BRIGHT).endVertex();
+      bufferBuilder.vertex(vectors[0].x(), vectors[0].y(), z).uv(u1, v1).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
+      bufferBuilder.vertex(vectors[1].x(), vectors[1].y(), z).uv(u1, v0).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
+      bufferBuilder.vertex(vectors[2].x(), vectors[2].y(), z).uv(u0, v0).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
+      bufferBuilder.vertex(vectors[3].x(), vectors[3].y(), z).uv(u0, v1).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
    }
 
    public float getQuadSize(float partialTicks) {
