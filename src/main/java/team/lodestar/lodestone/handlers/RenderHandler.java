@@ -104,7 +104,7 @@ public class RenderHandler {
     }
 
     public static void copyDepthBuffer() {
-        if (true) { //COPIED_DEPTH_BUFFER) {
+        if (COPIED_DEPTH_BUFFER) {
             return;
         }
         if (PARTICLE_DEPTH_BUFFER == null) {
