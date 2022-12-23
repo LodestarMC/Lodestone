@@ -179,7 +179,7 @@ publishing {
         mavenJava(MavenPublication) {
             groupId project.group
             artifactId project.archivesBaseName
-            version project.version
+            version "depth_test"-project.version
             from components.java
 
             pom.withXml {
