@@ -41,8 +41,6 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(LODESTONE, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY);
 
     public static final RenderType OUTLINE_SOLID = createGenericRenderType(LODESTONE, "outline_solid", NEW_ENTITY, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
-
-    public static final RenderType VERTEX_DISTORTION = createGenericRenderType(LODESTONE, "vertex_distortion", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.VERTEX_DISTORTION.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     /**
      * Render Functions. You can create Render Types by statically applying these to your texture. Alternatively, use {@link #GENERIC} if none of the presets suit your needs.
      */
@@ -56,8 +54,6 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static final RenderTypeProvider ADDITIVE_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "additive_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
     public static final RenderTypeProvider ADDITIVE_TEXTURE_TRIANGLE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "additive_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.TRIANGLE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
 
-
-    public static final RenderTypeProvider VERTEX_DISTORTION_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "vertex_distortion_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.VERTEX_DISTORTION.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
     public static final RenderTypeProvider RADIAL_NOISE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "radial_noise", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.RADIAL_NOISE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
     public static final RenderTypeProvider RADIAL_SCATTER_NOISE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "radial_scatter_noise", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.RADIAL_SCATTER_NOISE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
     public static final RenderTypeProvider SCROLLING_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "scrolling_texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.SCROLLING_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, texture));
