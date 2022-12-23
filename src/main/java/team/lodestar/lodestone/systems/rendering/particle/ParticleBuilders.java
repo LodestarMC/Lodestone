@@ -6,6 +6,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import team.lodestar.lodestone.helpers.BlockHelper;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleOptions;
+import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleRenderType;
 import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleType;
 import team.lodestar.lodestone.systems.rendering.particle.screen.base.ScreenParticle;
 import team.lodestar.lodestone.systems.rendering.particle.world.WorldParticleOptions;
@@ -514,7 +515,7 @@ public class ParticleBuilders {
             data.animator = animator;
             return this;
         }
-        public ScreenParticleBuilder overwriteRenderType(ParticleRenderType renderType) {
+        public ScreenParticleBuilder overwriteRenderType(ScreenParticleRenderType renderType) {
             data.renderType = renderType;
             return this;
         }

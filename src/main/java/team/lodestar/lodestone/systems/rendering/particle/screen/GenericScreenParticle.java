@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class GenericScreenParticle extends TextureSheetScreenParticle {
     public ScreenParticleOptions data;
-    private final ParticleRenderType renderType;
+    private final ScreenParticleRenderType renderType;
     protected final ParticleEngine.MutableSpriteSet spriteSet;
     private final Vec2 startingMotion;
     float[] hsv1 = new float[3], hsv2 = new float[3];
@@ -147,7 +147,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
+    public ScreenParticleRenderType getRenderType() {
         return renderType;
     }
 }

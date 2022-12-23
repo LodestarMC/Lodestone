@@ -5,6 +5,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleRenderType;
 
 import java.util.Random;
 
@@ -113,7 +114,7 @@ public abstract class ScreenParticle {
 
    public abstract void render(BufferBuilder bufferBuilder);
 
-   public abstract ParticleRenderType getRenderType();
+   public abstract ScreenParticleRenderType getRenderType();
 
    public void remove() {
       this.removed = true;

@@ -32,11 +32,11 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
      */
     public static final HashMap<Pair<Integer, RenderType>, RenderType> COPIES = new HashMap<>();
 
-    public static final RenderType ADDITIVE_PARTICLE = createGenericRenderType(LODESTONE, "additive_particle", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ORTUS_PARTICLE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+    public static final RenderType ADDITIVE_PARTICLE = createGenericRenderType(LODESTONE, "additive_particle", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.PARTICLE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     public static final RenderType ADDITIVE_BLOCK = createGenericRenderType(LODESTONE, "block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ADDITIVE_TEXTURE.shard, StateShards.ADDITIVE_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
     public static final RenderType ADDITIVE_SOLID = createGenericRenderType(LODESTONE, "additive_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.ADDITIVE_TRANSPARENCY);
 
-    public static final RenderType TRANSPARENT_PARTICLE = createGenericRenderType(LODESTONE, "transparent_particle", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.ORTUS_PARTICLE.shard, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
+    public static final RenderType TRANSPARENT_PARTICLE = createGenericRenderType(LODESTONE, "transparent_particle", PARTICLE, VertexFormat.Mode.QUADS, LodestoneShaderRegistry.PARTICLE.shard, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     public static final RenderType TRANSPARENT_BLOCK = createGenericRenderType(LODESTONE, "transparent_block", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_PARTICLES);
     public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(LODESTONE, "transparent_solid", POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY);
 

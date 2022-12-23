@@ -14,7 +14,6 @@ public class SimpleParticleOptions {
         NONE, INVISIBLE, ENDING_CURVE_INVISIBLE
     }
 
-    public ParticleRenderType renderType = ParticleRenderTypes.ADDITIVE;
     public Animator animator = Animator.FIRST_INDEX;
     public SpecialRemovalProtocol removalProtocol = SpecialRemovalProtocol.NONE;
     public float r1 = 1, g1 = 1, b1 = 1, r2 = 1, g2 = 1, b2 = 1;

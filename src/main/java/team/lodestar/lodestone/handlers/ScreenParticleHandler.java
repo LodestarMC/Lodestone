@@ -5,6 +5,7 @@ import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.systems.rendering.particle.screen.GenericScreenParticle;
 import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleOptions;
+import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleRenderType;
 import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleType;
 import team.lodestar.lodestone.systems.rendering.particle.screen.base.ScreenParticle;
 import team.lodestar.lodestone.systems.rendering.particle.screen.emitter.ItemParticleEmitter;
@@ -36,7 +37,7 @@ import java.util.*;
  */
 public class ScreenParticleHandler {
 
-    public static final Map<Pair<ParticleRenderType, ScreenParticle.RenderOrder>, ArrayList<ScreenParticle>> PARTICLES = new HashMap<>();
+    public static final Map<Pair<ScreenParticleRenderType, ScreenParticle.RenderOrder>, ArrayList<ScreenParticle>> PARTICLES = new HashMap<>();
     public static final Map<Item, ParticleEmitter> EMITTERS = new HashMap<>();
     public static final ArrayList<StackTracker> RENDERED_STACKS = new ArrayList<>();
 
@@ -124,7 +125,7 @@ public class ScreenParticleHandler {
         }
 
         PARTICLES.forEach((pair, particles) -> {
-            ParticleRenderType type = pair.getFirst();
+            ScreenParticleRenderType type = pair.getFirst();
             if (Arrays.stream(renderOrders).anyMatch(o -> o.equals(pair.getSecond()))) {
                 type.begin(TESSELATOR.getBuilder(), Minecraft.getInstance().textureManager);
                 for (ScreenParticle next : particles) {
