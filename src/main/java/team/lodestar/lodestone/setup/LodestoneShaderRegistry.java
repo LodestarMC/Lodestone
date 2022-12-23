@@ -34,7 +34,7 @@ public class LodestoneShaderRegistry {
     public static void shaderRegistry(RegisterShadersEvent event) throws IOException {
         registerShader(event, ExtendedShaderInstance.createShaderInstance(ADDITIVE_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("additive_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(PARTICLE, event.getResourceManager(), LodestoneLib.lodestonePath("particle"), DefaultVertexFormat.PARTICLE));
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(SCREEN_PARTICLE, event.getResourceManager(), LodestoneLib.lodestonePath("screen_particle"), DefaultVertexFormat.POSITION_COLOR_TEX));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(SCREEN_PARTICLE, event.getResourceManager(), LodestoneLib.lodestonePath("screen_particle"), DefaultVertexFormat.POSITION_TEX_COLOR));
 
         registerShader(event, ExtendedShaderInstance.createShaderInstance(MASKED_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("masked_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(DISTORTED_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("noise/distorted_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
