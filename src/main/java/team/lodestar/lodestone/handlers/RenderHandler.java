@@ -60,7 +60,7 @@ public class RenderHandler {
     public static void renderLast(RenderLevelLastEvent event) {
         copyDepthBuffer();
         event.getPoseStack().pushPose();
-       // RenderSystem.setShaderTexture(2, PARTICLE_DEPTH_BUFFER.getDepthTextureId());
+        RenderSystem.setShaderTexture(2, PARTICLE_DEPTH_BUFFER.getDepthTextureId());
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
             RenderSystem.getModelViewStack().pushPose();
             RenderSystem.getModelViewStack().setIdentity();
