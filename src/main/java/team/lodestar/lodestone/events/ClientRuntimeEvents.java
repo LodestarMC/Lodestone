@@ -82,14 +82,12 @@ public class ClientRuntimeEvents {
             WorldEventHandler.ClientOnly.renderWorldEvents(poseStack, partial);
         }
 
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS)) {
+        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) {
             RenderHandler.beginBufferedRendering(poseStack);
             RenderHandler.renderBufferedBatches(poseStack);
             RenderHandler.endBufferedRendering(poseStack);
-
         }
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
-
             if (levelRenderer.transparencyChain != null) {
                 Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
             }

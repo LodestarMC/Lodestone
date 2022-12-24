@@ -4,13 +4,12 @@
     "srcrgb": "srcalpha",
     "dstrgb": "1-srcalpha"
   },
-  "vertex": "lodestone:generic",
+  "vertex": "lodestone:screen_generic",
   "fragment": "lodestone:noise/distorted_texture",
   "attributes": [
     "Position",
     "Color",
-    "UV0",
-    "UV2"
+    "UV0"
   ],
   "samplers": [
     { "name": "Sampler0" }

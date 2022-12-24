@@ -51,6 +51,7 @@ public class RenderHandler {
         FOG_FAR = event.getFarPlaneDistance();
         FOG_SHAPE = event.getFogShape();
     }
+
     public static void cacheFogData(EntityViewRenderEvent.FogColors event) {
         FOG_RED = event.getRed();
         FOG_GREEN = event.getGreen();
@@ -86,9 +87,11 @@ public class RenderHandler {
         FOG_FAR = shaderFogEnd;
         FOG_SHAPE = shaderFogShape;
     }
+
     public static void renderBufferedBatches(PoseStack poseStack) {
         endBatches(DELAYED_RENDER, BUFFERS);
     }
+
     public static void renderBufferedParticles(PoseStack poseStack) {
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
             RenderSystem.getModelViewStack().pushPose();
@@ -102,6 +105,7 @@ public class RenderHandler {
             RenderSystem.applyModelViewMatrix();
         }
     }
+
     public static void endBufferedRendering(PoseStack poseStack) {
         LightTexture lightTexture = Minecraft.getInstance().gameRenderer.lightTexture();
         RenderSystem.setShaderFogStart(FOG_NEAR);
