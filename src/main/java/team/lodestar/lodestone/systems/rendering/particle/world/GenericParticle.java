@@ -2,7 +2,7 @@ package team.lodestar.lodestone.systems.rendering.particle.world;
 
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
-import team.lodestar.lodestone.systems.rendering.particle.ParticleRenderTypes;
+import team.lodestar.lodestone.systems.rendering.particle.LodestoneWorldParticleRenderType;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import team.lodestar.lodestone.handlers.RenderHandler;
@@ -71,13 +71,8 @@ public class GenericParticle extends TextureSheetParticle {
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
         VertexConsumer consumerToUse = consumer;
-        if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
-            if (getRenderType().equals(ParticleRenderTypes.ADDITIVE)) {
-                consumerToUse = RenderHandler.DELAYED_RENDER.getBuffer(LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE);
-            }
-            if (getRenderType().equals(ParticleRenderTypes.TRANSPARENT)) {
-                consumerToUse = RenderHandler.DELAYED_RENDER.getBuffer(LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE);
-            }
+        if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && data.renderType instanceof LodestoneWorldParticleRenderType renderType) {
+            consumerToUse = RenderHandler.DELAYED_RENDER.getBuffer(renderType.getRenderType());
         }
         super.render(consumerToUse, camera, partialTicks);
     }

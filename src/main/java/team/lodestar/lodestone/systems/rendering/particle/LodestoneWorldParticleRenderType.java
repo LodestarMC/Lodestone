@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.systems.rendering.particle;
 
+import net.minecraft.client.renderer.RenderType;
+import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
 import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -13,8 +15,13 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import org.lwjgl.opengl.GL11;
 
-public class ParticleRenderTypes {
-    public static final ParticleRenderType ADDITIVE = new ParticleRenderType() {
+public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
+    LodestoneWorldParticleRenderType ADDITIVE = new LodestoneWorldParticleRenderType() {
+        @Override
+        public RenderType getRenderType() {
+            return LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE;
+        }
+
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
@@ -34,7 +41,12 @@ public class ParticleRenderTypes {
             RenderSystem.defaultBlendFunc();
         }
     };
-    public static final ParticleRenderType TRANSPARENT = new ParticleRenderType() {
+    LodestoneWorldParticleRenderType TRANSPARENT = new LodestoneWorldParticleRenderType() {
+        @Override
+        public RenderType getRenderType() {
+            return LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE;
+        }
+
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
@@ -53,4 +65,6 @@ public class ParticleRenderTypes {
             RenderSystem.defaultBlendFunc();
         }
     };
+
+    RenderType getRenderType();
 }

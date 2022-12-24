@@ -1,7 +1,5 @@
 package team.lodestar.lodestone.systems.rendering.particle.screen;
 
-import net.minecraft.client.particle.ParticleRenderType;
-import team.lodestar.lodestone.systems.rendering.particle.ParticleRenderTypes;
 import team.lodestar.lodestone.systems.rendering.particle.screen.base.ScreenParticle;
 import team.lodestar.lodestone.systems.rendering.particle.SimpleParticleOptions;
 import net.minecraft.world.item.ItemStack;
