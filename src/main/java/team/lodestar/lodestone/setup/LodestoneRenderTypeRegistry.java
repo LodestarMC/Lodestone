@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.setup;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
 import team.lodestar.lodestone.handlers.RenderHandler;
@@ -99,7 +100,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     }
 
     /**
-     * Queues shader uniform changes for a render type. When we end batches in {@link RenderHandler#renderBufferedBatches(RenderLevelLastEvent)}, we do so one render type at a time.
+     * Queues shader uniform changes for a render type. When we end batches in {@link RenderHandler#renderBufferedBatches(PoseStack)}}, we do so one render type at a time.
      * Prior to ending a batch, we run {@link ShaderUniformHandler#updateShaderData(ShaderInstance)} if one is present for a given render type.
      */
     public static RenderType queueUniformChanges(RenderType type, ShaderUniformHandler handler) {
