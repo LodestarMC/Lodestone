@@ -1,8 +1,9 @@
 package team.lodestar.lodestone.handlers;
 
-import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.shaders.FogShape;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.fml.ModList;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.RenderHelper;
@@ -39,14 +40,19 @@ public class RenderHandler {
     public static MultiBufferSource.BufferSource EARLY_DELAYED_RENDER;
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
     public static MultiBufferSource.BufferSource LATE_DELAYED_RENDER;
-    public static MultiBufferSource.BufferSource BLOOM_BUFFER;
+    public static boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("rubidium");
+
     public static Matrix4f PARTICLE_MATRIX;
-    public static boolean COPIED_DEPTH_BUFFER = false;
     public static RenderTarget PARTICLE_DEPTH_BUFFER;
-    public static boolean EXPAND_THE_BUFFERS = ModList.get().isLoaded("rubidium");
+    public static boolean COPIED_DEPTH_BUFFER = false;
+
+    public static float FOG_NEAR;
+    public static float FOG_FAR;
+    public static FogShape FOG_SHAPE;
+    public static float FOG_RED, FOG_GREEN, FOG_BLUE;
 
     public static void onClientSetup(FMLClientSetupEvent event) {
-        int size = EXPAND_THE_BUFFERS ? 262144 : 256;
+        int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
         EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(size));
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size));
         LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(LATE_BUFFERS, new BufferBuilder(size));
@@ -56,11 +62,29 @@ public class RenderHandler {
             PARTICLE_DEPTH_BUFFER.resize(width, height, Minecraft.ON_OSX);
         }
     }
+
+    public static void cacheFogData(EntityViewRenderEvent.RenderFogEvent event) {
+        FOG_NEAR = event.getNearPlaneDistance();
+        FOG_FAR = event.getFarPlaneDistance();
+        FOG_SHAPE = event.getFogShape();
+    }
+    public static void cacheFogData(EntityViewRenderEvent.FogColors event) {
+        FOG_RED = event.getRed();
+        FOG_GREEN = event.getGreen();
+        FOG_BLUE = event.getBlue();
+    }
+
     //TODO: look into RenderLevelStageEvent
-    public static void renderLast(RenderLevelLastEvent event) {
+    public static void renderBufferedBatches(RenderLevelLastEvent event) {
         copyDepthBuffer();
         event.getPoseStack().pushPose();
         RenderSystem.setShaderTexture(2, PARTICLE_DEPTH_BUFFER.getDepthTextureId());
+
+        RenderSystem.setShaderFogStart(FOG_NEAR);
+        RenderSystem.setShaderFogEnd(FOG_FAR);
+        RenderSystem.setShaderFogShape(FOG_SHAPE);
+        RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
+
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
             RenderSystem.getModelViewStack().pushPose();
             RenderSystem.getModelViewStack().setIdentity();
@@ -97,7 +121,7 @@ public class RenderHandler {
     }
 
     public static void addRenderType(RenderType type) {
-        int size = EXPAND_THE_BUFFERS ? 262144 : type.bufferSize();
+        int size = LARGER_BUFFER_SOURCES ? 262144 : type.bufferSize();
         RenderHandler.EARLY_BUFFERS.put(type, new BufferBuilder(size));
         RenderHandler.BUFFERS.put(type, new BufferBuilder(size));
         RenderHandler.LATE_BUFFERS.put(type, new BufferBuilder(size));

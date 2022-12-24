@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.events;
 
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.systems.client.ClientTickCounter;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -46,6 +47,16 @@ public class ClientRuntimeEvents {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
+        RenderHandler.cacheFogData(event);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void fogColors(EntityViewRenderEvent.FogColors event) {
+        RenderHandler.cacheFogData(event);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void renderLast(RenderLevelLastEvent event) {
         Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
         float partial = AnimationTickHolder.getPartialTicks();
@@ -55,7 +66,7 @@ public class ClientRuntimeEvents {
         GhostBlockHandler.renderGhosts(poseStack);
         LodestoneLibClient.OUTLINER.renderOutlines(poseStack, partial);
         WorldEventHandler.ClientOnly.renderWorldEvents(event);
-        RenderHandler.renderLast(event);
+        RenderHandler.renderBufferedBatches(event);
         poseStack.popPose();
     }
 
