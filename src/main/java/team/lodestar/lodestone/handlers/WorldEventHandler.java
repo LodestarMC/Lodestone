@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.handlers;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.setup.worldevent.LodestoneWorldEventRendererRegistry;
@@ -22,13 +23,13 @@ import java.util.Iterator;
 public class WorldEventHandler {
 
     public static class ClientOnly {
-        public static void renderWorldEvents(RenderLevelLastEvent event) {
+        public static void renderWorldEvents(PoseStack stack, float partialTicks) {
             LodestoneWorldDataCapability.getCapabilityOptional(Minecraft.getInstance().level).ifPresent(capability -> {
                 for (WorldEventInstance instance : capability.activeWorldEvents) {
                     WorldEventRenderer<WorldEventInstance> renderer = LodestoneWorldEventRendererRegistry.RENDERERS.get(instance.type);
                     if (renderer != null) {
                         if (renderer.canRender(instance)) {
-                            renderer.render(instance, event.getPoseStack(), RenderHandler.DELAYED_RENDER, event.getPartialTick());
+                            renderer.render(instance, stack, RenderHandler.DELAYED_RENDER, partialTicks);
                         }
                     }
                 }

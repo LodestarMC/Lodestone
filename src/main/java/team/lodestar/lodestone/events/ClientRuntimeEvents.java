@@ -1,7 +1,12 @@
 package team.lodestar.lodestone.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import team.lodestar.lodestone.handlers.*;
@@ -60,38 +65,47 @@ public class ClientRuntimeEvents {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void renderLast(RenderLevelLastEvent event) {
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-        float partial = AnimationTickHolder.getPartialTicks();
-        PoseStack poseStack = event.getPoseStack();
-        poseStack.pushPose();
-        poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
-        GhostBlockHandler.renderGhosts(poseStack);
-        LodestoneLibClient.OUTLINER.renderOutlines(poseStack, partial);
-        WorldEventHandler.ClientOnly.renderWorldEvents(event);
-//        RenderHandler.renderBufferedBatches(poseStack);
-        poseStack.popPose();
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void renderStages(RenderLevelStageEvent event) {
-        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        Minecraft minecraft = Minecraft.getInstance();
+        Camera camera = minecraft.gameRenderer.getMainCamera();
+        Vec3 cameraPos = camera.getPosition();
         float partial = AnimationTickHolder.getPartialTicks();
         PoseStack poseStack = event.getPoseStack();
+        Matrix4f matrix4f = poseStack.last().pose();
+        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) {
-            //RenderStateShard.PARTICLES_TARGET.setupRenderState();
+
+        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SKY)) {
+            GhostBlockHandler.renderGhosts(poseStack);
+            LodestoneLibClient.OUTLINER.renderOutlines(poseStack, partial);
+            WorldEventHandler.ClientOnly.renderWorldEvents(poseStack, partial);
+        }
+
+        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS)) {
+            RenderHandler.beginBufferedRendering(poseStack);
             RenderHandler.renderBufferedBatches(poseStack);
+            RenderHandler.endBufferedRendering(poseStack);
+
+        }
+        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
+
+            if (levelRenderer.transparencyChain != null) {
+                Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+            }
+            RenderHandler.beginBufferedRendering(poseStack);
+            RenderHandler.renderBufferedParticles(poseStack);
+            RenderHandler.endBufferedRendering(poseStack);
+            if (levelRenderer.transparencyChain != null) {
+                levelRenderer.getCloudsTarget().bindWrite(false);
+            }
         }
         poseStack.popPose();
     }
 
     public static void theMixin() {
-        PoseStack poseStack = RenderSystem.getModelViewStack();
-        RenderSystem.depthMask(false);
-        RenderHandler.renderBufferedBatches(poseStack);
-        RenderSystem.depthMask(true);
+
+
     }
 
 

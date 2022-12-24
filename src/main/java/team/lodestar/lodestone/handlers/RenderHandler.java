@@ -1,31 +1,23 @@
 package team.lodestar.lodestone.handlers;
 
-import com.mojang.blaze3d.pipeline.TextureTarget;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.shaders.FogShape;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.*;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.fml.ModList;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
 import team.lodestar.lodestone.systems.rendering.ExtendedShaderInstance;
 import team.lodestar.lodestone.systems.rendering.ShaderUniformHandler;
-import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.math.Matrix4f;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.HashMap;
-
-import static com.mojang.blaze3d.platform.GlConst.GL_DRAW_FRAMEBUFFER;
-import static net.minecraft.client.Minecraft.ON_OSX;
 
 /**
  * A handler responsible for all the backend rendering processes.
@@ -33,14 +25,13 @@ import static net.minecraft.client.Minecraft.ON_OSX;
  * This happens for particles, as well as all of our custom RenderTypes
  */
 public class RenderHandler {
-    public static HashMap<RenderType, BufferBuilder> EARLY_BUFFERS = new HashMap<>();
     public static HashMap<RenderType, BufferBuilder> BUFFERS = new HashMap<>();
-    public static HashMap<RenderType, BufferBuilder> LATE_BUFFERS = new HashMap<>();
-    public static HashMap<RenderType, ShaderUniformHandler> HANDLERS = new HashMap<>();
-    public static MultiBufferSource.BufferSource EARLY_DELAYED_RENDER;
-    public static MultiBufferSource.BufferSource DELAYED_RENDER;
-    public static MultiBufferSource.BufferSource LATE_DELAYED_RENDER;
+    public static HashMap<RenderType, BufferBuilder> PARTICLE_BUFFERS = new HashMap<>();
     public static boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("rubidium");
+
+    public static HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
+    public static MultiBufferSource.BufferSource DELAYED_RENDER;
+    public static MultiBufferSource.BufferSource DELAYED_PARTICLE_RENDER;
 
     public static Matrix4f PARTICLE_MATRIX;
 
@@ -51,9 +42,8 @@ public class RenderHandler {
 
     public static void onClientSetup(FMLClientSetupEvent event) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
-        EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(size));
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size));
-        LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(LATE_BUFFERS, new BufferBuilder(size));
+        DELAYED_PARTICLE_RENDER = MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size));
     }
 
     public static void cacheFogData(EntityViewRenderEvent.RenderFogEvent event) {
@@ -67,22 +57,39 @@ public class RenderHandler {
         FOG_BLUE = event.getBlue();
     }
 
-    //TODO: look into RenderLevelStageEvent
-    public static void renderBufferedBatches(PoseStack poseStack) {
+    public static void beginBufferedRendering(PoseStack poseStack) {
         poseStack.pushPose();
         LightTexture lightTexture = Minecraft.getInstance().gameRenderer.lightTexture();
         lightTexture.turnOnLightLayer();
         RenderSystem.activeTexture(org.lwjgl.opengl.GL13.GL_TEXTURE2);
+        RenderSystem.enableCull();
+        RenderSystem.enableDepthTest();
+        RenderSystem.depthMask(false);
 
-        float[] shaderFogColor = RenderSystem.getShaderFogColor();
+        float fogRed = RenderSystem.getShaderFogColor()[0];
+        float fogGreen = RenderSystem.getShaderFogColor()[1];
+        float fogBlue = RenderSystem.getShaderFogColor()[2];
         float shaderFogStart = RenderSystem.getShaderFogStart();
         float shaderFogEnd = RenderSystem.getShaderFogEnd();
         FogShape shaderFogShape = RenderSystem.getShaderFogShape();
+
         RenderSystem.setShaderFogStart(FOG_NEAR);
         RenderSystem.setShaderFogEnd(FOG_FAR);
         RenderSystem.setShaderFogShape(FOG_SHAPE);
         RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
 
+        FOG_RED = fogRed;
+        FOG_GREEN = fogGreen;
+        FOG_BLUE = fogBlue;
+
+        FOG_NEAR = shaderFogStart;
+        FOG_FAR = shaderFogEnd;
+        FOG_SHAPE = shaderFogShape;
+    }
+    public static void renderBufferedBatches(PoseStack poseStack) {
+        endBatches(DELAYED_RENDER, BUFFERS);
+    }
+    public static void renderBufferedParticles(PoseStack poseStack) {
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
             RenderSystem.getModelViewStack().pushPose();
             RenderSystem.getModelViewStack().setIdentity();
@@ -90,30 +97,30 @@ public class RenderHandler {
                 RenderSystem.getModelViewStack().mulPoseMatrix(PARTICLE_MATRIX);
             }
             RenderSystem.applyModelViewMatrix();
-            DELAYED_RENDER.endBatch(LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE);
-            DELAYED_RENDER.endBatch(LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE);
+            endBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS);
             RenderSystem.getModelViewStack().popPose();
             RenderSystem.applyModelViewMatrix();
         }
-        endBatches(EARLY_DELAYED_RENDER, EARLY_BUFFERS);
-        endBatches(DELAYED_RENDER, BUFFERS);
-        endBatches(LATE_DELAYED_RENDER, LATE_BUFFERS);
-
-        RenderSystem.setShaderFogStart(shaderFogStart);
-        RenderSystem.setShaderFogEnd(shaderFogEnd);
-        RenderSystem.setShaderFogShape(shaderFogShape);
-        RenderSystem.setShaderFogColor(shaderFogColor[0], shaderFogColor[1], shaderFogColor[2]);
+    }
+    public static void endBufferedRendering(PoseStack poseStack) {
+        LightTexture lightTexture = Minecraft.getInstance().gameRenderer.lightTexture();
+        RenderSystem.setShaderFogStart(FOG_NEAR);
+        RenderSystem.setShaderFogEnd(FOG_FAR);
+        RenderSystem.setShaderFogShape(FOG_SHAPE);
+        RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
 
         poseStack.popPose();
         lightTexture.turnOffLightLayer();
-
+        RenderSystem.disableCull();
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(true);
     }
 
     public static void endBatches(MultiBufferSource.BufferSource source, HashMap<RenderType, BufferBuilder> buffers) {
         for (RenderType type : buffers.keySet()) {
             ShaderInstance instance = RenderHelper.getShader(type);
-            if (HANDLERS.containsKey(type)) {
-                ShaderUniformHandler handler = HANDLERS.get(type);
+            if (UNIFORM_HANDLERS.containsKey(type)) {
+                ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);
             }
             source.endBatch(type);
@@ -126,9 +133,11 @@ public class RenderHandler {
 
     public static void addRenderType(RenderType type) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : type.bufferSize();
-        RenderHandler.EARLY_BUFFERS.put(type, new BufferBuilder(size));
-        RenderHandler.BUFFERS.put(type, new BufferBuilder(size));
-        RenderHandler.LATE_BUFFERS.put(type, new BufferBuilder(size));
+        HashMap<RenderType, BufferBuilder> buffers = BUFFERS;
+        if (type.name.contains("particle")) {
+            buffers = PARTICLE_BUFFERS;
+        }
+        buffers.put(type, new BufferBuilder(size));
     }
 
 //    public static void copyDepthBuffer() {

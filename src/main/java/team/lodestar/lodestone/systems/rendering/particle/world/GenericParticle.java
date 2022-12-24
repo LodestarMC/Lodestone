@@ -72,7 +72,7 @@ public class GenericParticle extends TextureSheetParticle {
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
         VertexConsumer consumerToUse = consumer;
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && data.renderType instanceof LodestoneWorldParticleRenderType renderType) {
-            consumerToUse = RenderHandler.DELAYED_RENDER.getBuffer(renderType.getRenderType());
+            consumerToUse = RenderHandler.DELAYED_PARTICLE_RENDER.getBuffer(renderType.getRenderType());
         }
         super.render(consumerToUse, camera, partialTicks);
     }

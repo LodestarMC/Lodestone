@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -104,7 +103,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
      * Prior to ending a batch, we run {@link ShaderUniformHandler#updateShaderData(ShaderInstance)} if one is present for a given render type.
      */
     public static RenderType queueUniformChanges(RenderType type, ShaderUniformHandler handler) {
-        RenderHandler.HANDLERS.put(type, handler);
+        RenderHandler.UNIFORM_HANDLERS.put(type, handler);
         return type;
     }
 

@@ -82,7 +82,7 @@ public class AABBOutline extends Outline {
                 (direction == params.getHighlightedFace() && params.hightlightedFaceTexture.isPresent()) ? 1 : 0.5f;
 
         RenderType translucentType = LodestoneRenderTypeRegistry.getOutlineTranslucent(faceTexture, !noCull);
-        VertexConsumer builder = RenderHandler.LATE_DELAYED_RENDER.getBuffer(translucentType);
+        VertexConsumer builder = RenderHandler.DELAYED_RENDER.getBuffer(translucentType);
 
         Axis axis = direction.getAxis();
         Vec3 uDiff = p2.subtract(p1);
