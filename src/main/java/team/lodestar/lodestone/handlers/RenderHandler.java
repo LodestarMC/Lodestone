@@ -3,6 +3,7 @@ package team.lodestar.lodestone.handlers;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.shaders.FogShape;
+import net.minecraft.client.renderer.*;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.fml.ModList;
 import team.lodestar.lodestone.config.ClientConfig;
@@ -16,9 +17,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.math.Matrix4f;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -78,8 +76,15 @@ public class RenderHandler {
     public static void renderBufferedBatches(RenderLevelLastEvent event) {
         copyDepthBuffer();
         event.getPoseStack().pushPose();
-        RenderSystem.setShaderTexture(2, PARTICLE_DEPTH_BUFFER.getDepthTextureId());
+//        RenderSystem.setShaderTexture(2, PARTICLE_DEPTH_BUFFER.getDepthTextureId());
+        LightTexture lightTexture = Minecraft.getInstance().gameRenderer.lightTexture();
+        lightTexture.turnOnLightLayer();
+        RenderSystem.activeTexture(org.lwjgl.opengl.GL13.GL_TEXTURE2);
 
+        float[] shaderFogColor = RenderSystem.getShaderFogColor();
+        float shaderFogStart = RenderSystem.getShaderFogStart();
+        float shaderFogEnd = RenderSystem.getShaderFogEnd();
+        FogShape shaderFogShape = RenderSystem.getShaderFogShape();
         RenderSystem.setShaderFogStart(FOG_NEAR);
         RenderSystem.setShaderFogEnd(FOG_FAR);
         RenderSystem.setShaderFogShape(FOG_SHAPE);
@@ -100,7 +105,14 @@ public class RenderHandler {
         endBatches(EARLY_DELAYED_RENDER, EARLY_BUFFERS);
         endBatches(DELAYED_RENDER, BUFFERS);
         endBatches(LATE_DELAYED_RENDER, LATE_BUFFERS);
+
+        RenderSystem.setShaderFogStart(shaderFogStart);
+        RenderSystem.setShaderFogEnd(shaderFogEnd);
+        RenderSystem.setShaderFogShape(shaderFogShape);
+        RenderSystem.setShaderFogColor(shaderFogColor[0], shaderFogColor[1], shaderFogColor[2]);
+
         event.getPoseStack().popPose();
+        lightTexture.turnOffLightLayer();
 
         COPIED_DEPTH_BUFFER = false;
     }
