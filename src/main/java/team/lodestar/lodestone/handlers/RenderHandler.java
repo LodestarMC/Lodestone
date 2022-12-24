@@ -3,8 +3,10 @@ package team.lodestar.lodestone.handlers;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.shaders.FogShape;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.*;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.fml.ModList;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.RenderHelper;
@@ -41,8 +43,6 @@ public class RenderHandler {
     public static boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("rubidium");
 
     public static Matrix4f PARTICLE_MATRIX;
-    public static RenderTarget PARTICLE_DEPTH_BUFFER;
-    public static boolean COPIED_DEPTH_BUFFER = false;
 
     public static float FOG_NEAR;
     public static float FOG_FAR;
@@ -54,11 +54,6 @@ public class RenderHandler {
         EARLY_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(EARLY_BUFFERS, new BufferBuilder(size));
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size));
         LATE_DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(LATE_BUFFERS, new BufferBuilder(size));
-    }
-    public static void resize(int width, int height) {
-        if (PARTICLE_DEPTH_BUFFER != null) {
-            PARTICLE_DEPTH_BUFFER.resize(width, height, Minecraft.ON_OSX);
-        }
     }
 
     public static void cacheFogData(EntityViewRenderEvent.RenderFogEvent event) {
@@ -73,10 +68,8 @@ public class RenderHandler {
     }
 
     //TODO: look into RenderLevelStageEvent
-    public static void renderBufferedBatches(RenderLevelLastEvent event) {
-        copyDepthBuffer();
-        event.getPoseStack().pushPose();
-//        RenderSystem.setShaderTexture(2, PARTICLE_DEPTH_BUFFER.getDepthTextureId());
+    public static void renderBufferedBatches(PoseStack poseStack) {
+        poseStack.pushPose();
         LightTexture lightTexture = Minecraft.getInstance().gameRenderer.lightTexture();
         lightTexture.turnOnLightLayer();
         RenderSystem.activeTexture(org.lwjgl.opengl.GL13.GL_TEXTURE2);
@@ -111,10 +104,9 @@ public class RenderHandler {
         RenderSystem.setShaderFogShape(shaderFogShape);
         RenderSystem.setShaderFogColor(shaderFogColor[0], shaderFogColor[1], shaderFogColor[2]);
 
-        event.getPoseStack().popPose();
+        poseStack.popPose();
         lightTexture.turnOffLightLayer();
 
-        COPIED_DEPTH_BUFFER = false;
     }
 
     public static void endBatches(MultiBufferSource.BufferSource source, HashMap<RenderType, BufferBuilder> buffers) {
@@ -139,20 +131,20 @@ public class RenderHandler {
         RenderHandler.LATE_BUFFERS.put(type, new BufferBuilder(size));
     }
 
-    public static void copyDepthBuffer() {
-        if (COPIED_DEPTH_BUFFER) {
-            return;
-        }
-        if (PARTICLE_DEPTH_BUFFER == null) {
-            Window window = Minecraft.getInstance().getWindow();
-            PARTICLE_DEPTH_BUFFER = new TextureTarget(window.getWidth(), window.getHeight(), true, Minecraft.ON_OSX);
-            PARTICLE_DEPTH_BUFFER.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
-            PARTICLE_DEPTH_BUFFER.clear(ON_OSX);
-            return;
-        }
-        RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
-        PARTICLE_DEPTH_BUFFER.copyDepthFrom(mainRenderTarget);
-        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
-        COPIED_DEPTH_BUFFER = true;
-    }
+//    public static void copyDepthBuffer() {
+//        if (COPIED_DEPTH_BUFFER) {
+//            return;
+//        }
+//        if (PARTICLE_DEPTH_BUFFER == null) {
+//            Window window = Minecraft.getInstance().getWindow();
+//            PARTICLE_DEPTH_BUFFER = new TextureTarget(window.getWidth(), window.getHeight(), true, Minecraft.ON_OSX);
+//            PARTICLE_DEPTH_BUFFER.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+//            PARTICLE_DEPTH_BUFFER.clear(ON_OSX);
+//            return;
+//        }
+//        RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
+//        PARTICLE_DEPTH_BUFFER.copyDepthFrom(mainRenderTarget);
+//        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
+//        COPIED_DEPTH_BUFFER = true;
+//    }
 }

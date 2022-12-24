@@ -13,6 +13,5 @@ public class GameRendererMixin {
     @Inject(method = "resize", at = @At(value = "HEAD"))
     public void injectionResizeListener(int width, int height, CallbackInfo ci) {
         PostProcessHandler.resize(width, height);
-        RenderHandler.resize(width, height);
     }
 }

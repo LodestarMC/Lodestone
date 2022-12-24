@@ -1,6 +1,9 @@
 package team.lodestar.lodestone.events;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.systems.client.ClientTickCounter;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -66,9 +69,31 @@ public class ClientRuntimeEvents {
         GhostBlockHandler.renderGhosts(poseStack);
         LodestoneLibClient.OUTLINER.renderOutlines(poseStack, partial);
         WorldEventHandler.ClientOnly.renderWorldEvents(event);
-        RenderHandler.renderBufferedBatches(event);
+//        RenderHandler.renderBufferedBatches(poseStack);
         poseStack.popPose();
     }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void renderStages(RenderLevelStageEvent event) {
+        Vec3 cameraPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        float partial = AnimationTickHolder.getPartialTicks();
+        PoseStack poseStack = event.getPoseStack();
+        poseStack.pushPose();
+        poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
+        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) {
+            //RenderStateShard.PARTICLES_TARGET.setupRenderState();
+            RenderHandler.renderBufferedBatches(poseStack);
+        }
+        poseStack.popPose();
+    }
+
+    public static void theMixin() {
+        PoseStack poseStack = RenderSystem.getModelViewStack();
+        RenderSystem.depthMask(false);
+        RenderHandler.renderBufferedBatches(poseStack);
+        RenderSystem.depthMask(true);
+    }
+
 
     @SubscribeEvent
     public static void setupScreen(ScreenEvent.InitScreenEvent.Post event) {

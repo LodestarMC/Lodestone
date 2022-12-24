@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.mixin;
 
+import team.lodestar.lodestone.events.ClientRuntimeEvents;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.systems.postprocess.PostProcessHandler;
 import team.lodestar.lodestone.systems.sound.ExtendedSoundType;
@@ -37,6 +38,10 @@ public class LevelRendererMixin {
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "net.minecraft.client.renderer.PostChain.process(F)V", ordinal = 1))
     public void injectionBeforeTransparencyChainProcess(CallbackInfo ci) {
         PostProcessHandler.copyDepthBuffer();
-        RenderHandler.copyDepthBuffer();
+    }
+
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderDebug(Lnet/minecraft/client/Camera;)V"))
+    public void lodestone$renderLevelRenderDebug(CallbackInfo ci) {
+        ClientRuntimeEvents.theMixin();
     }
 }
