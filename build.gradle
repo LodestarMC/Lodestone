@@ -127,7 +127,7 @@ dependencies {
         jarJar.pin(it, project.registrateVersion)
     }
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrateVersion}")
-
+    
     // Other Mod Compatibility
     implementation fg.deobf("curse.maven:farmers_delight-398521:3739914")
 }
