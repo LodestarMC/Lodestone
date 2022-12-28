@@ -21,7 +21,6 @@ import net.minecraft.client.Option;
 import net.minecraft.client.gui.screens.SimpleOptionsSubScreen;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
