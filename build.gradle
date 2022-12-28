@@ -178,7 +178,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
-            artifactId "depth_test-${project.archivesBaseName}"
+            artifactId project.archivesBaseName
             version project.version
             from components.java
 
