@@ -50,9 +50,10 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderHandler.PARTICLE_MATRIX = RenderSystem.getModelViewMatrix();
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }

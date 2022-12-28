@@ -100,6 +100,8 @@ public class RenderHandler {
                 RenderSystem.getModelViewStack().mulPoseMatrix(PARTICLE_MATRIX);
             }
             RenderSystem.applyModelViewMatrix();
+            DELAYED_PARTICLE_RENDER.endBatch(LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE);
+            DELAYED_PARTICLE_RENDER.endBatch(LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE);
             endBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS);
             RenderSystem.getModelViewStack().popPose();
             RenderSystem.applyModelViewMatrix();
