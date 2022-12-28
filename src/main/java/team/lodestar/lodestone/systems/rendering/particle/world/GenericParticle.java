@@ -30,7 +30,7 @@ public class GenericParticle extends TextureSheetParticle {
     public GenericParticle(ClientLevel world, WorldParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, x, y, z);
         this.data = data;
-        this.renderType = data.renderType;
+        this.renderType = data.renderType == null ? LodestoneWorldParticleRenderType.ADDITIVE : data.renderType;
         this.spriteSet = spriteSet;
         this.roll = data.spinOffset + data.spin1;
         this.xd = xd;

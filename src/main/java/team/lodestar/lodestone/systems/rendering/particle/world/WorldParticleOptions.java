@@ -17,7 +17,7 @@ public class WorldParticleOptions extends SimpleParticleOptions implements net.m
 
     ParticleType<?> type;
     public Vector3f startingMotion = Vector3f.ZERO, endingMotion = Vector3f.ZERO;
-    public ParticleRenderType renderType = LodestoneWorldParticleRenderType.ADDITIVE;
+    public ParticleRenderType renderType;
 
     public WorldParticleOptions(ParticleType<?> type) {
         this.type = type;
