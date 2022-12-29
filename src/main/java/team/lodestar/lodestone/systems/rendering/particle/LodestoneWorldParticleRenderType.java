@@ -52,6 +52,7 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderHandler.PARTICLE_MATRIX = RenderSystem.getModelViewMatrix();
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);

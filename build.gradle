@@ -127,7 +127,8 @@ dependencies {
         jarJar.pin(it, project.registrateVersion)
     }
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrateVersion}")
-    
+    implementation fg.deobf("com.sammy.malum:malum:1.18.2-1.4.4-137")
+
     // Other Mod Compatibility
     implementation fg.deobf("curse.maven:farmers_delight-398521:3739914")
 }
