@@ -101,7 +101,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     }
 
     /**
-     * Queues shader uniform changes for a render type. When we end batches in {@link RenderHandler#renderBufferedBatches(PoseStack)}}, we do so one render type at a time.
+     * Queues shader uniform changes for a render type. When we end batches in {@link RenderHandler}}, we do so one render type at a time.
      * Prior to ending a batch, we run {@link ShaderUniformHandler#updateShaderData(ShaderInstance)} if one is present for a given render type.
      */
     public static RenderType queueUniformChanges(RenderType type, ShaderUniformHandler handler) {

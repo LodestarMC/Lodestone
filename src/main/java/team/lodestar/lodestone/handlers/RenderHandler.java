@@ -3,6 +3,7 @@ package team.lodestar.lodestone.handlers;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.*;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.fml.ModList;
@@ -33,7 +34,7 @@ public class RenderHandler {
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
     public static MultiBufferSource.BufferSource DELAYED_PARTICLE_RENDER;
 
-    public static Matrix4f PARTICLE_MATRIX;
+    public static Matrix4f MATRIX4F;
 
     public static float FOG_NEAR;
     public static float FOG_FAR;
@@ -93,19 +94,9 @@ public class RenderHandler {
     }
 
     public static void renderBufferedParticles(PoseStack poseStack) {
-        if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue()) {
-            RenderSystem.getModelViewStack().pushPose();
-            RenderSystem.getModelViewStack().setIdentity();
-            if (PARTICLE_MATRIX != null) {
-                RenderSystem.getModelViewStack().mulPoseMatrix(PARTICLE_MATRIX);
-            }
-            RenderSystem.applyModelViewMatrix();
-            DELAYED_PARTICLE_RENDER.endBatch(LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE);
-            DELAYED_PARTICLE_RENDER.endBatch(LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE);
-            endBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS);
-            RenderSystem.getModelViewStack().popPose();
-            RenderSystem.applyModelViewMatrix();
-        }
+        DELAYED_PARTICLE_RENDER.endBatch(LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE);
+        DELAYED_PARTICLE_RENDER.endBatch(LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE);
+        endBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS);
     }
 
     public static void endBufferedRendering(PoseStack poseStack) {

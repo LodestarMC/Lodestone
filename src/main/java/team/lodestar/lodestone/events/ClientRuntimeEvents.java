@@ -1,12 +1,9 @@
 package team.lodestar.lodestone.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import team.lodestar.lodestone.handlers.*;
@@ -70,7 +67,6 @@ public class ClientRuntimeEvents {
         Vec3 cameraPos = camera.getPosition();
         float partial = AnimationTickHolder.getPartialTicks();
         PoseStack poseStack = event.getPoseStack();
-        Matrix4f matrix4f = poseStack.last().pose();
         LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
@@ -82,16 +78,19 @@ public class ClientRuntimeEvents {
         }
 
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) {
-            RenderHandler.beginBufferedRendering(poseStack);
-            RenderHandler.renderBufferedBatches(poseStack);
-            RenderHandler.endBufferedRendering(poseStack);
+            RenderHandler.MATRIX4F = RenderSystem.getModelViewMatrix().copy();
         }
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
             if (levelRenderer.transparencyChain != null) {
                 Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
             }
             RenderHandler.beginBufferedRendering(poseStack);
+
             RenderHandler.renderBufferedParticles(poseStack);
+            if (RenderHandler.MATRIX4F != null) {
+                RenderSystem.getModelViewMatrix().load(RenderHandler.MATRIX4F);
+            }
+            RenderHandler.renderBufferedBatches(poseStack);
             RenderHandler.endBufferedRendering(poseStack);
             if (levelRenderer.transparencyChain != null) {
                 levelRenderer.getCloudsTarget().bindWrite(false);

@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.rendering.particle.world;
 
 import team.lodestar.lodestone.config.ClientConfig;
+import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
 import team.lodestar.lodestone.systems.rendering.particle.LodestoneWorldParticleRenderType;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -58,6 +59,11 @@ public class GenericParticle extends TextureSheetParticle {
     }
 
     @Override
+    protected int getLightColor(float pPartialTick) {
+        return RenderHelper.FULL_BRIGHT;
+    }
+
+    @Override
     public void tick() {
         updateTraits();
         if (spriteSet != null) {
@@ -72,7 +78,9 @@ public class GenericParticle extends TextureSheetParticle {
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
         VertexConsumer consumerToUse = consumer;
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && renderType instanceof LodestoneWorldParticleRenderType renderType) {
-            consumerToUse = RenderHandler.DELAYED_PARTICLE_RENDER.getBuffer(renderType.getRenderType());
+            if (renderType.shouldBuffer()) {
+                consumerToUse = RenderHandler.DELAYED_PARTICLE_RENDER.getBuffer(renderType.getRenderType());
+            }
         }
         super.render(consumerToUse, camera, partialTicks);
     }
