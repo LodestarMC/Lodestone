@@ -19,7 +19,7 @@ public class LodestoneBlockFiller {
 
     public void fill(LevelAccessor level) {
         getEntries().forEach((pos, entry) -> {
-            if (!isCareful() || !entry.canPlace(level, pos)) {
+            if (!isCareful() || entry.canPlace(level, pos)) {
                 entry.place(level, pos);
             }
         });
