@@ -6,46 +6,47 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.function.Function;
 
 public class LodestoneBlockFiller {
-    public ArrayList<BlockStateEntry> entries = new ArrayList<>();
-    public final boolean careful;
+    protected final HashMap<BlockPos, BlockStateEntry> entries = new HashMap<>();
+    protected final boolean careful;
 
     public LodestoneBlockFiller(boolean careful) {
         this.careful = careful;
     }
 
     public void fill(LevelAccessor level) {
-        for (BlockStateEntry entry : entries) {
-            if (careful && !entry.canPlace(level)) {
-                continue;
+        getEntries().forEach((pos, entry) -> {
+            if (!isCareful() || !entry.canPlace(level, pos)) {
+                entry.place(level, pos);
             }
-            entry.place(level);
-        }
+        });
     }
 
-    public void replace(int index, Function<BlockStateEntry, BlockStateEntry> function) {
-        entries.set(index, function.apply(entries.get(index)));
+    public void replace(BlockPos pos, Function<BlockStateEntry, BlockStateEntry> entryFunction) {
+        getEntries().replace(pos, entryFunction.apply(getEntries().get(pos)));
     }
 
+    public HashMap<BlockPos, BlockStateEntry> getEntries() {
+        return entries;
+    }
+
+    public boolean isCareful() {
+        return careful;
+    }
+
+    @SuppressWarnings("ClassCanBeRecord")
     public static class BlockStateEntry {
-        public BlockState state;
-        public final BlockPos pos;
+        protected final BlockState state;
 
-        public BlockStateEntry(BlockState state, BlockPos pos) {
+        public BlockStateEntry(BlockState state) {
             this.state = state;
-            this.pos = pos;
         }
 
-        public BlockStateEntry replaceState(BlockState state) {
-            this.state = state;
-            return this;
-        }
-
-        public boolean canPlace(LevelAccessor level) {
-            return canPlace(level, pos);
+        public BlockState getState() {
+            return state;
         }
 
         public boolean canPlace(LevelAccessor level, BlockPos pos) {
@@ -56,7 +57,7 @@ public class LodestoneBlockFiller {
             return level.isEmptyBlock(pos) || state.getMaterial().isReplaceable();
         }
 
-        public void place(LevelAccessor level) {
+        public void place(LevelAccessor level, BlockPos pos) {
             level.setBlock(pos, state, 19);
             if (level instanceof Level) {
                 BlockHelper.updateState((Level) level, pos);
