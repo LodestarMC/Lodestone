@@ -95,7 +95,14 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
         nonEmptyItemStacks = stacks.stream().filter(s -> !s.isEmpty()).collect(Collectors.toCollection(ArrayList::new));
         nonEmptyItemAmount = nonEmptyItemStacks.size();
         emptyItemAmount = (int) stacks.stream().filter(ItemStack::isEmpty).count();
-        firstEmptyItemIndex = this.stacks.indexOf(ItemStack.EMPTY);
+        for (int i = 0; i < stacks.size(); i++) {
+            ItemStack stack = stacks.get(i);
+            if (stack.isEmpty()) {
+                firstEmptyItemIndex = i;
+                return;
+            }
+        }
+        firstEmptyItemIndex = -1;
     }
 
     public void load(CompoundTag compound) {
