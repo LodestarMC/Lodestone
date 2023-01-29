@@ -38,8 +38,7 @@ public class ParticleEmitterHandler {
                     float x = last.m03;
                     float y = last.m13;
                     if (ScreenParticleHandler.canSpawnParticles) {
-                        float gameTime = minecraft.level.getGameTime() + Minecraft.getInstance().timer.partialTick;
-                        emitter.spawnParticles(minecraft.level, gameTime, stack, x, y);
+                        emitter.spawnParticles(minecraft.level, minecraft.level.getGameTime(), Minecraft.getInstance().timer.partialTick, stack, x, y);
                     }
                     RENDERED_STACKS.add(new StackTracker(stack, x, y));
                 }
@@ -69,6 +68,6 @@ public class ParticleEmitterHandler {
 
     }
     public interface ItemParticleSupplier {
-        void spawnParticles(Level level, float gameTime, ItemStack stack, float x, float y);
+        void spawnParticles(Level level, float gameTime, float partialTick, ItemStack stack, float x, float y);
     }
 }
