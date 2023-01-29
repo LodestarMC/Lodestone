@@ -67,7 +67,7 @@ public class ScreenParticleHandler {
                 renderEarlyParticles();
             }
             if (!renderedParticles) {
-                renderParticles();
+                renderAfterUiParticles();
             }
             if (!renderedLateParticles) {
                 renderLateParticles();
@@ -87,7 +87,7 @@ public class ScreenParticleHandler {
         renderedEarlyParticles = true;
     }
 
-    public static void renderParticles() {
+    public static void renderAfterUiParticles() {
         renderParticles(AFTER_UI_TARGET);
         renderedParticles = true;
     }
@@ -97,7 +97,7 @@ public class ScreenParticleHandler {
         renderedLateParticles = true;
     }
 
-    public static void renderParticles(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {
+    private static void renderParticles(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
@@ -116,7 +116,7 @@ public class ScreenParticleHandler {
         clearParticles(LATE_TARGET);
     }
     public static void clearParticles(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {
-        screenParticleTarget.clear();
+        screenParticleTarget.values().forEach(ArrayList::clear);
     }
 
     @SuppressWarnings("unchecked")

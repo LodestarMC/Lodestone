@@ -6,6 +6,7 @@ import com.mojang.math.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.config.ClientConfig;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ParticleEmitterHandler {
-    public static final Map<Item, ScreenParticleEmitter> EMITTERS = new HashMap<>();
+    public static final Map<Item, ItemParticleSupplier> EMITTERS = new HashMap<>();
 
     public static final ArrayList<StackTracker> RENDERED_STACKS = new ArrayList<>();
 
@@ -30,14 +31,15 @@ public class ParticleEmitterHandler {
                 return;
             }
             if (!stack.isEmpty()) {
-                ScreenParticleEmitter emitter = EMITTERS.get(stack.getItem());
+                ItemParticleSupplier emitter = EMITTERS.get(stack.getItem());
                 if (emitter != null) {
                     PoseStack posestack = RenderSystem.getModelViewStack();
                     Matrix4f last = posestack.last().pose();
                     float x = last.m03;
                     float y = last.m13;
                     if (ScreenParticleHandler.canSpawnParticles) {
-                        emitter.tick(stack, x, y);
+                        float gameTime = minecraft.level.getGameTime() + Minecraft.getInstance().timer.partialTick;
+                        emitter.spawnParticles(minecraft.level, gameTime, stack, x, y);
                     }
                     RENDERED_STACKS.add(new StackTracker(stack, x, y));
                 }
@@ -54,34 +56,19 @@ public class ParticleEmitterHandler {
     }
 
     public static void registerItemParticleEmitter(Item item, ItemParticleSupplier emitter) {
-        EMITTERS.put(item, new ScreenParticleEmitter(emitter));
+        EMITTERS.put(item, emitter);
     }
 
     public static void registerItemParticleEmitter(ItemParticleSupplier emitter, Item... items) {
         for (Item item : items) {
-            EMITTERS.put(item, new ScreenParticleEmitter(emitter));
+            EMITTERS.put(item, emitter);
         }
-    }
-
-    public interface ItemParticleSupplier {
-        void spawnParticles(ItemStack stack, float x, float y);
     }
 
     public record StackTracker(ItemStack stack, float xOrigin, float yOrigin) {
+
     }
-
-    @SuppressWarnings("ClassCanBeRecord")
-    public static class ScreenParticleEmitter {
-
-        public final ItemParticleSupplier supplier;
-
-        public ScreenParticleEmitter(ItemParticleSupplier supplier) {
-            this.supplier = supplier;
-        }
-
-        public void tick(ItemStack stack, float x, float y) {
-            supplier.spawnParticles(stack, x, y);
-        }
-
+    public interface ItemParticleSupplier {
+        void spawnParticles(Level level, float gameTime, ItemStack stack, float x, float y);
     }
 }
