@@ -110,6 +110,15 @@ public class ScreenParticleHandler {
         });
     }
 
+    public static void clearParticles() {
+        clearParticles(EARLY_TARGET);
+        clearParticles(AFTER_UI_TARGET);
+        clearParticles(LATE_TARGET);
+    }
+    public static void clearParticles(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {
+        screenParticleTarget.clear();
+    }
+
     @SuppressWarnings("unchecked")
     public static <T extends ScreenParticleOptions> ScreenParticle addParticle(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget, T options, double x, double y, double xMotion, double yMotion) {
         Minecraft minecraft = Minecraft.getInstance();
