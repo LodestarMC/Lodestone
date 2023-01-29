@@ -12,8 +12,12 @@ import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin {
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderBuffers;bufferSource()Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;"), method = "renderGuiItem(Lnet/minecraft/world/item/ItemStack;IILnet/minecraft/client/resources/model/BakedModel;)V")
-    private void lodestoneItemParticleEmitter(ItemStack pStack, int pX, int pY, BakedModel pBakedmodel, CallbackInfo ci) {
-        ScreenParticleHandler.renderItemStack(pStack);
+    @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;scale(FFF)V", ordinal = 0), method = "renderGuiItem(Lnet/minecraft/world/item/ItemStack;IILnet/minecraft/client/resources/model/BakedModel;)V")
+    private void lodestone$renderGuiItem(ItemStack pStack, int pX, int pY, BakedModel pBakedmodel, CallbackInfo ci) {
+        ScreenParticleHandler.renderItemStack(pStack, pX, pY);
+    }
+    @Inject(at = @At(value = "TAIL"), method = "renderGuiItem(Lnet/minecraft/world/item/ItemStack;IILnet/minecraft/client/resources/model/BakedModel;)V")
+    private void lodestone$renderGuiItemLate(ItemStack pStack, int pX, int pY, BakedModel pBakedmodel, CallbackInfo ci) {
+        ScreenParticleHandler.renderItemStackLate();
     }
 }

@@ -534,7 +534,6 @@ public class ParticleBuilders {
             return this;
         }
 
-
         public ScreenParticleBuilder setColorEasing(Easing easing) {
             data.colorCurveEasing = easing;
             return this;

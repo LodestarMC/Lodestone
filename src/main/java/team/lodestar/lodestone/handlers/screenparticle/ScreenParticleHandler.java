@@ -6,9 +6,11 @@ import com.mojang.math.Matrix4f;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.item.ItemStack;
 import team.lodestar.lodestone.compability.JeiCompat;
 import team.lodestar.lodestone.config.ClientConfig;
+import team.lodestar.lodestone.helpers.util.Pair;
 import team.lodestar.lodestone.mixin.ItemStackMixin;
 import team.lodestar.lodestone.systems.rendering.particle.screen.*;
 import team.lodestar.lodestone.systems.rendering.particle.screen.base.ScreenParticle;
@@ -41,7 +43,10 @@ public class ScreenParticleHandler {
      */
     public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> LATE_PARTICLES = new HashMap<>();
 
-   // public static final HashMap<ItemStack, HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>>> ITEM_STACK_BOUND_PARTICLES = new HashMap<>();
+    /**
+     * Item Stack Bound Particles are rendered just after an item stack in the inventory. They are ticked the same as other particles.
+     */
+    public static final HashMap<Pair<Boolean, ItemStack>, HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>>> ITEM_STACK_BOUND_PARTICLES = new HashMap<>();
 
     public static final Tesselator TESSELATOR = new Tesselator();
     public static boolean canSpawnParticles;
@@ -55,7 +60,9 @@ public class ScreenParticleHandler {
         tickParticles(EARLIEST_PARTICLES);
         tickParticles(EARLY_PARTICLES);
         tickParticles(LATE_PARTICLES);
-       // ITEM_STACK_BOUND_PARTICLES.values().forEach(ScreenParticleHandler::tickParticles);
+        ITEM_STACK_BOUND_PARTICLES.values().forEach(ScreenParticleHandler::tickParticles);
+        ITEM_STACK_BOUND_PARTICLES.values().removeIf(map -> map.values().stream().allMatch(ArrayList::isEmpty));
+
 
         canSpawnParticles = true;
     }
@@ -72,8 +79,8 @@ public class ScreenParticleHandler {
             }
         });
     }
-
-    public static void renderItemStack(ItemStack stack) {
+    private static HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> cachedTarget = null;
+    public static void renderItemStack(ItemStack stack, int x, int y) {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
@@ -85,26 +92,19 @@ public class ScreenParticleHandler {
             if (!stack.isEmpty()) {
                 ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitter != null) {
-                    PoseStack posestack = RenderSystem.getModelViewStack();
-                    Matrix4f last = posestack.last().pose();
-                    float x = last.m03;
-                    float y = last.m13;
-                    float z = last.m23;
-                    HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> target = EARLY_PARTICLES;
-                    Screen screen = minecraft.screen;
-                    if (renderingHotbar) {
-                        target = EARLIEST_PARTICLES;
-                    }
-                    else if (screen != null) {
-                        if (JeiCompat.LOADED || JeiCompat.LoadedOnly.isRecipesUi(screen)) {
-                            target = LATE_PARTICLES;
-                        }
-                    }
+                    HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> target = ITEM_STACK_BOUND_PARTICLES.computeIfAbsent(Pair.of(renderingHotbar, stack), s -> new HashMap<>());
                     if (canSpawnParticles) {
-                        emitter.spawnParticles(target, minecraft.level, Minecraft.getInstance().timer.partialTick, stack, x, y);
+                        emitter.spawnParticles(target, minecraft.level, Minecraft.getInstance().timer.partialTick, stack, x+8, y+8);
                     }
+                    cachedTarget = target;
                 }
             }
+        }
+    }
+    public static void renderItemStackLate() {
+        if (cachedTarget != null) {
+            renderParticles(cachedTarget);
+            cachedTarget = null;
         }
     }
 
