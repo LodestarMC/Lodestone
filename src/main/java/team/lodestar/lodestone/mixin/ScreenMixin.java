@@ -14,6 +14,6 @@ public class ScreenMixin {
 
     @Inject(at = @At("HEAD"), method = "renderBackground(Lcom/mojang/blaze3d/vertex/PoseStack;I)V")
     private void lodestoneBeforeUiParticleMixin(PoseStack pPoseStack, int pVOffset, CallbackInfo ci) {
-        ScreenParticleHandler.renderEarlyParticles();
+        ScreenParticleHandler.renderEarliestParticles();
     }
 }

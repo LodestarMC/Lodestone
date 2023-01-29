@@ -127,24 +127,6 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     }
 
     @Override
-    public void render(BufferBuilder bufferBuilder) {
-        trackStack();
-        super.render(bufferBuilder);
-    }
-
-    public void trackStack() {
-        if (data.stack != null) {
-            for (ParticleEmitterHandler.StackTracker renderedStack : ParticleEmitterHandler.RENDERED_STACKS) {
-                if (renderedStack.stack().equals(data.stack)) {
-                    x = renderedStack.xOrigin() + data.xOffset + xMoved;
-                    y = renderedStack.yOrigin() + data.yOffset + yMoved;
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
     public ScreenParticleRenderType getRenderType() {
         return renderType;
     }

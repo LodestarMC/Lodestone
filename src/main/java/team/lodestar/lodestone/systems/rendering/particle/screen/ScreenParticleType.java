@@ -10,6 +10,6 @@ public class ScreenParticleType<T extends ScreenParticleOptions>  extends net.mi
    }
 
    public interface ParticleProvider<T extends ScreenParticleOptions> {
-      ScreenParticle createParticle(ClientLevel pLevel, T options, double pX, double pY, double pXSpeed, double pYSpeed);
+      ScreenParticle createParticle(ClientLevel pLevel, T options, double x, double y, double pXSpeed, double pYSpeed);
    }
 }

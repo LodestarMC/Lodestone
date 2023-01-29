@@ -9,12 +9,9 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import static net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
-
 @OnlyIn(Dist.CLIENT)
 public abstract class QuadScreenParticle extends ScreenParticle {
    protected float quadSize = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
-
    protected QuadScreenParticle(ClientLevel pLevel, double pX, double pY) {
       super(pLevel, pX, pY);
    }
@@ -40,19 +37,19 @@ public abstract class QuadScreenParticle extends ScreenParticle {
          vector3f.mul(size);
          vector3f.add((float) x, (float) y, 0);
       }
-      /*TODO: JEI tooltips render at 400 z, while the held by mouse item stack renders at around 380, we need a value between to be above the stack, but below JEI tooltips.
-         There is definitely a better way of doing this.
-         Expose z level to particles on a per-object basis.
-       */
-      int z = 390;
-      bufferBuilder.vertex(vectors[0].x(), vectors[0].y(), z).uv(u1, v1).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
-      bufferBuilder.vertex(vectors[1].x(), vectors[1].y(), z).uv(u1, v0).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
-      bufferBuilder.vertex(vectors[2].x(), vectors[2].y(), z).uv(u0, v0).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
-      bufferBuilder.vertex(vectors[3].x(), vectors[3].y(), z).uv(u0, v1).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
+      float quadZ = getQuadZPosition();
+      bufferBuilder.vertex(vectors[0].x(), vectors[0].y(), quadZ).uv(u1, v1).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
+      bufferBuilder.vertex(vectors[1].x(), vectors[1].y(), quadZ).uv(u1, v0).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
+      bufferBuilder.vertex(vectors[2].x(), vectors[2].y(), quadZ).uv(u0, v0).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
+      bufferBuilder.vertex(vectors[3].x(), vectors[3].y(), quadZ).uv(u0, v1).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
    }
 
    public float getQuadSize(float partialTicks) {
       return this.quadSize;
+   }
+
+   public float getQuadZPosition() {
+      return 390;
    }
 
    protected abstract float getU0();

@@ -12,11 +12,7 @@ import java.util.HashMap;
 public class ScreenParticleOptions extends SimpleParticleOptions {
 
     public final ScreenParticleType<?> type;
-    public ItemStack stack;
-    public float xOrigin;
-    public float yOrigin;
-    public float xOffset;
-    public float yOffset;
+
     public ScreenParticleRenderType renderType = ScreenParticleRenderType.ADDITIVE;
 
     public Vec2 startingMotion = Vec2.ZERO, endingMotion = Vec2.ZERO;

@@ -22,8 +22,8 @@ public class LodestoneScreenParticleType extends ScreenParticleType<ScreenPartic
         }
 
         @Override
-        public ScreenParticle createParticle(ClientLevel pLevel, ScreenParticleOptions options, double pX, double pY, double pXSpeed, double pYSpeed) {
-            return new GenericScreenParticle(pLevel, options, (ParticleEngine.MutableSpriteSet) sprite, pX, pY, pXSpeed, pYSpeed);
+        public ScreenParticle createParticle(ClientLevel pLevel, ScreenParticleOptions options, double x, double y, double pXSpeed, double pYSpeed) {
+            return new GenericScreenParticle(pLevel, options, (ParticleEngine.MutableSpriteSet) sprite, x, y, pXSpeed, pYSpeed);
         }
     }
 }

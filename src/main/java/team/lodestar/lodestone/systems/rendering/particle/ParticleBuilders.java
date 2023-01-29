@@ -497,8 +497,8 @@ public class ParticleBuilders {
         }
     }
 
-    public static ScreenParticleBuilder create(ScreenParticleType<?> type) {
-        return new ScreenParticleBuilder(type);
+    public static ScreenParticleBuilder create(ScreenParticleType<?> type, HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> target) {
+        return new ScreenParticleBuilder(type, target);
     }
 
     public static class ScreenParticleBuilder {
@@ -506,15 +506,17 @@ public class ParticleBuilders {
 
         final ScreenParticleType<?> type;
         final ScreenParticleOptions data;
-        HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget = ScreenParticleHandler.AFTER_UI_TARGET;
+        final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> target;
+
         double vx = 0, vy = 0;
         double dx = 0, dy = 0;
         double maxXSpeed = 0, maxYSpeed = 0;
         double maxXDist = 0, maxYDist = 0;
 
-        protected ScreenParticleBuilder(ScreenParticleType<?> type) {
+        protected ScreenParticleBuilder(ScreenParticleType<?> type, HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> target) {
             this.type = type;
             this.data = new ScreenParticleOptions(type);
+            this.target = target;
         }
 
         public ScreenParticleBuilder setAnimator(SimpleParticleOptions.Animator animator) {
@@ -532,22 +534,6 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder setRenderTarget(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {
-            this.screenParticleTarget = screenParticleTarget;
-            return this;
-        }
-
-        public ScreenParticleBuilder centerOnStack(ItemStack stack) {
-            data.stack = stack;
-            return this;
-        }
-
-        public ScreenParticleBuilder centerOnStack(ItemStack stack, float xOffset, float yOffset) {
-            data.stack = stack;
-            data.xOffset = xOffset;
-            data.yOffset = yOffset;
-            return this;
-        }
 
         public ScreenParticleBuilder setColorEasing(Easing easing) {
             data.colorCurveEasing = easing;
@@ -781,25 +767,6 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder spawnCircle(double x, double y, double distance, double currentCount, double totalCount) {
-            double xSpeed = random.nextFloat() * maxXSpeed, ySpeed = random.nextFloat() * maxYSpeed;
-            double theta = (Math.PI * 2) / totalCount;
-            double finalAngle = (currentCount / totalCount) + (theta * currentCount);
-            double dx2 = (distance * Math.cos(finalAngle));
-            double dz2 = (distance * Math.sin(finalAngle));
-
-            Vector3d vector2f = new Vector3d(dx2, 0, dz2);
-            this.vx = vector2f.x * xSpeed;
-
-            double yaw2 = random.nextFloat() * Math.PI * 2, pitch2 = random.nextFloat() * Math.PI - Math.PI / 2, xDist = random.nextFloat() * maxXDist, yDist = random.nextFloat() * maxYDist;
-            this.dx = Math.sin(yaw2) * Math.cos(pitch2) * xDist;
-            this.dy = Math.sin(pitch2) * yDist;
-            data.xOrigin = (float) x;
-            data.yOrigin = (float) y;
-            ScreenParticleHandler.addParticle(screenParticleTarget, data, x + dx + dx2, y + dy + dz2, vx, ySpeed);
-            return this;
-        }
-
         public ScreenParticleBuilder spawn(double x, double y) {
             double yaw = random.nextFloat() * Math.PI * 2, pitch = random.nextFloat() * Math.PI - Math.PI / 2, xSpeed = random.nextFloat() * maxXSpeed, ySpeed = random.nextFloat() * maxYSpeed;
             this.vx += Math.sin(yaw) * Math.cos(pitch) * xSpeed;
@@ -807,9 +774,7 @@ public class ParticleBuilders {
             double yaw2 = random.nextFloat() * Math.PI * 2, pitch2 = random.nextFloat() * Math.PI - Math.PI / 2, xDist = random.nextFloat() * maxXDist, yDist = random.nextFloat() * maxYDist;
             this.dx = Math.sin(yaw2) * Math.cos(pitch2) * xDist;
             this.dy = Math.sin(pitch2) * yDist;
-            data.xOrigin = (float) x;
-            data.yOrigin = (float) y;
-            ScreenParticleHandler.addParticle(screenParticleTarget, data, x + dx, y + dy, vx, vy);
+            ScreenParticleHandler.addParticle(target, data, x + dx, y + dy, vx, vy);
             return this;
         }
 
@@ -818,9 +783,5 @@ public class ParticleBuilders {
             return this;
         }
 
-        public ScreenParticleBuilder repeatCircle(double x, double y, double distance, int times) {
-            for (int i = 0; i < times; i++) spawnCircle(x, y, distance, i, times);
-            return this;
-        }
     }
 }

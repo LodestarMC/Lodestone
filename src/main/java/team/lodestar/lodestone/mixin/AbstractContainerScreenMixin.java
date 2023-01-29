@@ -13,6 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class AbstractContainerScreenMixin {
     @Inject(at = @At("RETURN"), method = "render")
     private void lodestoneBeforeTooltipParticleMixin(PoseStack i1, int slot, int k, float l1, CallbackInfo ci) {
-        ScreenParticleHandler.renderAfterUiParticles();
+        ScreenParticleHandler.renderEarlyParticles();
     }
 }

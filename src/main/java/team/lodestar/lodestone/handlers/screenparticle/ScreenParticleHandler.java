@@ -1,6 +1,15 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Matrix4f;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
+import net.minecraft.world.item.ItemStack;
+import team.lodestar.lodestone.compability.JeiCompat;
 import team.lodestar.lodestone.config.ClientConfig;
+import team.lodestar.lodestone.mixin.ItemStackMixin;
 import team.lodestar.lodestone.systems.rendering.particle.screen.*;
 import team.lodestar.lodestone.systems.rendering.particle.screen.base.ScreenParticle;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -18,17 +27,21 @@ import java.util.*;
 public class ScreenParticleHandler {
 
     /**
-     * Early Screen Particles are rendered before most other UI elements.
-     * Post Ui Particles are rendered after other UI elements, but before things like tooltips or other overlays.
+     * Earliest Screen Particles are rendered before nearly every piece of user interface.
+     */
+    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> EARLIEST_PARTICLES = new HashMap<>();
+
+    /**
+     * Early Screen Particles are rendered after other UI elements, but before things like tooltips or other overlays.
+     */
+    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> EARLY_PARTICLES = new HashMap<>();
+
+    /**
      * Late Screen Particles are rendered after everything else.
      */
-    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> EARLY_TARGET = new HashMap<>();
-    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> AFTER_UI_TARGET = new HashMap<>();
-    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> LATE_TARGET = new HashMap<>();
+    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> LATE_PARTICLES = new HashMap<>();
 
-    private static boolean renderedEarlyParticles;
-    private static boolean renderedParticles;
-    private static boolean renderedLateParticles;
+   // public static final HashMap<ItemStack, HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>>> ITEM_STACK_BOUND_PARTICLES = new HashMap<>();
 
     public static final Tesselator TESSELATOR = new Tesselator();
     public static boolean canSpawnParticles;
@@ -39,9 +52,11 @@ public class ScreenParticleHandler {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
-        tickParticles(EARLY_TARGET);
-        tickParticles(AFTER_UI_TARGET);
-        tickParticles(LATE_TARGET);
+        tickParticles(EARLIEST_PARTICLES);
+        tickParticles(EARLY_PARTICLES);
+        tickParticles(LATE_PARTICLES);
+       // ITEM_STACK_BOUND_PARTICLES.values().forEach(ScreenParticleHandler::tickParticles);
+
         canSpawnParticles = true;
     }
 
@@ -58,43 +73,66 @@ public class ScreenParticleHandler {
         });
     }
 
+    public static void renderItemStack(ItemStack stack) {
+        if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
+            return;
+        }
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.level != null && minecraft.player != null) {
+            if (minecraft.isPaused()) {
+                return;
+            }
+            if (!stack.isEmpty()) {
+                ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
+                if (emitter != null) {
+                    PoseStack posestack = RenderSystem.getModelViewStack();
+                    Matrix4f last = posestack.last().pose();
+                    float x = last.m03;
+                    float y = last.m13;
+                    float z = last.m23;
+                    HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> target = EARLY_PARTICLES;
+                    Screen screen = minecraft.screen;
+                    if (renderingHotbar) {
+                        target = EARLIEST_PARTICLES;
+                    }
+                    else if (screen != null) {
+                        if (JeiCompat.LOADED || JeiCompat.LoadedOnly.isRecipesUi(screen)) {
+                            target = LATE_PARTICLES;
+                        }
+                    }
+                    if (canSpawnParticles) {
+                        emitter.spawnParticles(target, minecraft.level, Minecraft.getInstance().timer.partialTick, stack, x, y);
+                    }
+                }
+            }
+        }
+    }
+
     public static void renderParticles(TickEvent.RenderTickEvent event) {
         if (event.phase.equals(TickEvent.Phase.END)) {
             if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
                 return;
             }
-            if (!renderedEarlyParticles) {
-                renderEarlyParticles();
-            }
-            if (!renderedParticles) {
-                renderAfterUiParticles();
-            }
-            if (!renderedLateParticles) {
-                renderLateParticles();
-            }
+            Screen screen = Minecraft.getInstance().screen;
 
-            ParticleEmitterHandler.RENDERED_STACKS.clear();
-
-            renderedEarlyParticles = false;
-            renderedParticles = false;
-            renderedLateParticles = false;
+            if (screen == null || screen instanceof ChatScreen || screen instanceof GameModeSwitcherScreen) {
+                renderEarliestParticles();
+            }
+            renderLateParticles();
             canSpawnParticles = false;
         }
     }
 
-    public static void renderEarlyParticles() {
-        renderParticles(EARLY_TARGET);
-        renderedEarlyParticles = true;
+    public static void renderEarliestParticles() {
+        renderParticles(EARLIEST_PARTICLES);
     }
 
-    public static void renderAfterUiParticles() {
-        renderParticles(AFTER_UI_TARGET);
-        renderedParticles = true;
+    public static void renderEarlyParticles() {
+        renderParticles(EARLY_PARTICLES);
     }
 
     public static void renderLateParticles() {
-        renderParticles(LATE_TARGET);
-        renderedLateParticles = true;
+        renderParticles(LATE_PARTICLES);
     }
 
     private static void renderParticles(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {
@@ -111,10 +149,11 @@ public class ScreenParticleHandler {
     }
 
     public static void clearParticles() {
-        clearParticles(EARLY_TARGET);
-        clearParticles(AFTER_UI_TARGET);
-        clearParticles(LATE_TARGET);
+        clearParticles(EARLIEST_PARTICLES);
+        clearParticles(EARLY_PARTICLES);
+        clearParticles(LATE_PARTICLES);
     }
+
     public static void clearParticles(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {
         screenParticleTarget.values().forEach(ArrayList::clear);
     }
@@ -128,5 +167,4 @@ public class ScreenParticleHandler {
         list.add(particle);
         return particle;
     }
-
 }
