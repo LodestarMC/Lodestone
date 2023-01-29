@@ -46,24 +46,24 @@ public class ParticleEmitterHandler {
     }
 
     public static void registerParticleEmitters(FMLClientSetupEvent event) {
-        DataHelper.takeAll(new ArrayList<>(ForgeRegistries.ITEMS.getValues()), i -> i instanceof EmitterSupplier).forEach(i -> {
-                    EmitterSupplier emitter = (EmitterSupplier) i;
+        DataHelper.takeAll(new ArrayList<>(ForgeRegistries.ITEMS.getValues()), i -> i instanceof ItemParticleSupplier).forEach(i -> {
+                    ItemParticleSupplier emitter = (ItemParticleSupplier) i;
                     registerItemParticleEmitter(i, emitter);
                 }
         );
     }
 
-    public static void registerItemParticleEmitter(Item item, EmitterSupplier emitter) {
+    public static void registerItemParticleEmitter(Item item, ItemParticleSupplier emitter) {
         EMITTERS.put(item, new ScreenParticleEmitter(emitter));
     }
 
-    public static void registerItemParticleEmitter(EmitterSupplier emitter, Item... items) {
+    public static void registerItemParticleEmitter(ItemParticleSupplier emitter, Item... items) {
         for (Item item : items) {
             EMITTERS.put(item, new ScreenParticleEmitter(emitter));
         }
     }
 
-    public interface EmitterSupplier {
+    public interface ItemParticleSupplier {
         void tick(ItemStack stack, float x, float y);
     }
 
@@ -73,9 +73,9 @@ public class ParticleEmitterHandler {
     @SuppressWarnings("ClassCanBeRecord")
     public static class ScreenParticleEmitter {
 
-        public final EmitterSupplier supplier;
+        public final ItemParticleSupplier supplier;
 
-        public ScreenParticleEmitter(EmitterSupplier supplier) {
+        public ScreenParticleEmitter(ItemParticleSupplier supplier) {
             this.supplier = supplier;
         }
 
