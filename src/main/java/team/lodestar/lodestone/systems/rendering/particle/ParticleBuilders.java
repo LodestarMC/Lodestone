@@ -43,8 +43,8 @@ public class ParticleBuilders {
     public static class WorldParticleBuilder {
         static Random random = new Random();
 
-        ParticleType<?> type;
-        WorldParticleOptions data;
+        final ParticleType<?> type;
+        final WorldParticleOptions data;
         double vx = 0, vy = 0, vz = 0;
         double dx = 0, dy = 0, dz = 0;
         double maxXSpeed = 0, maxYSpeed = 0, maxZSpeed = 0;
@@ -55,19 +55,21 @@ public class ParticleBuilders {
             this.data = new WorldParticleOptions(type);
         }
 
-        //TODO: I just realized these methods are all named 'overwrite' and not 'override', if anyone feels like it do me a favor and fix it, preferably updating it in malum too
-        public WorldParticleBuilder overwriteAnimator(SimpleParticleOptions.Animator animator) {
+        public WorldParticleBuilder setAnimator(SimpleParticleOptions.Animator animator) {
             data.animator = animator;
             return this;
         }
-        public WorldParticleBuilder overwriteRenderType(ParticleRenderType renderType) {
+
+        public WorldParticleBuilder setRenderType(ParticleRenderType renderType) {
             data.renderType = renderType;
             return this;
         }
-        public WorldParticleBuilder overwriteRemovalProtocol(SimpleParticleOptions.SpecialRemovalProtocol removalProtocol) {
+
+        public WorldParticleBuilder setRemovalProtocol(SimpleParticleOptions.SpecialRemovalProtocol removalProtocol) {
             data.removalProtocol = removalProtocol;
             return this;
         }
+
         public WorldParticleBuilder setColorEasing(Easing easing) {
             data.colorCurveEasing = easing;
             return this;
@@ -197,10 +199,12 @@ public class ParticleBuilders {
             data.noClip = false;
             return this;
         }
+
         public WorldParticleBuilder setSpinEasing(Easing easing) {
             data.spinCurveStartEasing = easing;
             return this;
         }
+
         public WorldParticleBuilder setSpinEasing(Easing startEasing, Easing endEasing) {
             data.spinCurveStartEasing = startEasing;
             data.spinCurveEndEasing = endEasing;
@@ -351,6 +355,7 @@ public class ParticleBuilders {
             }
             return this;
         }
+
         public WorldParticleBuilder repeatSurroundBlock(Level level, BlockPos pos, int n) {
             for (int i = 0; i < n; i++) surroundBlock(level, pos);
             return this;
@@ -363,10 +368,10 @@ public class ParticleBuilders {
 
         public WorldParticleBuilder surroundVoxelShape(Level level, BlockPos pos, VoxelShape voxelShape, int max) {
             int[] c = new int[1];
-            int perBoxMax = max/voxelShape.toAabbs().size();
+            int perBoxMax = max / voxelShape.toAabbs().size();
             Supplier<Boolean> r = () -> {
                 c[0]++;
-                if(c[0] >= perBoxMax) {
+                if (c[0] >= perBoxMax) {
                     c[0] = 0;
                     return true;
                 }
@@ -391,9 +396,9 @@ public class ParticleBuilders {
                         runs.add(() -> spawnLine(level, v.add(x2, y1, z1), v.add(x2, y2, z1)));
                         runs.add(() -> spawnLine(level, v.add(x1, y1, z2), v.add(x1, y2, z2)));
                         Collections.shuffle(runs);
-                        for(Runnable runnable : runs) {
+                        for (Runnable runnable : runs) {
                             runnable.run();
-                            if(r.get()) {
+                            if (r.get()) {
                                 break;
                             }
                         }
@@ -401,14 +406,15 @@ public class ParticleBuilders {
             );
             return this;
         }
+
         public WorldParticleBuilder surroundVoxelShape(Level level, BlockPos pos, BlockState state, int max) {
             VoxelShape voxelShape = state.getShape(level, pos);
-            if(voxelShape.isEmpty()) {
+            if (voxelShape.isEmpty()) {
                 voxelShape = Shapes.block();
             }
             return surroundVoxelShape(level, pos, voxelShape, max);
         }
-        
+
         public WorldParticleBuilder spawnAtRandomFace(Level level, BlockPos pos) {
             Direction direction = Direction.values()[level.random.nextInt(Direction.values().length)];
             double yaw = random.nextFloat() * Math.PI * 2, pitch = random.nextFloat() * Math.PI - Math.PI / 2, xSpeed = random.nextFloat() * maxXSpeed, ySpeed = random.nextFloat() * maxYSpeed, zSpeed = random.nextFloat() * maxZSpeed;
@@ -498,9 +504,9 @@ public class ParticleBuilders {
     public static class ScreenParticleBuilder {
         static Random random = new Random();
 
-        ScreenParticleType<?> type;
-        ScreenParticleOptions data;
-        HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> particleMap;
+        final ScreenParticleType<?> type;
+        final ScreenParticleOptions data;
+        HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget = ScreenParticleHandler.AFTER_UI_TARGET;
         double vx = 0, vy = 0;
         double dx = 0, dy = 0;
         double maxXSpeed = 0, maxYSpeed = 0;
@@ -510,28 +516,39 @@ public class ParticleBuilders {
             this.type = type;
             this.data = new ScreenParticleOptions(type);
         }
-        public ScreenParticleBuilder overwriteAnimator(SimpleParticleOptions.Animator animator) {
+
+        public ScreenParticleBuilder setAnimator(SimpleParticleOptions.Animator animator) {
             data.animator = animator;
             return this;
         }
-        public ScreenParticleBuilder overwriteRenderType(ScreenParticleRenderType renderType) {
+
+        public ScreenParticleBuilder setRenderType(ScreenParticleRenderType renderType) {
             data.renderType = renderType;
             return this;
         }
-        public ScreenParticleBuilder overwriteRemovalProtocol(SimpleParticleOptions.SpecialRemovalProtocol removalProtocol) {
+
+        public ScreenParticleBuilder setRemovalProtocol(SimpleParticleOptions.SpecialRemovalProtocol removalProtocol) {
             data.removalProtocol = removalProtocol;
             return this;
         }
+
+        public ScreenParticleBuilder setRenderTarget(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {
+            this.screenParticleTarget = screenParticleTarget;
+            return this;
+        }
+
         public ScreenParticleBuilder centerOnStack(ItemStack stack) {
             data.stack = stack;
             return this;
         }
+
         public ScreenParticleBuilder centerOnStack(ItemStack stack, float xOffset, float yOffset) {
             data.stack = stack;
             data.xOffset = xOffset;
             data.yOffset = yOffset;
             return this;
         }
+
         public ScreenParticleBuilder setColorEasing(Easing easing) {
             data.colorCurveEasing = easing;
             return this;
@@ -706,6 +723,7 @@ public class ParticleBuilders {
             data.motionCoefficient = motionCoefficient;
             return this;
         }
+
         public ScreenParticleBuilder randomMotion(double maxSpeed) {
             return randomMotion(maxSpeed, maxSpeed);
         }
@@ -778,7 +796,7 @@ public class ParticleBuilders {
             this.dy = Math.sin(pitch2) * yDist;
             data.xOrigin = (float) x;
             data.yOrigin = (float) y;
-            ScreenParticleHandler.addParticle(particleMap, data, x + dx + dx2, y + dy + dz2, vx, ySpeed);
+            ScreenParticleHandler.addParticle(screenParticleTarget, data, x + dx + dx2, y + dy + dz2, vx, ySpeed);
             return this;
         }
 
@@ -791,7 +809,7 @@ public class ParticleBuilders {
             this.dy = Math.sin(pitch2) * yDist;
             data.xOrigin = (float) x;
             data.yOrigin = (float) y;
-            ScreenParticleHandler.addParticle(particleMap, data, x + dx, y + dy, vx, vy);
+            ScreenParticleHandler.addParticle(screenParticleTarget, data, x + dx, y + dy, vx, vy);
             return this;
         }
 

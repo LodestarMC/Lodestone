@@ -3,12 +3,8 @@ package team.lodestar.lodestone.handlers.screenparticle;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.systems.rendering.particle.screen.*;
 import team.lodestar.lodestone.systems.rendering.particle.screen.base.ScreenParticle;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.math.Matrix4f;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
 
 import java.util.*;
@@ -23,12 +19,12 @@ public class ScreenParticleHandler {
 
     /**
      * Early Screen Particles are rendered before most other UI elements.
-     * Regular Screen Particles are rendered after other UI elements, but before things like tooltips or other overlays.
+     * Post Ui Particles are rendered after other UI elements, but before things like tooltips or other overlays.
      * Late Screen Particles are rendered after everything else.
      */
-    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> EARLY_SCREEN_PARTICLES = new HashMap<>();
-    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> SCREEN_PARTICLES = new HashMap<>();
-    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> LATE_SCREEN_PARTICLES = new HashMap<>();
+    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> EARLY_TARGET = new HashMap<>();
+    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> AFTER_UI_TARGET = new HashMap<>();
+    public static final HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> LATE_TARGET = new HashMap<>();
 
     private static boolean renderedEarlyParticles;
     private static boolean renderedParticles;
@@ -43,14 +39,14 @@ public class ScreenParticleHandler {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
-        tickParticles(EARLY_SCREEN_PARTICLES);
-        tickParticles(SCREEN_PARTICLES);
-        tickParticles(LATE_SCREEN_PARTICLES);
+        tickParticles(EARLY_TARGET);
+        tickParticles(AFTER_UI_TARGET);
+        tickParticles(LATE_TARGET);
         canSpawnParticles = true;
     }
 
-    public static void tickParticles(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> particleMap) {
-        particleMap.forEach((pair, particles) -> {
+    public static void tickParticles(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {
+        screenParticleTarget.forEach((pair, particles) -> {
             Iterator<ScreenParticle> iterator = particles.iterator();
             while (iterator.hasNext()) {
                 ScreenParticle particle = iterator.next();
@@ -87,25 +83,25 @@ public class ScreenParticleHandler {
     }
 
     public static void renderEarlyParticles() {
-        renderParticles(EARLY_SCREEN_PARTICLES);
+        renderParticles(EARLY_TARGET);
         renderedEarlyParticles = true;
     }
 
     public static void renderParticles() {
-        renderParticles(SCREEN_PARTICLES);
+        renderParticles(AFTER_UI_TARGET);
         renderedParticles = true;
     }
 
     public static void renderLateParticles() {
-        renderParticles(LATE_SCREEN_PARTICLES);
+        renderParticles(LATE_TARGET);
         renderedLateParticles = true;
     }
 
-    public static void renderParticles(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> particleMap) {
+    public static void renderParticles(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
-        particleMap.forEach((renderType, particles) -> {
+        screenParticleTarget.forEach((renderType, particles) -> {
             renderType.begin(TESSELATOR.getBuilder(), Minecraft.getInstance().textureManager);
             for (ScreenParticle next : particles) {
                 next.render(TESSELATOR.getBuilder());
@@ -115,11 +111,11 @@ public class ScreenParticleHandler {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends ScreenParticleOptions> ScreenParticle addParticle(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> particleMap, T options, double x, double y, double xMotion, double yMotion) {
+    public static <T extends ScreenParticleOptions> ScreenParticle addParticle(HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget, T options, double x, double y, double xMotion, double yMotion) {
         Minecraft minecraft = Minecraft.getInstance();
         ScreenParticleType<T> type = (ScreenParticleType<T>) options.type;
         ScreenParticle particle = type.provider.createParticle(minecraft.level, options, x, y, xMotion, yMotion);
-        ArrayList<ScreenParticle> list = particleMap.computeIfAbsent(options.renderType, (a) -> new ArrayList<>());
+        ArrayList<ScreenParticle> list = screenParticleTarget.computeIfAbsent(options.renderType, (a) -> new ArrayList<>());
         list.add(particle);
         return particle;
     }
