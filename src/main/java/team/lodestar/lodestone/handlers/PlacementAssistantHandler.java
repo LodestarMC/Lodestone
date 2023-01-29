@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.handlers;
 
+import net.minecraftforge.event.TickEvent;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.systems.placementassistance.IPlacementAssistant;
 import net.minecraft.client.Minecraft;
@@ -24,7 +25,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mod.EventBusSubscriber
 public class PlacementAssistantHandler {
 
     public static final ArrayList<IPlacementAssistant> ASSISTANTS = new ArrayList<>();
@@ -46,33 +46,36 @@ public class PlacementAssistantHandler {
         List<IPlacementAssistant> assistants = findAssistants(level, player, event.getHitVec());
         for (IPlacementAssistant assistant : assistants) {
             BlockState state = level.getBlockState(event.getPos());
-            assistant.onPlace(level, event.getHitVec(), state);
+            assistant.onPlace(player, level, event.getHitVec(), state);
         }
         animationTick=Math.max(0, animationTick-5);
     }
-    @OnlyIn(Dist.CLIENT)
-    public static void clientTick() {
-        Minecraft minecraft = Minecraft.getInstance();
-        ClientLevel level = minecraft.level;
-        List<IPlacementAssistant> assistants = findAssistants(level, minecraft.player, minecraft.hitResult);
-        if (minecraft.hitResult instanceof BlockHitResult blockHitResult && !blockHitResult.getType().equals(HitResult.Type.MISS)) {
+
+    public static void tick(Player player, HitResult hitResult) {
+        Level level = player.level;
+        List<IPlacementAssistant> assistants = findAssistants(level, player, hitResult);
+        if (hitResult instanceof BlockHitResult blockHitResult && !blockHitResult.getType().equals(HitResult.Type.MISS)) {
             target = blockHitResult.getBlockPos();
             for (IPlacementAssistant assistant : assistants) {
-                BlockState state = minecraft.level.getBlockState(blockHitResult.getBlockPos());
-                assistant.assist(level, blockHitResult, state);
-                assistant.showAssistance(level, blockHitResult, state);
+                BlockState state = level.getBlockState(blockHitResult.getBlockPos());
+                assistant.assist(player, level, blockHitResult, state);
+                if (level.isClientSide) {
+                    assistant.showAssistance(level, blockHitResult, state);
+                }
             }
         } else {
             target = null;
         }
-        if (target == null) {
-            if (animationTick > 0) {
-                animationTick = Math.max(animationTick - 2, 0);
+        if (level.isClientSide) {
+            if (target == null) {
+                if (animationTick > 0) {
+                    animationTick = Math.max(animationTick - 2, 0);
+                }
+                return;
             }
-            return;
-        }
-        if (animationTick < 10) {
-            animationTick++;
+            if (animationTick < 10) {
+                animationTick++;
+            }
         }
     }
 

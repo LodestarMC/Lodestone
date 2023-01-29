@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ScreenEffectRendererMixin {
     @Inject(method = "renderScreenEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isSpectator()Z"))
     private static void lodestoneFireEffectRendering(Minecraft overlay, PoseStack pMinecraft, CallbackInfo ci) {
-        FireEffectHandler.ClientOnly.renderUIMeteorFire(overlay, pMinecraft);
+        FireEffectHandler.ClientOnly.renderUIFireEffect(overlay, pMinecraft);
     }
 
     @Inject(method = "renderFire", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(DDD)V"))

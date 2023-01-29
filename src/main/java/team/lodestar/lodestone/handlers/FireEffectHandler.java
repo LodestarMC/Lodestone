@@ -62,7 +62,7 @@ public class FireEffectHandler {
     }
 
     public static class ClientOnly {
-        public static void renderUIMeteorFire(Minecraft pMinecraft, PoseStack pPoseStack) {
+        public static void renderUIFireEffect(Minecraft pMinecraft, PoseStack pPoseStack) {
             if (pMinecraft.player != null) {
                 if (getFireEffectInstance(pMinecraft.player) == null) {
                     return;
@@ -77,7 +77,7 @@ public class FireEffectHandler {
             }
         }
 
-        public static void renderWorldMeteorFire(PoseStack pMatrixStack, MultiBufferSource pBuffer, Camera camera, Entity pEntity) {
+        public static void renderWorldFireEffect(PoseStack pMatrixStack, MultiBufferSource pBuffer, Camera camera, Entity pEntity) {
             if (getFireEffectInstance(pEntity) == null) {
                 return;
             }

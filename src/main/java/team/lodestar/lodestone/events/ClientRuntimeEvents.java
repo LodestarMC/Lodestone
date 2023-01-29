@@ -1,12 +1,11 @@
 package team.lodestar.lodestone.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import team.lodestar.lodestone.handlers.*;
+import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.client.ClientTickCounter;
 import com.mojang.blaze3d.vertex.PoseStack;
 import team.lodestar.lodestone.LodestoneLibClient;
@@ -42,7 +41,7 @@ public class ClientRuntimeEvents {
                 Camera camera = minecraft.gameRenderer.getMainCamera();
                 GhostBlockHandler.tickGhosts();
                 WorldEventHandler.tick(minecraft.level);
-                PlacementAssistantHandler.clientTick();
+                PlacementAssistantHandler.tick(minecraft.player, minecraft.hitResult);
                 ScreenshakeHandler.clientTick(camera, RANDOM);
                 LodestonePlayerDataCapability.ClientOnly.clientTick(event);
                 ScreenParticleHandler.tickParticles();
@@ -98,12 +97,6 @@ public class ClientRuntimeEvents {
         }
         poseStack.popPose();
     }
-
-    public static void theMixin() {
-
-
-    }
-
 
     @SubscribeEvent
     public static void setupScreen(ScreenEvent.InitScreenEvent.Post event) {

@@ -12,7 +12,7 @@ import team.lodestar.lodestone.systems.rendering.particle.screen.base.ScreenPart
 import team.lodestar.lodestone.systems.rendering.particle.world.WorldParticleOptions;
 import com.mojang.math.Vector3d;
 import com.mojang.math.Vector3f;
-import team.lodestar.lodestone.handlers.ScreenParticleHandler;
+import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,10 +24,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -502,6 +500,7 @@ public class ParticleBuilders {
 
         ScreenParticleType<?> type;
         ScreenParticleOptions data;
+        HashMap<ScreenParticleRenderType, ArrayList<ScreenParticle>> particleMap;
         double vx = 0, vy = 0;
         double dx = 0, dy = 0;
         double maxXSpeed = 0, maxYSpeed = 0;
@@ -521,10 +520,6 @@ public class ParticleBuilders {
         }
         public ScreenParticleBuilder overwriteRemovalProtocol(SimpleParticleOptions.SpecialRemovalProtocol removalProtocol) {
             data.removalProtocol = removalProtocol;
-            return this;
-        }
-        public ScreenParticleBuilder overwriteRenderOrder(ScreenParticle.RenderOrder renderOrder) {
-            data.renderOrder = renderOrder;
             return this;
         }
         public ScreenParticleBuilder centerOnStack(ItemStack stack) {
@@ -783,7 +778,7 @@ public class ParticleBuilders {
             this.dy = Math.sin(pitch2) * yDist;
             data.xOrigin = (float) x;
             data.yOrigin = (float) y;
-            ScreenParticleHandler.addParticle(data, x + dx + dx2, y + dy + dz2, vx, ySpeed);
+            ScreenParticleHandler.addParticle(particleMap, data, x + dx + dx2, y + dy + dz2, vx, ySpeed);
             return this;
         }
 
@@ -796,7 +791,7 @@ public class ParticleBuilders {
             this.dy = Math.sin(pitch2) * yDist;
             data.xOrigin = (float) x;
             data.yOrigin = (float) y;
-            ScreenParticleHandler.addParticle(data, x + dx, y + dy, vx, vy);
+            ScreenParticleHandler.addParticle(particleMap, data, x + dx, y + dy, vx, vy);
             return this;
         }
 

@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.placementassistance;
 
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -13,12 +14,11 @@ import java.util.function.Predicate;
 
 public interface IPlacementAssistant {
 
-    public void onPlace(Level level, BlockHitResult hit, BlockState blockState);
+    public void onPlace(Player player, Level level, BlockHitResult hit, BlockState blockState);
 
-    public void assist(Level level, BlockHitResult hit, BlockState blockState);
+    public void assist(Player player, Level level, BlockHitResult hit, BlockState blockState);
 
-    @OnlyIn(Dist.CLIENT)
-    public void showAssistance(ClientLevel level, BlockHitResult hit, BlockState blockState);
+    public void showAssistance(Level level, BlockHitResult hit, BlockState blockState);
 
     public Predicate<ItemStack> canAssist();
 }

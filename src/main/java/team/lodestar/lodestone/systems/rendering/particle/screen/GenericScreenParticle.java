@@ -1,12 +1,11 @@
 package team.lodestar.lodestone.systems.rendering.particle.screen;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
 import team.lodestar.lodestone.systems.rendering.particle.screen.base.TextureSheetScreenParticle;
-import team.lodestar.lodestone.handlers.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.rendering.particle.SimpleParticleOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
@@ -29,7 +28,6 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         this.xMotion = xMotion;
         this.yMotion = yMotion;
 
-        this.setRenderOrder(data.renderOrder);
         this.setLifetime(data.lifetime);
         this.gravity = data.gravity;
         this.friction = 1;
@@ -135,13 +133,14 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     }
 
     public void trackStack() {
-        if (data.stack != null)
-        for (ScreenParticleHandler.StackTracker renderedStack : ScreenParticleHandler.RENDERED_STACKS) {
-            //&& renderedStack.xOrigin() == data.xOrigin && renderedStack.yOrigin() == data.yOrigin
-            if (renderedStack.stack().equals(data.stack) && renderedStack.order().equals(data.renderOrder)) {
-                x = renderedStack.xOrigin() + data.xOffset + xMoved;
-                y = renderedStack.yOrigin() + data.yOffset + yMoved;
-                break;
+        if (data.stack != null) {
+            for (ParticleEmitterHandler.StackTracker renderedStack : ParticleEmitterHandler.RENDERED_STACKS) {
+                //&& renderedStack.xOrigin() == data.xOrigin && renderedStack.yOrigin() == data.yOrigin
+                if (renderedStack.stack().equals(data.stack)) {
+                    x = renderedStack.xOrigin() + data.xOffset + xMoved;
+                    y = renderedStack.yOrigin() + data.yOffset + yMoved;
+                    break;
+                }
             }
         }
     }

@@ -42,6 +42,10 @@ public class RuntimeEvents {
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {
         LodestonePlayerDataCapability.playerTick(event);
+
+
+
+
     }
 
     @SubscribeEvent

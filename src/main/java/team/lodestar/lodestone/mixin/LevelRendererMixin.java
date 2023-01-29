@@ -39,9 +39,4 @@ public class LevelRendererMixin {
     public void injectionBeforeTransparencyChainProcess(CallbackInfo ci) {
         PostProcessHandler.copyDepthBuffer();
     }
-
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderDebug(Lnet/minecraft/client/Camera;)V"))
-    public void lodestone$renderLevelRenderDebug(CallbackInfo ci) {
-        ClientRuntimeEvents.theMixin();
-    }
 }

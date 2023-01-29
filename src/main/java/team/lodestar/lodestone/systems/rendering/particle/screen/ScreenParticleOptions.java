@@ -1,14 +1,17 @@
 package team.lodestar.lodestone.systems.rendering.particle.screen;
 
-import team.lodestar.lodestone.systems.rendering.particle.screen.base.ScreenParticle;
+import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.rendering.particle.SimpleParticleOptions;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec2;
+import team.lodestar.lodestone.systems.rendering.particle.screen.base.ScreenParticle;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ScreenParticleOptions extends SimpleParticleOptions {
 
     public final ScreenParticleType<?> type;
-    public ScreenParticle.RenderOrder renderOrder;
     public ItemStack stack;
     public float xOrigin;
     public float yOrigin;

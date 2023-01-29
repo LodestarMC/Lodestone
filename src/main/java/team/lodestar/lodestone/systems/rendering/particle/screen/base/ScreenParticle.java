@@ -2,19 +2,15 @@ package team.lodestar.lodestone.systems.rendering.particle.screen.base;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleRenderType;
 
 import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class ScreenParticle {
-
-   public enum RenderOrder{
-      BEFORE_UI, BEFORE_TOOLTIPS, AFTER_EVERYTHING
-   }
 
    public final ClientLevel level;
    public double xOld;
@@ -38,7 +34,6 @@ public abstract class ScreenParticle {
    public float roll;
    public float oRoll;
    public float friction = 0.98F;
-   private RenderOrder renderOrder = RenderOrder.AFTER_EVERYTHING;
 
    protected ScreenParticle(ClientLevel pLevel, double pX, double pY) {
       this.level = pLevel;
@@ -86,14 +81,6 @@ public abstract class ScreenParticle {
 
    public int getLifetime() {
       return this.lifetime;
-   }
-
-   public void setRenderOrder(RenderOrder renderOrder){
-      this.renderOrder = renderOrder;
-   }
-
-   public RenderOrder getRenderOrder() {
-      return renderOrder;
    }
 
    public void tick() {

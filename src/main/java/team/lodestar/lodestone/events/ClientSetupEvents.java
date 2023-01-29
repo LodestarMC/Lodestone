@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.events;
 
+import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
 import team.lodestar.lodestone.systems.block.LodestoneBlockProperties;
 import team.lodestar.lodestone.handlers.RenderHandler;
-import team.lodestar.lodestone.handlers.ScreenParticleHandler;
 import team.lodestar.lodestone.setup.LodestoneParticleRegistry;
 import team.lodestar.lodestone.setup.LodestoneScreenParticleRegistry;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,7 +23,7 @@ public class ClientSetupEvents {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         RenderHandler.onClientSetup(event);
-        ScreenParticleHandler.registerParticleEmitters(event);
+        ParticleEmitterHandler.registerParticleEmitters(event);
         LodestoneBlockProperties.setRenderLayers(event);
     }
 }
