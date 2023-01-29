@@ -64,7 +64,7 @@ public class ParticleEmitterHandler {
     }
 
     public interface ItemParticleSupplier {
-        void tick(ItemStack stack, float x, float y);
+        void spawnParticles(ItemStack stack, float x, float y);
     }
 
     public record StackTracker(ItemStack stack, float xOrigin, float yOrigin) {
@@ -80,7 +80,7 @@ public class ParticleEmitterHandler {
         }
 
         public void tick(ItemStack stack, float x, float y) {
-            supplier.tick(stack, x, y);
+            supplier.spawnParticles(stack, x, y);
         }
 
     }
