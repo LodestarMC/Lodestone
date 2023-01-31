@@ -160,7 +160,9 @@ public class GenericParticle extends TextureSheetParticle {
         oRoll = roll;
         roll += spinData.getValue(age, lifetime);
 
-        actor.accept(this);
+        if (actor != null) {
+            actor.accept(this);
+        }
     }
 
     public Vec3 getParticleSpeed() {

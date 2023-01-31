@@ -123,7 +123,9 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         oRoll = roll;
         roll += spinData.getValue(age, lifetime);
 
-        actor.accept(this);
+        if (actor != null) {
+            actor.accept(this);
+        }
     }
 
     @Override
