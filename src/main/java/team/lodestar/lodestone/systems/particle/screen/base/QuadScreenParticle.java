@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.rendering.particle.screen.base;
+package team.lodestar.lodestone.systems.particle.screen.base;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.math.Quaternion;

@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.rendering.particle.screen;
+package team.lodestar.lodestone.systems.particle.screen;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -9,11 +9,10 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import org.lwjgl.opengl.GL11;
-import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
 
-public interface ScreenParticleRenderType {
-    ScreenParticleRenderType ADDITIVE = new ScreenParticleRenderType() {
+public interface LodestoneScreenParticleRenderType {
+    LodestoneScreenParticleRenderType ADDITIVE = new LodestoneScreenParticleRenderType() {
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
@@ -32,7 +31,7 @@ public interface ScreenParticleRenderType {
             RenderSystem.defaultBlendFunc();
         }
     };
-    ScreenParticleRenderType TRANSPARENT = new ScreenParticleRenderType() {
+    LodestoneScreenParticleRenderType TRANSPARENT = new LodestoneScreenParticleRenderType() {
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);

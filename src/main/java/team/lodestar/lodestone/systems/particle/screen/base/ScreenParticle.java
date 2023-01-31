@@ -1,11 +1,10 @@
-package team.lodestar.lodestone.systems.rendering.particle.screen.base;
+package team.lodestar.lodestone.systems.particle.screen.base;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
-import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleRenderType;
+import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticleRenderType;
 
 import java.util.Random;
 
@@ -101,7 +100,7 @@ public abstract class ScreenParticle {
 
    public abstract void render(BufferBuilder bufferBuilder);
 
-   public abstract ScreenParticleRenderType getRenderType();
+   public abstract LodestoneScreenParticleRenderType getRenderType();
 
    public void remove() {
       this.removed = true;

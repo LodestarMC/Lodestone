@@ -1,6 +1,6 @@
-package team.lodestar.lodestone.systems.rendering.particle.screen;
+package team.lodestar.lodestone.systems.particle.screen;
 
-import team.lodestar.lodestone.systems.rendering.particle.screen.base.ScreenParticle;
+import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 
 public class ScreenParticleType<T extends ScreenParticleOptions>  extends net.minecraftforge.registries.ForgeRegistryEntry<ScreenParticleType<?>> {

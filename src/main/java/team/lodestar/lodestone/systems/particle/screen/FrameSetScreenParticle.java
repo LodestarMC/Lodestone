@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.rendering.particle.screen;
+package team.lodestar.lodestone.systems.particle.screen;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;

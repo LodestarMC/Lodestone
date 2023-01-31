@@ -1,9 +1,9 @@
 package team.lodestar.lodestone.setup;
 
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleOptions;
-import team.lodestar.lodestone.systems.rendering.particle.screen.ScreenParticleType;
-import team.lodestar.lodestone.systems.rendering.particle.type.LodestoneScreenParticleType;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
+import team.lodestar.lodestone.systems.particle.type.LodestoneScreenParticleType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.resources.ResourceLocation;

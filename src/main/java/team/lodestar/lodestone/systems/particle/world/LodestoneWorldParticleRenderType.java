@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.rendering.particle;
+package team.lodestar.lodestone.systems.particle.world;
 
 import net.minecraft.client.renderer.RenderType;
 import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
@@ -9,7 +9,6 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import team.lodestar.lodestone.handlers.RenderHandler;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;

@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.setup;
 
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.rendering.particle.type.LodestoneParticleType;
+import team.lodestar.lodestone.systems.particle.type.LodestoneParticleType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;

@@ -1,17 +1,10 @@
 package team.lodestar.lodestone.handlers;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.entity.player.Player;
 import team.lodestar.lodestone.helpers.ItemHelper;
-import team.lodestar.lodestone.setup.LodestoneParticleRegistry;
-import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.item.IEventResponderItem;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import team.lodestar.lodestone.systems.rendering.particle.ParticleBuilders;
-
-import java.awt.*;
 
 /**
  * A handler for firing {@link IEventResponderItem} events

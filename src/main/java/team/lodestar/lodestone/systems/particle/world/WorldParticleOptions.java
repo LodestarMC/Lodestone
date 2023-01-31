@@ -1,11 +1,9 @@
-package team.lodestar.lodestone.systems.rendering.particle.world;
+package team.lodestar.lodestone.systems.particle.world;
 
 import com.mojang.brigadier.StringReader;
-import com.mojang.math.Vector3f;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.particle.ParticleRenderType;
-import team.lodestar.lodestone.systems.rendering.particle.LodestoneWorldParticleRenderType;
-import team.lodestar.lodestone.systems.rendering.particle.SimpleParticleOptions;
+import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
 
@@ -15,9 +13,10 @@ public class WorldParticleOptions extends SimpleParticleOptions implements net.m
         return Codec.unit(() -> new WorldParticleOptions(type));
     }
 
-    ParticleType<?> type;
-    public Vector3f startingMotion = Vector3f.ZERO, endingMotion = Vector3f.ZERO;
+    public final ParticleType<?> type;
     public ParticleRenderType renderType;
+
+    public boolean noClip = false;
 
     public WorldParticleOptions(ParticleType<?> type) {
         this.type = type;

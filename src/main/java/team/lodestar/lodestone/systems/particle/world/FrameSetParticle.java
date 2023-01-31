@@ -1,10 +1,12 @@
-package team.lodestar.lodestone.systems.rendering.particle.world;
+package team.lodestar.lodestone.systems.particle.world;
 
-import team.lodestar.lodestone.systems.rendering.particle.SimpleParticleOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
+import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 
 import java.util.ArrayList;
+
+import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.FIRST_INDEX;
 
 public class FrameSetParticle extends GenericParticle {
     public ArrayList<Integer> frameSet = new ArrayList<>();
@@ -22,8 +24,8 @@ public class FrameSetParticle extends GenericParticle {
     }
 
     @Override
-    public SimpleParticleOptions.Animator getAnimator() {
-        return SimpleParticleOptions.Animator.FIRST_INDEX;
+    public SimpleParticleOptions.ParticleSpritePicker getSpritePicker() {
+        return FIRST_INDEX;
     }
 
     protected void addLoop(int min, int max, int times) {
