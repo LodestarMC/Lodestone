@@ -8,37 +8,13 @@ public class GenericParticleData {
     public final float coefficient;
     public final Easing startToMiddleEasing, middleToEndEasing;
 
-    public GenericParticleData(float startingValue, float middleValue, float endingValue, float coefficient, Easing startToMiddleEasing, Easing middleToEndEasing) {
+    protected GenericParticleData(float startingValue, float middleValue, float endingValue, float coefficient, Easing startToMiddleEasing, Easing middleToEndEasing) {
         this.startingValue = startingValue;
         this.middleValue = middleValue;
         this.endingValue = endingValue;
         this.coefficient = coefficient;
         this.startToMiddleEasing = startToMiddleEasing;
         this.middleToEndEasing = middleToEndEasing;
-    }
-
-    public GenericParticleData(float startingValue, float middleValue, float endingValue, Easing startToMiddleEasing, Easing middleToEndEasing) {
-        this(startingValue, middleValue, endingValue, 1, startToMiddleEasing, middleToEndEasing);
-    }
-
-    public GenericParticleData(float startingValue, float middleValue, float coefficient, Easing startToMiddleEasing) {
-        this(startingValue, middleValue, -1, coefficient, startToMiddleEasing, null);
-    }
-
-    public GenericParticleData(float startingValue, float middleValue, Easing startToMiddleEasing) {
-        this(startingValue, middleValue, -1, 1, startToMiddleEasing, null);
-    }
-
-    public GenericParticleData(float startingValue, float middleValue, float coefficient) {
-        this(startingValue, middleValue, coefficient, Easing.LINEAR);
-    }
-
-    public GenericParticleData(float startingValue, float middleValue) {
-        this(startingValue, middleValue, 1f);
-    }
-
-    public GenericParticleData(float value) {
-        this(value, value);
     }
 
     public boolean isTrinary() {
@@ -59,6 +35,51 @@ public class GenericParticleData {
             }
         } else {
             return Mth.lerp(startToMiddleEasing.ease(progress, 0, 1, 1), startingValue, middleValue);
+        }
+    }
+
+    public static GenericParticleDataBuilder create(float value) {
+        return new GenericParticleDataBuilder(value, value, -1);
+    }
+
+    public static GenericParticleDataBuilder create(float startingValue, float endingValue) {
+        return new GenericParticleDataBuilder(startingValue, endingValue, -1);
+    }
+
+    public static GenericParticleDataBuilder create(float startingValue, float middleValue, float endingValue) {
+        return new GenericParticleDataBuilder(startingValue, middleValue, endingValue);
+    }
+
+    public static class GenericParticleDataBuilder {
+        public final float startingValue, middleValue, endingValue;
+        public float coefficient = 1f;
+        public Easing startToMiddleEasing = Easing.LINEAR, middleToEndEasing = null;
+
+        protected GenericParticleDataBuilder(float startingValue, float middleValue, float endingValue) {
+            this.startingValue = startingValue;
+            this.middleValue = middleValue;
+            this.endingValue = endingValue;
+        }
+
+        public GenericParticleDataBuilder setCoefficient(float coefficient) {
+            this.coefficient = coefficient;
+            return this;
+        }
+
+        public GenericParticleDataBuilder setEasing(Easing easing) {
+            this.startToMiddleEasing = easing;
+            return this;
+        }
+
+        public GenericParticleDataBuilder setEasing(Easing easing, Easing middleToEndEasing) {
+            this.startToMiddleEasing = easing;
+            this.middleToEndEasing = easing;
+            return this;
+        }
+
+
+        public GenericParticleData build() {
+            return new GenericParticleData(startingValue, middleValue, endingValue, coefficient, startToMiddleEasing, middleToEndEasing);
         }
     }
 }
