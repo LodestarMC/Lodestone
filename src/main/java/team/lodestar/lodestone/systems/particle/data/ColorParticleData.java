@@ -31,7 +31,7 @@ public class ColorParticleData {
     }
 
     public static ColorParticleDataBuilder create(Color start, Color end) {
-        return create(start.getRed(), start.getGreen(), start.getBlue(), end.getRed(), end.getGreen(), end.getBlue());
+        return create(start.getRed()/255f, start.getGreen()/255f, start.getBlue()/255f, end.getRed()/255f, end.getGreen()/255f, end.getBlue()/255f);
     }
 
     public static class ColorParticleDataBuilder {

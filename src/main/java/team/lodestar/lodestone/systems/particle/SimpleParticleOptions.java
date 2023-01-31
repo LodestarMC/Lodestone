@@ -9,7 +9,7 @@ import java.awt.*;
 public class SimpleParticleOptions {
 
     public static final ColorParticleData DEFAULT_COLOR = ColorParticleData.create(Color.WHITE, Color.BLACK).build();
-    public static final SpinParticleData DEFAULT_SPIN = SpinParticleData.create(0, 1, 0).build();
+    public static final SpinParticleData DEFAULT_SPIN = SpinParticleData.create(0).build();
     public static final GenericParticleData DEFAULT_GENERIC = GenericParticleData.create(1, 0).build();
 
     public enum ParticleSpritePicker {
