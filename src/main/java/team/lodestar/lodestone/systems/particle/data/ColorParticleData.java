@@ -50,12 +50,12 @@ public class ColorParticleData {
             this.b2 = b2;
         }
 
-        public ColorParticleDataBuilder withCoefficient(float coefficient) {
+        public ColorParticleDataBuilder setCoefficient(float coefficient) {
             this.colorCoefficient = coefficient;
             return this;
         }
 
-        public ColorParticleDataBuilder withEasing(Easing easing) {
+        public ColorParticleDataBuilder setEasing(Easing easing) {
             this.colorCurveEasing = easing;
             return this;
         }
