@@ -10,8 +10,8 @@ import net.minecraft.util.Mth;
 
 import java.awt.*;
 
-import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardType.ENDING_CURVE_INVISIBLE;
-import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardType.INVISIBLE;
+import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.ENDING_CURVE_INVISIBLE;
+import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.LAST_INDEX;
 
@@ -79,8 +79,8 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     }
 
     protected void updateTraits() {
-        boolean shouldAttemptRemoval = options.removalProtocol == INVISIBLE;
-        if (options.removalProtocol == ENDING_CURVE_INVISIBLE) {
+        boolean shouldAttemptRemoval = options.discardFunctionType == INVISIBLE;
+        if (options.discardFunctionType == ENDING_CURVE_INVISIBLE) {
 
             if (options.scaleData.getProgress(age, lifetime) > 0.5f || options.transparencyData.getProgress(age, lifetime) > 0.5f) {
                 shouldAttemptRemoval = true;

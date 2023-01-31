@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.particle;
 
-import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
@@ -15,12 +14,12 @@ public class SimpleParticleOptions {
         FIRST_INDEX, LAST_INDEX, WITH_AGE, RANDOM_SPRITE
     }
 
-    public enum ParticleDiscardType {
+    public enum ParticleDiscardFunctionType {
         NONE, INVISIBLE, ENDING_CURVE_INVISIBLE
     }
 
     public ParticleSpritePicker spritePicker = ParticleSpritePicker.FIRST_INDEX;
-    public ParticleDiscardType removalProtocol = ParticleDiscardType.NONE;
+    public ParticleDiscardFunctionType discardFunctionType = ParticleDiscardFunctionType.NONE;
 
     public ColorParticleData colorData = DEFAULT_COLOR;
     public GenericParticleData transparencyData = DEFAULT_GENERIC;

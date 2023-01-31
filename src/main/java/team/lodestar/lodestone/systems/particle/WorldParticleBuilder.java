@@ -88,6 +88,11 @@ public class WorldParticleBuilder {
         return this;
     }
 
+    public WorldParticleBuilder setDiscardFunction(SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType) {
+        options.discardFunctionType = discardFunctionType;
+        return this;
+    }
+
     public WorldParticleBuilder setRenderType(ParticleRenderType renderType) {
         options.renderType = renderType;
         return this;

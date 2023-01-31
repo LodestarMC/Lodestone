@@ -13,12 +13,11 @@ import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
-import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 
 import java.awt.*;
 
-import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardType.ENDING_CURVE_INVISIBLE;
-import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardType.INVISIBLE;
+import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.ENDING_CURVE_INVISIBLE;
+import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
 
 public class GenericParticle extends TextureSheetParticle {
@@ -116,8 +115,8 @@ public class GenericParticle extends TextureSheetParticle {
     }
 
     protected void updateTraits() {
-        boolean shouldAttemptRemoval = options.removalProtocol == INVISIBLE;
-        if (options.removalProtocol == ENDING_CURVE_INVISIBLE) {
+        boolean shouldAttemptRemoval = options.discardFunctionType == INVISIBLE;
+        if (options.discardFunctionType == ENDING_CURVE_INVISIBLE) {
 
             if (options.scaleData.getProgress(age, lifetime) > 0.5f || options.transparencyData.getProgress(age, lifetime) > 0.5f) {
                 shouldAttemptRemoval = true;
