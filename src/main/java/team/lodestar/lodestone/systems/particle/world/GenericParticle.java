@@ -165,4 +165,8 @@ public class GenericParticle extends TextureSheetParticle {
     public Vector3d getParticleSpeed() {
         return new Vector3d(xd, yd, zd);
     }
+
+    public void setParticleSpeed(Vector3d speed) {
+        setParticleSpeed(speed.x, speed.y, speed.z);
+    }
 }

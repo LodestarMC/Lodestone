@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
+import com.mojang.math.Vector3d;
+import net.minecraft.world.phys.Vec2;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
@@ -136,5 +138,9 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     @Override
     public LodestoneScreenParticleRenderType getRenderType() {
         return renderType;
+    }
+    
+    public void setParticleSpeed(Vector3d speed) {
+        setParticleSpeed(speed.x, speed.y);
     }
 }
