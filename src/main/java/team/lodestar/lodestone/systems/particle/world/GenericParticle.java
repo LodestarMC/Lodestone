@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.systems.particle.world;
 
+import com.mojang.math.Vector3d;
+import com.mojang.math.Vector3f;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -158,5 +160,9 @@ public class GenericParticle extends TextureSheetParticle {
         roll += spinData.getValue(age, lifetime);
 
         actor.accept(this);
+    }
+
+    public Vector3d getParticleSpeed() {
+        return new Vector3d(xd, yd, zd);
     }
 }
