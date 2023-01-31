@@ -6,6 +6,9 @@ import net.minecraft.client.particle.ParticleRenderType;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
+import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
+
+import java.util.function.Consumer;
 
 public class WorldParticleOptions extends SimpleParticleOptions implements net.minecraft.core.particles.ParticleOptions {
 
@@ -15,6 +18,7 @@ public class WorldParticleOptions extends SimpleParticleOptions implements net.m
 
     public final ParticleType<?> type;
     public ParticleRenderType renderType;
+    public Consumer<GenericParticle> actor;
 
     public boolean noClip = false;
 

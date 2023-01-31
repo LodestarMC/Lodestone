@@ -36,10 +36,10 @@ public class ColorParticleData {
 
     public static class ColorParticleDataBuilder {
 
-        public final float r1, g1, b1, r2, g2, b2;
-        public float colorCoefficient = 1f;
+        protected final float r1, g1, b1, r2, g2, b2;
+        protected float colorCoefficient = 1f;
 
-        public Easing colorCurveEasing = Easing.LINEAR;
+        protected Easing colorCurveEasing = Easing.LINEAR;
 
         protected ColorParticleDataBuilder(float r1, float g1, float b1, float r2, float g2, float b2) {
             this.r1 = r1;

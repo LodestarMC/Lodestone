@@ -51,9 +51,9 @@ public class GenericParticleData {
     }
 
     public static class GenericParticleDataBuilder {
-        public final float startingValue, middleValue, endingValue;
-        public float coefficient = 1f;
-        public Easing startToMiddleEasing = Easing.LINEAR, middleToEndEasing = null;
+        protected final float startingValue, middleValue, endingValue;
+        protected float coefficient = 1f;
+        protected Easing startToMiddleEasing = Easing.LINEAR, middleToEndEasing = null;
 
         protected GenericParticleDataBuilder(float startingValue, float middleValue, float endingValue) {
             this.startingValue = startingValue;

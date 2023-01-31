@@ -13,17 +13,26 @@ import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
+import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
+import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
 
 import java.awt.*;
+import java.util.function.Consumer;
 
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.ENDING_CURVE_INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
 
 public class GenericParticle extends TextureSheetParticle {
-    protected WorldParticleOptions options;
     private final ParticleRenderType renderType;
     protected final ParticleEngine.MutableSpriteSet spriteSet;
+    protected final SimpleParticleOptions.ParticleSpritePicker spritePicker;
+    protected final SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType;
+    protected final ColorParticleData colorData;
+    protected final GenericParticleData transparencyData;
+    protected final GenericParticleData scaleData;
+    protected final SpinParticleData spinData;
+    protected final Consumer<GenericParticle> actor;
 
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
@@ -32,9 +41,16 @@ public class GenericParticle extends TextureSheetParticle {
 
     public GenericParticle(ClientLevel world, WorldParticleOptions options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, x, y, z);
-        this.options = options;
         this.renderType = options.renderType == null ? LodestoneWorldParticleRenderType.ADDITIVE : options.renderType;
         this.spriteSet = spriteSet;
+
+        this.spritePicker = options.spritePicker;
+        this.discardFunctionType = options.discardFunctionType;
+        this.colorData = options.colorData;
+        this.transparencyData = options.transparencyData;
+        this.scaleData = options.scaleData;
+        this.spinData = options.spinData;
+        this.actor = options.actor;
         this.roll = options.spinData.spinOffset + options.spinData.startingValue;
         this.xd = xd;
         this.yd = yd;
@@ -43,7 +59,6 @@ public class GenericParticle extends TextureSheetParticle {
         this.gravity = options.gravity;
         this.hasPhysics = !options.noClip;
         this.friction = 1;
-        ColorParticleData colorData = this.options.colorData;
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, colorData.r1)), (int) (255 * Math.min(1.0f, colorData.g1)), (int) (255 * Math.min(1.0f, colorData.b1)), hsv1);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, colorData.r2)), (int) (255 * Math.min(1.0f, colorData.g2)), (int) (255 * Math.min(1.0f, colorData.b2)), hsv2);
 
@@ -94,7 +109,7 @@ public class GenericParticle extends TextureSheetParticle {
     }
 
     public SimpleParticleOptions.ParticleSpritePicker getSpritePicker() {
-        return options.spritePicker;
+        return spritePicker;
     }
 
     public void pickSprite(int spriteIndex) {
@@ -115,10 +130,10 @@ public class GenericParticle extends TextureSheetParticle {
     }
 
     protected void updateTraits() {
-        boolean shouldAttemptRemoval = options.discardFunctionType == INVISIBLE;
-        if (options.discardFunctionType == ENDING_CURVE_INVISIBLE) {
+        boolean shouldAttemptRemoval = discardFunctionType == INVISIBLE;
+        if (discardFunctionType == ENDING_CURVE_INVISIBLE) {
 
-            if (options.scaleData.getProgress(age, lifetime) > 0.5f || options.transparencyData.getProgress(age, lifetime) > 0.5f) {
+            if (scaleData.getProgress(age, lifetime) > 0.5f || transparencyData.getProgress(age, lifetime) > 0.5f) {
                 shouldAttemptRemoval = true;
             }
         }
@@ -135,11 +150,13 @@ public class GenericParticle extends TextureSheetParticle {
         if (!reachedPositiveScale && quadSize > 0) {
             reachedPositiveScale = true;
         }
-        pickColor(options.colorData.colorCurveEasing.ease(options.colorData.getProgress(age, lifetime), 0, 1, 1));
+        pickColor(colorData.colorCurveEasing.ease(colorData.getProgress(age, lifetime), 0, 1, 1));
 
-        quadSize = options.scaleData.getValue(age, lifetime);
-        alpha = options.transparencyData.getValue(age, lifetime);
+        quadSize = scaleData.getValue(age, lifetime);
+        alpha = transparencyData.getValue(age, lifetime);
         oRoll = roll;
-        roll += options.spinData.getValue(age, lifetime);
+        roll += spinData.getValue(age, lifetime);
+
+        actor.accept(this);
     }
 }

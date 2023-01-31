@@ -24,7 +24,7 @@ public class SpinParticleData extends GenericParticleData {
     }
 
     public static class SpinParticleDataBuilder extends GenericParticleDataBuilder {
-        public float spinOffset;
+        protected float spinOffset;
 
         protected SpinParticleDataBuilder(float startingValue, float middleValue, float endingValue) {
             super(startingValue, middleValue, endingValue);
