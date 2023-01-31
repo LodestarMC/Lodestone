@@ -139,7 +139,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     public LodestoneScreenParticleRenderType getRenderType() {
         return renderType;
     }
-    
+
     public void setParticleSpeed(Vector3d speed) {
         setParticleSpeed(speed.x, speed.y);
     }

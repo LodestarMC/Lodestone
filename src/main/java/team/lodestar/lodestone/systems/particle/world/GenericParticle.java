@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.particle.world;
 
 import com.mojang.math.Vector3d;
 import com.mojang.math.Vector3f;
+import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -162,8 +163,8 @@ public class GenericParticle extends TextureSheetParticle {
         actor.accept(this);
     }
 
-    public Vector3d getParticleSpeed() {
-        return new Vector3d(xd, yd, zd);
+    public Vec3 getParticleSpeed() {
+        return new Vec3(xd, yd, zd);
     }
 
     public void setParticleSpeed(Vector3d speed) {
