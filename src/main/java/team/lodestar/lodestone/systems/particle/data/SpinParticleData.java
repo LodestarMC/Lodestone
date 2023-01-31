@@ -29,4 +29,8 @@ public class SpinParticleData extends GenericParticleData {
     public SpinParticleData(float startingValue, float middleValue) {
         this(0, startingValue, middleValue);
     }
+
+    public SpinParticleData(float value) {
+        this(value, value);
+    }
 }
