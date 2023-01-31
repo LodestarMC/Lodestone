@@ -29,6 +29,10 @@ public class GenericParticleData {
         this(startingValue, middleValue, 1f);
     }
 
+    public GenericParticleData(float value) {
+        this(value, value);
+    }
+
     public boolean isTrinary() {
         return endingValue != -1;
     }
