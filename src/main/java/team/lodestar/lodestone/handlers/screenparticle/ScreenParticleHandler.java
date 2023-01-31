@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
 import net.minecraft.world.item.ItemStack;
 import team.lodestar.lodestone.config.ClientConfig;
-import team.lodestar.lodestone.helpers.util.Pair;
 import team.lodestar.lodestone.systems.particle.screen.*;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 import com.mojang.blaze3d.vertex.Tesselator;

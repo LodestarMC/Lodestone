@@ -1,8 +1,9 @@
 package team.lodestar.lodestone.systems.particle.data;
 
 import net.minecraft.util.Mth;
-import team.lodestar.lodestone.helpers.util.Color;
 import team.lodestar.lodestone.systems.easing.Easing;
+
+import java.awt.*;
 
 public class ColorParticleData {
 

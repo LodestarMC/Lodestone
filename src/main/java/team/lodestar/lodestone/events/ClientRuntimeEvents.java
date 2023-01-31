@@ -10,7 +10,6 @@ import team.lodestar.lodestone.systems.client.ClientTickCounter;
 import com.mojang.blaze3d.vertex.PoseStack;
 import team.lodestar.lodestone.LodestoneLibClient;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
-import team.lodestar.lodestone.helpers.util.AnimationTickHolder;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
@@ -64,7 +63,7 @@ public class ClientRuntimeEvents {
         Minecraft minecraft = Minecraft.getInstance();
         Camera camera = minecraft.gameRenderer.getMainCamera();
         Vec3 cameraPos = camera.getPosition();
-        float partial = AnimationTickHolder.getPartialTicks();
+        float partial = event.getPartialTick();
         PoseStack poseStack = event.getPoseStack();
         LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
         poseStack.pushPose();
@@ -72,7 +71,6 @@ public class ClientRuntimeEvents {
 
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SKY)) {
             GhostBlockHandler.renderGhosts(poseStack);
-            LodestoneLibClient.OUTLINER.renderOutlines(poseStack, partial);
             WorldEventHandler.ClientOnly.renderWorldEvents(poseStack, partial);
         }
 

@@ -3,7 +3,7 @@ package team.lodestar.lodestone.systems.postprocess;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonParseException;
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.helpers.util.Pair;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Uniform;
