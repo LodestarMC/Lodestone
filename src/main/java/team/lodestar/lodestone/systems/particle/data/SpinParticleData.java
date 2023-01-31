@@ -11,8 +11,18 @@ public class SpinParticleData extends GenericParticleData {
         this.spinOffset = spinOffset;
     }
 
+    public SpinParticleData(float spinOffset, float startingValue, float middleValue, float endingValue, Easing startToMiddleEasing, Easing middleToEndEasing) {
+        super(startingValue, middleValue, endingValue, 1f, startToMiddleEasing, middleToEndEasing);
+        this.spinOffset = spinOffset;
+    }
+
     public SpinParticleData(float spinOffset, float startingValue, float middleValue, float coefficient, Easing startToMiddleEasing) {
         super(startingValue, middleValue, coefficient, startToMiddleEasing);
+        this.spinOffset = spinOffset;
+    }
+
+    public SpinParticleData(float spinOffset, float startingValue, float middleValue, Easing startToMiddleEasing) {
+        super(startingValue, middleValue, 1f, startToMiddleEasing);
         this.spinOffset = spinOffset;
     }
 

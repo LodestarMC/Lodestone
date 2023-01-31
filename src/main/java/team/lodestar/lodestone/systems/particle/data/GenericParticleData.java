@@ -17,8 +17,16 @@ public class GenericParticleData {
         this.middleToEndEasing = middleToEndEasing;
     }
 
+    public GenericParticleData(float startingValue, float middleValue, float endingValue, Easing startToMiddleEasing, Easing middleToEndEasing) {
+        this(startingValue, middleValue, endingValue, 1, startToMiddleEasing, middleToEndEasing);
+    }
+
     public GenericParticleData(float startingValue, float middleValue, float coefficient, Easing startToMiddleEasing) {
         this(startingValue, middleValue, -1, coefficient, startToMiddleEasing, null);
+    }
+
+    public GenericParticleData(float startingValue, float middleValue, Easing startToMiddleEasing) {
+        this(startingValue, middleValue, -1, 1, startToMiddleEasing, null);
     }
 
     public GenericParticleData(float startingValue, float middleValue, float coefficient) {
