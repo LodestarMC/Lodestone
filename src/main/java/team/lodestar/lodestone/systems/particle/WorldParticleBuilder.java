@@ -15,6 +15,7 @@ import team.lodestar.lodestone.helpers.BlockHelper;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.world.GenericParticle;
 import team.lodestar.lodestone.systems.particle.world.WorldParticleOptions;
 
 import java.util.ArrayList;
@@ -149,6 +150,11 @@ public class WorldParticleBuilder {
 
     public WorldParticleBuilder act(Consumer<WorldParticleBuilder> particleBuilderConsumer) {
         particleBuilderConsumer.accept(this);
+        return this;
+    }
+
+    public WorldParticleBuilder addActor(Consumer<GenericParticle> particleActor) {
+        options.actor = particleActor;
         return this;
     }
 

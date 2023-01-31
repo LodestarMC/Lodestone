@@ -4,10 +4,12 @@ import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
 import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticleRenderType;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
+import team.lodestar.lodestone.systems.particle.world.GenericParticle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,7 +62,7 @@ public class ScreenParticleBuilder {
         options.discardFunctionType = discardFunctionType;
         return this;
     }
-    
+
     public ScreenParticleBuilder setSpritePicker(SimpleParticleOptions.ParticleSpritePicker spritePicker) {
         options.spritePicker = spritePicker;
         return this;
@@ -116,6 +118,11 @@ public class ScreenParticleBuilder {
 
     public ScreenParticleBuilder act(Consumer<ScreenParticleBuilder> particleBuilderConsumer) {
         particleBuilderConsumer.accept(this);
+        return this;
+    }
+
+    public ScreenParticleBuilder addActor(Consumer<GenericScreenParticle> particleActor) {
+        options.actor = particleActor;
         return this;
     }
 
