@@ -46,8 +46,6 @@ public class LodestoneLib {
         CuriosCompat.init();
 
         modBus.addListener(this::gatherData);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
-                () -> () -> LodestoneLibClient.onLodestone(modBus, forgeBus));
     }
 
     public static ResourceLocation lodestonePath(String path) {

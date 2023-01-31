@@ -8,7 +8,6 @@ import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.client.ClientTickCounter;
 import com.mojang.blaze3d.vertex.PoseStack;
-import team.lodestar.lodestone.LodestoneLibClient;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
