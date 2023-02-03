@@ -101,6 +101,14 @@ public class RenderHelper {
         return new Vec2((pos.x() + 1F) / 2F, (pos.y() + 1F) / 2F);
     }
 
+    /**
+     * Draw a segmented line between two points, subdividing the line into a number of segments
+     * @param buffer The buffer to draw to
+     * @param ps The pose stack to draw with
+     * @param lineWidth The width of the line
+     * @param points The points to draw between
+     **/
+
     public static void drawSteppedLineBetween(MultiBufferSource buffer, PoseStack ps, List<Vec3> points, float lineWidth, int r, int g, int b, int a) {
         Vec3 origin = points.get(0);
         for (int i = 1; i < points.size(); i++) {
@@ -109,6 +117,17 @@ public class RenderHelper {
             origin = target;
         }
     }
+
+    /**
+     * Draw a segmented line between two points, subdividing the line into a number of segments
+     * @param buffer The buffer to draw to
+     * @param ps The pose stack to draw with
+     * @param start The start point
+     * @param end The end point
+     * @param steps The number of steps to divide the line into
+     * @param lineWidth The width of the line
+     * @param pointConsumer A consumer to call for each point in the line
+     */
 
     public static void drawSteppedLineBetween(MultiBufferSource buffer, PoseStack ps, Vec3 start, Vec3 end, int steps, float lineWidth, int r, int g, int b, int a, Consumer<Vec3> pointConsumer) {
         Vec3 origin = start;
@@ -120,7 +139,16 @@ public class RenderHelper {
         }
     }
 
-    public static void drawLineBetween(MultiBufferSource buffer, PoseStack mstack, Vec3 local, Vec3 target, float lineWidth, int r, int g, int b, int a) {
+    /**
+     * Draw a line between two points
+     * @param buffer The buffer to draw to
+     * @param ps The pose stack to draw with
+     * @param local The start point
+     * @param target The end point
+     * @param lineWidth The width of the line
+     */
+
+    public static void drawLineBetween(MultiBufferSource buffer, PoseStack ps, Vec3 local, Vec3 target, float lineWidth, int r, int g, int b, int a) {
         VertexConsumer builder = buffer.getBuffer(RenderType.leash());
 
         //Calculate yaw
@@ -131,18 +159,18 @@ public class RenderHelper {
         double distZ = target.z - local.z;
         float rotX = (float) Mth.atan2(target.y - local.y, Mth.sqrt((float) (distX * distX + distZ * distZ)));
 
-        mstack.pushPose();
+        ps.pushPose();
 
         //Translate to start point
-        mstack.translate(local.x, local.y, local.z);
+        ps.translate(local.x, local.y, local.z);
         //Rotate to point towards end point
-        mstack.mulPose(Vector3f.YP.rotation(rotY));
-        mstack.mulPose(Vector3f.XN.rotation(rotX));
+        ps.mulPose(Vector3f.YP.rotation(rotY));
+        ps.mulPose(Vector3f.XN.rotation(rotX));
 
         //Calculate distance between points -> length of the line
         float distance = (float) local.distanceTo(target);
 
-        Matrix4f matrix = mstack.last().pose();
+        Matrix4f matrix = ps.last().pose();
         float halfWidth = lineWidth / 2F;
 
         //Draw horizontal quad
@@ -157,6 +185,6 @@ public class RenderHelper {
         builder.vertex(matrix, 0, halfWidth, distance).color(r, g, b, a).uv2(0xF000F0).endVertex();
         builder.vertex(matrix, 0, -halfWidth, distance).color(r, g, b, a).uv2(0xF000F0).endVertex();
 
-        mstack.popPose();
+        ps.popPose();
     }
 }
