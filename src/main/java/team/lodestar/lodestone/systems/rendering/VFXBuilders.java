@@ -44,6 +44,7 @@ public class VFXBuilders {
             format = DefaultVertexFormat.POSITION_TEX;
             return this;
         }
+
         public ScreenVFXBuilder setPosColorDefaultFormat() {
             supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, this.zLevel).color(this.r, this.g, this.b, this.a).endVertex();
             format = DefaultVertexFormat.POSITION_COLOR;
@@ -327,8 +328,10 @@ public class VFXBuilders {
         }
 
         public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
-            return renderTrail(vertexConsumer, stack, trailSegments, widthFunc, f -> {});
+            return renderTrail(vertexConsumer, stack, trailSegments, widthFunc, f -> {
+            });
         }
+
         public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
             return renderTrail(vertexConsumer, stack.last().pose(), trailSegments, widthFunc, vfxOperator);
         }
@@ -370,25 +373,6 @@ public class VFXBuilders {
             return this;
         }
 
-        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, PoseStack stack, Vec3 start, Vec3 end, float width) {
-            Minecraft minecraft = Minecraft.getInstance();
-            start.add(xOffset, yOffset, zOffset);
-            end.add(xOffset, yOffset, zOffset);
-            stack.translate(-start.x, -start.y, -start.z);
-            Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getPosition();
-            Vec3 delta = end.subtract(start);
-            Vec3 normal = start.subtract(cameraPosition).cross(delta).normalize().multiply(width / 2f, width / 2f, width / 2f);
-            Matrix4f last = stack.last().pose();
-            Vec3[] positions = new Vec3[]{start.subtract(normal), start.add(normal), end.add(normal), end.subtract(normal)};
-
-            supplier.placeVertex(vertexConsumer, last, (float) positions[0].x, (float) positions[0].y, (float) positions[0].z, u0, v1);
-            supplier.placeVertex(vertexConsumer, last, (float) positions[1].x, (float) positions[1].y, (float) positions[1].z, u1, v1);
-            supplier.placeVertex(vertexConsumer, last, (float) positions[2].x, (float) positions[2].y, (float) positions[2].z, u1, v0);
-            supplier.placeVertex(vertexConsumer, last, (float) positions[3].x, (float) positions[3].y, (float) positions[3].z, u0, v0);
-            stack.translate(start.x, start.y, start.z);
-            return this;
-        }
-
         public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, PoseStack stack, float size) {
             return renderQuad(vertexConsumer, stack, size, size);
         }
@@ -403,38 +387,15 @@ public class VFXBuilders {
         }
 
         public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions, float width, float height) {
-            Matrix4f last = stack.last().pose();
-            stack.translate(xOffset, yOffset, zOffset);
             for (Vector3f position : positions) {
                 position.mul(width, height, width);
             }
-            supplier.placeVertex(vertexConsumer, last, positions[0].x(), positions[0].y(), positions[0].z(), u0, v1);
-            supplier.placeVertex(vertexConsumer, last, positions[1].x(), positions[1].y(), positions[1].z(), u1, v1);
-            supplier.placeVertex(vertexConsumer, last, positions[2].x(), positions[2].y(), positions[2].z(), u1, v0);
-            supplier.placeVertex(vertexConsumer, last, positions[3].x(), positions[3].y(), positions[3].z(), u0, v0);
-            stack.translate(-xOffset, -yOffset, -zOffset);
-            return this;
-        }
-        public WorldVFXBuilder renderScreenSpaceQuad(VertexConsumer vertexConsumer, PoseStack stack, float size) {
-            return renderScreenSpaceQuad(vertexConsumer, stack, size, size);
+            return renderQuad(vertexConsumer, stack, positions);
         }
 
-        public WorldVFXBuilder renderScreenSpaceQuad(VertexConsumer vertexConsumer, PoseStack stack, float width, float height) {
-            Vector3f[] positions = new Vector3f[]{new Vector3f(-1, -1, 0), new Vector3f(1, -1, 0), new Vector3f(1, 1, 0), new Vector3f(-1, 1, 0)};
-            return renderScreenSpaceQuad(vertexConsumer, stack, positions, width, height);
-        }
-
-        public WorldVFXBuilder renderScreenSpaceQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions, float size) {
-            return renderScreenSpaceQuad(vertexConsumer, stack, positions, size, size);
-        }
-
-        public WorldVFXBuilder renderScreenSpaceQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions, float width, float height) {
+        public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions) {
             Matrix4f last = stack.last().pose();
             stack.translate(xOffset, yOffset, zOffset);
-            for (Vector3f position : positions) {
-                position.mul(width, height, width);
-                position.transform(stack.last().normal());
-            }
             supplier.placeVertex(vertexConsumer, last, positions[0].x(), positions[0].y(), positions[0].z(), u0, v1);
             supplier.placeVertex(vertexConsumer, last, positions[1].x(), positions[1].y(), positions[1].z(), u1, v1);
             supplier.placeVertex(vertexConsumer, last, positions[2].x(), positions[2].y(), positions[2].z(), u1, v0);
