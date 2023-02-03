@@ -6,12 +6,16 @@ import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class RenderHelper {
@@ -94,6 +98,65 @@ public class RenderHelper {
         pos.transform(projMat);
         pos.perspectiveDivide();
 
-        return new Vec2((pos.x()+1F)/2F, (pos.y()+1F)/2F);
+        return new Vec2((pos.x() + 1F) / 2F, (pos.y() + 1F) / 2F);
+    }
+
+    public static void drawSteppedLineBetween(MultiBufferSource buffer, PoseStack ps, List<Vec3> points, float lineWidth, int r, int g, int b, int a) {
+        Vec3 origin = points.get(0);
+        for (int i = 1; i < points.size(); i++) {
+            Vec3 target = points.get(i);
+            drawLineBetween(buffer, ps, origin, target, lineWidth, r, g, b, a);
+            origin = target;
+        }
+    }
+
+    public static void drawSteppedLineBetween(MultiBufferSource buffer, PoseStack ps, Vec3 start, Vec3 end, int steps, float lineWidth, int r, int g, int b, int a, Consumer<Vec3> pointConsumer) {
+        Vec3 origin = start;
+        for (int i = 1; i <= steps; i++) {
+            Vec3 target = start.add(end.subtract(start).scale(i / (float) steps));
+            pointConsumer.accept(target);
+            drawLineBetween(buffer, ps, origin, target, lineWidth, r, g, b, a);
+            origin = target;
+        }
+    }
+
+    public static void drawLineBetween(MultiBufferSource buffer, PoseStack mstack, Vec3 local, Vec3 target, float lineWidth, int r, int g, int b, int a) {
+        VertexConsumer builder = buffer.getBuffer(RenderType.leash());
+
+        //Calculate yaw
+        float rotY = (float) Mth.atan2(target.x - local.x, target.z - local.z);
+
+        //Calculate pitch
+        double distX = target.x - local.x;
+        double distZ = target.z - local.z;
+        float rotX = (float) Mth.atan2(target.y - local.y, Mth.sqrt((float) (distX * distX + distZ * distZ)));
+
+        mstack.pushPose();
+
+        //Translate to start point
+        mstack.translate(local.x, local.y, local.z);
+        //Rotate to point towards end point
+        mstack.mulPose(Vector3f.YP.rotation(rotY));
+        mstack.mulPose(Vector3f.XN.rotation(rotX));
+
+        //Calculate distance between points -> length of the line
+        float distance = (float) local.distanceTo(target);
+
+        Matrix4f matrix = mstack.last().pose();
+        float halfWidth = lineWidth / 2F;
+
+        //Draw horizontal quad
+        builder.vertex(matrix, -halfWidth, 0, 0).color(r, g, b, a).uv2(0xF000F0).endVertex();
+        builder.vertex(matrix, halfWidth, 0, 0).color(r, g, b, a).uv2(0xF000F0).endVertex();
+        builder.vertex(matrix, halfWidth, 0, distance).color(r, g, b, a).uv2(0xF000F0).endVertex();
+        builder.vertex(matrix, -halfWidth, 0, distance).color(r, g, b, a).uv2(0xF000F0).endVertex();
+
+        //Draw vertical Quad
+        builder.vertex(matrix, 0, -halfWidth, 0).color(r, g, b, a).uv2(0xF000F0).endVertex();
+        builder.vertex(matrix, 0, halfWidth, 0).color(r, g, b, a).uv2(0xF000F0).endVertex();
+        builder.vertex(matrix, 0, halfWidth, distance).color(r, g, b, a).uv2(0xF000F0).endVertex();
+        builder.vertex(matrix, 0, -halfWidth, distance).color(r, g, b, a).uv2(0xF000F0).endVertex();
+
+        mstack.popPose();
     }
 }
