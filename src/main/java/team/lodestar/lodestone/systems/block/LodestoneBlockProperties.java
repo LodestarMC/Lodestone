@@ -35,6 +35,30 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
         super(material, (state) -> material.getColor());
     }
 
+    public LodestoneBlockProperties(Material pMaterial, Function<BlockState, MaterialColor> pMaterialColor) {
+        super(pMaterial, pMaterialColor);
+    }
+
+    public static LodestoneBlockProperties copy(BlockBehaviour pBlockBehaviour) {
+        LodestoneBlockProperties properties = new LodestoneBlockProperties(pBlockBehaviour.material, pBlockBehaviour.properties.materialColor);
+        properties.material = pBlockBehaviour.properties.material;
+        properties.destroyTime = pBlockBehaviour.properties.destroyTime;
+        properties.explosionResistance = pBlockBehaviour.properties.explosionResistance;
+        properties.hasCollision = pBlockBehaviour.properties.hasCollision;
+        properties.isRandomlyTicking = pBlockBehaviour.properties.isRandomlyTicking;
+        properties.lightEmission = pBlockBehaviour.properties.lightEmission;
+        properties.materialColor = pBlockBehaviour.properties.materialColor;
+        properties.soundType = pBlockBehaviour.properties.soundType;
+        properties.friction = pBlockBehaviour.properties.friction;
+        properties.speedFactor = pBlockBehaviour.properties.speedFactor;
+        properties.dynamicShape = pBlockBehaviour.properties.dynamicShape;
+        properties.canOcclude = pBlockBehaviour.properties.canOcclude;
+        properties.isAir = pBlockBehaviour.properties.isAir;
+        properties.requiresCorrectToolForDrops = pBlockBehaviour.properties.requiresCorrectToolForDrops;
+        return properties;
+    }
+
+
     public static void setRenderLayers(FMLClientSetupEvent event) {
         DataHelper.getAll(new ArrayList<>(ForgeRegistries.BLOCKS.getValues()), b -> b.properties instanceof LodestoneBlockProperties && ((LodestoneBlockProperties) b.properties).getThrowawayData().isCutoutLayer).forEach(b -> ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped()));
     }
