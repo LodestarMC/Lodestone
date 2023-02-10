@@ -45,7 +45,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
 
     /**
      * Render Functions. You can create Render Types by statically applying these to your texture. Alternatively, use {@link #GENERIC} if none of the presets suit your needs.
-     * For Static Definitions use {@link RenderTypeProvider#apply(ResourceLocation), otherwise use {@link RenderTypeProvider#applyAndCache(ResourceLocation)}
+     * For Static Definitions use {@link RenderTypeProvider#apply(ResourceLocation)}, otherwise use {@link RenderTypeProvider#applyAndCache(ResourceLocation)}
      */
     public static final RenderTypeProvider TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "texture", POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER, StateShards.NO_TRANSPARENCY, texture));
 
