@@ -239,9 +239,9 @@ public class VFXBuilders {
         public WorldVFXBuilder setPosColorLightmapDefaultFormat() {
             return setVertexSupplier((c, l, x, y, z, u, v) -> {
                 if (l == null)
-                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light >> 16 & 0xFFFF, this.light & 0xFFFF).endVertex();
+                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
                 else
-                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light >> 16 & 0xFFFF, this.light & 0xFFFF).endVertex();
+                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
 
             }).setFormat(DefaultVertexFormat.POSITION_COLOR_LIGHTMAP);
         }
@@ -267,9 +267,9 @@ public class VFXBuilders {
         public WorldVFXBuilder setPosColorTexLightmapDefaultFormat() {
             return setVertexSupplier((c, l, x, y, z, u, v) -> {
                 if (l == null)
-                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light >> 16 & 0xFFFF, this.light & 0xFFFF).endVertex();
+                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex();
                 else
-                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light >> 16 & 0xFFFF, this.light & 0xFFFF).endVertex();
+                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex();
             }).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
