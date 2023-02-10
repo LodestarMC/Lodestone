@@ -239,9 +239,9 @@ public class VFXBuilders {
         public WorldVFXBuilder setPosColorLightmapDefaultFormat() {
             return setVertexSupplier((c, l, x, y, z, u, v) -> {
                 if (l == null)
-                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
+                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light >> 16 & 0xFFFF, this.light & 0xFFFF).endVertex();
                 else
-                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
+                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light >> 16 & 0xFFFF, this.light & 0xFFFF).endVertex();
 
             }).setFormat(DefaultVertexFormat.POSITION_COLOR_LIGHTMAP);
         }
