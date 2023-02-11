@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class ShaderHolder {
-    public ExtendedShaderInstance instance;
+    protected ExtendedShaderInstance instance;
     public ArrayList<String> uniforms;
     public ArrayList<UniformData> defaultUniformData = new ArrayList<>();
-    public final RenderStateShard.ShaderStateShard shard = new RenderStateShard.ShaderStateShard(getInstance());
+    protected final RenderStateShard.ShaderStateShard shard = new RenderStateShard.ShaderStateShard(getInstance());
 
     public ShaderHolder(String... uniforms) {
         this.uniforms = new ArrayList<>(List.of(uniforms));
@@ -30,5 +30,9 @@ public class ShaderHolder {
 
     public Supplier<ShaderInstance> getInstance() {
         return () -> instance;
+    }
+
+    public RenderStateShard.ShaderStateShard getShard() {
+        return shard;
     }
 }
