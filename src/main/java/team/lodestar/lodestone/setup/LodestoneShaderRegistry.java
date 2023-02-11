@@ -14,7 +14,7 @@ import java.io.IOException;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = LodestoneLib.LODESTONE, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class LodestoneShaderRegistry {
 
-    public static ShaderHolder ADDITIVE_TEXTURE = new ShaderHolder();
+    public static ShaderHolder LODESTONE_TEXTURE = new ShaderHolder();
     public static ShaderHolder PARTICLE = new ShaderHolder();
     public static ShaderHolder SCREEN_PARTICLE = new ShaderHolder();
 
@@ -32,7 +32,7 @@ public class LodestoneShaderRegistry {
 
     @SubscribeEvent
     public static void shaderRegistry(RegisterShadersEvent event) throws IOException {
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(ADDITIVE_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("additive_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
+        registerShader(event, ExtendedShaderInstance.createShaderInstance(LODESTONE_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("lodestone_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(PARTICLE, event.getResourceManager(), LodestoneLib.lodestonePath("particle"), DefaultVertexFormat.PARTICLE));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(SCREEN_PARTICLE, event.getResourceManager(), LodestoneLib.lodestonePath("screen_particle"), DefaultVertexFormat.POSITION_TEX_COLOR));
 

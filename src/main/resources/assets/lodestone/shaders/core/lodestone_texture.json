@@ -5,7 +5,7 @@
     "dstrgb": "1-srcalpha"
   },
   "vertex": "lodestone:generic",
-  "fragment": "lodestone:additive_texture",
+  "fragment": "lodestone:lodestone_texture",
   "attributes": [
     "Position",
     "Color",

@@ -219,13 +219,13 @@ public class VFXBuilders {
     }
 
     public static class WorldVFXBuilder {
-        float r = 1, g = 1, b = 1, a = 1;
-        float xOffset = 0, yOffset = 0, zOffset = 0;
-        int light = RenderHelper.FULL_BRIGHT;
-        float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
+        protected float r = 1, g = 1, b = 1, a = 1;
+        protected float xOffset = 0, yOffset = 0, zOffset = 0;
+        protected int light = RenderHelper.FULL_BRIGHT;
+        protected float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
 
-        VertexFormat format;
-        WorldVertexPlacementSupplier supplier;
+        protected VertexFormat format;
+        protected WorldVertexPlacementSupplier supplier;
 
         public WorldVFXBuilder setPosColorDefaultFormat() {
             return setVertexSupplier((c, l, x, y, z, u, v) -> {
