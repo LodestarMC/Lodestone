@@ -5,6 +5,7 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec2;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.systems.particle.screen.*;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
@@ -39,9 +40,11 @@ public class ScreenParticleHandler {
 
     /**
      * Item Stack Bound Particles are rendered just after an item stack in the inventory. They are ticked the same as other particles.
+     * We use a pair of a boolean and the ItemStack's hash code as a key. The boolean sorts item particles based on if the ItemStack in question is in the hotbar or not.
      */
-    public static final HashMap<Pair<Boolean, ItemStack>, HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>>> ITEM_STACK_BOUND_PARTICLES = new HashMap<>();
-    private static HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> cachedItemTarget = null;
+    public static final HashMap<Pair<Boolean, Integer>, HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>>> ITEM_STACK_BOUND_PARTICLES = new HashMap<>();
+    public static HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> cachedItemTarget = null;
+    public static int currentItemX, currentItemY;
 
     public static final Tesselator TESSELATOR = new Tesselator();
     public static boolean canSpawnParticles;
@@ -85,11 +88,13 @@ public class ScreenParticleHandler {
                 return;
             }
             if (!stack.isEmpty()) {
+                currentItemX = x+8;
+                currentItemY = y+8;
                 ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitter != null) {
-                    HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> target = ITEM_STACK_BOUND_PARTICLES.computeIfAbsent(Pair.of(renderingHotbar, stack), s -> new HashMap<>());
+                    HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> target = ITEM_STACK_BOUND_PARTICLES.computeIfAbsent(Pair.of(renderingHotbar, stack.hashCode()), s -> new HashMap<>());
                     if (canSpawnParticles) {
-                        emitter.spawnParticles(target, minecraft.level, Minecraft.getInstance().timer.partialTick, stack, x+8, y+8);
+                        emitter.spawnParticles(target, minecraft.level, Minecraft.getInstance().timer.partialTick, stack, currentItemX, currentItemY);
                     }
                     cachedItemTarget = target;
                 }
@@ -148,6 +153,7 @@ public class ScreenParticleHandler {
         clearParticles(EARLIEST_PARTICLES);
         clearParticles(EARLY_PARTICLES);
         clearParticles(LATE_PARTICLES);
+        ITEM_STACK_BOUND_PARTICLES.values().forEach(ScreenParticleHandler::clearParticles);
     }
 
     public static void clearParticles(HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> screenParticleTarget) {

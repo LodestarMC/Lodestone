@@ -10,6 +10,9 @@ public class ScreenParticleOptions extends SimpleParticleOptions {
     public LodestoneScreenParticleRenderType renderType = LodestoneScreenParticleRenderType.ADDITIVE;
     public Consumer<GenericScreenParticle> actor;
 
+    public boolean tracksStack;
+    public double stackTrackXOffset;
+    public double stackTrackYOffset;
 
     public ScreenParticleOptions(ScreenParticleType<?> type) {
         this.type = type;

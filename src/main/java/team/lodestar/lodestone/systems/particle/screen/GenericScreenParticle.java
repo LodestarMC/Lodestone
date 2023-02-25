@@ -1,7 +1,9 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.math.Vector3d;
 import net.minecraft.world.phys.Vec2;
+import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
@@ -31,6 +33,9 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     protected final GenericParticleData scaleData;
     protected final SpinParticleData spinData;
     protected final Consumer<GenericScreenParticle> actor;
+    private final boolean tracksStack;
+    private double stackTrackXOffset;
+    private double stackTrackYOffset;
 
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
@@ -48,6 +53,9 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         this.scaleData = options.scaleData;
         this.spinData = options.spinData;
         this.actor = options.actor;
+        this.tracksStack = options.tracksStack;
+        this.stackTrackXOffset = options.stackTrackXOffset;
+        this.stackTrackYOffset = options.stackTrackYOffset;
         this.roll = options.spinData.spinOffset + options.spinData.startingValue;
         this.xMotion = xMotion;
         this.yMotion = yMotion;
@@ -126,6 +134,15 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         if (actor != null) {
             actor.accept(this);
         }
+    }
+
+    @Override
+    public void render(BufferBuilder bufferBuilder) {
+        if (tracksStack) {
+            x = ScreenParticleHandler.currentItemX+stackTrackXOffset+xMoved;
+            y = ScreenParticleHandler.currentItemY+stackTrackYOffset+yMoved;
+        }
+        super.render(bufferBuilder);
     }
 
     @Override

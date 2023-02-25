@@ -141,4 +141,17 @@ public class ScreenParticleBuilder {
         for (int i = 0; i < n; i++) spawn(x, y);
         return this;
     }
+
+    public ScreenParticleBuilder spawnOnStack(double xOffset, double yOffset) {
+        options.tracksStack = true;
+        options.stackTrackXOffset = xOffset;
+        options.stackTrackYOffset = yOffset;
+        spawn(ScreenParticleHandler.currentItemX+xOffset, ScreenParticleHandler.currentItemY+yOffset);
+        return this;
+    }
+
+    public ScreenParticleBuilder repeatOnStack(double xOffset, double yOffset, int n) {
+        for (int i = 0; i < n; i++) spawn(xOffset, yOffset);
+        return this;
+    }
 }
