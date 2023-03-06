@@ -109,7 +109,7 @@ public class ScreenParticleHandler {
         Pair<Boolean, Pair<Integer, Integer>> cacheKey = Pair.of(renderingHotbar, Pair.of(currentItemX, currentItemY));
         if (ITEM_STACK_CACHE.containsKey(cacheKey)) {
             ItemStack oldStack = ITEM_STACK_CACHE.get(cacheKey);
-            if (oldStack != currentStack) {
+            if (oldStack != currentStack && oldStack.getItem().equals(currentStack.getItem())) {
                 Pair<Boolean, ItemStack> particleKey = Pair.of(renderingHotbar, oldStack);
                 HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> oldParticles = ITEM_PARTICLES.get(particleKey);
                 if (oldParticles != null) {
