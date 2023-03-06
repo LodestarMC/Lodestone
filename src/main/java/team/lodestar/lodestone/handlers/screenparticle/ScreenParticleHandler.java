@@ -95,25 +95,32 @@ public class ScreenParticleHandler {
                 if (emitter != null) {
                     HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> target = ITEM_PARTICLES.computeIfAbsent(Pair.of(renderingHotbar, stack), s -> new HashMap<>());
 
-                    Pair<Boolean, Pair<Integer, Integer>> vaultKey = Pair.of(renderingHotbar, Pair.of(currentItemX, currentItemY));
-                    if (ITEM_STACK_CACHE.containsKey(vaultKey)) {
-                        ItemStack oldStack = ITEM_STACK_CACHE.get(vaultKey);
-                        if (oldStack != stack) {
-                            HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> oldParticles = ITEM_PARTICLES.get(Pair.of(renderingHotbar, oldStack));
-                            oldParticles.forEach((key, value) -> target.get(key).addAll(value));
-                            ITEM_STACK_CACHE.remove(vaultKey);
-                        }
-                    }
-
+                    pullFromParticleVault(stack, target);
                     if (canSpawnParticles) {
                         emitter.spawnParticles(target, minecraft.level, Minecraft.getInstance().timer.partialTick, stack, currentItemX, currentItemY);
                     }
-
                     cachedItemTarget = target;
-                    ITEM_STACK_CACHE.put(vaultKey, stack);
                 }
             }
         }
+    }
+
+    public static void pullFromParticleVault(ItemStack currentStack, HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> target) {
+        Pair<Boolean, Pair<Integer, Integer>> cacheKey = Pair.of(renderingHotbar, Pair.of(currentItemX, currentItemY));
+        if (ITEM_STACK_CACHE.containsKey(cacheKey)) {
+            ItemStack oldStack = ITEM_STACK_CACHE.get(cacheKey);
+            if (oldStack != currentStack) {
+                HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> oldParticles = ITEM_PARTICLES.get(Pair.of(renderingHotbar, oldStack));
+                oldParticles.forEach((key, value) -> {
+                    List<ScreenParticle> particles = target.get(key);
+                    if (particles != null) {
+                        particles.addAll(value);
+                    }
+                });
+                ITEM_STACK_CACHE.remove(cacheKey);
+            }
+        }
+        ITEM_STACK_CACHE.put(cacheKey, currentStack);
     }
 
     public static void renderItemStackLate() {
