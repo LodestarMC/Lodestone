@@ -110,7 +110,8 @@ public class ScreenParticleHandler {
         if (ITEM_STACK_CACHE.containsKey(cacheKey)) {
             ItemStack oldStack = ITEM_STACK_CACHE.get(cacheKey);
             if (oldStack != currentStack) {
-                HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> oldParticles = ITEM_PARTICLES.get(Pair.of(renderingHotbar, oldStack));
+                Pair<Boolean, ItemStack> particleKey = Pair.of(renderingHotbar, oldStack);
+                HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> oldParticles = ITEM_PARTICLES.get(particleKey);
                 if (oldParticles != null) {
                     oldParticles.forEach((key, value) -> {
                         List<ScreenParticle> particles = target.get(key);
@@ -120,6 +121,7 @@ public class ScreenParticleHandler {
                     });
                 }
                 ITEM_STACK_CACHE.remove(cacheKey);
+                ITEM_PARTICLES.remove(particleKey);
             }
         }
         ITEM_STACK_CACHE.put(cacheKey, currentStack);
