@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.block;
 
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.tags.TagKey;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 import net.minecraft.world.entity.EntityType;
@@ -83,6 +84,11 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
     public LodestoneDatagenBlockData getDatagenData() {
         return ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, LodestoneDatagenBlockData.EMPTY);
+    }
+
+    public LodestoneBlockProperties addTag(TagKey<Block> tag) {
+        addDatagenData(d -> d.addTag(tag));
+        return this;
     }
 
     public LodestoneBlockProperties needsPickaxe() {
