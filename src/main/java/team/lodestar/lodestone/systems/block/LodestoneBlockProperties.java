@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.block;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.TagKey;
+import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 import net.minecraft.world.entity.EntityType;
@@ -78,7 +79,9 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     }
 
     public LodestoneBlockProperties addDatagenData(Function<LodestoneDatagenBlockData, LodestoneDatagenBlockData> function) {
-        ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.put(this, function.apply(getDatagenData()));
+        if (DatagenModLoader.isRunningDataGen()) {
+            ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.put(this, function.apply(getDatagenData()));
+        }
         return this;
     }
 
@@ -86,8 +89,8 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
         return ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, LodestoneDatagenBlockData.EMPTY);
     }
 
-    public LodestoneBlockProperties addTag(TagKey<Block> tag) {
-        addDatagenData(d -> d.addTag(tag));
+    public LodestoneBlockProperties addTags(TagKey<Block>... tags) {
+        addDatagenData(d -> d.addTags(tags));
         return this;
     }
 

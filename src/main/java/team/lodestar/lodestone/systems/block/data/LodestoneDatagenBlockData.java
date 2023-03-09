@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Block;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,8 +18,8 @@ public class LodestoneDatagenBlockData {
 
     private final List<TagKey<Block>> tags = new ArrayList<>();
 
-    public LodestoneDatagenBlockData addTag(TagKey<Block> blockTagKey) {
-        tags.add(blockTagKey);
+    public LodestoneDatagenBlockData addTags(TagKey<Block>... blockTagKeys) {
+        tags.addAll(Arrays.asList(blockTagKeys));
         return this;
     }
 
@@ -27,30 +28,30 @@ public class LodestoneDatagenBlockData {
     }
 
     public LodestoneDatagenBlockData needsPickaxe() {
-        return addTag(BlockTags.MINEABLE_WITH_PICKAXE);
+        return addTags(BlockTags.MINEABLE_WITH_PICKAXE);
     }
 
     public LodestoneDatagenBlockData needsAxe() {
-        return addTag(BlockTags.MINEABLE_WITH_AXE);
+        return addTags(BlockTags.MINEABLE_WITH_AXE);
     }
 
     public LodestoneDatagenBlockData needsShovel() {
-        return addTag(BlockTags.MINEABLE_WITH_SHOVEL);
+        return addTags(BlockTags.MINEABLE_WITH_SHOVEL);
     }
 
     public LodestoneDatagenBlockData needsHoe() {
-        return addTag(BlockTags.MINEABLE_WITH_HOE);
+        return addTags(BlockTags.MINEABLE_WITH_HOE);
     }
 
     public LodestoneDatagenBlockData needsStone() {
-        return addTag(BlockTags.NEEDS_STONE_TOOL);
+        return addTags(BlockTags.NEEDS_STONE_TOOL);
     }
 
     public LodestoneDatagenBlockData needsIron() {
-        return addTag(BlockTags.NEEDS_IRON_TOOL);
+        return addTags(BlockTags.NEEDS_IRON_TOOL);
     }
 
     public LodestoneDatagenBlockData needsDiamond() {
-        return addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+        return addTags(BlockTags.NEEDS_DIAMOND_TOOL);
     }
 }
