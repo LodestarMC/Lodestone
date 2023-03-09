@@ -12,13 +12,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.function.Predicate;
 
+/**
+ * A placement assistant is a helpful client-sided system which allows you to do custom things when a player places something.
+ */
 public interface IPlacementAssistant {
 
-    public void onPlace(Player player, Level level, BlockHitResult hit, BlockState blockState);
+    void onPlaceBlock(Player player, Level level, BlockHitResult hit, BlockState blockState, ItemStack stack);
 
-    public void assist(Player player, Level level, BlockHitResult hit, BlockState blockState);
-
-    public void showAssistance(Level level, BlockHitResult hit, BlockState blockState);
+    void onObserveBlock(Player player, Level level, BlockHitResult hit, BlockState blockState, ItemStack stack);
 
     public Predicate<ItemStack> canAssist();
 }

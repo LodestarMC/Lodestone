@@ -1,9 +1,8 @@
 package team.lodestar.lodestone.systems.block;
 
-import org.jetbrains.annotations.NotNull;
-import team.lodestar.lodestone.helpers.DataHelper;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import org.jetbrains.annotations.NotNull;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -11,11 +10,10 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.data.loading.DatagenModLoader;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import team.lodestar.lodestone.systems.block.data.LodestoneDatagenBlockData;
+import team.lodestar.lodestone.systems.block.data.LodestoneThrowawayBlockData;
+import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 
-import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -58,82 +56,74 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
         return properties;
     }
 
-
-    public static void setRenderLayers(FMLClientSetupEvent event) {
-        DataHelper.getAll(new ArrayList<>(ForgeRegistries.BLOCKS.getValues()), b -> b.properties instanceof LodestoneBlockProperties && ((LodestoneBlockProperties) b.properties).getThrowawayData().isCutoutLayer).forEach(b -> ItemBlockRenderTypes.setRenderLayer(b, RenderType.cutoutMipped()));
-    }
-
-    public LodestoneBlockProperties addOptionalThrowawayData(Function<LodestoneThrowawayBlockData, LodestoneThrowawayBlockData> function) {
-        if (DatagenModLoader.isRunningDataGen()) {
-            addThrowawayData(function);
-        }
-        return this;
-    }
-
     public LodestoneBlockProperties addThrowawayData(Function<LodestoneThrowawayBlockData, LodestoneThrowawayBlockData> function) {
-        LodestoneThrowawayBlockData.DATA_CACHE.put(this, function.apply(LodestoneThrowawayBlockData.DATA_CACHE.getOrDefault(this, new LodestoneThrowawayBlockData())));
+        ThrowawayBlockDataHandler.THROWAWAY_DATA_CACHE.put(this, function.apply(getThrowawayData()));
         return this;
     }
 
     public LodestoneThrowawayBlockData getThrowawayData() {
-        return LodestoneThrowawayBlockData.DATA_CACHE.getOrDefault(this, new LodestoneThrowawayBlockData());
+        return ThrowawayBlockDataHandler.THROWAWAY_DATA_CACHE.getOrDefault(this, LodestoneThrowawayBlockData.EMPTY);
+    }
+
+    public LodestoneBlockProperties setCutoutRenderType() {
+        return setRenderType(()->RenderType::cutoutMipped);
+    }
+
+    public LodestoneBlockProperties setRenderType(Supplier<Supplier<RenderType>> renderType) {
+        if (FMLEnvironment.dist.isClient()) {
+            addThrowawayData(d -> d.setRenderType(renderType));
+        }
+        return this;
+    }
+
+    public LodestoneBlockProperties addDatagenData(Function<LodestoneDatagenBlockData, LodestoneDatagenBlockData> function) {
+        ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.put(this, function.apply(getDatagenData()));
+        return this;
+    }
+
+    public LodestoneDatagenBlockData getDatagenData() {
+        return ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, LodestoneDatagenBlockData.EMPTY);
     }
 
     public LodestoneBlockProperties needsPickaxe() {
-        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsPickaxe);
+        addDatagenData(LodestoneDatagenBlockData::needsPickaxe);
         return this;
     }
 
     public LodestoneBlockProperties needsAxe() {
-        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsAxe);
+        addDatagenData(LodestoneDatagenBlockData::needsAxe);
         return this;
     }
 
     public LodestoneBlockProperties needsShovel() {
-        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsShovel);
+        addDatagenData(LodestoneDatagenBlockData::needsShovel);
         return this;
     }
 
     public LodestoneBlockProperties needsHoe() {
-        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsHoe);
+        addDatagenData(LodestoneDatagenBlockData::needsHoe);
         return this;
     }
 
     public LodestoneBlockProperties needsStone() {
-        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsStone);
+        addDatagenData(LodestoneDatagenBlockData::needsStone);
         return this;
     }
 
     public LodestoneBlockProperties needsIron() {
-        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsIron);
+        addDatagenData(LodestoneDatagenBlockData::needsIron);
         return this;
     }
 
     public LodestoneBlockProperties needsDiamond() {
-        addOptionalThrowawayData(LodestoneThrowawayBlockData::needsDiamond);
+        addDatagenData(LodestoneDatagenBlockData::needsDiamond);
         return this;
     }
 
-    public LodestoneBlockProperties hasCustomLoot() {
-        addOptionalThrowawayData(LodestoneThrowawayBlockData::hasCustomLoot);
-        return this;
-    }
-
-    public LodestoneBlockProperties isCutoutLayer() {
-        addThrowawayData(LodestoneThrowawayBlockData::isCutoutLayer);
-        return this;
-    }
-
-    // this method name keeps me up at night
     @Override
     @NotNull
     public LodestoneBlockProperties noCollission() {
         return (LodestoneBlockProperties) super.noCollission();
-    }
-
-    @NotNull
-    public LodestoneBlockProperties noCollision() {
-        return noCollission();
     }
 
     @Override
@@ -218,7 +208,6 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     @Override
     @NotNull
     public LodestoneBlockProperties lootFrom(@NotNull Supplier<? extends Block> blockIn) {
-        hasCustomLoot();
         return (LodestoneBlockProperties) super.lootFrom(blockIn);
     }
 

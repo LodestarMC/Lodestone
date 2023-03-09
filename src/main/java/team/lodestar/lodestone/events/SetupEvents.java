@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.events;
 
-import team.lodestar.lodestone.systems.block.LodestoneThrowawayBlockData;
 import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
@@ -11,6 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SetupEvents {
@@ -29,6 +29,6 @@ public class SetupEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void lateSetup(InterModEnqueueEvent event) {
-        LodestoneThrowawayBlockData.wipeCache(event);
+        ThrowawayBlockDataHandler.wipeCache(event);
     }
 }
