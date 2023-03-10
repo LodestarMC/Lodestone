@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.block;
 
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraftforge.data.loading.DatagenModLoader;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -91,6 +92,52 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
     public LodestoneBlockProperties addTag(TagKey<Block> tag) {
         addDatagenData(d -> d.addTag(tag));
+        return this;
+    }
+
+    @SafeVarargs
+    public final LodestoneBlockProperties addTags(TagKey<Block>... tags) {
+        addDatagenData(d -> d.addTags(tags));
+        return this;
+    }
+
+    public LodestoneBlockProperties isWoodenButton() {
+        addDatagenData(LodestoneDatagenBlockData::isWoodenButton);
+        return this;
+    }
+
+    public LodestoneBlockProperties isButton() {
+        addDatagenData(LodestoneDatagenBlockData::isButton);
+        return this;
+    }
+
+    public LodestoneBlockProperties isWoodenPressurePlate() {
+        addDatagenData(LodestoneDatagenBlockData::isWoodenPressurePlate);
+        return this;
+    }
+
+    public LodestoneBlockProperties isPressurePlate() {
+        addDatagenData(LodestoneDatagenBlockData::isPressurePlate);
+        return this;
+    }
+
+    public LodestoneBlockProperties isWoodenStairs() {
+        addDatagenData(LodestoneDatagenBlockData::isWoodenStairs);
+        return this;
+    }
+
+    public LodestoneBlockProperties isStairs() {
+        addDatagenData(LodestoneDatagenBlockData::isStairs);
+        return this;
+    }
+
+    public LodestoneBlockProperties isWoodenSlab() {
+        addDatagenData(LodestoneDatagenBlockData::isWoodenSlab);
+        return this;
+    }
+
+    public LodestoneBlockProperties isSlab() {
+        addDatagenData(LodestoneDatagenBlockData::isSlab);
         return this;
     }
 

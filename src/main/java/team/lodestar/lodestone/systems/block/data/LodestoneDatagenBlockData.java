@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Block;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,8 +23,46 @@ public class LodestoneDatagenBlockData {
         return this;
     }
 
+    @SafeVarargs
+    public final LodestoneDatagenBlockData addTags(TagKey<Block>... blockTagKeys) {
+        tags.addAll(Arrays.asList(blockTagKeys));
+        return this;
+    }
+
     public List<TagKey<Block>> getTags() {
         return tags;
+    }
+
+    public LodestoneDatagenBlockData isWoodenButton() {
+        return addTags(BlockTags.BUTTONS, BlockTags.WOODEN_BUTTONS);
+    }
+
+    public LodestoneDatagenBlockData isButton() {
+        return addTag(BlockTags.BUTTONS);
+    }
+
+    public LodestoneDatagenBlockData isWoodenPressurePlate() {
+        return addTags(BlockTags.PRESSURE_PLATES, BlockTags.WOODEN_PRESSURE_PLATES);
+    }
+
+    public LodestoneDatagenBlockData isPressurePlate() {
+        return addTag(BlockTags.PRESSURE_PLATES);
+    }
+
+    public LodestoneDatagenBlockData isWoodenStairs() {
+        return addTags(BlockTags.STAIRS, BlockTags.WOODEN_STAIRS);
+    }
+
+    public LodestoneDatagenBlockData isStairs() {
+        return addTag(BlockTags.STAIRS);
+    }
+
+    public LodestoneDatagenBlockData isWoodenSlab() {
+        return addTags(BlockTags.SLABS, BlockTags.WOODEN_SLABS);
+    }
+
+    public LodestoneDatagenBlockData isSlab() {
+        return addTag(BlockTags.SLABS);
     }
 
     public LodestoneDatagenBlockData needsPickaxe() {
