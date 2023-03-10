@@ -33,36 +33,20 @@ public class LodestoneDatagenBlockData {
         return tags;
     }
 
-    public LodestoneDatagenBlockData isWoodenButton() {
+    public LodestoneDatagenBlockData addWoodenButtonTags() {
         return addTags(BlockTags.BUTTONS, BlockTags.WOODEN_BUTTONS);
     }
 
-    public LodestoneDatagenBlockData isButton() {
-        return addTag(BlockTags.BUTTONS);
-    }
-
-    public LodestoneDatagenBlockData isWoodenPressurePlate() {
+    public LodestoneDatagenBlockData addWoodenPressurePlateTags() {
         return addTags(BlockTags.PRESSURE_PLATES, BlockTags.WOODEN_PRESSURE_PLATES);
     }
 
-    public LodestoneDatagenBlockData isPressurePlate() {
-        return addTag(BlockTags.PRESSURE_PLATES);
-    }
-
-    public LodestoneDatagenBlockData isWoodenStairs() {
+    public LodestoneDatagenBlockData addWoodenStairsTags() {
         return addTags(BlockTags.STAIRS, BlockTags.WOODEN_STAIRS);
     }
 
-    public LodestoneDatagenBlockData isStairs() {
-        return addTag(BlockTags.STAIRS);
-    }
-
-    public LodestoneDatagenBlockData isWoodenSlab() {
+    public LodestoneDatagenBlockData addWoodenSlabTags() {
         return addTags(BlockTags.SLABS, BlockTags.WOODEN_SLABS);
-    }
-
-    public LodestoneDatagenBlockData isSlab() {
-        return addTag(BlockTags.SLABS);
     }
 
     public LodestoneDatagenBlockData needsPickaxe() {
