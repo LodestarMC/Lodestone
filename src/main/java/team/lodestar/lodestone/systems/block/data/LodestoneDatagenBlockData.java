@@ -17,7 +17,7 @@ public class LodestoneDatagenBlockData {
     public static final LodestoneDatagenBlockData EMPTY = new LodestoneDatagenBlockData();
 
     private final List<TagKey<Block>> tags = new ArrayList<>();
-    public boolean hasInheritedLootTable;
+    public boolean hasInheritedLootTable = false;
 
     public LodestoneDatagenBlockData addTag(TagKey<Block> blockTagKey) {
         tags.add(blockTagKey);
