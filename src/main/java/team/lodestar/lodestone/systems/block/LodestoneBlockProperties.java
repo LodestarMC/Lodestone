@@ -99,7 +99,12 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
         addDatagenData(d -> d.addTags(tags));
         return this;
     }
-    
+
+    public LodestoneBlockProperties hasInheritedLoot() {
+        addDatagenData(LodestoneDatagenBlockData::hasInheritedLoot);
+        return this;
+    }
+
     public LodestoneBlockProperties needsPickaxe() {
         addDatagenData(LodestoneDatagenBlockData::needsPickaxe);
         return this;
@@ -223,6 +228,9 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     @Override
     @NotNull
     public LodestoneBlockProperties lootFrom(@NotNull Supplier<? extends Block> blockIn) {
+        if (DatagenModLoader.isRunningDataGen()) {
+            getDatagenData().hasInheritedLootTable = true;
+        }
         return (LodestoneBlockProperties) super.lootFrom(blockIn);
     }
 

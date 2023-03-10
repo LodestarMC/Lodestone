@@ -17,6 +17,7 @@ public class LodestoneDatagenBlockData {
     public static final LodestoneDatagenBlockData EMPTY = new LodestoneDatagenBlockData();
 
     private final List<TagKey<Block>> tags = new ArrayList<>();
+    public boolean hasInheritedLootTable;
 
     public LodestoneDatagenBlockData addTag(TagKey<Block> blockTagKey) {
         tags.add(blockTagKey);
@@ -31,6 +32,11 @@ public class LodestoneDatagenBlockData {
 
     public List<TagKey<Block>> getTags() {
         return tags;
+    }
+
+    public LodestoneDatagenBlockData hasInheritedLoot() {
+        hasInheritedLootTable = true;
+        return this;
     }
 
     public LodestoneDatagenBlockData needsPickaxe() {
