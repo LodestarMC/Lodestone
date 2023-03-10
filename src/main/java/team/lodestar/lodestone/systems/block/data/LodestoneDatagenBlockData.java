@@ -33,22 +33,6 @@ public class LodestoneDatagenBlockData {
         return tags;
     }
 
-    public LodestoneDatagenBlockData addWoodenButtonTags() {
-        return addTags(BlockTags.BUTTONS, BlockTags.WOODEN_BUTTONS);
-    }
-
-    public LodestoneDatagenBlockData addWoodenPressurePlateTags() {
-        return addTags(BlockTags.PRESSURE_PLATES, BlockTags.WOODEN_PRESSURE_PLATES);
-    }
-
-    public LodestoneDatagenBlockData addWoodenStairsTags() {
-        return addTags(BlockTags.STAIRS, BlockTags.WOODEN_STAIRS);
-    }
-
-    public LodestoneDatagenBlockData addWoodenSlabTags() {
-        return addTags(BlockTags.SLABS, BlockTags.WOODEN_SLABS);
-    }
-
     public LodestoneDatagenBlockData needsPickaxe() {
         return addTag(BlockTags.MINEABLE_WITH_PICKAXE);
     }
