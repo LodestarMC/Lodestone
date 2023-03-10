@@ -99,47 +99,7 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
         addDatagenData(d -> d.addTags(tags));
         return this;
     }
-
-    public LodestoneBlockProperties isWoodenButton() {
-        addDatagenData(LodestoneDatagenBlockData::addWoodenButtonTags);
-        return this;
-    }
-
-    public LodestoneBlockProperties isButton() {
-        addDatagenData(LodestoneDatagenBlockData::isButton);
-        return this;
-    }
-
-    public LodestoneBlockProperties isWoodenPressurePlate() {
-        addDatagenData(LodestoneDatagenBlockData::addWoodenPressurePlateTags);
-        return this;
-    }
-
-    public LodestoneBlockProperties isPressurePlate() {
-        addDatagenData(LodestoneDatagenBlockData::isPressurePlate);
-        return this;
-    }
-
-    public LodestoneBlockProperties isWoodenStairs() {
-        addDatagenData(LodestoneDatagenBlockData::addWoodenStairsTags);
-        return this;
-    }
-
-    public LodestoneBlockProperties isStairs() {
-        addDatagenData(LodestoneDatagenBlockData::isStairs);
-        return this;
-    }
-
-    public LodestoneBlockProperties isWoodenSlab() {
-        addDatagenData(LodestoneDatagenBlockData::addWoodenSlabTags);
-        return this;
-    }
-
-    public LodestoneBlockProperties isSlab() {
-        addDatagenData(LodestoneDatagenBlockData::isSlab);
-        return this;
-    }
-
+    
     public LodestoneBlockProperties needsPickaxe() {
         addDatagenData(LodestoneDatagenBlockData::needsPickaxe);
         return this;
