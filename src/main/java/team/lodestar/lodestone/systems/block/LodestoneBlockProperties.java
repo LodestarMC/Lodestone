@@ -12,9 +12,10 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import team.lodestar.lodestone.systems.block.data.LodestoneDatagenBlockData;
-import team.lodestar.lodestone.systems.block.data.LodestoneThrowawayBlockData;
+import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
+import team.lodestar.lodestone.systems.datagen.LodestoneThrowawayBlockData;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
+import team.lodestar.lodestone.systems.datagen.BlockStateSmith;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -87,6 +88,11 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
     public LodestoneDatagenBlockData getDatagenData() {
         return ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, LodestoneDatagenBlockData.EMPTY);
+    }
+
+    public LodestoneBlockProperties setBlockStateSmith(BlockStateSmith<?> blockstateSmith) {
+        addDatagenData(d -> d.setBlockStateSmith(blockstateSmith));
+        return this;
     }
 
     public LodestoneBlockProperties addTag(TagKey<Block> tag) {

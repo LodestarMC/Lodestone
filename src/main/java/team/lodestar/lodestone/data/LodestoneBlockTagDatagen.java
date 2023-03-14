@@ -21,6 +21,5 @@ public class LodestoneBlockTagDatagen extends BlockTagsProvider {
     @Override
     protected void addTags() {
         tag(LodestoneBlockTags.TERRACOTTA).add(Registry.BLOCK.stream().filter(b -> b.getRegistryName().getPath().endsWith("terracotta")).toArray(Block[]::new));
-
     }
 }

@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.block.data;
+package team.lodestar.lodestone.systems.datagen;
 
 import net.minecraft.client.renderer.RenderType;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;

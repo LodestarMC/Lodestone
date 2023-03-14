@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.block.data;
+package team.lodestar.lodestone.systems.datagen;
 
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -17,8 +17,13 @@ public class LodestoneDatagenBlockData {
     public static final LodestoneDatagenBlockData EMPTY = new LodestoneDatagenBlockData();
 
     private final List<TagKey<Block>> tags = new ArrayList<>();
+    private BlockStateSmith<? extends Block> blockstateSmith;
     public boolean hasInheritedLootTable = false;
 
+    public LodestoneDatagenBlockData setBlockStateSmith(BlockStateSmith<?> blockstateSmith) {
+        this.blockstateSmith = blockstateSmith;
+        return this;
+    }
     public LodestoneDatagenBlockData addTag(TagKey<Block> blockTagKey) {
         tags.add(blockTagKey);
         return this;
@@ -32,6 +37,10 @@ public class LodestoneDatagenBlockData {
 
     public List<TagKey<Block>> getTags() {
         return tags;
+    }
+
+    public BlockStateSmith<? extends Block> getStateSmith() {
+        return blockstateSmith;
     }
 
     public LodestoneDatagenBlockData hasInheritedLoot() {
