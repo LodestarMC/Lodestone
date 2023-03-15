@@ -7,7 +7,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.systems.block.LodestoneBlockProperties;
 import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
-import team.lodestar.lodestone.systems.datagen.LodestoneThrowawayBlockData;
+import team.lodestar.lodestone.systems.block.LodestoneThrowawayBlockData;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.datagen;
+package team.lodestar.lodestone.systems.datagen.statesmith;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
@@ -11,20 +11,19 @@ import team.lodestar.lodestone.LodestoneLib;
 
 import java.util.Collection;
 
-public class BlockStateSmith<T extends Block> {
+public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
 
-    public final Class<T> blockClass;
     public final SmithStateSupplier<T> stateSupplier;
 
-    protected BlockStateSmith(Class<T> blockClass, SmithStateSupplier<T> stateSupplier) {
-        this.blockClass = blockClass;
+    public BlockStateSmith(Class<T> blockClass, SmithStateSupplier<T> stateSupplier) {
+        super(blockClass);
         this.stateSupplier = stateSupplier;
     }
 
     public void act(BlockStateProvider provider, Collection<RegistryObject<Block>> blocks) {
         blocks.forEach(r -> act(provider, r.get()));
     }
-    
+
     public void act(BlockStateProvider provider, Block block) {
         if (blockClass.isInstance(block)) {
             stateSupplier.act(blockClass.cast(block), provider);

@@ -13,9 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
-import team.lodestar.lodestone.systems.datagen.LodestoneThrowawayBlockData;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
-import team.lodestar.lodestone.systems.datagen.BlockStateSmith;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
