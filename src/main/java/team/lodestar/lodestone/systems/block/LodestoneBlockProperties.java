@@ -90,11 +90,6 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
         return ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, LodestoneDatagenBlockData.EMPTY);
     }
 
-    public LodestoneBlockProperties setBlockStateSmith(BlockStateSmith<?> blockstateSmith) {
-        addDatagenData(d -> d.setBlockStateSmith(blockstateSmith));
-        return this;
-    }
-
     public LodestoneBlockProperties addTag(TagKey<Block> tag) {
         addDatagenData(d -> d.addTag(tag));
         return this;
