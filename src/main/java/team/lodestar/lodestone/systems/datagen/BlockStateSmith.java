@@ -8,6 +8,8 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import team.lodestar.lodestone.LodestoneLib;
 
+import java.util.Collection;
+
 public class BlockStateSmith<T extends Block> {
 
     public final Class<T> blockClass;
@@ -18,6 +20,9 @@ public class BlockStateSmith<T extends Block> {
         this.stateSupplier = stateSupplier;
     }
 
+    public void act(BlockStateProvider provider, Collection<Block> blocks) {
+        blocks.forEach(block -> act(provider, block));
+    }
     public void act(BlockStateProvider provider, Block block) {
         if (blockClass.isInstance(block)) {
             stateSupplier.act(blockClass.cast(block), provider);

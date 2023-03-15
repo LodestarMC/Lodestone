@@ -31,6 +31,5 @@ public class SetupEvents {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void lateSetup(InterModEnqueueEvent event) {
         ThrowawayBlockDataHandler.wipeCache(event);
-        BlockStateSmithTypes.wipeCache(event);
     }
 }

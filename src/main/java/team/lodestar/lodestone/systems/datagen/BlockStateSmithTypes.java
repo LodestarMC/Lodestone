@@ -6,35 +6,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 
 public class BlockStateSmithTypes {
-
-    public static void wipeCache(InterModEnqueueEvent event) {
-        FULL_BLOCK = null;
-        CROSS_MODEL_BLOCK = null;
-        LOG_BLOCK = null;
-        WOOD_BLOCK = null;
-        STAIRS_BLOCK = null;
-        SLAB_BLOCK = null;
-        WALL_BLOCK = null;
-        FENCE_BLOCK = null;
-        FENCE_GATE_BLOCK = null;
-        PRESSURE_PLATE_BLOCK = null;
-        BUTTON_BLOCK = null;
-        DOOR_BLOCK = null;
-        TRAPDOOR_BLOCK = null;
-        TORCH_BLOCK = null;
-        WALL_TORCH_BLOCK = null;
-        WOODEN_SIGN_BLOCK = null;
-    }
 
     public static BlockStateSmith<Block> FULL_BLOCK = new BlockStateSmith<>(Block.class, (b, p) -> p.simpleBlock(b));
 
     public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, (b, p) -> {
         String name = getBlockName(b);
         p.models().cross(name, getPath(b, "block/" + name));
-
     });
 
     public static BlockStateSmith<RotatedPillarBlock> LOG_BLOCK = new BlockStateSmith<>(RotatedPillarBlock.class, (b, p) -> {
