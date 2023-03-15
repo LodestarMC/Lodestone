@@ -33,7 +33,7 @@ public class ModelFuncBlockStateSmith<T extends Block> extends AbstractBlockStat
         void act(T block, BlockStateProvider provider, StateFunction<T> actor);
     }
 
-    interface StateFunction<T extends Block> {
+    public interface StateFunction<T extends Block> {
         void act(T block, BlockStateProvider provider, ModelFile modelFile);
     }
 }
