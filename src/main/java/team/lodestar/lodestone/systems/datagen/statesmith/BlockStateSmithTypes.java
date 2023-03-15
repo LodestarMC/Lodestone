@@ -12,7 +12,7 @@ public class BlockStateSmithTypes {
     public static ModelFuncBlockStateSmith<Block> PREDEFINED_MODEL = new ModelFuncBlockStateSmith<>(Block.class, (b, p, s) -> {
         String name = getBlockName(b);
         ModelFile predefinedModel = p.models().getExistingFile(getPath(b, "block/" + name));
-        s.act(b, p, predefinedModel);
+        s.act(b, predefinedModel);
     });
 
     public static BlockStateSmith<Block> FULL_BLOCK = new BlockStateSmith<>(Block.class, (b, p) -> p.simpleBlock(b));
