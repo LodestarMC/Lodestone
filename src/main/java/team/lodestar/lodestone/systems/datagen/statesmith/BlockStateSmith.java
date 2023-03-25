@@ -1,11 +1,7 @@
 package team.lodestar.lodestone.systems.datagen.statesmith;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
 
@@ -18,6 +14,13 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
     public BlockStateSmith(Class<T> blockClass, SmithStateSupplier<T> stateSupplier) {
         super(blockClass);
         this.stateSupplier = stateSupplier;
+    }
+
+    @SafeVarargs
+    public final void act(BlockStateProvider provider, RegistryObject<Block>... blocks) {
+        for (RegistryObject<Block> block : blocks) {
+            act(provider, block.get());
+        }
     }
 
     public void act(BlockStateProvider provider, Collection<RegistryObject<Block>> blocks) {
