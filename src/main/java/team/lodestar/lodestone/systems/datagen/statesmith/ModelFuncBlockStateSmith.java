@@ -17,11 +17,18 @@ public class ModelFuncBlockStateSmith<T extends Block> extends AbstractBlockStat
         this.stateSupplier = stateSupplier;
     }
 
-    public void act(BlockStateProvider provider, Collection<RegistryObject<Block>> blocks, StateFunction<T> actor) {
-        blocks.forEach(r -> act(provider, r.get(), actor));
+    @SafeVarargs
+    public final void act(BlockStateProvider provider, StateFunction<T> actor, RegistryObject<Block>... blocks) {
+        for (RegistryObject<Block> block : blocks) {
+            act(provider, actor, block.get());
+        }
     }
 
-    public void act(BlockStateProvider provider, Block block, StateFunction<T> actor) {
+    public void act(BlockStateProvider provider, StateFunction<T> actor, Collection<RegistryObject<Block>> blocks) {
+        blocks.forEach(r -> act(provider, actor, r.get()));
+    }
+
+    public void act(BlockStateProvider provider, StateFunction<T> actor, Block block) {
         if (blockClass.isInstance(block)) {
             stateSupplier.act(blockClass.cast(block), provider, actor);
         } else {
