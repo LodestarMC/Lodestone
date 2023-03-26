@@ -32,7 +32,7 @@ public class ShaderHolder {
         return () -> instance;
     }
 
-    public ExtendedShaderInstance getExtendedShaderInstance() {
+    public ExtendedShaderInstance getInstance() {
         return instance;
     }
 
