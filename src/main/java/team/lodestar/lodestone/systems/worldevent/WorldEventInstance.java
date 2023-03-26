@@ -15,7 +15,7 @@ import java.util.UUID;
  * They can exist on the client and are ticked separately.
  */
 public abstract class WorldEventInstance {
-    public UUID uuid; //TODO: figure out why this is here.
+    public UUID uuid;
     public WorldEventType type;
     public boolean discarded;
 
@@ -44,7 +44,6 @@ public abstract class WorldEventInstance {
     }
 
     public void tick(Level level) {
-
     }
 
     public void end(Level level) {
@@ -58,11 +57,11 @@ public abstract class WorldEventInstance {
         return tag;
     }
 
-    public WorldEventInstance deserializeNBT(CompoundTag tag) {
-        uuid = tag.getUUID("uuid");
-        type = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(tag.getString("type"));
-        discarded = tag.getBoolean("discarded");
-        return this;
+    public static <T extends WorldEventInstance> T deserializeNBT(T instance, CompoundTag tag) {
+        instance.uuid = tag.getUUID("uuid");
+        instance.type = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(tag.getString("type"));
+        instance.discarded = tag.getBoolean("discarded");
+        return instance;
     }
 
     public static <T extends WorldEventInstance> void sync(T instance) {
