@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.rendering;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.helpers.render.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -154,6 +155,8 @@ public class VFXBuilders {
             this.v1 = (v + height);
             return this;
         }
+
+
 
         public ScreenVFXBuilder setUV(float u0, float v0, float u1, float v1, float canvasSize) {
             return setUV(u0, v0, u1, v1, canvasSize, canvasSize);
@@ -309,6 +312,10 @@ public class VFXBuilders {
         public WorldVFXBuilder setLight(int light) {
             this.light = light;
             return this;
+        }
+
+        public WorldVFXBuilder setUV(TextureAtlasSprite sprite) {
+            return setUV(sprite.getU0(), sprite.getV0(), sprite.getU1(), sprite.getV1());
         }
 
         public WorldVFXBuilder setUV(float u0, float v0, float u1, float v1) {
