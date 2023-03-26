@@ -57,7 +57,7 @@ public abstract class WorldEventInstance {
         return tag;
     }
 
-    public static <T extends WorldEventInstance> T deserializeNBT(T instance, CompoundTag tag) {
+    public static <T extends WorldEventInstance> T deserializeDefaultWorldEventNBT(T instance, CompoundTag tag) {
         instance.uuid = tag.getUUID("uuid");
         instance.type = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(tag.getString("type"));
         instance.discarded = tag.getBoolean("discarded");
