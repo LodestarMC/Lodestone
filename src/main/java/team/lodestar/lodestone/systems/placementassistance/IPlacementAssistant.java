@@ -17,5 +17,7 @@ public interface IPlacementAssistant {
 
     void onObserveBlock(Player player, Level level, BlockHitResult hit, BlockState blockState, ItemStack stack);
 
+    void onHoldValidItem(Player player, Level level, ItemStack stack);
+
     public Predicate<ItemStack> canAssist();
 }

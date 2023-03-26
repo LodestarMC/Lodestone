@@ -51,6 +51,10 @@ public class PlacementAssistantHandler {
     public static void tick(Player player, HitResult hitResult) {
         Level level = player.level;
         List<Pair<IPlacementAssistant, ItemStack>> placementAssistants = findAssistants(level, player, hitResult);
+        for (Pair<IPlacementAssistant, ItemStack> pair : placementAssistants) {
+            IPlacementAssistant assistant = pair.getFirst();
+            assistant.onHoldValidItem(player, level, pair.getSecond());
+        }
         if (hitResult instanceof BlockHitResult blockHitResult && !blockHitResult.getType().equals(HitResult.Type.MISS)) {
             target = blockHitResult;
             for (Pair<IPlacementAssistant, ItemStack> pair : placementAssistants) {
