@@ -1,20 +1,51 @@
 package team.lodestar.lodestone.helpers;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
 
 public class NBTHelper {
+
+    /**
+     * Saves a block position to nbt.
+     */
+    public static void saveBlockPos(CompoundTag compoundNBT, BlockPos pos) {
+        compoundNBT.putInt("X", pos.getX());
+        compoundNBT.putInt("Y", pos.getY());
+        compoundNBT.putInt("Z", pos.getZ());
+    }
+
+    /**
+     * Saves a block position to nbt with extra text to differentiate it.
+     */
+    public static void saveBlockPos(CompoundTag compoundNBT, BlockPos pos, String extra) {
+        compoundNBT.putInt(extra + "_X", pos.getX());
+        compoundNBT.putInt(extra + "_Y", pos.getY());
+        compoundNBT.putInt(extra + "_Z", pos.getZ());
+    }
+
+    /**
+     * Loads a block position from nbt.
+     */
+    public static BlockPos loadBlockPos(CompoundTag tag) {
+        return tag.contains("X") ? new BlockPos(tag.getInt("X"), tag.getInt("Y"), tag.getInt("Z")) : null;
+    }
+
+    /**
+     * Loads a block position from nbt with extra text as input.
+     */
+    public static BlockPos loadBlockPos(CompoundTag tag, String extra) {
+        return tag.contains(extra + "_X") ? new BlockPos(tag.getInt(extra + "_X"), tag.getInt(extra + "_Y"), tag.getInt(extra + "_Z")) : null;
+    }
 
     public static CompoundTag filterTag(CompoundTag orig, TagFilter filter) {
         if (filter.filters.isEmpty()) {
             return orig;
         }
         CompoundTag copy = orig.copy();
-        removeTags(copy, filter);
-        return copy;
+        return removeTags(copy, filter);
     }
 
     public static CompoundTag removeTags(CompoundTag tag, TagFilter filter) {

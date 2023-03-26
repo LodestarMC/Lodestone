@@ -35,7 +35,7 @@ public class PlacementAssistantHandler {
     }
 
     public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         Level level = player.level;
         if (level.isClientSide) {
             List<Pair<IPlacementAssistant, ItemStack>> assistants = findAssistants(level, player, event.getHitVec());

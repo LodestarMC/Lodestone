@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.helpers;
 
 import team.lodestar.lodestone.compability.CuriosCompat;
+import team.lodestar.lodestone.helpers.CurioHelper;
 import team.lodestar.lodestone.systems.item.IEventResponderItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;

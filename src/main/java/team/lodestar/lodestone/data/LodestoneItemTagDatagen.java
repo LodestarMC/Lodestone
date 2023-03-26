@@ -7,7 +7,7 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import team.lodestar.lodestone.LodestoneLib;
 
-import static team.lodestar.lodestone.setup.LodestoneItemTags.*;
+import static team.lodestar.lodestone.registry.common.tag.LodestoneItemTags.*;
 
 public class LodestoneItemTagDatagen extends ItemTagsProvider {
     public LodestoneItemTagDatagen(DataGenerator dataGenerator, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
@@ -16,7 +16,7 @@ public class LodestoneItemTagDatagen extends ItemTagsProvider {
 
     @Override
     public String getName() {
-        return "Malum Item Tags";
+        return "Lodestone Item Tags";
     }
 
     @Override

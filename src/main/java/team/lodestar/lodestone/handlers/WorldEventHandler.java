@@ -1,10 +1,11 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
-import team.lodestar.lodestone.setup.worldevent.LodestoneWorldEventRendererRegistry;
-import team.lodestar.lodestone.setup.worldevent.LodestoneWorldEventTypeRegistry;
+import team.lodestar.lodestone.registry.client.LodestoneWorldEventRendererRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventRenderer;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
@@ -14,9 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 import java.util.Iterator;
 
@@ -51,7 +50,7 @@ public class WorldEventHandler {
         return instance;
     }
 
-    public static void playerJoin(EntityJoinWorldEvent event) {
+    public static void playerJoin(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (player.level instanceof ServerLevel level) {
                 LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(capability -> LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(worldCapability -> {
@@ -67,10 +66,10 @@ public class WorldEventHandler {
         }
     }
 
-    public static void worldTick(TickEvent.WorldTickEvent event) {
+    public static void worldTick(TickEvent.LevelTickEvent event) {
         if (event.phase.equals(TickEvent.Phase.END)) {
-            if (!event.world.isClientSide) {
-                tick(event.world);
+            if (!event.level.isClientSide) {
+                tick(event.level);
             }
         }
     }

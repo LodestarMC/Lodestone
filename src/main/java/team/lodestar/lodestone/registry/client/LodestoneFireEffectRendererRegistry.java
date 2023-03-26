@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.client;
 
 import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectRenderer;

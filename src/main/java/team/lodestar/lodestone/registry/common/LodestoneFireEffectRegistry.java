@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.common;
 
 
 import team.lodestar.lodestone.systems.fireeffect.FireEffectType;

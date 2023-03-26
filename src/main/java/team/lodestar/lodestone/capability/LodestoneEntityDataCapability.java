@@ -3,7 +3,7 @@ package team.lodestar.lodestone.capability;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.helpers.NBTHelper;
 import team.lodestar.lodestone.network.capability.SyncLodestoneEntityCapabilityPacket;
-import team.lodestar.lodestone.setup.LodestonePacketRegistry;
+import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.systems.capability.LodestoneCapability;
 import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
@@ -42,7 +42,7 @@ public class LodestoneEntityDataCapability implements LodestoneCapability {
 
     public static void syncEntityCapability(PlayerEvent.StartTracking event) {
         if (event.getEntity().level instanceof ServerLevel) {
-            LodestoneEntityDataCapability.syncTracking(event.getEntityLiving());
+            LodestoneEntityDataCapability.syncTracking(event.getTarget());
         }
     }
 
@@ -67,7 +67,7 @@ public class LodestoneEntityDataCapability implements LodestoneCapability {
     }
 
     public static void sync(Entity entity, PacketDistributor.PacketTarget target) {
-        getCapabilityOptional(entity).ifPresent(c -> LodestonePacketRegistry.ORTUS_CHANNEL.send(target, new SyncLodestoneEntityCapabilityPacket(entity.getId(), c.serializeNBT())));
+        getCapabilityOptional(entity).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestoneEntityCapabilityPacket(entity.getId(), c.serializeNBT())));
     }
 
     public static void syncTrackingAndSelf(Entity entity, NBTHelper.TagFilter filter) {
@@ -79,7 +79,7 @@ public class LodestoneEntityDataCapability implements LodestoneCapability {
     }
 
     public static void sync(Entity entity, PacketDistributor.PacketTarget target, NBTHelper.TagFilter filter) {
-        getCapabilityOptional(entity).ifPresent(c -> LodestonePacketRegistry.ORTUS_CHANNEL.send(target, new SyncLodestoneEntityCapabilityPacket(entity.getId(), NBTHelper.filterTag(c.serializeNBT(), filter))));
+        getCapabilityOptional(entity).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestoneEntityCapabilityPacket(entity.getId(), NBTHelper.filterTag(c.serializeNBT(), filter))));
     }
 
     public static LazyOptional<LodestoneEntityDataCapability> getCapabilityOptional(Entity entity) {

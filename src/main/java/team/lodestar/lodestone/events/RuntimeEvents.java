@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.events;
 
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
@@ -11,7 +12,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -29,7 +29,7 @@ public class RuntimeEvents {
     }
 
     @SubscribeEvent
-    public static void entityJoin(EntityJoinWorldEvent event) {
+    public static void entityJoin(EntityJoinLevelEvent event) {
         WorldEventHandler.playerJoin(event);
         LodestonePlayerDataCapability.playerJoin(event);
     }
@@ -55,7 +55,7 @@ public class RuntimeEvents {
     }
 
     @SubscribeEvent
-    public static void worldTick(TickEvent.WorldTickEvent event) {
+    public static void worldTick(TickEvent.LevelTickEvent event) {
         WorldEventHandler.worldTick(event);
     }
 

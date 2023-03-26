@@ -67,7 +67,7 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     }
 
     public LodestoneBlockProperties setCutoutRenderType() {
-        return setRenderType(()->RenderType::cutoutMipped);
+        return setRenderType(() -> RenderType::cutoutMipped);
     }
 
     public LodestoneBlockProperties setRenderType(Supplier<Supplier<RenderType>> renderType) {
@@ -213,8 +213,8 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
     @Override
     @NotNull
-    public LodestoneBlockProperties noDrops() {
-        return (LodestoneBlockProperties) super.noDrops();
+    public LodestoneBlockProperties noLootTable() {
+        return (LodestoneBlockProperties) super.noLootTable();
     }
 
     @Override

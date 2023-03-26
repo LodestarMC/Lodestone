@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.textureloader;
 
-import team.lodestar.lodestone.helpers.ColorHelper;
+import net.minecraftforge.client.event.RegisterTextureAtlasSpriteLoadersEvent;
+import team.lodestar.lodestone.helpers.render.ColorHelper;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.datafixers.util.Pair;
 import team.lodestar.lodestone.systems.easing.Easing;
@@ -9,11 +10,11 @@ import net.minecraft.client.resources.metadata.animation.AnimationMetadataSectio
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.util.Mth;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -25,70 +26,48 @@ public class LodestoneTextureLoader {
     protected static final ColorLerp LUMINOUS_GRADIENT = (image, x, y, luminosity, s) -> (((y % 16) / 16f) + luminosity / s) / 2f;
     protected static final ColorLerp LUMINOUS = (image, x, y, luminosity, s) -> luminosity / s;
 
-    public static void registerTextureLoader(ResourceLocation loaderName, ResourceLocation targetPath, ResourceLocation inputImage) {
+    public static void registerTextureLoader(String loaderName, ResourceLocation targetPath, ResourceLocation inputImage, RegisterTextureAtlasSpriteLoadersEvent event) {
         IEventBus busMod = FMLJavaModLoadingContext.get().getModEventBus();
-        MinecraftForgeClient.registerTextureAtlasSpriteLoader(loaderName, (atlas, resourceManager, textureInfo, resource, atlasWidth, atlasHeight, spriteX, spriteY, mipmapLevel, image) -> {
-            Resource r = null;
+        event.register(loaderName, (atlas, resourceManager, textureInfo, resource, atlasWidth, atlasHeight, spriteX, spriteY, mipmapLevel, image) -> {
             try {
-                r = resourceManager.getResource(inputImage);
+                Resource r = resourceManager.getResourceOrThrow(inputImage);
+                return new TextureAtlasSprite(atlas, getAnimatedInfo(r, image, textureInfo), mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
+                };
             } catch (Throwable throwable1) {
                 throwable1.printStackTrace();
             }
-            TextureAtlasSprite.Info info = null;
-            if (r != null) {
-                try {
-                    AnimationMetadataSection section = r.getMetadata(AnimationMetadataSection.SERIALIZER);
-                    if (section == null) {
-                        section = AnimationMetadataSection.EMPTY;
-                    }
-                    Pair<Integer, Integer> pair = section.getFrameSize(image.getWidth(), image.getHeight());
-                    info = new TextureAtlasSprite.Info(textureInfo.name(), pair.getFirst(), pair.getSecond(), section);
-                    r.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return new TextureAtlasSprite(atlas, info == null ? textureInfo : info, mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
-            };
-        });
-        busMod.addListener((Consumer<TextureStitchEvent.Pre>) event -> event.addSprite(targetPath));
-    }
-    public static void registerTextureLoader(ResourceLocation loaderName, ResourceLocation targetPath, ResourceLocation inputImage, TextureModifier textureModifier) {
-        IEventBus busMod = FMLJavaModLoadingContext.get().getModEventBus();
-        MinecraftForgeClient.registerTextureAtlasSpriteLoader(loaderName, (atlas, resourceManager, textureInfo, resource, atlasWidth, atlasHeight, spriteX, spriteY, mipmapLevel, image) -> {
-            Resource r = null;
-            try {
-                r = resourceManager.getResource(inputImage);
-                image = textureModifier.modifyTexture(NativeImage.read(r.getInputStream()));
-            } catch (Throwable throwable1) {
-                if (r != null) {
-                    try {
-                        r.close();
-                    } catch (Throwable throwable) {
-                        throwable1.addSuppressed(throwable);
-                    }
-                }
 
-                throwable1.printStackTrace();
-            }
-            TextureAtlasSprite.Info info = null;
-            if (r != null) {
-                try {
-                    AnimationMetadataSection section = r.getMetadata(AnimationMetadataSection.SERIALIZER);
-                    if (section == null) {
-                        section = AnimationMetadataSection.EMPTY;
-                    }
-                    Pair<Integer, Integer> pair = section.getFrameSize(image.getWidth(), image.getHeight());
-                    info = new TextureAtlasSprite.Info(textureInfo.name(), pair.getFirst(), pair.getSecond(), section);
-                    r.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return new TextureAtlasSprite(atlas, info == null ? textureInfo : info, mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
+            // Return the default sprite
+            return new TextureAtlasSprite(atlas, textureInfo, mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
             };
         });
-        busMod.addListener((Consumer<TextureStitchEvent.Pre>) event -> event.addSprite(targetPath));
+        busMod.addListener((Consumer<TextureStitchEvent.Pre>) event1 -> event1.addSprite(targetPath));
+    }
+
+    public static void registerTextureLoader(String loaderName, ResourceLocation targetPath, ResourceLocation inputImage, TextureModifier textureModifier, RegisterTextureAtlasSpriteLoadersEvent event) {
+        IEventBus busMod = FMLJavaModLoadingContext.get().getModEventBus();
+        event.register(loaderName, (atlas, resourceManager, textureInfo, resource, atlasWidth, atlasHeight, spriteX, spriteY, mipmapLevel, image) -> {
+            try {
+                // Get the resource we want. If it's null, just get out of here
+                Resource r = resourceManager.getResourceOrThrow(inputImage);
+                image = textureModifier.modifyTexture(NativeImage.read(r.open()));
+                return new TextureAtlasSprite(atlas, getAnimatedInfo(r, image, textureInfo), mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
+                };
+            } catch (Throwable throwable1) {
+                throwable1.printStackTrace();
+            }
+
+            // Return the default sprite
+            return new TextureAtlasSprite(atlas, textureInfo, mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
+            };
+        });
+        busMod.addListener((Consumer<TextureStitchEvent.Pre>) event1 -> event1.addSprite(targetPath));
+    }
+
+    private static TextureAtlasSprite.Info getAnimatedInfo(@Nonnull Resource r, @Nonnull NativeImage image, @Nonnull TextureAtlasSprite.Info baseInfo) throws IOException {
+        AnimationMetadataSection section = r.metadata().getSection(AnimationMetadataSection.SERIALIZER).orElseThrow();
+        Pair<Integer, Integer> pair = section.getFrameSize(image.getWidth(), image.getHeight());
+        return new TextureAtlasSprite.Info(baseInfo.name(), pair.getFirst(), pair.getSecond(), section);
     }
 
     public static NativeImage applyGrayscale(NativeImage nativeimage) {
@@ -101,6 +80,7 @@ public class LodestoneTextureLoader {
         }
         return nativeimage;
     }
+
     public static NativeImage applyMultiColorGradient(Easing easing, NativeImage nativeimage, ColorLerp colorLerp, Color... colors) {
         int colorCount = colors.length - 1;
         int lowestLuminosity = 255;
@@ -129,9 +109,8 @@ public class LodestoneTextureLoader {
                     continue;
                 }
                 int luminosity = (int) (0.299D * ((pixel) & 0xFF) + 0.587D * ((pixel >> 8) & 0xFF) + 0.114D * ((pixel >> 16) & 0xFF));
-
-                float pct = luminosity/255f; //this should probably be smth else
-                float newLuminosity =  Mth.lerp(pct, lowestLuminosity, highestLuminosity);
+                float pct = luminosity / 255f; //this should probably be smth else
+                float newLuminosity = Mth.lerp(pct, lowestLuminosity, highestLuminosity);
                 float lerp = 1 - colorLerp.lerp(pixel, x, y, newLuminosity, highestLuminosity);
                 float colorIndex = 2 * colorCount * lerp; //TODO: figure out why this * 2 is here
 

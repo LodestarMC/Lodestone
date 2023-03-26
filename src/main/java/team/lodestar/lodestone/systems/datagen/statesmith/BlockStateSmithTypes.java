@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockStateSmithTypes {
 
@@ -111,11 +112,11 @@ public class BlockStateSmithTypes {
     });
 
     static String getBlockName(Block block) {
-        return block.getRegistryName().getPath();
+        return ForgeRegistries.BLOCKS.getKey(block).getPath();
     }
 
-    private static String getModIdFromBlock(Block block) {
-        return block.getRegistryName().getNamespace();
+    static String getModIdFromBlock(Block block) {
+        return ForgeRegistries.BLOCKS.getKey(block).getNamespace();
     }
 
     private static ResourceLocation getPath(Block block, String path) {

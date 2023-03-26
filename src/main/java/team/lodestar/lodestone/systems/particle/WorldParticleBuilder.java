@@ -11,7 +11,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.RegistryObject;
-import team.lodestar.lodestone.helpers.BlockHelper;
+import team.lodestar.lodestone.helpers.block.BlockPosHelper;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
@@ -220,7 +220,7 @@ public class WorldParticleBuilder {
             }
             return false;
         };
-        Vec3 v = BlockHelper.fromBlockPos(pos);
+        Vec3 v = BlockPosHelper.fromBlockPos(pos);
         voxelShape.forAllBoxes(
                 (x1, y1, z1, x2, y2, z2) -> {
                     Vec3 b = v.add(x1, y1, z1);
@@ -309,9 +309,9 @@ public class WorldParticleBuilder {
         double d = 0.25;
         voxelShape.forAllBoxes(
                 (x1, y1, z1, x2, y2, z2) -> {
-                    Vec3 v = BlockHelper.fromBlockPos(pos);
-                    Vec3 b = BlockHelper.fromBlockPos(pos).add(x1, y1, z1);
-                    Vec3 e = BlockHelper.fromBlockPos(pos).add(x2, y2, z2);
+                    Vec3 v = BlockPosHelper.fromBlockPos(pos);
+                    Vec3 b = BlockPosHelper.fromBlockPos(pos).add(x1, y1, z1);
+                    Vec3 e = BlockPosHelper.fromBlockPos(pos).add(x2, y2, z2);
                     spawnLine(level, b, v.add(x2, y1, z1));
                     spawnLine(level, b, v.add(x1, y2, z1));
                     spawnLine(level, b, v.add(x1, y1, z2));

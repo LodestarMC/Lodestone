@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.handlers;
 
-import team.lodestar.lodestone.setup.LodestoneAttributeRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +16,7 @@ public class LodestoneAttributeEventHandler {
             return;
         }
         DamageSource source = event.getSource();
-        LivingEntity target = event.getEntityLiving();
+        LivingEntity target = event.getEntity();
         if (source.isMagic()) {
             float amount = event.getAmount();
             if (source.getEntity() instanceof LivingEntity attacker) {

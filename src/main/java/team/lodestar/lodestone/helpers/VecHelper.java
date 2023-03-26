@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -15,42 +16,29 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 /**
  * A collection of methods designed to simplify and unify the use of vectors
  */
 public class VecHelper {
+
     //TODO: re-implement all NECESSARY functions into the new vecHelper method and remove ones that are not required.
     public static final Vec3 CENTER_OF_ORIGIN = new Vec3(.5, .5, .5);
-    /**
-     * A directional enum for each of the cardinal directions.
-     */
-    enum Dir {
-        UP, DOWN, NORTH, EAST, SOUTH, WEST
-    }
 
     /**
      * A method that takes in a direction enum (E.G. "UP") and returns a Vec3i object facing that direction
      */
-    public static Vec3i offsetDir(Dir dir) {
-        Vec3i outVector = new Vec3i(0, 0, 0);
-        switch (dir) {
-
-            case UP -> {outVector.offset(0, 1, 0);}
-            case DOWN -> {outVector.offset(0, -1, 0);}
-            case NORTH -> {outVector.offset(0, 0, -1);}
-            case EAST -> {outVector.offset(1, 0, 0);}
-            case SOUTH -> {outVector.offset(0, 0, 1);}
-            case WEST -> {outVector.offset(-1, 0,0 );}
-        }
-        return outVector;
+    public static Vec3i offsetDir(Direction dir) {
+        return new Vec3i(dir.getStepX(), dir.getStepY(), dir.getStepZ());
     }
 
     /**
      * A method that returns a position on the perimeter of a circle around a given Vec3 position
-     * @param pos - Defines the center of the circle
+     *
+     * @param pos      - Defines the center of the circle
      * @param distance - Defines the radius of your circle
-     * @param current - Defines the current point we are calculating the position for on the circle
-     * @param total - Defines the total amount of points in the circle
+     * @param current  - Defines the current point we are calculating the position for on the circle
+     * @param total    - Defines the total amount of points in the circle
      */
     public static Vec3 radialOffset(Vec3 pos, float distance, float current, float total) {
         double angle = current / total * (Math.PI * 2);
@@ -66,11 +54,12 @@ public class VecHelper {
     /**
      * A method that returns an array list of positions on the perimeter of a circle around a given Vec3 position.
      * These positions constantly rotate around the center of the circle based on gameTime
-     * @param pos - Defines the center of the circle
+     *
+     * @param pos      - Defines the center of the circle
      * @param distance - Defines the radius of your circle
-     * @param total - Defines the total amount of points in the circle
+     * @param total    - Defines the total amount of points in the circle
      * @param gameTime - Defines the current game time value
-     * @param time - Defines the total time for one position to complete a full rotation cycle
+     * @param time     - Defines the total time for one position to complete a full rotation cycle
      */
     public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distance, float total, long gameTime, float time) {
         return rotatingRadialOffsets(pos, distance, distance, total, gameTime, time);
@@ -115,7 +104,7 @@ public class VecHelper {
     public static ArrayList<Vec3> blockOutlinePositions(Level level, BlockPos pos) {
         ArrayList<Vec3> arrayList = new ArrayList<>();
         double d0 = 0.5625D;
-        Random random = level.random;
+        RandomSource random = level.random;
         for (Direction direction : Direction.values()) {
             BlockPos blockpos = pos.relative(direction);
             if (!level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
@@ -182,15 +171,14 @@ public class VecHelper {
         // ----- compensate for view bobbing (if active) -----
         // the following code adapted from GameRenderer::applyBobbing (to invert it)
         Minecraft mc = Minecraft.getInstance();
-        if (mc.options.bobView) {
+        if (mc.options.bobView().get()) {
             Entity renderViewEntity = mc.getCameraEntity();
-            if (renderViewEntity instanceof Player) {
-                Player playerentity = (Player) renderViewEntity;
-                float distwalked_modified = playerentity.walkDist;
+            if (renderViewEntity instanceof Player player) {
+                float distWalkedModified = player.walkDist;
 
-                float f = distwalked_modified - playerentity.walkDistO;
-                float f1 = -(distwalked_modified + f * partialTicks);
-                float f2 = Mth.lerp(partialTicks, playerentity.oBob, playerentity.bob);
+                float f = distWalkedModified - player.walkDistO;
+                float f1 = -(distWalkedModified + f * partialTicks);
+                float f2 = Mth.lerp(partialTicks, player.oBob, player.bob);
                 Quaternion q2 = new Quaternion(Vector3f.XP,
                         Math.abs(Mth.cos(f1 * (float) Math.PI - 0.2F) * f2) * 5.0F, true);
                 q2.conj();

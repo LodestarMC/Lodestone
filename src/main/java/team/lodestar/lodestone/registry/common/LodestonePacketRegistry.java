@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.common;
 
 import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
 import team.lodestar.lodestone.network.SyncWorldEventPacket;
@@ -24,22 +24,22 @@ import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
 @Mod.EventBusSubscriber(modid = LODESTONE, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class LodestonePacketRegistry {
     public static final String PROTOCOL_VERSION = "1";
-    public static SimpleChannel ORTUS_CHANNEL = NetworkRegistry.newSimpleChannel(lodestonePath("main"), () -> LodestonePacketRegistry.PROTOCOL_VERSION, LodestonePacketRegistry.PROTOCOL_VERSION::equals, LodestonePacketRegistry.PROTOCOL_VERSION::equals);
+    public static SimpleChannel LODESTONE_CHANNEL = NetworkRegistry.newSimpleChannel(lodestonePath("main"), () -> LodestonePacketRegistry.PROTOCOL_VERSION, LodestonePacketRegistry.PROTOCOL_VERSION::equals, LodestonePacketRegistry.PROTOCOL_VERSION::equals);
 
     @SuppressWarnings("UnusedAssignment")
     @SubscribeEvent
     public static void registerPackets(FMLCommonSetupEvent event) {
         int index = 0;
-        SyncLodestonePlayerCapabilityPacket.register(ORTUS_CHANNEL, index++);
-        SyncLodestoneEntityCapabilityPacket.register(ORTUS_CHANNEL, index++);
-        ClearFireEffectInstancePacket.register(ORTUS_CHANNEL, index++);
-        ScreenshakePacket.register(ORTUS_CHANNEL, index++);
-        PositionedScreenshakePacket.register(ORTUS_CHANNEL, index++);
-        SyncWorldEventPacket.register(ORTUS_CHANNEL, index++);
-        RightClickEmptyPacket.register(ORTUS_CHANNEL, index++);
-        UpdateLeftClickPacket.register(ORTUS_CHANNEL, index++);
-        UpdateRightClickPacket.register(ORTUS_CHANNEL, index++);
-        ResetRightClickDelayPacket.register(ORTUS_CHANNEL, index++);
-        TotemOfUndyingEffectPacket.register(ORTUS_CHANNEL, index++);
+        SyncLodestonePlayerCapabilityPacket.register(LODESTONE_CHANNEL, index++);
+        SyncLodestoneEntityCapabilityPacket.register(LODESTONE_CHANNEL, index++);
+        ClearFireEffectInstancePacket.register(LODESTONE_CHANNEL, index++);
+        ScreenshakePacket.register(LODESTONE_CHANNEL, index++);
+        PositionedScreenshakePacket.register(LODESTONE_CHANNEL, index++);
+        SyncWorldEventPacket.register(LODESTONE_CHANNEL, index++);
+        RightClickEmptyPacket.register(LODESTONE_CHANNEL, index++);
+        UpdateLeftClickPacket.register(LODESTONE_CHANNEL, index++);
+        UpdateRightClickPacket.register(LODESTONE_CHANNEL, index++);
+        ResetRightClickDelayPacket.register(LODESTONE_CHANNEL, index++);
+        TotemOfUndyingEffectPacket.register(LODESTONE_CHANNEL, index++);
     }
 }

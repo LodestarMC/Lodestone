@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.common;
 
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.DeferredRegister;

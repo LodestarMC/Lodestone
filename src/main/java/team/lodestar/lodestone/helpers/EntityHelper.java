@@ -1,12 +1,10 @@
 package team.lodestar.lodestone.helpers;
 
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class EntityHelper {
 
@@ -39,7 +37,6 @@ public class EntityHelper {
         instance.duration = instance.getDuration() - removedDuration;
         target.onEffectUpdated(instance, true, target);
     }
-
 
     /**
      * Tracks the travel path of an entity or other object

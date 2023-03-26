@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.systems.blockentity;
 
-import team.lodestar.lodestone.helpers.BlockHelper;
+import team.lodestar.lodestone.helpers.block.BlockPosHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -143,7 +143,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
     }
 
     public void dumpItems(Level level, BlockPos pos) {
-        dumpItems(level, BlockHelper.fromBlockPos(pos).add(0.5, 0.5, 0.5));
+        dumpItems(level, BlockPosHelper.fromBlockPos(pos).add(0.5, 0.5, 0.5));
     }
 
     public void dumpItems(Level level, Vec3 pos) {

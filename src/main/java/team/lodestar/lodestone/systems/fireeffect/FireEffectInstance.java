@@ -2,7 +2,7 @@ package team.lodestar.lodestone.systems.fireeffect;
 
 import team.lodestar.lodestone.handlers.FireEffectHandler;
 import team.lodestar.lodestone.helpers.NBTHelper;
-import team.lodestar.lodestone.setup.LodestoneFireEffectRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneFireEffectRegistry;
 import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;

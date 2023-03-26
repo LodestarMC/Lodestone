@@ -1,10 +1,8 @@
 package team.lodestar.lodestone.systems.particle.world;
 
-import com.mojang.math.Vector3d;
-import com.mojang.math.Vector3f;
 import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.config.ClientConfig;
-import team.lodestar.lodestone.helpers.RenderHelper;
+import team.lodestar.lodestone.helpers.render.RenderHelper;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import net.minecraft.client.Camera;

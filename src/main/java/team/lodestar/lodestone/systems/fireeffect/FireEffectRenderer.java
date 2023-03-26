@@ -67,8 +67,8 @@ public abstract class FireEffectRenderer<T extends FireEffectInstance> {
             bufferbuilder.vertex(matrix4f, 0.5F, -0.5F, -0.5F).color(1.0F, 1.0F, 1.0F, 0.9F).uv(f7, f10).endVertex();
             bufferbuilder.vertex(matrix4f, 0.5F, 0.5F, -0.5F).color(1.0F, 1.0F, 1.0F, 0.9F).uv(f7, f9).endVertex();
             bufferbuilder.vertex(matrix4f, -0.5F, 0.5F, -0.5F).color(1.0F, 1.0F, 1.0F, 0.9F).uv(f8, f9).endVertex();
-            bufferbuilder.end();
-            BufferUploader.end(bufferbuilder);
+            BufferBuilder.RenderedBuffer renderedBuffer = bufferbuilder.end();
+            BufferUploader.drawWithShader(renderedBuffer);
             pPoseStack.popPose();
         }
 

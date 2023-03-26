@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.systems.worldgen;
 
-import team.lodestar.lodestone.helpers.BlockHelper;
+import team.lodestar.lodestone.helpers.block.BlockStateHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -60,7 +60,7 @@ public class LodestoneBlockFiller {
         public void place(LevelAccessor level, BlockPos pos) {
             level.setBlock(pos, state, 19);
             if (level instanceof Level) {
-                BlockHelper.updateState((Level) level, pos);
+                BlockStateHelper.updateState((Level) level, pos);
             }
         }
     }

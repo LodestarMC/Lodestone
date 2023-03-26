@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.screenshake;
 
+import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.systems.easing.Easing;
 import net.minecraft.client.Camera;
 import net.minecraft.util.Mth;
@@ -41,7 +42,7 @@ public class ScreenshakeInstance {
         return this;
     }
 
-    public float updateIntensity(Camera camera, Random random) {
+    public float updateIntensity(Camera camera, RandomSource random) {
         progress++;
         float percentage = progress / (float) duration;
         if (intensity2 != intensity3) {

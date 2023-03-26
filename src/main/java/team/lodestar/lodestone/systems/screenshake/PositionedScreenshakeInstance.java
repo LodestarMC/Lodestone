@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.screenshake;
 
+import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.systems.easing.Easing;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
@@ -27,7 +28,7 @@ public class PositionedScreenshakeInstance extends ScreenshakeInstance {
     }
 
     @Override
-    public float updateIntensity(Camera camera, Random random) {
+    public float updateIntensity(Camera camera, RandomSource random) {
         float intensity = super.updateIntensity(camera, random);
         float distance = (float) position.distanceTo(camera.getPosition());
         if (distance > maxDistance) {

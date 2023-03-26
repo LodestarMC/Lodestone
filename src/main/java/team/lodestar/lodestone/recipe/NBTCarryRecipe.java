@@ -8,11 +8,8 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraftforge.registries.ForgeRegistryEntry;
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.setup.LodestoneRecipeSerializerRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneRecipeSerializerRegistry;
 
 import javax.annotation.Nonnull;
 
@@ -46,7 +43,7 @@ public class NBTCarryRecipe extends ShapedRecipe  {
         return LodestoneRecipeSerializerRegistry.NBT_CARRY_RECIPE_SERIALIZER.get();
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<NBTCarryRecipe> {
+    public static class Serializer implements RecipeSerializer<NBTCarryRecipe> {
         @Override
         public NBTCarryRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
             return new NBTCarryRecipe(SHAPED_RECIPE.fromJson(recipeId, json), Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "nbtCarry")));

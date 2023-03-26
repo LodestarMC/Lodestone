@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.client;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import team.lodestar.lodestone.LodestoneLib;

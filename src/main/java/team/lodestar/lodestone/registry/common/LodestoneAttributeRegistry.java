@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.common;
 
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
@@ -14,7 +14,6 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
-
 
 /**
  * The attribute registry, {@link LodestoneAttributeRegistry#UUIDS} contains randomly generated uuids for each attribute registered, allowing you to have a constant uuid you may apply to attribute values.

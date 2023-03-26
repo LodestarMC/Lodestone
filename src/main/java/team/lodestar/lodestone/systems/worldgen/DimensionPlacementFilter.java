@@ -7,11 +7,12 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementFilter;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import team.lodestar.lodestone.setup.LodestonePlacementFillerRegistry;
+import team.lodestar.lodestone.registry.common.LodestonePlacementFillerRegistry;
 
 import java.util.List;
 import java.util.Random;
@@ -33,8 +34,8 @@ public class DimensionPlacementFilter extends PlacementFilter {
   }
 
   @Override
-  protected boolean shouldPlace(PlacementContext p_191835_, Random p_191836_, BlockPos p_191837_) {
-    ServerLevel level = p_191835_.getLevel().getLevel();
+  protected boolean shouldPlace(PlacementContext pContext, RandomSource pRandom, BlockPos pPos) {
+    ServerLevel level = pContext.getLevel().getLevel();
     return dimensions.contains(level.dimension());
   }
 

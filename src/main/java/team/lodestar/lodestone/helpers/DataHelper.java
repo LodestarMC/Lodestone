@@ -4,6 +4,7 @@ import com.mojang.math.Vector3f;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -174,7 +175,7 @@ public class DataHelper {
     public static ArrayList<Vec3> blockOutlinePositions(Level level, BlockPos pos) {
         ArrayList<Vec3> arrayList = new ArrayList<>();
         double d0 = 0.5625D;
-        Random random = level.random;
+        RandomSource random = level.random;
         for (Direction direction : Direction.values()) {
             BlockPos blockpos = pos.relative(direction);
             if (!level.getBlockState(blockpos).isSolidRender(level, blockpos)) {

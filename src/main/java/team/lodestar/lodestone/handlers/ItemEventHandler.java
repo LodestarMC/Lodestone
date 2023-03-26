@@ -15,7 +15,7 @@ public class ItemEventHandler {
         if (event.isCanceled()) {
             return;
         }
-        LivingEntity target = event.getEntityLiving();
+        LivingEntity target = event.getEntity();
         LivingEntity attacker = null;
         if (event.getSource().getEntity() instanceof LivingEntity directAttacker) {
             attacker = directAttacker;
@@ -33,7 +33,7 @@ public class ItemEventHandler {
         if (event.isCanceled() || event.getAmount() <= 0) {
             return;
         }
-        LivingEntity target = event.getEntityLiving();
+        LivingEntity target = event.getEntity();
         if (event.getSource().getEntity() instanceof LivingEntity attacker) {
             ItemHelper.getEventResponders(attacker).forEach(s -> ((IEventResponderItem) s.getItem()).hurtEvent(event, attacker, target, s));
             ItemHelper.getEventResponders(target).forEach(s -> ((IEventResponderItem) s.getItem()).takeDamageEvent(event, attacker, target, s));

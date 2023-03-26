@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.datagen.statesmith;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
 
@@ -32,7 +33,7 @@ public class ModelFuncBlockStateSmith<T extends Block> extends AbstractBlockStat
         if (blockClass.isInstance(block)) {
             stateSupplier.act(blockClass.cast(block), provider, actor);
         } else {
-            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + block.getRegistryName());
+            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
         }
     }
 

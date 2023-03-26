@@ -1,8 +1,9 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.client;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
 import team.lodestar.lodestone.handlers.RenderHandler;
+import team.lodestar.lodestone.registry.client.LodestoneShaderRegistry;
 import team.lodestar.lodestone.systems.rendering.ShaderUniformHandler;
 import team.lodestar.lodestone.systems.rendering.StateShards;
 import net.minecraft.Util;

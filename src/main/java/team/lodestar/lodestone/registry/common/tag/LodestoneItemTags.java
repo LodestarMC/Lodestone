@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.common.tag;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;

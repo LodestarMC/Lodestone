@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.helpers;
+package team.lodestar.lodestone.helpers.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import team.lodestar.lodestone.helpers.DataHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,9 +20,10 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class RenderHelper {
+
     public static final int FULL_BRIGHT = 15728880;
 
-    public static ShaderInstance getShader(RenderType type) {
+    public static ShaderInstance getShaderFromRenderType(RenderType type) {
         if (type instanceof RenderType.CompositeRenderType compositeRenderType) {
             Optional<Supplier<ShaderInstance>> shader = compositeRenderType.state.shaderState.shader;
             if (shader.isPresent()) {
@@ -29,30 +31,6 @@ public class RenderHelper {
             }
         }
         return null;
-    }
-
-    public static void vertexPos(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z) {
-        vertexConsumer.vertex(last, x, y, z).endVertex();
-    }
-
-    public static void vertexPosUV(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float u, float v) {
-        vertexConsumer.vertex(last, x, y, z).uv(u, v).endVertex();
-    }
-
-    public static void vertexPosUVLight(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float u, float v, int light) {
-        vertexConsumer.vertex(last, x, y, z).uv(u, v).uv2(light).endVertex();
-    }
-
-    public static void vertexPosColor(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float r, float g, float b, float a) {
-        vertexConsumer.vertex(last, x, y, z).color(r, g, b, a).endVertex();
-    }
-
-    public static void vertexPosColorUV(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float r, float g, float b, float a, float u, float v) {
-        vertexConsumer.vertex(last, x, y, z).color(r, g, b, a).uv(u, v).endVertex();
-    }
-
-    public static void vertexPosColorUVLight(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float r, float g, float b, float a, float u, float v, int light) {
-        vertexConsumer.vertex(last, x, y, z).color(r, g, b, a).uv(u, v).uv2(light).endVertex();
     }
 
     public static Vector3f parametricSphere(float u, float v, float r) {

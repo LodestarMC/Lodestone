@@ -2,8 +2,8 @@ package team.lodestar.lodestone.handlers;
 
 import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
-import team.lodestar.lodestone.setup.LodestoneFireEffectRendererRegistry;
-import team.lodestar.lodestone.setup.LodestonePacketRegistry;
+import team.lodestar.lodestone.registry.client.LodestoneFireEffectRendererRegistry;
+import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectRenderer;
 import com.mojang.blaze3d.vertex.*;
@@ -46,7 +46,7 @@ public class FireEffectHandler {
                 }
             }
             else if (!entity.level.isClientSide) {
-                LodestonePacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
+                LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
             }
         });
     }

@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.systems.multiblock;
 
-import team.lodestar.lodestone.setup.LodestoneBlockEntityRegistry;
+import team.lodestar.lodestone.helpers.NBTHelper;
+import team.lodestar.lodestone.registry.common.LodestoneBlockEntityRegistry;
 import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
-import team.lodestar.lodestone.helpers.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -34,14 +34,14 @@ public class MultiBlockComponentEntity extends LodestoneBlockEntity {
     @Override
     protected void saveAdditional(CompoundTag tag) {
         if (corePos != null) {
-            BlockHelper.saveBlockPos(tag, corePos, "core_position_");
+            NBTHelper.saveBlockPos(tag, corePos, "core_position_");
         }
         super.saveAdditional(tag);
     }
 
     @Override
     public void load(CompoundTag tag) {
-        corePos = BlockHelper.loadBlockPos(tag, "core_position_");
+        corePos = NBTHelper.loadBlockPos(tag, "core_position_");
         super.load(tag);
     }
 

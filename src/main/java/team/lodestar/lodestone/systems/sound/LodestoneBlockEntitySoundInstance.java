@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.sound;
 
+import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
@@ -10,7 +11,7 @@ public class LodestoneBlockEntitySoundInstance<T extends LodestoneBlockEntity> e
     public T blockEntity;
 
     public LodestoneBlockEntitySoundInstance(T blockEntity, SoundEvent soundEvent, float volume, float pitch) {
-        super(soundEvent, SoundSource.BLOCKS);
+        super(soundEvent, SoundSource.BLOCKS, LodestoneLib.RANDOM);
         this.blockEntity = blockEntity;
         this.volume = volume;
         this.pitch = pitch;

@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup.worldevent;
+package team.lodestar.lodestone.registry.client;
 
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventRenderer;

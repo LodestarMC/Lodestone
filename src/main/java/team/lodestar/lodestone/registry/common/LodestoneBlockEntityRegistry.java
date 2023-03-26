@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.common;
 
 import team.lodestar.lodestone.systems.block.sign.LodestoneStandingSignBlock;
 import team.lodestar.lodestone.systems.block.sign.LodestoneWallSignBlock;
@@ -24,7 +24,7 @@ import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 
 public class LodestoneBlockEntityRegistry {
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, LODESTONE);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, LODESTONE);
 
     public static final RegistryObject<BlockEntityType<MultiBlockComponentEntity>> MULTIBLOCK_COMPONENT = BLOCK_ENTITY_TYPES.register("multiblock_component", () -> BlockEntityType.Builder.of(MultiBlockComponentEntity::new, getBlocks(ILodestoneMultiblockComponent.class)).build(null));
     public static final RegistryObject<BlockEntityType<LodestoneSignBlockEntity>> SIGN = BLOCK_ENTITY_TYPES.register("sign", () -> BlockEntityType.Builder.of(LodestoneSignBlockEntity::new, getBlocks(LodestoneStandingSignBlock.class, LodestoneWallSignBlock.class)).build(null));
@@ -40,22 +40,11 @@ public class LodestoneBlockEntityRegistry {
         return matchingBlocks.toArray(new Block[0]);
     }
 
-    public static Block[] getBlocksExact(Class<?> clazz) {
-        IForgeRegistry<Block> blocks = ForgeRegistries.BLOCKS;
-        ArrayList<Block> matchingBlocks = new ArrayList<>();
-        for (Block block : blocks) {
-            if (clazz.equals(block.getClass())) {
-                matchingBlocks.add(block);
-            }
-        }
-        return matchingBlocks.toArray(new Block[0]);
-    }
-
     @Mod.EventBusSubscriber(modid = LODESTONE, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientOnly {
         @SubscribeEvent
         public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
-         //   event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
+            event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
         }
     }
 }

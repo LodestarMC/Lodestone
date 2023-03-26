@@ -1,17 +1,15 @@
 package team.lodestar.lodestone.systems.rendering;
 
-import team.lodestar.lodestone.helpers.RenderHelper;
+import team.lodestar.lodestone.helpers.render.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -186,7 +184,7 @@ public class VFXBuilders {
 
         public ScreenVFXBuilder draw(PoseStack stack) {
             if (bufferbuilder.building()) {
-                bufferbuilder.end();
+                end();
             }
             begin();
             blit(stack);
@@ -204,8 +202,8 @@ public class VFXBuilders {
         }
 
         public ScreenVFXBuilder end() {
-            bufferbuilder.end();
-            BufferUploader.end(bufferbuilder);
+            BufferBuilder.RenderedBuffer renderedBuffer = bufferbuilder.end();
+            BufferUploader.drawWithShader(renderedBuffer);
             return this;
         }
 
@@ -429,13 +427,14 @@ public class VFXBuilders {
                     float textureV = v / endV * radius;
                     float textureUN = un / endU * radius;
                     float textureVN = vn / endV * radius;
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p0.x(), p0.y(), p0.z(), r, g, b, a, textureU, textureV, light);
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p2.x(), p2.y(), p2.z(), r, g, b, a, textureUN, textureV, light);
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p1.x(), p1.y(), p1.z(), r, g, b, a, textureU, textureVN, light);
 
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p3.x(), p3.y(), p3.z(), r, g, b, a, textureUN, textureVN, light);
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p1.x(), p1.y(), p1.z(), r, g, b, a, textureU, textureVN, light);
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p2.x(), p2.y(), p2.z(), r, g, b, a, textureUN, textureV, light);
+                    supplier.placeVertex(vertexConsumer, last, p0.x(), p0.y(), p0.z(), textureU, textureV);
+                    supplier.placeVertex(vertexConsumer, last, p2.x(), p2.y(), p2.z(), textureUN, textureV);
+                    supplier.placeVertex(vertexConsumer, last, p1.x(), p1.y(), p1.z(), textureU, textureVN);
+
+                    supplier.placeVertex(vertexConsumer, last, p3.x(), p3.y(), p3.z(), textureUN, textureVN);
+                    supplier.placeVertex(vertexConsumer, last, p1.x(), p1.y(), p1.z(), textureU, textureVN);
+                    supplier.placeVertex(vertexConsumer, last, p2.x(), p2.y(), p2.z(), textureUN, textureV);
                 }
             }
             return this;

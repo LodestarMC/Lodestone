@@ -115,22 +115,15 @@ dependencies {
     }
 
     // JEI Dependency
-    compileOnly fg.deobf("mezz.jei:jei-${minecraftVersion}:${jeiVersion}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraftVersion}:${jeiVersion}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraftVersion}-forge-api:${jeiVersion}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraftVersion}-common-api:${jeiVersion}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraftVersion}-forge:${jeiVersion}")
 
     // Curios dependency
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraftVersion}-${curiosVersion}:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraftVersion}-${curiosVersion}")
 
-    // Registrate dependency
-    jarJar(group: 'com.tterrag.registrate', name: 'Registrate', version: '[MC1.18.2-1.1.3,)') {
-        jarJar.pin(it, project.registrateVersion)
-    }
-    implementation fg.deobf("com.tterrag.registrate:Registrate:${registrateVersion}")
-
-    // Other Mod Compatibility
-    implementation fg.deobf("curse.maven:farmers_delight-398521:3739914")
-
+    implementation fg.deobf("curse.maven:farmers_delight-398521:3999157")
 }
 
 jar {

@@ -18,7 +18,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import team.lodestar.lodestone.setup.LodestoneRecipeSerializerRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneRecipeSerializerRegistry;
 
 import javax.annotation.Nullable;
 import java.util.List;
