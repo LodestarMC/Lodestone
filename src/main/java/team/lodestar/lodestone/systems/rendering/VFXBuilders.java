@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.systems.rendering;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.helpers.render.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -218,7 +220,6 @@ public class VFXBuilders {
 
     public static class WorldVFXBuilder {
         protected float r = 1, g = 1, b = 1, a = 1;
-        protected float xOffset = 0, yOffset = 0, zOffset = 0;
         protected int light = RenderHelper.FULL_BRIGHT;
         protected float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
 
@@ -305,13 +306,6 @@ public class VFXBuilders {
             return this;
         }
 
-        public WorldVFXBuilder setOffset(float xOffset, float yOffset, float zOffset) {
-            this.xOffset = xOffset;
-            this.yOffset = yOffset;
-            this.zOffset = zOffset;
-            return this;
-        }
-
         public WorldVFXBuilder setLight(int light) {
             this.light = light;
             return this;
@@ -340,7 +334,6 @@ public class VFXBuilders {
             }
             trailSegments = trailSegments.stream().map(v -> new Vector4f(v.x(), v.y(), v.z(), v.w())).collect(Collectors.toList());
             for (Vector4f pos : trailSegments) {
-                pos.add(xOffset, yOffset, zOffset, 0);
                 pos.transform(pose);
             }
 
@@ -371,6 +364,24 @@ public class VFXBuilders {
             return this;
         }
 
+        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, PoseStack stack, Vec3 start, Vec3 end, float width) {
+            Minecraft minecraft = Minecraft.getInstance();
+            Matrix4f last = stack.last().pose();
+
+            Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getPosition();
+            Vec3 delta = end.subtract(start);
+            Vec3 normal = start.subtract(cameraPosition).cross(delta).normalize().multiply(width / 2f, width / 2f, width / 2f);
+
+            Vec3[] positions = new Vec3[]{start.subtract(normal), start.add(normal), end.add(normal), end.subtract(normal)};
+
+            supplier.placeVertex(vertexConsumer, last, (float) positions[0].x, (float) positions[0].y, (float) positions[0].z, u0, v1);
+            supplier.placeVertex(vertexConsumer, last, (float) positions[1].x, (float) positions[1].y, (float) positions[1].z, u1, v1);
+            supplier.placeVertex(vertexConsumer, last, (float) positions[2].x, (float) positions[2].y, (float) positions[2].z, u1, v0);
+            supplier.placeVertex(vertexConsumer, last, (float) positions[3].x, (float) positions[3].y, (float) positions[3].z, u0, v0);
+
+            return this;
+        }
+
         public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, PoseStack stack, float size) {
             return renderQuad(vertexConsumer, stack, size, size);
         }
@@ -393,12 +404,10 @@ public class VFXBuilders {
 
         public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions) {
             Matrix4f last = stack.last().pose();
-            stack.translate(xOffset, yOffset, zOffset);
             supplier.placeVertex(vertexConsumer, last, positions[0].x(), positions[0].y(), positions[0].z(), u0, v1);
             supplier.placeVertex(vertexConsumer, last, positions[1].x(), positions[1].y(), positions[1].z(), u1, v1);
             supplier.placeVertex(vertexConsumer, last, positions[2].x(), positions[2].y(), positions[2].z(), u1, v0);
             supplier.placeVertex(vertexConsumer, last, positions[3].x(), positions[3].y(), positions[3].z(), u0, v0);
-            stack.translate(-xOffset, -yOffset, -zOffset);
             return this;
         }
 
