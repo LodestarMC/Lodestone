@@ -49,7 +49,7 @@ public class DataHelper {
      * @param range the range the random function uses
      */
     public static int[] nextInts(int count, int range) {
-        Random rand = new Random();
+        RandomSource rand = RandomSource.create();
         int[] ints = new int[count];
         for (int i = 0; i < count; i++) {
             while (true) {

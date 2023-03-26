@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle;
 
+import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
@@ -18,7 +19,7 @@ import java.util.function.Consumer;
 
 public class ScreenParticleBuilder {
 
-    private static final Random RANDOM = new Random();
+    private static final RandomSource RANDOM = RandomSource.create();
 
     final ScreenParticleType<?> type;
     final ScreenParticleOptions options;

@@ -2,6 +2,7 @@ package team.lodestar.lodestone.helpers.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Collection;
@@ -32,7 +33,7 @@ public class BlockPosHelper {
      * @param pos the position the block is centered around
      * @return The randomized vector position
      */
-    public static Vec3 withinBlock(Random rand, BlockPos pos) {
+    public static Vec3 withinBlock(RandomSource rand, BlockPos pos) {
         double x = pos.getX() + rand.nextDouble();
         double y = pos.getY() + rand.nextDouble();
         double z = pos.getZ() + rand.nextDouble();
