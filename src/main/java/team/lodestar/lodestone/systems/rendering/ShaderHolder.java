@@ -13,7 +13,7 @@ public class ShaderHolder {
     protected ExtendedShaderInstance instance;
     public ArrayList<String> uniforms;
     public ArrayList<UniformData> defaultUniformData = new ArrayList<>();
-    protected final RenderStateShard.ShaderStateShard shard = new RenderStateShard.ShaderStateShard(getInstance());
+    protected final RenderStateShard.ShaderStateShard shard = new RenderStateShard.ShaderStateShard(getInstanceSupplier());
 
     public ShaderHolder(String... uniforms) {
         this.uniforms = new ArrayList<>(List.of(uniforms));
@@ -28,8 +28,12 @@ public class ShaderHolder {
         this.instance = instance;
     }
 
-    public Supplier<ShaderInstance> getInstance() {
+    public Supplier<ShaderInstance> getInstanceSupplier() {
         return () -> instance;
+    }
+
+    public ExtendedShaderInstance getExtendedShaderInstance() {
+        return instance;
     }
 
     public RenderStateShard.ShaderStateShard getShard() {

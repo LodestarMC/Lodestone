@@ -18,7 +18,7 @@ public interface LodestoneScreenParticleRenderType {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            RenderSystem.setShader(LodestoneShaderRegistry.SCREEN_PARTICLE.getInstance());
+            RenderSystem.setShader(LodestoneShaderRegistry.SCREEN_PARTICLE.getInstanceSupplier());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         }
@@ -36,7 +36,7 @@ public interface LodestoneScreenParticleRenderType {
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
-            RenderSystem.setShader(LodestoneShaderRegistry.SCREEN_PARTICLE.getInstance());
+            RenderSystem.setShader(LodestoneShaderRegistry.SCREEN_PARTICLE.getInstanceSupplier());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
