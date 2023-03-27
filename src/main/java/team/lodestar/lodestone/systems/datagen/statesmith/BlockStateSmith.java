@@ -29,12 +29,13 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
         blocks.forEach(r -> act(data, r));
     }
 
-    private void act(StateSmithData data, RegistryObject<Block> block) {
+    private void act(StateSmithData data, RegistryObject<Block> registryObject) {
+        Block block = registryObject.get();
         if (blockClass.isInstance(block)) {
-            stateSupplier.act(blockClass.cast(block.get()), data.provider, data.getTexturePath());
-            data.consumer.accept(block);
+            stateSupplier.act(blockClass.cast(block), data.provider, data.getTexturePath());
+            data.consumer.accept(registryObject);
         } else {
-            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block.get()));
+            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
         }
     }
 
