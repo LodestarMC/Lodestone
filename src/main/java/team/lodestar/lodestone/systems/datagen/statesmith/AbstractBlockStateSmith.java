@@ -19,6 +19,7 @@ public abstract class AbstractBlockStateSmith<T extends Block> {
     public static class StateSmithData {
         public final BlockStateProvider provider;
         public final Consumer<RegistryObject<Block>> consumer;
+        public String texturePath = "";
 
         public StateSmithData(BlockStateProvider provider, Consumer<RegistryObject<Block>> consumer) {
             this.provider = provider;
