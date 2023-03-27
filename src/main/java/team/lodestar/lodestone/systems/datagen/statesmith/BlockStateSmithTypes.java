@@ -27,7 +27,8 @@ public class BlockStateSmithTypes {
     });
 
     public static BlockStateSmith<RotatedPillarBlock> LOG_BLOCK = new BlockStateSmith<>(RotatedPillarBlock.class, (block, provider, path) -> {
-        provider.logBlock(block);
+        String name = getBlockName(block);
+        provider.axisBlock(block, getPath(block, path + name), getPath(block, path + name + "_top"));
     });
 
     public static BlockStateSmith<RotatedPillarBlock> WOOD_BLOCK = new BlockStateSmith<>(RotatedPillarBlock.class, (block, provider, path) -> {
