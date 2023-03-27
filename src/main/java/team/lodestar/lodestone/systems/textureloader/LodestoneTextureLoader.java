@@ -37,7 +37,7 @@ public class LodestoneTextureLoader {
                 throwable1.printStackTrace();
             }
 
-            // Return the default sprite
+            //Return the default sprite
             return new TextureAtlasSprite(atlas, textureInfo, mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
             };
         });
@@ -48,7 +48,7 @@ public class LodestoneTextureLoader {
         IEventBus busMod = FMLJavaModLoadingContext.get().getModEventBus();
         event.register(loaderName, (atlas, resourceManager, textureInfo, resource, atlasWidth, atlasHeight, spriteX, spriteY, mipmapLevel, image) -> {
             try {
-                // Get the resource we want. If it's null, just get out of here
+                //Get the resource we want. If it's null, just get out of here
                 Resource r = resourceManager.getResourceOrThrow(inputImage);
                 image = textureModifier.modifyTexture(NativeImage.read(r.open()));
                 return new TextureAtlasSprite(atlas, getAnimatedInfo(r, image, textureInfo), mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
@@ -57,7 +57,7 @@ public class LodestoneTextureLoader {
                 throwable1.printStackTrace();
             }
 
-            // Return the default sprite
+            //Return the default sprite
             return new TextureAtlasSprite(atlas, textureInfo, mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
             };
         });
