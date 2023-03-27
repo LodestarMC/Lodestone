@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class BlockStateSmithTypes {
 
     public static ModularBlockStateSmith<Block> CUSTOM_MODEL = new ModularBlockStateSmith<>(Block.class, (block, provider, path, stateFunction, modelFileSupplier) -> {
-        stateFunction.act(block, modelFileSupplier.generateModel(block, provider, s -> getPath(block, s)));
+        stateFunction.act(block, modelFileSupplier.generateModel(block, provider, name -> getPath(block, path+name)));
     });
 
     public static BlockStateSmith<Block> FULL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider, path) -> {
