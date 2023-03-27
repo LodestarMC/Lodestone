@@ -11,7 +11,7 @@ import static team.lodestar.lodestone.systems.datagen.statesmith.BlockStateSmith
 
 public class ModelFileSuppliers {
 
-    public ModelFile predefinedModel(Block block, BlockStateProvider provider, Function<String, ResourceLocation> textureGetter) {
+    public static ModelFile predefinedModel(Block block, BlockStateProvider provider, Function<String, ResourceLocation> textureGetter) {
         return provider.models().getExistingFile(textureGetter.apply(getBlockName(block)));
     }
 }
