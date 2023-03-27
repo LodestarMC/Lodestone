@@ -13,8 +13,8 @@ import net.minecraftforge.registries.RegistryObject;
 
 public abstract class LodestoneItemModelProvider extends ItemModelProvider {
 
-    private static final ResourceLocation GENERATED = new ResourceLocation("item/generated");
-    private static final ResourceLocation HANDHELD = new ResourceLocation("item/handheld");
+    public static final ResourceLocation GENERATED = new ResourceLocation("item/generated");
+    public static final ResourceLocation HANDHELD = new ResourceLocation("item/handheld");
 
     public LodestoneItemModelProvider(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
         super(generator, modid, existingFileHelper);

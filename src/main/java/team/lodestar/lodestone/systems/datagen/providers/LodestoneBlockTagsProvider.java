@@ -11,8 +11,8 @@ import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
 
 public abstract class LodestoneBlockTagsProvider extends BlockTagsProvider {
 
-    public LodestoneBlockTagsProvider(DataGenerator p_126511_, String modId, @Nullable ExistingFileHelper existingFileHelper) {
-        super(p_126511_, modId, existingFileHelper);
+    public LodestoneBlockTagsProvider(DataGenerator gen, String modId, @Nullable ExistingFileHelper existingFileHelper) {
+        super(gen, modId, existingFileHelper);
     }
 
     @Override
