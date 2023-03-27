@@ -51,7 +51,7 @@ public class LodestoneBlockModelProvider extends BlockModelProvider {
         return new ResourceLocation(rl.getNamespace(), folder + "/" + rl.getPath());
     }
 
-    public static class LodestoneBlockModelBuilder extends BlockModelBuilder {
+    private static class LodestoneBlockModelBuilder extends BlockModelBuilder {
         public final LodestoneBlockStateProvider provider;
         public LodestoneBlockModelBuilder(LodestoneBlockStateProvider provider, ResourceLocation outputLocation, ExistingFileHelper existingFileHelper) {
             super(outputLocation, existingFileHelper);

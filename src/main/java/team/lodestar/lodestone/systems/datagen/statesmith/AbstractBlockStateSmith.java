@@ -5,6 +5,7 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.systems.datagen.LodestoneBlockStateProvider;
 
 import java.util.Collection;
 import java.util.function.Consumer;
@@ -18,10 +19,10 @@ public abstract class AbstractBlockStateSmith<T extends Block> {
     }
 
     public static class StateSmithData {
-        public final BlockStateProvider provider;
+        public final LodestoneBlockStateProvider provider;
         public final Consumer<RegistryObject<Block>> consumer;
-        
-        public StateSmithData(BlockStateProvider provider, Consumer<RegistryObject<Block>> consumer) {
+
+        public StateSmithData(LodestoneBlockStateProvider provider, Consumer<RegistryObject<Block>> consumer) {
             this.provider = provider;
             this.consumer = consumer;
         }

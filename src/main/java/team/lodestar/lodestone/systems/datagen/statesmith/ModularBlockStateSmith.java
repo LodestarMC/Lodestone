@@ -7,6 +7,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.systems.datagen.LodestoneBlockStateProvider;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -42,10 +43,10 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
     }
 
     interface ModularSmithStateSupplier<T extends Block> {
-        void act(T block, BlockStateProvider provider, StateFunction<T> actor, ModelFileSupplier modelFileSupplier);
+        void act(T block, LodestoneBlockStateProvider provider, StateFunction<T> actor, ModelFileSupplier modelFileSupplier);
     }
 
     public interface ModelFileSupplier {
-        ModelFile generateModel(Block block, BlockStateProvider provider, Function<String, ResourceLocation> textureGetter);
+        ModelFile generateModel(Block block);
     }
 }

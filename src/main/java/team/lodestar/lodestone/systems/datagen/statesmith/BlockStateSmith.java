@@ -5,6 +5,7 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.systems.datagen.LodestoneBlockStateProvider;
 
 import java.util.Collection;
 import java.util.function.Consumer;
@@ -40,6 +41,6 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
     }
 
     interface SmithStateSupplier<T extends Block> {
-        void act(T block, BlockStateProvider provider);
+        void act(T block, LodestoneBlockStateProvider provider);
     }
 }
