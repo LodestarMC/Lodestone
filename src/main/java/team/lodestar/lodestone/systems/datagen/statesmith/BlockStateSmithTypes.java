@@ -123,11 +123,11 @@ public class BlockStateSmithTypes {
         provider.getVariantBuilder(block).forAllStates(s -> ConfiguredModel.builder().modelFile(provider.models().sign(name, getPath(block, path + particleTextureName))).build());
     });
 
-    static String getBlockName(Block block) {
+    public static String getBlockName(Block block) {
         return ForgeRegistries.BLOCKS.getKey(block).getPath();
     }
 
-    static String getModIdFromBlock(Block block) {
+    public static String getModIdFromBlock(Block block) {
         return ForgeRegistries.BLOCKS.getKey(block).getNamespace();
     }
 
@@ -135,7 +135,7 @@ public class BlockStateSmithTypes {
         return new ResourceLocation(getModIdFromBlock(block), "block/"+path);
     }
 
-    static ResourceLocation extend(ResourceLocation resourceLocation, String suffix) {
+    public static ResourceLocation extend(ResourceLocation resourceLocation, String suffix) {
         return new ResourceLocation(resourceLocation.getNamespace(), resourceLocation.getPath() + suffix);
     }
 }
