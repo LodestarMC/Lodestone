@@ -230,9 +230,7 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     @Override
     @NotNull
     public LodestoneBlockProperties lootFrom(@NotNull Supplier<? extends Block> blockIn) {
-        if (DatagenModLoader.isRunningDataGen()) {
-            getDatagenData().hasInheritedLootTable = true;
-        }
+        hasInheritedLoot();
         return (LodestoneBlockProperties) super.lootFrom(blockIn);
     }
 

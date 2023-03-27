@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.datagen;
+package team.lodestar.lodestone.systems.datagen.providers;
 
 import com.google.common.base.Preconditions;
 import net.minecraft.data.CachedOutput;

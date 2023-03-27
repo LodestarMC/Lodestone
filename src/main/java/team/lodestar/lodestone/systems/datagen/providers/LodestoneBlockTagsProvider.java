@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.datagen;
+package team.lodestar.lodestone.systems.datagen.providers;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;

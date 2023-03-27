@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.datagen;
+package team.lodestar.lodestone.systems.datagen.providers;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -8,7 +8,6 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import java.util.function.Function;
 
 public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
 
@@ -41,14 +40,11 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
         return ForgeRegistries.BLOCKS.getKey(block).getPath();
     }
 
-    public String getModIdFromBlock(Block block) {
-        return ForgeRegistries.BLOCKS.getKey(block).getNamespace();
+    public ResourceLocation getBlockTexture(String path) {
+        return modLoc("block/"+path);
     }
 
-    public ResourceLocation getPath(Block block, String path) {
-        return new ResourceLocation(getModIdFromBlock(block), "block/"+path);
-    }
-
+    //TODO: move this to some sorta ResourceLocationHelper if it ever becomes needed.
     public ResourceLocation extend(ResourceLocation resourceLocation, String suffix) {
         return new ResourceLocation(resourceLocation.getNamespace(), resourceLocation.getPath() + suffix);
     }

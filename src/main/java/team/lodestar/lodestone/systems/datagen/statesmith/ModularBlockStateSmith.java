@@ -1,22 +1,19 @@
 package team.lodestar.lodestone.systems.datagen.statesmith;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.datagen.LodestoneBlockStateProvider;
+import team.lodestar.lodestone.systems.datagen.providers.LodestoneBlockStateProvider;
 
 import java.util.Collection;
-import java.util.function.Function;
 
 public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
 
     public final ModularSmithStateSupplier<T> stateSupplier;
 
-    protected ModularBlockStateSmith(Class<T> blockClass, ModularSmithStateSupplier<T> stateSupplier) {
+    public ModularBlockStateSmith(Class<T> blockClass, ModularSmithStateSupplier<T> stateSupplier) {
         super(blockClass);
         this.stateSupplier = stateSupplier;
     }
@@ -42,7 +39,7 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
         }
     }
 
-    interface ModularSmithStateSupplier<T extends Block> {
+    public interface ModularSmithStateSupplier<T extends Block> {
         void act(T block, LodestoneBlockStateProvider provider, StateFunction<T> actor, ModelFileSupplier modelFileSupplier);
     }
 
