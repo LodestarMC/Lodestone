@@ -7,8 +7,11 @@ import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
 
 import java.util.Collection;
+import java.util.function.Consumer;
 
 public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
+
+    public static Consumer<RegistryObject<Block>> blockConsumer;
 
     public final SmithStateSupplier<T> stateSupplier;
 
@@ -17,22 +20,27 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
         this.stateSupplier = stateSupplier;
     }
 
+    public static void addSmithFeedback(Consumer<RegistryObject<Block>> inBlockConsumer) {
+        blockConsumer = inBlockConsumer;
+    }
+
     @SafeVarargs
-    public final void act(BlockStateProvider provider, RegistryObject<Block>... blocks) {
+    public final void act(StateSmithData data, RegistryObject<Block>... blocks) {
         for (RegistryObject<Block> block : blocks) {
-            act(provider, block.get());
+            act(data, block);
         }
     }
 
-    public void act(BlockStateProvider provider, Collection<RegistryObject<Block>> blocks) {
-        blocks.forEach(r -> act(provider, r.get()));
+    public void act(StateSmithData data, Collection<RegistryObject<Block>> blocks) {
+        blocks.forEach(r -> act(data, r));
     }
 
-    public void act(BlockStateProvider provider, Block block) {
+    private void act(StateSmithData data, RegistryObject<Block> block) {
         if (blockClass.isInstance(block)) {
-            stateSupplier.act(blockClass.cast(block), provider);
+            stateSupplier.act(blockClass.cast(block.get()), data.provider);
+            data.consumer.accept(block);
         } else {
-            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
+            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block.get()));
         }
     }
 

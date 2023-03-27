@@ -19,21 +19,22 @@ public class ModelFuncBlockStateSmith<T extends Block> extends AbstractBlockStat
     }
 
     @SafeVarargs
-    public final void act(BlockStateProvider provider, StateFunction<T> actor, RegistryObject<Block>... blocks) {
+    public final void act(StateSmithData data, StateFunction<T> actor, RegistryObject<Block>... blocks) {
         for (RegistryObject<Block> block : blocks) {
-            act(provider, actor, block.get());
+            act(data, actor, block);
         }
     }
 
-    public void act(BlockStateProvider provider, StateFunction<T> actor, Collection<RegistryObject<Block>> blocks) {
-        blocks.forEach(r -> act(provider, actor, r.get()));
+    public void act(StateSmithData data, StateFunction<T> actor, Collection<RegistryObject<Block>> blocks) {
+        blocks.forEach(r -> act(data, actor, r));
     }
 
-    public void act(BlockStateProvider provider, StateFunction<T> actor, Block block) {
+    private void act(StateSmithData data, StateFunction<T> actor, RegistryObject<Block> block) {
         if (blockClass.isInstance(block)) {
-            stateSupplier.act(blockClass.cast(block), provider, actor);
+            stateSupplier.act(blockClass.cast(block.get()), data.provider, actor);
+            data.consumer.accept(block);
         } else {
-            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
+            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block.get()));
         }
     }
 
