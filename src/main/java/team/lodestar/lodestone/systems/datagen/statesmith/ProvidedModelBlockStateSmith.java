@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.datagen.statesmith;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -8,6 +9,7 @@ import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
 
 import java.util.Collection;
+import java.util.function.Function;
 
 public class ProvidedModelBlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
 
@@ -19,19 +21,19 @@ public class ProvidedModelBlockStateSmith<T extends Block> extends AbstractBlock
     }
 
     @SafeVarargs
-    public final void act(StateSmithData data, ModelFile modelFile, StateFunction<T> actor, RegistryObject<Block>... blocks) {
+    public final void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, RegistryObject<Block>... blocks) {
         for (RegistryObject<Block> block : blocks) {
-            act(data, modelFile, actor, block);
+            act(data, actor, modelFileSupplier, block);
         }
     }
 
-    public void act(StateSmithData data, ModelFile modelFile, StateFunction<T> actor, Collection<RegistryObject<Block>> blocks) {
-        blocks.forEach(r -> act(data, modelFile, actor, r));
+    public void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<RegistryObject<Block>> blocks) {
+        blocks.forEach(r -> act(data, actor, modelFileSupplier, r));
     }
 
-    private void act(StateSmithData data, ModelFile modelFile, StateFunction<T> actor, RegistryObject<Block> block) {
+    private void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, RegistryObject<Block> block) {
         if (blockClass.isInstance(block)) {
-            stateSupplier.act(blockClass.cast(block.get()), data.provider, data.getTexturePath(), modelFile, actor);
+            stateSupplier.act(blockClass.cast(block.get()), data.provider, data.getTexturePath(), actor, modelFileSupplier);
             data.consumer.accept(block);
         } else {
             LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block.get()));
@@ -39,10 +41,10 @@ public class ProvidedModelBlockStateSmith<T extends Block> extends AbstractBlock
     }
 
     interface ModelFuncSmithStateSupplier<T extends Block> {
-        void act(T block, BlockStateProvider provider, String texturePath, ModelFile modelFile, StateFunction<T> actor);
+        void act(T block, BlockStateProvider provider, String texturePath, StateFunction<T> actor, ModelFileSupplier modelFileSupplier);
     }
 
-    public interface StateFunction<T extends Block> {
-        void act(T block, ModelFile modelFile);
+    public interface ModelFileSupplier {
+        ModelFile generateModel(Function<String, ResourceLocation> textureGetter);
     }
 }

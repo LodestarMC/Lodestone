@@ -41,8 +41,4 @@ public class ModelFuncBlockStateSmith<T extends Block> extends AbstractBlockStat
     interface ModelFuncSmithStateSupplier<T extends Block> {
         void act(T block, BlockStateProvider provider, String texturePath, StateFunction<T> actor);
     }
-
-    public interface StateFunction<T extends Block> {
-        void act(T block, ModelFile modelFile);
-    }
 }

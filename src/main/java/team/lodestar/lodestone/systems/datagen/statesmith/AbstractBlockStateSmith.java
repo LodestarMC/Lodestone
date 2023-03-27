@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.datagen.statesmith;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
 
@@ -34,5 +35,9 @@ public abstract class AbstractBlockStateSmith<T extends Block> {
         public void setTexturePath(String texturePath) {
             this.texturePath = texturePath;
         }
+    }
+
+    public interface StateFunction<T extends Block> {
+        void act(T block, ModelFile modelFile);
     }
 }

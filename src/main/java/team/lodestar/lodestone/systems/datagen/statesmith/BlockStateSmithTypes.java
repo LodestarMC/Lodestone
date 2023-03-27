@@ -11,8 +11,8 @@ import team.lodestar.lodestone.systems.block.LodestoneDirectionalBlock;
 
 public class BlockStateSmithTypes {
 
-    public static ProvidedModelBlockStateSmith<Block> CUSTOM_MODEL = new ProvidedModelBlockStateSmith<>(Block.class, (block, provider, path, modelFile, stateFunction) -> {
-        stateFunction.act(block, modelFile);
+    public static ProvidedModelBlockStateSmith<Block> CUSTOM_MODEL = new ProvidedModelBlockStateSmith<>(Block.class, (block, provider, path, stateFunction, modelFileSupplier) -> {
+        stateFunction.act(block, modelFileSupplier.generateModel(s -> getPath(block, s)));
     });
 
     public static ModelFuncBlockStateSmith<Block> PREDEFINED_MODEL = new ModelFuncBlockStateSmith<>(Block.class, (block, provider, path, stateFunction) -> {
@@ -20,7 +20,7 @@ public class BlockStateSmithTypes {
         ModelFile predefinedModel = provider.models().getExistingFile(getPath(block, name));
         stateFunction.act(block, predefinedModel);
     });
-    
+
     public static BlockStateSmith<Block> FULL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider, path) -> provider.simpleBlock(block));
 
     public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider, path) -> {
@@ -131,7 +131,7 @@ public class BlockStateSmithTypes {
         return ForgeRegistries.BLOCKS.getKey(block).getNamespace();
     }
 
-    static ResourceLocation getPath(Block block, String path) {
+    public static ResourceLocation getPath(Block block, String path) {
         return new ResourceLocation(getModIdFromBlock(block), "block/"+path);
     }
 
