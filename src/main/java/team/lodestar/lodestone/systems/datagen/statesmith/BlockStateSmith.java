@@ -32,7 +32,7 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
     private void act(StateSmithData data, RegistryObject<Block> registryObject) {
         Block block = registryObject.get();
         if (blockClass.isInstance(block)) {
-            stateSupplier.act(blockClass.cast(block), data.provider, data.getTexturePath());
+            stateSupplier.act(blockClass.cast(block), data.provider);
             data.consumer.accept(registryObject);
         } else {
             LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
@@ -40,6 +40,6 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
     }
 
     interface SmithStateSupplier<T extends Block> {
-        void act(T block, BlockStateProvider provider, String texturePath);
+        void act(T block, BlockStateProvider provider);
     }
 }

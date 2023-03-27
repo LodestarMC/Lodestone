@@ -34,7 +34,7 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
     private void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, RegistryObject<Block> registryObject) {
         Block block = registryObject.get();
         if (blockClass.isInstance(block)) {
-            stateSupplier.act(blockClass.cast(block), data.provider, data.getTexturePath(), actor, modelFileSupplier);
+            stateSupplier.act(blockClass.cast(block), data.provider, actor, modelFileSupplier);
             data.consumer.accept(registryObject);
         } else {
             LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
@@ -42,7 +42,7 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
     }
 
     interface ModularSmithStateSupplier<T extends Block> {
-        void act(T block, BlockStateProvider provider, String texturePath, StateFunction<T> actor, ModelFileSupplier modelFileSupplier);
+        void act(T block, BlockStateProvider provider, StateFunction<T> actor, ModelFileSupplier modelFileSupplier);
     }
 
     public interface ModelFileSupplier {
