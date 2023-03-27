@@ -11,11 +11,11 @@ import team.lodestar.lodestone.LodestoneLib;
 import java.util.Collection;
 import java.util.function.Function;
 
-public class ProvidedModelBlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
+public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
 
-    public final ModelFuncSmithStateSupplier<T> stateSupplier;
+    public final ModularSmithStateSupplier<T> stateSupplier;
 
-    protected ProvidedModelBlockStateSmith(Class<T> blockClass, ModelFuncSmithStateSupplier<T> stateSupplier) {
+    protected ModularBlockStateSmith(Class<T> blockClass, ModularSmithStateSupplier<T> stateSupplier) {
         super(blockClass);
         this.stateSupplier = stateSupplier;
     }
@@ -40,11 +40,11 @@ public class ProvidedModelBlockStateSmith<T extends Block> extends AbstractBlock
         }
     }
 
-    interface ModelFuncSmithStateSupplier<T extends Block> {
+    interface ModularSmithStateSupplier<T extends Block> {
         void act(T block, BlockStateProvider provider, String texturePath, StateFunction<T> actor, ModelFileSupplier modelFileSupplier);
     }
 
     public interface ModelFileSupplier {
-        ModelFile generateModel(Block block, Function<String, ResourceLocation> textureGetter);
+        ModelFile generateModel(Block block, BlockStateProvider provider, Function<String, ResourceLocation> textureGetter);
     }
 }

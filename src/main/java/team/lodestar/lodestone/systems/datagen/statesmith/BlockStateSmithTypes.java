@@ -3,22 +3,14 @@ package team.lodestar.lodestone.systems.datagen.statesmith;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.ForgeRegistries;
-import team.lodestar.lodestone.systems.block.LodestoneDirectionalBlock;
 
 public class BlockStateSmithTypes {
 
-    public static ProvidedModelBlockStateSmith<Block> CUSTOM_MODEL = new ProvidedModelBlockStateSmith<>(Block.class, (block, provider, path, stateFunction, modelFileSupplier) -> {
-        stateFunction.act(block, modelFileSupplier.generateModel(block, s -> getPath(block, s)));
-    });
-
-    public static ModelFuncBlockStateSmith<Block> PREDEFINED_MODEL = new ModelFuncBlockStateSmith<>(Block.class, (block, provider, path, stateFunction) -> {
-        String name = getBlockName(block);
-        ModelFile predefinedModel = provider.models().getExistingFile(getPath(block, name));
-        stateFunction.act(block, predefinedModel);
+    public static ModularBlockStateSmith<Block> CUSTOM_MODEL = new ModularBlockStateSmith<>(Block.class, (block, provider, path, stateFunction, modelFileSupplier) -> {
+        stateFunction.act(block, modelFileSupplier.generateModel(block, provider, s -> getPath(block, s)));
     });
 
     public static BlockStateSmith<Block> FULL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider, path) -> provider.simpleBlock(block));
