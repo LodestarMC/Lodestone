@@ -12,7 +12,7 @@ import team.lodestar.lodestone.systems.block.LodestoneDirectionalBlock;
 public class BlockStateSmithTypes {
 
     public static ProvidedModelBlockStateSmith<Block> CUSTOM_MODEL = new ProvidedModelBlockStateSmith<>(Block.class, (block, provider, path, stateFunction, modelFileSupplier) -> {
-        stateFunction.act(block, modelFileSupplier.generateModel(s -> getPath(block, s)));
+        stateFunction.act(block, modelFileSupplier.generateModel(block, s -> getPath(block, s)));
     });
 
     public static ModelFuncBlockStateSmith<Block> PREDEFINED_MODEL = new ModelFuncBlockStateSmith<>(Block.class, (block, provider, path, stateFunction) -> {

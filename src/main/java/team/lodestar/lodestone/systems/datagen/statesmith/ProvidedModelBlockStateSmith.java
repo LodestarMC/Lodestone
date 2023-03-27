@@ -45,6 +45,6 @@ public class ProvidedModelBlockStateSmith<T extends Block> extends AbstractBlock
     }
 
     public interface ModelFileSupplier {
-        ModelFile generateModel(Function<String, ResourceLocation> textureGetter);
+        ModelFile generateModel(Block block, Function<String, ResourceLocation> textureGetter);
     }
 }
