@@ -13,7 +13,10 @@ public class BlockStateSmithTypes {
         stateFunction.act(block, modelFileSupplier.generateModel(block, provider, s -> getPath(block, s)));
     });
 
-    public static BlockStateSmith<Block> FULL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider, path) -> provider.simpleBlock(block));
+    public static BlockStateSmith<Block> FULL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider, path) -> {
+        String name = getBlockName(block);
+        provider.simpleBlock(block, provider.models().cubeAll(name, getPath(block, path+name)));
+    });
 
     public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider, path) -> {
         String name = getBlockName(block);
