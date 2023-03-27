@@ -5,6 +5,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
+import team.lodestar.lodestone.systems.block.LodestoneHorizontalBlock;
 import team.lodestar.lodestone.systems.datagen.statesmith.BlockStateSmith;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
 
@@ -73,6 +74,16 @@ public class BlockStateSmithTypes {
         ResourceLocation textureName = provider.getBlockTexture(name);
         BlockModelBuilder directionalModel = provider.models().cubeColumnHorizontal(name, textureName, provider.extend(textureName, "_top"));
         provider.directionalBlock(block, directionalModel);
+    });
+
+    /**
+     * Generates a horizontal block model and state.
+     */
+    public static BlockStateSmith<HorizontalDirectionalBlock> HORIZONTAL_BLOCK = new BlockStateSmith<>(HorizontalDirectionalBlock.class, (block, provider) -> {
+        String name = provider.getBlockName(block);
+        ResourceLocation textureName = provider.getBlockTexture(name);
+        BlockModelBuilder horizontalModel = provider.models().cubeAll(name, textureName);
+        provider.horizontalBlock(block, horizontalModel);
     });
 
     /**
