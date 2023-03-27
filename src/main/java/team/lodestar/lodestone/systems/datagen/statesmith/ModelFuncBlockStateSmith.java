@@ -31,7 +31,7 @@ public class ModelFuncBlockStateSmith<T extends Block> extends AbstractBlockStat
 
     private void act(StateSmithData data, StateFunction<T> actor, RegistryObject<Block> block) {
         if (blockClass.isInstance(block)) {
-            stateSupplier.act(blockClass.cast(block.get()), data.provider, data.texturePath, actor);
+            stateSupplier.act(blockClass.cast(block.get()), data.provider, data.getTexturePath(), actor);
             data.consumer.accept(block);
         } else {
             LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block.get()));

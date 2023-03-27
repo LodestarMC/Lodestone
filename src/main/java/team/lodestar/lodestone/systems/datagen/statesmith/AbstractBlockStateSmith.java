@@ -19,11 +19,20 @@ public abstract class AbstractBlockStateSmith<T extends Block> {
     public static class StateSmithData {
         public final BlockStateProvider provider;
         public final Consumer<RegistryObject<Block>> consumer;
-        public String texturePath = "";
+
+        private String texturePath = "";
 
         public StateSmithData(BlockStateProvider provider, Consumer<RegistryObject<Block>> consumer) {
             this.provider = provider;
             this.consumer = consumer;
+        }
+
+        public String getTexturePath() {
+            return texturePath;
+        }
+
+        public void setTexturePath(String texturePath) {
+            this.texturePath = texturePath;
         }
     }
 }
