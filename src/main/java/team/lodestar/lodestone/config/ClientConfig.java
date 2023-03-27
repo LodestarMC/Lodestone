@@ -11,8 +11,7 @@ import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 public class ClientConfig extends LodestoneConfig {
 
     public static final ConfigGroup CLIENT = new ConfigGroup(LODESTONE, "client");
-
-
+    
     public static ConfigValueHolder<Boolean> DELAYED_PARTICLE_RENDERING = new ConfigValueHolder<>(CLIENT, "graphics/particle", builder ->
             builder.comment("Should particles render on the delayed buffer? This means they will properly render after clouds & water do, but could cause issues with mods like sodium.")
                     .define("buffer_particles", true));
