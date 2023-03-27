@@ -2,16 +2,25 @@ package team.lodestar.lodestone.systems.datagen.statesmith;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
+import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.ForgeRegistries;
+import team.lodestar.lodestone.systems.block.LodestoneDirectionalBlock;
 
 public class BlockStateSmithTypes {
 
-    public static ModelFuncBlockStateSmith<Block> PREDEFINED_MODEL = new ModelFuncBlockStateSmith<>(Block.class, (block, provider, path, s) -> {
+    public static ModelFuncBlockStateSmith<Block> PREDEFINED_MODEL = new ModelFuncBlockStateSmith<>(Block.class, (block, provider, path, stateFunction) -> {
         String name = getBlockName(block);
         ModelFile predefinedModel = provider.models().getExistingFile(getPath(block, name));
-        s.act(block, predefinedModel);
+        stateFunction.act(block, predefinedModel);
+    });
+
+    public static ModelFuncBlockStateSmith<DirectionalBlock> DIRECTIONAL_BLOCK = new ModelFuncBlockStateSmith<>(DirectionalBlock.class, (block, provider, path, stateFunction) -> {
+        String name = getBlockName(block);
+        ResourceLocation textureName = getPath(block, path + name);
+        BlockModelBuilder directionalModel = provider.models().cubeColumnHorizontal(name, textureName, extend(textureName, "_top"));
+        provider.directionalBlock(block, directionalModel);
     });
 
     public static BlockStateSmith<Block> FULL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider, path) -> provider.simpleBlock(block));
@@ -117,7 +126,11 @@ public class BlockStateSmithTypes {
         return ForgeRegistries.BLOCKS.getKey(block).getNamespace();
     }
 
-    private static ResourceLocation getPath(Block block, String path) {
+    static ResourceLocation getPath(Block block, String path) {
         return new ResourceLocation(getModIdFromBlock(block), "block/"+path);
+    }
+
+    static ResourceLocation extend(ResourceLocation resourceLocation, String suffix) {
+        return new ResourceLocation(resourceLocation.getNamespace(), resourceLocation.getPath() + suffix);
     }
 }
