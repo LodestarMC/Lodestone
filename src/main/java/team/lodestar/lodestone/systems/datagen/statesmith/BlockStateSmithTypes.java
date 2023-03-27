@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.datagen.statesmith;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -10,19 +11,16 @@ import team.lodestar.lodestone.systems.block.LodestoneDirectionalBlock;
 
 public class BlockStateSmithTypes {
 
+    public static ProvidedModelBlockStateSmith<Block> CUSTOM_MODEL = new ProvidedModelBlockStateSmith<>(Block.class, (block, provider, path, modelFile, stateFunction) -> {
+        stateFunction.act(block, modelFile);
+    });
+
     public static ModelFuncBlockStateSmith<Block> PREDEFINED_MODEL = new ModelFuncBlockStateSmith<>(Block.class, (block, provider, path, stateFunction) -> {
         String name = getBlockName(block);
         ModelFile predefinedModel = provider.models().getExistingFile(getPath(block, name));
         stateFunction.act(block, predefinedModel);
     });
-
-    public static ModelFuncBlockStateSmith<DirectionalBlock> DIRECTIONAL_BLOCK = new ModelFuncBlockStateSmith<>(DirectionalBlock.class, (block, provider, path, stateFunction) -> {
-        String name = getBlockName(block);
-        ResourceLocation textureName = getPath(block, path + name);
-        BlockModelBuilder directionalModel = provider.models().cubeColumnHorizontal(name, textureName, extend(textureName, "_top"));
-        provider.directionalBlock(block, directionalModel);
-    });
-
+    
     public static BlockStateSmith<Block> FULL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider, path) -> provider.simpleBlock(block));
 
     public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider, path) -> {
@@ -45,6 +43,13 @@ public class BlockStateSmithTypes {
         String textureName = name + "_log";
         ResourceLocation logTexture = getPath(block, path + textureName);
         provider.axisBlock(block, logTexture, logTexture);
+    });
+
+    public static BlockStateSmith<DirectionalBlock> DIRECTIONAL_BLOCK = new BlockStateSmith<>(DirectionalBlock.class, (block, provider, path) -> {
+        String name = getBlockName(block);
+        ResourceLocation textureName = getPath(block, path + name);
+        BlockModelBuilder directionalModel = provider.models().cubeColumnHorizontal(name, textureName, extend(textureName, "_top"));
+        provider.directionalBlock(block, directionalModel);
     });
 
     public static BlockStateSmith<StairBlock> STAIRS_BLOCK = new BlockStateSmith<>(StairBlock.class, (block, provider, path) -> {
