@@ -8,6 +8,8 @@ import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 
+import static team.lodestar.lodestone.capability.LodestoneEntityDataCapability.FIRE_EFFECT_KEY;
+
 /**
  * A FireEffectInstance is a custom instance of a fire effect, functioning pretty much exactly as a normal fire effect would do
  * You must register a type and can manage a players fire effect through the {@link FireEffectHandler}
@@ -31,7 +33,7 @@ public class FireEffectInstance {
     }
 
     public FireEffectInstance sync(Entity target) {
-        LodestoneEntityDataCapability.syncData(target, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(()->target), NBTHelper.create("fireEffect", "type", "duration").setWhitelist());
+        LodestoneEntityDataCapability.syncData(target, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(()->target), FIRE_EFFECT_KEY);
         return this;
     }
 
@@ -65,14 +67,14 @@ public class FireEffectInstance {
         CompoundTag fireTag = new CompoundTag();
         fireTag.putString("type", type.id);
         fireTag.putInt("duration", duration);
-        tag.put("fireEffect", fireTag);
+        tag.put(FIRE_EFFECT_KEY, fireTag);
     }
 
     public static FireEffectInstance deserializeNBT(CompoundTag tag) {
-        if (!tag.contains("fireEffect")) {
+        if (!tag.contains(FIRE_EFFECT_KEY)) {
             return null;
         }
-        CompoundTag fireTag = tag.getCompound("fireEffect");
+        CompoundTag fireTag = tag.getCompound(FIRE_EFFECT_KEY);
         FireEffectInstance instance = new FireEffectInstance(LodestoneFireEffectRegistry.FIRE_TYPES.get(fireTag.getString("type")));
         instance.setDuration(fireTag.getInt("duration"));
         return instance;

@@ -26,6 +26,7 @@ public class LodestoneEntityDataCapability implements LodestoneCapability {
     public static Capability<LodestoneEntityDataCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
     });
 
+    public static final String FIRE_EFFECT_KEY = "fireEffect";
     public FireEffectInstance fireEffectInstance;
 
     public LodestoneEntityDataCapability() {
@@ -63,7 +64,7 @@ public class LodestoneEntityDataCapability implements LodestoneCapability {
         getCapabilityOptional(entity).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestoneEntityCapabilityPacket(entity.getId(), c.serializeNBT())));
     }
 
-    public static void syncData(Entity entity, PacketDistributor.PacketTarget target, NBTHelper.TagFilter filter) {
+    public static void syncData(Entity entity, PacketDistributor.PacketTarget target, String... filter) {
         getCapabilityOptional(entity).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestoneEntityCapabilityPacket(entity.getId(), NBTHelper.filterTag(c.serializeNBT(), filter))));
     }
 
