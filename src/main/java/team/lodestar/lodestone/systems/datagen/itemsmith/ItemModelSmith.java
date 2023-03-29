@@ -12,6 +12,7 @@ import team.lodestar.lodestone.systems.datagen.statesmith.AbstractBlockStateSmit
 
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class ItemModelSmith extends AbstractItemModelSmith {
 
@@ -22,17 +23,17 @@ public class ItemModelSmith extends AbstractItemModelSmith {
     }
 
     @SafeVarargs
-    public final void act(ItemModelSmithData data, RegistryObject<Item>... items) {
-        for (RegistryObject<Item> item : items) {
+    public final void act(ItemModelSmithData data, Supplier<Item>... items) {
+        for (Supplier<Item> item : items) {
             act(data, item);
         }
     }
 
-    public void act(ItemModelSmithData data, Collection<RegistryObject<Item>> items) {
+    public void act(ItemModelSmithData data, Collection<Supplier<Item>> items) {
         items.forEach(r -> act(data, r));
     }
 
-    private void act(ItemModelSmithData data, RegistryObject<Item> registryObject) {
+    private void act(ItemModelSmithData data, Supplier<Item> registryObject) {
         Item item = registryObject.get();
         modelSupplier.act(item, data.provider);
         data.consumer.accept(registryObject);
