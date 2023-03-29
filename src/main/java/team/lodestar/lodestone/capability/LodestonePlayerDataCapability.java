@@ -59,10 +59,8 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
     }
 
     public static void syncPlayerCapability(PlayerEvent.StartTracking event) {
-        if (event.getTarget() instanceof Player player) {
-            if (player.level instanceof ServerLevel) {
-                syncTracking(player);
-            }
+        if (event.getTarget() instanceof ServerPlayer player) {
+            syncTracking(player);
         }
     }
 
