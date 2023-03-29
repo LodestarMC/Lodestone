@@ -19,28 +19,36 @@ public class SoundMotifSoundType extends ExtendedSoundType {
         this.motifSound = motifSound;
     }
 
+    public float getMotifPitch() {
+        return getPitch();
+    }
+
+    public float getMotifVolume() {
+        return getVolume();
+    }
+
     @Override
     public void onPlayBreakSound(Level level, BlockPos pos) {
-        level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, motifSound.get(), SoundSource.BLOCKS, (getVolume() + 1.0F) / 4.0F, getPitch() * 1.9F, false);
+        level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, motifSound.get(), SoundSource.BLOCKS, (getMotifVolume() + 1.0F) / 4.0F, getMotifPitch() * 0.8f, false);
     }
 
     @Override
     public void onPlayStepSound(Level level, BlockPos pos, BlockState state, SoundSource category) {
-        level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), motifSound.get(), category, getVolume() * 0.2F, getPitch() * 2F);
+        level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), motifSound.get(), category, getMotifVolume() * 0.1F, getMotifPitch());
     }
 
     @Override
     public void onPlayPlaceSound(Level level, BlockPos pos, Player player) {
-        level.playSound(player, pos, motifSound.get(), SoundSource.BLOCKS, (getVolume() + 1.0F) / 4.0F, getPitch() * 1.8F);
+        level.playSound(player, pos, motifSound.get(), SoundSource.BLOCKS, (getMotifVolume() + 1.0F) / 4.0F, getMotifPitch() * 0.8F);
     }
 
     @Override
     public void onPlayHitSound(BlockPos pos) {
-        Minecraft.getInstance().getSoundManager().play(new SimpleSoundInstance(motifSound.get(), SoundSource.BLOCKS, (getVolume() + 1.0F) / 8.0F, getPitch() * 1.75F, SoundInstance.createUnseededRandom(), pos));
+        Minecraft.getInstance().getSoundManager().play(new SimpleSoundInstance(motifSound.get(), SoundSource.BLOCKS, (getMotifVolume() + 1.0F) / 8.0F, getMotifPitch() * 0.5f, SoundInstance.createUnseededRandom(), pos));
     }
 
     @Override
     public void onPlayFallSound(Level level, BlockPos pos, SoundSource category) {
-        level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), motifSound.get(), category, getVolume() * 0.5F, getPitch() * 1.75F);
+        level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), motifSound.get(), category, getMotifVolume() * 0.5F, getMotifPitch() * 0.75f);
     }
 }

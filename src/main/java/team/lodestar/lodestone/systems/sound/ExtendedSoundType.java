@@ -41,7 +41,7 @@ public class ExtendedSoundType extends ForgeSoundType {
      * Called by mixin injection when an entity triggers the block step sound in
      * <p>{@link net.minecraft.world.entity.Entity#playStepSound(BlockPos, BlockState)}
      * <p> Example Implementation, matches the original logic of the parent sound being played:
-     * <pre>{@code level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), getStepSound(), category, getVolume() * 0.15F, getPitch());}</pre>
+     * <pre>{@code level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), getStepSound(), category, getVolume() * 0.1F, getPitch());}</pre>
      *
      */
     public void onPlayStepSound(Level level, BlockPos pos, BlockState state, SoundSource category) {
@@ -61,7 +61,7 @@ public class ExtendedSoundType extends ForgeSoundType {
      * Called by mixin injection when the block breaking progress sound is played in
      * <p> {@link net.minecraft.client.multiplayer.MultiPlayerGameMode#continueDestroyBlock(BlockPos, Direction)}
      * <p> Example Implementation, matches the original logic of the parent sound being played:
-     * <pre>{@code Minecraft.getInstance().getSoundManager().play(new SimpleSoundInstance(getHitSound(), SoundSource.BLOCKS, (getVolume() + 1.0F) / 8.0F, getPitch() * 0.5F, pos));}</pre>
+     * <pre>{@code Minecraft.getInstance().getSoundManager().play(new SimpleSoundInstance(getHitSound(), SoundSource.BLOCKS, (getVolume() + 1.0F) / 12.0F, getPitch() * 0.5F, pos));}</pre>
      *
      */
     @OnlyIn(value = Dist.CLIENT)
