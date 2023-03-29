@@ -6,7 +6,9 @@ import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.datagen.providers.LodestoneBlockStateProvider;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
@@ -23,17 +25,18 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
         for (Supplier<Block> block : blocks) {
             act(data, block);
         }
+        List.of(blocks).forEach(data.consumer);
     }
 
     public void act(StateSmithData data, Collection<Supplier<Block>> blocks) {
         blocks.forEach(r -> act(data, r));
+        new ArrayList<>(blocks).forEach(data.consumer);
     }
 
     private void act(StateSmithData data, Supplier<Block> registryObject) {
         Block block = registryObject.get();
         if (blockClass.isInstance(block)) {
             stateSupplier.act(blockClass.cast(block), data.provider);
-            data.consumer.accept(registryObject);
         } else {
             LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
         }
