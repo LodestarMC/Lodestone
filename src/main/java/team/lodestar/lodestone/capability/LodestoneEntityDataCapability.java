@@ -59,7 +59,6 @@ public class LodestoneEntityDataCapability implements LodestoneCapability {
         FireEffectHandler.deserializeNBT(this, tag);
     }
 
-
     public static void syncData(Entity entity, PacketDistributor.PacketTarget target) {
         getCapabilityOptional(entity).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestoneEntityCapabilityPacket(entity.getId(), c.serializeNBT())));
     }
