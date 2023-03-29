@@ -26,7 +26,6 @@ public class LodestoneEntityDataCapability implements LodestoneCapability {
     public static Capability<LodestoneEntityDataCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
     });
 
-    public static final String FIRE_EFFECT_KEY = "fireEffect";
     public FireEffectInstance fireEffectInstance;
 
     public LodestoneEntityDataCapability() {

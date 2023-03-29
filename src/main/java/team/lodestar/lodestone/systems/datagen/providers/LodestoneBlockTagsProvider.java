@@ -9,13 +9,15 @@ import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.block.LodestoneBlockProperties;
 import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
 
+import java.util.Collection;
+
 public abstract class LodestoneBlockTagsProvider extends BlockTagsProvider {
 
     public LodestoneBlockTagsProvider(DataGenerator gen, String modId, @Nullable ExistingFileHelper existingFileHelper) {
         super(gen, modId, existingFileHelper);
     }
 
-    public void addTagsFromBlockProperties(Block[] blocks) {
+    public void addTagsFromBlockProperties(Collection<Block> blocks) {
         for (Block block : blocks) {
             LodestoneBlockProperties properties = (LodestoneBlockProperties) block.properties;
             LodestoneDatagenBlockData data = properties.getDatagenData();
