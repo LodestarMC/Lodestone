@@ -14,8 +14,8 @@ import java.util.function.Function;
  * It's the exact same thing as BlockModelProvider, except with a different factory and by extension, a different model builder.
  * We do this to more-easily allow for directory changes across several blocks, which basically just allows us to easily sort our block textures into separate folders within the block texture directory.
  */
-public class LodestoneBlockModelProvider extends BlockModelProvider {
-    protected final Function<ResourceLocation, LodestoneBlockModelBuilder> factory;
+public final class LodestoneBlockModelProvider extends BlockModelProvider {
+    final Function<ResourceLocation, LodestoneBlockModelBuilder> factory;
 
     public LodestoneBlockModelProvider(LodestoneBlockStateProvider provider, DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
         super(generator, modid, existingFileHelper);

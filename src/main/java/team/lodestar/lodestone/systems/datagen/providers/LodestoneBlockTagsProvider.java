@@ -15,10 +15,6 @@ public abstract class LodestoneBlockTagsProvider extends BlockTagsProvider {
         super(gen, modId, existingFileHelper);
     }
 
-    @Override
-    protected void addTags() {
-    }
-
     public void addTagsFromBlockProperties(Block[] blocks) {
         for (Block block : blocks) {
             LodestoneBlockProperties properties = (LodestoneBlockProperties) block.properties;

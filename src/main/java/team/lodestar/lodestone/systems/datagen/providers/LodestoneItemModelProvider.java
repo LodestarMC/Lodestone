@@ -13,35 +13,33 @@ import net.minecraftforge.registries.RegistryObject;
 
 public abstract class LodestoneItemModelProvider extends ItemModelProvider {
 
-    public static final ResourceLocation GENERATED = new ResourceLocation("item/generated");
-    public static final ResourceLocation HANDHELD = new ResourceLocation("item/handheld");
+    private String texturePath = "";
 
     public LodestoneItemModelProvider(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
         super(generator, modid, existingFileHelper);
     }
 
-    @Override
-    protected void registerModels() {
-
+    public void setTexturePath(String texturePath) {
+        this.texturePath = texturePath;
     }
 
-    protected void handheldItem(RegistryObject<Item> i) {
-        String name = Registry.ITEM.getKey(i.get()).getPath();
-        withExistingParent(name, HANDHELD).texture("layer0", modLoc("item/" + name));
+    public String getTexturePath() {
+        return texturePath;
     }
 
-    protected void generatedItem(RegistryObject<Item> i) {
-        String name = Registry.ITEM.getKey(i.get()).getPath();
-        withExistingParent(name, GENERATED).texture("layer0", modLoc("item/" + name));
+    public String getItemName(Item item) {
+        return ForgeRegistries.ITEMS.getKey(item).getPath();
     }
 
-    protected void blockGeneratedItem(RegistryObject<Item> i) {
-        String name = Registry.ITEM.getKey(i.get()).getPath();
-        withExistingParent(name, GENERATED).texture("layer0", modLoc("block/" + name));
+    public ResourceLocation getItemTexture(String path) {
+        return modLoc("item/"+path);
     }
 
-    protected void blockItem(RegistryObject<Item> i) {
-        String name = Registry.ITEM.getKey(i.get()).getPath();
-        getBuilder(name).parent(new ModelFile.UncheckedModelFile(modLoc("block/" + name)));
+    public ResourceLocation getBlockTexture(String path) {
+        return modLoc("block/"+path);
+    }
+
+    public void createGenericModel(Item item, ResourceLocation modelType, ResourceLocation textureLocation) {
+        withExistingParent(getItemName(item), modelType).texture("layer0", textureLocation);
     }
 }
