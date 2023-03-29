@@ -326,21 +326,22 @@ public class VFXBuilders {
             return this;
         }
 
-        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
-            return renderTrail(vertexConsumer, stack, trailSegments, widthFunc, f -> {
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, Vector3f offset, List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
+            return renderTrail(vertexConsumer, stack, offset, trailSegments, widthFunc, f -> {
             });
         }
 
-        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
-            return renderTrail(vertexConsumer, stack.last().pose(), trailSegments, widthFunc, vfxOperator);
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, Vector3f offset, List<Vector4f> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
+            return renderTrail(vertexConsumer, stack.last().pose(), offset, trailSegments, widthFunc, vfxOperator);
         }
 
-        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, List<Vector4f> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, Vector3f offset, List<Vector4f> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
             if (trailSegments.size() < 3) {
                 return this;
             }
             trailSegments = trailSegments.stream().map(v -> new Vector4f(v.x(), v.y(), v.z(), v.w())).collect(Collectors.toList());
             for (Vector4f pos : trailSegments) {
+                pos.add(offset.x(), offset.y(), offset.z(), 0);
                 pos.transform(pose);
             }
 
