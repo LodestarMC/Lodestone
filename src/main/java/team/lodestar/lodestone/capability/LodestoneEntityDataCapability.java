@@ -65,7 +65,7 @@ public class LodestoneEntityDataCapability implements LodestoneCapability {
     }
 
     public static void syncData(Entity entity, PacketDistributor.PacketTarget target, String... filter) {
-        getCapabilityOptional(entity).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestoneEntityCapabilityPacket(entity.getId(), NBTHelper.filterTag(c.serializeNBT(), filter))));
+        getCapabilityOptional(entity).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestoneEntityCapabilityPacket(entity.getId(), NBTHelper.filterTags(c.serializeNBT(), filter))));
     }
 
     public static LazyOptional<LodestoneEntityDataCapability> getCapabilityOptional(Entity entity) {

@@ -1,5 +1,6 @@
 package team.lodestar.lodestone;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraftforge.data.event.GatherDataEvent;
 import team.lodestar.lodestone.config.ClientConfig;
@@ -8,6 +9,7 @@ import team.lodestar.lodestone.data.LodestoneItemTagDatagen;
 import team.lodestar.lodestone.data.LodestoneLangDatagen;
 import team.lodestar.lodestone.compability.CuriosCompat;
 import team.lodestar.lodestone.compability.JeiCompat;
+import team.lodestar.lodestone.helpers.NBTHelper;
 import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneBlockEntityRegistry;
 import team.lodestar.lodestone.registry.common.LodestonePaintingRegistry;
@@ -24,6 +26,7 @@ import team.lodestar.lodestone.registry.common.LodestoneRecipeSerializerRegistry
 import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry;
 
 import java.util.Random;
+import java.util.Set;
 
 @Mod(LodestoneLib.LODESTONE)
 public class LodestoneLib {

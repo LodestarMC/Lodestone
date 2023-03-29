@@ -93,7 +93,7 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
     }
 
     public static void sync(Player player, PacketDistributor.PacketTarget target, String... filter) {
-        getCapabilityOptional(player).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestonePlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTag(c.serializeNBT(), filter))));
+        getCapabilityOptional(player).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestonePlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTags(c.serializeNBT(), filter))));
     }
 
     public static void sync(Player player, PacketDistributor.PacketTarget target) {
