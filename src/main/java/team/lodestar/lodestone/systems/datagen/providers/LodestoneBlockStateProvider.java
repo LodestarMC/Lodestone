@@ -36,6 +36,10 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
         return models().getExistingFile(ForgeRegistries.BLOCKS.getKey(block));
     }
 
+    public ModelFile predefinedModel(Block block, String extension) {
+        return models().getExistingFile(extend(ForgeRegistries.BLOCKS.getKey(block), extension));
+    }
+
     public String getBlockName(Block block) {
         return ForgeRegistries.BLOCKS.getKey(block).getPath();
     }

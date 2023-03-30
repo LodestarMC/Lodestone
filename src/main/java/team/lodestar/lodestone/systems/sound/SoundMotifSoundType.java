@@ -29,7 +29,7 @@ public class SoundMotifSoundType extends ExtendedSoundType {
 
     @Override
     public void onPlayBreakSound(Level level, BlockPos pos) {
-        level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, motifSound.get(), SoundSource.BLOCKS, (getMotifVolume() + 1.0F) / 4.0F, getMotifPitch() * 0.8f, false);
+        level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, motifSound.get(), SoundSource.BLOCKS, (getMotifVolume() + 1.0F) / 4.0F, getMotifPitch() * 0.6f, false);
     }
 
     @Override
