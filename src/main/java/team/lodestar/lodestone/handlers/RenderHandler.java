@@ -46,15 +46,8 @@ public class RenderHandler {
     }
 
     public static void renderBatches(RenderLevelStageEvent event) {
-        float partial = event.getPartialTick();
         PoseStack poseStack = event.getPoseStack();
         LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
-
-
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SKY)) {
-            GhostBlockHandler.renderGhosts(poseStack);
-            WorldEventHandler.ClientOnly.renderWorldEvents(poseStack, partial);
-        }
 
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) {
             RenderHandler.MATRIX4F = RenderSystem.getModelViewMatrix().copy();

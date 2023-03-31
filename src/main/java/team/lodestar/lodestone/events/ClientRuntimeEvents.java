@@ -55,6 +55,7 @@ public class ClientRuntimeEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void renderStages(RenderLevelStageEvent event) {
+        float partial = event.getPartialTick();
         Minecraft minecraft = Minecraft.getInstance();
         Camera camera = minecraft.gameRenderer.getMainCamera();
         Vec3 cameraPos = camera.getPosition();
@@ -63,6 +64,10 @@ public class ClientRuntimeEvents {
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
 
+        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SKY)) {
+            GhostBlockHandler.renderGhosts(poseStack);
+            WorldEventHandler.ClientOnly.renderWorldEvents(poseStack, partial);
+        }
         RenderHandler.renderBatches(event);
 
         poseStack.popPose();
