@@ -1,11 +1,15 @@
 package team.lodestar.lodestone.systems.datagen.statesmith;
 
 import net.minecraft.world.level.block.*;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.systems.datagen.providers.LodestoneBlockStateProvider;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
 
@@ -17,25 +21,28 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
     }
 
     @SafeVarargs
-    public final void act(BlockStateProvider provider, RegistryObject<Block>... blocks) {
-        for (RegistryObject<Block> block : blocks) {
-            act(provider, block.get());
+    public final void act(StateSmithData data, Supplier<Block>... blocks) {
+        for (Supplier<Block> block : blocks) {
+            act(data, block);
         }
+        List.of(blocks).forEach(data.consumer);
     }
 
-    public void act(BlockStateProvider provider, Collection<RegistryObject<Block>> blocks) {
-        blocks.forEach(r -> act(provider, r.get()));
+    public void act(StateSmithData data, Collection<Supplier<Block>> blocks) {
+        blocks.forEach(r -> act(data, r));
+        new ArrayList<>(blocks).forEach(data.consumer);
     }
 
-    public void act(BlockStateProvider provider, Block block) {
+    private void act(StateSmithData data, Supplier<Block> registryObject) {
+        Block block = registryObject.get();
         if (blockClass.isInstance(block)) {
-            stateSupplier.act(blockClass.cast(block), provider);
+            stateSupplier.act(blockClass.cast(block), data.provider);
         } else {
-            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + block.getRegistryName());
+            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
         }
     }
 
-    interface SmithStateSupplier<T extends Block> {
-        void act(T block, BlockStateProvider provider);
+    public interface SmithStateSupplier<T extends Block> {
+        void act(T block, LodestoneBlockStateProvider provider);
     }
 }

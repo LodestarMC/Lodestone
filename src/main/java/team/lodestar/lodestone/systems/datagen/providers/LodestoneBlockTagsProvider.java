@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.datagen;
+package team.lodestar.lodestone.systems.datagen.providers;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
@@ -9,17 +9,15 @@ import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.block.LodestoneBlockProperties;
 import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
 
+import java.util.Collection;
+
 public abstract class LodestoneBlockTagsProvider extends BlockTagsProvider {
 
-    public LodestoneBlockTagsProvider(DataGenerator p_126511_, String modId, @Nullable ExistingFileHelper existingFileHelper) {
-        super(p_126511_, modId, existingFileHelper);
+    public LodestoneBlockTagsProvider(DataGenerator gen, String modId, @Nullable ExistingFileHelper existingFileHelper) {
+        super(gen, modId, existingFileHelper);
     }
 
-    @Override
-    protected void addTags() {
-    }
-
-    public void addTagsFromBlockProperties(Block[] blocks) {
+    public void addTagsFromBlockProperties(Collection<Block> blocks) {
         for (Block block : blocks) {
             LodestoneBlockProperties properties = (LodestoneBlockProperties) block.properties;
             LodestoneDatagenBlockData data = properties.getDatagenData();
