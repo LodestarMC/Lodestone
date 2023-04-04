@@ -189,8 +189,4 @@ public class ScreenParticleHandler {
         list.add(particle);
         return particle;
     }
-
-    public static class ItemStackParticleData {
-
-    }
 }
