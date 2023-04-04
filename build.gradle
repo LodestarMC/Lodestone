@@ -17,8 +17,6 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
-jarJar.enable()
-
 version = "${project.minecraftVersion}-${project.modVersion}"
 if (System.getenv('BUILD_NUMBER') != null) {
     version += "." + System.getenv('BUILD_NUMBER')
@@ -141,32 +139,15 @@ jar {
     }
 }
 
-// Workaround for SpongePowered/MixinGradle#38
-afterEvaluate {
-    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
-    tasks.configureReobfTaskForReobfJarJar.mustRunAfter(tasks.compileJava)
-}
-
+jar.finalizedBy('reobfJar')
 tasks.withType(GenerateModuleMetadata) {
     enabled = false
-}
-
-task jarJarRelease {
-    doLast {
-        tasks.jarJar {
-            classifier = ''
-        }
-    }
-    finalizedBy tasks.jarJar
 }
 
 java {
     withJavadocJar()
     withSourcesJar()
 }
-
-jar.finalizedBy('reobfJar')
-tasks.jarJar.finalizedBy('reobfJarJar')
 
 publishing {
     publications {
