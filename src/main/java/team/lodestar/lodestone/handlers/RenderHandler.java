@@ -132,7 +132,6 @@ public class RenderHandler {
 
         poseStack.popPose();
         lightTexture.turnOffLightLayer();
-        RenderSystem.disableCull();
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(true);
     }
