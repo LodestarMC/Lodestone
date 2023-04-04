@@ -140,6 +140,10 @@ jar {
     }
 }
 
+afterEvaluate {
+    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
+}
+
 
 jar.finalizedBy('reobfJar')
 tasks.withType(GenerateModuleMetadata) {
