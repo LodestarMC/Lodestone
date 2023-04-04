@@ -19,16 +19,17 @@ apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 version = "${project.minecraftVersion}-${project.modVersion}"
 if (System.getenv('BUILD_NUMBER') != null) {
-    version += "." + System.getenv('BUILD_NUMBER')
+    version += "-" + System.getenv('BUILD_NUMBER')
 }
 group = 'team.lodestar.lodestone'
 archivesBaseName = project.modId
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets { main.resources.srcDirs += 'src/generated/resources' }
 
 mixin {
     add sourceSets.main, "${project.modId}.refmap.json"
+    config "${project.modId}.mixins.json"
 }
 
 minecraft {
@@ -66,8 +67,10 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
+
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            arg "-mixin.config=" + archivesBaseName + ".mixins.json"
 
             args '--mod', "${project.modId}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
@@ -129,21 +132,16 @@ jar {
     manifest {
         attributes([
                 "Specification-Title": "Lodestone",
-                "Specification-Vendor": "Lodestar Team",
+                "Specification-Vendor": "Lodestar",
                 "Specification-Version": "1",
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"Lodestar Team",
+                "Implementation-Vendor" :"Lodestar",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "MixinConfigs" :"${project.modId}.mixins.json"
         ])
     }
 }
-
-afterEvaluate {
-    tasks.configureReobfTaskForReobfJar.mustRunAfter(tasks.compileJava)
-}
-
 
 jar.finalizedBy('reobfJar')
 tasks.withType(GenerateModuleMetadata) {
@@ -155,14 +153,13 @@ java {
     withSourcesJar()
 }
 
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
             artifactId project.archivesBaseName
             version project.version
-            from components.java
+            artifact jar
 
             pom.withXml {
 
