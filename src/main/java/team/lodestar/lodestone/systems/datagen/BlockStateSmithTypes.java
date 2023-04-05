@@ -5,6 +5,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
+import team.lodestar.lodestone.systems.datagen.itemsmith.*;
 import team.lodestar.lodestone.systems.datagen.statesmith.BlockStateSmith;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
 
@@ -27,7 +28,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a cross model, used by flowers and grass, and a blockstate to match.
      */
-    public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
+    public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.BLOCK_TEXTURE_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         provider.models().cross(name, provider.getBlockTexture(name));
     });
