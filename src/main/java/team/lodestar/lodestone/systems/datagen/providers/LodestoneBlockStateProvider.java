@@ -12,10 +12,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
 
     private final LodestoneBlockModelProvider blockModels;
+    public final LodestoneItemModelProvider itemModelProvider;
+
     private String texturePath = "";
 
-    public LodestoneBlockStateProvider(DataGenerator gen, String modid, ExistingFileHelper exFileHelper) {
+    public LodestoneBlockStateProvider(DataGenerator gen, String modid, ExistingFileHelper exFileHelper, LodestoneItemModelProvider itemModelProvider) {
         super(gen, modid, exFileHelper);
+        this.itemModelProvider = itemModelProvider;
         this.blockModels = new LodestoneBlockModelProvider(this, gen, modid, exFileHelper);
     }
 

@@ -42,4 +42,8 @@ public abstract class LodestoneItemModelProvider extends ItemModelProvider {
     public void createGenericModel(Item item, ResourceLocation modelType, ResourceLocation textureLocation) {
         withExistingParent(getItemName(item), modelType).texture("layer0", textureLocation);
     }
+
+    public ResourceLocation getBlockTextureFromCache(String key) {
+        return LodestoneBlockModelProvider.BLOCK_TEXTURE_CACHE.get(key);
+    }
 }

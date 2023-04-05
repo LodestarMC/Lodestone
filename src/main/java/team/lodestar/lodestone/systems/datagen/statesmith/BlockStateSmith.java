@@ -3,7 +3,10 @@ package team.lodestar.lodestone.systems.datagen.statesmith;
 import net.minecraft.world.level.block.*;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.*;
 import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.systems.datagen.*;
+import team.lodestar.lodestone.systems.datagen.itemsmith.*;
 import team.lodestar.lodestone.systems.datagen.providers.LodestoneBlockStateProvider;
 
 import java.util.ArrayList;
@@ -14,10 +17,17 @@ import java.util.function.Supplier;
 public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
 
     public final SmithStateSupplier<T> stateSupplier;
+    @Nullable
+    public final ItemModelSmith itemModelSmith;
 
     public BlockStateSmith(Class<T> blockClass, SmithStateSupplier<T> stateSupplier) {
+        this(blockClass, ItemModelSmithTypes.BLOCK_MODEL_ITEM, stateSupplier);
+    }
+
+    public BlockStateSmith(Class<T> blockClass, @Nullable ItemModelSmith itemModelSmith, SmithStateSupplier<T> stateSupplier) {
         super(blockClass);
         this.stateSupplier = stateSupplier;
+        this.itemModelSmith = itemModelSmith;
     }
 
     @SafeVarargs
@@ -37,6 +47,9 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
         Block block = registryObject.get();
         if (blockClass.isInstance(block)) {
             stateSupplier.act(blockClass.cast(block), data.provider);
+            if (itemModelSmith != null) {
+                itemModelSmith.act(block::asItem, data.provider.itemModelProvider);
+            }
         } else {
             LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
         }

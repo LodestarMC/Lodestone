@@ -4,7 +4,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.*;
 import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.systems.datagen.itemsmith.*;
 import team.lodestar.lodestone.systems.datagen.providers.LodestoneBlockStateProvider;
 
 import java.util.ArrayList;
@@ -23,21 +25,37 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
 
     @SafeVarargs
     public final void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<Block>... blocks) {
+        act(data, actor, null, modelFileSupplier, blocks);
+    }
+
+    @SafeVarargs
+    public final void act(StateSmithData data, StateFunction<T> actor, @Nullable ItemModelSmith itemModelSmith, ModelFileSupplier modelFileSupplier, Supplier<Block>... blocks) {
         for (Supplier<Block> block : blocks) {
-            act(data, actor, modelFileSupplier, block);
+            act(data, actor, itemModelSmith, modelFileSupplier, block);
         }
         List.of(blocks).forEach(data.consumer);
     }
 
     public void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<Supplier<Block>> blocks) {
-        blocks.forEach(r -> act(data, actor, modelFileSupplier, r));
+        act(data, actor, null, modelFileSupplier, blocks);
+    }
+
+    public void act(StateSmithData data, StateFunction<T> actor, @Nullable ItemModelSmith itemModelSmith, ModelFileSupplier modelFileSupplier, Collection<Supplier<Block>> blocks) {
+        blocks.forEach(r -> act(data, actor, itemModelSmith, modelFileSupplier, r));
         new ArrayList<>(blocks).forEach(data.consumer);
     }
 
     private void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<Block> registryObject) {
+        act(data, actor, null, modelFileSupplier, registryObject);
+    }
+
+    private void act(StateSmithData data, StateFunction<T> actor, @Nullable ItemModelSmith itemModelSmith, ModelFileSupplier modelFileSupplier, Supplier<Block> registryObject) {
         Block block = registryObject.get();
         if (blockClass.isInstance(block)) {
             stateSupplier.act(blockClass.cast(block), data.provider, actor, modelFileSupplier);
+            if (itemModelSmith != null) {
+                itemModelSmith.act(block::asItem, data.provider.itemModelProvider);
+            }
         } else {
             LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
         }
