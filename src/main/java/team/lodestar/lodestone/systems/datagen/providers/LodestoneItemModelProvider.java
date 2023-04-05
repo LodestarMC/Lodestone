@@ -21,10 +21,6 @@ public abstract class LodestoneItemModelProvider extends ItemModelProvider {
         super(generator, modid, existingFileHelper);
     }
 
-    @Override
-    protected void clear() {
-    }
-
     public void setTexturePath(String texturePath) {
         this.texturePath = texturePath;
     }

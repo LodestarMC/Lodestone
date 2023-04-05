@@ -3,9 +3,7 @@ package team.lodestar.lodestone.systems.datagen.providers;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -25,6 +23,11 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
     @Override
     public BlockModelProvider models() {
         return blockModels;
+    }
+
+    @Override
+    public ItemModelProvider itemModels() {
+        return itemModelProvider;
     }
 
     public void setTexturePath(String texturePath) {
