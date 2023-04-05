@@ -18,6 +18,11 @@ public class ItemModelSmithTypes {
         provider.createGenericModel(item, GENERATED, provider.getItemTexture(name));
     }));
 
+    public static ItemModelSmith UNIQUE_ITEM_MODEL = new ItemModelSmith(((item, provider) -> {
+        String name = provider.getItemName(item);
+        provider.getExistingFile(provider.modLoc(name));
+    }));
+
     public static ItemModelSmith BLOCK_TEXTURE_ITEM = new ItemModelSmith(((item, provider) -> {
         String name = provider.getItemName(item);
         provider.createGenericModel(item, GENERATED, provider.getBlockTexture(name));

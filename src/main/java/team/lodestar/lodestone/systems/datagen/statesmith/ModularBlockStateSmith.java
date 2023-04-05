@@ -24,32 +24,19 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
     }
 
     @SafeVarargs
-    public final void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<Block>... blocks) {
-        act(data, null, actor, modelFileSupplier, blocks);
-    }
-
-    @SafeVarargs
-    public final void act(StateSmithData data, @Nullable ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<Block>... blocks) {
+    public final void act(StateSmithData data, ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<Block>... blocks) {
         for (Supplier<Block> block : blocks) {
             act(data, itemModelSmith, actor, modelFileSupplier, block);
         }
         List.of(blocks).forEach(data.consumer);
     }
 
-    public void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<Supplier<Block>> blocks) {
-        act(data, null, actor, modelFileSupplier, blocks);
-    }
-
-    public void act(StateSmithData data, @Nullable ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<Supplier<Block>> blocks) {
+    public void act(StateSmithData data, ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<Supplier<Block>> blocks) {
         blocks.forEach(r -> act(data, itemModelSmith, actor, modelFileSupplier, r));
         new ArrayList<>(blocks).forEach(data.consumer);
     }
 
-    private void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<Block> registryObject) {
-        act(data, null, actor, modelFileSupplier, registryObject);
-    }
-
-    private void act(StateSmithData data, @Nullable ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<Block> registryObject) {
+    private void act(StateSmithData data, ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<Block> registryObject) {
         Block block = registryObject.get();
         if (blockClass.isInstance(block)) {
             stateSupplier.act(blockClass.cast(block), data.provider, actor, modelFileSupplier);
