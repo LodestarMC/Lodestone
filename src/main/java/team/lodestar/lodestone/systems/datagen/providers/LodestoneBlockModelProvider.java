@@ -7,6 +7,7 @@ import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
+import java.io.*;
 import java.util.*;
 import java.util.function.Function;
 
@@ -30,7 +31,8 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
     }
 
     @Override
-    public void run(HashCache cache) {
+    public void run(CachedOutput cache) throws IOException {
+        super.run(cache);
     }
 
     @Override
