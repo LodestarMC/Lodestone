@@ -6,6 +6,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.*;
 import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.systems.datagen.*;
 import team.lodestar.lodestone.systems.datagen.itemsmith.*;
 import team.lodestar.lodestone.systems.datagen.providers.LodestoneBlockStateProvider;
 
@@ -24,6 +25,11 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
     }
 
     @SafeVarargs
+    public final void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<Block>... blocks) {
+        act(data, ItemModelSmithTypes.BLOCK_MODEL_ITEM, actor, modelFileSupplier, blocks);
+    }
+
+    @SafeVarargs
     public final void act(StateSmithData data, ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<Block>... blocks) {
         for (Supplier<Block> block : blocks) {
             act(data, itemModelSmith, actor, modelFileSupplier, block);
@@ -31,6 +37,9 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
         List.of(blocks).forEach(data.consumer);
     }
 
+    public void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<Supplier<Block>> blocks) {
+        act(data, ItemModelSmithTypes.BLOCK_MODEL_ITEM, actor, modelFileSupplier, blocks);
+    }
     public void act(StateSmithData data, ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<Supplier<Block>> blocks) {
         blocks.forEach(r -> act(data, itemModelSmith, actor, modelFileSupplier, r));
         new ArrayList<>(blocks).forEach(data.consumer);
