@@ -145,8 +145,9 @@ public class BlockStateSmithTypes {
      */
     public static BlockStateSmith<ButtonBlock> BUTTON_BLOCK = new BlockStateSmith<>(ButtonBlock.class, ItemModelSmithTypes.BUTTON_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
-        String textureName = name.replace("_button", "");
-        provider.buttonBlock(block, provider.getBlockTexture(textureName));
+        ResourceLocation texture = provider.getBlockTexture(name.replace("_button", ""));
+        provider.buttonBlock(block, texture);
+        provider.models().withExistingParent(name + "_inventory", new ResourceLocation("block/button_inventory")).texture("texture", texture);
     });
 
     /**
