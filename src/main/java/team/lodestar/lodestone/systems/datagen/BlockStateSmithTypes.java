@@ -28,7 +28,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a cross model, used by flowers and grass, and a blockstate to match.
      */
-    public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.BLOCK_TEXTURE_ITEM, (block, provider) -> {
+    public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.CROSS_MODEL_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         provider.models().cross(name, provider.getBlockTexture(name));
     });
