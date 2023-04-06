@@ -5,7 +5,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
-import team.lodestar.lodestone.systems.block.LodestoneHorizontalBlock;
+import team.lodestar.lodestone.systems.datagen.itemsmith.*;
 import team.lodestar.lodestone.systems.datagen.statesmith.BlockStateSmith;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
 
@@ -28,7 +28,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a cross model, used by flowers and grass, and a blockstate to match.
      */
-    public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
+    public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.BLOCK_TEXTURE_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         provider.models().cross(name, provider.getBlockTexture(name));
     });
@@ -107,7 +107,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a wall block model and state.
      */
-    public static BlockStateSmith<WallBlock> WALL_BLOCK = new BlockStateSmith<>(WallBlock.class, (block, provider) -> {
+    public static BlockStateSmith<WallBlock> WALL_BLOCK = new BlockStateSmith<>(WallBlock.class, ItemModelSmithTypes.WALL_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         String textureName = name.replace("_wall", "");
         provider.wallBlock(block, provider.getBlockTexture(textureName));
@@ -116,7 +116,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a fence block model and state.
      */
-    public static BlockStateSmith<FenceBlock> FENCE_BLOCK = new BlockStateSmith<>(FenceBlock.class, (block, provider) -> {
+    public static BlockStateSmith<FenceBlock> FENCE_BLOCK = new BlockStateSmith<>(FenceBlock.class, ItemModelSmithTypes.FENCE_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         String textureName = name.replace("_fence", "");
         provider.fenceBlock(block, provider.getBlockTexture(textureName));
@@ -134,7 +134,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a pressure plate block model and state.
      */
-    public static BlockStateSmith<PressurePlateBlock> PRESSURE_PLATE_BLOCK = new BlockStateSmith<>(PressurePlateBlock.class, (block, provider) -> {
+    public static BlockStateSmith<PressurePlateBlock> PRESSURE_PLATE_BLOCK = new BlockStateSmith<>(PressurePlateBlock.class, ItemModelSmithTypes.PRESSURE_PLATE_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         String textureName = name.replace("_pressure_plate", "");
         provider.pressurePlateBlock(block, provider.getBlockTexture(textureName));
@@ -143,16 +143,17 @@ public class BlockStateSmithTypes {
     /**
      * Generates a button block model and state.
      */
-    public static BlockStateSmith<ButtonBlock> BUTTON_BLOCK = new BlockStateSmith<>(ButtonBlock.class, (block, provider) -> {
+    public static BlockStateSmith<ButtonBlock> BUTTON_BLOCK = new BlockStateSmith<>(ButtonBlock.class, ItemModelSmithTypes.BUTTON_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
-        String textureName = name.replace("_button", "");
-        provider.buttonBlock(block, provider.getBlockTexture(textureName));
+        ResourceLocation texture = provider.getBlockTexture(name.replace("_button", ""));
+        provider.buttonBlock(block, texture);
+        provider.models().withExistingParent(name + "_inventory", new ResourceLocation("block/button_inventory")).texture("texture", texture);
     });
 
     /**
      * DOOR.
      */
-    public static BlockStateSmith<DoorBlock> DOOR_BLOCK = new BlockStateSmith<>(DoorBlock.class, (block, provider) -> {
+    public static BlockStateSmith<DoorBlock> DOOR_BLOCK = new BlockStateSmith<>(DoorBlock.class, ItemModelSmithTypes.GENERATED_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         provider.doorBlock(block, provider.getBlockTexture(name + "_bottom"), provider.getBlockTexture(name + "_top"));
     });
@@ -160,7 +161,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a trapdoor block model and state.
      */
-    public static BlockStateSmith<TrapDoorBlock> TRAPDOOR_BLOCK = new BlockStateSmith<>(TrapDoorBlock.class, (block, provider) -> {
+    public static BlockStateSmith<TrapDoorBlock> TRAPDOOR_BLOCK = new BlockStateSmith<>(TrapDoorBlock.class, ItemModelSmithTypes.TRAPDOOR_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         provider.trapdoorBlock(block, provider.getBlockTexture(name), true);
     });
@@ -168,7 +169,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a standing torch block model and state. Wall torch not included.
      */
-    public static BlockStateSmith<TorchBlock> TORCH_BLOCK = new BlockStateSmith<>(TorchBlock.class, (block, provider) -> {
+    public static BlockStateSmith<TorchBlock> TORCH_BLOCK = new BlockStateSmith<>(TorchBlock.class, ItemModelSmithTypes.BLOCK_TEXTURE_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         ModelFile torchModel = provider.models().torch(provider.getBlockName(block), provider.getBlockTexture(name));
         provider.getVariantBuilder(block).forAllStates(s -> ConfiguredModel.builder().modelFile(torchModel).build());
@@ -177,7 +178,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a wall torch block model and state. Standing torch not included.
      */
-    public static BlockStateSmith<WallTorchBlock> WALL_TORCH_BLOCK = new BlockStateSmith<>(WallTorchBlock.class, (block, provider) -> {
+    public static BlockStateSmith<WallTorchBlock> WALL_TORCH_BLOCK = new BlockStateSmith<>(WallTorchBlock.class, null, (block, provider) -> {
         String name = provider.getBlockName(block);
         String textureName = name.replace("wall_", "");
         ModelFile torchModel = provider.models().torchWall(provider.getBlockName(block), provider.getBlockTexture(textureName));
@@ -187,7 +188,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a wooden sign block model and state. Works for both standing, and wall oriented signs.
      */
-    public static BlockStateSmith<SignBlock> WOODEN_SIGN_BLOCK = new BlockStateSmith<>(SignBlock.class, (block, provider) -> {
+    public static BlockStateSmith<SignBlock> WOODEN_SIGN_BLOCK = new BlockStateSmith<>(SignBlock.class, ItemModelSmithTypes.GENERATED_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         String particleTextureName = name.replace("_wall", "").replace("_sign", "") + "_planks";
         provider.getVariantBuilder(block).forAllStates(s -> ConfiguredModel.builder().modelFile(provider.models().sign(name, provider.getBlockTexture(particleTextureName))).build());

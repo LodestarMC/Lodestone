@@ -1,13 +1,13 @@
 package team.lodestar.lodestone.systems.datagen.providers;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -15,7 +15,14 @@ import java.util.function.Function;
  * We do this to more-easily allow for directory changes across several blocks, which basically just allows us to easily sort our block textures into separate folders within the block texture directory.
  */
 public final class LodestoneBlockModelProvider extends BlockModelProvider {
+
     final Function<ResourceLocation, LodestoneBlockModelBuilder> factory;
+
+    /**
+     * Stores the textures used by the most recently generated block. Used for more easily generating item models based off of blocks which have weirdly specific custom item models, like walls.
+     */
+    public static final HashMap<String, ResourceLocation> BLOCK_TEXTURE_CACHE = new HashMap<>();
+
 
     public LodestoneBlockModelProvider(LodestoneBlockStateProvider provider, DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
         super(generator, modid, existingFileHelper);
@@ -23,7 +30,7 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
     }
 
     @Override
-    public void run(CachedOutput cache) {
+    public void run(HashCache cache) {
     }
 
     @Override
@@ -56,12 +63,14 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
         public LodestoneBlockModelBuilder(LodestoneBlockStateProvider provider, ResourceLocation outputLocation, ExistingFileHelper existingFileHelper) {
             super(outputLocation, existingFileHelper);
             this.provider = provider;
+            BLOCK_TEXTURE_CACHE.clear();
         }
 
         @Override
         public BlockModelBuilder texture(String key, ResourceLocation texture) {
             String actualPath = texture.getPath().replace("block/", "block/"+provider.getTexturePath());
             ResourceLocation actualLocation = new ResourceLocation(texture.getNamespace(), actualPath);
+            BLOCK_TEXTURE_CACHE.put(key, actualLocation);
             return super.texture(key, actualLocation);
         }
     }

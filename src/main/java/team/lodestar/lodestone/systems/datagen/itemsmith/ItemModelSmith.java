@@ -42,6 +42,11 @@ public class ItemModelSmith extends AbstractItemModelSmith {
         modelSupplier.act(item, data.provider);
     }
 
+    public void act(Supplier<Item> registryObject, LodestoneItemModelProvider provider) {
+        Item item = registryObject.get();
+        modelSupplier.act(item, provider);
+    }
+
     public interface ItemModelSupplier {
         void act(Item item, LodestoneItemModelProvider provider);
     }

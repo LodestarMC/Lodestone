@@ -11,3 +11,9 @@ authors="The Lodestar Team;"
 description='''
 A library containing various utilities.
 '''
+[[dependencies.lodestone]]
+modId = "forge"
+mandatory = true
+versionRange = "[40.2,)"
+ordering = "NONE"
+side = "BOTH"
