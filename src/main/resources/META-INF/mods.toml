@@ -14,6 +14,6 @@ A library containing various utilities.
 [[dependencies.lodestone]]
 modId = "forge"
 mandatory = true
-versionRange = "[40.2,)"
+versionRange = "[43.2,)"
 ordering = "NONE"
 side = "BOTH"

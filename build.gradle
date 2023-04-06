@@ -107,7 +107,6 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}"
 
-    // Use this to make sure it functions in the intellij environment
     if (System.getProperty("idea.sync.active") != "true") {
         annotationProcessor "org.spongepowered:mixin:${mixinVersion}:processor"
     }
