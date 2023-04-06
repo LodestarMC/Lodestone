@@ -2,10 +2,14 @@ package team.lodestar.lodestone.systems.datagen.providers;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.*;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import team.lodestar.lodestone.systems.datagen.*;
+import team.lodestar.lodestone.systems.datagen.statesmith.*;
+
+import java.util.function.*;
 
 public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
 
@@ -36,6 +40,13 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
 
     public String getTexturePath() {
         return texturePath;
+    }
+
+    public ModularBlockStateSmith.ModelFileSupplier fromFunction(BiFunction<String, ResourceLocation, ModelFile> modelFileFunction) {
+        return b -> {
+            String name = getBlockName(b);
+            return modelFileFunction.apply(name, getBlockTexture(name));
+        };
     }
 
     public ModelFile predefinedModel(Block block) {
