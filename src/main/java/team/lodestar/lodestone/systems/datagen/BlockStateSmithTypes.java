@@ -30,8 +30,7 @@ public class BlockStateSmithTypes {
      */
     public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.CROSS_MODEL_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
-        ModelFile cross = provider.models().cross(name, provider.getBlockTexture(name));
-        provider.simpleBlock(block, cross);
+        provider.models().cross(name, provider.getBlockTexture(name));
     });
 
     /**

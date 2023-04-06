@@ -36,6 +36,7 @@ public class ItemModelSmithTypes {
     }));
 
     public static ItemModelSmith CROSS_MODEL_ITEM = new ItemModelSmith(((item, provider) -> {
+        String name = provider.getItemName(item);
         provider.createGenericModel(item, GENERATED, provider.getBlockTextureFromCache("cross"));
     }));
     public static ItemModelSmith WALL_ITEM = new ItemModelSmith(((item, provider) -> {
