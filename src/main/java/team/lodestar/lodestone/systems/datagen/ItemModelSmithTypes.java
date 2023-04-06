@@ -1,8 +1,11 @@
 package team.lodestar.lodestone.systems.datagen;
 
+import net.minecraft.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
 import team.lodestar.lodestone.systems.datagen.itemsmith.ItemModelSmith;
+
+import java.util.function.*;
 
 public class ItemModelSmithTypes {
 
@@ -32,6 +35,10 @@ public class ItemModelSmithTypes {
         provider.getBuilder(name).parent(new ModelFile.UncheckedModelFile(provider.modLoc("block/" + name)));
     }));
 
+    public static ItemModelSmith CROSS_MODEL_ITEM = new ItemModelSmith(((item, provider) -> {
+        String name = provider.getItemName(item);
+        provider.createGenericModel(item, GENERATED, provider.getBlockTextureFromCache("cross"));
+    }));
     public static ItemModelSmith WALL_ITEM = new ItemModelSmith(((item, provider) -> {
         String name = provider.getItemName(item);
         provider.wallInventory(name, provider.getBlockTextureFromCache("wall"));
@@ -41,17 +48,12 @@ public class ItemModelSmithTypes {
         provider.fenceInventory(name, provider.getBlockTextureFromCache("texture"));
     }));
 
-    public static ItemModelSmith TRAPDOOR_ITEM = new ItemModelSmith(((item, provider) -> {
+    public static Function<String, ItemModelSmith> AFFIXED_MODEL = Util.memoize((affix) -> new ItemModelSmith(((item, provider) -> {
         String name = provider.getItemName(item);
-        provider.getBuilder(name).parent(new ModelFile.UncheckedModelFile(provider.modLoc("block/" + name+"_bottom")));
-    }));
+        provider.getBuilder(name).parent(new ModelFile.UncheckedModelFile(provider.modLoc("block/" + name + affix)));
+    })));
 
-    public static ItemModelSmith PRESSURE_PLATE_ITEM = new ItemModelSmith(((item, provider) -> {
-        String name = provider.getItemName(item);
-        provider.getBuilder(name).parent(new ModelFile.UncheckedModelFile(provider.modLoc("block/" + name+"_up")));
-    }));
-    public static ItemModelSmith BUTTON_ITEM = new ItemModelSmith(((item, provider) -> {
-        String name = provider.getItemName(item);
-        provider.getBuilder(name).parent(new ModelFile.UncheckedModelFile(provider.modLoc("block/" + name+"_inventory")));
-    }));
+    public static ItemModelSmith BUTTON_ITEM = AFFIXED_MODEL.apply("_inventory");
+    public static ItemModelSmith PRESSURE_PLATE_ITEM = AFFIXED_MODEL.apply("_up");
+    public static ItemModelSmith TRAPDOOR_ITEM = AFFIXED_MODEL.apply("_bottom");
 }
