@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.datagen;
 
 import net.minecraft.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.*;
 import net.minecraftforge.client.model.generators.ModelFile;
 import team.lodestar.lodestone.systems.datagen.itemsmith.ItemModelSmith;
 
@@ -23,7 +24,10 @@ public class ItemModelSmithTypes {
 
     public static ItemModelSmith UNIQUE_ITEM_MODEL = new ItemModelSmith(((item, provider) -> {
         String name = provider.getItemName(item);
-        provider.getExistingFile(provider.modLoc("item/" + name));
+        ResourceLocation path = provider.modLoc("item/" + name);
+        if (provider.existingFileHelper.exists(path, PackType.CLIENT_RESOURCES)) {
+            provider.getExistingFile(path);
+        }
     }));
 
     public static ItemModelSmith BLOCK_TEXTURE_ITEM = new ItemModelSmith(((item, provider) -> {
