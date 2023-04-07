@@ -53,6 +53,5 @@ public class ItemModelSmithTypes {
     })));
 
     public static ItemModelSmith BUTTON_ITEM = AFFIXED_MODEL.apply("_inventory");
-    public static ItemModelSmith PRESSURE_PLATE_ITEM = AFFIXED_MODEL.apply("_up");
     public static ItemModelSmith TRAPDOOR_ITEM = AFFIXED_MODEL.apply("_bottom");
 }

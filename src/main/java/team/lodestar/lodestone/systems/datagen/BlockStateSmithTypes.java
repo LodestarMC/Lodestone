@@ -134,7 +134,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a pressure plate block model and state.
      */
-    public static BlockStateSmith<PressurePlateBlock> PRESSURE_PLATE_BLOCK = new BlockStateSmith<>(PressurePlateBlock.class, ItemModelSmithTypes.PRESSURE_PLATE_ITEM, (block, provider) -> {
+    public static BlockStateSmith<PressurePlateBlock> PRESSURE_PLATE_BLOCK = new BlockStateSmith<>(PressurePlateBlock.class, (block, provider) -> {
         String name = provider.getBlockName(block);
         String textureName = name.replace("_pressure_plate", "");
         provider.pressurePlateBlock(block, provider.getBlockTexture(textureName));
