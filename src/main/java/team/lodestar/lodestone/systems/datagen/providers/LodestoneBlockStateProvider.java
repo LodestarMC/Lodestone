@@ -16,7 +16,6 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
     public final LodestoneItemModelProvider itemModelProvider;
 
     private String texturePath = "";
-    private String modelPath = "";
 
     public LodestoneBlockStateProvider(DataGenerator gen, String modid, ExistingFileHelper exFileHelper, LodestoneItemModelProvider itemModelProvider) {
         super(gen, modid, exFileHelper);
@@ -39,14 +38,6 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
     }
 
     public String getTexturePath() {
-        return texturePath;
-    }
-
-    public void setModelPath(String texturePath) {
-        this.texturePath = texturePath;
-    }
-
-    public String getModelPath() {
         return texturePath;
     }
 

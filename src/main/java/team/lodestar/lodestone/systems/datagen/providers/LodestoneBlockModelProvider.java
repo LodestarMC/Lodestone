@@ -3,7 +3,8 @@ package team.lodestar.lodestone.systems.datagen.providers;
 import com.google.common.base.Preconditions;
 import net.minecraft.data.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.generators.*;
+import net.minecraftforge.client.model.generators.BlockModelBuilder;
+import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.*;
@@ -21,12 +22,10 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
      * Stores the textures used by the most recently generated block. Used for more easily generating item models based off of blocks which have weirdly specific custom item models, like walls.
      */
     public static final HashMap<String, ResourceLocation> BLOCK_TEXTURE_CACHE = new HashMap<>();
-    public final LodestoneBlockStateProvider provider;
 
 
     public LodestoneBlockModelProvider(LodestoneBlockStateProvider provider, DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
         super(generator, modid, existingFileHelper);
-        this.provider = provider;
         this.factory = l -> new LodestoneBlockModelBuilder(provider, l, existingFileHelper);
     }
 
@@ -45,18 +44,6 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
         ResourceLocation outputLoc = extendWithFolder(path.contains(":") ? new ResourceLocation(path) : new ResourceLocation(modid, path));
         this.existingFileHelper.trackGenerated(outputLoc, MODEL);
         return generatedModels.computeIfAbsent(outputLoc, factory);
-    }
-
-    @Override
-    public ModelFile.ExistingModelFile getExistingFile(ResourceLocation path) {
-        String actualPath = path.getPath().replace("block/", "block/"+provider.getTexturePath());
-        return super.getExistingFile(new ResourceLocation(path.getNamespace(), actualPath));
-    }
-
-    @Override
-    public BlockModelBuilder withExistingParent(String name, ResourceLocation parent) {
-        String actualPath = parent.getPath().replace("block/", "block/"+provider.getTexturePath());
-        return super.withExistingParent(name, new ResourceLocation(parent.getNamespace(), actualPath));
     }
 
     @Override
@@ -86,7 +73,5 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
             BLOCK_TEXTURE_CACHE.put(key, actualLocation);
             return super.texture(key, actualLocation);
         }
-
-
     }
 }
