@@ -42,12 +42,12 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
         return texturePath;
     }
 
-    public void setModelPath(String texturePath) {
-        this.texturePath = texturePath;
+    public void setModelPath(String modelPath) {
+        this.modelPath = modelPath;
     }
 
     public String getModelPath() {
-        return texturePath;
+        return modelPath;
     }
 
     public ModularBlockStateSmith.ModelFileSupplier fromFunction(BiFunction<String, ResourceLocation, ModelFile> modelFileFunction) {
