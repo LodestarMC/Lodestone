@@ -13,6 +13,8 @@ public class ItemModelSmithTypes {
     public static final ResourceLocation GENERATED = new ResourceLocation("item/generated");
     public static final ResourceLocation HANDHELD = new ResourceLocation("item/handheld");
 
+    public static ItemModelSmith NO_MODEL = new ItemModelSmith(((item, provider) -> {}));
+
     public static ItemModelSmith HANDHELD_ITEM = new ItemModelSmith(((item, provider) -> {
         String name = provider.getItemName(item);
         provider.createGenericModel(item, HANDHELD, provider.getItemTexture(name));
@@ -21,7 +23,6 @@ public class ItemModelSmithTypes {
         String name = provider.getItemName(item);
         provider.createGenericModel(item, GENERATED, provider.getItemTexture(name));
     }));
-
     public static ItemModelSmith UNIQUE_ITEM_MODEL = new ItemModelSmith(((item, provider) -> {
         String name = provider.getItemName(item);
         ResourceLocation path = provider.modLoc("item/" + name);
