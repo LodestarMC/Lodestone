@@ -49,13 +49,13 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
 
     @Override
     public ModelFile.ExistingModelFile getExistingFile(ResourceLocation path) {
-        String actualPath = path.getPath().replace("block/", "block/"+provider.getModelPath());
+        String actualPath = path.getPath().replace("block/", "block/"+provider.getTexturePath());
         return super.getExistingFile(new ResourceLocation(path.getNamespace(), actualPath));
     }
 
     @Override
     public BlockModelBuilder withExistingParent(String name, ResourceLocation parent) {
-        String actualPath = parent.getPath().replace("block/", "block/"+provider.getModelPath());
+        String actualPath = parent.getPath().replace("block/", "block/"+provider.getTexturePath());
         return super.withExistingParent(name, new ResourceLocation(parent.getNamespace(), actualPath));
     }
 
