@@ -49,8 +49,9 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
 
     @Override
     public ModelFile.ExistingModelFile getExistingFile(ResourceLocation path) {
-        String actualPath = path.getPath().replace("block/", "block/"+provider.getModelPath());
-        return super.getExistingFile(new ResourceLocation(path.getNamespace(), actualPath));
+        ModelFile.ExistingModelFile ret = new ModelFile.ExistingModelFile(extendWithFolder(path), existingFileHelper);
+        ret.assertExistence();
+        return ret;
     }
 
     @Override
@@ -68,7 +69,7 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
         if (rl.getPath().contains("/")) {
             return rl;
         }
-        return new ResourceLocation(rl.getNamespace(), folder + "/" + rl.getPath());
+        return new ResourceLocation(rl.getNamespace(), folder + "/" + provider.getModelPath() + rl.getPath());
     }
 
     private static class LodestoneBlockModelBuilder extends BlockModelBuilder {
