@@ -81,7 +81,7 @@ public class ClientRuntimeEvents {
             RenderHandler.MATRIX4F = RenderSystem.getModelViewMatrix().copy();
         }
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
-            Matrix4f last = RenderSystem.getModelViewMatrix();
+            Matrix4f last = RenderSystem.getModelViewMatrix().copy();
             if (levelRenderer.transparencyChain != null) {
                 Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
             }

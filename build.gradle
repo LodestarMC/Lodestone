@@ -126,6 +126,7 @@ dependencies {
     // Other Mod Compatibility
     implementation fg.deobf("curse.maven:farmers_delight-398521:3739914")
 
+    //implementation fg.deobf("com.sammy.malum:malum:1.18.2-1.5-21")
 }
 
 jar {

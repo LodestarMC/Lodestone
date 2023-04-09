@@ -140,7 +140,6 @@ public class RenderHandler {
                 extendedShaderInstance.setUniformDefaults();
             }
         }
-        source.endBatch();
     }
 
     public static void addRenderType(RenderType type) {
