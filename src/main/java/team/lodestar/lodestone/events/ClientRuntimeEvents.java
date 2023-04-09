@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.math.*;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -57,6 +58,9 @@ public class ClientRuntimeEvents {
         RenderHandler.cacheFogData(event);
     }
 
+    /**
+     * The main render loop of Lodestone. We end all of our batches here.
+     */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void renderStages(RenderLevelStageEvent event) {
         Minecraft minecraft = Minecraft.getInstance();
@@ -77,16 +81,20 @@ public class ClientRuntimeEvents {
             RenderHandler.MATRIX4F = RenderSystem.getModelViewMatrix().copy();
         }
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
+            Matrix4f last = RenderSystem.getModelViewMatrix();
             if (levelRenderer.transparencyChain != null) {
                 Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
             }
             RenderHandler.beginBufferedRendering(poseStack);
-
-            RenderHandler.renderBufferedParticles(poseStack);
+            RenderHandler.renderBufferedParticles(true);
             if (RenderHandler.MATRIX4F != null) {
                 RenderSystem.getModelViewMatrix().load(RenderHandler.MATRIX4F);
             }
-            RenderHandler.renderBufferedBatches(poseStack);
+            RenderHandler.renderBufferedBatches(true);
+            RenderHandler.renderBufferedBatches(false);
+            RenderSystem.getModelViewMatrix().load(last);
+            RenderHandler.renderBufferedParticles(false);
+
             RenderHandler.endBufferedRendering(poseStack);
             if (levelRenderer.transparencyChain != null) {
                 levelRenderer.getCloudsTarget().bindWrite(false);

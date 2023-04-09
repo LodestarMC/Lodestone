@@ -18,7 +18,9 @@ import com.mojang.math.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-import java.util.HashMap;
+import java.util.*;
+
+import static team.lodestar.lodestone.systems.rendering.StateShards.NORMAL_TRANSPARENCY;
 
 /**
  * A handler responsible for all the backend rendering processes.
@@ -89,14 +91,28 @@ public class RenderHandler {
         FOG_SHAPE = shaderFogShape;
     }
 
-    public static void renderBufferedBatches(PoseStack poseStack) {
-        endBatches(DELAYED_RENDER, BUFFERS);
+    public static void renderBufferedParticles(boolean transparentOnly) {
+        renderBufferedBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS, transparentOnly);
     }
 
-    public static void renderBufferedParticles(PoseStack poseStack) {
-        DELAYED_PARTICLE_RENDER.endBatch(LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE);
-        DELAYED_PARTICLE_RENDER.endBatch(LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE);
-        endBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS);
+    public static void renderBufferedBatches(boolean transparentOnly) {
+        renderBufferedBatches(DELAYED_RENDER, BUFFERS, transparentOnly);
+    }
+
+    private static void renderBufferedBatches(MultiBufferSource.BufferSource bufferSource, HashMap<RenderType, BufferBuilder> buffer, boolean transparentOnly) {
+        if (transparentOnly) {
+            Collection<RenderType> transparentRenderTypes = new ArrayList<>();
+            for (RenderType renderType : buffer.keySet()) {
+                RenderStateShard.TransparencyStateShard transparency = RenderHelper.getTransparencyShard(renderType);
+                if (transparency.equals(NORMAL_TRANSPARENCY)) {
+                    transparentRenderTypes.add(renderType);
+                }
+            }
+            endBatches(bufferSource, transparentRenderTypes);
+        }
+        else {
+            endBatches(bufferSource, buffer.keySet());
+        }
     }
 
     public static void endBufferedRendering(PoseStack poseStack) {
@@ -112,8 +128,8 @@ public class RenderHandler {
         RenderSystem.depthMask(true);
     }
 
-    public static void endBatches(MultiBufferSource.BufferSource source, HashMap<RenderType, BufferBuilder> buffers) {
-        for (RenderType type : buffers.keySet()) {
+    public static void endBatches(MultiBufferSource.BufferSource source, Collection<RenderType> renderTypes) {
+        for (RenderType type : renderTypes) {
             ShaderInstance instance = RenderHelper.getShader(type);
             if (UNIFORM_HANDLERS.containsKey(type)) {
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
