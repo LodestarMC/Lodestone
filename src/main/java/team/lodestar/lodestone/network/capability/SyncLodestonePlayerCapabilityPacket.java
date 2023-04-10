@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.network.capability;
 
+import net.minecraftforge.api.distmarker.*;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.systems.network.LodestoneTwoWayNBTPacket;
 import net.minecraft.client.Minecraft;
@@ -34,6 +35,7 @@ public class SyncLodestonePlayerCapabilityPacket extends LodestoneTwoWayNBTPacke
         return tag;
     }
 
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void clientExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
         Player player = Minecraft.getInstance().level.getPlayerByUUID(uuid);

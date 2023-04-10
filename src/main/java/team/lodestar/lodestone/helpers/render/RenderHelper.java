@@ -6,9 +6,7 @@ import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -29,6 +27,12 @@ public class RenderHelper {
             if (shader.isPresent()) {
                 return shader.get().get();
             }
+        }
+        return null;
+    }
+    public static RenderStateShard.TransparencyStateShard getTransparencyShard(RenderType type) {
+        if (type instanceof RenderType.CompositeRenderType compositeRenderType) {
+            return compositeRenderType.state.transparencyState;
         }
         return null;
     }

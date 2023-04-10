@@ -6,6 +6,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import team.lodestar.lodestone.systems.datagen.statesmith.*;
+
+import java.util.function.*;
 
 public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
 
@@ -21,12 +24,12 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
     }
 
     @Override
-    public BlockModelProvider models() {
+    public LodestoneBlockModelProvider models() {
         return blockModels;
     }
 
     @Override
-    public ItemModelProvider itemModels() {
+    public LodestoneItemModelProvider itemModels() {
         return itemModelProvider;
     }
 
@@ -36,6 +39,13 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
 
     public String getTexturePath() {
         return texturePath;
+    }
+
+    public ModularBlockStateSmith.ModelFileSupplier fromFunction(BiFunction<String, ResourceLocation, ModelFile> modelFileFunction) {
+        return b -> {
+            String name = getBlockName(b);
+            return modelFileFunction.apply(name, getBlockTexture(name));
+        };
     }
 
     public ModelFile predefinedModel(Block block) {

@@ -28,7 +28,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a cross model, used by flowers and grass, and a blockstate to match.
      */
-    public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.BLOCK_TEXTURE_ITEM, (block, provider) -> {
+    public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.CROSS_MODEL_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         provider.models().cross(name, provider.getBlockTexture(name));
     });
@@ -134,7 +134,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a pressure plate block model and state.
      */
-    public static BlockStateSmith<PressurePlateBlock> PRESSURE_PLATE_BLOCK = new BlockStateSmith<>(PressurePlateBlock.class, ItemModelSmithTypes.PRESSURE_PLATE_ITEM, (block, provider) -> {
+    public static BlockStateSmith<PressurePlateBlock> PRESSURE_PLATE_BLOCK = new BlockStateSmith<>(PressurePlateBlock.class, (block, provider) -> {
         String name = provider.getBlockName(block);
         String textureName = name.replace("_pressure_plate", "");
         provider.pressurePlateBlock(block, provider.getBlockTexture(textureName));

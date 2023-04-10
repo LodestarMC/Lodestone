@@ -1,13 +1,15 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.shaders.FogShape;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.*;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.fml.ModList;
-import team.lodestar.lodestone.helpers.render.RenderHelper;
-import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry;
+import team.lodestar.lodestone.config.ClientConfig;
+import team.lodestar.lodestone.helpers.RenderHelper;
+import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
 import team.lodestar.lodestone.systems.rendering.ExtendedShaderInstance;
 import team.lodestar.lodestone.systems.rendering.ShaderUniformHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -16,7 +18,9 @@ import com.mojang.math.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-import java.util.HashMap;
+import java.util.*;
+
+import static team.lodestar.lodestone.systems.rendering.StateShards.NORMAL_TRANSPARENCY;
 
 /**
  * A handler responsible for all the backend rendering processes.
@@ -45,39 +49,13 @@ public class RenderHandler {
         DELAYED_PARTICLE_RENDER = MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size));
     }
 
-    public static void renderBatches(RenderLevelStageEvent event) {
-        PoseStack poseStack = event.getPoseStack();
-        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
-
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) {
-            RenderHandler.MATRIX4F = RenderSystem.getModelViewMatrix().copy();
-        }
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
-            if (levelRenderer.transparencyChain != null) {
-                Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
-            }
-            RenderHandler.beginBufferedRendering(poseStack);
-
-            RenderHandler.renderBufferedParticles(poseStack);
-            if (RenderHandler.MATRIX4F != null) {
-                RenderSystem.getModelViewMatrix().load(RenderHandler.MATRIX4F);
-            }
-            RenderHandler.renderBufferedBatches(poseStack);
-            RenderHandler.endBufferedRendering(poseStack);
-            if (levelRenderer.transparencyChain != null) {
-                levelRenderer.getCloudsTarget().bindWrite(false);
-            }
-        }
-    }
-
-
-    public static void cacheFogData(ViewportEvent.RenderFog event) {
+    public static void cacheFogData(EntityViewRenderEvent.RenderFogEvent event) {
         FOG_NEAR = event.getNearPlaneDistance();
         FOG_FAR = event.getFarPlaneDistance();
         FOG_SHAPE = event.getFogShape();
     }
 
-    public static void cacheFogData(ViewportEvent.ComputeFogColor event) {
+    public static void cacheFogData(EntityViewRenderEvent.FogColors event) {
         FOG_RED = event.getRed();
         FOG_GREEN = event.getGreen();
         FOG_BLUE = event.getBlue();
@@ -113,14 +91,28 @@ public class RenderHandler {
         FOG_SHAPE = shaderFogShape;
     }
 
-    public static void renderBufferedBatches(PoseStack poseStack) {
-        endBatches(DELAYED_RENDER, BUFFERS);
+    public static void renderBufferedParticles(boolean transparentOnly) {
+        renderBufferedBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS, transparentOnly);
     }
 
-    public static void renderBufferedParticles(PoseStack poseStack) {
-        DELAYED_PARTICLE_RENDER.endBatch(LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE);
-        DELAYED_PARTICLE_RENDER.endBatch(LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE);
-        endBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS);
+    public static void renderBufferedBatches(boolean transparentOnly) {
+        renderBufferedBatches(DELAYED_RENDER, BUFFERS, transparentOnly);
+    }
+
+    private static void renderBufferedBatches(MultiBufferSource.BufferSource bufferSource, HashMap<RenderType, BufferBuilder> buffer, boolean transparentOnly) {
+        if (transparentOnly) {
+            Collection<RenderType> transparentRenderTypes = new ArrayList<>();
+            for (RenderType renderType : buffer.keySet()) {
+                RenderStateShard.TransparencyStateShard transparency = RenderHelper.getTransparencyShard(renderType);
+                if (transparency.equals(NORMAL_TRANSPARENCY)) {
+                    transparentRenderTypes.add(renderType);
+                }
+            }
+            endBatches(bufferSource, transparentRenderTypes);
+        }
+        else {
+            endBatches(bufferSource, buffer.keySet());
+        }
     }
 
     public static void endBufferedRendering(PoseStack poseStack) {
@@ -136,9 +128,9 @@ public class RenderHandler {
         RenderSystem.depthMask(true);
     }
 
-    public static void endBatches(MultiBufferSource.BufferSource source, HashMap<RenderType, BufferBuilder> buffers) {
-        for (RenderType type : buffers.keySet()) {
-            ShaderInstance instance = RenderHelper.getShaderFromRenderType(type);
+    public static void endBatches(MultiBufferSource.BufferSource source, Collection<RenderType> renderTypes) {
+        for (RenderType type : renderTypes) {
+            ShaderInstance instance = RenderHelper.getShader(type);
             if (UNIFORM_HANDLERS.containsKey(type)) {
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);
@@ -148,7 +140,6 @@ public class RenderHandler {
                 extendedShaderInstance.setUniformDefaults();
             }
         }
-        source.endBatch();
     }
 
     public static void addRenderType(RenderType type) {

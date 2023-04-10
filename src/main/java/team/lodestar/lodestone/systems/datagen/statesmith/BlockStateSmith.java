@@ -17,14 +17,13 @@ import java.util.function.Supplier;
 public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
 
     public final SmithStateSupplier<T> stateSupplier;
-    @Nullable
     public final ItemModelSmith itemModelSmith;
 
     public BlockStateSmith(Class<T> blockClass, SmithStateSupplier<T> stateSupplier) {
         this(blockClass, ItemModelSmithTypes.BLOCK_MODEL_ITEM, stateSupplier);
     }
 
-    public BlockStateSmith(Class<T> blockClass, @Nullable ItemModelSmith itemModelSmith, SmithStateSupplier<T> stateSupplier) {
+    public BlockStateSmith(Class<T> blockClass, ItemModelSmith itemModelSmith, SmithStateSupplier<T> stateSupplier) {
         super(blockClass);
         this.stateSupplier = stateSupplier;
         this.itemModelSmith = itemModelSmith;
@@ -47,9 +46,7 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
         Block block = registryObject.get();
         if (blockClass.isInstance(block)) {
             stateSupplier.act(blockClass.cast(block), data.provider);
-            if (itemModelSmith != null) {
-                itemModelSmith.act(block::asItem, data.provider.itemModelProvider);
-            }
+            itemModelSmith.act(block::asItem, data.provider.itemModelProvider);
         } else {
             LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
         }
