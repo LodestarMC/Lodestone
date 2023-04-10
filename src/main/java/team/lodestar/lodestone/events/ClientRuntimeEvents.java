@@ -3,8 +3,7 @@ package team.lodestar.lodestone.events;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.*;
 import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.client.ClientTickCounter;
@@ -12,18 +11,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Option;
-import net.minecraft.client.gui.screens.SimpleOptionsSubScreen;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static team.lodestar.lodestone.LodestoneLib.RANDOM;
-import static team.lodestar.lodestone.setup.LodestoneOptionRegistry.OPTIONS;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClientRuntimeEvents {
@@ -49,12 +44,12 @@ public class ClientRuntimeEvents {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
+    public static void renderFog(ViewportEvent.RenderFog event) {
         RenderHandler.cacheFogData(event);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void fogColors(EntityViewRenderEvent.FogColors event) {
+    public static void fogColors(ViewportEvent.ComputeFogColor event) {
         RenderHandler.cacheFogData(event);
     }
 
@@ -101,13 +96,6 @@ public class ClientRuntimeEvents {
             }
         }
         poseStack.popPose();
-    }
-
-    @SubscribeEvent
-    public static void setupScreen(ScreenEvent.InitScreenEvent.Post event) {
-        if (event.getScreen() instanceof SimpleOptionsSubScreen subScreen) {
-            subScreen.list.addSmall(OPTIONS.stream().filter(e -> e.canAdd(event)).toArray(Option[]::new));
-        }
     }
 
     @SubscribeEvent

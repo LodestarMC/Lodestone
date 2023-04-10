@@ -1,15 +1,12 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.shaders.FogShape;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.*;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.fml.ModList;
-import team.lodestar.lodestone.config.ClientConfig;
-import team.lodestar.lodestone.helpers.RenderHelper;
-import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
+import team.lodestar.lodestone.helpers.render.*;
 import team.lodestar.lodestone.systems.rendering.ExtendedShaderInstance;
 import team.lodestar.lodestone.systems.rendering.ShaderUniformHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -49,13 +46,13 @@ public class RenderHandler {
         DELAYED_PARTICLE_RENDER = MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size));
     }
 
-    public static void cacheFogData(EntityViewRenderEvent.RenderFogEvent event) {
+    public static void cacheFogData(ViewportEvent.RenderFog event) {
         FOG_NEAR = event.getNearPlaneDistance();
         FOG_FAR = event.getFarPlaneDistance();
         FOG_SHAPE = event.getFogShape();
     }
 
-    public static void cacheFogData(EntityViewRenderEvent.FogColors event) {
+    public static void cacheFogData(ViewportEvent.ComputeFogColor event) {
         FOG_RED = event.getRed();
         FOG_GREEN = event.getGreen();
         FOG_BLUE = event.getBlue();
@@ -130,7 +127,7 @@ public class RenderHandler {
 
     public static void endBatches(MultiBufferSource.BufferSource source, Collection<RenderType> renderTypes) {
         for (RenderType type : renderTypes) {
-            ShaderInstance instance = RenderHelper.getShader(type);
+            ShaderInstance instance = RenderHelper.getShaderFromRenderType(type);
             if (UNIFORM_HANDLERS.containsKey(type)) {
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);
