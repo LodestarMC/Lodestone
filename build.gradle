@@ -157,20 +157,11 @@ java {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
-            artifact jar
+            artifactId = archivesBaseName
 
-            pom.withXml {
-
-                // Go through all the dependencies.
-                asNode().dependencies.dependency.each { dep ->
-
-                    println 'Surpressing artifact ' + dep.artifactId.last().value().last() + ' from maven dependencies.'
-                    assert dep.parent().remove(dep)
-                }
-            }
+            from components.java
+            fg.component(it)
+            jarJar.component(it)
         }
     }
     repositories {
