@@ -151,25 +151,17 @@ java {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
+            artifactId = archivesBaseName
+
             from components.java
-
-            pom.withXml {
-
-                // Go through all the dependencies.
-                asNode().dependencies.dependency.each { dep ->
-
-                    println 'Surpressing artifact ' + dep.artifactId.last().value().last() + ' from maven dependencies.'
-                    assert dep.parent().remove(dep)
-                }
-            }
+            fg.component(it)
+            jarJar.component(it)
         }
     }
+
     repositories {
-        maven {
-            url = uri("file://${System.getenv("local_maven")}")
+        if (project.hasProperty('mavendir')) {
+            maven { url mavendir }
         }
     }
 }
