@@ -182,7 +182,7 @@ public class BlockStateSmithTypes {
         String name = provider.getBlockName(block);
         String textureName = name.replace("wall_", "");
         ModelFile torchModel = provider.models().torchWall(provider.getBlockName(block), provider.getBlockTexture(textureName));
-        provider.horizontalBlock(block, torchModel);
+        provider.horizontalBlock(block, torchModel, 90);
     });
 
     /**
