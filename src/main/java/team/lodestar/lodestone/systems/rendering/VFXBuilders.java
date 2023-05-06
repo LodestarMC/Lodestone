@@ -327,6 +327,24 @@ public class VFXBuilders {
             return this;
         }
 
+        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, PoseStack stack, Vec3 start, Vec3 end, float width) {
+            Minecraft minecraft = Minecraft.getInstance();
+            Matrix4f last = stack.last().pose();
+
+            Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getEntity().getEyePosition();
+            Vec3 delta = end.subtract(start);
+            Vec3 normal = start.subtract(cameraPosition).cross(delta).normalize().multiply(width / 2f, width / 2f, width / 2f);
+
+            Vec3[] positions = new Vec3[]{start.subtract(normal), start.add(normal), end.add(normal), end.subtract(normal)};
+
+            supplier.placeVertex(vertexConsumer, last, (float) positions[0].x, (float) positions[0].y, (float) positions[0].z, u0, v1);
+            supplier.placeVertex(vertexConsumer, last, (float) positions[1].x, (float) positions[1].y, (float) positions[1].z, u1, v1);
+            supplier.placeVertex(vertexConsumer, last, (float) positions[2].x, (float) positions[2].y, (float) positions[2].z, u1, v0);
+            supplier.placeVertex(vertexConsumer, last, (float) positions[3].x, (float) positions[3].y, (float) positions[3].z, u0, v0);
+
+            return this;
+        }
+
         public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
             return renderTrail(vertexConsumer, stack, trailSegments, widthFunc, f -> {
             });
