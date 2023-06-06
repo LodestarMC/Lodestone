@@ -1,6 +1,6 @@
 #version 150
 
-#moj_import <lodestone_fog.glsl>
+#moj_import <fog.glsl>
 
 in vec3 Position;
 in vec2 UV0;
