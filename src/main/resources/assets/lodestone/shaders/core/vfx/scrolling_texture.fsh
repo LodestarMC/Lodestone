@@ -1,11 +1,15 @@
 #version 150
 
+#moj_import <fog.glsl>
+
 uniform sampler2D Sampler0;
 
 uniform vec4 ColorModulator;
 uniform float FogStart;
 uniform float FogEnd;
 uniform vec4 FogColor;
+uniform float GameTime;
+uniform float Speed;
 
 in float vertexDistance;
 in vec4 vertexColor;
