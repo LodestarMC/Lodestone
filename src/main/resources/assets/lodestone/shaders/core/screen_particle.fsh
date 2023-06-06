@@ -11,6 +11,6 @@ out vec4 fragColor;
 
 void main() {
     vec4 color = texture(Sampler0, texCoord0) * vertexColor * ColorModulator;
-    color = vec4(color.rgb, color.r);
+    color = color.rgb == vec3(0, 0, 0) ? vec4(0,0,0,0) : color;
     fragColor = color;
 }
