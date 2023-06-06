@@ -1,10 +1,15 @@
 #version 150
 
-uniform sampler2D Sampler0;
-uniform vec4 ColorModulator;
-uniform float GameTime;
-uniform float Speed;
+#moj_import <fog.glsl>
 
+uniform sampler2D Sampler0;
+
+uniform vec4 ColorModulator;
+uniform float FogStart;
+uniform float FogEnd;
+uniform vec4 FogColor;
+
+in float vertexDistance;
 in vec4 vertexColor;
 in vec2 texCoord0;
 in vec2 texCoord2;
@@ -21,9 +26,11 @@ void main() {
         discard;
     }
     uv.x -= 0.5*width;
-    uv.x /= y;
+    if (y != 0.){
+        uv.x /= y;
+    }
     uv.y += GameTime*Speed;
-    vec4 color = texture(Sampler0, uv) * vertexColor;
+    vec4 color = texture(Sampler0, uv) * vertexColor * ColorModulator;
     color = color.rgb == vec3(0, 0, 0) ? vec4(0,0,0,0) : color;
-    fragColor = color * ColorModulator;
+    fragColor = linear_fog(color, vertexDistance, FogStart, FogEnd, vec4(FogColor.rgb, linear_fog_fade(vertexDistance, FogStart, FogEnd)));
 }
