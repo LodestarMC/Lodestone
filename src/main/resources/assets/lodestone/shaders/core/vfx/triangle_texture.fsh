@@ -30,5 +30,6 @@ void main() {
         uv.x /= y;
     }
     vec4 color = texture(Sampler0, uv) * vertexColor * ColorModulator;
+    color = vec4(color.rgb, color.r);
     fragColor = linear_fog(color, vertexDistance, FogStart, FogEnd, FogColor);
 }

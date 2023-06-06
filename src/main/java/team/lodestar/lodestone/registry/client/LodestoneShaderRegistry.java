@@ -18,7 +18,6 @@ public class LodestoneShaderRegistry {
     public static ShaderHolder PARTICLE = new ShaderHolder();
     public static ShaderHolder SCREEN_PARTICLE = new ShaderHolder();
 
-    public static ShaderHolder MASKED_TEXTURE = new ShaderHolder();
     public static ShaderHolder DISTORTED_TEXTURE = new ShaderHolder("Speed", "TimeOffset", "Intensity", "XFrequency", "YFrequency", "UVCoordinates");
     public static ShaderHolder METALLIC_NOISE = new ShaderHolder("Intensity", "Size", "Speed", "Brightness");
     public static ShaderHolder RADIAL_NOISE = new ShaderHolder("Speed", "XFrequency", "YFrequency", "Intensity", "ScatterPower", "ScatterFrequency", "DistanceFalloff");
@@ -26,7 +25,6 @@ public class LodestoneShaderRegistry {
 
     public static ShaderHolder SCROLLING_TEXTURE = new ShaderHolder("Speed");
     public static ShaderHolder TRIANGLE_TEXTURE = new ShaderHolder();
-    public static ShaderHolder COLOR_GRADIENT_TEXTURE = new ShaderHolder("DarkColor");
     public static ShaderHolder SCROLLING_TRIANGLE_TEXTURE = new ShaderHolder("Speed");
 
 
@@ -36,7 +34,6 @@ public class LodestoneShaderRegistry {
         registerShader(event, ExtendedShaderInstance.createShaderInstance(PARTICLE, event.getResourceManager(), LodestoneLib.lodestonePath("particle"), DefaultVertexFormat.PARTICLE));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(SCREEN_PARTICLE, event.getResourceManager(), LodestoneLib.lodestonePath("screen_particle"), DefaultVertexFormat.POSITION_TEX_COLOR));
 
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(MASKED_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("masked_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(DISTORTED_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("noise/distorted_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(METALLIC_NOISE, event.getResourceManager(), LodestoneLib.lodestonePath("noise/metallic"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(RADIAL_NOISE, event.getResourceManager(), LodestoneLib.lodestonePath("noise/radial_noise"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
@@ -44,7 +41,6 @@ public class LodestoneShaderRegistry {
 
         registerShader(event, ExtendedShaderInstance.createShaderInstance(SCROLLING_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("vfx/scrolling_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(TRIANGLE_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("vfx/triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
-        registerShader(event, ExtendedShaderInstance.createShaderInstance(COLOR_GRADIENT_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("vfx/color_gradient_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
         registerShader(event, ExtendedShaderInstance.createShaderInstance(SCROLLING_TRIANGLE_TEXTURE, event.getResourceManager(), LodestoneLib.lodestonePath("vfx/scrolling_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP));
     }
 

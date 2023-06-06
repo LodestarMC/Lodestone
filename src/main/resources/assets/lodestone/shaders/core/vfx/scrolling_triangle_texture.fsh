@@ -24,5 +24,6 @@ void main() {
     uv.x /= y;
     uv.y += GameTime*Speed;
     vec4 color = texture(Sampler0, uv) * vertexColor;
+    color = vec4(color.rgb, color.r);
     fragColor = color * ColorModulator;
 }
