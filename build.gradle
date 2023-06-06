@@ -158,10 +158,9 @@ publishing {
             jarJar.component(it)
         }
     }
-
     repositories {
-        if (project.hasProperty('mavendir')) {
-            maven { url mavendir }
+        maven {
+            url = uri("file://${System.getenv("local_maven")}")
         }
     }
 }
