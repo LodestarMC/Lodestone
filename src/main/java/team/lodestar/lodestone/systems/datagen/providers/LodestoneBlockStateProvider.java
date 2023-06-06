@@ -8,9 +8,13 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.systems.datagen.statesmith.*;
 
+import java.util.*;
 import java.util.function.*;
 
 public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
+
+    public final Set<ResourceLocation> staticTextures = new HashSet<>();
+
 
     private final LodestoneBlockModelProvider blockModels;
     public final LodestoneItemModelProvider itemModelProvider;
@@ -61,7 +65,16 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
     }
 
     public ResourceLocation getBlockTexture(String path) {
-        return modLoc("block/"+path);
+        return modLoc("block/" + path);
+    }
+
+    public ResourceLocation getStaticBlockTexture(String path) {
+        return markTextureAsStatic(getBlockTexture(path));
+    }
+
+    public ResourceLocation markTextureAsStatic(ResourceLocation texture) {
+        staticTextures.add(texture);
+        return texture;
     }
 
     //TODO: move this to some sorta ResourceLocationHelper if it ever becomes needed.

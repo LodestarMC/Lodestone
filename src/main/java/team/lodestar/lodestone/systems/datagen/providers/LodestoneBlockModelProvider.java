@@ -61,7 +61,9 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
     }
 
     private static class LodestoneBlockModelBuilder extends BlockModelBuilder {
+
         public final LodestoneBlockStateProvider provider;
+
         public LodestoneBlockModelBuilder(LodestoneBlockStateProvider provider, ResourceLocation outputLocation, ExistingFileHelper existingFileHelper) {
             super(outputLocation, existingFileHelper);
             this.provider = provider;
@@ -70,8 +72,11 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
 
         @Override
         public BlockModelBuilder texture(String key, ResourceLocation texture) {
-            String actualPath = texture.getPath().replace("block/", "block/"+provider.getTexturePath());
-            ResourceLocation actualLocation = new ResourceLocation(texture.getNamespace(), actualPath);
+            ResourceLocation actualLocation = texture;
+            if (!texture.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE) && !provider.staticTextures.contains(texture)) {
+                String actualPath = texture.getPath().replace("block/", "block/" + provider.getTexturePath());
+                actualLocation = new ResourceLocation(texture.getNamespace(), actualPath);
+            }
             BLOCK_TEXTURE_CACHE.put(key, actualLocation);
             return super.texture(key, actualLocation);
         }

@@ -178,11 +178,11 @@ public class BlockStateSmithTypes {
     /**
      * Generates a wall torch block model and state. Standing torch not included.
      */
-    public static BlockStateSmith<WallTorchBlock> WALL_TORCH_BLOCK = new BlockStateSmith<>(WallTorchBlock.class, null, (block, provider) -> {
+    public static BlockStateSmith<WallTorchBlock> WALL_TORCH_BLOCK = new BlockStateSmith<>(WallTorchBlock.class, ItemModelSmithTypes.NO_MODEL, (block, provider) -> {
         String name = provider.getBlockName(block);
         String textureName = name.replace("wall_", "");
         ModelFile torchModel = provider.models().torchWall(provider.getBlockName(block), provider.getBlockTexture(textureName));
-        provider.horizontalBlock(block, torchModel);
+        provider.horizontalBlock(block, torchModel, 90);
     });
 
     /**

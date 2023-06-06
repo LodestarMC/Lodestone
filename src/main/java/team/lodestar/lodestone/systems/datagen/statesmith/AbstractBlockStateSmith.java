@@ -18,9 +18,9 @@ public abstract class AbstractBlockStateSmith<T extends Block> {
 
     public static class StateSmithData {
         public final LodestoneBlockStateProvider provider;
-        public final Consumer<Supplier<Block>> consumer;
+        public final Consumer<Supplier<? extends Block>> consumer;
 
-        public StateSmithData(LodestoneBlockStateProvider provider, Consumer<Supplier<Block>> consumer) {
+        public StateSmithData(LodestoneBlockStateProvider provider, Consumer<Supplier<? extends Block>> consumer) {
             this.provider = provider;
             this.consumer = consumer;
         }

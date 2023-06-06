@@ -163,6 +163,10 @@ public class GenericParticle extends TextureSheetParticle {
         }
     }
 
+    public Vec3 getPos() {
+        return new Vec3(x, y, z);
+    }
+
     public Vec3 getParticleSpeed() {
         return new Vec3(xd, yd, zd);
     }
