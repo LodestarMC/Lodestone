@@ -1,6 +1,6 @@
 #version 150
 
-#moj_import <fog.glsl>
+#moj_import <lodestone_fog.glsl>
 
 uniform sampler2D Sampler0;
 
