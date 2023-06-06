@@ -126,12 +126,12 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title": "lodestone",
-                "Specification-Vendor": "lodestar",
+                "Specification-Title": "Lodestone",
+                "Specification-Vendor": "Lodestar",
                 "Specification-Version": "1",
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"lodestar",
+                "Implementation-Vendor" :"Lodestar",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "MixinConfigs" :"${project.modId}.mixins.json"
         ])
