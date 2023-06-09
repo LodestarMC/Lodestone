@@ -65,7 +65,7 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
         return models().withExistingParent(name, new ResourceLocation("block/air"));
     }
 
-    public ModelFile simpleBlockAirTexture(Block block) {
+    public ModelFile cubeModelAirTexture(Block block) {
         String name = getBlockName(block);
         return models().cubeAll(name, new ResourceLocation("block/air"));
     }
