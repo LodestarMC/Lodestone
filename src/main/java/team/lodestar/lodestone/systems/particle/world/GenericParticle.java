@@ -1,7 +1,5 @@
 package team.lodestar.lodestone.systems.particle.world;
 
-import com.mojang.math.Vector3d;
-import com.mojang.math.Vector3f;
 import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.RenderHelper;
@@ -58,8 +56,8 @@ public class GenericParticle extends TextureSheetParticle {
         this.xd = xd;
         this.yd = yd;
         this.zd = zd;
-        this.setLifetime(options.lifetime);
-        this.gravity = options.gravity;
+        this.setLifetime(options.lifetimeSupplier.get());
+        this.gravity = options.gravityStrengthSupplier.get();
         this.hasPhysics = !options.noClip;
         this.friction = 1;
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, colorData.r1)), (int) (255 * Math.min(1.0f, colorData.g1)), (int) (255 * Math.min(1.0f, colorData.b1)), hsv1);

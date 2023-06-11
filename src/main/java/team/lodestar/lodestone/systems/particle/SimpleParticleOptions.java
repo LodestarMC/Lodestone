@@ -5,6 +5,7 @@ import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
 
 import java.awt.*;
+import java.util.function.Supplier;
 
 public class SimpleParticleOptions {
 
@@ -28,7 +29,7 @@ public class SimpleParticleOptions {
     public GenericParticleData scaleData = DEFAULT_GENERIC;
     public SpinParticleData spinData = DEFAULT_SPIN;
 
-    public int lifetime = 20;
-    public float gravity = 0f;
+    public Supplier<Integer> lifetimeSupplier = ()->20;
+    public Supplier<Float> gravityStrengthSupplier = ()->0f;
 
 }

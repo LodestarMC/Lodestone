@@ -12,9 +12,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.helpers.BlockHelper;
-import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
-import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
 import team.lodestar.lodestone.systems.particle.world.GenericParticle;
 import team.lodestar.lodestone.systems.particle.world.WorldParticleOptions;
 
@@ -25,16 +22,16 @@ import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class WorldParticleBuilder {
+public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleBuilder, WorldParticleOptions> {
 
     private static final Random RANDOM = new Random();
 
     final ParticleType<?> type;
     final WorldParticleOptions options;
 
-    double xMotion = 0, yMotion = 0, zMotion = 0;
-    double maxXSpeed = 0, maxYSpeed = 0, maxZSpeed = 0;
-    double maxXOffset = 0, maxYOffset = 0, maxZOffset = 0;
+    double zMotion = 0;
+    double maxZSpeed = 0;
+    double maxZOffset = 0;
 
     public static WorldParticleBuilder create(ParticleType<?> type) {
         return new WorldParticleBuilder(type);
@@ -49,58 +46,26 @@ public class WorldParticleBuilder {
         this.options = new WorldParticleOptions(type);
     }
 
-    public WorldParticleBuilder setColorData(ColorParticleData colorData) {
-        options.colorData = colorData;
-        return this;
-    }
-
-    public WorldParticleBuilder setScaleData(GenericParticleData scaleData) {
-        options.scaleData = scaleData;
-        return this;
-    }
-
-    public WorldParticleBuilder setTransparencyData(GenericParticleData transparencyData) {
-        options.transparencyData = transparencyData;
-        return this;
-    }
-
-    public WorldParticleBuilder setSpinData(SpinParticleData spinData) {
-        options.spinData = spinData;
-        return this;
-    }
-
-    public WorldParticleBuilder setGravity(float gravity) {
-        options.gravity = gravity;
-        return this;
+    @Override
+    public WorldParticleOptions getParticleOptions() {
+        return options;
     }
 
     public WorldParticleBuilder enableNoClip() {
-        options.noClip = true;
-        return this;
+        return setNoClip(true);
     }
 
     public WorldParticleBuilder disableNoClip() {
-        options.noClip = false;
-        return this;
+        return setNoClip(false);
     }
 
-    public WorldParticleBuilder setSpritePicker(SimpleParticleOptions.ParticleSpritePicker spritePicker) {
-        options.spritePicker = spritePicker;
-        return this;
-    }
-
-    public WorldParticleBuilder setDiscardFunction(SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType) {
-        options.discardFunctionType = discardFunctionType;
+    public WorldParticleBuilder setNoClip(boolean noClip) {
+        options.noClip = noClip;
         return this;
     }
 
     public WorldParticleBuilder setRenderType(ParticleRenderType renderType) {
         options.renderType = renderType;
-        return this;
-    }
-
-    public WorldParticleBuilder setLifetime(int lifetime) {
-        options.lifetime = lifetime;
         return this;
     }
 

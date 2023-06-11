@@ -85,22 +85,6 @@ public class ItemHelper {
         return nonEmptyStacks;
     }
 
-    public static void quietlyGiveItemToPlayer(Player player, @Nonnull ItemStack stack) {
-        if (stack.isEmpty()) return;
-        IItemHandler inventory = new PlayerMainInvWrapper(player.getInventory());
-        Level level = player.level;
-        ItemStack remainder = stack;
-        if (!remainder.isEmpty()) {
-            remainder = ItemHandlerHelper.insertItemStacked(inventory, remainder, false);
-        }
-        if (!remainder.isEmpty() && !level.isClientSide) {
-            ItemEntity entityitem = new ItemEntity(level, player.getX(), player.getY() + 0.5, player.getZ(), remainder);
-            entityitem.setPickUpDelay(40);
-            entityitem.setDeltaMovement(entityitem.getDeltaMovement().multiply(0, 1, 0));
-            level.addFreshEntity(entityitem);
-        }
-    }
-
     public static ArrayList<ItemStack> getEventResponders(LivingEntity attacker) {
         ArrayList<ItemStack> itemStacks = CuriosCompat.LOADED ? CurioHelper.getEquippedCurios(attacker, p -> p.getItem() instanceof IEventResponderItem) : new ArrayList<>();
         ItemStack stack = attacker.getMainHandItem();
@@ -125,14 +109,32 @@ public class ItemHelper {
         }
     }
 
-    public static void giveItemToEntity(ItemStack item, LivingEntity entity) {
-        if (entity instanceof Player) {
-            ItemHandlerHelper.giveItemToPlayer((Player) entity, item);
+    public static void giveItemToEntity(LivingEntity entity, ItemStack stack) {
+        if (entity instanceof Player player) {
+            ItemHandlerHelper.giveItemToPlayer(player, stack);
         } else {
-            ItemEntity itemEntity = new ItemEntity(entity.level, entity.getX(), entity.getY() + 0.5, entity.getZ(), item);
-            itemEntity.setPickUpDelay(40);
-            itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().multiply(0, 1, 0));
-            entity.level.addFreshEntity(itemEntity);
+            spawnItemOnEntity(entity, stack);
         }
+    }
+
+    public static void quietlyGiveItemToPlayer(Player player, ItemStack stack) {
+        if (stack.isEmpty()) return;
+        IItemHandler inventory = new PlayerMainInvWrapper(player.getInventory());
+        Level level = player.level;
+        ItemStack remainder = stack;
+        if (!remainder.isEmpty()) {
+            remainder = ItemHandlerHelper.insertItemStacked(inventory, remainder, false);
+        }
+        if (!remainder.isEmpty() && !level.isClientSide) {
+            spawnItemOnEntity(player, stack);
+        }
+    }
+
+    public static void spawnItemOnEntity(LivingEntity entity, ItemStack stack) {
+        Level level = entity.level;
+        ItemEntity itemEntity = new ItemEntity(level, entity.getX(), entity.getY() + 0.5, entity.getZ(), stack);
+        itemEntity.setPickUpDelay(40);
+        itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().multiply(0, 1, 0));
+        level.addFreshEntity(itemEntity);
     }
 }

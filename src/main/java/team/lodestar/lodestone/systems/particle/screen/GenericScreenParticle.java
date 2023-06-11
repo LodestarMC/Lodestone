@@ -2,7 +2,6 @@ package team.lodestar.lodestone.systems.particle.screen;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.math.Vector3d;
-import net.minecraft.world.phys.Vec2;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
@@ -13,7 +12,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
-import team.lodestar.lodestone.systems.particle.world.GenericParticle;
 
 import java.awt.*;
 import java.util.function.Consumer;
@@ -60,8 +58,8 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         this.xMotion = xMotion;
         this.yMotion = yMotion;
 
-        this.setLifetime(options.lifetime);
-        this.gravity = options.gravity;
+        this.setLifetime(options.lifetimeSupplier.get());
+        this.gravity = options.gravityStrengthSupplier.get();
         this.friction = 1;
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, colorData.r1)), (int) (255 * Math.min(1.0f, colorData.g1)), (int) (255 * Math.min(1.0f, colorData.b1)), hsv1);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, colorData.r2)), (int) (255 * Math.min(1.0f, colorData.g2)), (int) (255 * Math.min(1.0f, colorData.b2)), hsv2);

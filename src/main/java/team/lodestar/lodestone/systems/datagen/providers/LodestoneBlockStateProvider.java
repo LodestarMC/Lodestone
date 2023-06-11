@@ -15,7 +15,6 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
 
     public final Set<ResourceLocation> staticTextures = new HashSet<>();
 
-
     private final LodestoneBlockModelProvider blockModels;
     public final LodestoneItemModelProvider itemModelProvider;
 
