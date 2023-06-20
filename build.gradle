@@ -16,6 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'java-library'
 
 version = "${project.minecraftVersion}-${project.modVersion}"
 if (System.getenv('BUILD_NUMBER') != null) {
@@ -120,11 +121,11 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraftVersion}:${jeiVersion}")
 
     // Curios dependency
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraftVersion}-${curiosVersion}:api")
+    api fg.deobf("top.theillusivec4.curios:curios-forge:${minecraftVersion}-${curiosVersion}:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraftVersion}-${curiosVersion}")
 
     // Other Mod Compatibility
-    implementation fg.deobf("curse.maven:farmers_delight-398521:3739914")
+    api fg.deobf("curse.maven:farmers_delight-398521:3739914")
 
     //implementation fg.deobf("com.sammy.malum:malum:1.18.2-1.5-21")
 }
