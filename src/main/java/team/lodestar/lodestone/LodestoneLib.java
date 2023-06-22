@@ -25,9 +25,6 @@ import org.apache.logging.log4j.Logger;
 import team.lodestar.lodestone.registry.common.LodestoneRecipeSerializerRegistry;
 import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry;
 
-import java.util.Random;
-import java.util.Set;
-
 @Mod(LodestoneLib.LODESTONE)
 public class LodestoneLib {
     public static final Logger LOGGER = LogManager.getLogger();
@@ -44,6 +41,7 @@ public class LodestoneLib {
         LodestoneAttributeRegistry.ATTRIBUTES.register(modBus);
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register(modBus);
         LodestonePaintingRegistry.register(modBus);
+
 
         JeiCompat.init();
         CuriosCompat.init();

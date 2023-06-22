@@ -31,4 +31,3 @@ void main() {
     vec4 color = transformColor(texture(Sampler0, texCoord0) * vertexColor * ColorModulator, LumiTransparency);
     fragColor = applyFog(color, FogStart, FogEnd, FogColor, vertexDistance);
 }
-

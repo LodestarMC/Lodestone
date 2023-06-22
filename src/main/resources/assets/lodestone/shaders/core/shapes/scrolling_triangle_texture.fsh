@@ -11,6 +11,9 @@ uniform float FogStart;
 uniform float FogEnd;
 uniform vec4 FogColor;
 
+uniform float GameTime;
+uniform float Speed;
+
 in float vertexDistance;
 in vec4 vertexColor;
 in vec2 texCoord0;
@@ -28,7 +31,17 @@ vec4 applyFog(vec4 initialColor, float fogStart, float fogEnd, vec4 fogColor, fl
 }
 
 void main() {
-    vec4 color = transformColor(texture(Sampler0, texCoord0) * vertexColor * ColorModulator, LumiTransparency);
+    vec2 uv = texCoord0;
+    float y = uv.y;
+    float width = (1.-y);
+    if (abs(uv.x-0.5)*2. > y) {
+        discard;
+    }
+    uv.x -= 0.5*width;
+    if (y != 0.) {
+        uv.x /= y;
+    }
+    uv.y += GameTime*Speed;
+    vec4 color = transformColor(texture(Sampler0, uv) * vertexColor * ColorModulator, LumiTransparency);
     fragColor = applyFog(color, FogStart, FogEnd, FogColor, vertexDistance);
 }
-

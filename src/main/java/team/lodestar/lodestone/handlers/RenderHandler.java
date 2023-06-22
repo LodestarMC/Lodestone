@@ -2,13 +2,12 @@ package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.*;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.fml.ModList;
 import team.lodestar.lodestone.helpers.render.*;
-import team.lodestar.lodestone.systems.rendering.ExtendedShaderInstance;
-import team.lodestar.lodestone.systems.rendering.ShaderUniformHandler;
+import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
+import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.math.Matrix4f;
