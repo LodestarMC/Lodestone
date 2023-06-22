@@ -21,6 +21,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import team.lodestar.lodestone.systems.postprocess.*;
 
 import java.util.Random;
 
@@ -41,6 +42,7 @@ public class LodestoneLib {
         LodestoneAttributeRegistry.ATTRIBUTES.register(modBus);
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register(modBus);
         LodestonePaintings.register(modBus);
+
 
         JeiCompat.init();
         CuriosCompat.init();

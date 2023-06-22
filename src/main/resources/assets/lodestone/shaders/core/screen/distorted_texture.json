@@ -4,8 +4,8 @@
     "srcrgb": "srcalpha",
     "dstrgb": "1-srcalpha"
   },
-  "vertex": "lodestone:screen_generic",
-  "fragment": "lodestone:noise/distorted_texture",
+  "vertex": "lodestone:screen/screen_generic",
+  "fragment": "lodestone:screen/distorted_texture",
   "attributes": [
     "Position",
     "Color",

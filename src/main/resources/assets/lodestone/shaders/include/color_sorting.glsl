@@ -1,21 +1,4 @@
-#version 150
-
 #moj_import <fog.glsl>
-
-
-uniform sampler2D Sampler0;
-uniform bool LumiTransparency;
-
-uniform vec4 ColorModulator;
-uniform float FogStart;
-uniform float FogEnd;
-uniform vec4 FogColor;
-
-in float vertexDistance;
-in vec4 vertexColor;
-in vec2 texCoord0;
-
-out vec4 fragColor;
 
 vec4 transformColor(vec4 initialColor, bool additive) {
     initialColor = initialColor.rgb == vec3(0, 0, 0) ? vec4(0,0,0,0) : initialColor;
@@ -26,9 +9,3 @@ vec4 transformColor(vec4 initialColor, bool additive) {
 vec4 applyFog(vec4 initialColor, float fogStart, float fogEnd, vec4 fogColor, float vertexDistance) {
     return linear_fog(vec4(initialColor.rgb, initialColor.a*linear_fog_fade(vertexDistance, fogStart, fogEnd)), vertexDistance, fogStart, fogEnd, vec4(fogColor.rgb, initialColor.r));
 }
-
-void main() {
-    vec4 color = transformColor(texture(Sampler0, texCoord0) * vertexColor * ColorModulator, LumiTransparency);
-    fragColor = applyFog(color, FogStart, FogEnd, FogColor, vertexDistance);
-}
-
