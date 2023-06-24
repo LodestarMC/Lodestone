@@ -31,6 +31,8 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
      */
     public static final HashMap<Pair<Object, RenderType>, RenderType> COPIES = new HashMap<>();
 
+    public static final Function<RenderTypeData, RenderType> GENERIC = (data) -> createGenericRenderType(data.name, data.format, data.mode, data.shader, data.transparency, data.texture);
+
     /**
      * Static, one off Render Types. Should be self-explanatory.
      */
@@ -60,8 +62,6 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
 
     public static final RenderTypeProvider SCROLLING_TEXTURE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "scrolling_texture", POSITION_COLOR_TEX_LIGHTMAP, LodestoneShaderRegistry.SCROLLING_TEXTURE.getShard(), StateShards.ADDITIVE_TRANSPARENCY, texture));
     public static final RenderTypeProvider SCROLLING_TEXTURE_TRIANGLE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "scrolling_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, LodestoneShaderRegistry.SCROLLING_TRIANGLE_TEXTURE.getShard(), StateShards.ADDITIVE_TRANSPARENCY, texture));
-
-    public static final Function<RenderTypeData, RenderType> GENERIC = (data) -> createGenericRenderType(data.name, data.format, data.mode, data.shader, data.transparency, data.texture);
 
     public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, ShaderStateShard shader, TransparencyStateShard transparency) {
         return createGenericRenderType(modId, name, format, VertexFormat.Mode.QUADS, shader, transparency, RenderStateShard.NO_TEXTURE);
