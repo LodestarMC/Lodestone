@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.resources.*;
 import net.minecraft.server.*;
 import net.minecraft.server.packs.resources.*;
+import net.minecraft.util.*;
 
 import java.io.*;
 import java.nio.*;
@@ -32,26 +33,27 @@ public abstract class ExtendedShaderInstance extends ShaderInstance {
     @Override
     public void parseUniformNode(JsonElement pJson) throws ChainedJsonException {
         super.parseUniformNode(pJson);
-        for (String uniformName : getShaderHolder().uniformsToCache) {
-            if (uniformMap.containsKey(uniformName)) {
-                Uniform uniform = uniformMap.get(uniformName);
 
-                Consumer<Uniform> consumer;
-                if (uniform.getType() <= 3) {
-                    final IntBuffer buffer = uniform.getIntBuffer();
-                    buffer.position(0);
-                    int[] array = new int[]{buffer.get(0), buffer.get(1), buffer.get(2), buffer.get(3)};
-                    consumer = u -> u.setSafe(array[0], array[1], array[2], array[3]);
-                }
-                else {
-                    final FloatBuffer buffer = uniform.getFloatBuffer();
-                    buffer.position(0);
-                    float[] array = new float[]{buffer.get(0), buffer.get(1), buffer.get(2), buffer.get(3)};
-                    consumer = uniform.getType() <= 7 ? u -> u.setSafe(array[0], array[1], array[2], array[3]) : u -> u.set(array);
-                }
+        JsonObject jsonobject = GsonHelper.convertToJsonObject(pJson, "uniform");
+        String uniformName = GsonHelper.getAsString(jsonobject, "name");
+        if (getShaderHolder().uniformsToCache.contains(uniformName)) {
+            Uniform uniform = uniforms.get(uniforms.size()-1);
 
-                defaultUniformData.put(uniformName, consumer);
+            Consumer<Uniform> consumer;
+            if (uniform.getType() <= 3) {
+                final IntBuffer buffer = uniform.getIntBuffer();
+                buffer.position(0);
+                int[] array = new int[]{buffer.get(0), buffer.get(1), buffer.get(2), buffer.get(3)};
+                consumer = u -> u.setSafe(array[0], array[1], array[2], array[3]);
             }
+            else {
+                final FloatBuffer buffer = uniform.getFloatBuffer();
+                buffer.position(0);
+                float[] array = new float[]{buffer.get(0), buffer.get(1), buffer.get(2), buffer.get(3)};
+                consumer = uniform.getType() <= 7 ? u -> u.setSafe(array[0], array[1], array[2], array[3]) : u -> u.set(array);
+            }
+
+            defaultUniformData.put(uniformName, consumer);
         }
     }
 }
