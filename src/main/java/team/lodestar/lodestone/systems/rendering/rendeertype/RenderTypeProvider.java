@@ -3,7 +3,7 @@ package team.lodestar.lodestone.systems.rendering.rendeertype;
 import net.minecraft.*;
 import net.minecraft.client.renderer.*;
 import net.minecraft.resources.*;
-import team.lodestar.lodestone.setup.*;
+import team.lodestar.lodestone.registry.client.*;
 
 import java.util.function.*;
 

@@ -27,7 +27,7 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstanceSupplier());
+            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
@@ -51,7 +51,7 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstanceSupplier());
+            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
