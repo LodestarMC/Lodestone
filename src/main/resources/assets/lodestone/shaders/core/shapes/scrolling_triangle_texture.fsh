@@ -4,7 +4,7 @@
 
 
 uniform sampler2D Sampler0;
-uniform bool LumiTransparency;
+uniform float LumiTransparency;
 
 uniform vec4 ColorModulator;
 uniform float FogStart;
@@ -20,9 +20,9 @@ in vec2 texCoord0;
 
 out vec4 fragColor;
 
-vec4 transformColor(vec4 initialColor, bool additive) {
+vec4 transformColor(vec4 initialColor, float lumiTransparent) {
     initialColor = initialColor.rgb == vec3(0, 0, 0) ? vec4(0,0,0,0) : initialColor;
-    initialColor = additive ? initialColor : vec4(initialColor.xyz, 0.21 * initialColor.r + 0.71 * initialColor.g + 0.07 * initialColor.b);
+    initialColor = lumiTransparent == 1. ? vec4(initialColor.xyz, 0.21 * initialColor.r + 0.71 * initialColor.g + 0.07 * initialColor.b) : initialColor;
     return initialColor;
 }
 
