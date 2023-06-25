@@ -2,7 +2,6 @@
 
 #moj_import <fog.glsl>
 
-
 uniform sampler2D Sampler0;
 uniform float LumiTransparency;
 
@@ -31,4 +30,3 @@ void main() {
     vec4 color = transformColor(texture(Sampler0, texCoord0) * vertexColor * ColorModulator, LumiTransparency);
     fragColor = applyFog(color, FogStart, FogEnd, FogColor, vertexDistance);
 }
-
