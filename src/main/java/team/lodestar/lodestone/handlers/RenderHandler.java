@@ -96,18 +96,20 @@ public class RenderHandler {
     }
 
     private static void renderBufferedBatches(MultiBufferSource.BufferSource bufferSource, HashMap<RenderType, BufferBuilder> buffer, boolean transparentOnly) {
-        if (transparentOnly) {
-            Collection<RenderType> transparentRenderTypes = new ArrayList<>();
-            for (RenderType renderType : buffer.keySet()) {
-                RenderStateShard.TransparencyStateShard transparency = RenderHelper.getTransparencyShard(renderType);
-                if (transparency.equals(NORMAL_TRANSPARENCY)) {
-                    transparentRenderTypes.add(renderType);
-                }
+        Collection<RenderType> transparentRenderTypes = new ArrayList<>();
+        for (RenderType renderType : buffer.keySet()) {
+            RenderStateShard.TransparencyStateShard transparency = RenderHelper.getTransparencyShard(renderType);
+            if (transparency.equals(NORMAL_TRANSPARENCY)) {
+                transparentRenderTypes.add(renderType);
             }
+        }
+        if (transparentOnly) {
             endBatches(bufferSource, transparentRenderTypes);
         }
         else {
-            endBatches(bufferSource, buffer.keySet());
+            Collection<RenderType> nonTransparentRenderTypes = new ArrayList<>(buffer.keySet());
+            nonTransparentRenderTypes.removeIf(transparentRenderTypes::contains);
+            endBatches(bufferSource, nonTransparentRenderTypes);
         }
     }
 

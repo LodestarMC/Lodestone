@@ -24,7 +24,9 @@ public abstract class ExtendedShaderInstance extends ShaderInstance {
 
     public void setUniformDefaults() {
         for (Map.Entry<String, Consumer<Uniform>> defaultDataEntry : getDefaultUniformData().entrySet()) {
-            defaultDataEntry.getValue().accept(uniformMap.get(defaultDataEntry.getKey()));
+            final Uniform t = uniformMap.get(defaultDataEntry.getKey());
+            defaultDataEntry.getValue().accept(t);
+            float f = 0;
         }
     }
 
