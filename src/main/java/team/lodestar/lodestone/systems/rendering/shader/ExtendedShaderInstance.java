@@ -16,29 +16,30 @@ import java.util.function.*;
 
 public abstract class ExtendedShaderInstance extends ShaderInstance {
 
-    public Map<String, Consumer<Uniform>> defaultUniformData = new HashMap<>();
+    protected Map<String, Consumer<Uniform>> defaultUniformData;
 
     public ExtendedShaderInstance(ResourceProvider pResourceProvider, ResourceLocation location, VertexFormat pVertexFormat) throws IOException {
         super(pResourceProvider, location, pVertexFormat);
     }
 
     public void setUniformDefaults() {
-        for (Map.Entry<String, Consumer<Uniform>> defaultDataEntry : defaultUniformData.entrySet()) {
+        for (Map.Entry<String, Consumer<Uniform>> defaultDataEntry : getDefaultUniformData().entrySet()) {
             defaultDataEntry.getValue().accept(uniformMap.get(defaultDataEntry.getKey()));
         }
     }
 
     public abstract ShaderHolder getShaderHolder();
 
-    @Override
-    public void parseUniformNode(JsonElement pJson) throws ChainedJsonException {
-        super.parseUniformNode(pJson);
-
-        //TODO: somehow, if we remove this, defaultUniformData is null.
+    public Map<String, Consumer<Uniform>> getDefaultUniformData() {
         if (defaultUniformData == null) {
             defaultUniformData = new HashMap<>();
         }
+        return defaultUniformData;
+    }
 
+    @Override
+    public void parseUniformNode(JsonElement pJson) throws ChainedJsonException {
+        super.parseUniformNode(pJson);
 
         JsonObject jsonobject = GsonHelper.convertToJsonObject(pJson, "uniform");
         String uniformName = GsonHelper.getAsString(jsonobject, "name");
@@ -71,7 +72,7 @@ public abstract class ExtendedShaderInstance extends ShaderInstance {
                 };
             }
 
-            defaultUniformData.put(uniformName, consumer);
+            getDefaultUniformData().put(uniformName, consumer);
         }
     }
 }
