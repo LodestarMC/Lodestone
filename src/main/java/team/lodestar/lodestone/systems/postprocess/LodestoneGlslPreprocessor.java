@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class LodestoneGlslPreprocessor extends GlslPreprocessor {
+
+    public static final LodestoneGlslPreprocessor PREPROCESSOR = new LodestoneGlslPreprocessor();
+
     @Nullable
     @Override
     public String applyImport(boolean p_173374_, @Nonnull String p_173375_) {
