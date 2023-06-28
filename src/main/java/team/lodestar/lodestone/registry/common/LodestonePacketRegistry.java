@@ -24,7 +24,7 @@ import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
 @Mod.EventBusSubscriber(modid = LODESTONE, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class LodestonePacketRegistry {
     public static final String PROTOCOL_VERSION = "1";
-    public static SimpleChannel LODESTONE_CHANNEL = NetworkRegistry.newSimpleChannel(lodestonePath("main"), () -> LodestonePacketRegistry.PROTOCOL_VERSION, LodestonePacketRegistry.PROTOCOL_VERSION::equals, LodestonePacketRegistry.PROTOCOL_VERSION::equals);
+    public static SimpleChannel LODESTONE_CHANNEL = NetworkRegistry.newSimpleChannel(lodestonePath("main"), () -> LodestonePacketRegistry.PROTOCOL_VERSION, s -> true, LodestonePacketRegistry.PROTOCOL_VERSION::equals);
 
     @SuppressWarnings("UnusedAssignment")
     @SubscribeEvent
