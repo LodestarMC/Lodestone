@@ -28,7 +28,7 @@ import java.util.function.Supplier;
 
 public class WorldParticleBuilder {
 
-    private static final RandomSource RANDOM = RandomSource.create();
+    private static final RandomSource RANDOM = RandomSource.createThreadSafe();
 
     final ParticleType<?> type;
     final WorldParticleOptions options;
