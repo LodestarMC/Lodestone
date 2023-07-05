@@ -2,7 +2,6 @@ package team.lodestar.lodestone.helpers.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.phys.AABB;
 
@@ -11,8 +10,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import static team.lodestar.lodestone.helpers.block.BlockStateHelper.updateState;
 
 /**
  * A collection of various helper methods related to block entities
@@ -166,24 +163,5 @@ public class BlockEntityHelper {
                 .map(world::getBlockEntity)
                 .filter(type::isInstance)
                 .map(type::cast);
-    }
-
-    /**
-     * Updates a block state and notifies neighbour shapes and output signals
-     */
-    public static void updateAndNotifyState(Level level, BlockPos pos) {
-        updateAndNotifyState(level.getBlockState(pos), level, pos);
-    }
-
-    /**
-     * Updates a block state and notifies neighbour shapes and output signals
-     * @param state - Block state to update
-     * @param level - Level to update in
-     * @param pos - Position to update
-     */
-    public static void updateAndNotifyState(BlockState state, Level level, BlockPos pos) {
-        updateState(state, level, pos);
-        state.updateNeighbourShapes(level, pos, 2);
-        level.updateNeighbourForOutputSignal(pos, state.getBlock());
     }
 }
