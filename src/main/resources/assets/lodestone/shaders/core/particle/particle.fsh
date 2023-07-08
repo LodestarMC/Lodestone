@@ -17,8 +17,8 @@ in vec2 texCoord0;
 out vec4 fragColor;
 
 vec4 transformColor(vec4 initialColor, float lumiTransparent) {
-    initialColor = lumiTransparent == 1. ? vec4(initialColor.xyz, 0.21 * initialColor.r + 0.71 * initialColor.g + 0.07 * initialColor.b) : initialColor;
-    return initialColor;
+    initialColor = lumiTransparent == 1. ? vec4(initialColor.xyz, (0.21 * initialColor.r + 0.71 * initialColor.g + 0.07 * initialColor.b)) : initialColor;
+    return initialColor * vertexColor * ColorModulator;
 }
 
 vec4 applyFog(vec4 initialColor, float fogStart, float fogEnd, vec4 fogColor, float vertexDistance) {
@@ -26,6 +26,6 @@ vec4 applyFog(vec4 initialColor, float fogStart, float fogEnd, vec4 fogColor, fl
 }
 
 void main() {
-    vec4 color = transformColor(texture(Sampler0, texCoord0) * vertexColor * ColorModulator, LumiTransparency);
+    vec4 color = transformColor(texture(Sampler0, texCoord0), LumiTransparency);
     fragColor = applyFog(color, FogStart, FogEnd, FogColor, vertexDistance);
 }
