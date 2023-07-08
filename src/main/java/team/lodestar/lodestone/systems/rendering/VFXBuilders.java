@@ -407,17 +407,15 @@ public class VFXBuilders {
             for (Vector3f position : positions) {
                 position.mul(width, height, width);
             }
-            return renderQuad(vertexConsumer, stack, positions, new Vector3f());
+            return renderQuad(vertexConsumer, stack, positions);
         }
 
-        public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions, Vector3f offset) {
+        public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions) {
             Matrix4f last = stack.last().pose();
-            stack.translate(offset.x(), offset.y(), offset.z());
             supplier.placeVertex(vertexConsumer, last, positions[0].x(), positions[0].y(), positions[0].z(), u0, v1);
             supplier.placeVertex(vertexConsumer, last, positions[1].x(), positions[1].y(), positions[1].z(), u1, v1);
             supplier.placeVertex(vertexConsumer, last, positions[2].x(), positions[2].y(), positions[2].z(), u1, v0);
             supplier.placeVertex(vertexConsumer, last, positions[3].x(), positions[3].y(), positions[3].z(), u0, v0);
-            stack.translate(-offset.x(), -offset.y(), -offset.z());
             return this;
         }
 
