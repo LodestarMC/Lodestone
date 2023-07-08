@@ -44,9 +44,9 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static final RenderType TRANSPARENT_BLOCK = createGenericRenderType(LODESTONE, "transparent_block", POSITION_COLOR_TEX_LIGHTMAP, LodestoneShaderRegistry.LODESTONE_TEXTURE.getShard(), StateShards.NORMAL_TRANSPARENCY, TextureAtlas.LOCATION_BLOCKS);
     public static final RenderType TRANSPARENT_SOLID = createGenericRenderType(LODESTONE, "transparent_solid", POSITION_COLOR_LIGHTMAP, RenderStateShard.POSITION_COLOR_LIGHTMAP_SHADER, StateShards.NORMAL_TRANSPARENCY);
 
-    public static final RenderType LUMITRANSPARENT_PARTICLE = copyWithUniformChanges(TRANSPARENT_PARTICLE, ShaderUniformHandler.LUMITRANSPARENT);
-    public static final RenderType LUMITRANSPARENT_BLOCK = copyWithUniformChanges(TRANSPARENT_BLOCK, ShaderUniformHandler.LUMITRANSPARENT);
-    public static final RenderType LUMITRANSPARENT_SOLID = copyWithUniformChanges(TRANSPARENT_SOLID, ShaderUniformHandler.LUMITRANSPARENT);
+    public static final RenderType LUMITRANSPARENT_PARTICLE = copyWithUniformChanges("lumitransparent_particle", TRANSPARENT_PARTICLE, ShaderUniformHandler.LUMITRANSPARENT);
+    public static final RenderType LUMITRANSPARENT_BLOCK = copyWithUniformChanges("lumitransparent_block", TRANSPARENT_BLOCK, ShaderUniformHandler.LUMITRANSPARENT);
+    public static final RenderType LUMITRANSPARENT_SOLID = copyWithUniformChanges("lumitransparent_solid", TRANSPARENT_SOLID, ShaderUniformHandler.LUMITRANSPARENT);
 
     /**
      * Render Functions. You can create Render Types by statically applying these to your texture. Alternatively, use {@link #GENERIC} if none of the presets suit your needs.
@@ -102,6 +102,10 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
         return applyUniformChanges(copy(type), handler);
     }
 
+    public static RenderType copyWithUniformChanges(String newName, RenderType type, ShaderUniformHandler handler) {
+        return applyUniformChanges(copy(newName, type), handler);
+    }
+
     /**
      * Queues shader uniform changes for a render type. When we end batches in {@link RenderHandler}}, we do so one render type at a time.
      * Prior to ending a batch, we run {@link ShaderUniformHandler#updateShaderData(ShaderInstance)} if one is present for a given render type.
@@ -116,6 +120,10 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
      */
     public static RenderType copy(RenderType type) {
         return GENERIC.apply(new RenderTypeData((RenderType.CompositeRenderType) type));
+    }
+
+    public static RenderType copy(String newName, RenderType type) {
+        return GENERIC.apply(new RenderTypeData(newName, (RenderType.CompositeRenderType) type));
     }
 
     /**

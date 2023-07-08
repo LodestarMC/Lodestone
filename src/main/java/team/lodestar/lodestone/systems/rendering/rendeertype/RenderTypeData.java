@@ -28,7 +28,11 @@ public class RenderTypeData {
         this.transparency = transparency;
     }
 
+    public RenderTypeData(String name, RenderType.CompositeRenderType type) {
+        this(name, type.format(), type.mode(), type.state.shaderState, type.state.transparencyState, type.state.textureState);
+    }
+
     public RenderTypeData(RenderType.CompositeRenderType type) {
-        this(type.name, type.format(), type.mode(), type.state.shaderState, type.state.transparencyState, type.state.textureState);
+        this(type.name, type);
     }
 }

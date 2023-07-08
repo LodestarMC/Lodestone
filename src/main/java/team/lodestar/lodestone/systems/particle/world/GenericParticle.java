@@ -133,7 +133,6 @@ public class GenericParticle extends TextureSheetParticle {
     protected void updateTraits() {
         boolean shouldAttemptRemoval = discardFunctionType == INVISIBLE;
         if (discardFunctionType == ENDING_CURVE_INVISIBLE) {
-
             if (scaleData.getProgress(age, lifetime) > 0.5f || transparencyData.getProgress(age, lifetime) > 0.5f) {
                 shouldAttemptRemoval = true;
             }
