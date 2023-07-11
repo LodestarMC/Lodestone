@@ -1,43 +1,35 @@
-rootProject.name = "Lodestone"
 pluginManagement {
 	repositories {
+		fun exclusiveMaven(url: String, filter: Action<InclusiveRepositoryContentDescriptor>) =
+			exclusiveContent {
+				forRepository { maven(url) }
+				filter(filter)
+			}
+		exclusiveMaven("https://maven.minecraftforge.net") {
+			includeGroupByRegex("net\\.minecraftforge.*")
+		}
+		exclusiveMaven("https://maven.parchmentmc.org") {
+			includeGroupByRegex("org\\.parchmentmc.*")
+		}
+		exclusiveMaven("https://repo.spongepowered.org/repository/maven-public/") {
+			includeGroupByRegex("org\\.spongepowered.*")
+		}
 		gradlePluginPortal()
-		mavenCentral()
-		maven("https://maven.minecraftforge.net/")
-		maven("https://maven.parchmentmc.org")
-		maven("https://repo.spongepowered.org/repository/maven-public/")
 	}
 	resolutionStrategy {
 		eachPlugin {
+			if (requested.id.id == "net.minecraftforge.gradle") {
+				useModule("${requested.id}:ForgeGradle:${requested.version}")
+			}
 			if (requested.id.id == "org.spongepowered.mixin") {
-				useModule("org.spongepowered:mixingradle:0.7-SNAPSHOT") // TODO is this needed?
+				useModule("org.spongepowered:mixingradle:${requested.version}")
 			}
 		}
 	}
 }
 
+rootProject.name = "Lodestone"
+
 plugins {
 	id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
-}
-
-pluginManagement {
-	repositories {
-		gradlePluginPortal()
-		maven {
-			name = 'MinecraftForge'
-			url = 'https://maven.minecraftforge.net/'
-		}
-		maven {
-			name = "parchmentmc"
-			url = "https://maven.parchmentmc.org"
-		}
-		maven {
-			name = "spongepowered"
-			url = "https://repo.spongepowered.org/repository/maven-public/"
-		}
-	}
-}
-
-plugins {
-	id 'org.gradle.toolchains.foojay-resolver-convention' version '0.5.0'
 }
