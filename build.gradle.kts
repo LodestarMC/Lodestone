@@ -7,45 +7,45 @@ plugins {
 	id("org.spongepowered.mixin")
 }
 
-val minecraft_version: String by extra
-val minecraft_version_range: String by extra
-val loader_version_range: String by extra
-val forge_version_range: String by extra
-val mod_version: String by extra
-val mod_group_id: String by extra
-val mod_id: String by extra
-val mod_authors: String by extra
-val mod_description: String by extra
-val mod_license: String by extra
-val mod_name: String by extra
-val mapping_channel: String by extra
-val mapping_version: String by extra
-val forge_version: String by extra
-val jei_version: String by extra
-val curios_version: String by extra
-val mixin_version: String by extra
-val mod_java_version: String by extra
+val minecraftVersion: String by extra
+val minecraftVersionRange: String by extra
+val loaderVersionRange: String by extra
+val forgeVersionRange: String by extra
+val modVersion: String by extra
+val modGroupId: String by extra
+val modId: String by extra
+val modAuthors: String by extra
+val modDescription: String by extra
+val modLicense: String by extra
+val modName: String by extra
+val parchmentChannel: String by extra
+val parchmentVersion: String by extra
+val forgeVersion: String by extra
+val jeiVersion: String by extra
+val curiosVersion: String by extra
+val mixinVersion: String by extra
+val modJavaVersion: String by extra
 
-version = mod_version
-group = mod_group_id
+version = modVersion
+group = modGroupId
 
-val baseArchivesName = "$mod_id-$minecraft_version"
+val baseArchivesName = "$modId-$minecraftVersion"
 base {
 	archivesName.set(baseArchivesName)
 }
 
 java {
 	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(mod_java_version))
+		languageVersion.set(JavaLanguageVersion.of(modJavaVersion))
 	}
 }
 
 mixin {
-	add(sourceSets.main.get(), "${mod_id}.refmap.json")
+	add(sourceSets.main.get(), "${modId}.refmap.json")
 }
 
 minecraft {
-	mappings(mapping_channel, mapping_version)
+	mappings(parchmentChannel, parchmentVersion)
 
 	copyIdeResources.set(true)
 
@@ -62,7 +62,7 @@ minecraft {
 			property("forge.logging.console.level", "debug")
 
 			mods {
-				create("${mod_id}") {
+				create("${modId}") {
 					source(sourceSets.main.get())
 				}
 			}
@@ -70,14 +70,14 @@ minecraft {
 
 		create("client") {
 			// Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-			property("forge.enabledGameTestNamespaces", mod_id)
-			arg("-mixin.config=" + mod_id + ".mixins.json")
+			property("forge.enabledGameTestNamespaces", modId)
+			arg("-mixin.config=" + modId + ".mixins.json")
 		}
 
 		create("server") {
-			property("forge.enabledGameTestNamespaces", mod_id)
+			property("forge.enabledGameTestNamespaces", modId)
 			args("--nogui")
-			arg("-mixin.config=" + mod_id + ".mixins.json")
+			arg("-mixin.config=" + modId + ".mixins.json")
 		}
 
 		create("data") {
@@ -87,7 +87,7 @@ minecraft {
 			// Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
 			args(
 				"--mod",
-				mod_id,
+				modId,
 				"--all",
 				"--output",
 				file("src/generated/resources/"),
@@ -133,20 +133,20 @@ repositories {
 }
 
 dependencies {
-	minecraft("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
+	minecraft("net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}")
 
 	if (System.getProperty("idea.sync.active") != "true") {
-		annotationProcessor("org.spongepowered:mixin:${mixin_version}:processor")
+		annotationProcessor("org.spongepowered:mixin:${mixinVersion}:processor")
 	}
 
 	// JEI Dependency
-	compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
-	compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
-	runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+	compileOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-forge-api:${jeiVersion}"))
+	compileOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-common-api:${jeiVersion}"))
+	runtimeOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-forge:${jeiVersion}"))
 
 	// Curios dependency
-	compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api"))
-	runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}"))
+	compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}:api"))
+	runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}"))
 
 	implementation(fg.deobf("curse.maven:farmers_delight-398521:4638874"))
 }
@@ -157,15 +157,15 @@ tasks.withType<ProcessResources> {
 	filesMatching(listOf("META-INF/mods.toml", "pack.mcmeta")) {
 		expand(
 			mapOf(
-				"forgeVersionRange" to forge_version_range,
-				"loaderVersionRange" to loader_version_range,
-				"minecraftVersion" to minecraft_version,
-				"minecraftVersionRange" to minecraft_version_range,
-				"modAuthor" to mod_authors,
-				"modDescription" to mod_description,
-				"modId" to mod_id,
-				"modJavaVersion" to mod_java_version,
-				"modName" to mod_name,
+				"forgeVersionRange" to forgeVersionRange,
+				"loaderVersionRange" to loaderVersionRange,
+				"minecraftVersion" to minecraftVersion,
+				"minecraftVersionRange" to minecraftVersionRange,
+				"modAuthor" to modAuthors,
+				"modDescription" to modDescription,
+				"modId" to modId,
+				"modJavaVersion" to modJavaVersion,
+				"modName" to modName,
 				"version" to version,
 			)
 		)
@@ -176,12 +176,12 @@ tasks.withType<Jar> {
 //	val now = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(java.util.Date())
 	manifest {
 		attributes(mapOf(
-			"Specification-Title" to mod_name,
-			"Specification-Vendor" to mod_authors,
+			"Specification-Title" to modName,
+			"Specification-Vendor" to modAuthors,
 			"Specification-Version" to '1',
-			"Implementation-Title" to mod_name,
-			"Implementation-Version" to mod_version,
-			"Implementation-Vendor" to mod_authors,
+			"Implementation-Title" to modName,
+			"Implementation-Version" to modVersion,
+			"Implementation-Vendor" to modAuthors,
 //			"Implementation-Timestamp" to now,
 		))
 	}
