@@ -4,48 +4,48 @@ plugins {
 	id("maven-publish")
 	id("net.minecraftforge.gradle").version("[6.0,6.2)")
 	id("org.parchmentmc.librarian.forgegradle").version("1.+")
-	id("org.spongepowered.mixin").version("0.7-SNAPSHOT")
+	id("org.spongepowered.mixin")
 }
 
-val minecraftVersion: String by extra
-val minecraftVersionRange: String by extra
-val loaderVersionRange: String by extra
-val forgeVersionRange: String by extra
-val modVersion: String by extra
-val modGroupId: String by extra
-val modId: String by extra
-val modAuthors: String by extra
-val modDescription: String by extra
-val modLicense: String by extra
-val modName: String by extra
-val mappingChannel: String by extra
-val mappingVersion: String by extra
-val forgeVersion: String by extra
-val jeiVersion: String by extra
-val curiosVersion: String by extra
-val mixinVersion: String by extra
-val modJavaVersion: String by extra
+val minecraft_version: String by extra
+val minecraft_version_range: String by extra
+val loader_version_range: String by extra
+val forge_version_range: String by extra
+val mod_version: String by extra
+val mod_group_id: String by extra
+val mod_id: String by extra
+val mod_authors: String by extra
+val mod_description: String by extra
+val mod_license: String by extra
+val mod_name: String by extra
+val mapping_channel: String by extra
+val mapping_version: String by extra
+val forge_version: String by extra
+val jei_version: String by extra
+val curios_version: String by extra
+val mixin_version: String by extra
+val mod_java_version: String by extra
 
-version = modVersion
-group = modGroupId
+version = mod_version
+group = mod_group_id
 
-val baseArchivesName = "$modId-$minecraftVersion"
+val baseArchivesName = "$mod_id-$minecraft_version"
 base {
 	archivesName.set(baseArchivesName)
 }
 
 java {
 	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(modJavaVersion))
+		languageVersion.set(JavaLanguageVersion.of(mod_java_version))
 	}
 }
 
 mixin {
-	add(sourceSets.main.get(), "${modId}.refmap.json")
+	add(sourceSets.main.get(), "${mod_id}.refmap.json")
 }
 
 minecraft {
-	mappings(mappingChannel, mappingVersion)
+	mappings(mapping_channel, mapping_version)
 
 	copyIdeResources.set(true)
 
@@ -62,7 +62,7 @@ minecraft {
 			property("forge.logging.console.level", "debug")
 
 			mods {
-				create("${modId}") {
+				create("${mod_id}") {
 					source(sourceSets.main.get())
 				}
 			}
@@ -70,14 +70,14 @@ minecraft {
 
 		create("client") {
 			// Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-			property("forge.enabledGameTestNamespaces", modId)
-			arg("-mixin.config=" + modId + ".mixins.json")
+			property("forge.enabledGameTestNamespaces", mod_id)
+			arg("-mixin.config=" + mod_id + ".mixins.json")
 		}
 
 		create("server") {
-			property("forge.enabledGameTestNamespaces", modId)
+			property("forge.enabledGameTestNamespaces", mod_id)
 			args("--nogui")
-			arg("-mixin.config=" + modId + ".mixins.json")
+			arg("-mixin.config=" + mod_id + ".mixins.json")
 		}
 
 		create("data") {
@@ -87,7 +87,7 @@ minecraft {
 			// Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
 			args(
 				"--mod",
-				modId,
+				mod_id,
 				"--all",
 				"--output",
 				file("src/generated/resources/"),
@@ -133,22 +133,22 @@ repositories {
 }
 
 dependencies {
-	minecraft("net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}")
+	minecraft("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
 
 	if (System.getProperty("idea.sync.active") != "true") {
-		annotationProcessor("org.spongepowered:mixin:${mixinVersion}:processor")
+		annotationProcessor("org.spongepowered:mixin:${mixin_version}:processor")
 	}
 
 	// JEI Dependency
-	compileOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-forge-api:${jeiVersion}"))
-	compileOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-common-api:${jeiVersion}"))
-	runtimeOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-forge:${jeiVersion}"))
+	compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
+	compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
+	runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
 
 	// Curios dependency
-	compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${minecraftVersion}-${curiosVersion}:api"))
-	runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${minecraftVersion}-${curiosVersion}"))
+	compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api"))
+	runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}"))
 
-	implementation(fg.deobf("curse.maven:farmers_delight-398521:3999157"))
+	implementation(fg.deobf("curse.maven:farmers_delight-398521:4638874"))
 }
 
 tasks.withType<ProcessResources> {
@@ -157,15 +157,15 @@ tasks.withType<ProcessResources> {
 	filesMatching(listOf("META-INF/mods.toml", "pack.mcmeta")) {
 		expand(
 			mapOf(
-				"forgeVersionRange" to forgeVersionRange,
-				"loaderVersionRange" to loaderVersionRange,
-				"minecraftVersion" to minecraftVersion,
-				"minecraftVersionRange" to minecraftVersionRange,
-				"modAuthor" to modAuthors,
-				"modDescription" to modDescription,
-				"modId" to modId,
-				"modJavaVersion" to modJavaVersion,
-				"modName" to modName,
+				"forgeVersionRange" to forge_version_range,
+				"loaderVersionRange" to loader_version_range,
+				"minecraftVersion" to minecraft_version,
+				"minecraftVersionRange" to minecraft_version_range,
+				"modAuthor" to mod_authors,
+				"modDescription" to mod_description,
+				"modId" to mod_id,
+				"modJavaVersion" to mod_java_version,
+				"modName" to mod_name,
 				"version" to version,
 			)
 		)
@@ -176,12 +176,12 @@ tasks.withType<Jar> {
 //	val now = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(java.util.Date())
 	manifest {
 		attributes(mapOf(
-			"Specification-Title" to modName,
-			"Specification-Vendor" to modAuthors,
+			"Specification-Title" to mod_name,
+			"Specification-Vendor" to mod_authors,
 			"Specification-Version" to '1',
-			"Implementation-Title" to modName,
-			"Implementation-Version" to modVersion,
-			"Implementation-Vendor" to modAuthors,
+			"Implementation-Title" to mod_name,
+			"Implementation-Version" to mod_version,
+			"Implementation-Vendor" to mod_authors,
 //			"Implementation-Timestamp" to now,
 		))
 	}
