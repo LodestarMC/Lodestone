@@ -9,8 +9,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -27,7 +27,7 @@ public abstract class ItemHolderBlockEntity extends LodestoneBlockEntity {
 
     @Override
     public InteractionResult onUse(Player player, InteractionHand hand) {
-        inventory.interact(player.level, player, hand);
+        inventory.interact(player.level(), player, hand);
         return InteractionResult.SUCCESS;
     }
 
@@ -51,7 +51,7 @@ public abstract class ItemHolderBlockEntity extends LodestoneBlockEntity {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return inventory.inventoryOptional.cast();
         }
         return super.getCapability(cap);
@@ -60,7 +60,7 @@ public abstract class ItemHolderBlockEntity extends LodestoneBlockEntity {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return inventory.inventoryOptional.cast();
         }
         return super.getCapability(cap, side);

@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.systems.postprocess;
 
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -39,7 +39,7 @@ public class PostProcessHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onWorldRenderLast(RenderLevelLastEvent event) {
+    public static void onWorldRenderLast(RenderLevelStageEvent event) {
         copyDepthBuffer(); // copy the depth buffer if the mixin didn't trigger
 
         PostProcessor.viewModelStack = event.getPoseStack();

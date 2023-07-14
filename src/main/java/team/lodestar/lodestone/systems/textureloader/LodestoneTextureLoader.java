@@ -30,7 +30,7 @@ public class LodestoneTextureLoader {
         IEventBus busMod = FMLJavaModLoadingContext.get().getModEventBus();
         event.register(loaderName, (atlas, resourceManager, textureInfo, resource, atlasWidth, atlasHeight, spriteX, spriteY, mipmapLevel, image) -> {
             try {
-                Resource r = resourceManager.getResourceOrThrow(inputImage);
+                Resource r = resourceManager.(inputImage);
                 return new TextureAtlasSprite(atlas, getAnimatedInfo(r, image, textureInfo), mipmapLevel, atlasWidth, atlasHeight, spriteX, spriteY, image) {
                 };
             } catch (Throwable throwable1) {

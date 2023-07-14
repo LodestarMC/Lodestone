@@ -1,19 +1,17 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.math.Vector3d;
-import net.minecraft.world.phys.Vec2;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
+import org.joml.Vector3d;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
 import team.lodestar.lodestone.systems.particle.screen.base.TextureSheetScreenParticle;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.util.FastColor;
-import net.minecraft.util.Mth;
-import team.lodestar.lodestone.systems.particle.world.GenericParticle;
 
 import java.awt.*;
 import java.util.function.Consumer;
@@ -21,7 +19,6 @@ import java.util.function.Consumer;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.ENDING_CURVE_INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
-import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.LAST_INDEX;
 
 public class GenericScreenParticle extends TextureSheetScreenParticle {
     private final LodestoneScreenParticleRenderType renderType;

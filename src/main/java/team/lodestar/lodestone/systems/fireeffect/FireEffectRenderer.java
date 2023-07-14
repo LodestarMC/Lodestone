@@ -1,10 +1,7 @@
 package team.lodestar.lodestone.systems.fireeffect;
 
-import team.lodestar.lodestone.config.ClientConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -16,6 +13,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import team.lodestar.lodestone.config.ClientConfig;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -41,9 +41,8 @@ public abstract class FireEffectRenderer<T extends FireEffectInstance> {
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.enableTexture();
         TextureAtlasSprite textureatlassprite = getFirstFlame().sprite();
-        RenderSystem.setShaderTexture(0, textureatlassprite.atlas().location());
+        RenderSystem.setShaderTexture(0, textureatlassprite.atlasLocation());
         float f = textureatlassprite.getU0();
         float f1 = textureatlassprite.getU1();
         float f2 = (f + f1) / 2.0F;

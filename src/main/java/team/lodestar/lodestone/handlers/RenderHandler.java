@@ -1,20 +1,22 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.shaders.FogShape;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.*;
-import net.minecraftforge.client.event.*;
-import net.minecraftforge.fml.ModList;
-import team.lodestar.lodestone.helpers.render.*;
-import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
-import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.math.Matrix4f;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.*;
+import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.joml.Matrix4f;
+import team.lodestar.lodestone.helpers.render.RenderHelper;
+import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
+import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 import static team.lodestar.lodestone.systems.rendering.StateShards.NORMAL_TRANSPARENCY;
 

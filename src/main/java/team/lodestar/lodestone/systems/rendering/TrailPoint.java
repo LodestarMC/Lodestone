@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.systems.rendering;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector4f;
 import net.minecraft.world.phys.Vec2;
+import org.joml.Vector4f;
 
 public class TrailPoint {
 

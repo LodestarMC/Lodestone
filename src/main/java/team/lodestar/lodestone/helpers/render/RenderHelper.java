@@ -1,15 +1,19 @@
 package team.lodestar.lodestone.helpers.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import team.lodestar.lodestone.helpers.DataHelper;
 
 import java.util.List;
@@ -73,7 +77,7 @@ public class RenderHelper {
         Matrix4f projMat = RenderSystem.getProjectionMatrix();
 
         Vector3f localPos = worldPos.copy();
-        localPos.sub(new Vector3f(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition()));
+        localPos.sub(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().toVector3f());
 
         Vector4f pos = new Vector4f(localPos);
         pos.transform(viewMat);
