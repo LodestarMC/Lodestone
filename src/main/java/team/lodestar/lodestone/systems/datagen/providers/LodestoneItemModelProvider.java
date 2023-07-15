@@ -1,24 +1,18 @@
 package team.lodestar.lodestone.systems.datagen.providers;
 
-import net.minecraft.core.Registry;
-import net.minecraft.data.*;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-
-import java.io.*;
 
 public abstract class LodestoneItemModelProvider extends ItemModelProvider {
 
     private String texturePath = "";
 
-    public LodestoneItemModelProvider(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
-        super(generator, modid, existingFileHelper);
+    public LodestoneItemModelProvider(PackOutput output, String modid, ExistingFileHelper existingFileHelper) {
+        super(output, modid, existingFileHelper);
     }
 
     public void setTexturePath(String texturePath) {

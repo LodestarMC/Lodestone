@@ -31,15 +31,15 @@ public class LodestoneShaderRegistry {
 
     @SubscribeEvent
     public static void shaderRegistry(RegisterShadersEvent event) throws IOException {
-        ResourceManager resourceManager = event.getResourceManager();
+        ResourceProvider provider = event.getResourceProvider();
 
-        registerShader(event, LODESTONE_TEXTURE.createInstance(resourceManager));
-        registerShader(event, PARTICLE.createInstance(resourceManager));
-        registerShader(event, SCREEN_PARTICLE.createInstance(resourceManager));
-        registerShader(event, DISTORTED_TEXTURE.createInstance(resourceManager));
-        registerShader(event, SCROLLING_TEXTURE.createInstance(resourceManager));
-        registerShader(event, TRIANGLE_TEXTURE.createInstance(resourceManager));
-        registerShader(event, SCROLLING_TRIANGLE_TEXTURE.createInstance(resourceManager));
+        registerShader(event, LODESTONE_TEXTURE.createInstance(provider));
+        registerShader(event, PARTICLE.createInstance(provider));
+        registerShader(event, SCREEN_PARTICLE.createInstance(provider));
+        registerShader(event, DISTORTED_TEXTURE.createInstance(provider));
+        registerShader(event, SCROLLING_TEXTURE.createInstance(provider));
+        registerShader(event, TRIANGLE_TEXTURE.createInstance(provider));
+        registerShader(event, SCROLLING_TRIANGLE_TEXTURE.createInstance(provider));
     }
 
     public static void registerShader(RegisterShadersEvent event, ExtendedShaderInstance extendedShaderInstance) {

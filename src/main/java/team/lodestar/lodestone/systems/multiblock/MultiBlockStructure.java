@@ -45,7 +45,7 @@ public class MultiBlockStructure {
             BlockPos pos = context.getClickedPos().offset(offset);
             BlockState existingState = context.getLevel().getBlockState(pos);
             CollisionContext collisioncontext = player == null ? CollisionContext.empty() : CollisionContext.of(player);
-            return existingState.getMaterial().isReplaceable() && level.isUnobstructed(state, pos, collisioncontext);
+            return existingState.canBeReplaced() && level.isUnobstructed(state, pos, collisioncontext);
         }
 
         public void place(BlockPos core, Level level) {

@@ -9,12 +9,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class LodestoneArmorItem extends ArmorItem {
     private Multimap<Attribute, AttributeModifier> attributes;
 
-    public LodestoneArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
-        super(materialIn, slot, builder);
+    public LodestoneArmorItem(ArmorMaterial materialIn, ArmorItem.Type type, Properties builder) {
+        super(materialIn, type, builder);
     }
 
     public ImmutableMultimap.Builder<Attribute, AttributeModifier> createExtraAttributes(EquipmentSlot slot) {
@@ -22,14 +23,15 @@ public abstract class LodestoneArmorItem extends ArmorItem {
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
+    @NotNull
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot equipmentSlot) {
         if (attributes == null) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = new ImmutableMultimap.Builder<>();
             attributeBuilder.putAll(defaultModifiers);
-            attributeBuilder.putAll(createExtraAttributes(slot).build());
+            attributeBuilder.putAll(createExtraAttributes(type.getSlot()).build());
             attributes = attributeBuilder.build();
         }
-        return equipmentSlot == this.slot ? this.attributes : ImmutableMultimap.of();
+        return equipmentSlot == this.type.getSlot() ? this.attributes : ImmutableMultimap.of();
     }
 
     public String getTexture() {

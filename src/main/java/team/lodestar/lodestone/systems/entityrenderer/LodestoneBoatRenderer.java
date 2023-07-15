@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.entityrenderer;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.ListModel;
 import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -15,12 +16,12 @@ public class LodestoneBoatRenderer extends BoatRenderer {
     public LodestoneBoatRenderer(EntityRendererProvider.Context context, ResourceLocation boatTexture, boolean hasChest) {
         super(context, hasChest);
         this.boatTexture = boatTexture;
-        this.boatModel = new BoatModel(BoatModel.createBodyModel(hasChest).bakeRoot(), hasChest);
+        this.boatModel = new BoatModel(BoatModel.createBodyModel().bakeRoot());
     }
 
     @Override
     @NotNull
-    public Pair<ResourceLocation, BoatModel> getModelWithLocation(Boat boat) {
+    public Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(@NotNull Boat boat) {
         return Pair.of(boatTexture, boatModel);
     }
 }

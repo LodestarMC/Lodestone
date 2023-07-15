@@ -41,11 +41,11 @@ public class FireEffectHandler {
                 if (entity.getRemainingFireTicks() > 0) {
                     entity.setRemainingFireTicks(0);
                 }
-                if (!entity.level.isClientSide) {
+                if (!entity.level().isClientSide) {
                     c.fireEffectInstance.sync(entity);
                 }
             }
-            else if (!entity.level.isClientSide) {
+            else if (!entity.level().isClientSide) {
                 LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
             }
         });

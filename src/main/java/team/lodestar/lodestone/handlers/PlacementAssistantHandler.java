@@ -1,8 +1,6 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.datafixers.util.Pair;
-import team.lodestar.lodestone.helpers.DataHelper;
-import team.lodestar.lodestone.systems.placementassistance.IPlacementAssistant;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +11,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import team.lodestar.lodestone.helpers.DataHelper;
+import team.lodestar.lodestone.systems.placementassistance.IPlacementAssistant;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +36,7 @@ public class PlacementAssistantHandler {
 
     public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
         Player player = event.getEntity();
-        Level level = player.level;
+        Level level = player.level();
         if (level.isClientSide) {
             List<Pair<IPlacementAssistant, ItemStack>> assistants = findAssistants(level, player, event.getHitVec());
             for (Pair<IPlacementAssistant, ItemStack> pair : assistants) {
@@ -49,7 +49,7 @@ public class PlacementAssistantHandler {
     }
 
     public static void tick(Player player, HitResult hitResult) {
-        Level level = player.level;
+        Level level = player.level();
         List<Pair<IPlacementAssistant, ItemStack>> placementAssistants = findAssistants(level, player, hitResult);
         for (Pair<IPlacementAssistant, ItemStack> pair : placementAssistants) {
             IPlacementAssistant assistant = pair.getFirst();

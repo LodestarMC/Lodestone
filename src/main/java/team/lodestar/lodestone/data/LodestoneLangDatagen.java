@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.data;
 
+import net.minecraft.data.PackOutput;
 import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
 import team.lodestar.lodestone.helpers.DataHelper;
 import net.minecraft.data.DataGenerator;
@@ -13,8 +14,8 @@ import java.util.Set;
 import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 public class LodestoneLangDatagen extends LanguageProvider {
-    public LodestoneLangDatagen(DataGenerator gen) {
-        super(gen, LODESTONE, "en_us");
+    public LodestoneLangDatagen(PackOutput output) {
+        super(output, LODESTONE, "en_us");
     }
 
     @Override

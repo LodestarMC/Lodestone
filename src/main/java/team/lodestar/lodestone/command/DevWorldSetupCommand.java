@@ -25,7 +25,7 @@ public class DevWorldSetupCommand {
                     rules.getRule(GameRules.RULE_MOBGRIEFING).set(false, server);
                     source.getLevel().setWeatherParameters(6000, 0, false, false);
                     source.getLevel().setDayTime(16000);
-                    source.sendSuccess(Component.translatable("lodestone.command.devsetup"), true);
+                    source.sendSuccess(() -> Component.translatable("lodestone.command.devsetup"), true);
                     return 1;
                 });
     }

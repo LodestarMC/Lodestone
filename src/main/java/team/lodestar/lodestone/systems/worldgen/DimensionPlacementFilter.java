@@ -3,7 +3,7 @@ package team.lodestar.lodestone.systems.worldgen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -15,13 +15,12 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import team.lodestar.lodestone.registry.common.LodestonePlacementFillerRegistry;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DimensionPlacementFilter extends PlacementFilter {
   public static final Codec<DimensionPlacementFilter> CODEC = RecordCodecBuilder.create((codec) -> codec.group(
-          ResourceLocation.CODEC.listOf().fieldOf("dimensions").forGetter(o -> o.dimensions.stream().map(ResourceKey::location).collect(Collectors.toList()))).apply(codec, (r) -> new DimensionPlacementFilter(r.stream().map(o -> ResourceKey.create(Registry.DIMENSION_REGISTRY, o)).collect(Collectors.toSet()))));
+          ResourceLocation.CODEC.listOf().fieldOf("dimensions").forGetter(o -> o.dimensions.stream().map(ResourceKey::location).collect(Collectors.toList()))).apply(codec, (r) -> new DimensionPlacementFilter(r.stream().map(o -> ResourceKey.create(Registries.DIMENSION, o)).collect(Collectors.toSet()))));
 
   private final Set<ResourceKey<Level>> dimensions;
 
@@ -45,6 +44,6 @@ public class DimensionPlacementFilter extends PlacementFilter {
   }
 
   public static Set<ResourceKey<Level>> fromStrings(List<? extends String> dimensions) {
-    return dimensions.stream().map(o -> ResourceKey.create(Registry.DIMENSION_REGISTRY, (new ResourceLocation(o)))).collect(Collectors.toSet());
+    return dimensions.stream().map(o -> ResourceKey.create(Registries.DIMENSION, (new ResourceLocation(o)))).collect(Collectors.toSet());
   }
 }

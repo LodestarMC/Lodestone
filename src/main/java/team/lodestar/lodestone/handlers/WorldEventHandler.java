@@ -52,7 +52,7 @@ public class WorldEventHandler {
 
     public static void playerJoin(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (player.level instanceof ServerLevel level) {
+            if (player.level() instanceof ServerLevel level) {
                 LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(capability -> LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(worldCapability -> {
                     if (player instanceof ServerPlayer serverPlayer) {
                         for (WorldEventInstance instance : worldCapability.activeWorldEvents) {
