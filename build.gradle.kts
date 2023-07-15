@@ -47,8 +47,6 @@ mixin {
 minecraft {
 	mappings(parchmentChannel, parchmentVersion)
 
-	copyIdeResources.set(true)
-
 	accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
 	copyIdeResources.set(true)
@@ -162,12 +160,13 @@ tasks.withType<ProcessResources> {
 				"loaderVersionRange" to loaderVersionRange,
 				"minecraftVersion" to minecraftVersion,
 				"minecraftVersionRange" to minecraftVersionRange,
-				"modAuthor" to modAuthors,
+				"modAuthors" to modAuthors,
 				"modDescription" to modDescription,
 				"modId" to modId,
 				"modJavaVersion" to modJavaVersion,
 				"modName" to modName,
-				"version" to version,
+				"modVersion" to modVersion,
+				"modLicense" to modLicense
 			)
 		)
 	}
