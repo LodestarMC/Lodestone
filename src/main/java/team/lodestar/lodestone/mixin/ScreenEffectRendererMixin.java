@@ -17,7 +17,7 @@ public class ScreenEffectRendererMixin {
         FireEffectHandler.ClientOnly.renderUIFireEffect(overlay, pMinecraft);
     }
 
-    @Inject(method = "renderFire", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(DDD)V"))
+    @Inject(method = "renderFire", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V"))
     private static void lodestoneFireEffectOffset(Minecraft minecraft, PoseStack poseStack, CallbackInfo ci) {
         poseStack.translate(0, -(ClientConfig.FIRE_OVERLAY_OFFSET.getConfigValue()) * 0.3f, 0);
     }
