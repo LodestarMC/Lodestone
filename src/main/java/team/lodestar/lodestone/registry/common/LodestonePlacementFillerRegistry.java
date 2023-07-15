@@ -1,6 +1,8 @@
 package team.lodestar.lodestone.registry.common;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.systems.worldgen.ChancePlacementFilter;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
@@ -25,6 +27,6 @@ public class LodestonePlacementFillerRegistry {
     }
 
     public static <P extends PlacementModifier> PlacementModifierType<P> register(String name, Codec<P> codec) {
-        return Registry.register(Registry.PLACEMENT_MODIFIERS, name, () -> codec);
+        return Registry.register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, name, () -> codec);
     }
 }
