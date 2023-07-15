@@ -15,6 +15,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import team.lodestar.lodestone.helpers.DataHelper;
+import team.lodestar.lodestone.helpers.VecHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -76,13 +77,13 @@ public class RenderHelper {
         Matrix4f viewMat = viewModelStack.last().pose();
         Matrix4f projMat = RenderSystem.getProjectionMatrix();
 
-        Vector3f localPos = worldPos.copy();
+        Vector3f localPos = new Vector3f(worldPos);
         localPos.sub(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().toVector3f());
 
-        Vector4f pos = new Vector4f(localPos);
-        pos.transform(viewMat);
-        pos.transform(projMat);
-        pos.perspectiveDivide();
+        Vector4f pos = new Vector4f(localPos,0);
+        pos.mul(viewMat);
+        pos.mul(projMat);
+        VecHelper.Vector4fHelper.perspectiveDivide(pos);
 
         return new Vec2((pos.x() + 1F) / 2F, (pos.y() + 1F) / 2F);
     }
@@ -150,8 +151,8 @@ public class RenderHelper {
         //Translate to start point
         ps.translate(local.x, local.y, local.z);
         //Rotate to point towards end point
-        ps.mulPose(Vector3f.YP.rotation(rotY));
-        ps.mulPose(Vector3f.XN.rotation(rotX));
+        ps.mulPose(VecHelper.Vector3fHelper.rotation(rotY,VecHelper.Vector3fHelper.YP));
+        ps.mulPose(VecHelper.Vector3fHelper.rotation(rotX, VecHelper.Vector3fHelper.XN));
 
         //Calculate distance between points -> length of the line
         float distance = (float) local.distanceTo(target);

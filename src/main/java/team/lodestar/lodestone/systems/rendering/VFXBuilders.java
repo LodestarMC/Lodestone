@@ -342,7 +342,7 @@ public class VFXBuilders {
             trailSegments = trailSegments.stream().map(v -> new Vector4f(v.x(), v.y(), v.z(), v.w())).collect(Collectors.toList());
             for (Vector4f pos : trailSegments) {
                 pos.add(offset.x(), offset.y(), offset.z(), 0);
-                pos.transform(pose);
+                pose.transform(pos);
             }
 
             int count = trailSegments.size() - 1;

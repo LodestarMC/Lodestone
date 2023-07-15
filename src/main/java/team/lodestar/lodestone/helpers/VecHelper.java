@@ -11,8 +11,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.ArrayList;
 
@@ -159,8 +161,7 @@ public class VecHelper {
          */
         Camera ari = Minecraft.getInstance().gameRenderer.getMainCamera();
         Vec3 camera_pos = ari.getPosition();
-        Quaternionf camera_rotation_conj = ari.rotation()
-                .copy();
+        Quaternionf camera_rotation_conj = new Quaternionf(ari.rotation());
         camera_rotation_conj.conjugate();
 
         Vector3f result3f = new Vector3f((float) (camera_pos.x - target.x), (float) (camera_pos.y - target.y),
@@ -178,20 +179,19 @@ public class VecHelper {
                 float f = distWalkedModified - player.walkDistO;
                 float f1 = -(distWalkedModified + f * partialTicks);
                 float f2 = Mth.lerp(partialTicks, player.oBob, player.bob);
-                Quaternionf q2 = new Quaternionf(Vector3f.XP,
-                        Math.abs(Mth.cos(f1 * (float) Math.PI - 0.2F) * f2) * 5.0F, true);
+                AxisAngle4f a2 = new AxisAngle4f(Math.abs(Mth.cos(f1 * (float) Math.PI - 0.2F) * f2) * 5.0F, Vector3fHelper.XP);
+                Quaternionf q2 = new Quaternionf(a2);
                 q2.conjugate();
                 result3f.rotate(q2);
 
-                Quaternionf q1 =
-                        new Quaternionf(Vector3f.ZP, Mth.sin(f1 * (float) Math.PI) * f2 * 3.0F, true);
+                AxisAngle4f a1 = new AxisAngle4f(Math.abs(Mth.sin(f1 * (float) Math.PI) * f2) * 3.0F, Vector3fHelper.ZP);
+                Quaternionf q1 = new Quaternionf(a1);
                 q1.conjugate();
                 result3f.rotate(q1);
 
-                Vector3f bob_translation = new Vector3f((Mth.sin(f1 * (float) Math.PI) * f2 * 0.5F),
+                Vector3f bobTranslation = new Vector3f((Mth.sin(f1 * (float) Math.PI) * f2 * 0.5F),
                         (-Math.abs(Mth.cos(f1 * (float) Math.PI) * f2)), 0.0f);
-                bob_translation.setY(-bob_translation.y()); // this is weird but hey, if it works
-                result3f.add(bob_translation);
+                result3f.add(new Vector3f(bobTranslation.x(), -bobTranslation.y(), bobTranslation.z()));
             }
         }
 
@@ -202,5 +202,24 @@ public class VecHelper {
                 .getGuiScaledHeight() / 2;
         float scale_factor = half_height / (result3f.z() * (float) Math.tan(Math.toRadians(fov / 2)));
         return new Vec3(-result3f.x() * scale_factor, result3f.y() * scale_factor, result3f.z());
+    }
+
+    public static class Vector3fHelper {
+        public static Vector3f XP = new Vector3f(1.0F, 0.0F, 0.0F);
+        public static Vector3f YP = new Vector3f(0.0F, 1.0F, 0.0F);
+        public static Vector3f ZP = new Vector3f(0.0F, 0.0F, 1.0F);
+        public static Vector3f XN = new Vector3f(-1.0F, 0.0F, 0.0F);
+        public static Vector3f YN = new Vector3f(0.0F, -1.0F, 0.0F);
+        public static Vector3f ZN = new Vector3f(0.0F, 0.0F, -1.0F);
+
+        public static Quaternionf rotation(float rotation, Vector3f axis) {
+            return new Quaternionf(new AxisAngle4f(rotation, axis));
+        }
+    }
+
+    public static class Vector4fHelper {
+        public static void perspectiveDivide(Vector4f v) {
+            v.div(v.x, v.y, v.z, 1.0f);
+        }
     }
 }
