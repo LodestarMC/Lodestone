@@ -67,7 +67,6 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 		properties.emissiveRendering = pBlockBehaviour.properties.emissiveRendering;
 		properties.requiredFeatures = pBlockBehaviour.properties.requiredFeatures;
 		properties.offsetFunction = pBlockBehaviour.properties.offsetFunction;
-		properties.lootTableSupplier = pBlockBehaviour.properties.lootTableSupplier;
 		properties.hasPostProcess = pBlockBehaviour.properties.hasPostProcess;
 
 		return properties;
