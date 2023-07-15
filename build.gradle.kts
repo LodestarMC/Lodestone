@@ -1,3 +1,6 @@
+import java.text.SimpleDateFormat
+import java.util.*
+
 plugins {
 	id("eclipse")
 	id("idea")
@@ -26,10 +29,13 @@ val curiosVersion: String by extra
 val mixinVersion: String by extra
 val modJavaVersion: String by extra
 
-version = modVersion
+version = "$minecraftVersion-$modVersion"
+if (System.getenv("BUILD_NUMBER") != null) {
+	version = "$minecraftVersion-$modVersion.${System.getenv("BUILD_NUMBER")}"
+}
 group = modGroupId
 
-val baseArchivesName = "$modId-$minecraftVersion"
+val baseArchivesName = modId
 base {
 	archivesName.set(baseArchivesName)
 }
@@ -165,7 +171,7 @@ tasks.withType<ProcessResources> {
 				"modId" to modId,
 				"modJavaVersion" to modJavaVersion,
 				"modName" to modName,
-				"modVersion" to modVersion,
+				"modVersion" to version,
 				"modLicense" to modLicense
 			)
 		)
@@ -173,16 +179,16 @@ tasks.withType<ProcessResources> {
 }
 
 tasks.withType<Jar> {
-//	val now = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(java.util.Date())
+	val now = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
 	manifest {
 		attributes(mapOf(
 			"Specification-Title" to modName,
 			"Specification-Vendor" to modAuthors,
 			"Specification-Version" to '1',
 			"Implementation-Title" to modName,
-			"Implementation-Version" to modVersion,
+			"Implementation-Version" to version,
 			"Implementation-Vendor" to modAuthors,
-//			"Implementation-Timestamp" to now,
+			"Implementation-Timestamp" to now,
 		))
 	}
 	finalizedBy("reobfJar")
@@ -196,9 +202,8 @@ publishing {
 		}
 	}
 	repositories {
-		val mavenDir = System.getenv("local_maven")
-		if (mavenDir != null) {
-			maven(mavenDir)
+		maven {
+			url = uri("file://${System.getenv("local_maven")}")
 		}
 	}
 }
