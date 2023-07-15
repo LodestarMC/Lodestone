@@ -16,11 +16,11 @@
     "EntityRenderDispatcherMixin",
     "GameRendererMixin",
     "GuiMixin",
-    "ItemRendererMixin",
     "LevelRendererMixin",
     "MultiPlayerGameModeMixin",
     "ScreenEffectRendererMixin",
-    "ScreenMixin"
+    "ScreenMixin",
+    "GuiGraphicsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
