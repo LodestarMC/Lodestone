@@ -376,7 +376,7 @@ public class VFXBuilders {
             Minecraft minecraft = Minecraft.getInstance();
             Matrix4f last = stack.last().pose();
 
-            Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getPosition();
+            Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getEntity().getEyePosition();
             Vec3 delta = end.subtract(start);
             Vec3 normal = start.subtract(cameraPosition).cross(delta).normalize().multiply(width / 2f, width / 2f, width / 2f);
 
