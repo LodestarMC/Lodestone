@@ -2,7 +2,9 @@ package team.lodestar.lodestone.systems.rendering;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.*;
 import net.minecraft.world.phys.Vec3;
+import team.lodestar.lodestone.helpers.*;
 import team.lodestar.lodestone.helpers.render.RenderHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -370,6 +372,10 @@ public class VFXBuilders {
             vfxOperator.accept(1f);
             trailPoints.get(count).renderEnd(vertexConsumer, supplier, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
             return this;
+        }
+
+        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, PoseStack stack, BlockPos start, BlockPos end, float width) {
+            return renderBeam(vertexConsumer, stack, VecHelper.getCenterOf(start), VecHelper.getCenterOf(end), width);
         }
 
         public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, PoseStack stack, Vec3 start, Vec3 end, float width) {

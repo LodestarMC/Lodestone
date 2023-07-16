@@ -20,6 +20,7 @@ import java.util.Random;
 /**
  * A collection of methods designed to simplify and unify the use of vectors
  */
+@SuppressWarnings("unused")
 public class VecHelper {
 
     //TODO: re-implement all NECESSARY functions into the new vecHelper method and remove ones that are not required.

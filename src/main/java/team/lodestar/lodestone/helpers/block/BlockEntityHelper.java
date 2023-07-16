@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 /**
  * A collection of various helper methods related to block entities
  */
+@SuppressWarnings("unused")
 public class BlockEntityHelper {
     /**
      * Returns a list of block entities within a range, with a predicate for conditional checks.

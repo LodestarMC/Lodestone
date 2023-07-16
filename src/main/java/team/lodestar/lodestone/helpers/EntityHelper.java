@@ -6,6 +6,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 public class EntityHelper {
 
     public static void amplifyEffect(MobEffectInstance instance, LivingEntity target, int addedAmplifier, int cap) {

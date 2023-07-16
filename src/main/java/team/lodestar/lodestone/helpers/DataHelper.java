@@ -19,6 +19,7 @@ import static net.minecraft.util.Mth.sqrt;
 /**
  * A collection of helper methods for data manipulation
  */
+@SuppressWarnings("unused")
 public class DataHelper {
     /**
      * Reverses the order of any K collection of T entries
