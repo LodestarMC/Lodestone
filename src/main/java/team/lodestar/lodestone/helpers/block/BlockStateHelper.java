@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 /**
  * A collection of various helper methods related to blockstates
  */
+@SuppressWarnings("unused")
 public class BlockStateHelper {
 
     /**

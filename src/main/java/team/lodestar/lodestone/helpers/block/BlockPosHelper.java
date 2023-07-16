@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 /**
  * A collection of various helper methods related to block positions
  */
+@SuppressWarnings("unused")
 public class BlockPosHelper {
 
     /**

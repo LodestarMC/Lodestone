@@ -7,6 +7,7 @@ import net.minecraft.nbt.Tag;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public class NBTHelper {
 
     /**
