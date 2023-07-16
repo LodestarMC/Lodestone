@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public class RenderHelper {
     public static final int FULL_BRIGHT = 15728880;
 

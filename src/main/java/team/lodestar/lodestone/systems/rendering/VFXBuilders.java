@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.rendering;
 
-import team.lodestar.lodestone.helpers.RenderHelper;
+import net.minecraft.core.*;
+import team.lodestar.lodestone.helpers.*;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
@@ -325,6 +326,10 @@ public class VFXBuilders {
             this.u1 = u1;
             this.v1 = v1;
             return this;
+        }
+
+        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, PoseStack stack, BlockPos start, BlockPos end, float width) {
+            return renderBeam(vertexConsumer, stack, VecHelper.getCenterOf(start), VecHelper.getCenterOf(end), width);
         }
 
         public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, PoseStack stack, Vec3 start, Vec3 end, float width) {

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+@SuppressWarnings("unused")
 public class ItemHelper {
     public static ArrayList<ItemStack> copyWithNewCount(List<ItemStack> stacks, int newCount) {
         ArrayList<ItemStack> newStacks = new ArrayList<>();

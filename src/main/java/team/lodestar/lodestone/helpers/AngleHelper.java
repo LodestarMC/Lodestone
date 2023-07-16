@@ -3,7 +3,9 @@ package team.lodestar.lodestone.helpers;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 
+@SuppressWarnings("unused")
 public class AngleHelper {
+
     public static float horizontalAngle(Direction facing) {
         if (facing.getAxis().isVertical())
             return 0;

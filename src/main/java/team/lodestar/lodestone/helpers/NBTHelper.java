@@ -6,6 +6,7 @@ import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
 
+@SuppressWarnings("unused")
 public class NBTHelper {
 
     public static CompoundTag filterTag(CompoundTag orig, TagFilter filter) {

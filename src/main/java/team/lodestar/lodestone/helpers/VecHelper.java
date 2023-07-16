@@ -18,32 +18,10 @@ import java.util.Random;
 /**
  * A collection of methods designed to simplify and unify the use of vectors
  */
+@SuppressWarnings("unused")
 public class VecHelper {
     //TODO: re-implement all NECESSARY functions into the new vecHelper method and remove ones that are not required.
     public static final Vec3 CENTER_OF_ORIGIN = new Vec3(.5, .5, .5);
-    /**
-     * A directional enum for each of the cardinal directions.
-     */
-    enum Dir {
-        UP, DOWN, NORTH, EAST, SOUTH, WEST
-    }
-
-    /**
-     * A method that takes in a direction enum (E.G. "UP") and returns a Vec3i object facing that direction
-     */
-    public static Vec3i offsetDir(Dir dir) {
-        Vec3i outVector = new Vec3i(0, 0, 0);
-        switch (dir) {
-
-            case UP -> {outVector.offset(0, 1, 0);}
-            case DOWN -> {outVector.offset(0, -1, 0);}
-            case NORTH -> {outVector.offset(0, 0, -1);}
-            case EAST -> {outVector.offset(1, 0, 0);}
-            case SOUTH -> {outVector.offset(0, 0, 1);}
-            case WEST -> {outVector.offset(-1, 0,0 );}
-        }
-        return outVector;
-    }
 
     /**
      * A method that returns a position on the perimeter of a circle around a given Vec3 position
@@ -132,8 +110,7 @@ public class VecHelper {
     public static Vec3 getCenterOf(Vec3i pos) {
         if (pos.equals(Vec3i.ZERO))
             return CENTER_OF_ORIGIN;
-        return Vec3.atLowerCornerOf(pos)
-                .add(.5f, .5f, .5f);
+        return Vec3.atLowerCornerOf(pos).add(.5f, .5f, .5f);
     }
 
     public static Vec3 axisAlignedPlaneOf(Vec3 vec) {

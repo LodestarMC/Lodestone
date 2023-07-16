@@ -7,6 +7,7 @@ import net.minecraft.util.Mth;
 import java.awt.*;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class ColorHelper {
 
     public static Color getColor(int decimal) {

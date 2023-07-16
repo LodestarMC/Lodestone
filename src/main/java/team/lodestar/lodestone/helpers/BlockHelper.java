@@ -25,12 +25,8 @@ import java.util.stream.Stream;
 /**
  * A collection of various helper methods related to all your blocky needs.
  */
-@SuppressWarnings("unused") // don't need warnings about unused, this is a library class
+@SuppressWarnings("unused")
 public class BlockHelper {
-    // private constructor, prevent instantiation
-    private BlockHelper() {
-    }
-
 
     /**
      * Copies all properties from oldState to newState, given that an individual property exists on the newState.
