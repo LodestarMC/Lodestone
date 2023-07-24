@@ -1,10 +1,7 @@
 package team.lodestar.lodestone.systems.particle;
 
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
-import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
-import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticleRenderType;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
+import team.lodestar.lodestone.systems.particle.screen.*;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 
 import java.util.ArrayList;
@@ -18,13 +15,13 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
 
     final ScreenParticleType<?> type;
     final ScreenParticleOptions options;
-    final HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> target;
+    final ScreenParticleHolder target;
 
-    public static ScreenParticleBuilder create(ScreenParticleType<?> type, HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> target) {
+    public static ScreenParticleBuilder create(ScreenParticleType<?> type, ScreenParticleHolder target) {
         return new ScreenParticleBuilder(type, target);
     }
 
-    protected ScreenParticleBuilder(ScreenParticleType<?> type, HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> target) {
+    protected ScreenParticleBuilder(ScreenParticleType<?> type, ScreenParticleHolder target) {
         this.type = type;
         this.options = new ScreenParticleOptions(type);
         this.target = target;
