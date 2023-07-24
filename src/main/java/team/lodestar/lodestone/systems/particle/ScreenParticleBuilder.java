@@ -9,6 +9,7 @@ import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
 import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticleRenderType;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
+import team.lodestar.lodestone.systems.particle.screen.*;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 import team.lodestar.lodestone.systems.particle.world.GenericParticle;
 
@@ -23,17 +24,17 @@ public class ScreenParticleBuilder {
 
     final ScreenParticleType<?> type;
     final ScreenParticleOptions options;
-    final HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> target;
+    final ScreenParticleHolder target;
 
     double xMotion = 0, yMotion = 0;
     double maxXSpeed = 0, maxYSpeed = 0;
     double maxXOffset = 0, maxYOffset = 0;
 
-    public static ScreenParticleBuilder create(ScreenParticleType<?> type, HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> target) {
+    public static ScreenParticleBuilder create(ScreenParticleType<?> type, ScreenParticleHolder target) {
         return new ScreenParticleBuilder(type, target);
     }
 
-    protected ScreenParticleBuilder(ScreenParticleType<?> type, HashMap<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> target) {
+    protected ScreenParticleBuilder(ScreenParticleType<?> type, ScreenParticleHolder target) {
         this.type = type;
         this.options = new ScreenParticleOptions(type);
         this.target = target;
