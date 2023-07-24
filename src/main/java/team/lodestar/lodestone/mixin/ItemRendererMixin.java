@@ -12,7 +12,7 @@ import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin {
 
-    @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;scale(FFF)V", ordinal = 0), method = "renderGuiItem(Lnet/minecraft/world/item/ItemStack;IILnet/minecraft/client/resources/model/BakedModel;)V")
+    @Inject(at = @At(value = "HEAD"), method = "renderGuiItem(Lnet/minecraft/world/item/ItemStack;IILnet/minecraft/client/resources/model/BakedModel;)V")
     private void lodestone$renderGuiItem(ItemStack pStack, int pX, int pY, BakedModel pBakedmodel, CallbackInfo ci) {
         ScreenParticleHandler.renderItemStackEarly(pStack, pX, pY);
     }

@@ -6,7 +6,6 @@ import java.util.*;
 
 public class ScreenParticleHolder {
 
-
     public final Map<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> particles = new HashMap<>();
 
     public ScreenParticleHolder() {
