@@ -44,8 +44,9 @@ public class ScreenParticleHandler {
      * Item Stack Bound Particles are rendered just after an item stack in the inventory. They are ticked the same as other particles.
      * We use a pair of a boolean and the ItemStack as a key. The boolean sorts item particles based on if the ItemStack in question is in the hotbar or not.
      */
-    public static final HashMap<ScreenParticleItemStackKey, ScreenParticleHolder> ITEM_PARTICLES = new HashMap<>();
-    public static final HashMap<ScreenParticleItemStackKey, ItemStack> ITEM_STACK_CACHE = new HashMap<>();
+    public static final Map<ScreenParticleItemStackKey, ScreenParticleHolder> ITEM_PARTICLES = new HashMap<>();
+    public static final Map<ScreenParticleItemStackRetrievalKey, ItemStack> ITEM_STACK_CACHE = new HashMap<>();
+    public static final Collection<ScreenParticleItemStackRetrievalKey> ACTIVELY_ACCESSED_KEYS = new ArrayList<>();
 
     public static ScreenParticleHolder cachedItemParticles = null;
     public static int currentItemX, currentItemY;
@@ -66,6 +67,9 @@ public class ScreenParticleHandler {
 
         ITEM_PARTICLES.values().forEach(ScreenParticleHolder::tick);
         ITEM_PARTICLES.values().removeIf(ScreenParticleHolder::isEmpty);
+
+        ITEM_STACK_CACHE.keySet().removeIf(k -> !ACTIVELY_ACCESSED_KEYS.contains(k));
+        ACTIVELY_ACCESSED_KEYS.clear();
         canSpawnParticles = true;
     }
 
@@ -79,8 +83,8 @@ public class ScreenParticleHandler {
                 return;
             }
             if (!stack.isEmpty()) {
-                currentItemX = x+8;
-                currentItemY = y+8;
+                currentItemX = x + 8;
+                currentItemY = y + 8;
                 ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitter != null) {
                     renderParticles(spawnAndPullParticles(minecraft.level, emitter, stack, false));
@@ -91,31 +95,31 @@ public class ScreenParticleHandler {
     }
 
     public static ScreenParticleHolder spawnAndPullParticles(ClientLevel level, ParticleEmitterHandler.ItemParticleSupplier emitter, ItemStack stack, boolean isRenderedAfterItem) {
+        ScreenParticleItemStackRetrievalKey cacheKey = new ScreenParticleItemStackRetrievalKey(renderingHotbar, isRenderedAfterItem, currentItemX, currentItemY);
         ScreenParticleHolder target = ITEM_PARTICLES.computeIfAbsent(new ScreenParticleItemStackKey(renderingHotbar, isRenderedAfterItem, stack), s -> new ScreenParticleHolder());
-        pullFromParticleVault(stack, target, isRenderedAfterItem);
+        pullFromParticleVault(cacheKey, stack, target, isRenderedAfterItem);
         if (canSpawnParticles) {
             if (isRenderedAfterItem) {
                 emitter.spawnLateParticles(target, level, Minecraft.getInstance().timer.partialTick, stack, currentItemX, currentItemY);
-            }
-            else {
+            } else {
                 emitter.spawnEarlyParticles(target, level, Minecraft.getInstance().timer.partialTick, stack, currentItemX, currentItemY);
             }
         }
+        ACTIVELY_ACCESSED_KEYS.add(cacheKey);
         return target;
     }
 
-    public static void pullFromParticleVault(ItemStack currentStack, ScreenParticleHolder target, boolean isRenderedAfterItem) {
-        ScreenParticleItemStackKey cacheKey = new ScreenParticleItemStackKey(renderingHotbar, isRenderedAfterItem, currentStack);
+    public static void pullFromParticleVault(ScreenParticleItemStackRetrievalKey cacheKey, ItemStack currentStack, ScreenParticleHolder target, boolean isRenderedAfterItem) {
         if (ITEM_STACK_CACHE.containsKey(cacheKey)) {
             ItemStack oldStack = ITEM_STACK_CACHE.get(cacheKey);
             if (oldStack != currentStack && oldStack.getItem().equals(currentStack.getItem())) {
-                ScreenParticleItemStackKey particleKey = new ScreenParticleItemStackKey(renderingHotbar, isRenderedAfterItem, oldStack);
-                ScreenParticleHolder oldParticles = ITEM_PARTICLES.get(particleKey);
+                ScreenParticleItemStackKey oldKey = new ScreenParticleItemStackKey(renderingHotbar, isRenderedAfterItem, oldStack);
+                ScreenParticleHolder oldParticles = ITEM_PARTICLES.get(oldKey);
                 if (oldParticles != null) {
                     target.addFrom(oldParticles);
                 }
                 ITEM_STACK_CACHE.remove(cacheKey);
-                ITEM_PARTICLES.remove(particleKey);
+                ITEM_PARTICLES.remove(oldKey);
             }
         }
         ITEM_STACK_CACHE.put(cacheKey, currentStack);
