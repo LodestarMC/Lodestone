@@ -29,7 +29,7 @@ import java.util.function.ToIntFunction;
 @SuppressWarnings({"UnusedReturnValue", "unused"})
 public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
-	private LodestoneBlockProperties() {
+	public LodestoneBlockProperties() {
 		super();
 	}
 
