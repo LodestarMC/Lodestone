@@ -11,8 +11,6 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import org.lwjgl.opengl.GL11;
 import team.lodestar.lodestone.registry.client.LodestoneShaderRegistry;
-import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
-import team.lodestar.lodestone.systems.rendering.rendeertype.*;
 
 import java.util.function.*;
 
