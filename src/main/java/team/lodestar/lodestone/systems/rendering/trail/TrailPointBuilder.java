@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.rendering.trail;
 import com.mojang.math.*;
 import net.minecraft.core.*;
 import net.minecraft.world.phys.*;
+import team.lodestar.lodestone.helpers.*;
 
 import java.util.*;
 import java.util.function.*;
@@ -29,13 +30,20 @@ public class TrailPointBuilder {
         return trailPoints;
     }
 
-    public TrailPointBuilder addTrailPoint(Vector3f point) {
-        trailPoints.add(new TrailPoint(point, 0));
-        return this;
+    public List<TrailPoint> getTrailPoints(float lerp) {
+        List<TrailPoint> lerpedTrailPoints = new ArrayList<>();
+        final int size = trailPoints.size();
+        if (size > 1) {
+            for (int i = 0; i < size - 2; i++) {
+                lerpedTrailPoints.add(trailPoints.get(i).lerp(trailPoints.get(i +1), lerp));
+            }
+        }
+        return lerpedTrailPoints;
     }
 
     public TrailPointBuilder addTrailPoint(Vec3 point) {
-        return addTrailPoint(new Vector3f(point));
+        trailPoints.add(new TrailPoint(point, 0));
+        return this;
     }
 
     public TrailPointBuilder tickTrailPoints() {
