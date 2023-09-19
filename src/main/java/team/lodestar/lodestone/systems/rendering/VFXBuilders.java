@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import team.lodestar.lodestone.systems.rendering.trail.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -221,7 +222,6 @@ public class VFXBuilders {
 
     public static class WorldVFXBuilder {
         protected float r = 1, g = 1, b = 1, a = 1;
-        protected float xOffset = 0, yOffset = 0, zOffset = 0;
         protected int light = RenderHelper.FULL_BRIGHT;
         protected float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
 
@@ -308,13 +308,6 @@ public class VFXBuilders {
             return this;
         }
 
-        public WorldVFXBuilder setOffset(float xOffset, float yOffset, float zOffset) {
-            this.xOffset = xOffset;
-            this.yOffset = yOffset;
-            this.zOffset = zOffset;
-            return this;
-        }
-
         public WorldVFXBuilder setLight(int light) {
             this.light = light;
             return this;
@@ -350,49 +343,48 @@ public class VFXBuilders {
             return this;
         }
 
-        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc) {
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<TrailPoint> trailSegments, float width) {
+            return renderTrail(vertexConsumer, stack, trailSegments, f -> width, f -> {
+            });
+        }
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<TrailPoint> trailSegments, Function<Float, Float> widthFunc) {
             return renderTrail(vertexConsumer, stack, trailSegments, widthFunc, f -> {
             });
         }
 
-        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<Vector4f> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<TrailPoint> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
             return renderTrail(vertexConsumer, stack.last().pose(), trailSegments, widthFunc, vfxOperator);
         }
 
-        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, List<Vector4f> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
+        public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, Matrix4f pose, List<TrailPoint> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
             if (trailSegments.size() < 3) {
                 return this;
             }
-            trailSegments = trailSegments.stream().map(v -> new Vector4f(v.x(), v.y(), v.z(), v.w())).collect(Collectors.toList());
-            for (Vector4f pos : trailSegments) {
-                pos.add(xOffset, yOffset, zOffset, 0);
-                pos.transform(pose);
-            }
-
+            List<Vector4f> positions = trailSegments.stream().map(TrailPoint::getMatrixPosition).peek(p -> p.transform(pose)).toList();
             int count = trailSegments.size() - 1;
             float increment = 1.0F / (count - 1);
-            ArrayList<TrailPoint> points = new ArrayList<>();
+            ArrayList<TrailRenderPoint> points = new ArrayList<>();
             for (int i = 0; i < count; i++) {
                 float width = widthFunc.apply(increment * i);
-                Vector4f start = trailSegments.get(i);
-                Vector4f end = trailSegments.get(i + 1);
-                points.add(new TrailPoint(RenderHelper.midpoint(start, end), RenderHelper.screenSpaceQuadOffsets(start, end, width)));
+                Vector4f start = positions.get(i);
+                Vector4f end = positions.get(i + 1);
+                points.add(new TrailRenderPoint(RenderHelper.midpoint(start, end), RenderHelper.screenSpaceQuadOffsets(start, end, width)));
             }
             return renderPoints(vertexConsumer, points, u0, v0, u1, v1, vfxOperator);
         }
 
-        public WorldVFXBuilder renderPoints(VertexConsumer vertexConsumer, List<TrailPoint> trailPoints, float u0, float v0, float u1, float v1, Consumer<Float> vfxOperator) {
-            int count = trailPoints.size() - 1;
+        public WorldVFXBuilder renderPoints(VertexConsumer vertexConsumer, List<TrailRenderPoint> trailRenderPoints, float u0, float v0, float u1, float v1, Consumer<Float> vfxOperator) {
+            int count = trailRenderPoints.size() - 1;
             float increment = 1.0F / count;
             vfxOperator.accept(0f);
-            trailPoints.get(0).renderStart(vertexConsumer, supplier, u0, v0, u1, Mth.lerp(increment, v0, v1));
+            trailRenderPoints.get(0).renderStart(vertexConsumer, supplier, u0, v0, u1, Mth.lerp(increment, v0, v1));
             for (int i = 1; i < count; i++) {
                 float current = Mth.lerp(i * increment, v0, v1);
                 vfxOperator.accept(current);
-                trailPoints.get(i).renderMid(vertexConsumer, supplier, u0, current, u1, current);
+                trailRenderPoints.get(i).renderMid(vertexConsumer, supplier, u0, current, u1, current);
             }
             vfxOperator.accept(1f);
-            trailPoints.get(count).renderEnd(vertexConsumer, supplier, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
+            trailRenderPoints.get(count).renderEnd(vertexConsumer, supplier, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
             return this;
         }
 
@@ -418,12 +410,10 @@ public class VFXBuilders {
 
         public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions) {
             Matrix4f last = stack.last().pose();
-            stack.translate(xOffset, yOffset, zOffset);
             supplier.placeVertex(vertexConsumer, last, positions[0].x(), positions[0].y(), positions[0].z(), u0, v1);
             supplier.placeVertex(vertexConsumer, last, positions[1].x(), positions[1].y(), positions[1].z(), u1, v1);
             supplier.placeVertex(vertexConsumer, last, positions[2].x(), positions[2].y(), positions[2].z(), u1, v0);
             supplier.placeVertex(vertexConsumer, last, positions[3].x(), positions[3].y(), positions[3].z(), u0, v0);
-            stack.translate(-xOffset, -yOffset, -zOffset);
             return this;
         }
 

@@ -1,10 +1,11 @@
-package team.lodestar.lodestone.systems.rendering;
+package team.lodestar.lodestone.systems.rendering.trail;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector4f;
 import net.minecraft.world.phys.Vec2;
+import team.lodestar.lodestone.systems.rendering.*;
 
-public class TrailPoint {
+public class TrailRenderPoint {
 
     public final float xp;
     public final float xn;
@@ -12,7 +13,7 @@ public class TrailPoint {
     public final float yn;
     public final float z;
 
-    public TrailPoint(float xp, float xn, float yp, float yn, float z) {
+    public TrailRenderPoint(float xp, float xn, float yp, float yn, float z) {
         this.xp = xp;
         this.xn = xn;
         this.yp = yp;
@@ -20,7 +21,7 @@ public class TrailPoint {
         this.z = z;
     }
 
-    public TrailPoint(Vector4f pos, Vec2 perp) {
+    public TrailRenderPoint(Vector4f pos, Vec2 perp) {
         this(pos.x() + perp.x, pos.x() - perp.x, pos.y() + perp.y, pos.y() - perp.y, pos.z());
     }
 
