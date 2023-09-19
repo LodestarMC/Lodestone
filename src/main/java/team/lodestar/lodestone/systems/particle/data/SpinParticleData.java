@@ -2,6 +2,8 @@ package team.lodestar.lodestone.systems.particle.data;
 
 import team.lodestar.lodestone.systems.easing.Easing;
 
+import java.util.*;
+
 public class SpinParticleData extends GenericParticleData {
 
     public final float spinOffset;
@@ -32,6 +34,11 @@ public class SpinParticleData extends GenericParticleData {
 
         public SpinParticleDataBuilder setSpinOffset(float spinOffset) {
             this.spinOffset = spinOffset;
+            return this;
+        }
+
+        public SpinParticleDataBuilder randomSpinOffset(Random random) {
+            this.spinOffset = random.nextFloat() * 6.28f;
             return this;
         }
 
