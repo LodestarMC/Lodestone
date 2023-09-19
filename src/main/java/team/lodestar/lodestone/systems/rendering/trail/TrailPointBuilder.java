@@ -5,18 +5,23 @@ import net.minecraft.core.*;
 import net.minecraft.world.phys.*;
 
 import java.util.*;
+import java.util.function.*;
 import java.util.stream.*;
 
 public class TrailPointBuilder {
 
     private final List<TrailPoint> trailPoints = new ArrayList<>();
-    public final int trailLength;
+    public final Supplier<Integer> trailLength;
 
-    public TrailPointBuilder(int trailLength) {
+    public TrailPointBuilder(Supplier<Integer> trailLength) {
         this.trailLength = trailLength;
     }
 
     public static TrailPointBuilder create(int trailLength) {
+        return create(()-> trailLength);
+    }
+
+    public static TrailPointBuilder create(Supplier<Integer> trailLength) {
         return new TrailPointBuilder(trailLength);
     }
 
@@ -34,6 +39,7 @@ public class TrailPointBuilder {
     }
 
     public TrailPointBuilder tickTrailPoints() {
+        int trailLength = this.trailLength.get();
         trailPoints.forEach(TrailPoint::tick);
         trailPoints.removeIf(p -> p.getTimeActive() > trailLength);
         return this;
