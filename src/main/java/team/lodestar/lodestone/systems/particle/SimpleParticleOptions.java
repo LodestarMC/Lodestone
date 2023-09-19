@@ -22,7 +22,7 @@ public class SimpleParticleOptions {
     }
 
     public ParticleSpritePicker spritePicker = ParticleSpritePicker.FIRST_INDEX;
-    public ParticleDiscardFunctionType discardFunctionType = ParticleDiscardFunctionType.NONE;
+    public ParticleDiscardFunctionType discardFunctionType = ParticleDiscardFunctionType.INVISIBLE;
 
     public ColorParticleData colorData = DEFAULT_COLOR;
     public GenericParticleData transparencyData = DEFAULT_GENERIC;

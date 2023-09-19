@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.systems.particle;
 
-import com.mojang.math.Vector3d;
+import com.mojang.math.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -84,11 +84,27 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleB
         return this;
     }
 
+    public WorldParticleBuilder addMotion(Vector3f motion) {
+        return addMotion(motion.x(), motion.y(), motion.z());
+    }
+
+    public WorldParticleBuilder addMotion(Vec3 motion) {
+        return addMotion(motion.x, motion.y, motion.z);
+    }
+
     public WorldParticleBuilder addMotion(double vx, double vy, double vz) {
         this.xMotion += vx;
         this.yMotion += vy;
         this.zMotion += vz;
         return this;
+    }
+
+    public WorldParticleBuilder setMotion(Vector3f motion) {
+        return setMotion(motion.x(), motion.y(), motion.z());
+    }
+
+    public WorldParticleBuilder setMotion(Vec3 motion) {
+        return setMotion(motion.x, motion.y, motion.z);
     }
 
     public WorldParticleBuilder setMotion(double vx, double vy, double vz) {
