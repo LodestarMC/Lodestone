@@ -95,13 +95,7 @@ public class GenericParticle extends TextureSheetParticle {
 
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
-        VertexConsumer consumerToUse = consumer;
-        if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && renderType instanceof LodestoneWorldParticleRenderType renderType) {
-            if (renderType.shouldBuffer()) {
-                consumerToUse = RenderHandler.DELAYED_PARTICLE_RENDER.getBuffer(renderType.getRenderType());
-            }
-        }
-        super.render(consumerToUse, camera, partialTicks);
+        super.render(getVertexConsumer(consumer), camera, partialTicks);
     }
 
     @Override
@@ -111,6 +105,16 @@ public class GenericParticle extends TextureSheetParticle {
 
     public SimpleParticleOptions.ParticleSpritePicker getSpritePicker() {
         return spritePicker;
+    }
+
+    public VertexConsumer getVertexConsumer(VertexConsumer original) {
+        VertexConsumer consumerToUse = original;
+        if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && renderType instanceof LodestoneWorldParticleRenderType renderType) {
+            if (renderType.shouldBuffer()) {
+                consumerToUse = RenderHandler.DELAYED_PARTICLE_RENDER.getBuffer(renderType.getRenderType());
+            }
+        }
+        return consumerToUse;
     }
 
     public void pickSprite(int spriteIndex) {

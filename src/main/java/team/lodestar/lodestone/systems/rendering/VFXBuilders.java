@@ -118,6 +118,12 @@ public class VFXBuilders {
             this.b = b / 255f;
             return this;
         }
+        public ScreenVFXBuilder setColorRaw(float r, float g, float b) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+            return this;
+        }
 
         public ScreenVFXBuilder setAlpha(float a) {
             this.a = a;
@@ -274,6 +280,15 @@ public class VFXBuilders {
             }).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
+        public WorldVFXBuilder setParticleFormat() {
+            return setVertexSupplier((c, l, x, y, z, u, v) -> {
+                if (l == null)
+                    c.vertex(x, y, z).uv(u, v).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
+                else
+                    c.vertex(l, x, y, z).uv(u, v).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
+            }).setFormat(DefaultVertexFormat.PARTICLE);
+        }
+
         public WorldVFXBuilder setFormat(VertexFormat format) {
             this.format = format;
             return this;
@@ -300,6 +315,12 @@ public class VFXBuilders {
             this.r = r / 255f;
             this.g = g / 255f;
             this.b = b / 255f;
+            return this;
+        }
+        public WorldVFXBuilder setColorRaw(float r, float g, float b) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
             return this;
         }
 

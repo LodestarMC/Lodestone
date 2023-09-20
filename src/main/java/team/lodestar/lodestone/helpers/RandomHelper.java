@@ -7,7 +7,7 @@ import java.util.*;
 
 public class RandomHelper {
 
-    public static float interpolateWithEasing(Easing easing, float pDelta, float pStart, float pEnd) {
+    public static float weightedEasingLerp(Easing easing, float pDelta, float pStart, float pEnd) {
         float distanceFromMiddle = Mth.abs(0.5f - pDelta) / 0.5f;
         float middleBasedDelta = easing.ease(1 - distanceFromMiddle, 0, 1, 1);
         float pMiddle = (pStart + pEnd) / 2f;
@@ -20,7 +20,7 @@ public class RandomHelper {
     }
 
     public static float interpolateWithEasing(Easing easing, double pDelta, double pStart, double pEnd) {
-        return interpolateWithEasing(easing, (float)pDelta, (float)pStart, (float)pEnd);
+        return weightedEasingLerp(easing, (float)pDelta, (float)pStart, (float)pEnd);
     }
 
     public static int randomBetween(Random pRandom, int min, int max) {
@@ -28,7 +28,7 @@ public class RandomHelper {
     }
 
     public static int randomBetween(Random pRandom, Easing easing, int min, int max) {
-        return Math.round(interpolateWithEasing(easing, pRandom.nextFloat(), min, max));
+        return Math.round(weightedEasingLerp(easing, pRandom.nextFloat(), min, max));
     }
 
     public static float randomBetween(Random pRandom, float min, float max) {
@@ -36,7 +36,7 @@ public class RandomHelper {
     }
 
     public static float randomBetween(Random pRandom, Easing easing, float min, float max) {
-        return interpolateWithEasing(easing, pRandom.nextFloat(), min, max);
+        return weightedEasingLerp(easing, pRandom.nextFloat(), min, max);
     }
 
     public static double randomBetween(Random pRandom, double min, double max) {
