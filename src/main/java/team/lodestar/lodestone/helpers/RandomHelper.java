@@ -19,19 +19,27 @@ public class RandomHelper {
         return interpolateWithEasing(easing, (float)pDelta, (float)pStart, (float)pEnd);
     }
 
+    public static int randomBetween(Random pRandom, int min, int max) {
+        return randomBetween(pRandom, Easing.SINE_IN_OUT, min, max);
+    }
+
+    public static int randomBetween(Random pRandom, Easing easing, int min, int max) {
+        return Math.round(interpolateWithEasing(easing, pRandom.nextFloat(), min, max));
+    }
+
+    public static float randomBetween(Random pRandom, float min, float max) {
+        return randomBetween(pRandom, Easing.SINE_IN_OUT, min, max);
+    }
+
     public static float randomBetween(Random pRandom, Easing easing, float min, float max) {
         return interpolateWithEasing(easing, pRandom.nextFloat(), min, max);
     }
 
-    public static float randomBetween(Random pRandom, float min, float max) {
-        return interpolateWithEasing(Easing.SINE_IN_OUT, pRandom.nextFloat(), min, max);
+    public static double randomBetween(Random pRandom, double min, double max) {
+        return randomBetween(pRandom, Easing.SINE_IN_OUT, min, max);
     }
 
-    public static float randomBetween(Random pRandom, Easing easing, double min, double max) {
+    public static double randomBetween(Random pRandom, Easing easing, double min, double max) {
         return interpolateWithEasing(easing, pRandom.nextFloat(), min, max);
-    }
-
-    public static float randomBetween(Random pRandom, double min, double max) {
-        return interpolateWithEasing(Easing.SINE_IN_OUT, pRandom.nextFloat(), min, max);
     }
 }
