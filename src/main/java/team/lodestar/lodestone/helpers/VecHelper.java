@@ -161,13 +161,12 @@ public class VecHelper {
         Minecraft mc = Minecraft.getInstance();
         if (mc.options.bobView) {
             Entity renderViewEntity = mc.getCameraEntity();
-            if (renderViewEntity instanceof Player) {
-                Player playerentity = (Player) renderViewEntity;
-                float distwalked_modified = playerentity.walkDist;
+            if (renderViewEntity instanceof Player player) {
+                float distwalked_modified = player.walkDist;
 
-                float f = distwalked_modified - playerentity.walkDistO;
+                float f = distwalked_modified - player.walkDistO;
                 float f1 = -(distwalked_modified + f * partialTicks);
-                float f2 = Mth.lerp(partialTicks, playerentity.oBob, playerentity.bob);
+                float f2 = Mth.lerp(partialTicks, player.oBob, player.bob);
                 Quaternion q2 = new Quaternion(Vector3f.XP,
                         Math.abs(Mth.cos(f1 * (float) Math.PI - 0.2F) * f2) * 5.0F, true);
                 q2.conj();
