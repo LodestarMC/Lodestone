@@ -8,10 +8,10 @@ public class RandomHelper {
 
     public static float interpolateWithEasing(Easing easing, float pDelta, float pStart, float pEnd) {
         if (pDelta < 0.5f) {
-            return easing.ease(pDelta*2f, pStart, pEnd, 1);
+            return easing.ease(pDelta, pStart, pEnd-pStart, 0.5f);
         }
         else {
-            return easing.ease(1 - (pDelta-0.5f)*2f, pStart, pEnd, 1);
+            return easing.ease(1-pDelta, pStart, pEnd-pStart, 0.5f);
         }
     }
 
