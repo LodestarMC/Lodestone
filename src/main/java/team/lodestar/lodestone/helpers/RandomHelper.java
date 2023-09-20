@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.helpers;
 
+import net.minecraft.util.*;
 import team.lodestar.lodestone.systems.easing.*;
 
 import java.util.*;
@@ -7,11 +8,14 @@ import java.util.*;
 public class RandomHelper {
 
     public static float interpolateWithEasing(Easing easing, float pDelta, float pStart, float pEnd) {
+        float distanceFromMiddle = Mth.abs(0.5f - pDelta) / 0.5f;
+        float middleBasedDelta = easing.ease(1 - distanceFromMiddle, 0, 1, 1);
+        float pMiddle = (pStart + pEnd) / 2f;
         if (pDelta < 0.5f) {
-            return easing.ease(pDelta, pStart, pEnd-pStart, 0.5f);
+            return Mth.lerp(middleBasedDelta, pStart, pMiddle);
         }
         else {
-            return easing.ease(1-pDelta, pStart, pEnd-pStart, 0.5f);
+            return Mth.lerp(1-middleBasedDelta, pMiddle, pEnd);
         }
     }
 
