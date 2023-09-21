@@ -14,6 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class AbstractContainerScreenMixin {
     @Inject(at = @At("RETURN"), method = "render")
     private void lodestoneBeforeTooltipParticleMixin(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick, CallbackInfo ci) {
-        //TODO ScreenParticleHandler.renderEarlyParticles();
+        ScreenParticleHandler.renderEarlyParticles();
     }
 }
