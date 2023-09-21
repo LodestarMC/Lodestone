@@ -15,9 +15,17 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
         return wrapper();
     }
 
+    public ColorParticleData getColorData() {
+        return getParticleOptions().colorData;
+    }
+
     public T setScaleData(GenericParticleData scaleData) {
         getParticleOptions().scaleData = scaleData;
         return wrapper();
+    }
+
+    public GenericParticleData getScaleData() {
+        return getParticleOptions().scaleData;
     }
 
     public T setTransparencyData(GenericParticleData transparencyData) {
@@ -25,9 +33,17 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
         return wrapper();
     }
 
+    public GenericParticleData getTransparencyData() {
+        return getParticleOptions().transparencyData;
+    }
+
     public T setSpinData(SpinParticleData spinData) {
         getParticleOptions().spinData = spinData;
         return wrapper();
+    }
+
+    public SpinParticleData getSpinData() {
+        return getParticleOptions().spinData;
     }
 
     public T setGravityStrength(float gravity) {
