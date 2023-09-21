@@ -41,7 +41,7 @@ public class SyncLodestoneEntityCapabilityPacket extends LodestoneTwoWayNBTPacke
 
     @Override
     public void serverExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
-        Entity entity = context.get().getSender().level.getEntity(entityID);
+        Entity entity = context.get().getSender().level().getEntity(entityID);
         LodestoneEntityDataCapability.getCapabilityOptional(entity).ifPresent(c -> c.deserializeNBT(data));
     }
 

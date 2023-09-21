@@ -38,7 +38,7 @@ public class EntityMixin {
     private void lodestoneCallExtendedStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
         if (type instanceof ExtendedSoundType extendedSoundType) {
             Entity entity = ((Entity)(Object)this);
-            extendedSoundType.onPlayStepSound(entity.level, pos, state, entity.getSoundSource());
+            extendedSoundType.onPlayStepSound(entity.level(), pos, state, entity.getSoundSource());
         }
     }
 }

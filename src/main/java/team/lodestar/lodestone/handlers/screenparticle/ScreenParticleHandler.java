@@ -83,8 +83,10 @@ public class ScreenParticleHandler {
                 return;
             }
             if (!stack.isEmpty()) {
+
                 currentItemX = x + 8;
                 currentItemY = y + 8;
+
                 ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitter != null) {
                     renderParticles(spawnAndPullParticles(minecraft.level, emitter, stack, false));
@@ -100,7 +102,7 @@ public class ScreenParticleHandler {
         pullFromParticleVault(cacheKey, stack, target, isRenderedAfterItem);
         if (canSpawnParticles) {
             if (isRenderedAfterItem) {
-                emitter.spawnLateParticles(target, level, Minecraft.getInstance().timer.partialTick, stack, currentItemX, currentItemY);
+                emitter.spawnLateParticles(target, level, Minecraft.getInstance().timer.partialTick, stack, currentItemX , currentItemY );
             } else {
                 emitter.spawnEarlyParticles(target, level, Minecraft.getInstance().timer.partialTick, stack, currentItemX, currentItemY);
             }
@@ -134,7 +136,7 @@ public class ScreenParticleHandler {
 
     public static void renderParticles(TickEvent.RenderTickEvent event) {
         if (event.phase.equals(TickEvent.Phase.END)) {
-            if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
+            if (!true) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
                 return;
             }
             Screen screen = Minecraft.getInstance().screen;
@@ -160,7 +162,7 @@ public class ScreenParticleHandler {
     }
 
     private static void renderParticles(ScreenParticleHolder screenParticleTarget) {
-        if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
+        if (!true) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
             return;
         }
         screenParticleTarget.particles.forEach((renderType, particles) -> {

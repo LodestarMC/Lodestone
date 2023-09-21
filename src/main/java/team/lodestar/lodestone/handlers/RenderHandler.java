@@ -3,14 +3,14 @@ package team.lodestar.lodestone.handlers;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.*;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.fml.ModList;
+import org.joml.Matrix4f;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
 import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.math.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -45,13 +45,13 @@ public class RenderHandler {
         DELAYED_PARTICLE_RENDER = MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size));
     }
 
-    public static void cacheFogData(EntityViewRenderEvent.RenderFogEvent event) {
+    public static void cacheFogData(ViewportEvent.RenderFog event) {
         FOG_NEAR = event.getNearPlaneDistance();
         FOG_FAR = event.getFarPlaneDistance();
         FOG_SHAPE = event.getFogShape();
     }
 
-    public static void cacheFogData(EntityViewRenderEvent.FogColors event) {
+    public static void cacheFogData(ViewportEvent.ComputeFogColor event) {
         FOG_RED = event.getRed();
         FOG_GREEN = event.getGreen();
         FOG_BLUE = event.getBlue();

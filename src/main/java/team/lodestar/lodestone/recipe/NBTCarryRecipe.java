@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.recipe;
 
 import com.google.gson.JsonObject;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -10,7 +11,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.setup.LodestoneRecipeSerializerRegistry;
 
@@ -21,15 +21,15 @@ public class NBTCarryRecipe extends ShapedRecipe  {
 
     public final Ingredient nbtCarry;
 
-    public NBTCarryRecipe(ShapedRecipe compose, Ingredient nbtCarry) {
-        super(compose.getId(), compose.getGroup(), compose.getWidth(), compose.getHeight(), compose.getIngredients(), compose.getResultItem());
+    public NBTCarryRecipe(ShapedRecipe compose, Ingredient nbtCarry, ItemStack output) {
+        super(compose.getId(), compose.getGroup(), compose.category(), compose.getWidth(), compose.getHeight(), compose.getIngredients(), output);
         this.nbtCarry = nbtCarry;
     }
 
     @Nonnull
     @Override
-    public ItemStack assemble(@Nonnull CraftingContainer inv) {
-        ItemStack out = super.assemble(inv);
+    public ItemStack assemble(@Nonnull CraftingContainer inv, @Nonnull RegistryAccess registryAccess) {
+        ItemStack out = super.assemble(inv, registryAccess);
         for (int i = 0; i < inv.getContainerSize(); i++) {
             ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty() && nbtCarry.test(stack) && stack.hasTag()) {
@@ -46,10 +46,10 @@ public class NBTCarryRecipe extends ShapedRecipe  {
         return LodestoneRecipeSerializerRegistry.NBT_CARRY_RECIPE_SERIALIZER.get();
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<NBTCarryRecipe> {
+    public static class Serializer implements RecipeSerializer<NBTCarryRecipe> {
         @Override
         public NBTCarryRecipe fromJson(@Nonnull ResourceLocation recipeId, @Nonnull JsonObject json) {
-            return new NBTCarryRecipe(SHAPED_RECIPE.fromJson(recipeId, json), Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "nbtCarry")));
+            return new NBTCarryRecipe(SHAPED_RECIPE.fromJson(recipeId, json), Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "nbtCarry")), ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result")));
         }
 
         @SuppressWarnings("ConstantConditions")
@@ -57,7 +57,8 @@ public class NBTCarryRecipe extends ShapedRecipe  {
         public NBTCarryRecipe fromNetwork(@Nonnull ResourceLocation recipeId, @Nonnull FriendlyByteBuf buffer) {
             ShapedRecipe recipe = SHAPED_RECIPE.fromNetwork(recipeId, buffer);
             Ingredient nbtCarry = Ingredient.fromNetwork(buffer);
-            return new NBTCarryRecipe(recipe, nbtCarry);
+            ItemStack stack = buffer.readItem();
+            return new NBTCarryRecipe(recipe, nbtCarry, stack);
         }
 
         @Override

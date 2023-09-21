@@ -2,6 +2,8 @@ package team.lodestar.lodestone.systems.rendering.ghost;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.util.RandomSource;
+import net.minecraftforge.client.model.data.ModelData;
 import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import net.minecraft.client.Minecraft;
@@ -14,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
 
 import java.util.List;
 import java.util.Random;
@@ -45,8 +46,17 @@ public abstract class GhostBlockRenderer {
             BlockPos pos = options.blockPos;
 
             ps.translate(pos.getX(), pos.getY(), pos.getZ());
-            dispatch.getModelRenderer().renderModel(ps.last(), consumer, options.blockState, bakedModel, 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT,
-                    OverlayTexture.NO_OVERLAY, VirtualEmptyModelData.INSTANCE);
+            dispatch.getModelRenderer().renderModel(
+                    ps.last(),
+                    consumer,
+                    options.blockState,
+                    bakedModel,
+                    1.0F,
+                    1.0F,
+                    1.0F,
+                    LightTexture.FULL_BRIGHT,
+                    OverlayTexture.NO_OVERLAY
+            );
             ps.popPose();
         }
     }
@@ -69,23 +79,31 @@ public abstract class GhostBlockRenderer {
             ps.translate(-0.5D, -0.5D, -0.5D);
 
             float alpha = options.alphaSupplier.get() * 0.75F * PlacementAssistantHandler.getCurrentAlpha();
-            renderModel(ps.last(), consumer, options.blockState, bakedModel, 1.0F, 1.0F, 1.0F, alpha, LevelRenderer.getLightColor(minecraft.level, pos),
-                    OverlayTexture.NO_OVERLAY, VirtualEmptyModelData.INSTANCE);
+            renderModel(
+                    ps.last(),
+                    consumer,
+                    options.blockState,
+                    bakedModel,
+                    1.0F,
+                    1.0F,
+                    1.0F,
+                    alpha,
+                    LevelRenderer.getLightColor(minecraft.level, pos),
+                    OverlayTexture.NO_OVERLAY,
+                    ModelData.EMPTY,
+                    minecraft.level.getRandom(),
+                    renderType);
 
             ps.popPose();
         }
 
-        public void renderModel(PoseStack.Pose pose, VertexConsumer consumer, BlockState state, BakedModel model, float red, float green, float blue, float alpha, int packedLight, int packedOverlay,
-                                IModelData extraData) {
-            Random random = new Random();
-
+        public static void renderModel(PoseStack.Pose pose, VertexConsumer consumer, BlockState state, BakedModel model, float red, float green, float blue, float alpha, int packedLight, int packedOverlay, ModelData extraData, RandomSource random, RenderType renderType) {
             for (Direction direction : Direction.values()) {
                 random.setSeed(42L);
-                renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, direction, random, extraData), packedLight, packedOverlay);
+                renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, direction, random, extraData, renderType), packedLight, packedOverlay);
             }
-
             random.setSeed(42L);
-            renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, null, random, extraData), packedLight, packedOverlay);
+            renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, null, random, extraData, renderType), packedLight, packedOverlay);
         }
 
         private static void renderQuadList(PoseStack.Pose pose, VertexConsumer consumer, float red, float green, float blue, float alpha, List<BakedQuad> quads, int packedLight, int packedOverlay) {
@@ -100,7 +118,7 @@ public abstract class GhostBlockRenderer {
                     g = 1.0F;
                     b = 1.0F;
                 }
-                consumer.putBulkData(pose, quad, r, g, b, alpha, packedLight, packedOverlay);
+                consumer.putBulkData(pose, quad, r, g, b, alpha, packedLight, packedOverlay, true);
             }
         }
     }

@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.rendering.trail;
 import com.mojang.math.*;
 import net.minecraft.core.*;
 import net.minecraft.world.phys.*;
+import org.joml.Vector4f;
 import team.lodestar.lodestone.helpers.*;
 
 import java.util.*;

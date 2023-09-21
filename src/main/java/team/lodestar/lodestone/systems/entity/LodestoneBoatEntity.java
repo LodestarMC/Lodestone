@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -42,12 +43,12 @@ public class LodestoneBoatEntity extends Boat {
                         return;
                     }
 
-                    this.causeFallDamage(this.fallDistance, 1.0F, DamageSource.FALL);
-                    if (!this.level.isClientSide && !this.isRemoved()) {
+                    this.causeFallDamage(this.fallDistance, 1.0F, level().damageSources().fall());
+                    if (!this.level().isClientSide && !this.isRemoved()) {
                         this.kill();
-                        if (this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+                        if (this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
                             for (int i = 0; i < 3; ++i) {
-                                this.spawnAtLocation(this.getBoatType().getPlanks());
+                                this.spawnAtLocation(this.getVariant().getPlanks());
                             }
 
                             for (int j = 0; j < 2; ++j) {
@@ -58,7 +59,7 @@ public class LodestoneBoatEntity extends Boat {
                 }
 
                 this.fallDistance = 0.0F;
-            } else if (!this.level.getFluidState(this.blockPosition().below()).is(FluidTags.WATER) && dY < 0.0D) {
+            } else if (!this.level().getFluidState(this.blockPosition().below()).is(FluidTags.WATER) && dY < 0.0D) {
                 this.fallDistance = (float) ((double) this.fallDistance - dY);
             }
 
@@ -73,7 +74,7 @@ public class LodestoneBoatEntity extends Boat {
 
     @Override
     @NotNull
-    public Packet<?> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

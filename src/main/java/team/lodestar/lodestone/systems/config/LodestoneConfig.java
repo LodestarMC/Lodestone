@@ -1,5 +1,4 @@
 package team.lodestar.lodestone.systems.config;
-
 import com.mojang.datafixers.util.Pair;
 import net.minecraftforge.common.ForgeConfigSpec;
 

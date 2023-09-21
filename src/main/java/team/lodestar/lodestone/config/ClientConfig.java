@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
+
 public class ClientConfig extends LodestoneConfig {
 
     public static ConfigValueHolder<Boolean> DELAYED_PARTICLE_RENDERING = new ConfigValueHolder<>(LODESTONE, "client/graphics/particle", builder ->

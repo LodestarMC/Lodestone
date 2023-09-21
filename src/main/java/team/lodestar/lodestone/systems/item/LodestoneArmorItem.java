@@ -13,8 +13,8 @@ import net.minecraft.world.item.ItemStack;
 public abstract class LodestoneArmorItem extends ArmorItem {
     private Multimap<Attribute, AttributeModifier> attributes;
 
-    public LodestoneArmorItem(ArmorMaterial materialIn, EquipmentSlot slot, Properties builder) {
-        super(materialIn, slot, builder);
+    public LodestoneArmorItem(ArmorMaterial materialIn, ArmorItem.Type type, Properties builder) {
+        super(materialIn, type, builder);
     }
 
     public ImmutableMultimap.Builder<Attribute, AttributeModifier> createExtraAttributes(EquipmentSlot slot) {
@@ -26,10 +26,10 @@ public abstract class LodestoneArmorItem extends ArmorItem {
         if (attributes == null) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = new ImmutableMultimap.Builder<>();
             attributeBuilder.putAll(defaultModifiers);
-            attributeBuilder.putAll(createExtraAttributes(slot).build());
+            attributeBuilder.putAll(createExtraAttributes(type.getSlot()).build());
             attributes = attributeBuilder.build();
         }
-        return equipmentSlot == this.slot ? this.attributes : ImmutableMultimap.of();
+        return equipmentSlot == this.type.getSlot() ? this.attributes : ImmutableMultimap.of();
     }
 
     public String getTexture() {

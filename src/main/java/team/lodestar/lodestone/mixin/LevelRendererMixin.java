@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.mixin;
 
+import net.minecraft.client.multiplayer.ClientLevel;
+import org.spongepowered.asm.mixin.Shadow;
 import team.lodestar.lodestone.events.ClientRuntimeEvents;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.systems.postprocess.PostProcessHandler;
@@ -16,8 +18,11 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import javax.annotation.Nullable;
+
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
+    @Shadow @Nullable private ClientLevel level;
     @Unique
     private SoundType type;
 
@@ -27,11 +32,9 @@ public class LevelRendererMixin {
     }
 
     @Inject(method = "levelEvent", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;stateById(I)Lnet/minecraft/world/level/block/state/BlockState;")), at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;playLocalSound(Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V", ordinal = 0))
-    private void lodestoneCallExtendedBreakSound(Player pPlayer, int pType, BlockPos pPos, int pData, CallbackInfo ci) {
-        if (pPlayer != null) {
-            if (type instanceof ExtendedSoundType extendedSoundType) {
-                extendedSoundType.onPlayBreakSound(pPlayer.level, pPos);
-            }
+    private void lodestoneCallExtendedBreakSound(int pType, BlockPos pPos, int pData, CallbackInfo ci) {
+        if (type instanceof ExtendedSoundType extendedSoundType) {
+            extendedSoundType.onPlayBreakSound(this.level, pPos);
         }
     }
 

@@ -8,6 +8,7 @@ import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 /**
@@ -24,13 +25,14 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
     public static final HashMap<String, ResourceLocation> BLOCK_TEXTURE_CACHE = new HashMap<>();
 
 
-    public LodestoneBlockModelProvider(LodestoneBlockStateProvider provider, DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
-        super(generator, modid, existingFileHelper);
+    public LodestoneBlockModelProvider(LodestoneBlockStateProvider provider, PackOutput output, String modid, ExistingFileHelper existingFileHelper) {
+        super(output, modid, existingFileHelper);
         this.factory = l -> new LodestoneBlockModelBuilder(provider, l, existingFileHelper);
     }
 
     @Override
-    public void run(HashCache cache) {
+    public CompletableFuture<?> run(CachedOutput cache) {
+        return super.run(cache);
     }
 
     @Override

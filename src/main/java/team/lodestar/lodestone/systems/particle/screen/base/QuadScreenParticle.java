@@ -1,13 +1,15 @@
 package team.lodestar.lodestone.systems.particle.screen.base;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+import team.lodestar.lodestone.helpers.VecHelper;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class QuadScreenParticle extends ScreenParticle {
@@ -30,10 +32,10 @@ public abstract class QuadScreenParticle extends ScreenParticle {
       float v1 = getV1();
       float roll = Mth.lerp(partialTicks, this.oRoll, this.roll);
       Vector3f[] vectors = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)};
-      Quaternion rotation = Vector3f.ZP.rotation(roll);
+      Quaternionf rotation = new Quaternionf(new AxisAngle4f(roll, VecHelper.Vector3fHelper.ZP));
       for (int i = 0; i < 4; ++i) {
          Vector3f vector3f = vectors[i];
-         vector3f.transform(rotation);
+         vector3f.rotate(rotation);
          vector3f.mul(size);
          vector3f.add((float) x, (float) y, 0);
       }

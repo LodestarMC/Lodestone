@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.capability;
 
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.helpers.NBTHelper;
 import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
@@ -21,7 +22,6 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.network.PacketDistributor;
 
@@ -51,7 +51,7 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
         }
     }
 
-    public static void playerJoin(EntityJoinWorldEvent event) {
+    public static void playerJoin(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
             LodestonePlayerDataCapability.getCapabilityOptional(serverPlayer).ifPresent(capability -> capability.hasJoinedBefore = true);
             syncSelf(serverPlayer);
@@ -60,7 +60,7 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
 
     public static void syncPlayerCapability(PlayerEvent.StartTracking event) {
         if (event.getTarget() instanceof Player player) {
-            if (player.level instanceof ServerLevel) {
+            if (player.level() instanceof ServerLevel) {
                 syncTracking(player);
             }
         }
@@ -75,7 +75,7 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
 
     public static void playerClone(PlayerEvent.Clone event) {
         event.getOriginal().revive();
-        LodestonePlayerDataCapability.getCapabilityOptional(event.getOriginal()).ifPresent(o -> LodestonePlayerDataCapability.getCapabilityOptional(event.getPlayer()).ifPresent(c -> {
+        LodestonePlayerDataCapability.getCapabilityOptional(event.getOriginal()).ifPresent(o -> LodestonePlayerDataCapability.getCapabilityOptional(event.getEntity()).ifPresent(c -> {
             c.deserializeNBT(o.serializeNBT());
         }));
     }

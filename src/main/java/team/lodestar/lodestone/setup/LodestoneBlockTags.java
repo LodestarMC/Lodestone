@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.setup;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -13,7 +14,7 @@ public class LodestoneBlockTags {
     public static final TagKey<Block> TERRACOTTA = forgeTag("terracotta");
 
     public static TagKey<Block> modTag(String path) {
-        return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(path));
+        return TagKey.create(Registries.BLOCK, new ResourceLocation(path));
     }
 
     public static TagKey<Block> forgeTag(String name) {

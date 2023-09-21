@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.handlers;
 
+import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 import net.minecraft.client.Camera;
@@ -15,7 +16,7 @@ public class ScreenshakeHandler {
     public static float yawOffset;
     public static float pitchOffset;
 
-    public static void cameraTick(Camera camera, Random random) {
+    public static void cameraTick(Camera camera, RandomSource random) {
         if (intensity >= 0.1) {
             //TODO: make this perlin noise based rather than just random gibberish
             yawOffset = randomizeOffset(random);
@@ -24,7 +25,7 @@ public class ScreenshakeHandler {
         }
     }
 
-    public static void clientTick(Camera camera, Random random) {
+    public static void clientTick(Camera camera, RandomSource random) {
         double sum = Math.min(INSTANCES.stream().mapToDouble(i1 -> i1.updateIntensity(camera, random)).sum(), ClientConfig.SCREENSHAKE_INTENSITY.getConfigValue());
 
         intensity = (float) Math.pow(sum, 3);
@@ -35,7 +36,7 @@ public class ScreenshakeHandler {
         INSTANCES.add(instance);
     }
 
-    public static float randomizeOffset(Random random) {
+    public static float randomizeOffset(RandomSource random) {
         return Mth.nextFloat(random, -intensity * 2, intensity * 2);
     }
 }

@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.events;
 
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.setup.LodestoneParticleRegistry;
 import team.lodestar.lodestone.setup.LodestoneScreenParticleRegistry;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -15,7 +15,7 @@ import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 public class ClientSetupEvents {
 
     @SubscribeEvent
-    public static void registerParticleFactory(ParticleFactoryRegisterEvent event) {
+    public static void registerParticleFactory(RegisterParticleProvidersEvent event) {
         LodestoneParticleRegistry.registerParticleFactory(event);
         LodestoneScreenParticleRegistry.registerParticleFactory(event);
     }

@@ -41,7 +41,7 @@ public class ItemHelper {
     }
 
     public static <T extends LivingEntity> boolean damageItem(ItemStack stack, int amount, T entityIn, Consumer<T> onBroken) {
-        if (!entityIn.level.isClientSide && (!(entityIn instanceof Player) || !((Player) entityIn).getAbilities().instabuild)) {
+        if (!entityIn.level().isClientSide && (!(entityIn instanceof Player) || !((Player) entityIn).getAbilities().instabuild)) {
             if (stack.isDamageableItem()) {
                 amount = stack.getItem().damageItem(stack, amount, entityIn, onBroken);
                 if (stack.hurt(amount, entityIn.getRandom(), entityIn instanceof ServerPlayer ? (ServerPlayer) entityIn : null)) {
@@ -121,7 +121,7 @@ public class ItemHelper {
     public static void quietlyGiveItemToPlayer(Player player, ItemStack stack) {
         if (stack.isEmpty()) return;
         IItemHandler inventory = new PlayerMainInvWrapper(player.getInventory());
-        Level level = player.level;
+        Level level = player.level();
         ItemStack remainder = stack;
         if (!remainder.isEmpty()) {
             remainder = ItemHandlerHelper.insertItemStacked(inventory, remainder, false);
@@ -132,7 +132,7 @@ public class ItemHelper {
     }
 
     public static void spawnItemOnEntity(LivingEntity entity, ItemStack stack) {
-        Level level = entity.level;
+        Level level = entity.level();
         ItemEntity itemEntity = new ItemEntity(level, entity.getX(), entity.getY() + 0.5, entity.getZ(), stack);
         itemEntity.setPickUpDelay(40);
         itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().multiply(0, 1, 0));

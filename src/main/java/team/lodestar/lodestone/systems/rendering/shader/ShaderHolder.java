@@ -28,9 +28,9 @@ public class ShaderHolder {
         this.uniformsToCache = new ArrayList<>(List.of(uniformsToCache));
     }
 
-    public ExtendedShaderInstance createInstance(ResourceManager resourceManager) throws IOException {
+    public ExtendedShaderInstance createInstance(ResourceProvider provider) throws IOException {
         ShaderHolder shaderHolder = this;
-        ExtendedShaderInstance shaderInstance = new ExtendedShaderInstance(resourceManager, shaderLocation, shaderFormat) {
+        ExtendedShaderInstance shaderInstance = new ExtendedShaderInstance(provider, shaderLocation, shaderFormat) {
             @Override
             public ShaderHolder getShaderHolder() {
                 return shaderHolder;

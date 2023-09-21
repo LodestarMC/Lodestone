@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.setup;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -28,7 +29,7 @@ public class LodestoneItemTags {
     public static final TagKey<Item> INGOTS_TIN = forgeTag("ingots/tin");
 
     public static TagKey<Item> modTag(String path) {
-        return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(path));
+        return TagKey.create(Registries.ITEM, new ResourceLocation(path));
     }
 
     public static TagKey<Item> forgeTag(String name) {

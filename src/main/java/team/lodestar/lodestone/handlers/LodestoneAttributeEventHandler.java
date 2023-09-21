@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.handlers;
 
+import net.minecraft.world.damagesource.DamageTypes;
 import team.lodestar.lodestone.setup.LodestoneAttributeRegistry;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -16,8 +16,8 @@ public class LodestoneAttributeEventHandler {
             return;
         }
         DamageSource source = event.getSource();
-        LivingEntity target = event.getEntityLiving();
-        if (source.isMagic()) {
+        LivingEntity target = event.getEntity();
+        if (source.typeHolder().is(DamageTypes.MAGIC)) {
             float amount = event.getAmount();
             if (source.getEntity() instanceof LivingEntity attacker) {
                 AttributeInstance magicProficiency = attacker.getAttribute(LodestoneAttributeRegistry.MAGIC_PROFICIENCY.get());
@@ -32,12 +32,12 @@ public class LodestoneAttributeEventHandler {
             event.setAmount(amount);
         }
         if (source.getEntity() instanceof LivingEntity attacker) {
-            if (!source.isMagic()) {
+            if (!source.typeHolder().is(DamageTypes.MAGIC)) {
                 AttributeInstance magicDamage = attacker.getAttribute(LodestoneAttributeRegistry.MAGIC_DAMAGE.get());
                 if (magicDamage != null) {
                     if (magicDamage.getValue() > 0 && target.isAlive()) {
                         target.invulnerableTime = 0;
-                        target.hurt(new EntityDamageSource(DamageSource.MAGIC.getMsgId(), attacker).setMagic(), (float) magicDamage.getValue());
+                        target.hurt(source.getEntity().level().damageSources().magic(), (float) magicDamage.getValue());
                     }
                 }
             }

@@ -27,7 +27,7 @@ public class LivingEntityMixin {
     private void lodestoneCallExtendedStepSound(CallbackInfo ci) {
         if (type instanceof ExtendedSoundType extendedSoundType) {
             Entity entity = ((Entity)(Object)this);
-            extendedSoundType.onPlayFallSound(entity.level, entity.getOnPos(), entity.getSoundSource());
+            extendedSoundType.onPlayFallSound(entity.level(), entity.getOnPos(), entity.getSoundSource());
         }
     }
 }

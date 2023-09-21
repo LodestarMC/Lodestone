@@ -4,9 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementFilter;
@@ -20,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class DimensionPlacementFilter extends PlacementFilter {
   public static final Codec<DimensionPlacementFilter> CODEC = RecordCodecBuilder.create((codec) -> codec.group(
-          ResourceLocation.CODEC.listOf().fieldOf("dimensions").forGetter(o -> o.dimensions.stream().map(ResourceKey::location).collect(Collectors.toList()))).apply(codec, (r) -> new DimensionPlacementFilter(r.stream().map(o -> ResourceKey.create(Registry.DIMENSION_REGISTRY, o)).collect(Collectors.toSet()))));
+          ResourceLocation.CODEC.listOf().fieldOf("dimensions").forGetter(o -> o.dimensions.stream().map(ResourceKey::location).collect(Collectors.toList()))).apply(codec, (r) -> new DimensionPlacementFilter(r.stream().map(o -> ResourceKey.create(Registries.DIMENSION, o)).collect(Collectors.toSet()))));
 
   private final Set<ResourceKey<Level>> dimensions;
 
@@ -33,17 +35,17 @@ public class DimensionPlacementFilter extends PlacementFilter {
   }
 
   @Override
-  protected boolean shouldPlace(PlacementContext p_191835_, Random p_191836_, BlockPos p_191837_) {
-    ServerLevel level = p_191835_.getLevel().getLevel();
-    return dimensions.contains(level.dimension());
-  }
-
-  @Override
   public PlacementModifierType<?> type() {
     return LodestonePlacementFillerRegistry.DIMENSION;
   }
 
   public static Set<ResourceKey<Level>> fromStrings(List<? extends String> dimensions) {
-    return dimensions.stream().map(o -> ResourceKey.create(Registry.DIMENSION_REGISTRY, (new ResourceLocation(o)))).collect(Collectors.toSet());
+    return dimensions.stream().map(o -> ResourceKey.create(Registries.DIMENSION, (new ResourceLocation(o)))).collect(Collectors.toSet());
+  }
+
+  @Override
+  protected boolean shouldPlace(PlacementContext pContext, RandomSource pRandom, BlockPos pPos) {
+    ServerLevel level = pContext.getLevel().getLevel();
+    return dimensions.contains(level.dimension());
   }
 }

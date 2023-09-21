@@ -24,28 +24,9 @@ public class LodestoneGlslPreprocessor extends GlslPreprocessor {
         ResourceLocation resourcelocation = new ResourceLocation(pDirectory);
         ResourceLocation resourcelocation1 = new ResourceLocation(resourcelocation.getNamespace(), "shaders/include/" + resourcelocation.getPath());
         try {
-            Resource resource1 = Minecraft.getInstance().getResourceManager().getResource(resourcelocation1);
+            Resource resource1 = Minecraft.getInstance().getResourceManager().getResource(resourcelocation1).get();
 
-            String s2;
-            try {
-                s2 = IOUtils.toString(resource1.getInputStream(), StandardCharsets.UTF_8);
-            } catch (Throwable throwable1) {
-                if (resource1 != null) {
-                    try {
-                        resource1.close();
-                    } catch (Throwable throwable) {
-                        throwable1.addSuppressed(throwable);
-                    }
-                }
-
-                throw throwable1;
-            }
-
-            if (resource1 != null) {
-                resource1.close();
-            }
-
-            return s2;
+            return IOUtils.toString(resource1.open(), StandardCharsets.UTF_8);
         } catch (IOException ioexception) {
             LodestoneLib.LOGGER.error("Could not open GLSL import {}: {}", pDirectory, ioexception.getMessage());
             return "#error " + ioexception.getMessage();

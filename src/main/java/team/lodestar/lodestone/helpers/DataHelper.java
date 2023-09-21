@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.helpers;
 
-import com.mojang.math.Vector3f;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -175,7 +174,7 @@ public class DataHelper {
     public static ArrayList<Vec3> blockOutlinePositions(Level level, BlockPos pos) {
         ArrayList<Vec3> arrayList = new ArrayList<>();
         double d0 = 0.5625D;
-        Random random = level.random;
+        var random = level.random;
         for (Direction direction : Direction.values()) {
             BlockPos blockpos = pos.relative(direction);
             if (!level.getBlockState(blockpos).isSolidRender(level, blockpos)) {

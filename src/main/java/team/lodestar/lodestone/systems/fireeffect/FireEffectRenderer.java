@@ -1,10 +1,9 @@
 package team.lodestar.lodestone.systems.fireeffect;
 
+import org.joml.Matrix4f;
 import team.lodestar.lodestone.config.ClientConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -16,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import team.lodestar.lodestone.helpers.VecHelper;
 
 
 @OnlyIn(Dist.CLIENT)
@@ -41,9 +41,8 @@ public abstract class FireEffectRenderer<T extends FireEffectInstance> {
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.enableTexture();
         TextureAtlasSprite textureatlassprite = getFirstFlame().sprite();
-        RenderSystem.setShaderTexture(0, textureatlassprite.atlas().location());
+        RenderSystem.setShaderTexture(0, textureatlassprite.atlasLocation());
         float f = textureatlassprite.getU0();
         float f1 = textureatlassprite.getU1();
         float f2 = (f + f1) / 2.0F;
@@ -60,15 +59,15 @@ public abstract class FireEffectRenderer<T extends FireEffectInstance> {
             pPoseStack.pushPose();
             pPoseStack.translate(((float) (-(i * 2 - 1)) * 0.24F), -0.3F, 0.0D);
             pPoseStack.translate(0, -(ClientConfig.FIRE_OVERLAY_OFFSET.getConfigValue()) * 0.3f, 0);
-            pPoseStack.mulPose(Vector3f.YP.rotationDegrees((float) (i * 2 - 1) * 10.0F));
+            pPoseStack.mulPose(VecHelper.Vector3fHelper.rotation((float) (i * 2 - 1) * 10.0F, VecHelper.Vector3fHelper.YP));
             Matrix4f matrix4f = pPoseStack.last().pose();
             bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
             bufferbuilder.vertex(matrix4f, -0.5F, -0.5F, -0.5F).color(1.0F, 1.0F, 1.0F, 0.9F).uv(f8, f10).endVertex();
             bufferbuilder.vertex(matrix4f, 0.5F, -0.5F, -0.5F).color(1.0F, 1.0F, 1.0F, 0.9F).uv(f7, f10).endVertex();
             bufferbuilder.vertex(matrix4f, 0.5F, 0.5F, -0.5F).color(1.0F, 1.0F, 1.0F, 0.9F).uv(f7, f9).endVertex();
             bufferbuilder.vertex(matrix4f, -0.5F, 0.5F, -0.5F).color(1.0F, 1.0F, 1.0F, 0.9F).uv(f8, f9).endVertex();
-            bufferbuilder.end();
-            BufferUploader.end(bufferbuilder);
+            BufferBuilder.RenderedBuffer renderedBuffer = bufferbuilder.end();
+            BufferUploader.drawWithShader(renderedBuffer);
             pPoseStack.popPose();
         }
 
@@ -87,7 +86,7 @@ public abstract class FireEffectRenderer<T extends FireEffectInstance> {
         float f1 = 0.5F;
         float f3 = pEntity.getBbHeight() / f;
         float f4 = 0.0F;
-        pMatrixStack.mulPose(Vector3f.YP.rotationDegrees(-camera.getYRot()));
+        pMatrixStack.mulPose(VecHelper.Vector3fHelper.rotation(-camera.getYRot(), VecHelper.Vector3fHelper.YP));
         pMatrixStack.translate(0.0D, 0.0D, -0.3F + (float) ((int) f3) * 0.02F);
         float f5 = 0.0F;
         int i = 0;

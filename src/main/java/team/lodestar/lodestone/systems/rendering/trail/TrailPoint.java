@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.rendering.trail;
 
 import com.mojang.math.*;
 import net.minecraft.world.phys.*;
+import org.joml.Vector4f;
 
 public final class TrailPoint {
     private final Vec3 position;

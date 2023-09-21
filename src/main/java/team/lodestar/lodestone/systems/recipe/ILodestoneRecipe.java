@@ -1,10 +1,12 @@
 package team.lodestar.lodestone.systems.recipe;
 
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class ILodestoneRecipe implements Recipe<Container> {
     @Deprecated
@@ -15,7 +17,7 @@ public abstract class ILodestoneRecipe implements Recipe<Container> {
 
     @Deprecated
     @Override
-    public ItemStack assemble(Container inv) {
+    public ItemStack assemble(@NotNull Container inv, @NotNull RegistryAccess registry) {
         return ItemStack.EMPTY;
     }
 
@@ -27,7 +29,7 @@ public abstract class ILodestoneRecipe implements Recipe<Container> {
 
     @Deprecated
     @Override
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(@NotNull RegistryAccess registry) {
         return ItemStack.EMPTY;
     }
 

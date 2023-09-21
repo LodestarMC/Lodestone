@@ -424,7 +424,7 @@ public class BlockHelper {
         ArrayList<BlockPos> positions = new ArrayList<>();
         for (int i = 0; i < nodes; i++) {
             Node node = path.getNode(i);
-            positions.add(new BlockPos(node.x, node.y - 0.5, node.z));
+            positions.add(new BlockPos(node.x, (int)(node.y - 0.5), node.z));
         }
         if (!inclusive) {
             positions.remove(0);

@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.datagen.providers;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.*;
@@ -20,10 +21,10 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
 
     private String texturePath = "";
 
-    public LodestoneBlockStateProvider(DataGenerator gen, String modid, ExistingFileHelper exFileHelper, LodestoneItemModelProvider itemModelProvider) {
-        super(gen, modid, exFileHelper);
+    public LodestoneBlockStateProvider(PackOutput output, String modid, ExistingFileHelper exFileHelper, LodestoneItemModelProvider itemModelProvider) {
+        super(output, modid, exFileHelper);
         this.itemModelProvider = itemModelProvider;
-        this.blockModels = new LodestoneBlockModelProvider(this, gen, modid, exFileHelper);
+        this.blockModels = new LodestoneBlockModelProvider(this, output, modid, exFileHelper);
     }
 
     @Override

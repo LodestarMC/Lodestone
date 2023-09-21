@@ -1,7 +1,5 @@
 package team.lodestar.lodestone.helpers;
 
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -12,6 +10,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -93,7 +95,7 @@ public class VecHelper {
     public static ArrayList<Vec3> blockOutlinePositions(Level level, BlockPos pos) {
         ArrayList<Vec3> arrayList = new ArrayList<>();
         double d0 = 0.5625D;
-        Random random = level.random;
+        var random = level.random;
         for (Direction direction : Direction.values()) {
             BlockPos blockpos = pos.relative(direction);
             if (!level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
@@ -148,18 +150,17 @@ public class VecHelper {
          */
         Camera ari = Minecraft.getInstance().gameRenderer.getMainCamera();
         Vec3 camera_pos = ari.getPosition();
-        Quaternion camera_rotation_conj = ari.rotation()
-                .copy();
-        camera_rotation_conj.conj();
+        Quaternionf camera_rotation_conj = new Quaternionf(ari.rotation());
+        camera_rotation_conj.conjugate();
 
         Vector3f result3f = new Vector3f((float) (camera_pos.x - target.x), (float) (camera_pos.y - target.y),
                 (float) (camera_pos.z - target.z));
-        result3f.transform(camera_rotation_conj);
+        result3f.rotate(camera_rotation_conj);
 
         // ----- compensate for view bobbing (if active) -----
         // the following code adapted from GameRenderer::applyBobbing (to invert it)
         Minecraft mc = Minecraft.getInstance();
-        if (mc.options.bobView) {
+        if (mc.options.bobView().get()) {
             Entity renderViewEntity = mc.getCameraEntity();
             if (renderViewEntity instanceof Player player) {
                 float distwalked_modified = player.walkDist;
@@ -167,20 +168,16 @@ public class VecHelper {
                 float f = distwalked_modified - player.walkDistO;
                 float f1 = -(distwalked_modified + f * partialTicks);
                 float f2 = Mth.lerp(partialTicks, player.oBob, player.bob);
-                Quaternion q2 = new Quaternion(Vector3f.XP,
-                        Math.abs(Mth.cos(f1 * (float) Math.PI - 0.2F) * f2) * 5.0F, true);
-                q2.conj();
-                result3f.transform(q2);
+                Quaternionf q2 = new Quaternionf(new AxisAngle4f(Math.abs(Mth.cos(f1 * (float) Math.PI - 0.2F) * f2) * 5.0F, Vector3fHelper.XP));
+                q2.conjugate();
+                result3f.rotate(q2);
 
-                Quaternion q1 =
-                        new Quaternion(Vector3f.ZP, Mth.sin(f1 * (float) Math.PI) * f2 * 3.0F, true);
-                q1.conj();
-                result3f.transform(q1);
+                Quaternionf q1 = new Quaternionf(new AxisAngle4f(Math.abs(Mth.sin(f1 * (float) Math.PI) * f2) * 3.0F, Vector3fHelper.ZP));
+                q1.conjugate();
+                result3f.rotate(q1);
 
-                Vector3f bob_translation = new Vector3f((Mth.sin(f1 * (float) Math.PI) * f2 * 0.5F),
-                        (-Math.abs(Mth.cos(f1 * (float) Math.PI) * f2)), 0.0f);
-                bob_translation.setY(-bob_translation.y()); // this is weird but hey, if it works
-                result3f.add(bob_translation);
+                Vector3f bob_translation = new Vector3f((Mth.sin(f1 * (float) Math.PI) * f2 * 0.5F), (-Math.abs(Mth.cos(f1 * (float) Math.PI) * f2)), 0.0f);
+                result3f.add(new Vector3f(bob_translation.x(), -bob_translation.y(), bob_translation.z()));
             }
         }
 
@@ -192,4 +189,23 @@ public class VecHelper {
         float scale_factor = half_height / (result3f.z() * (float) Math.tan(Math.toRadians(fov / 2)));
         return new Vec3(-result3f.x() * scale_factor, result3f.y() * scale_factor, result3f.z());
     }
+
+    public static class Vector3fHelper {
+        public static Vector3f XP = new Vector3f(1.0F, 0.0F, 0.0F);
+        public static Vector3f YP = new Vector3f(0.0F, 1.0F, 0.0F);
+        public static Vector3f ZP = new Vector3f(0.0F, 0.0F, 1.0F);
+        public static Vector3f XN = new Vector3f(-1.0F, 0.0F, 0.0F);
+        public static Vector3f YN = new Vector3f(0.0F, -1.0F, 0.0F);
+        public static Vector3f ZN = new Vector3f(0.0F, 0.0F, -1.0F);
+
+        public static Quaternionf rotation(float rotation, Vector3f axis) {
+            return new Quaternionf(new AxisAngle4f(rotation, axis));
+        }
+    }
+    public static class Vector4fHelper {
+        public static void perspectiveDivide(Vector4f v) {
+            v.div(v.x, v.y, v.z, 1.0f);
+        }
+    }
+
 }

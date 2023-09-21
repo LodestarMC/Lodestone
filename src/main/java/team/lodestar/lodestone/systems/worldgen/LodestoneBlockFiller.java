@@ -54,7 +54,7 @@ public class LodestoneBlockFiller {
                 return false;
             }
             BlockState state = level.getBlockState(pos);
-            return level.isEmptyBlock(pos) || state.getMaterial().isReplaceable();
+            return level.isEmptyBlock(pos) || state.canBeReplaced();
         }
 
         public void place(LevelAccessor level, BlockPos pos) {

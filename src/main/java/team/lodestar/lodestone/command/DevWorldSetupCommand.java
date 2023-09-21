@@ -1,12 +1,14 @@
 package team.lodestar.lodestone.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import team.lodestar.lodestone.data.LodestoneLangDatagen;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.GameRules;
+
 
 public class DevWorldSetupCommand {
     public DevWorldSetupCommand() {
@@ -26,7 +28,7 @@ public class DevWorldSetupCommand {
                     rules.getRule(GameRules.RULE_MOBGRIEFING).set(false, server);
                     source.getLevel().setWeatherParameters(6000, 0, false, false);
                     source.getLevel().setDayTime(16000);
-                    source.sendSuccess(new TranslatableComponent(LodestoneLangDatagen.getCommand("devsetup")), true);
+                    source.sendSuccess(() -> Component.translatable("lodestone.command.devsetup"), true);
                     return 1;
                 });
     }

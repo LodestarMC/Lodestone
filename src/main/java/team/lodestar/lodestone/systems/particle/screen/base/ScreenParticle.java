@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.particle.screen.base;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticleRenderType;
@@ -21,7 +22,7 @@ public abstract class ScreenParticle {
    public double xMoved;
    public double yMoved;
    public boolean removed;
-   public final Random random = new Random();
+   public final RandomSource random = RandomSource.create();
    public int age;
    public int lifetime;
    public float gravity;

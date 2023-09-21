@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.setup;
 
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
@@ -7,7 +8,6 @@ import team.lodestar.lodestone.systems.particle.type.LodestoneScreenParticleType
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class LodestoneScreenParticleRegistry {
     public static final ScreenParticleType<ScreenParticleOptions> TWINKLE = registerType(new LodestoneScreenParticleType());
     public static final ScreenParticleType<ScreenParticleOptions> STAR = registerType(new LodestoneScreenParticleType());
 
-    public static void registerParticleFactory(ParticleFactoryRegisterEvent event) {
+    public static void registerParticleFactory(RegisterParticleProvidersEvent event) {//TODO maybe use event?
         registerProvider(WISP, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("wisp"))));
         registerProvider(SMOKE, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("smoke"))));
         registerProvider(SPARKLE, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("sparkle"))));

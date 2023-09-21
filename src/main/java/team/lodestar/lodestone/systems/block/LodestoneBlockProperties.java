@@ -2,18 +2,21 @@ package team.lodestar.lodestone.systems.block;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.TagKey;
-import net.minecraftforge.data.loading.DatagenModLoader;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import org.jetbrains.annotations.NotNull;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.flag.FeatureFlag;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraftforge.data.loading.DatagenModLoader;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import org.jetbrains.annotations.NotNull;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
+import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -26,27 +29,22 @@ import java.util.function.ToIntFunction;
 @SuppressWarnings({"UnusedReturnValue", "unused"})
 public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
-    public LodestoneBlockProperties(Material material, MaterialColor color) {
-        super(material, (state) -> color);
+    public LodestoneBlockProperties() {
+        super();
     }
 
-    public LodestoneBlockProperties(Material material) {
-        super(material, (state) -> material.getColor());
-    }
-
-    public LodestoneBlockProperties(Material pMaterial, Function<BlockState, MaterialColor> pMaterialColor) {
-        super(pMaterial, pMaterialColor);
+    public static LodestoneBlockProperties of() {
+        return new LodestoneBlockProperties();
     }
 
     public static LodestoneBlockProperties copy(BlockBehaviour pBlockBehaviour) {
-        LodestoneBlockProperties properties = new LodestoneBlockProperties(pBlockBehaviour.material, pBlockBehaviour.properties.materialColor);
-        properties.material = pBlockBehaviour.properties.material;
+        LodestoneBlockProperties properties = LodestoneBlockProperties.of();
         properties.destroyTime = pBlockBehaviour.properties.destroyTime;
         properties.explosionResistance = pBlockBehaviour.properties.explosionResistance;
         properties.hasCollision = pBlockBehaviour.properties.hasCollision;
         properties.isRandomlyTicking = pBlockBehaviour.properties.isRandomlyTicking;
         properties.lightEmission = pBlockBehaviour.properties.lightEmission;
-        properties.materialColor = pBlockBehaviour.properties.materialColor;
+        properties.mapColor = pBlockBehaviour.properties.mapColor;
         properties.soundType = pBlockBehaviour.properties.soundType;
         properties.friction = pBlockBehaviour.properties.friction;
         properties.speedFactor = pBlockBehaviour.properties.speedFactor;
@@ -54,6 +52,23 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
         properties.canOcclude = pBlockBehaviour.properties.canOcclude;
         properties.isAir = pBlockBehaviour.properties.isAir;
         properties.requiresCorrectToolForDrops = pBlockBehaviour.properties.requiresCorrectToolForDrops;
+        properties.jumpFactor = pBlockBehaviour.properties.jumpFactor;
+        properties.drops = pBlockBehaviour.properties.drops;
+        properties.ignitedByLava = pBlockBehaviour.properties.ignitedByLava;
+        properties.forceSolidOn = pBlockBehaviour.properties.forceSolidOn;
+        properties.pushReaction = pBlockBehaviour.properties.pushReaction;
+        properties.spawnParticlesOnBreak = pBlockBehaviour.properties.spawnParticlesOnBreak;
+        properties.instrument = pBlockBehaviour.properties.instrument;
+        properties.replaceable = pBlockBehaviour.properties.replaceable;
+        properties.isValidSpawn = pBlockBehaviour.properties.isValidSpawn;
+        properties.isRedstoneConductor = pBlockBehaviour.properties.isRedstoneConductor;
+        properties.isSuffocating = pBlockBehaviour.properties.isSuffocating;
+        properties.isViewBlocking = pBlockBehaviour.properties.isViewBlocking;
+        properties.emissiveRendering = pBlockBehaviour.properties.emissiveRendering;
+        properties.requiredFeatures = pBlockBehaviour.properties.requiredFeatures;
+        properties.offsetFunction = pBlockBehaviour.properties.offsetFunction;
+        properties.hasPostProcess = pBlockBehaviour.properties.hasPostProcess;
+
         return properties;
     }
 
@@ -67,7 +82,7 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     }
 
     public LodestoneBlockProperties setCutoutRenderType() {
-        return setRenderType(()->RenderType::cutoutMipped);
+        return setRenderType(() -> RenderType::cutoutMipped);
     }
 
     public LodestoneBlockProperties setRenderType(Supplier<Supplier<RenderType>> renderType) {
@@ -213,8 +228,8 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
     @Override
     @NotNull
-    public LodestoneBlockProperties noDrops() {
-        return (LodestoneBlockProperties) super.noDrops();
+    public LodestoneBlockProperties noLootTable() {
+        return (LodestoneBlockProperties) super.noLootTable();
     }
 
     @Override
@@ -230,9 +245,7 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     @Override
     @NotNull
     public LodestoneBlockProperties lootFrom(@NotNull Supplier<? extends Block> blockIn) {
-        if (DatagenModLoader.isRunningDataGen()) {
-            getDatagenData().hasInheritedLootTable = true;
-        }
+        hasInheritedLoot();
         return (LodestoneBlockProperties) super.lootFrom(blockIn);
     }
 
@@ -286,8 +299,20 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
     @Override
     @NotNull
-    public LodestoneBlockProperties color(@NotNull MaterialColor materialColor) {
-        return (LodestoneBlockProperties) super.color(materialColor);
+    public LodestoneBlockProperties mapColor(@NotNull Function<BlockState, MapColor> p_285406_) {
+        return (LodestoneBlockProperties) super.mapColor(p_285406_);
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties mapColor(@NotNull DyeColor p_285331_) {
+        return (LodestoneBlockProperties) super.mapColor(p_285331_);
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties mapColor(@NotNull MapColor p_285137_) {
+        return (LodestoneBlockProperties) super.mapColor(p_285137_);
     }
 
     @Override
@@ -300,5 +325,59 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     @NotNull
     public LodestoneBlockProperties explosionResistance(float explosionResistance) {
         return (LodestoneBlockProperties) super.explosionResistance(explosionResistance);
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties ignitedByLava() {
+        return (LodestoneBlockProperties) super.ignitedByLava();
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties liquid() {
+        return (LodestoneBlockProperties) super.liquid();
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties forceSolidOn() {
+        return (LodestoneBlockProperties) super.forceSolidOn();
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties pushReaction(@NotNull PushReaction p_278265_) {
+        return (LodestoneBlockProperties) super.pushReaction(p_278265_);
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties offsetType(@NotNull BlockBehaviour.OffsetType pOffsetType) {
+        return (LodestoneBlockProperties) super.offsetType(pOffsetType);
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties noParticlesOnBreak() {
+        return (LodestoneBlockProperties) super.noParticlesOnBreak();
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties requiredFeatures(FeatureFlag @NotNull ... pRequiredFeatures) {
+        return (LodestoneBlockProperties) super.requiredFeatures(pRequiredFeatures);
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties instrument(@NotNull NoteBlockInstrument p_282170_) {
+        return (LodestoneBlockProperties) super.instrument(p_282170_);
+    }
+
+    @Override
+    @NotNull
+    public LodestoneBlockProperties replaceable() {
+        return (LodestoneBlockProperties) super.replaceable();
     }
 }

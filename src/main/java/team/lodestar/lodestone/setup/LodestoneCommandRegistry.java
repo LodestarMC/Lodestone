@@ -7,8 +7,6 @@ import team.lodestar.lodestone.command.DevWorldSetupCommand;
 import team.lodestar.lodestone.command.ScreenshakeCommand;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.synchronization.ArgumentSerializer;
-import net.minecraft.commands.synchronization.ArgumentTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,7 +31,10 @@ public class LodestoneCommandRegistry {
     public static void registerArgumentTypes() {
     }
 
+    /*TODO
     public static <T extends ArgumentType<?>> void registerArgumentType(ResourceLocation key, Class<T> argumentClass, ArgumentSerializer<T> serializer) {
         ArgumentTypes.register(key.toString(), argumentClass, serializer);
     }
+
+     */
 }

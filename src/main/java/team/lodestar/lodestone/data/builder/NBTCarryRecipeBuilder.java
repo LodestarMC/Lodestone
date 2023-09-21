@@ -18,6 +18,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.setup.LodestoneRecipeSerializerRegistry;
 
 import javax.annotation.Nullable;
@@ -88,11 +89,11 @@ public class NBTCarryRecipeBuilder { //TODO: Rewrite this bloody mess, please.
     }
 
     public void build(Consumer<FinishedRecipe> consumerIn) {
-        this.build(consumerIn, Registry.ITEM.getKey(this.result));
+        this.build(consumerIn, ForgeRegistries.ITEMS.getKey(this.result));
     }
 
     public void build(Consumer<FinishedRecipe> consumerIn, String save) {
-        ResourceLocation resourcelocation = Registry.ITEM.getKey(this.result);
+        ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
         if ((new ResourceLocation(save)).equals(resourcelocation)) {
             throw new IllegalStateException("Shaped Recipe " + save + " should remove its 'save' argument");
         } else {
@@ -103,7 +104,7 @@ public class NBTCarryRecipeBuilder { //TODO: Rewrite this bloody mess, please.
     public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
         this.validate(id);
         this.advancementBuilder.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(id)).rewards(AdvancementRewards.Builder.recipe(id)).requirements(RequirementsStrategy.OR);
-        consumerIn.accept(new Result(id, nbtCarry, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + this.result.getItemCategory().getRecipeFolderName() + "/" + id.getPath())));
+        consumerIn.accept(new Result(id, nbtCarry, this.result, this.count, this.group == null ? "" : this.group, this.pattern, this.key, this.advancementBuilder, new ResourceLocation(id.getNamespace(), "recipes/" + id.getPath())));
     }
 
     private void validate(ResourceLocation id) {
@@ -178,7 +179,7 @@ public class NBTCarryRecipeBuilder { //TODO: Rewrite this bloody mess, please.
             json.add("key", jsonobject);
             json.add("nbtCarry", nbtCarry.toJson());
             JsonObject jsonobject1 = new JsonObject();
-            jsonobject1.addProperty("item", Registry.ITEM.getKey(this.result).toString());
+            jsonobject1.addProperty("item", ForgeRegistries.ITEMS.getKey(this.result).toString());
             if (this.count > 1) {
                 jsonobject1.addProperty("count", this.count);
             }

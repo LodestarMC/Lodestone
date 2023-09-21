@@ -2,6 +2,8 @@ package team.lodestar.lodestone.systems.postprocess;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonParseException;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import team.lodestar.lodestone.LodestoneLib;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.blaze3d.pipeline.RenderTarget;
@@ -9,8 +11,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.client.renderer.GameRenderer;
@@ -34,7 +34,7 @@ public abstract class PostProcessor {
     protected static final Minecraft MC = Minecraft.getInstance();
 
     public static final Collection<Pair<String, Consumer<Uniform>>> COMMON_UNIFORMS = Lists.newArrayList(
-        Pair.of("cameraPos", u -> u.set(new Vector3f(MC.gameRenderer.getMainCamera().getPosition()))),
+        Pair.of("cameraPos", u -> u.set(new Vector3f(MC.gameRenderer.getMainCamera().getPosition().toVector3f()))),
         Pair.of("lookVector", u -> u.set(MC.gameRenderer.getMainCamera().getLookVector())),
         Pair.of("upVector", u -> u.set(MC.gameRenderer.getMainCamera().getUpVector())),
         Pair.of("leftVector", u -> u.set(MC.gameRenderer.getMainCamera().getLeftVector())),

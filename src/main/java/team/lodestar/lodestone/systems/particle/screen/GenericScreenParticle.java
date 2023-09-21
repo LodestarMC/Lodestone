@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.math.Vector3d;
+import org.joml.Vector3d;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;

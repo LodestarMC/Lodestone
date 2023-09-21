@@ -41,8 +41,8 @@ public class LodestoneEntityDataCapability implements LodestoneCapability {
     }
 
     public static void syncEntityCapability(PlayerEvent.StartTracking event) {
-        if (event.getEntity().level instanceof ServerLevel) {
-            LodestoneEntityDataCapability.syncTracking(event.getEntityLiving());
+        if (event.getEntity().level() instanceof ServerLevel) {
+            LodestoneEntityDataCapability.syncTracking(event.getEntity());
         }
     }
 

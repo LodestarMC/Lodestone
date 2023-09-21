@@ -44,7 +44,7 @@ public class SyncLodestonePlayerCapabilityPacket extends LodestoneTwoWayNBTPacke
 
     @Override
     public void serverExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
-        Player player = context.get().getSender().level.getPlayerByUUID(uuid);
+        Player player = context.get().getSender().level().getPlayerByUUID(uuid);
         LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.deserializeNBT(data));
     }
 

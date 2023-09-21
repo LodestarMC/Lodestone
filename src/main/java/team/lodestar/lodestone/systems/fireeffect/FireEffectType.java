@@ -28,11 +28,11 @@ public class FireEffectType {
         instance.duration = 0;
 
         //TODO: test if the sound actually plays
-        target.level.playSound(null, target.blockPosition(), SoundEvents.GENERIC_EXTINGUISH_FIRE, target.getSoundSource(),0.7F, 1.6F + (target.level.getRandom().nextFloat() - target.level.getRandom().nextFloat()) * 0.4F);
+        target.level().playSound(null, target.blockPosition(), SoundEvents.GENERIC_EXTINGUISH_FIRE, target.getSoundSource(),0.7F, 1.6F + (target.level().getRandom().nextFloat() - target.level().getRandom().nextFloat()) * 0.4F);
     }
 
     public void tick(FireEffectInstance instance, Entity target) {
-        target.hurt(DamageSource.ON_FIRE, getDamage(instance));
+        target.hurt(target.level().damageSources().onFire(), getDamage(instance));
     }
 
     public boolean isValid(FireEffectInstance instance) {

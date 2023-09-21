@@ -17,8 +17,8 @@ public abstract class LodestoneItemModelProvider extends ItemModelProvider {
 
     private String texturePath = "";
 
-    public LodestoneItemModelProvider(DataGenerator generator, String modid, ExistingFileHelper existingFileHelper) {
-        super(generator, modid, existingFileHelper);
+    public LodestoneItemModelProvider(PackOutput output, String modid, ExistingFileHelper existingFileHelper) {
+        super(output, modid, existingFileHelper);
     }
 
     public void setTexturePath(String texturePath) {

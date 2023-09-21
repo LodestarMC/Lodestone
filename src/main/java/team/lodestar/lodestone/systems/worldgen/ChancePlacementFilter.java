@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.worldgen;
 
+import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.setup.LodestonePlacementFillerRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
@@ -18,12 +19,12 @@ public class ChancePlacementFilter extends PlacementFilter {
       this.chance = chance;
    }
 
-   @Override
-   protected boolean shouldPlace(PlacementContext p_191903_, Random p_191904_, BlockPos p_191905_) {
-      return p_191904_.nextFloat() < chance;
-   }
-
    public PlacementModifierType<?> type() {
       return LodestonePlacementFillerRegistry.CHANCE;
+   }
+
+   @Override
+   protected boolean shouldPlace(PlacementContext pContext, RandomSource pRandom, BlockPos pPos) {
+      return pRandom.nextFloat() < chance;
    }
 }

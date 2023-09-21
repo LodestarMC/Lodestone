@@ -2,14 +2,14 @@ package team.lodestar.lodestone.helpers;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.List;
 import java.util.Optional;
@@ -95,13 +95,13 @@ public class RenderHelper {
         Matrix4f viewMat = viewModelStack.last().pose();
         Matrix4f projMat = RenderSystem.getProjectionMatrix();
 
-        Vector3f localPos = worldPos.copy();
-        localPos.sub(new Vector3f(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition()));
+        Vector3f localPos = new Vector3f(worldPos);
+        localPos.sub(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().toVector3f());
 
-        Vector4f pos = new Vector4f(localPos);
-        pos.transform(viewMat);
-        pos.transform(projMat);
-        pos.perspectiveDivide();
+        Vector4f pos = new Vector4f(localPos,0);
+        pos.mul(viewMat);
+        pos.mul(projMat);
+        VecHelper.Vector4fHelper.perspectiveDivide(pos);
 
         return new Vec2((pos.x() + 1F) / 2F, (pos.y() + 1F) / 2F);
     }
@@ -169,8 +169,8 @@ public class RenderHelper {
         //Translate to start point
         ps.translate(local.x, local.y, local.z);
         //Rotate to point towards end point
-        ps.mulPose(Vector3f.YP.rotation(rotY));
-        ps.mulPose(Vector3f.XN.rotation(rotX));
+        ps.mulPose(VecHelper.Vector3fHelper.rotation(rotY,VecHelper.Vector3fHelper.YP));
+        ps.mulPose(VecHelper.Vector3fHelper.rotation(rotX, VecHelper.Vector3fHelper.XN));
 
         //Calculate distance between points -> length of the line
         float distance = (float) local.distanceTo(target);
