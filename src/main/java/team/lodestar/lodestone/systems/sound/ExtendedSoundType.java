@@ -26,9 +26,10 @@ public class ExtendedSoundType extends ForgeSoundType {
 
     /**
      * Called by mixin injection when the block broken sound plays in
-     * <p>{@link net.minecraft.client.renderer.LevelRenderer#levelEvent(Player, int, BlockPos, int)}
+     * <p>{@link net.minecraft.client.renderer.LevelRenderer#levelEvent(int, BlockPos, int)}
      * <p> Example Implementation, matches the original logic of the parent sound being played:
      * <pre>{@code level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, getBreakSound(), SoundSource.BLOCKS, (getVolume() + 1.0F) / 2.0F, getPitch() * 0.8F, false);}</pre>
+     *
      */
     public void onPlayBreakSound(Level level, BlockPos pos) {
     }

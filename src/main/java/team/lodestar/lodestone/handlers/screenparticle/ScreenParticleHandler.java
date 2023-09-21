@@ -1,10 +1,13 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
@@ -73,10 +76,11 @@ public class ScreenParticleHandler {
         canSpawnParticles = true;
     }
 
-    public static void renderItemStackEarly(ItemStack stack, int x, int y) {
+    public static void renderItemStackEarly(PoseStack pose, ItemStack stack, int x, int y) {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
+
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level != null && minecraft.player != null) {
             if (minecraft.isPaused()) {
@@ -86,6 +90,14 @@ public class ScreenParticleHandler {
 
                 currentItemX = x + 8;
                 currentItemY = y + 8;
+
+                if (minecraft.screen instanceof AbstractContainerScreen<?> containerScreen) {//TODO this whole thing sucks
+                    int i = containerScreen.leftPos;
+                    int j = containerScreen.topPos;
+
+                    currentItemX += i;
+                    currentItemY += j;
+                }
 
                 ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitter != null) {
