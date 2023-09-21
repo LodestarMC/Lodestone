@@ -38,8 +38,16 @@ public class GenericParticleData {
         }
     }
 
-    public static GenericParticleDataBuilder create(GenericParticleData data) {
-        return create(data.startingValue, data.middleValue, data.endingValue).setCoefficient(data.coefficient).setEasing(data.startToMiddleEasing, data.middleToEndEasing);
+    public GenericParticleDataBuilder scale(float scale) {
+        return copy(create(startingValue*scale, middleValue*scale, endingValue*scale));
+    }
+
+    public GenericParticleDataBuilder copy() {
+        return copy(create(startingValue, middleValue, endingValue));
+    }
+
+    private GenericParticleDataBuilder copy(GenericParticleDataBuilder builder) {
+        return builder.setCoefficient(coefficient).setEasing(startToMiddleEasing, middleToEndEasing);
     }
 
     public static GenericParticleDataBuilder create(float value) {
