@@ -13,6 +13,10 @@ public class SpinParticleData extends GenericParticleData {
         this.spinOffset = spinOffset;
     }
 
+    public static SpinParticleDataBuilder create(SpinParticleData data) {
+        return create(data.startingValue, data.middleValue, data.endingValue).setSpinOffset(data.spinOffset).setCoefficient(data.coefficient).setEasing(data.startToMiddleEasing, data.middleToEndEasing);
+    }
+
     public static SpinParticleDataBuilder create(float value) {
         return new SpinParticleDataBuilder(value, value, -1);
     }
