@@ -25,13 +25,5 @@ public class LodestoneParticleRegistry {
         event.registerSpriteSet(SPARKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
         event.registerSpriteSet(TWINKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
         event.registerSpriteSet(STAR_PARTICLE.get(), LodestoneParticleType.Factory::new);
-
-
-
-        Minecraft.getInstance().particleEngine.register(WISP_PARTICLE.get(), LodestoneParticleType.Factory::new);
-        Minecraft.getInstance().particleEngine.register(SMOKE_PARTICLE.get(), LodestoneParticleType.Factory::new);
-        Minecraft.getInstance().particleEngine.register(SPARKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
-        Minecraft.getInstance().particleEngine.register(TWINKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
-        Minecraft.getInstance().particleEngine.register(STAR_PARTICLE.get(), LodestoneParticleType.Factory::new);
     }
 }
