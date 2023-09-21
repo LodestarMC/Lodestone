@@ -1,6 +1,13 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
@@ -9,13 +16,6 @@ import team.lodestar.lodestone.setup.worldevent.LodestoneWorldEventTypeRegistry;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventRenderer;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
-import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent;
 
 import java.util.Iterator;
 
@@ -39,6 +39,7 @@ public class WorldEventHandler {
     public static <T extends WorldEventInstance> T addWorldEvent(Level level, T instance) {
         return addWorldEvent(level, true, instance);
     }
+
     public static <T extends WorldEventInstance> T addWorldEvent(Level level, boolean shouldStart, T instance) {
         LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(capability -> {
             capability.inboundWorldEvents.add(instance);

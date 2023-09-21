@@ -1,10 +1,8 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
-import com.ibm.icu.impl.*;
-import net.minecraft.nbt.*;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ItemStack;
 
-import java.util.*;
+import java.util.Objects;
 
 public class ScreenParticleItemStackKey {
 

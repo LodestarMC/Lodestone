@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.particle;
 
-import com.mojang.math.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -1,16 +1,17 @@
 package team.lodestar.lodestone.network.interaction;
 
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
-import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
+import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
+import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
 
 import java.util.function.Supplier;
 
 public class UpdateLeftClickPacket extends LodestoneServerPacket {
 
     private final boolean leftClickHeld;
+
     public UpdateLeftClickPacket(boolean rightClick) {
         this.leftClickHeld = rightClick;
     }

@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.systems.rendering.trail;
 
-import com.mojang.math.*;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Vector4f;
 
 public final class TrailPoint {
@@ -18,7 +17,7 @@ public final class TrailPoint {
     }
 
     public Vector4f getMatrixPosition() {
-        return new Vector4f((float)position.x, (float)position.y, (float)position.z, 1.0f);
+        return new Vector4f((float) position.x, (float) position.y, (float) position.z, 1.0f);
     }
 
     public Vec3 getPosition() {

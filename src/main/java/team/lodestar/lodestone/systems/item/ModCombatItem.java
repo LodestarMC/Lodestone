@@ -11,7 +11,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.level.Level;
@@ -22,7 +21,6 @@ import net.minecraftforge.common.ToolActions;
 /**
  * A simple copy of a sword, without actually being a sword.
  * Minecraft has some hardcoded instanceof SwordItem checks, which we use this to avoid.
- *
  */
 
 public class ModCombatItem extends TieredItem {

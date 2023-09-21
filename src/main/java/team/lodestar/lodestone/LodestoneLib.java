@@ -1,33 +1,31 @@
 package team.lodestar.lodestone;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import team.lodestar.lodestone.compability.CuriosCompat;
+import team.lodestar.lodestone.compability.JeiCompat;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.data.LodestoneBlockTagDatagen;
 import team.lodestar.lodestone.data.LodestoneItemTagDatagen;
 import team.lodestar.lodestone.data.LodestoneLangDatagen;
 import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
 import team.lodestar.lodestone.setup.*;
-import team.lodestar.lodestone.compability.CuriosCompat;
-import team.lodestar.lodestone.compability.JeiCompat;
-import team.lodestar.lodestone.setup.LodestonePaintings;
-import team.lodestar.lodestone.setup.LodestoneCommandRegistry;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import team.lodestar.lodestone.systems.easing.*;
+import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.particle.ScreenParticleBuilder;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
@@ -74,7 +72,7 @@ public class LodestoneLib {
             final int xOffset = 0;
             final SpinParticleData.SpinParticleDataBuilder spinDataBuilder = SpinParticleData.create(0, 1).setSpinOffset(0.025f * time % 6.28f).setEasing(Easing.EXPO_IN_OUT);
             ScreenParticleBuilder.create(LodestoneScreenParticleRegistry.STAR, target)
-                    .setTransparencyData(GenericParticleData.create(0.09f*alphaMultiplier, 0f).setEasing(Easing.QUINTIC_IN).build())
+                    .setTransparencyData(GenericParticleData.create(0.09f * alphaMultiplier, 0f).setEasing(Easing.QUINTIC_IN).build())
                     .setScaleData(GenericParticleData.create((float) (1.5f + Math.sin(time * 0.1f) * 0.125f), 0).build())
                     .setColorData(ColorParticleData.create(firstColor, secondColor).setCoefficient(1.25f).build())
                     .setLifetime(6)
@@ -83,7 +81,7 @@ public class LodestoneLib {
                     .spawnOnStack(xOffset, yOffset)
                     .setScaleData(GenericParticleData.create((float) (1.4f - Math.sin(time * 0.075f) * 0.125f), 0).build())
                     .setColorData(ColorParticleData.create(secondColor, firstColor).build())
-                    .setSpinData(spinDataBuilder.setSpinOffset(0.785f-0.01f * time % 6.28f).build())
+                    .setSpinData(spinDataBuilder.setSpinOffset(0.785f - 0.01f * time % 6.28f).build())
                     .spawnOnStack(xOffset, yOffset);
         }
     }

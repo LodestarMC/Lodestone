@@ -8,14 +8,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Tier;
 
-public class LodestonePickaxeItem extends PickaxeItem
-{
+public class LodestonePickaxeItem extends PickaxeItem {
     private Multimap<Attribute, AttributeModifier> attributes;
 
-    public LodestonePickaxeItem(Tier material, int damage, float speed, Properties properties)
-    {
+    public LodestonePickaxeItem(Tier material, int damage, float speed, Properties properties) {
         super(material, damage + 1, speed - 2.8f, properties.durability(material.getUses()));
     }
+
     @Override
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
         if (attributes == null) {

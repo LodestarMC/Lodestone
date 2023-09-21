@@ -1,18 +1,18 @@
 package team.lodestar.lodestone.handlers;
 
-import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
-import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
-import team.lodestar.lodestone.setup.LodestoneFireEffectRendererRegistry;
-import team.lodestar.lodestone.setup.LodestonePacketRegistry;
-import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
-import team.lodestar.lodestone.systems.fireeffect.FireEffectRenderer;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.PacketDistributor;
+import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
+import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
+import team.lodestar.lodestone.setup.LodestoneFireEffectRendererRegistry;
+import team.lodestar.lodestone.setup.LodestonePacketRegistry;
+import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
+import team.lodestar.lodestone.systems.fireeffect.FireEffectRenderer;
 
 public class FireEffectHandler {
 
@@ -44,8 +44,7 @@ public class FireEffectHandler {
                 if (!entity.level().isClientSide) {
                     c.fireEffectInstance.sync(entity);
                 }
-            }
-            else if (!entity.level().isClientSide) {
+            } else if (!entity.level().isClientSide) {
                 LodestonePacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
             }
         });

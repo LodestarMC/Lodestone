@@ -1,18 +1,15 @@
 package team.lodestar.lodestone.systems.postprocess;
 
-import com.google.common.collect.*;
-import net.minecraft.*;
-import team.lodestar.lodestone.LodestoneLib;
 import com.mojang.blaze3d.preprocessor.GlslPreprocessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.LodestoneLib;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
 
 public class LodestoneGlslPreprocessor extends GlslPreprocessor {
 

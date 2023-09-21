@@ -3,13 +3,9 @@ package team.lodestar.lodestone.data;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.BlockTagsProvider;
-import org.jetbrains.annotations.Nullable;
-import team.lodestar.lodestone.setup.LodestoneBlockTags;
-import team.lodestar.lodestone.LodestoneLib;
-import net.minecraft.core.Registry;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.LodestoneLib;
 
 import java.util.concurrent.CompletableFuture;
 

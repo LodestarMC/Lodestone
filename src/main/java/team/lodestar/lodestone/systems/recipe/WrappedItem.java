@@ -2,10 +2,8 @@ package team.lodestar.lodestone.systems.recipe;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import team.lodestar.lodestone.helpers.ItemHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WrappedItem implements IRecipeComponent {

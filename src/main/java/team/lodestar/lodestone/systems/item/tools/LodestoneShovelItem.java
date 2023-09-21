@@ -8,14 +8,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.Tier;
 
-public class LodestoneShovelItem extends ShovelItem
-{
+public class LodestoneShovelItem extends ShovelItem {
     private Multimap<Attribute, AttributeModifier> attributes;
 
-    public LodestoneShovelItem(Tier material, float damage, float speed, Properties properties)
-    {
+    public LodestoneShovelItem(Tier material, float damage, float speed, Properties properties) {
         super(material, damage + 1.5f, speed - 3f, properties.durability(material.getUses()));
     }
+
     @Override
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
         if (attributes == null) {

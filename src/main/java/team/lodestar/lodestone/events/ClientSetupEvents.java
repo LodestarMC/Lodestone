@@ -1,15 +1,15 @@
 package team.lodestar.lodestone.events;
 
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
-import team.lodestar.lodestone.handlers.RenderHandler;
-import team.lodestar.lodestone.setup.LodestoneParticleRegistry;
-import team.lodestar.lodestone.setup.LodestoneScreenParticleRegistry;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
+import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
+import team.lodestar.lodestone.setup.LodestoneParticleRegistry;
+import team.lodestar.lodestone.setup.LodestoneScreenParticleRegistry;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientSetupEvents {

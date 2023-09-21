@@ -3,10 +3,9 @@ package team.lodestar.lodestone.systems.particle.world;
 import com.mojang.brigadier.StringReader;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.particle.ParticleRenderType;
-import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
-import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
+import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 
 import java.util.function.Consumer;
 

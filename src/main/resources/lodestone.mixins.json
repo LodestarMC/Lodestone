@@ -17,6 +17,7 @@
     "GameRendererMixin",
     "GuiGraphicsMixin",
     "GuiMixin",
+    "ItemRendererMixin",
     "LevelRendererMixin",
     "MultiPlayerGameModeMixin",
     "ScreenEffectRendererMixin",

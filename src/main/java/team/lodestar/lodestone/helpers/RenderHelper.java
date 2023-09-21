@@ -1,9 +1,13 @@
 package team.lodestar.lodestone.helpers;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -29,6 +33,7 @@ public class RenderHelper {
         }
         return null;
     }
+
     public static RenderStateShard.TransparencyStateShard getTransparencyShard(RenderType type) {
         if (type instanceof RenderType.CompositeRenderType compositeRenderType) {
             return compositeRenderType.state.transparencyState;
@@ -98,7 +103,7 @@ public class RenderHelper {
         Vector3f localPos = new Vector3f(worldPos);
         localPos.sub(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().toVector3f());
 
-        Vector4f pos = new Vector4f(localPos,0);
+        Vector4f pos = new Vector4f(localPos, 0);
         pos.mul(viewMat);
         pos.mul(projMat);
         VecHelper.Vector4fHelper.perspectiveDivide(pos);
@@ -108,10 +113,11 @@ public class RenderHelper {
 
     /**
      * Draw a segmented line between two points, subdividing the line into a number of segments
-     * @param buffer The buffer to draw to
-     * @param ps The pose stack to draw with
+     *
+     * @param buffer    The buffer to draw to
+     * @param ps        The pose stack to draw with
      * @param lineWidth The width of the line
-     * @param points The points to draw between
+     * @param points    The points to draw between
      **/
 
     public static void drawSteppedLineBetween(MultiBufferSource buffer, PoseStack ps, List<Vec3> points, float lineWidth, int r, int g, int b, int a) {
@@ -125,12 +131,13 @@ public class RenderHelper {
 
     /**
      * Draw a segmented line between two points, subdividing the line into a number of segments
-     * @param buffer The buffer to draw to
-     * @param ps The pose stack to draw with
-     * @param start The start point
-     * @param end The end point
-     * @param steps The number of steps to divide the line into
-     * @param lineWidth The width of the line
+     *
+     * @param buffer        The buffer to draw to
+     * @param ps            The pose stack to draw with
+     * @param start         The start point
+     * @param end           The end point
+     * @param steps         The number of steps to divide the line into
+     * @param lineWidth     The width of the line
      * @param pointConsumer A consumer to call for each point in the line
      */
 
@@ -146,10 +153,11 @@ public class RenderHelper {
 
     /**
      * Draw a line between two points
-     * @param buffer The buffer to draw to
-     * @param ps The pose stack to draw with
-     * @param local The start point
-     * @param target The end point
+     *
+     * @param buffer    The buffer to draw to
+     * @param ps        The pose stack to draw with
+     * @param local     The start point
+     * @param target    The end point
      * @param lineWidth The width of the line
      */
 
@@ -169,7 +177,7 @@ public class RenderHelper {
         //Translate to start point
         ps.translate(local.x, local.y, local.z);
         //Rotate to point towards end point
-        ps.mulPose(VecHelper.Vector3fHelper.rotation(rotY,VecHelper.Vector3fHelper.YP));
+        ps.mulPose(VecHelper.Vector3fHelper.rotation(rotY, VecHelper.Vector3fHelper.YP));
         ps.mulPose(VecHelper.Vector3fHelper.rotation(rotX, VecHelper.Vector3fHelper.XN));
 
         //Calculate distance between points -> length of the line

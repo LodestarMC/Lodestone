@@ -1,7 +1,5 @@
 package team.lodestar.lodestone.mixin;
 
-import team.lodestar.lodestone.handlers.FireEffectHandler;
-import team.lodestar.lodestone.systems.sound.ExtendedSoundType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.SoundType;
@@ -12,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import team.lodestar.lodestone.handlers.FireEffectHandler;
+import team.lodestar.lodestone.systems.sound.ExtendedSoundType;
 
 @Mixin(Entity.class)
 public class EntityMixin {
@@ -37,7 +37,7 @@ public class EntityMixin {
     @Inject(method = "playStepSound", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V"))
     private void lodestoneCallExtendedStepSound(BlockPos pos, BlockState state, CallbackInfo ci) {
         if (type instanceof ExtendedSoundType extendedSoundType) {
-            Entity entity = ((Entity)(Object)this);
+            Entity entity = ((Entity) (Object) this);
             extendedSoundType.onPlayStepSound(entity.level(), pos, state, entity.getSoundSource());
         }
     }

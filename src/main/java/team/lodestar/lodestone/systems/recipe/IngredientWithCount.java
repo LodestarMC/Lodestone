@@ -2,14 +2,13 @@ package team.lodestar.lodestone.systems.recipe;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import team.lodestar.lodestone.helpers.ItemHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import team.lodestar.lodestone.helpers.ItemHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientWithCount implements IRecipeComponent {

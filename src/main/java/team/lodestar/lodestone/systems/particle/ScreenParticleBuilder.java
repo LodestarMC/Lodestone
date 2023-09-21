@@ -2,10 +2,7 @@ package team.lodestar.lodestone.systems.particle;
 
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.screen.*;
-import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -109,7 +106,7 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
         options.tracksStack = true;
         options.stackTrackXOffset = xOffset;
         options.stackTrackYOffset = yOffset;
-        spawn(ScreenParticleHandler.currentItemX+xOffset, ScreenParticleHandler.currentItemY+yOffset);
+        spawn(ScreenParticleHandler.currentItemX + xOffset, ScreenParticleHandler.currentItemY + yOffset);
         return this;
     }
 

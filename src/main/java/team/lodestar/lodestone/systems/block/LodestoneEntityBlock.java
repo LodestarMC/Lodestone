@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.block;
 
-import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -20,11 +19,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 
 import java.util.function.Supplier;
 
 /**
- *
  * A SimpleBlock is an implementation of EntityBlock that allows most frequently used logic to be handled in a SimpleBlockEntity
  * It's important to still utilize generic, T extends YourBlockEntity, in order to allow for other mods to extend your block and use a different block entity
  */

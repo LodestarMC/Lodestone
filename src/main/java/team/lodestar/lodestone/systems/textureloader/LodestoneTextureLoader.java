@@ -1,23 +1,16 @@
 package team.lodestar.lodestone.systems.textureloader;
 
-import net.minecraft.util.FastColor;
-import net.minecraftforge.client.event.RegisterTextureAtlasSpriteLoadersEvent;
-import team.lodestar.lodestone.helpers.ColorHelper;
 import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.datafixers.util.Pair;
-import team.lodestar.lodestone.systems.easing.Easing;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.metadata.animation.AnimationMetadataSection;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
-import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.event.RegisterTextureAtlasSpriteLoadersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import team.lodestar.lodestone.helpers.ColorHelper;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 import java.awt.*;
-import java.io.IOException;
-import java.util.function.Consumer;
 
 
 public class LodestoneTextureLoader {

@@ -1,19 +1,20 @@
 package team.lodestar.lodestone.systems.datagen;
 
-import net.minecraft.*;
+import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.*;
+import net.minecraft.server.packs.PackType;
 import net.minecraftforge.client.model.generators.ModelFile;
 import team.lodestar.lodestone.systems.datagen.itemsmith.ItemModelSmith;
 
-import java.util.function.*;
+import java.util.function.Function;
 
 public class ItemModelSmithTypes {
 
     public static final ResourceLocation GENERATED = new ResourceLocation("item/generated");
     public static final ResourceLocation HANDHELD = new ResourceLocation("item/handheld");
 
-    public static ItemModelSmith NO_MODEL = new ItemModelSmith(((item, provider) -> {}));
+    public static ItemModelSmith NO_MODEL = new ItemModelSmith(((item, provider) -> {
+    }));
 
     public static ItemModelSmith HANDHELD_ITEM = new ItemModelSmith(((item, provider) -> {
         String name = provider.getItemName(item);

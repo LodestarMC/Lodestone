@@ -1,7 +1,5 @@
 package team.lodestar.lodestone.systems.fireeffect;
 
-import org.joml.Matrix4f;
-import team.lodestar.lodestone.config.ClientConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
@@ -15,6 +13,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Matrix4f;
+import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.VecHelper;
 
 

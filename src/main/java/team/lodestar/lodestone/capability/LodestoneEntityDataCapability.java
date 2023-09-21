@@ -1,13 +1,5 @@
 package team.lodestar.lodestone.capability;
 
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.helpers.NBTHelper;
-import team.lodestar.lodestone.network.capability.SyncLodestoneEntityCapabilityPacket;
-import team.lodestar.lodestone.setup.LodestonePacketRegistry;
-import team.lodestar.lodestone.systems.capability.LodestoneCapability;
-import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
-import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
-import team.lodestar.lodestone.handlers.FireEffectHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -19,6 +11,14 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.network.PacketDistributor;
+import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.handlers.FireEffectHandler;
+import team.lodestar.lodestone.helpers.NBTHelper;
+import team.lodestar.lodestone.network.capability.SyncLodestoneEntityCapabilityPacket;
+import team.lodestar.lodestone.setup.LodestonePacketRegistry;
+import team.lodestar.lodestone.systems.capability.LodestoneCapability;
+import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
+import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
 
 public class LodestoneEntityDataCapability implements LodestoneCapability {
 

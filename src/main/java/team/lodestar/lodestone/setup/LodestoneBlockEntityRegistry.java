@@ -1,11 +1,5 @@
 package team.lodestar.lodestone.setup;
 
-import team.lodestar.lodestone.systems.block.sign.LodestoneStandingSignBlock;
-import team.lodestar.lodestone.systems.block.sign.LodestoneWallSignBlock;
-import team.lodestar.lodestone.systems.blockentity.LodestoneSignBlockEntity;
-import team.lodestar.lodestone.systems.multiblock.ILodestoneMultiblockComponent;
-import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,6 +10,11 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
+import team.lodestar.lodestone.systems.block.sign.LodestoneStandingSignBlock;
+import team.lodestar.lodestone.systems.block.sign.LodestoneWallSignBlock;
+import team.lodestar.lodestone.systems.blockentity.LodestoneSignBlockEntity;
+import team.lodestar.lodestone.systems.multiblock.ILodestoneMultiblockComponent;
+import team.lodestar.lodestone.systems.multiblock.MultiBlockComponentEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,7 +54,7 @@ public class LodestoneBlockEntityRegistry {
     public static class ClientOnly {
         @SubscribeEvent
         public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
-         //   event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
+            //   event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
         }
     }
 }

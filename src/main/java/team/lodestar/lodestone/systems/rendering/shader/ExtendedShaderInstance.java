@@ -1,18 +1,21 @@
 package team.lodestar.lodestone.systems.rendering.shader;
 
-import com.google.gson.*;
-import com.mojang.blaze3d.shaders.*;
-import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.renderer.*;
-import net.minecraft.resources.*;
-import net.minecraft.server.*;
-import net.minecraft.server.packs.resources.*;
-import net.minecraft.util.*;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mojang.blaze3d.shaders.Uniform;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.ChainedJsonException;
+import net.minecraft.server.packs.resources.ResourceProvider;
+import net.minecraft.util.GsonHelper;
 
-import java.io.*;
-import java.nio.*;
-import java.util.*;
-import java.util.function.*;
+import java.io.IOException;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public abstract class ExtendedShaderInstance extends ShaderInstance {
 
@@ -46,7 +49,7 @@ public abstract class ExtendedShaderInstance extends ShaderInstance {
         JsonObject jsonobject = GsonHelper.convertToJsonObject(pJson, "uniform");
         String uniformName = GsonHelper.getAsString(jsonobject, "name");
         if (getShaderHolder().uniformsToCache.contains(uniformName)) {
-            Uniform uniform = uniforms.get(uniforms.size()-1);
+            Uniform uniform = uniforms.get(uniforms.size() - 1);
 
             Consumer<Uniform> consumer;
             if (uniform.getType() <= 3) {
@@ -60,8 +63,7 @@ public abstract class ExtendedShaderInstance extends ShaderInstance {
                     buffer.position(0);
                     buffer.put(array);
                 };
-            }
-            else {
+            } else {
                 final FloatBuffer buffer = uniform.getFloatBuffer();
                 buffer.position(0);
                 float[] array = new float[uniform.getCount()];

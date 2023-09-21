@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.systems.worldgen;
 
-import team.lodestar.lodestone.helpers.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import team.lodestar.lodestone.helpers.BlockHelper;
 
 import java.util.HashMap;
 import java.util.function.Function;

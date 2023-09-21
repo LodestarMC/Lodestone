@@ -1,14 +1,5 @@
 package team.lodestar.lodestone.capability;
 
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.helpers.NBTHelper;
-import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
-import team.lodestar.lodestone.network.interaction.UpdateLeftClickPacket;
-import team.lodestar.lodestone.network.interaction.UpdateRightClickPacket;
-import team.lodestar.lodestone.setup.LodestonePacketRegistry;
-import team.lodestar.lodestone.systems.capability.LodestoneCapability;
-import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -22,8 +13,17 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.network.PacketDistributor;
+import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.helpers.NBTHelper;
+import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
+import team.lodestar.lodestone.network.interaction.UpdateLeftClickPacket;
+import team.lodestar.lodestone.network.interaction.UpdateRightClickPacket;
+import team.lodestar.lodestone.setup.LodestonePacketRegistry;
+import team.lodestar.lodestone.systems.capability.LodestoneCapability;
+import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
 
 public class LodestonePlayerDataCapability implements LodestoneCapability {
 

@@ -2,9 +2,9 @@ package team.lodestar.lodestone.helpers;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import org.checkerframework.checker.units.qual.C;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class NBTHelper {

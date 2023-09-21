@@ -1,14 +1,15 @@
 package team.lodestar.lodestone.network.capability;
 
-import net.minecraftforge.api.distmarker.*;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
-import team.lodestar.lodestone.systems.network.LodestoneTwoWayNBTPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
+import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
+import team.lodestar.lodestone.systems.network.LodestoneTwoWayNBTPacket;
 
 import java.util.UUID;
 import java.util.function.Supplier;

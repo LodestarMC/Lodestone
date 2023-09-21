@@ -1,17 +1,11 @@
 package team.lodestar.lodestone.systems.datagen.providers;
 
-import net.minecraft.core.Registry;
-import net.minecraft.data.*;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-
-import java.io.*;
 
 public abstract class LodestoneItemModelProvider extends ItemModelProvider {
 
@@ -34,11 +28,11 @@ public abstract class LodestoneItemModelProvider extends ItemModelProvider {
     }
 
     public ResourceLocation getItemTexture(String path) {
-        return modLoc("item/"+getTexturePath()+path);
+        return modLoc("item/" + getTexturePath() + path);
     }
 
     public ResourceLocation getBlockTexture(String path) {
-        return modLoc("block/"+getTexturePath()+path);
+        return modLoc("block/" + getTexturePath() + path);
     }
 
     public void createGenericModel(Item item, ResourceLocation modelType, ResourceLocation textureLocation) {

@@ -16,7 +16,7 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import java.util.ArrayList;
-import java.util.Random;
+
 /**
  * A collection of methods designed to simplify and unify the use of vectors
  */
@@ -27,10 +27,11 @@ public class VecHelper {
 
     /**
      * A method that returns a position on the perimeter of a circle around a given Vec3 position
-     * @param pos - Defines the center of the circle
+     *
+     * @param pos      - Defines the center of the circle
      * @param distance - Defines the radius of your circle
-     * @param current - Defines the current point we are calculating the position for on the circle
-     * @param total - Defines the total amount of points in the circle
+     * @param current  - Defines the current point we are calculating the position for on the circle
+     * @param total    - Defines the total amount of points in the circle
      */
     public static Vec3 radialOffset(Vec3 pos, float distance, float current, float total) {
         double angle = current / total * (Math.PI * 2);
@@ -46,11 +47,12 @@ public class VecHelper {
     /**
      * A method that returns an array list of positions on the perimeter of a circle around a given Vec3 position.
      * These positions constantly rotate around the center of the circle based on gameTime
-     * @param pos - Defines the center of the circle
+     *
+     * @param pos      - Defines the center of the circle
      * @param distance - Defines the radius of your circle
-     * @param total - Defines the total amount of points in the circle
+     * @param total    - Defines the total amount of points in the circle
      * @param gameTime - Defines the current game time value
-     * @param time - Defines the total time for one position to complete a full rotation cycle
+     * @param time     - Defines the total time for one position to complete a full rotation cycle
      */
     public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distance, float total, long gameTime, float time) {
         return rotatingRadialOffsets(pos, distance, distance, total, gameTime, time);
@@ -202,6 +204,7 @@ public class VecHelper {
             return new Quaternionf(new AxisAngle4f(rotation, axis));
         }
     }
+
     public static class Vector4fHelper {
         public static void perspectiveDivide(Vector4f v) {
             v.div(v.x, v.y, v.z, 1.0f);

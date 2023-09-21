@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.handlers;
 
-import net.minecraft.world.damagesource.DamageTypes;
-import team.lodestar.lodestone.setup.LodestoneAttributeRegistry;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import team.lodestar.lodestone.setup.LodestoneAttributeRegistry;
 
 /**
  * A handler for common attributes I use in my mods.
@@ -45,6 +45,6 @@ public class LodestoneAttributeEventHandler {
     }
 
     public static double applyMagicResistance(double magicResistance) {
-        return (1 - (0.75 * (1 / (0.2 * (magicResistance+1))))) * 0.8;
+        return (1 - (0.75 * (1 / (0.2 * (magicResistance + 1))))) * 0.8;
     }
 }

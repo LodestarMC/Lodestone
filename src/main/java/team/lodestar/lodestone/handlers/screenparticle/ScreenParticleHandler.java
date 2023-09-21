@@ -1,21 +1,21 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
-import com.mojang.blaze3d.systems.*;
-import com.mojang.blaze3d.vertex.*;
-import com.mojang.datafixers.util.Pair;
+import com.mojang.blaze3d.vertex.Tesselator;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
-import net.minecraft.client.multiplayer.*;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.TickEvent;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.systems.particle.screen.*;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.event.TickEvent;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A handler for screen particles.
@@ -102,7 +102,7 @@ public class ScreenParticleHandler {
         pullFromParticleVault(cacheKey, stack, target, isRenderedAfterItem);
         if (canSpawnParticles) {
             if (isRenderedAfterItem) {
-                emitter.spawnLateParticles(target, level, Minecraft.getInstance().timer.partialTick, stack, currentItemX , currentItemY );
+                emitter.spawnLateParticles(target, level, Minecraft.getInstance().timer.partialTick, stack, currentItemX, currentItemY);
             } else {
                 emitter.spawnEarlyParticles(target, level, Minecraft.getInstance().timer.partialTick, stack, currentItemX, currentItemY);
             }
@@ -136,7 +136,7 @@ public class ScreenParticleHandler {
 
     public static void renderParticles(TickEvent.RenderTickEvent event) {
         if (event.phase.equals(TickEvent.Phase.END)) {
-            if (!true) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
+            if (false) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
                 return;
             }
             Screen screen = Minecraft.getInstance().screen;
@@ -162,7 +162,7 @@ public class ScreenParticleHandler {
     }
 
     private static void renderParticles(ScreenParticleHolder screenParticleTarget) {
-        if (!true) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
+        if (false) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
             return;
         }
         screenParticleTarget.particles.forEach((renderType, particles) -> {

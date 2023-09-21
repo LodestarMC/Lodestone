@@ -2,14 +2,11 @@ package team.lodestar.lodestone.helpers;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static net.minecraft.util.Mth.sqrt;
@@ -44,6 +41,7 @@ public class DataHelper {
 
     /**
      * returns an integer array of random ints
+     *
      * @param count the amount of integers
      * @param range the range the random function uses
      */
@@ -117,9 +115,10 @@ public class DataHelper {
         }
         return ret;
     }
+
     /**
      * create a copy of all items in a list that match from another list of items
-     * */
+     */
     @SafeVarargs
     public static <T> Collection<T> getAll(Collection<? extends T> src, T... items) {
         return List.copyOf(getAll(src, t -> Arrays.stream(items).anyMatch(tAgain -> tAgain.getClass().isInstance(t))));
@@ -127,7 +126,7 @@ public class DataHelper {
 
     /**
      * create a copy of all items in a list that match from a predicate
-     * */
+     */
     public static <T> Collection<T> getAll(Collection<T> src, Predicate<T> pred) {
         return src.stream().filter(pred).collect(Collectors.toList());
     }

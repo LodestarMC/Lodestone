@@ -2,10 +2,10 @@ package team.lodestar.lodestone.mixin;
 
 import com.mojang.blaze3d.preprocessor.GlslPreprocessor;
 import com.mojang.blaze3d.shaders.EffectProgram;
-import team.lodestar.lodestone.systems.postprocess.LodestoneGlslPreprocessor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import team.lodestar.lodestone.systems.postprocess.LodestoneGlslPreprocessor;
 
 @Mixin(EffectProgram.class)
 public class EffectProgramMixin {

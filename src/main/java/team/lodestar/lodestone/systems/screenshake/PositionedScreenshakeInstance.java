@@ -1,12 +1,10 @@
 package team.lodestar.lodestone.systems.screenshake;
 
+import net.minecraft.client.Camera;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 import team.lodestar.lodestone.systems.easing.Easing;
-import net.minecraft.client.Camera;
-import net.minecraft.world.phys.Vec3;
-
-import java.util.Random;
 
 public class PositionedScreenshakeInstance extends ScreenshakeInstance {
     public final Vec3 position;
@@ -42,7 +40,7 @@ public class PositionedScreenshakeInstance extends ScreenshakeInstance {
         }
         Vector3f lookDirection = camera.getLookVector();
         Vec3 directionToScreenshake = position.subtract(camera.getPosition()).normalize();
-        float angle = Math.max(0, lookDirection.dot(new Vector3f((float)directionToScreenshake.x, (float)directionToScreenshake.y, (float)directionToScreenshake.z)));
+        float angle = Math.max(0, lookDirection.dot(new Vector3f((float) directionToScreenshake.x, (float) directionToScreenshake.y, (float) directionToScreenshake.z)));
         return ((intensity * distanceMultiplier) + (intensity * angle)) * 0.5f;
     }
 }

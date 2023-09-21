@@ -44,7 +44,7 @@ public class AngleHelper {
     public static float getShortestAngleDiff(double current, double target, float hint) {
         float diff = getShortestAngleDiff(current, target);
         if (Mth.equal(Math.abs(diff), 180) && Math.signum(diff) != Math.signum(hint)) {
-            return diff + 360*Math.signum(hint);
+            return diff + 360 * Math.signum(hint);
         }
         return diff;
     }

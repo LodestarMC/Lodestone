@@ -1,13 +1,12 @@
 package team.lodestar.lodestone.handlers;
 
+import net.minecraft.client.Camera;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
-import net.minecraft.client.Camera;
-import net.minecraft.util.Mth;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class ScreenshakeHandler {
 

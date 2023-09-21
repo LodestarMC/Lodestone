@@ -1,8 +1,5 @@
 package team.lodestar.lodestone.systems.multiblock;
 
-import team.lodestar.lodestone.setup.LodestoneBlockEntityRegistry;
-import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
-import team.lodestar.lodestone.helpers.BlockHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +12,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.helpers.BlockHelper;
+import team.lodestar.lodestone.setup.LodestoneBlockEntityRegistry;
+import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 
 /**
  * A basic Multiblock component block entity. Defers some important actions to the core of the multiblock.

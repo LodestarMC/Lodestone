@@ -1,28 +1,27 @@
 package team.lodestar.lodestone.mixin;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import org.spongepowered.asm.mixin.Shadow;
-import team.lodestar.lodestone.events.ClientRuntimeEvents;
-import team.lodestar.lodestone.handlers.RenderHandler;
-import team.lodestar.lodestone.systems.postprocess.PostProcessHandler;
-import team.lodestar.lodestone.systems.sound.ExtendedSoundType;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.SoundType;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import team.lodestar.lodestone.systems.postprocess.PostProcessHandler;
+import team.lodestar.lodestone.systems.sound.ExtendedSoundType;
 
 import javax.annotation.Nullable;
 
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
-    @Shadow @Nullable private ClientLevel level;
+    @Shadow
+    @Nullable
+    private ClientLevel level;
     @Unique
     private SoundType type;
 

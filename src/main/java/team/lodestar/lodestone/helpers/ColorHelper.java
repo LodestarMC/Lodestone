@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.helpers;
 
-import team.lodestar.lodestone.systems.easing.Easing;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 import java.awt.*;
 import java.util.List;

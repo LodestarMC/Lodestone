@@ -1,21 +1,21 @@
 package team.lodestar.lodestone.setup;
 
-import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
-import team.lodestar.lodestone.network.SyncWorldEventPacket;
-import team.lodestar.lodestone.network.TotemOfUndyingEffectPacket;
-import team.lodestar.lodestone.network.interaction.ResetRightClickDelayPacket;
-import team.lodestar.lodestone.network.interaction.RightClickEmptyPacket;
-import team.lodestar.lodestone.network.interaction.UpdateLeftClickPacket;
-import team.lodestar.lodestone.network.interaction.UpdateRightClickPacket;
-import team.lodestar.lodestone.network.capability.SyncLodestoneEntityCapabilityPacket;
-import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
-import team.lodestar.lodestone.network.screenshake.PositionedScreenshakePacket;
-import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
+import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
+import team.lodestar.lodestone.network.SyncWorldEventPacket;
+import team.lodestar.lodestone.network.TotemOfUndyingEffectPacket;
+import team.lodestar.lodestone.network.capability.SyncLodestoneEntityCapabilityPacket;
+import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
+import team.lodestar.lodestone.network.interaction.ResetRightClickDelayPacket;
+import team.lodestar.lodestone.network.interaction.RightClickEmptyPacket;
+import team.lodestar.lodestone.network.interaction.UpdateLeftClickPacket;
+import team.lodestar.lodestone.network.interaction.UpdateRightClickPacket;
+import team.lodestar.lodestone.network.screenshake.PositionedScreenshakePacket;
+import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
 
 import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 import static team.lodestar.lodestone.LodestoneLib.lodestonePath;

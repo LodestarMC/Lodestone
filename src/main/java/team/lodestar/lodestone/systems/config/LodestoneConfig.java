@@ -1,8 +1,12 @@
 package team.lodestar.lodestone.systems.config;
+
 import com.mojang.datafixers.util.Pair;
 import net.minecraftforge.common.ForgeConfigSpec;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

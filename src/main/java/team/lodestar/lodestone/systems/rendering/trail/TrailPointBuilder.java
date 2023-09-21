@@ -1,14 +1,12 @@
 package team.lodestar.lodestone.systems.rendering.trail;
 
-import com.mojang.math.*;
-import net.minecraft.core.*;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Vector4f;
-import team.lodestar.lodestone.helpers.*;
 
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class TrailPointBuilder {
 
@@ -20,7 +18,7 @@ public class TrailPointBuilder {
     }
 
     public static TrailPointBuilder create(int trailLength) {
-        return create(()-> trailLength);
+        return create(() -> trailLength);
     }
 
     public static TrailPointBuilder create(Supplier<Integer> trailLength) {
@@ -36,7 +34,7 @@ public class TrailPointBuilder {
         final int size = trailPoints.size();
         if (size > 1) {
             for (int i = 0; i < size - 2; i++) {
-                lerpedTrailPoints.add(trailPoints.get(i).lerp(trailPoints.get(i +1), lerp));
+                lerpedTrailPoints.add(trailPoints.get(i).lerp(trailPoints.get(i + 1), lerp));
             }
         }
         return lerpedTrailPoints;

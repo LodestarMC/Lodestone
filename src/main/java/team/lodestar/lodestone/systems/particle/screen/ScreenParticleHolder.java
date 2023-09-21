@@ -1,8 +1,11 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
-import team.lodestar.lodestone.systems.particle.screen.base.*;
+import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ScreenParticleHolder {
 

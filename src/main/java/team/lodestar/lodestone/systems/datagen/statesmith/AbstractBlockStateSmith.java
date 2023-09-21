@@ -2,7 +2,6 @@ package team.lodestar.lodestone.systems.datagen.statesmith;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.systems.datagen.providers.LodestoneBlockStateProvider;
 
 import java.util.function.Consumer;

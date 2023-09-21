@@ -1,7 +1,5 @@
 package team.lodestar.lodestone.helpers;
 
-import team.lodestar.lodestone.compability.CuriosCompat;
-import team.lodestar.lodestone.systems.item.IEventResponderItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.Entity;
@@ -16,8 +14,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
+import team.lodestar.lodestone.compability.CuriosCompat;
+import team.lodestar.lodestone.systems.item.IEventResponderItem;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;

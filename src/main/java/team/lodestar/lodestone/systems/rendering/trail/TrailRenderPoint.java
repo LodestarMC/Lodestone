@@ -3,7 +3,7 @@ package team.lodestar.lodestone.systems.rendering.trail;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.world.phys.Vec2;
 import org.joml.Vector4f;
-import team.lodestar.lodestone.systems.rendering.*;
+import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 
 public class TrailRenderPoint {
 
