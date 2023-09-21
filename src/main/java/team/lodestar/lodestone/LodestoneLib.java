@@ -1,12 +1,16 @@
 package team.lodestar.lodestone;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -43,18 +47,21 @@ public class LodestoneLib {
     //TODO remove
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, LODESTONE);
 
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, LODESTONE);
+
     public static final RegistryObject<Item> EXAMPLE_ITEM =
             ITEMS.register("example_item", () -> new TestItem(new Item.Properties()));
+
+    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
+            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
+            .displayItems((parameters, output) -> {
+                output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+            }).build());
 
     public static class TestItem extends Item implements ParticleEmitterHandler.ItemParticleSupplier {
 
         public TestItem(Properties pProperties) {
             super(pProperties);
-        }
-
-        @Override
-        public void spawnEarlyParticles(ScreenParticleHolder target, Level level, float partialTick, ItemStack stack, float x, float y) {
-            spawnParticles(target, level, partialTick, stack, x, y);
         }
 
         @Override
@@ -94,6 +101,7 @@ public class LodestoneLib {
 
         //TODO remove
         ITEMS.register(modBus);
+        CREATIVE_MODE_TABS.register(modBus);
 
         LodestoneBlockEntityRegistry.BLOCK_ENTITY_TYPES.register(modBus);
         LodestoneParticleRegistry.PARTICLES.register(modBus);

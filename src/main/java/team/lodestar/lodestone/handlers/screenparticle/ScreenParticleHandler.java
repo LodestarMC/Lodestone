@@ -1,7 +1,5 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -76,7 +74,7 @@ public class ScreenParticleHandler {
         canSpawnParticles = true;
     }
 
-    public static void renderItemStackEarly(ItemStack stack, int x, int y) {
+    public static void renderItemStackEarly(ItemStack stack, int x, int y, boolean b) {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
@@ -94,9 +92,14 @@ public class ScreenParticleHandler {
                     int i = containerScreen.leftPos;
                     int j = containerScreen.topPos;
 
+                    if (b) {
+                        currentItemX -= i;
+                        currentItemY -= j;
+                    }
+
                     currentItemX += i;
                     currentItemY += j;
-                }
+                } // TODO to here
 
                 ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitter != null) {
