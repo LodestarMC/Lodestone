@@ -48,6 +48,7 @@ java {
 
 mixin {
     add(sourceSets.main.get(), "${modId}.refmap.json")
+    config("lodestone.mixins.json")
 }
 
 minecraft {
@@ -140,9 +141,7 @@ repositories {
 dependencies {
     minecraft("net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}")
 
-    if (System.getProperty("idea.sync.active") != "true") {
-        annotationProcessor("org.spongepowered:mixin:${mixinVersion}:processor")
-    }
+    annotationProcessor("org.spongepowered:mixin:${mixinVersion}:processor")
 
     // JEI Dependency
     compileOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-forge-api:${jeiVersion}"))

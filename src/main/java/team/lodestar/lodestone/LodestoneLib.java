@@ -68,7 +68,7 @@ public class LodestoneLib {
             Color firstColor = new Color(15712278);
             Color secondColor = new Color(4607909);
             float alphaMultiplier = 0.5f;
-            final int yOffset = 4;
+            final int yOffset = 0;
             final int xOffset = 0;
             final SpinParticleData.SpinParticleDataBuilder spinDataBuilder = SpinParticleData.create(0, 1).setSpinOffset(0.025f * time % 6.28f).setEasing(Easing.EXPO_IN_OUT);
             ScreenParticleBuilder.create(LodestoneScreenParticleRegistry.STAR, target)

@@ -76,11 +76,10 @@ public class ScreenParticleHandler {
         canSpawnParticles = true;
     }
 
-    public static void renderItemStackEarly(PoseStack pose, ItemStack stack, int x, int y) {
+    public static void renderItemStackEarly(ItemStack stack, int x, int y) {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
-
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level != null && minecraft.player != null) {
             if (minecraft.isPaused()) {
