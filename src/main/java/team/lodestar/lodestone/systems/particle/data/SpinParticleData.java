@@ -14,7 +14,7 @@ public class SpinParticleData extends GenericParticleData {
     }
 
     public SpinParticleDataBuilder scale(float scale) {
-        return copy(create(startingValue*scale, middleValue*scale, endingValue < 0 ? endingValue : endingValue*scale));
+        return copy(create(startingValue * scale, middleValue * scale, endingValue < 0 ? endingValue : endingValue * scale));
     }
 
     public SpinParticleDataBuilder copy() {

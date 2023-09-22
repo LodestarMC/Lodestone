@@ -97,7 +97,6 @@ public class ScreenParticleHandler {
                 } // TODO to here
 
 
-
                 ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitter != null) {
                     renderParticles(spawnAndPullParticles(minecraft.level, emitter, stack, false));

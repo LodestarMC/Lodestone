@@ -17,7 +17,7 @@ public class EffectProgramMixin {
             ),
             index = 4
     )
-    private static GlslPreprocessor useCustomPreprocessor(GlslPreprocessor org) {
+    private static GlslPreprocessor lodestone$useCustomPreprocessor(GlslPreprocessor org) {
         return LodestoneGlslPreprocessor.PREPROCESSOR;
     }
 }

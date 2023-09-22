@@ -13,7 +13,7 @@ import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 public class ScreenMixin {
 
     @Inject(at = @At("HEAD"), method = "renderBackground")
-    private void lodestoneBeforeUiParticleMixin(GuiGraphics pGuiGraphics, CallbackInfo ci) {
+    private void lodestone$BeforeUiParticleMixin(GuiGraphics pGuiGraphics, CallbackInfo ci) {
         ScreenParticleHandler.renderEarliestParticles();
     }
 }

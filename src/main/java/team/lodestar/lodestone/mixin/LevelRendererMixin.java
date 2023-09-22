@@ -26,19 +26,19 @@ public class LevelRendererMixin {
     private SoundType type;
 
     @ModifyVariable(method = "levelEvent", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;stateById(I)Lnet/minecraft/world/level/block/state/BlockState;")), at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;playLocalSound(Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V", ordinal = 0), index = 17)
-    private SoundType lodestoneGetBreakSound(SoundType type) {
+    private SoundType lodestone$GetBreakSound(SoundType type) {
         return this.type = type;
     }
 
     @Inject(method = "levelEvent", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;stateById(I)Lnet/minecraft/world/level/block/state/BlockState;")), at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;playLocalSound(Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V", ordinal = 0))
-    private void lodestoneCallExtendedBreakSound(int pType, BlockPos pPos, int pData, CallbackInfo ci) {
+    private void lodestone$CallExtendedBreakSound(int pType, BlockPos pPos, int pData, CallbackInfo ci) {
         if (type instanceof ExtendedSoundType extendedSoundType) {
             extendedSoundType.onPlayBreakSound(this.level, pPos);
         }
     }
 
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "net.minecraft.client.renderer.PostChain.process(F)V", ordinal = 1))
-    public void injectionBeforeTransparencyChainProcess(CallbackInfo ci) {
+    public void lodestone$injectionBeforeTransparencyChainProcess(CallbackInfo ci) {
         PostProcessHandler.copyDepthBuffer();
     }
 }

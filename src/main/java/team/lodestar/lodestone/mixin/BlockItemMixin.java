@@ -16,16 +16,16 @@ import team.lodestar.lodestone.systems.sound.ExtendedSoundType;
 public class BlockItemMixin {
 
     @Unique
-    private SoundType type;
+    private SoundType lodestone$type;
 
     @ModifyVariable(method = "place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/BlockItem;getPlaceSound(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/sounds/SoundEvent;"))
-    private SoundType lodestoneGetStepSound(SoundType type) {
-        return this.type = type;
+    private SoundType lodestone$GetStepSound(SoundType type) {
+        return this.lodestone$type = type;
     }
 
     @Inject(method = "place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"))
-    private void lodestoneCallExtendedStepSound(BlockPlaceContext pContext, CallbackInfoReturnable<InteractionResult> cir) {
-        if (type instanceof ExtendedSoundType extendedSoundType) {
+    private void lodestone$CallExtendedStepSound(BlockPlaceContext pContext, CallbackInfoReturnable<InteractionResult> cir) {
+        if (lodestone$type instanceof ExtendedSoundType extendedSoundType) {
             extendedSoundType.onPlayPlaceSound(pContext.getLevel(), pContext.getClickedPos(), pContext.getPlayer());
         }
     }

@@ -1,9 +1,9 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
-import net.minecraft.core.particles.*;
-import net.minecraftforge.registries.*;
-import team.lodestar.lodestone.systems.particle.data.*;
-import team.lodestar.lodestone.systems.particle.world.*;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraftforge.registries.RegistryObject;
+import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
+import team.lodestar.lodestone.systems.particle.world.SparkParticleOptions;
 
 public class SparkParticleBuilder extends AbstractWorldParticleBuilder<SparkParticleBuilder, SparkParticleOptions> {
 

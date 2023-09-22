@@ -17,7 +17,7 @@ import static team.lodestar.lodestone.LodestoneLib.RANDOM;
 public class CameraMixin {
 
     @Inject(method = "setup", at = @At("RETURN"))
-    private void lodestoneScreenshake(BlockGetter area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
+    private void lodestone$Screenshake(BlockGetter area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci) {
         if (ClientConfig.SCREENSHAKE_INTENSITY.getConfigValue() > 0) {
             ScreenshakeHandler.cameraTick((Camera) (Object) this, RANDOM);
         }

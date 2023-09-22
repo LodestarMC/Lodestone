@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.systems.particle.world;
 
-import com.mojang.brigadier.*;
-import com.mojang.serialization.*;
-import net.minecraft.core.particles.*;
-import net.minecraft.network.*;
-import team.lodestar.lodestone.systems.particle.data.*;
+import com.mojang.brigadier.StringReader;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 
 public class SparkParticleOptions extends WorldParticleOptions {
 

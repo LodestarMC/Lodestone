@@ -13,12 +13,12 @@ import team.lodestar.lodestone.handlers.FireEffectHandler;
 @Mixin(ScreenEffectRenderer.class)
 public class ScreenEffectRendererMixin {
     @Inject(method = "renderScreenEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isSpectator()Z"))
-    private static void lodestoneFireEffectRendering(Minecraft overlay, PoseStack pMinecraft, CallbackInfo ci) {
+    private static void lodestone$FireEffectRendering(Minecraft overlay, PoseStack pMinecraft, CallbackInfo ci) {
         FireEffectHandler.ClientOnly.renderUIFireEffect(overlay, pMinecraft);
     }
 
     @Inject(method = "renderFire", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V"))
-    private static void lodestoneFireEffectOffset(Minecraft minecraft, PoseStack poseStack, CallbackInfo ci) {
+    private static void lodestone$FireEffectOffset(Minecraft minecraft, PoseStack poseStack, CallbackInfo ci) {
         poseStack.translate(0, -(ClientConfig.FIRE_OVERLAY_OFFSET.getConfigValue()) * 0.3f, 0);
     }
 }

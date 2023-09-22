@@ -16,16 +16,16 @@ public class LivingEntityMixin {
 
 
     @Unique
-    private SoundType type;
+    private SoundType lodestone$type;
 
     @ModifyVariable(method = "playBlockFallSound", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V"))
-    private SoundType lodestoneGetStepSound(SoundType type) {
-        return this.type = type;
+    private SoundType lodestone$GetStepSound(SoundType type) {
+        return this.lodestone$type = type;
     }
 
     @Inject(method = "playBlockFallSound", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;playSound(Lnet/minecraft/sounds/SoundEvent;FF)V"))
-    private void lodestoneCallExtendedStepSound(CallbackInfo ci) {
-        if (type instanceof ExtendedSoundType extendedSoundType) {
+    private void lodestone$CallExtendedStepSound(CallbackInfo ci) {
+        if (lodestone$type instanceof ExtendedSoundType extendedSoundType) {
             Entity entity = ((Entity) (Object) this);
             extendedSoundType.onPlayFallSound(entity.level(), entity.getOnPos(), entity.getSoundSource());
         }
