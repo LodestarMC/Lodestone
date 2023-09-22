@@ -22,7 +22,7 @@ public class SparkParticleBuilder extends AbstractWorldParticleBuilder<SparkPart
 
     @Override
     public SparkParticleOptions getParticleOptions() {
-        return null;
+        return options;
     }
 
     public GenericParticleData getLengthData() {
