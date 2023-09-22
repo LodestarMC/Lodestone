@@ -115,9 +115,12 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         return wrapper();
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public <K extends AbstractWorldParticleBuilder> T act(Consumer<K> particleBuilderConsumer) {
-        particleBuilderConsumer.accept((K) wrapper());
+    public T act(Consumer<T> particleBuilderConsumer) {
+        particleBuilderConsumer.accept(wrapper());
+        return wrapper();
+    }
+    public <K extends AbstractWorldParticleBuilder> T act(Class<K> type, Consumer<K> particleBuilderConsumer) {
+        particleBuilderConsumer.accept(type.cast(wrapper()));
         return wrapper();
     }
 
