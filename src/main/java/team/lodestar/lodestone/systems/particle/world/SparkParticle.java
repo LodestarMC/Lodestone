@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.*;
 import net.minecraft.client.multiplayer.*;
 import net.minecraft.client.particle.*;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.systems.particle.*;
 import team.lodestar.lodestone.systems.particle.data.*;
