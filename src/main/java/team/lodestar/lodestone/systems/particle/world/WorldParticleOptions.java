@@ -6,13 +6,12 @@ import net.minecraft.client.particle.ParticleRenderType;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
-import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
 
 import java.util.function.Consumer;
 
 public class WorldParticleOptions extends SimpleParticleOptions implements net.minecraft.core.particles.ParticleOptions {
 
-    public static Codec<WorldParticleOptions> codecFor(ParticleType<?> type) {
+    public static Codec<WorldParticleOptions> worldCodec(ParticleType<?> type) {
         return Codec.unit(() -> new WorldParticleOptions(type));
     }
 

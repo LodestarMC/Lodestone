@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.setup;
 
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.particle.type.LodestoneParticleType;
+import team.lodestar.lodestone.systems.particle.type.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
@@ -19,11 +19,16 @@ public class LodestoneParticleRegistry {
     public static RegistryObject<LodestoneParticleType> TWINKLE_PARTICLE = PARTICLES.register("twinkle", LodestoneParticleType::new);
     public static RegistryObject<LodestoneParticleType> STAR_PARTICLE = PARTICLES.register("star", LodestoneParticleType::new);
 
+    public static RegistryObject<LodestoneSparkParticleType> SPARK_PARTICLE = PARTICLES.register("spark", LodestoneSparkParticleType::new);
+
+
     public static void registerParticleFactory(ParticleFactoryRegisterEvent event) {
         Minecraft.getInstance().particleEngine.register(WISP_PARTICLE.get(), LodestoneParticleType.Factory::new);
         Minecraft.getInstance().particleEngine.register(SMOKE_PARTICLE.get(), LodestoneParticleType.Factory::new);
         Minecraft.getInstance().particleEngine.register(SPARKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
         Minecraft.getInstance().particleEngine.register(TWINKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
         Minecraft.getInstance().particleEngine.register(STAR_PARTICLE.get(), LodestoneParticleType.Factory::new);
+
+        Minecraft.getInstance().particleEngine.register(SPARK_PARTICLE.get(), LodestoneSparkParticleType.Factory::new);
     }
 }
