@@ -1,29 +1,28 @@
 package team.lodestar.lodestone.systems.rendering;
 
+import net.minecraft.core.*;
+import team.lodestar.lodestone.helpers.*;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
+import com.mojang.math.Vector4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
-import team.lodestar.lodestone.helpers.RenderHelper;
-import team.lodestar.lodestone.helpers.VecHelper;
-import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
-import team.lodestar.lodestone.systems.rendering.trail.TrailRenderPoint;
+import team.lodestar.lodestone.systems.rendering.trail.*;
 
-import javax.annotation.Nullable;
+import javax.annotation.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class VFXBuilders {
     public static ScreenVFXBuilder createScreen() {
@@ -120,7 +119,6 @@ public class VFXBuilders {
             this.b = b / 255f;
             return this;
         }
-
         public ScreenVFXBuilder setColorRaw(float r, float g, float b) {
             this.r = r;
             this.g = g;
@@ -320,7 +318,6 @@ public class VFXBuilders {
             this.b = b / 255f;
             return this;
         }
-
         public WorldVFXBuilder setColorRaw(float r, float g, float b) {
             this.r = r;
             this.g = g;
@@ -352,8 +349,10 @@ public class VFXBuilders {
 
         public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, @Nullable Matrix4f last, Vec3 start, Vec3 end, float width) {
             Minecraft minecraft = Minecraft.getInstance();
-
-            Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getEntity().getEyePosition();
+            Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getPosition();
+            return renderBeam(vertexConsumer, last, start, end, width, cameraPosition);
+        }
+        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, @Nullable Matrix4f last, Vec3 start, Vec3 end, float width, Vec3 cameraPosition) {
             Vec3 delta = end.subtract(start);
             Vec3 normal = start.subtract(cameraPosition).cross(delta).normalize().multiply(width / 2f, width / 2f, width / 2f);
 
