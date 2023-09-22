@@ -30,7 +30,7 @@ import team.lodestar.lodestone.data.LodestoneLangDatagen;
 import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
 import team.lodestar.lodestone.setup.*;
 import team.lodestar.lodestone.systems.easing.Easing;
-import team.lodestar.lodestone.systems.particle.ScreenParticleBuilder;
+import team.lodestar.lodestone.systems.particle.builder.ScreenParticleBuilder;
 import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.SpinParticleData;

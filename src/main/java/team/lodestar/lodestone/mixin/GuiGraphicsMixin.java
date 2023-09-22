@@ -35,7 +35,11 @@ public class GuiGraphicsMixin {
         lodestone$bl = true;
     }
 
-
+    @Inject(method = "renderItem(Lnet/minecraft/world/item/ItemStack;II)V", at = @At("HEAD"))
+    private void lodestone$1(ItemStack stack, int x, int y, CallbackInfo ci){
+        ScreenParticleHandler.renderItemStackEarly(stack, x, y, false);
+        lodestone$bl = true;
+    }
 
 
 
