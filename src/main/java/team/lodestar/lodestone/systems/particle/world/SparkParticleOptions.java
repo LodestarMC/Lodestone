@@ -1,11 +1,16 @@
 package team.lodestar.lodestone.systems.particle.world;
 
 import com.mojang.brigadier.*;
+import com.mojang.serialization.*;
 import net.minecraft.core.particles.*;
 import net.minecraft.network.*;
 import team.lodestar.lodestone.systems.particle.data.*;
 
 public class SparkParticleOptions extends WorldParticleOptions {
+
+    public static Codec<SparkParticleOptions> sparkCodec(ParticleType<?> type) {
+        return Codec.unit(() -> new SparkParticleOptions(type));
+    }
 
     public GenericParticleData lengthData = DEFAULT_GENERIC;
 

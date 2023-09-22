@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class WorldParticleOptions extends SimpleParticleOptions implements net.minecraft.core.particles.ParticleOptions {
 
-    public static Codec<WorldParticleOptions> codecFor(ParticleType<?> type) {
+    public static Codec<WorldParticleOptions> worldCodec(ParticleType<?> type) {
         return Codec.unit(() -> new WorldParticleOptions(type));
     }
 
