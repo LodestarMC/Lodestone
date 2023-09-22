@@ -28,9 +28,9 @@ public class SparkParticle extends GenericParticle {
         builder.setColorRaw(rCol, gCol, bCol).setAlpha(alpha);
 
         float length = lengthData.getValue(age, lifetime);
-
-        Vec3 movingTo = getPos().add(getParticleSpeed()).normalize().scale(length);
-        Vec3 movingFrom = getPos().subtract(getParticleSpeed()).normalize().scale(length);
+        Vec3 offset = getParticleSpeed().normalize().scale(length);
+        Vec3 movingTo = getPos().add(offset);
+        Vec3 movingFrom = getPos().subtract(offset);
 
         builder.renderBeam(consumer, null, movingFrom, movingTo, quadSize);
     }
