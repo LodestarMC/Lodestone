@@ -31,7 +31,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
      */
     public static final HashMap<Pair<Object, RenderType>, RenderType> COPIES = new HashMap<>();
 
-    public static final Function<RenderTypeData, RenderType> GENERIC = (data) -> createGenericRenderType(data.name, data.format, data.mode, data.shader, data.transparency, data.texture);
+    public static final Function<RenderTypeData, RenderType> GENERIC = (data) -> createGenericRenderType(data.name, data.format, data.mode, data.shader, data.transparency, data.texture, data.cull);
 
     /**
      * Static, one off Render Types. Should be self-explanatory.
@@ -64,28 +64,28 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static final RenderTypeProvider SCROLLING_TEXTURE_TRIANGLE = new RenderTypeProvider((texture) -> createGenericRenderType(texture.getNamespace(), "scrolling_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, LodestoneShaderRegistry.SCROLLING_TRIANGLE_TEXTURE.getShard(), StateShards.ADDITIVE_TRANSPARENCY, texture));
 
     public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, ShaderStateShard shader, TransparencyStateShard transparency) {
-        return createGenericRenderType(modId, name, format, VertexFormat.Mode.QUADS, shader, transparency, RenderStateShard.NO_TEXTURE);
-    }
-    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency) {
-        return createGenericRenderType(modId, name, format, mode, shader, transparency, RenderStateShard.NO_TEXTURE);
+        return createGenericRenderType(modId, name, format, VertexFormat.Mode.QUADS, shader, transparency, RenderStateShard.NO_TEXTURE, RenderStateShard.CULL);
     }
     public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture) {
-        return createGenericRenderType(modId, name, format, VertexFormat.Mode.QUADS, shader, transparency, new TextureStateShard(texture, false, false));
+        return createGenericRenderType(modId, name, format, VertexFormat.Mode.QUADS, shader, transparency, new TextureStateShard(texture, false, false), RenderStateShard.CULL);
     }
-    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture) {
-        return createGenericRenderType(modId, name, format, mode, shader, transparency, new TextureStateShard(texture, false, false));
+    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture, CullStateShard cull) {
+        return createGenericRenderType(modId, name, format, VertexFormat.Mode.QUADS, shader, transparency, new TextureStateShard(texture, false, false), cull);
     }
-    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture) {
-        return createGenericRenderType(modId + ":" + name, format, mode, shader, transparency, texture);
+    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture, CullStateShard cull) {
+        return createGenericRenderType(modId, name, format, mode, shader, transparency, new TextureStateShard(texture, false, false), cull);
     }
 
-    public static RenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture) {
+    public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture, CullStateShard cull) {
+        return createGenericRenderType(modId + ":" + name, format, mode, shader, transparency, texture, cull);
+    }
+    public static RenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture, CullStateShard cull) {
         return createGenericRenderType(name, format, mode, RenderType.CompositeState.builder()
                 .setShaderState(shader)
                 .setTransparencyState(transparency)
                 .setTextureState(texture)
                 .setLightmapState(LIGHTMAP)
-                .setCullState(CULL));
+                .setCullState(cull));
     }
 
     /**

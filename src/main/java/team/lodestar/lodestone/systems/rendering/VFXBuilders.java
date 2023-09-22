@@ -1,6 +1,8 @@
 package team.lodestar.lodestone.systems.rendering;
 
 import net.minecraft.core.*;
+import net.minecraft.network.chat.*;
+import net.minecraft.network.chat.TextComponent;
 import team.lodestar.lodestone.helpers.*;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -349,8 +351,10 @@ public class VFXBuilders {
 
         public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, @Nullable Matrix4f last, Vec3 start, Vec3 end, float width) {
             Minecraft minecraft = Minecraft.getInstance();
-
-            Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getEntity().getEyePosition();
+            Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getPosition();
+            return renderBeam(vertexConsumer, last, start, end, width, cameraPosition);
+        }
+        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, @Nullable Matrix4f last, Vec3 start, Vec3 end, float width, Vec3 cameraPosition) {
             Vec3 delta = end.subtract(start);
             Vec3 normal = start.subtract(cameraPosition).cross(delta).normalize().multiply(width / 2f, width / 2f, width / 2f);
 

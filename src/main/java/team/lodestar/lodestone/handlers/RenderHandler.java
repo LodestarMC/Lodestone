@@ -32,6 +32,7 @@ public class RenderHandler {
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
     public static MultiBufferSource.BufferSource DELAYED_PARTICLE_RENDER;
 
+    public static PoseStack MAIN_POSE_STACK;
     public static Matrix4f MATRIX4F;
 
     public static float FOG_NEAR;
