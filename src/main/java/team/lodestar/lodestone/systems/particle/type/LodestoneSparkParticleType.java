@@ -29,7 +29,7 @@ public class LodestoneSparkParticleType extends ParticleType<SparkParticleOption
         @Nullable
         @Override
         public Particle createParticle(SparkParticleOptions data, ClientLevel world, double x, double y, double z, double mx, double my, double mz) {
-            return new GenericParticle(world, data, (ParticleEngine.MutableSpriteSet) sprite, x, y, z, mx, my, mz);
+            return new SparkParticle(world, data, (ParticleEngine.MutableSpriteSet) sprite, x, y, z, mx, my, mz);
         }
     }
 }
