@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
 import net.minecraft.core.particles.ParticleType;
-import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.systems.particle.world.WorldParticleOptions;
 
 import java.util.function.Supplier;

@@ -7,7 +7,7 @@ import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleType;
-import team.lodestar.lodestone.systems.particle.world.GenericParticle;
+import team.lodestar.lodestone.systems.particle.world.SparkParticle;
 import team.lodestar.lodestone.systems.particle.world.SparkParticleOptions;
 
 import javax.annotation.Nullable;
