@@ -26,7 +26,7 @@ public class WorldParticleBuilder extends AbstractWorldParticleBuilder<WorldPart
 
     final WorldParticleOptions options;
 
-    public static WorldParticleBuilder create(Supplier<ParticleType<WorldParticleOptions>> type) {
+    public static WorldParticleBuilder create(Supplier<? extends ParticleType<WorldParticleOptions>> type) {
         return new WorldParticleBuilder(type.get());
     }
 

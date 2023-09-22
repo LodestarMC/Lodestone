@@ -11,7 +11,7 @@ public class SparkParticleBuilder extends AbstractWorldParticleBuilder<SparkPart
 
     final SparkParticleOptions options;
 
-    public static SparkParticleBuilder create(Supplier<ParticleType<SparkParticleOptions>> type) {
+    public static SparkParticleBuilder create(Supplier<? extends ParticleType<SparkParticleOptions>> type) {
         return new SparkParticleBuilder(type.get());
     }
 
