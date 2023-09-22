@@ -11,6 +11,7 @@
   "client": [
     "AbstractContainerScreenMixin",
     "CameraMixin",
+    "CreativeModeInventoryScreenMixin",
     "EffectProgramMixin",
     "EntityRenderDispatcherMixin",
     "GameRendererMixin",

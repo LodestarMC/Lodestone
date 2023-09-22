@@ -2,6 +2,7 @@ package team.lodestar.lodestone.mixin;
 
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -37,7 +38,8 @@ public abstract class GuiGraphicsMixin implements TheWorstInterface {
 
     @Inject(method = "renderItem(Lnet/minecraft/world/item/ItemStack;III)V", at = @At("HEAD"))
     private void lodestone$1(ItemStack stack, int x, int y, int seed, CallbackInfo ci){
-        ScreenParticleHandler.renderItemStackEarly(stack, x, y, true);
+        //ScreenParticleHandler.renderItemStackEarly(stack, x, y, true);
+
         lodestone$bl = true;
     }
 
