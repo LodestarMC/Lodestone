@@ -88,18 +88,15 @@ public class ScreenParticleHandler {
                 currentItemX = x + 8;
                 currentItemY = y + 8;
 
-                if (minecraft.screen instanceof AbstractContainerScreen<?> containerScreen) {//TODO this whole thing sucks
+                if (b && minecraft.screen instanceof AbstractContainerScreen<?> containerScreen) {//TODO this whole thing sucks
                     int i = containerScreen.leftPos;
                     int j = containerScreen.topPos;
-
-                    if (b) {
-                        currentItemX -= i;
-                        currentItemY -= j;
-                    }
 
                     currentItemX += i;
                     currentItemY += j;
                 } // TODO to here
+
+
 
                 ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitter != null) {
