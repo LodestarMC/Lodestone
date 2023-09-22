@@ -8,6 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.particle.type.LodestoneParticleType;
+import team.lodestar.lodestone.systems.particle.type.LodestoneSparkParticleType;
 
 @SuppressWarnings("unused")
 public class LodestoneParticleRegistry {
@@ -29,6 +30,6 @@ public class LodestoneParticleRegistry {
         event.registerSpriteSet(TWINKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
         event.registerSpriteSet(STAR_PARTICLE.get(), LodestoneParticleType.Factory::new);
 
-        Minecraft.getInstance().particleEngine.register(SPARK_PARTICLE.get(), LodestoneSparkParticleType.Factory::new);
+        event.registerSpriteSet(SPARK_PARTICLE.get(), LodestoneSparkParticleType.Factory::new);
     }
 }
