@@ -33,4 +33,5 @@ public class SparkParticleBuilder extends AbstractWorldParticleBuilder<SparkPart
         getParticleOptions().lengthData = lengthData;
         return wrapper();
     }
+
 }
