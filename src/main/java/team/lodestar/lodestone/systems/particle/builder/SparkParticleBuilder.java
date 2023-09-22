@@ -5,15 +5,13 @@ import net.minecraftforge.registries.*;
 import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 
+import java.util.function.*;
+
 public class SparkParticleBuilder extends AbstractWorldParticleBuilder<SparkParticleBuilder, SparkParticleOptions> {
 
     final SparkParticleOptions options;
 
-    public static SparkParticleBuilder create(ParticleType<SparkParticleOptions> type) {
-        return new SparkParticleBuilder(type);
-    }
-
-    public static SparkParticleBuilder create(RegistryObject<ParticleType<SparkParticleOptions>> type) {
+    public static SparkParticleBuilder create(Supplier<ParticleType<SparkParticleOptions>> type) {
         return new SparkParticleBuilder(type.get());
     }
 
