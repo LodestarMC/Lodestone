@@ -17,6 +17,7 @@ import team.lodestar.lodestone.helpers.VecHelper;
 import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
 import team.lodestar.lodestone.systems.rendering.trail.TrailRenderPoint;
 
+import javax.annotation.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -345,13 +346,12 @@ public class VFXBuilders {
             return this;
         }
 
-        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, PoseStack stack, BlockPos start, BlockPos end, float width) {
-            return renderBeam(vertexConsumer, stack, VecHelper.getCenterOf(start), VecHelper.getCenterOf(end), width);
+        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, Matrix4f last, BlockPos start, BlockPos end, float width) {
+            return renderBeam(vertexConsumer, last, VecHelper.getCenterOf(start), VecHelper.getCenterOf(end), width);
         }
 
-        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, PoseStack stack, Vec3 start, Vec3 end, float width) {
+        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, @Nullable Matrix4f last, Vec3 start, Vec3 end, float width) {
             Minecraft minecraft = Minecraft.getInstance();
-            Matrix4f last = stack.last().pose();
 
             Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getEntity().getEyePosition();
             Vec3 delta = end.subtract(start);
@@ -430,11 +430,10 @@ public class VFXBuilders {
             for (Vector3f position : positions) {
                 position.mul(width, height, width);
             }
-            return renderQuad(vertexConsumer, stack, positions);
+            return renderQuad(vertexConsumer, stack.last().pose(), positions);
         }
 
-        public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, PoseStack stack, Vector3f[] positions) {
-            Matrix4f last = stack.last().pose();
+        public WorldVFXBuilder renderQuad(VertexConsumer vertexConsumer, Matrix4f last, Vector3f[] positions) {
             supplier.placeVertex(vertexConsumer, last, positions[0].x(), positions[0].y(), positions[0].z(), u0, v1);
             supplier.placeVertex(vertexConsumer, last, positions[1].x(), positions[1].y(), positions[1].z(), u1, v1);
             supplier.placeVertex(vertexConsumer, last, positions[2].x(), positions[2].y(), positions[2].z(), u1, v0);

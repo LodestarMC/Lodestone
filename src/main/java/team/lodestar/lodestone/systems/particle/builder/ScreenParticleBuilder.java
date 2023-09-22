@@ -1,6 +1,7 @@
-package team.lodestar.lodestone.systems.particle;
+package team.lodestar.lodestone.systems.particle.builder;
 
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
+import team.lodestar.lodestone.systems.particle.*;
 import team.lodestar.lodestone.systems.particle.screen.*;
 
 import java.util.Random;

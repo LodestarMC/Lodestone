@@ -1,10 +1,9 @@
-package team.lodestar.lodestone.systems.particle;
+package team.lodestar.lodestone.systems.particle.builder;
 
-import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
-import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.*;
+import team.lodestar.lodestone.systems.particle.data.*;
 
-import java.util.function.Supplier;
+import java.util.function.*;
 
 public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<T, Y>, Y extends SimpleParticleOptions> {
 
@@ -76,7 +75,7 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
         return wrapper();
     }
 
-    private T wrapper() {
+    public T wrapper() {
         return (T) this;
     }
 
