@@ -22,6 +22,7 @@ import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+@SuppressWarnings({"unused"})
 public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldParticleBuilder<T, Y>, Y extends WorldParticleOptions> extends AbstractParticleBuilder<T, Y> {
 
     private static final Random RANDOM = new Random();
@@ -114,8 +115,9 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         return wrapper();
     }
 
-    public T act(Consumer<T> particleBuilderConsumer) {
-        particleBuilderConsumer.accept(wrapper());
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public <K extends AbstractWorldParticleBuilder> T act(Consumer<K> particleBuilderConsumer) {
+        particleBuilderConsumer.accept((K) wrapper());
         return wrapper();
     }
 
