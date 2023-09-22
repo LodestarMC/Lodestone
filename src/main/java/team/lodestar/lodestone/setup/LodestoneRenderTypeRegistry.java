@@ -2,15 +2,16 @@ package team.lodestar.lodestone.setup;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
-import team.lodestar.lodestone.handlers.RenderHandler;
-import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
-import team.lodestar.lodestone.systems.rendering.StateShards;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
-import team.lodestar.lodestone.systems.rendering.rendeertype.*;
+import team.lodestar.lodestone.handlers.RenderHandler;
+import team.lodestar.lodestone.systems.rendering.StateShards;
+import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeData;
+import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeProvider;
+import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -70,9 +71,11 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture) {
         return createGenericRenderType(modId, name, format, VertexFormat.Mode.QUADS, shader, transparency, new TextureStateShard(texture, false, false), RenderStateShard.CULL);
     }
+
     public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture, CullStateShard cull) {
         return createGenericRenderType(modId, name, format, VertexFormat.Mode.QUADS, shader, transparency, new TextureStateShard(texture, false, false), cull);
     }
+
     public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, ResourceLocation texture, CullStateShard cull) {
         return createGenericRenderType(modId, name, format, mode, shader, transparency, new TextureStateShard(texture, false, false), cull);
     }
@@ -80,6 +83,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static RenderType createGenericRenderType(String modId, String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture, CullStateShard cull) {
         return createGenericRenderType(modId + ":" + name, format, mode, shader, transparency, texture, cull);
     }
+
     public static RenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture, CullStateShard cull) {
         return createGenericRenderType(name, format, mode, RenderType.CompositeState.builder()
                 .setShaderState(shader)
