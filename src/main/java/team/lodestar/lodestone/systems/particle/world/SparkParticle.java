@@ -31,7 +31,7 @@ public class SparkParticle extends GenericParticle {
         float z = (float)(Mth.lerp(partialTicks, this.zo, this.z) - vec3.z());
         final Vec3 pos = new Vec3(x, y, z);
         consumer = getVertexConsumer(consumer);
-        builder.setColorRaw(rCol, gCol, bCol).setAlpha(alpha);
+        builder.setUV(getU0(), getV0(), getU1(), getV1()).setColorRaw(rCol, gCol, bCol).setAlpha(alpha);
 
         float length = lengthData.getValue(age, lifetime);
         Vec3 offset = getParticleSpeed().normalize().scale(length);
