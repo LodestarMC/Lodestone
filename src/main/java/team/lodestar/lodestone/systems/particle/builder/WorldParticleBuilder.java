@@ -4,6 +4,8 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.systems.particle.world.WorldParticleOptions;
 
+import java.util.function.Supplier;
+
 public class WorldParticleBuilder extends AbstractWorldParticleBuilder<WorldParticleBuilder, WorldParticleOptions> {
 
     final WorldParticleOptions options;
