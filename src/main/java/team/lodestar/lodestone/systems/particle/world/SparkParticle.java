@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.*;
 import net.minecraft.client.multiplayer.*;
 import net.minecraft.client.particle.*;
+import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.systems.particle.*;
 import team.lodestar.lodestone.systems.particle.data.*;
@@ -24,13 +25,18 @@ public class SparkParticle extends GenericParticle {
 
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        Vec3 vec3 = camera.getPosition();
+        float x = (float)(Mth.lerp(partialTicks, this.xo, this.x) - vec3.x());
+        float y = (float)(Mth.lerp(partialTicks, this.yo, this.y) - vec3.y());
+        float z = (float)(Mth.lerp(partialTicks, this.zo, this.z) - vec3.z());
+        final Vec3 pos = new Vec3(x, y, z);
         consumer = getVertexConsumer(consumer);
         builder.setColorRaw(rCol, gCol, bCol).setAlpha(alpha);
 
         float length = lengthData.getValue(age, lifetime);
         Vec3 offset = getParticleSpeed().normalize().scale(length);
-        Vec3 movingTo = getPos().add(offset);
-        Vec3 movingFrom = getPos().subtract(offset);
+        Vec3 movingTo = pos.add(offset);
+        Vec3 movingFrom = pos.subtract(offset);
 
         builder.renderBeam(consumer, null, movingFrom, movingTo, quadSize);
     }
