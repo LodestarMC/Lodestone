@@ -17,6 +17,13 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
         dataConsumer.accept(dataFunction.apply(wrapper()));
         return wrapper();
     }
+    @SafeVarargs
+    public final T modifyData(Consumer<GenericParticleData> dataConsumer, Function<T, ? extends GenericParticleData>... dataFunctions) {
+        for (Function<T, ? extends GenericParticleData> dataFunction : dataFunctions) {
+            dataConsumer.accept(dataFunction.apply(wrapper()));
+        }
+        return wrapper();
+    }
 
     public T setColorData(ColorParticleData colorData) {
         getParticleOptions().colorData = colorData;
