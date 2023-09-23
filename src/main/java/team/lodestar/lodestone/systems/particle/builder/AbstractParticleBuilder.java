@@ -13,6 +13,18 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
     double maxXSpeed = 0, maxYSpeed = 0;
     double maxXOffset = 0, maxYOffset = 0;
 
+    public T modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType.get());
+        return wrapper();
+    }
+
+    public final T modifyData(Collection<Supplier<GenericParticleData>> dataTypes, Consumer<GenericParticleData> dataConsumer) {
+        for (Supplier<GenericParticleData> dataFunction : dataTypes) {
+            dataConsumer.accept(dataFunction.get());
+        }
+        return wrapper();
+    }
+
     public T setColorData(ColorParticleData colorData) {
         getParticleOptions().colorData = colorData;
         return wrapper();
@@ -49,12 +61,30 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
         return getParticleOptions().spinData;
     }
 
+    public T multiplyGravity(float gravityMultiplier) {
+        return modifyGravity(f -> () -> f*gravityMultiplier);
+    }
+
+    public T modifyGravity(Function<Float, Supplier<Float>> gravityReplacement) {
+        getParticleOptions().gravityStrengthSupplier = gravityReplacement.apply(getParticleOptions().gravityStrengthSupplier.get());
+        return wrapper();
+    }
+
     public T setGravityStrength(float gravity) {
         return setGravityStrength(() -> gravity);
     }
 
     public T setGravityStrength(Supplier<Float> gravityStrengthSupplier) {
         getParticleOptions().gravityStrengthSupplier = gravityStrengthSupplier;
+        return wrapper();
+    }
+
+    public T multiplyLifetime(float lifetimeMultiplier) {
+        return modifyLifetime(i -> () -> (int) (i * lifetimeMultiplier));
+    }
+
+    public T modifyLifetime(Function<Integer, Supplier<Integer>> lifetimeReplacement) {
+        getParticleOptions().lifetimeSupplier = lifetimeReplacement.apply(getParticleOptions().lifetimeSupplier.get());
         return wrapper();
     }
 

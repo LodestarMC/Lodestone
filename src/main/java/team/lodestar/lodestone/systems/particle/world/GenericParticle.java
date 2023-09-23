@@ -13,9 +13,9 @@ import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
-import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
+import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
 
 import java.awt.*;
 import java.util.function.Consumer;

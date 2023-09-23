@@ -8,6 +8,9 @@ public class GenericParticleData {
     public final float coefficient;
     public final Easing startToMiddleEasing, middleToEndEasing;
 
+    public float valueMultiplier = 1;
+    public float coefficientMultiplier = 1;
+
     protected GenericParticleData(float startingValue, float middleValue, float endingValue, float coefficient, Easing startToMiddleEasing, Easing middleToEndEasing) {
         this.startingValue = startingValue;
         this.middleValue = middleValue;
@@ -17,37 +20,35 @@ public class GenericParticleData {
         this.middleToEndEasing = middleToEndEasing;
     }
 
+    public void multiplyCoefficient(float coefficientMultiplier) {
+        this.coefficientMultiplier = coefficientMultiplier;
+    }
+
+    public void multiplyValue(float valueMultiplier) {
+        this.valueMultiplier = valueMultiplier;
+    }
+
     public boolean isTrinary() {
         return endingValue != -1;
     }
 
     public float getProgress(float age, float lifetime) {
-        return Mth.clamp((age * coefficient) / lifetime, 0, 1);
+        return Mth.clamp((age * coefficient * coefficientMultiplier) / lifetime, 0, 1);
     }
 
     public float getValue(float age, float lifetime) {
         float progress = getProgress(age, lifetime);
+        float result;
         if (isTrinary()) {
             if (progress >= 0.5f) {
-                return Mth.lerp(middleToEndEasing.ease(progress - 0.5f, 0, 1, 0.5f), middleValue, endingValue);
+                result = Mth.lerp(middleToEndEasing.ease(progress - 0.5f, 0, 1, 0.5f), middleValue, endingValue);
             } else {
-                return Mth.lerp(startToMiddleEasing.ease(progress, 0, 1, 0.5f), startingValue, middleValue);
+                result = Mth.lerp(startToMiddleEasing.ease(progress, 0, 1, 0.5f), startingValue, middleValue);
             }
         } else {
-            return Mth.lerp(startToMiddleEasing.ease(progress, 0, 1, 1), startingValue, middleValue);
+            result = Mth.lerp(startToMiddleEasing.ease(progress, 0, 1, 1), startingValue, middleValue);
         }
-    }
-
-    public GenericParticleDataBuilder scale(float scale) {
-        return copy(create(startingValue * scale, middleValue * scale, endingValue < 0 ? endingValue : endingValue * scale));
-    }
-
-    public GenericParticleDataBuilder copy() {
-        return copy(create(startingValue, middleValue, endingValue));
-    }
-
-    private GenericParticleDataBuilder copy(GenericParticleDataBuilder builder) {
-        return builder.setCoefficient(coefficient).setEasing(startToMiddleEasing, middleToEndEasing);
+        return result * valueMultiplier;
     }
 
     public static GenericParticleDataBuilder create(float value) {
@@ -60,38 +61,5 @@ public class GenericParticleData {
 
     public static GenericParticleDataBuilder create(float startingValue, float middleValue, float endingValue) {
         return new GenericParticleDataBuilder(startingValue, middleValue, endingValue);
-    }
-
-    public static class GenericParticleDataBuilder {
-        protected final float startingValue, middleValue, endingValue;
-        protected float coefficient = 1f;
-        protected Easing startToMiddleEasing = Easing.LINEAR, middleToEndEasing = Easing.LINEAR;
-
-        protected GenericParticleDataBuilder(float startingValue, float middleValue, float endingValue) {
-            this.startingValue = startingValue;
-            this.middleValue = middleValue;
-            this.endingValue = endingValue;
-        }
-
-        public GenericParticleDataBuilder setCoefficient(float coefficient) {
-            this.coefficient = coefficient;
-            return this;
-        }
-
-        public GenericParticleDataBuilder setEasing(Easing easing) {
-            this.startToMiddleEasing = easing;
-            return this;
-        }
-
-        public GenericParticleDataBuilder setEasing(Easing easing, Easing middleToEndEasing) {
-            this.startToMiddleEasing = easing;
-            this.middleToEndEasing = easing;
-            return this;
-        }
-
-
-        public GenericParticleData build() {
-            return new GenericParticleData(startingValue, middleValue, endingValue, coefficient, startToMiddleEasing, middleToEndEasing);
-        }
     }
 }
