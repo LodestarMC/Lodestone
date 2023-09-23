@@ -14,14 +14,14 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
     double maxXSpeed = 0, maxYSpeed = 0;
     double maxXOffset = 0, maxYOffset = 0;
 
-    public T modifyData(Function<T, ? extends GenericParticleData> dataFunction, Consumer<GenericParticleData> dataConsumer) {
-        dataConsumer.accept(dataFunction.apply(wrapper()));
+    public T modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType.get());
         return wrapper();
     }
 
-    public final T modifyData(Collection<Function<T, ? extends GenericParticleData>> dataFunctions, Consumer<GenericParticleData> dataConsumer) {
-        for (Function<T, ? extends GenericParticleData> dataFunction : dataFunctions) {
-            dataConsumer.accept(dataFunction.apply(wrapper()));
+    public final T modifyData(Collection<Supplier<GenericParticleData>> dataTypes, Consumer<GenericParticleData> dataConsumer) {
+        for (Supplier<GenericParticleData> dataFunction : dataTypes) {
+            dataConsumer.accept(dataFunction.get());
         }
         return wrapper();
     }
