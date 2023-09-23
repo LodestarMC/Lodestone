@@ -2,6 +2,8 @@ package team.lodestar.lodestone.systems.particle.builder;
 
 import team.lodestar.lodestone.systems.particle.*;
 import team.lodestar.lodestone.systems.particle.data.*;
+import team.lodestar.lodestone.systems.particle.data.color.*;
+import team.lodestar.lodestone.systems.particle.data.spin.*;
 
 import java.util.function.*;
 
@@ -10,6 +12,11 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
     double xMotion = 0, yMotion = 0;
     double maxXSpeed = 0, maxYSpeed = 0;
     double maxXOffset = 0, maxYOffset = 0;
+
+    public T modifyData(Function<T, ? extends GenericParticleData> dataFunction, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataFunction.apply(wrapper()));
+        return wrapper();
+    }
 
     public T setColorData(ColorParticleData colorData) {
         getParticleOptions().colorData = colorData;
@@ -47,12 +54,30 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
         return getParticleOptions().spinData;
     }
 
+    public T multiplyGravity(float gravityMultiplier) {
+        return modifyGravity(f -> () -> f*gravityMultiplier);
+    }
+
+    public T modifyGravity(Function<Float, Supplier<Float>> gravityReplacement) {
+        getParticleOptions().gravityStrengthSupplier = gravityReplacement.apply(getParticleOptions().gravityStrengthSupplier.get());
+        return wrapper();
+    }
+
     public T setGravityStrength(float gravity) {
         return setGravityStrength(() -> gravity);
     }
 
     public T setGravityStrength(Supplier<Float> gravityStrengthSupplier) {
         getParticleOptions().gravityStrengthSupplier = gravityStrengthSupplier;
+        return wrapper();
+    }
+
+    public T multiplyLifetime(float lifetimeMultiplier) {
+        return modifyLifetime(i -> () -> (int) (i * lifetimeMultiplier));
+    }
+
+    public T modifyLifetime(Function<Integer, Supplier<Integer>> lifetimeReplacement) {
+        getParticleOptions().lifetimeSupplier = lifetimeReplacement.apply(getParticleOptions().lifetimeSupplier.get());
         return wrapper();
     }
 
