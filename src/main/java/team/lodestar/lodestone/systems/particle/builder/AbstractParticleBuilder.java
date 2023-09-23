@@ -5,6 +5,7 @@ import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.data.color.*;
 import team.lodestar.lodestone.systems.particle.data.spin.*;
 
+import java.util.*;
 import java.util.function.*;
 
 public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<T, Y>, Y extends SimpleParticleOptions> {
@@ -17,8 +18,8 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
         dataConsumer.accept(dataFunction.apply(wrapper()));
         return wrapper();
     }
-    @SafeVarargs
-    public final T modifyData(Consumer<GenericParticleData> dataConsumer, Function<T, ? extends GenericParticleData>... dataFunctions) {
+
+    public final T modifyData(Collection<Function<T, ? extends GenericParticleData>> dataFunctions, Consumer<GenericParticleData> dataConsumer) {
         for (Function<T, ? extends GenericParticleData> dataFunction : dataFunctions) {
             dataConsumer.accept(dataFunction.apply(wrapper()));
         }
