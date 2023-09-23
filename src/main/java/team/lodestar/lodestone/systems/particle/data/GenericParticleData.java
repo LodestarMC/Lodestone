@@ -20,11 +20,11 @@ public class GenericParticleData {
         this.middleToEndEasing = middleToEndEasing;
     }
 
-    public void applyCoefficientMultiplier(float coefficientMultiplier) {
+    public void multiplyCoefficient(float coefficientMultiplier) {
         this.coefficientMultiplier = coefficientMultiplier;
     }
 
-    public void applyValueMultiplier(float valueMultiplier) {
+    public void multiplyValue(float valueMultiplier) {
         this.valueMultiplier = valueMultiplier;
     }
 
