@@ -20,12 +20,14 @@ public class GenericParticleData {
         this.middleToEndEasing = middleToEndEasing;
     }
 
-    public void multiplyCoefficient(float coefficientMultiplier) {
+    public GenericParticleData multiplyCoefficient(float coefficientMultiplier) {
         this.coefficientMultiplier = coefficientMultiplier;
+        return this;
     }
 
-    public void multiplyValue(float valueMultiplier) {
+    public GenericParticleData multiplyValue(float valueMultiplier) {
         this.valueMultiplier = valueMultiplier;
+        return this;
     }
 
     public boolean isTrinary() {
