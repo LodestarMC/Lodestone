@@ -1,10 +1,12 @@
 package team.lodestar.lodestone.systems.particle.options;
 
-import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.*;
-import team.lodestar.lodestone.systems.particle.*;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import team.lodestar.lodestone.systems.particle.LodestoneWorldParticleActor;
+import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 
-import java.util.function.*;
+import java.util.function.Consumer;
 
 
 public abstract class AbstractWorldParticleOptions<T extends AbstractWorldParticleOptions<T>> extends SimpleParticleOptions implements ParticleOptions {

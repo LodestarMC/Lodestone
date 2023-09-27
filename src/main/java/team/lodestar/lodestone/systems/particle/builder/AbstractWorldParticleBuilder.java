@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
-import com.mojang.math.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,10 +9,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.registries.RegistryObject;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
 import team.lodestar.lodestone.helpers.BlockHelper;
-import team.lodestar.lodestone.systems.particle.world.GenericParticle;
-import team.lodestar.lodestone.systems.particle.world.WorldParticleOptions;
+import team.lodestar.lodestone.systems.particle.LodestoneWorldParticleActor;
+import team.lodestar.lodestone.systems.particle.options.AbstractWorldParticleOptions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -119,6 +119,7 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         particleBuilderConsumer.accept(wrapper());
         return wrapper();
     }
+
     public <K extends AbstractWorldParticleBuilder<K, Y>> T act(Class<K> type, Consumer<K> particleBuilderConsumer) {
         particleBuilderConsumer.accept(type.cast(wrapper()));
         return wrapper();

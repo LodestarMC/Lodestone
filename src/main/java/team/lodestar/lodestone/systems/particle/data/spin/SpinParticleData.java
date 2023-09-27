@@ -1,9 +1,9 @@
 package team.lodestar.lodestone.systems.particle.data.spin;
 
 import team.lodestar.lodestone.systems.easing.Easing;
-import team.lodestar.lodestone.systems.particle.data.*;
+import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 
-import java.util.*;
+import java.util.Random;
 
 public class SpinParticleData extends GenericParticleData {
 

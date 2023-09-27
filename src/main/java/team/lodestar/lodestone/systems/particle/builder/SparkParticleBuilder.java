@@ -2,7 +2,7 @@ package team.lodestar.lodestone.systems.particle.builder;
 
 import net.minecraft.core.particles.ParticleType;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.world.SparkParticleOptions;
+import team.lodestar.lodestone.systems.particle.options.SparkParticleOptions;
 
 import java.util.function.Supplier;
 

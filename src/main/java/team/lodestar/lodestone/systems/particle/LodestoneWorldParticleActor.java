@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.systems.particle;
 
-import net.minecraft.world.phys.*;
-import team.lodestar.lodestone.systems.particle.options.*;
+import net.minecraft.world.phys.Vec3;
+import team.lodestar.lodestone.systems.particle.options.AbstractWorldParticleOptions;
 
 public interface LodestoneWorldParticleActor<T extends AbstractWorldParticleOptions<T>> {
 

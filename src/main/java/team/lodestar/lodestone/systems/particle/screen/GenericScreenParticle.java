@@ -8,11 +8,11 @@ import net.minecraft.util.Mth;
 import org.joml.Vector3d;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
-import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
+import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
-import team.lodestar.lodestone.systems.particle.options.*;
-import team.lodestar.lodestone.systems.particle.render_types.*;
+import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
+import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 import team.lodestar.lodestone.systems.particle.screen.base.TextureSheetScreenParticle;
 
 import java.awt.*;

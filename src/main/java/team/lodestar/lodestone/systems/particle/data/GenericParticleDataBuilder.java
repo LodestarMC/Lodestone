@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.systems.particle.data;
 
-import team.lodestar.lodestone.systems.easing.*;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 public class GenericParticleDataBuilder {
     protected float startingValue, middleValue, endingValue;

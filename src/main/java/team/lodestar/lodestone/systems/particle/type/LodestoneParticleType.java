@@ -1,7 +1,5 @@
 package team.lodestar.lodestone.systems.particle.type;
 
-import team.lodestar.lodestone.systems.particle.world.GenericParticle;
-import team.lodestar.lodestone.systems.particle.options.WorldParticleOptions;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
@@ -9,8 +7,8 @@ import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleType;
+import team.lodestar.lodestone.systems.particle.options.WorldParticleOptions;
 import team.lodestar.lodestone.systems.particle.world.GenericParticle;
-import team.lodestar.lodestone.systems.particle.world.WorldParticleOptions;
 
 import javax.annotation.Nullable;
 

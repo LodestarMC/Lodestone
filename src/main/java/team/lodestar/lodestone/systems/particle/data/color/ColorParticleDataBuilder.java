@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.systems.particle.data.color;
 
-import team.lodestar.lodestone.systems.easing.*;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 public class ColorParticleDataBuilder {
 

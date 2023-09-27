@@ -65,7 +65,7 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
     }
 
     public T multiplyGravity(float gravityMultiplier) {
-        return modifyGravity(f -> () -> f*gravityMultiplier);
+        return modifyGravity(f -> () -> f * gravityMultiplier);
     }
 
     public T modifyGravity(Function<Float, Supplier<Float>> gravityReplacement) {

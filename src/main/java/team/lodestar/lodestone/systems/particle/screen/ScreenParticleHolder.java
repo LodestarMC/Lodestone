@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
+import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 
 import java.util.ArrayList;
