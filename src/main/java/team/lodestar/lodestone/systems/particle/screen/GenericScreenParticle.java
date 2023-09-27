@@ -14,7 +14,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
-import team.lodestar.lodestone.systems.particle.screen.options.*;
 
 import java.awt.*;
 import java.util.function.Consumer;

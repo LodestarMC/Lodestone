@@ -3,17 +3,25 @@ package team.lodestar.lodestone.systems.particle;
 import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.systems.particle.options.*;
 
-public interface LodestoneWorldParticleActor<T extends AbstractWorldParticleOptions> {
+public interface LodestoneWorldParticleActor<T extends AbstractWorldParticleOptions<T>> {
 
     Vec3 getPosition();
 
-    LodestoneWorldParticleActor<T> setPosition();
+    default LodestoneWorldParticleActor<T> setPosition(Vec3 vec3) {
+        return setPosition(vec3.x, vec3.y, vec3.z);
+    }
+
+    LodestoneWorldParticleActor<T> setPosition(double x, double y, double z);
 
     Vec3 getMotion();
 
-    LodestoneWorldParticleActor<T> setMotion();
+    default LodestoneWorldParticleActor<T> setMotion(Vec3 vec3) {
+        return setMotion(vec3.x, vec3.y, vec3.z);
+    }
+
+    LodestoneWorldParticleActor<T> setMotion(double x, double y, double z);
 
     int getParticleAge();
 
-    T getParticleOptions();
+    int getParticleLifespan();
 }

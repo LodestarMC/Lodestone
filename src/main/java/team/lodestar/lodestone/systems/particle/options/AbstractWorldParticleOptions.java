@@ -7,7 +7,7 @@ import team.lodestar.lodestone.systems.particle.*;
 import java.util.function.*;
 
 
-public abstract class AbstractWorldParticleOptions<T extends AbstractWorldParticleOptions> extends SimpleParticleOptions implements ParticleOptions {
+public abstract class AbstractWorldParticleOptions<T extends AbstractWorldParticleOptions<T>> extends SimpleParticleOptions implements ParticleOptions {
 
     public final ParticleType<?> type;
     public ParticleRenderType renderType;

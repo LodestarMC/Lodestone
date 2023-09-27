@@ -12,7 +12,6 @@ import team.lodestar.lodestone.systems.particle.screen.*;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.TickEvent;
-import team.lodestar.lodestone.systems.particle.screen.options.*;
 
 import java.util.*;
 
