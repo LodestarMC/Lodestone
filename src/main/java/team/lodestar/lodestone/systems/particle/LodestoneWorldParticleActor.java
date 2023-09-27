@@ -15,11 +15,11 @@ public interface LodestoneWorldParticleActor<T extends AbstractWorldParticleOpti
 
     Vec3 getParticleSpeed();
 
-    default LodestoneWorldParticleActor<T> setParticleSpeed(Vec3 vec3) {
-        return setParticleSpeed(vec3.x, vec3.y, vec3.z);
+    default LodestoneWorldParticleActor<T> setParticleMotion(Vec3 vec3) {
+        return setParticleMotion(vec3.x, vec3.y, vec3.z);
     }
 
-    LodestoneWorldParticleActor<T> setParticleSpeed(double x, double y, double z);
+    LodestoneWorldParticleActor<T> setParticleMotion(double x, double y, double z);
 
     int getParticleAge();
 

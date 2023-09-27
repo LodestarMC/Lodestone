@@ -184,8 +184,8 @@ public class GenericParticle<T extends AbstractWorldParticleOptions<T>> extends 
     }
 
     @Override
-    public LodestoneWorldParticleActor<T> setParticleSpeed(double x, double y, double z) {
-        setParticleSpeed(x, y, z);
+    public LodestoneWorldParticleActor<T> setParticleMotion(double x, double y, double z) {
+        setParticleMotion(x, y, z);
         return this;
     }
 
