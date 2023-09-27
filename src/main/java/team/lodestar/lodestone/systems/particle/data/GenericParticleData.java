@@ -21,11 +21,21 @@ public class GenericParticleData {
     }
 
     public GenericParticleData multiplyCoefficient(float coefficientMultiplier) {
-        this.coefficientMultiplier = coefficientMultiplier;
+        this.coefficientMultiplier *= coefficientMultiplier;
         return this;
     }
 
     public GenericParticleData multiplyValue(float valueMultiplier) {
+        this.valueMultiplier *= valueMultiplier;
+        return this;
+    }
+
+    public GenericParticleData overrideCoefficientMultiplier(float coefficientMultiplier) {
+        this.coefficientMultiplier = coefficientMultiplier;
+        return this;
+    }
+
+    public GenericParticleData overrideValueMultiplier(float valueMultiplier) {
         this.valueMultiplier = valueMultiplier;
         return this;
     }
