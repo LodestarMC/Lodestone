@@ -1,7 +1,9 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
+import team.lodestar.lodestone.systems.particle.options.*;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
+import team.lodestar.lodestone.systems.particle.screen.options.*;
 
 public class ScreenParticleType<T extends ScreenParticleOptions>  extends net.minecraftforge.registries.ForgeRegistryEntry<ScreenParticleType<?>> {
 

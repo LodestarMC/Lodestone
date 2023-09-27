@@ -1,9 +1,8 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
 import net.minecraft.core.particles.*;
-import net.minecraftforge.registries.*;
 import team.lodestar.lodestone.systems.particle.data.*;
-import team.lodestar.lodestone.systems.particle.world.*;
+import team.lodestar.lodestone.systems.particle.options.*;
 
 import java.util.function.*;
 

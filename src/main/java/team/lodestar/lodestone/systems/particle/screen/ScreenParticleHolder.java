@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
+import team.lodestar.lodestone.systems.particle.render_types.*;
 import team.lodestar.lodestone.systems.particle.screen.base.*;
 
 import java.util.*;

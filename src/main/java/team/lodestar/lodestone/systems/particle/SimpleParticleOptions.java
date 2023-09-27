@@ -7,7 +7,7 @@ import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
 import java.awt.*;
 import java.util.function.Supplier;
 
-public class SimpleParticleOptions {
+public abstract class SimpleParticleOptions {
 
     public static final ColorParticleData DEFAULT_COLOR = ColorParticleData.create(Color.WHITE, Color.BLACK).build();
     public static final SpinParticleData DEFAULT_SPIN = SpinParticleData.create(0).build();

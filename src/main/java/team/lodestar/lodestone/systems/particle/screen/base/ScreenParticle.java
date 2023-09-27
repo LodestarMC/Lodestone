@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticleRenderType;
+import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 
 import java.util.Random;
 

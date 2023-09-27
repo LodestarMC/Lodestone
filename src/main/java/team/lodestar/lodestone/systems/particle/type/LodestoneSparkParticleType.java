@@ -4,6 +4,7 @@ import com.mojang.serialization.*;
 import net.minecraft.client.multiplayer.*;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.*;
+import team.lodestar.lodestone.systems.particle.options.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 
 import javax.annotation.*;

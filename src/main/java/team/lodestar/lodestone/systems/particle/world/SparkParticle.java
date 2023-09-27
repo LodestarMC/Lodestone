@@ -1,18 +1,14 @@
 package team.lodestar.lodestone.systems.particle.world;
 
-import com.mojang.blaze3d.systems.*;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.*;
 import net.minecraft.client.*;
 import net.minecraft.client.multiplayer.*;
 import net.minecraft.client.particle.*;
-import net.minecraft.network.chat.*;
 import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
-import team.lodestar.lodestone.handlers.*;
-import team.lodestar.lodestone.mixin.*;
 import team.lodestar.lodestone.systems.particle.*;
 import team.lodestar.lodestone.systems.particle.data.*;
+import team.lodestar.lodestone.systems.particle.options.*;
 import team.lodestar.lodestone.systems.rendering.*;
 
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;

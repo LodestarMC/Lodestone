@@ -1,30 +1,35 @@
-package team.lodestar.lodestone.systems.particle.screen;
+package team.lodestar.lodestone.systems.particle.render_types;
 
+import net.minecraft.client.renderer.*;
+import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
+import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import org.lwjgl.opengl.GL11;
-import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
-import team.lodestar.lodestone.systems.rendering.rendeertype.*;
 
-import java.util.function.*;
+public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
 
-public interface LodestoneScreenParticleRenderType {
-    LodestoneScreenParticleRenderType ADDITIVE = new LodestoneScreenParticleRenderType() {
+    LodestoneWorldParticleRenderType ADDITIVE = new LodestoneWorldParticleRenderType() {
+        @Override
+        public RenderType getRenderType() {
+            return LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE;
+        }
+
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            RenderSystem.setShader(LodestoneShaderRegistry.SCREEN_PARTICLE.getInstance());
+            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
 
         @Override
@@ -35,15 +40,20 @@ public interface LodestoneScreenParticleRenderType {
             RenderSystem.defaultBlendFunc();
         }
     };
-    LodestoneScreenParticleRenderType TRANSPARENT = new LodestoneScreenParticleRenderType() {
+    LodestoneWorldParticleRenderType TRANSPARENT = new LodestoneWorldParticleRenderType() {
+        @Override
+        public RenderType getRenderType() {
+            return LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE;
+        }
+
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
-            RenderSystem.setShader(LodestoneShaderRegistry.SCREEN_PARTICLE.getInstance());
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
 
         @Override
@@ -54,18 +64,20 @@ public interface LodestoneScreenParticleRenderType {
             RenderSystem.defaultBlendFunc();
         }
     };
+    LodestoneWorldParticleRenderType LUMITRANSPARENT = new LodestoneWorldParticleRenderType() {
+        @Override
+        public RenderType getRenderType() {
+            return LodestoneRenderTypeRegistry.LUMITRANSPARENT_PARTICLE;
+        }
 
-    LodestoneScreenParticleRenderType LUMITRANSPARENT = new LodestoneScreenParticleRenderType() {
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
-            Supplier<ShaderInstance> instance = LodestoneShaderRegistry.SCREEN_PARTICLE.getInstance();
-            RenderSystem.setShader(instance);
-            instance.get().safeGetUniform("LumiTransparency").set(1f);
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
 
         @Override
@@ -74,12 +86,13 @@ public interface LodestoneScreenParticleRenderType {
             RenderSystem.depthMask(true);
             RenderSystem.disableBlend();
             RenderSystem.defaultBlendFunc();
-            Supplier<ShaderInstance> instance = LodestoneShaderRegistry.SCREEN_PARTICLE.getInstance();
-            instance.get().safeGetUniform("LumiTransparency").set(0f);
         }
     };
 
-    void begin(BufferBuilder pBuilder, TextureManager pTextureManager);
 
-    void end(Tesselator pTesselator);
+
+    default boolean shouldBuffer() {
+        return true;
+    }
+    RenderType getRenderType();
 }

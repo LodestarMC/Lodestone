@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.particle.world;
+package team.lodestar.lodestone.systems.particle.options;
 
 import com.mojang.brigadier.*;
 import com.mojang.serialization.*;
@@ -6,7 +6,7 @@ import net.minecraft.core.particles.*;
 import net.minecraft.network.*;
 import team.lodestar.lodestone.systems.particle.data.*;
 
-public class SparkParticleOptions extends WorldParticleOptions {
+public class SparkParticleOptions extends AbstractWorldParticleOptions<SparkParticleOptions> {
 
     public static Codec<SparkParticleOptions> sparkCodec(ParticleType<?> type) {
         return Codec.unit(() -> new SparkParticleOptions(type));
@@ -16,6 +16,20 @@ public class SparkParticleOptions extends WorldParticleOptions {
 
     public SparkParticleOptions(ParticleType<?> type) {
         super(type);
+    }
+
+    @Override
+    public ParticleType<?> getType() {
+        return type;
+    }
+
+    @Override
+    public void writeToNetwork(FriendlyByteBuf buffer) {
+    }
+
+    @Override
+    public String writeToString() {
+        return "";
     }
 
     public static final Deserializer<SparkParticleOptions> DESERIALIZER = new Deserializer<>() {

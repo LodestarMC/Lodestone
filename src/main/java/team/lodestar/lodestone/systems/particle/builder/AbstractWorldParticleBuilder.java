@@ -10,10 +10,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.helpers.BlockHelper;
+import team.lodestar.lodestone.systems.particle.*;
+import team.lodestar.lodestone.systems.particle.options.*;
 import team.lodestar.lodestone.systems.particle.world.GenericParticle;
-import team.lodestar.lodestone.systems.particle.world.WorldParticleOptions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"unused"})
-public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldParticleBuilder<T, Y>, Y extends WorldParticleOptions> extends AbstractParticleBuilder<T, Y> {
+public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldParticleBuilder<T, Y>, Y extends AbstractWorldParticleOptions> extends AbstractParticleBuilder<T, Y> {
 
     private static final Random RANDOM = new Random();
 
@@ -124,7 +124,7 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         return wrapper();
     }
 
-    public T addActor(Consumer<GenericParticle> particleActor) {
+    public T addActor(Consumer<LodestoneWorldParticleActor<Y>> particleActor) {
         getParticleOptions().actor = particleActor;
         return wrapper();
     }

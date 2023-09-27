@@ -1,21 +1,20 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
-import com.mojang.blaze3d.systems.*;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
 import net.minecraft.client.multiplayer.*;
 import net.minecraft.world.item.ItemStack;
 import team.lodestar.lodestone.config.ClientConfig;
+import team.lodestar.lodestone.systems.particle.options.*;
 import team.lodestar.lodestone.systems.particle.screen.*;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.TickEvent;
+import team.lodestar.lodestone.systems.particle.screen.options.*;
 
 import java.util.*;
-import java.util.function.*;
 
 /**
  * A handler for screen particles.
