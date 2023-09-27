@@ -1,5 +1,8 @@
-package team.lodestar.lodestone.systems.particle.world;
+package team.lodestar.lodestone.systems.particle.render_types;
 
+import net.minecraft.client.renderer.*;
+import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
+import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -90,9 +93,9 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
     };
 
 
+
     default boolean shouldBuffer() {
         return true;
     }
-
     RenderType getRenderType();
 }

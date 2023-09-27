@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.systems.particle.type;
 
+import team.lodestar.lodestone.systems.particle.world.GenericParticle;
+import team.lodestar.lodestone.systems.particle.options.WorldParticleOptions;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;

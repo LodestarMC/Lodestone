@@ -12,7 +12,7 @@ import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.FIRST_INDEX;
 
-public class SparkParticle extends GenericParticle {
+public class SparkParticle extends GenericParticle<SparkParticleOptions> {
 
     public static final VFXBuilders.WorldVFXBuilder builder = VFXBuilders.createWorld().setParticleFormat();
 
@@ -33,7 +33,7 @@ public class SparkParticle extends GenericParticle {
         final Vec3 pos = new Vec3(x, y, z);
 
         float length = lengthData.getValue(age, lifetime);
-        Vec3 offset = getParticleSpeed().normalize().scale(length);
+        Vec3 offset = getMotion().normalize().scale(length);
         Vec3 movingTo = pos.add(offset);
         Vec3 movingFrom = pos.subtract(offset);
         builder.setUV(getU0(), getV0(), getU1(), getV1()).setColorRaw(rCol, gCol, bCol).setAlpha(alpha);

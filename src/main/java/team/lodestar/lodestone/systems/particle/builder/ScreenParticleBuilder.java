@@ -1,6 +1,9 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
+import team.lodestar.lodestone.systems.particle.*;
+import team.lodestar.lodestone.systems.particle.options.*;
+import team.lodestar.lodestone.systems.particle.render_types.*;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.screen.*;
 
@@ -107,7 +110,7 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
         options.tracksStack = true;
         options.stackTrackXOffset = xOffset;
         options.stackTrackYOffset = yOffset;
-        spawn(ScreenParticleHandler.currentItemX + xOffset, ScreenParticleHandler.currentItemY + yOffset);
+        spawn(ScreenParticleHandler.currentItemX+xOffset, ScreenParticleHandler.currentItemY+yOffset);
         return this;
     }
 

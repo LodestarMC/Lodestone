@@ -1,28 +1,24 @@
-package team.lodestar.lodestone.systems.particle.world;
+package team.lodestar.lodestone.systems.particle.options;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.world.phys.*;
+import team.lodestar.lodestone.systems.particle.*;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
-import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.*;
 
 import java.util.function.Consumer;
 
-public class WorldParticleOptions extends SimpleParticleOptions implements net.minecraft.core.particles.ParticleOptions {
+public class WorldParticleOptions extends AbstractWorldParticleOptions<WorldParticleOptions> {
 
     public static Codec<WorldParticleOptions> worldCodec(ParticleType<?> type) {
         return Codec.unit(() -> new WorldParticleOptions(type));
     }
 
-    public final ParticleType<?> type;
-    public ParticleRenderType renderType;
-    public Consumer<GenericParticle> actor;
-
-    public boolean noClip = false;
-
     public WorldParticleOptions(ParticleType<?> type) {
-        this.type = type;
+        super(type);
     }
 
     @Override

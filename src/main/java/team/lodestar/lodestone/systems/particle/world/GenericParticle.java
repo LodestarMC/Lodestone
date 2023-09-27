@@ -1,6 +1,10 @@
 package team.lodestar.lodestone.systems.particle.world;
 
+import net.minecraft.world.phys.Vec3;
+import team.lodestar.lodestone.config.ClientConfig;
+import team.lodestar.lodestone.helpers.RenderHelper;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import team.lodestar.lodestone.handlers.RenderHandler;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
@@ -8,10 +12,6 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
-import team.lodestar.lodestone.config.ClientConfig;
-import team.lodestar.lodestone.handlers.RenderHandler;
-import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
@@ -24,8 +24,8 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
 
-public class GenericParticle extends TextureSheetParticle {
-    private final ParticleRenderType renderType;
+public class GenericParticle<T extends AbstractWorldParticleOptions<T>> extends TextureSheetParticle implements LodestoneWorldParticleActor<T> {
+    protected final ParticleRenderType renderType;
     protected final ParticleEngine.MutableSpriteSet spriteSet;
     protected final SimpleParticleOptions.ParticleSpritePicker spritePicker;
     protected final SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType;
@@ -33,18 +33,17 @@ public class GenericParticle extends TextureSheetParticle {
     protected final GenericParticleData transparencyData;
     protected final GenericParticleData scaleData;
     protected final SpinParticleData spinData;
-    protected final Consumer<GenericParticle> actor;
+    protected final Consumer<LodestoneWorldParticleActor<T>> actor;
 
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
 
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
-    public GenericParticle(ClientLevel world, WorldParticleOptions options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
+    public GenericParticle(ClientLevel world, T options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, x, y, z);
         this.renderType = options.renderType == null ? LodestoneWorldParticleRenderType.ADDITIVE : options.renderType;
         this.spriteSet = spriteSet;
-
         this.spritePicker = options.spritePicker;
         this.discardFunctionType = options.discardFunctionType;
         this.colorData = options.colorData;
@@ -75,32 +74,6 @@ public class GenericParticle extends TextureSheetParticle {
             }
         }
         updateTraits();
-    }
-
-    @Override
-    protected int getLightColor(float pPartialTick) {
-        return RenderHelper.FULL_BRIGHT;
-    }
-
-    @Override
-    public void tick() {
-        updateTraits();
-        if (spriteSet != null) {
-            if (getSpritePicker().equals(WITH_AGE)) {
-                setSpriteFromAge(spriteSet);
-            }
-        }
-        super.tick();
-    }
-
-    @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
-        super.render(getVertexConsumer(consumer), camera, partialTicks);
-    }
-
-    @Override
-    public ParticleRenderType getRenderType() {
-        return renderType;
     }
 
     public SimpleParticleOptions.ParticleSpritePicker getSpritePicker() {
@@ -166,15 +139,61 @@ public class GenericParticle extends TextureSheetParticle {
         }
     }
 
-    public Vec3 getPos() {
+    @Override
+    protected int getLightColor(float pPartialTick) {
+        return RenderHelper.FULL_BRIGHT;
+    }
+
+    @Override
+    public void tick() {
+        updateTraits();
+        if (spriteSet != null) {
+            if (getSpritePicker().equals(WITH_AGE)) {
+                setSpriteFromAge(spriteSet);
+            }
+        }
+        super.tick();
+    }
+
+    @Override
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        super.render(getVertexConsumer(consumer), camera, partialTicks);
+    }
+
+    @Override
+    public ParticleRenderType getRenderType() {
+        return renderType;
+    }
+
+    @Override
+    public Vec3 getPosition() {
         return new Vec3(x, y, z);
     }
 
-    public Vec3 getParticleSpeed() {
+    @Override
+    public LodestoneWorldParticleActor<T> setPosition(double x, double y, double z) {
+        setPos(x, y, z);
+        return this;
+    }
+
+    @Override
+    public Vec3 getMotion() {
         return new Vec3(xd, yd, zd);
     }
 
-    public void setParticleSpeed(Vec3 speed) {
-        setParticleSpeed(speed.x, speed.y, speed.z);
+    @Override
+    public LodestoneWorldParticleActor<T> setMotion(double x, double y, double z) {
+        setParticleSpeed(x, y, z);
+        return this;
+    }
+
+    @Override
+    public int getParticleAge() {
+        return age;
+    }
+
+    @Override
+    public int getParticleLifespan() {
+        return lifetime;
     }
 }

@@ -5,7 +5,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticleRenderType;
+import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class ScreenParticle {

@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
 import net.minecraft.core.particles.ParticleType;
-import team.lodestar.lodestone.systems.particle.world.WorldParticleOptions;
+import team.lodestar.lodestone.systems.particle.options.WorldParticleOptions;
 
 import java.util.function.Supplier;
 

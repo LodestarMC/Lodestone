@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
+import com.mojang.math.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,8 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.joml.Vector3d;
-import org.joml.Vector3f;
+import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.helpers.BlockHelper;
 import team.lodestar.lodestone.systems.particle.world.GenericParticle;
 import team.lodestar.lodestone.systems.particle.world.WorldParticleOptions;
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"unused"})
-public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldParticleBuilder<T, Y>, Y extends WorldParticleOptions> extends AbstractParticleBuilder<T, Y> {
+public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldParticleBuilder<T, Y>, Y extends AbstractWorldParticleOptions<Y>> extends AbstractParticleBuilder<T, Y> {
 
     private static final Random RANDOM = new Random();
 
@@ -119,13 +119,12 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         particleBuilderConsumer.accept(wrapper());
         return wrapper();
     }
-
-    public <K extends AbstractWorldParticleBuilder> T act(Class<K> type, Consumer<K> particleBuilderConsumer) {
+    public <K extends AbstractWorldParticleBuilder<K, Y>> T act(Class<K> type, Consumer<K> particleBuilderConsumer) {
         particleBuilderConsumer.accept(type.cast(wrapper()));
         return wrapper();
     }
 
-    public T addActor(Consumer<GenericParticle> particleActor) {
+    public T addActor(Consumer<LodestoneWorldParticleActor<Y>> particleActor) {
         getParticleOptions().actor = particleActor;
         return wrapper();
     }
