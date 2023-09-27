@@ -168,23 +168,23 @@ public class GenericParticle<T extends AbstractWorldParticleOptions<T>> extends 
     }
 
     @Override
-    public Vec3 getPosition() {
+    public Vec3 getParticlePosition() {
         return new Vec3(x, y, z);
     }
 
     @Override
-    public LodestoneWorldParticleActor<T> setPosition(double x, double y, double z) {
+    public LodestoneWorldParticleActor<T> setParticlePosition(double x, double y, double z) {
         setPos(x, y, z);
         return this;
     }
 
     @Override
-    public Vec3 getMotion() {
+    public Vec3 getParticleSpeed() {
         return new Vec3(xd, yd, zd);
     }
 
     @Override
-    public LodestoneWorldParticleActor<T> setMotion(double x, double y, double z) {
+    public LodestoneWorldParticleActor<T> setParticleSpeed(double x, double y, double z) {
         setParticleSpeed(x, y, z);
         return this;
     }
