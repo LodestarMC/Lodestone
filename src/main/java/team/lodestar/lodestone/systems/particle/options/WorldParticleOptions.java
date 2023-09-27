@@ -2,16 +2,10 @@ package team.lodestar.lodestone.systems.particle.options;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.serialization.Codec;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.world.phys.*;
-import team.lodestar.lodestone.systems.particle.*;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
-import team.lodestar.lodestone.systems.particle.world.*;
 
-import java.util.function.Consumer;
-
-public class WorldParticleOptions extends AbstractWorldParticleOptions<WorldParticleOptions> {
+public class WorldParticleOptions extends AbstractWorldParticleOptions {
 
     public static Codec<WorldParticleOptions> worldCodec(ParticleType<?> type) {
         return Codec.unit(() -> new WorldParticleOptions(type));

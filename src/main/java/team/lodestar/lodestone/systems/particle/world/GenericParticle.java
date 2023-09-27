@@ -20,13 +20,14 @@ import team.lodestar.lodestone.systems.particle.options.*;
 import team.lodestar.lodestone.systems.particle.render_types.*;
 
 import java.awt.*;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.ENDING_CURVE_INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
 
-public class GenericParticle<T extends AbstractWorldParticleOptions<T>> extends TextureSheetParticle implements LodestoneWorldParticleActor<T> {
+public class GenericParticle<T extends AbstractWorldParticleOptions> extends TextureSheetParticle implements LodestoneWorldParticleActor {
     protected final ParticleRenderType renderType;
     protected final ParticleEngine.MutableSpriteSet spriteSet;
     protected final SimpleParticleOptions.ParticleSpritePicker spritePicker;
@@ -35,7 +36,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions<T>> extends 
     protected final GenericParticleData transparencyData;
     protected final GenericParticleData scaleData;
     protected final SpinParticleData spinData;
-    protected final Consumer<LodestoneWorldParticleActor<T>> actor;
+    protected final Collection<Consumer<LodestoneWorldParticleActor>> actors;
 
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
@@ -52,7 +53,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions<T>> extends 
         this.transparencyData = options.transparencyData;
         this.scaleData = options.scaleData;
         this.spinData = options.spinData;
-        this.actor = options.actor;
+        this.actors = options.actors;
         this.roll = options.spinData.spinOffset + options.spinData.startingValue;
         this.xd = xd;
         this.yd = yd;
@@ -136,8 +137,8 @@ public class GenericParticle<T extends AbstractWorldParticleOptions<T>> extends 
         oRoll = roll;
         roll += spinData.getValue(age, lifetime);
 
-        if (actor != null) {
-            actor.accept(this);
+        if (!actors.isEmpty()) {
+            actors.forEach(a -> a.accept(this));
         }
     }
 
@@ -173,7 +174,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions<T>> extends 
     }
 
     @Override
-    public LodestoneWorldParticleActor<T> setParticlePosition(double x, double y, double z) {
+    public LodestoneWorldParticleActor setParticlePosition(double x, double y, double z) {
         setPos(x, y, z);
         return this;
     }
@@ -184,8 +185,8 @@ public class GenericParticle<T extends AbstractWorldParticleOptions<T>> extends 
     }
 
     @Override
-    public LodestoneWorldParticleActor<T> setParticleMotion(double x, double y, double z) {
-        setParticleMotion(x, y, z);
+    public LodestoneWorldParticleActor setParticleMotion(double x, double y, double z) {
+        setParticleSpeed(x, y, z);
         return this;
     }
 
