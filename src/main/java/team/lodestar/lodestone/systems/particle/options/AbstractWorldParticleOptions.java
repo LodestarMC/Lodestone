@@ -6,14 +6,15 @@ import net.minecraft.core.particles.ParticleType;
 import team.lodestar.lodestone.systems.particle.LodestoneWorldParticleActor;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 
+import java.util.*;
 import java.util.function.Consumer;
 
 
-public abstract class AbstractWorldParticleOptions<T extends AbstractWorldParticleOptions<T>> extends SimpleParticleOptions implements ParticleOptions {
+public abstract class AbstractWorldParticleOptions extends SimpleParticleOptions implements ParticleOptions {
 
     public final ParticleType<?> type;
     public ParticleRenderType renderType;
-    public Consumer<LodestoneWorldParticleActor<T>> actor;
+    public final Collection<Consumer<LodestoneWorldParticleActor>> actors = new ArrayList<>();
     public boolean noClip = false;
 
     public AbstractWorldParticleOptions(ParticleType<?> type) {

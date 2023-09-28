@@ -28,6 +28,11 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
         return wrapper();
     }
 
+    public T modifyColorData(Consumer<ColorParticleData> dataConsumer) {
+        dataConsumer.accept(getColorData());
+        return wrapper();
+    }
+
     public T setColorData(ColorParticleData colorData) {
         getParticleOptions().colorData = colorData;
         return wrapper();

@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
 
-public class WorldParticleOptions extends AbstractWorldParticleOptions<WorldParticleOptions> {
+public class WorldParticleOptions extends AbstractWorldParticleOptions {
 
     public static Codec<WorldParticleOptions> worldCodec(ParticleType<?> type) {
         return Codec.unit(() -> new WorldParticleOptions(type));

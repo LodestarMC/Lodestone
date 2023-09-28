@@ -6,7 +6,7 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 
-public class SparkParticleOptions extends AbstractWorldParticleOptions<SparkParticleOptions> {
+public class SparkParticleOptions extends AbstractWorldParticleOptions {
 
     public static Codec<SparkParticleOptions> sparkCodec(ParticleType<?> type) {
         return Codec.unit(() -> new SparkParticleOptions(type));

@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
+import com.mojang.math.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,6 +13,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 import team.lodestar.lodestone.helpers.BlockHelper;
+import team.lodestar.lodestone.systems.particle.*;
+import team.lodestar.lodestone.systems.particle.options.*;
 import team.lodestar.lodestone.systems.particle.LodestoneWorldParticleActor;
 import team.lodestar.lodestone.systems.particle.options.AbstractWorldParticleOptions;
 
@@ -23,7 +26,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"unused"})
-public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldParticleBuilder<T, Y>, Y extends AbstractWorldParticleOptions<Y>> extends AbstractParticleBuilder<T, Y> {
+public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldParticleBuilder<T, Y>, Y extends AbstractWorldParticleOptions> extends AbstractParticleBuilder<T, Y> {
 
     private static final Random RANDOM = new Random();
 
@@ -125,8 +128,13 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         return wrapper();
     }
 
-    public T addActor(Consumer<LodestoneWorldParticleActor<Y>> particleActor) {
-        getParticleOptions().actor = particleActor;
+    public T addActor(Consumer<LodestoneWorldParticleActor> particleActor) {
+        getParticleOptions().actors.add(particleActor);
+        return wrapper();
+    }
+
+    public T clearActors() {
+        getParticleOptions().actors.clear();
         return wrapper();
     }
 
