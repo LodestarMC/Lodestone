@@ -1,23 +1,23 @@
 package team.lodestar.lodestone.events;
 
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
-import team.lodestar.lodestone.handlers.LodestoneAttributeEventHandler;
-import team.lodestar.lodestone.handlers.ItemEventHandler;
-import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
-import team.lodestar.lodestone.handlers.WorldEventHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
+import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
+import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
+import team.lodestar.lodestone.handlers.ItemEventHandler;
+import team.lodestar.lodestone.handlers.LodestoneAttributeEventHandler;
+import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
+import team.lodestar.lodestone.handlers.WorldEventHandler;
 
 @Mod.EventBusSubscriber
 public class RuntimeEvents {

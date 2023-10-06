@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.systems.easing;
 
-import java.util.*;
+import java.util.HashMap;
 
 /**
- * <p>The Easing class holds a set of general-purpose motion 
- * tweening functions by Robert Penner. This class is 
- * essentially a port from Penner's ActionScript utility, 
+ * <p>The Easing class holds a set of general-purpose motion
+ * tweening functions by Robert Penner. This class is
+ * essentially a port from Penner's ActionScript utility,
  * with a few added tweaks.
  * <p>Examples:<pre>
  *    //no tween
@@ -18,6 +18,7 @@ import java.util.*;
  *    Easing.Back e3 = new Easing.BackOut(1.85f);
  * </pre>
  * <a href="http://www.robertpenner.com/easing/">Robert Penner's Easing Functions</a>
+ *
  * @author Robert Penner (functions)
  * @author davedes (java port)
  */
@@ -25,6 +26,7 @@ public abstract class Easing {
 
     public static final HashMap<String, Easing> EASINGS = new HashMap<>();
     public final String name;
+
     public Easing(String name) {
         this.name = name;
         EASINGS.put(name, this);
@@ -64,7 +66,6 @@ public abstract class Easing {
             return c * (t /= d) * t + b;
         }
     };
-
 
 
     /**
@@ -498,7 +499,7 @@ public abstract class Easing {
         }
 
         public BackIn(float overshoot) {
-            super("backIn" ,overshoot);
+            super("backIn", overshoot);
         }
 
         public float ease(float t, float b, float c, float d) {
@@ -506,8 +507,6 @@ public abstract class Easing {
             return c * (t /= d) * t * ((s + 1) * t - s) + b;
         }
     }
-
-    ;
 
     /**
      * An instance of BackOut using the default overshoot.

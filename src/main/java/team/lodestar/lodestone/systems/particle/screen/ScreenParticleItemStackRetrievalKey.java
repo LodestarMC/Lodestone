@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
-import java.util.*;
+import java.util.Objects;
 
 public class ScreenParticleItemStackRetrievalKey {
 

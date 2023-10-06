@@ -1,12 +1,13 @@
 package team.lodestar.lodestone.systems.particle;
 
-import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
+import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
 
 import java.awt.*;
+import java.util.function.Supplier;
 
-public class SimpleParticleOptions {
+public abstract class SimpleParticleOptions {
 
     public static final ColorParticleData DEFAULT_COLOR = ColorParticleData.create(Color.WHITE, Color.BLACK).build();
     public static final SpinParticleData DEFAULT_SPIN = SpinParticleData.create(0).build();
@@ -21,14 +22,14 @@ public class SimpleParticleOptions {
     }
 
     public ParticleSpritePicker spritePicker = ParticleSpritePicker.FIRST_INDEX;
-    public ParticleDiscardFunctionType discardFunctionType = ParticleDiscardFunctionType.NONE;
+    public ParticleDiscardFunctionType discardFunctionType = ParticleDiscardFunctionType.INVISIBLE;
 
     public ColorParticleData colorData = DEFAULT_COLOR;
     public GenericParticleData transparencyData = DEFAULT_GENERIC;
     public GenericParticleData scaleData = DEFAULT_GENERIC;
     public SpinParticleData spinData = DEFAULT_SPIN;
 
-    public int lifetime = 20;
-    public float gravity = 0f;
+    public Supplier<Integer> lifetimeSupplier = () -> 20;
+    public Supplier<Float> gravityStrengthSupplier = () -> 0f;
 
 }

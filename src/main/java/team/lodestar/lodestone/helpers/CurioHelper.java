@@ -21,6 +21,7 @@ public class CurioHelper {
     public static Optional<SlotResult> getEquippedCurio(LivingEntity entity, Predicate<ItemStack> predicate) {
         return CuriosApi.getCuriosHelper().findFirstCurio(entity, predicate);
     }
+
     public static Optional<SlotResult> getEquippedCurio(LivingEntity entity, Item curio) {
         return CuriosApi.getCuriosHelper().findFirstCurio(entity, curio);
     }

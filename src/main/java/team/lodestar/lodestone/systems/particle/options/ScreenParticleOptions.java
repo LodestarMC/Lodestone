@@ -1,6 +1,9 @@
-package team.lodestar.lodestone.systems.particle.screen;
+package team.lodestar.lodestone.systems.particle.options;
 
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
+import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
+import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
 
 import java.util.function.Consumer;
 

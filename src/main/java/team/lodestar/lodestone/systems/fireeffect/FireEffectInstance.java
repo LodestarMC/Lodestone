@@ -1,12 +1,11 @@
 package team.lodestar.lodestone.systems.fireeffect;
 
-import net.minecraftforge.network.PacketDistributor;
-import team.lodestar.lodestone.handlers.FireEffectHandler;
-import team.lodestar.lodestone.helpers.NBTHelper;
-import team.lodestar.lodestone.registry.common.LodestoneFireEffectRegistry;
-import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
+import team.lodestar.lodestone.handlers.FireEffectHandler;
+import team.lodestar.lodestone.helpers.NBTHelper;
+import team.lodestar.lodestone.setup.LodestoneFireEffectRegistry;
 
 /**
  * A FireEffectInstance is a custom instance of a fire effect, functioning pretty much exactly as a normal fire effect would do
@@ -31,7 +30,12 @@ public class FireEffectInstance {
     }
 
     public FireEffectInstance sync(Entity target) {
-        LodestoneEntityDataCapability.syncData(target, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(()->target), "fireEffect");
+        LodestoneEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create("fireEffect", "type", "duration").setWhitelist());
+        return this;
+    }
+
+    public FireEffectInstance syncDuration(Entity target) {
+        LodestoneEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create("fireEffect", "duration").setWhitelist());
         return this;
     }
 

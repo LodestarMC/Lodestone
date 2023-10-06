@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.handlers;
 
-import team.lodestar.lodestone.helpers.ItemHelper;
-import team.lodestar.lodestone.systems.item.IEventResponderItem;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import team.lodestar.lodestone.helpers.ItemHelper;
+import team.lodestar.lodestone.systems.item.IEventResponderItem;
 
 /**
  * A handler for firing {@link IEventResponderItem} events

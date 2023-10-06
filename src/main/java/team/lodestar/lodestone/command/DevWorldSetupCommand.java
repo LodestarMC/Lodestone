@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.GameRules;
 
+
 public class DevWorldSetupCommand {
     public DevWorldSetupCommand() {
     }

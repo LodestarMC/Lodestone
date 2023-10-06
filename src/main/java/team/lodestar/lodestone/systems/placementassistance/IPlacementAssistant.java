@@ -9,7 +9,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.function.Predicate;
 
 /**
- * A placement assistant is a helpful client-sided system which allows you to create systems that preview unique block placement mechanics.
+ * A placement assistant is a helpful client-sided system which allows you to do custom things when a player places something.
  */
 public interface IPlacementAssistant {
 
@@ -17,7 +17,5 @@ public interface IPlacementAssistant {
 
     void onObserveBlock(Player player, Level level, BlockHitResult hit, BlockState blockState, ItemStack stack);
 
-    void onHoldValidItem(Player player, Level level, ItemStack stack);
-
-    public Predicate<ItemStack> canAssist();
+    Predicate<ItemStack> canAssist();
 }

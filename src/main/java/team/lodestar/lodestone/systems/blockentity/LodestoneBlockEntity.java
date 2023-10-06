@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.blockentity;
 
-import team.lodestar.lodestone.systems.block.LodestoneEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -18,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.systems.block.LodestoneEntityBlock;
 
 /**
  * A simple block entity with various frequently used methods called from {@link LodestoneEntityBlock}

@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.particle.screen;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
+import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
 
 import java.util.ArrayList;
 

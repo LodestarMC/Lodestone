@@ -13,21 +13,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class LodestoneTextureAtlasSpriteLoader implements ITextureAtlasSpriteLoader {
 
-	private final LodestoneTextureLoader.TextureModifier modifier;
+    private final LodestoneTextureLoader.TextureModifier modifier;
 
-	public LodestoneTextureAtlasSpriteLoader(@NotNull LodestoneTextureLoader.TextureModifier modifier) {
-		this.modifier = modifier;
-	}
+    public LodestoneTextureAtlasSpriteLoader(@NotNull LodestoneTextureLoader.TextureModifier modifier) {
+        this.modifier = modifier;
+    }
 
-	@Override
-	public SpriteContents loadContents(ResourceLocation name, Resource resource, FrameSize frameSize, NativeImage
-			image, AnimationMetadataSection animationMeta, ForgeTextureMetadata forgeMeta) {
-		return new SpriteContents(name, frameSize, modifier.modifyTexture(image), animationMeta, forgeMeta);
-	}
+    @Override
+    public SpriteContents loadContents(ResourceLocation name, Resource resource, FrameSize frameSize, NativeImage
+            image, AnimationMetadataSection animationMeta, ForgeTextureMetadata forgeMeta) {
+        return new SpriteContents(name, frameSize, modifier.modifyTexture(image), animationMeta, forgeMeta);
+    }
 
-	@Override
-	@NotNull
-	public TextureAtlasSprite makeSprite(ResourceLocation atlasName, SpriteContents contents, int atlasWidth, int atlasHeight, int spriteX, int spriteY, int mipmapLevel) {
-		return new TextureAtlasSprite(atlasName, contents, atlasWidth, atlasHeight, spriteX, spriteY);
-	}
+    @Override
+    @NotNull
+    public TextureAtlasSprite makeSprite(ResourceLocation atlasName, SpriteContents contents, int atlasWidth, int atlasHeight, int spriteX, int spriteY, int mipmapLevel) {
+        return new TextureAtlasSprite(atlasName, contents, atlasWidth, atlasHeight, spriteX, spriteY);
+    }
 }

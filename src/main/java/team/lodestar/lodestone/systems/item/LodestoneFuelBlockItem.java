@@ -7,11 +7,10 @@ import net.minecraft.world.level.block.Block;
 
 import javax.annotation.Nullable;
 
-public class LodestoneFuelBlockItem extends BlockItem
-{
+public class LodestoneFuelBlockItem extends BlockItem {
     public final int fuel;
-    public LodestoneFuelBlockItem(Block block, Properties properties, int fuel)
-    {
+
+    public LodestoneFuelBlockItem(Block block, Properties properties, int fuel) {
         super(block, properties);
         this.fuel = fuel;
     }

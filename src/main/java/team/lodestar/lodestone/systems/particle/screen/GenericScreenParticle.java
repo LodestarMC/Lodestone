@@ -8,9 +8,11 @@ import net.minecraft.util.Mth;
 import org.joml.Vector3d;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
-import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
+import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
+import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 import team.lodestar.lodestone.systems.particle.screen.base.TextureSheetScreenParticle;
 
 import java.awt.*;
@@ -31,8 +33,8 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     protected final SpinParticleData spinData;
     protected final Consumer<GenericScreenParticle> actor;
     private final boolean tracksStack;
-    private double stackTrackXOffset;
-    private double stackTrackYOffset;
+    private final double stackTrackXOffset;
+    private final double stackTrackYOffset;
 
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
@@ -57,8 +59,8 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         this.xMotion = xMotion;
         this.yMotion = yMotion;
 
-        this.setLifetime(options.lifetime);
-        this.gravity = options.gravity;
+        this.setLifetime(options.lifetimeSupplier.get());
+        this.gravity = options.gravityStrengthSupplier.get();
         this.friction = 1;
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, colorData.r1)), (int) (255 * Math.min(1.0f, colorData.g1)), (int) (255 * Math.min(1.0f, colorData.b1)), hsv1);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, colorData.r2)), (int) (255 * Math.min(1.0f, colorData.g2)), (int) (255 * Math.min(1.0f, colorData.b2)), hsv2);
@@ -136,8 +138,8 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     @Override
     public void render(BufferBuilder bufferBuilder) {
         if (tracksStack) {
-            x = ScreenParticleHandler.currentItemX+stackTrackXOffset+xMoved;
-            y = ScreenParticleHandler.currentItemY+stackTrackYOffset+yMoved;
+            x = ScreenParticleHandler.currentItemX + stackTrackXOffset + xMoved;
+            y = ScreenParticleHandler.currentItemY + stackTrackYOffset + yMoved;
         }
         super.render(bufferBuilder);
     }

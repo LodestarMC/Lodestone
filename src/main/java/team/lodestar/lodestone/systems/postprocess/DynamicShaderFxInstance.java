@@ -16,6 +16,7 @@ public abstract class DynamicShaderFxInstance {
 
     /**
      * Write this fx instance's data to the texture buffer to upload them to the shader
+     *
      * @param writer for writing data to the texture buffer
      */
     public abstract void writeDataToBuffer(BiConsumer<Integer, Float> writer);

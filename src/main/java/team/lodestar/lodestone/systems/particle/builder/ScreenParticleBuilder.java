@@ -1,34 +1,23 @@
-package team.lodestar.lodestone.systems.particle;
+package team.lodestar.lodestone.systems.particle.builder;
 
-import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
-import team.lodestar.lodestone.systems.particle.data.ColorParticleData;
-import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.data.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
+import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
+import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
-import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticleRenderType;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
-import team.lodestar.lodestone.systems.particle.screen.*;
-import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
-import team.lodestar.lodestone.systems.particle.world.GenericParticle;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.function.Consumer;
 
-public class ScreenParticleBuilder {
+public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticleBuilder, ScreenParticleOptions> {
 
-    private static final RandomSource RANDOM = RandomSource.create();
+    private static final Random RANDOM = new Random();
 
     final ScreenParticleType<?> type;
     final ScreenParticleOptions options;
     final ScreenParticleHolder target;
-
-    double xMotion = 0, yMotion = 0;
-    double maxXSpeed = 0, maxYSpeed = 0;
-    double maxXOffset = 0, maxYOffset = 0;
 
     public static ScreenParticleBuilder create(ScreenParticleType<?> type, ScreenParticleHolder target) {
         return new ScreenParticleBuilder(type, target);
@@ -40,24 +29,9 @@ public class ScreenParticleBuilder {
         this.target = target;
     }
 
-    public ScreenParticleBuilder setColorData(ColorParticleData colorData) {
-        options.colorData = colorData;
-        return this;
-    }
-
-    public ScreenParticleBuilder setScaleData(GenericParticleData scaleData) {
-        options.scaleData = scaleData;
-        return this;
-    }
-
-    public ScreenParticleBuilder setTransparencyData(GenericParticleData transparencyData) {
-        options.transparencyData = transparencyData;
-        return this;
-    }
-
-    public ScreenParticleBuilder setSpinData(SpinParticleData spinData) {
-        options.spinData = spinData;
-        return this;
+    @Override
+    public ScreenParticleOptions getParticleOptions() {
+        return options;
     }
 
     public ScreenParticleBuilder setDiscardFunction(SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType) {
@@ -74,17 +48,6 @@ public class ScreenParticleBuilder {
         options.renderType = renderType;
         return this;
     }
-
-    public ScreenParticleBuilder setLifetime(int lifetime) {
-        options.lifetime = lifetime;
-        return this;
-    }
-
-    public ScreenParticleBuilder setGravity(float gravity) {
-        options.gravity = gravity;
-        return this;
-    }
-
 
     public ScreenParticleBuilder setRandomMotion(double maxSpeed) {
         return setRandomMotion(maxSpeed, maxSpeed);
@@ -148,7 +111,7 @@ public class ScreenParticleBuilder {
         options.tracksStack = true;
         options.stackTrackXOffset = xOffset;
         options.stackTrackYOffset = yOffset;
-        spawn(ScreenParticleHandler.currentItemX+xOffset, ScreenParticleHandler.currentItemY+yOffset);
+        spawn(ScreenParticleHandler.currentItemX + xOffset, ScreenParticleHandler.currentItemY + yOffset);
         return this;
     }
 

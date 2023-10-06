@@ -10,32 +10,32 @@ import java.util.ArrayList;
 public class EntityHelper {
 
     public static void amplifyEffect(MobEffectInstance instance, LivingEntity target, int addedAmplifier, int cap) {
-        target.effectsDirty = true;
         instance.amplifier = Math.max(Math.min(cap, instance.getAmplifier() + addedAmplifier), instance.getAmplifier());
-        target.onEffectUpdated(instance, true, target);
+        syncEffect(instance, target);
     }
 
     public static void amplifyEffect(MobEffectInstance instance, LivingEntity target, int addedAmplifier) {
-        target.effectsDirty = true;
         instance.amplifier = instance.getAmplifier() + addedAmplifier;
-        target.onEffectUpdated(instance, true, target);
+        syncEffect(instance, target);
     }
 
     public static void extendEffect(MobEffectInstance instance, LivingEntity target, int addedDuration, int cap) {
-        target.effectsDirty = true;
         instance.duration = Math.max(Math.min(cap, instance.getDuration() + addedDuration), instance.getDuration());
-        target.onEffectUpdated(instance, true, target);
+        syncEffect(instance, target);
     }
 
     public static void extendEffect(MobEffectInstance instance, LivingEntity target, int addedDuration) {
-        target.effectsDirty = true;
         instance.duration = instance.getDuration() + addedDuration;
-        target.onEffectUpdated(instance, true, target);
+        syncEffect(instance, target);
     }
 
     public static void shortenEffect(MobEffectInstance instance, LivingEntity target, int removedDuration) {
-        target.effectsDirty = true;
         instance.duration = instance.getDuration() - removedDuration;
+        syncEffect(instance, target);
+    }
+
+    public static void syncEffect(MobEffectInstance instance, LivingEntity target) {
+        target.effectsDirty = true;
         target.onEffectUpdated(instance, true, target);
     }
 

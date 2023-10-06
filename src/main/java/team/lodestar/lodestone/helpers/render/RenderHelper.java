@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.helpers.render;
+package team.lodestar.lodestone.helpers;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -14,8 +14,6 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-import team.lodestar.lodestone.helpers.DataHelper;
-import team.lodestar.lodestone.helpers.VecHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,10 +22,9 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class RenderHelper {
-
     public static final int FULL_BRIGHT = 15728880;
 
-    public static ShaderInstance getShaderFromRenderType(RenderType type) {
+    public static ShaderInstance getShader(RenderType type) {
         if (type instanceof RenderType.CompositeRenderType compositeRenderType) {
             Optional<Supplier<ShaderInstance>> shader = compositeRenderType.state.shaderState.shader;
             if (shader.isPresent()) {
@@ -36,11 +33,36 @@ public class RenderHelper {
         }
         return null;
     }
+
     public static RenderStateShard.TransparencyStateShard getTransparencyShard(RenderType type) {
         if (type instanceof RenderType.CompositeRenderType compositeRenderType) {
             return compositeRenderType.state.transparencyState;
         }
         return null;
+    }
+
+    public static void vertexPos(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z) {
+        vertexConsumer.vertex(last, x, y, z).endVertex();
+    }
+
+    public static void vertexPosUV(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float u, float v) {
+        vertexConsumer.vertex(last, x, y, z).uv(u, v).endVertex();
+    }
+
+    public static void vertexPosUVLight(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float u, float v, int light) {
+        vertexConsumer.vertex(last, x, y, z).uv(u, v).uv2(light).endVertex();
+    }
+
+    public static void vertexPosColor(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float r, float g, float b, float a) {
+        vertexConsumer.vertex(last, x, y, z).color(r, g, b, a).endVertex();
+    }
+
+    public static void vertexPosColorUV(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float r, float g, float b, float a, float u, float v) {
+        vertexConsumer.vertex(last, x, y, z).color(r, g, b, a).uv(u, v).endVertex();
+    }
+
+    public static void vertexPosColorUVLight(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float r, float g, float b, float a, float u, float v, int light) {
+        vertexConsumer.vertex(last, x, y, z).color(r, g, b, a).uv(u, v).uv2(light).endVertex();
     }
 
     public static Vector3f parametricSphere(float u, float v, float r) {
@@ -81,7 +103,7 @@ public class RenderHelper {
         Vector3f localPos = new Vector3f(worldPos);
         localPos.sub(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().toVector3f());
 
-        Vector4f pos = new Vector4f(localPos,0);
+        Vector4f pos = new Vector4f(localPos, 0);
         pos.mul(viewMat);
         pos.mul(projMat);
         VecHelper.Vector4fHelper.perspectiveDivide(pos);
@@ -91,10 +113,11 @@ public class RenderHelper {
 
     /**
      * Draw a segmented line between two points, subdividing the line into a number of segments
-     * @param buffer The buffer to draw to
-     * @param ps The pose stack to draw with
+     *
+     * @param buffer    The buffer to draw to
+     * @param ps        The pose stack to draw with
      * @param lineWidth The width of the line
-     * @param points The points to draw between
+     * @param points    The points to draw between
      **/
 
     public static void drawSteppedLineBetween(MultiBufferSource buffer, PoseStack ps, List<Vec3> points, float lineWidth, int r, int g, int b, int a) {
@@ -108,12 +131,13 @@ public class RenderHelper {
 
     /**
      * Draw a segmented line between two points, subdividing the line into a number of segments
-     * @param buffer The buffer to draw to
-     * @param ps The pose stack to draw with
-     * @param start The start point
-     * @param end The end point
-     * @param steps The number of steps to divide the line into
-     * @param lineWidth The width of the line
+     *
+     * @param buffer        The buffer to draw to
+     * @param ps            The pose stack to draw with
+     * @param start         The start point
+     * @param end           The end point
+     * @param steps         The number of steps to divide the line into
+     * @param lineWidth     The width of the line
      * @param pointConsumer A consumer to call for each point in the line
      */
 
@@ -129,10 +153,11 @@ public class RenderHelper {
 
     /**
      * Draw a line between two points
-     * @param buffer The buffer to draw to
-     * @param ps The pose stack to draw with
-     * @param local The start point
-     * @param target The end point
+     *
+     * @param buffer    The buffer to draw to
+     * @param ps        The pose stack to draw with
+     * @param local     The start point
+     * @param target    The end point
      * @param lineWidth The width of the line
      */
 
@@ -152,7 +177,7 @@ public class RenderHelper {
         //Translate to start point
         ps.translate(local.x, local.y, local.z);
         //Rotate to point towards end point
-        ps.mulPose(VecHelper.Vector3fHelper.rotation(rotY,VecHelper.Vector3fHelper.YP));
+        ps.mulPose(VecHelper.Vector3fHelper.rotation(rotY, VecHelper.Vector3fHelper.YP));
         ps.mulPose(VecHelper.Vector3fHelper.rotation(rotX, VecHelper.Vector3fHelper.XN));
 
         //Calculate distance between points -> length of the line

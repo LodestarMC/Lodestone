@@ -2,7 +2,6 @@
   "required": true,
   "package": "team.lodestar.lodestone.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "lodestone.refmap.json",
   "mixins": [
     "BlockItemMixin",
     "EntityMixin",
@@ -12,9 +11,11 @@
   "client": [
     "AbstractContainerScreenMixin",
     "CameraMixin",
+    "CreativeModeInventoryScreenMixin",
     "EffectProgramMixin",
     "EntityRenderDispatcherMixin",
     "GameRendererMixin",
+    "GuiGraphicsMixin",
     "GuiMixin",
     "LevelRendererMixin",
     "MultiPlayerGameModeMixin",

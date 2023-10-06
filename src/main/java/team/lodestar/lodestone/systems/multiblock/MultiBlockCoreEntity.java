@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.systems.multiblock;
 
-import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 
 import java.util.ArrayList;
 

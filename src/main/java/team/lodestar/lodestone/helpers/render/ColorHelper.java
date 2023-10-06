@@ -1,8 +1,8 @@
-package team.lodestar.lodestone.helpers.render;
+package team.lodestar.lodestone.helpers;
 
-import team.lodestar.lodestone.systems.easing.Easing;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 import java.awt.*;
 import java.util.List;
@@ -10,47 +10,50 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class ColorHelper {
 
-    public static Color colorLerp(Easing easing, float delta, Color startColor, Color endColor) {
-        delta = Mth.clamp(delta, 0, 1);
-        int startColorRed = startColor.getRed(), startColorGreen = startColor.getGreen(), startColorBlue = startColor.getBlue();
-        int endColorRed = endColor.getRed(), endColorGreen = endColor.getGreen(), endColorBlue = endColor.getBlue();
-
-        float ease = easing.ease(delta, 0, 1, 1);
-
-        int red = (int) Mth.lerp(ease, startColorRed, endColorRed);
-        int green = (int) Mth.lerp(ease, startColorGreen, endColorGreen);
-        int blue = (int) Mth.lerp(ease, startColorBlue, endColorBlue);
-
-        return new Color(Mth.clamp(red, 0, 255), Mth.clamp(green, 0, 255), Mth.clamp(blue, 0, 255));
+    public static Color getColor(int decimal) {
+        return new Color(decimal);
     }
 
-    public static Color colorLerp(Easing easing, float delta, float min, float max, Color startColor, Color endColor) {
-        delta = Mth.clamp(delta, 0, 1);
-        int startColorRed = startColor.getRed(), startColorGreen = startColor.getGreen(), startColorBlue = startColor.getBlue();
-        int endColorRed = endColor.getRed(), endColorGreen = endColor.getGreen(), endColorBlue = endColor.getBlue();
-
-        float ease = easing.ease(delta, min, max, 1);
-
-        int red = (int) Mth.lerp(ease, startColorRed, endColorRed);
-        int green = (int) Mth.lerp(ease, startColorGreen, endColorGreen);
-        int blue = (int) Mth.lerp(ease, startColorBlue, endColorBlue);
-
-        return new Color(Mth.clamp(red, 0, 255), Mth.clamp(green, 0, 255), Mth.clamp(blue, 0, 255));
+    public static void RGBToHSV(Color color, float[] hsv) {
+        Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), hsv);
     }
 
-    public static Color multicolorLerp(Easing easing, float pct, float min, float max, Color... colors) {
-        return multicolorLerp(easing, pct, min, max, List.of(colors));
+    public static int getColor(Color color) {
+        return FastColor.ARGB32.color(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    public static Color multicolorLerp(Easing easing, float pct, float min, float max, List<Color> colors) {
+    public static int getColor(int r, int g, int b) {
+        return FastColor.ARGB32.color(255, r, g, b);
+    }
+
+    public static int getColor(int r, int g, int b, int a) {
+        return FastColor.ARGB32.color(a, r, g, b);
+    }
+
+    public static int getColor(float r, float g, float b, float a) {
+        return FastColor.ARGB32.color((int) (a * 255f), (int) (r * 255f), (int) (g * 255f), (int) (b * 255f));
+    }
+
+    public static Color colorLerp(Easing easing, float pct, Color startColor, Color endColor) {
         pct = Mth.clamp(pct, 0, 1);
-        int colorCount = colors.size() - 1;
-        float lerp = easing.ease(pct, 0, 1, 1);
-        float colorIndex = colorCount * lerp;
-        int index = (int) Mth.clamp(colorIndex, 0, colorCount);
-        Color color = colors.get(index);
-        Color nextColor = index == colorCount ? color : colors.get(index + 1);
-        return ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), min, max, nextColor, color);
+        int br = startColor.getRed(), bg = startColor.getGreen(), bb = startColor.getBlue();
+        int dr = endColor.getRed(), dg = endColor.getGreen(), db = endColor.getBlue();
+        float ease = easing.ease(pct, 0, 1, 1);
+        int red = (int) Mth.lerp(ease, br, dr);
+        int green = (int) Mth.lerp(ease, bg, dg);
+        int blue = (int) Mth.lerp(ease, bb, db);
+        return new Color(Mth.clamp(red, 0, 255), Mth.clamp(green, 0, 255), Mth.clamp(blue, 0, 255));
+    }
+
+    public static Color colorLerp(Easing easing, float pct, float min, float max, Color startColor, Color endColor) {
+        pct = Mth.clamp(pct, 0, 1);
+        int br = startColor.getRed(), bg = startColor.getGreen(), bb = startColor.getBlue();
+        int dr = endColor.getRed(), dg = endColor.getGreen(), db = endColor.getBlue();
+        float ease = easing.ease(pct, min, max, 1);
+        int red = (int) Mth.lerp(ease, br, dr);
+        int green = (int) Mth.lerp(ease, bg, dg);
+        int blue = (int) Mth.lerp(ease, bb, db);
+        return new Color(Mth.clamp(red, 0, 255), Mth.clamp(green, 0, 255), Mth.clamp(blue, 0, 255));
     }
 
     public static Color multicolorLerp(Easing easing, float pct, Color... colors) {
@@ -68,20 +71,19 @@ public class ColorHelper {
         return ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), color, nextColor);
     }
 
-    public static void RGBToHSV(Color color, float[] hsv) {
-        Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), hsv);
+    public static Color multicolorLerp(Easing easing, float pct, float min, float max, Color... colors) {
+        return multicolorLerp(easing, pct, min, max, List.of(colors));
     }
 
-    public static int getColor(int r, int g, int b) {
-        return FastColor.ARGB32.color(255, r, g, b);
-    }
-
-    public static int getColor(int r, int g, int b, int a) {
-        return FastColor.ARGB32.color(a, r, g, b);
-    }
-
-    public static int getColor(float r, float g, float b, float a) {
-        return FastColor.ARGB32.color((int) (a * 255f), (int) (r * 255f), (int) (g * 255f), (int) (b * 255f));
+    public static Color multicolorLerp(Easing easing, float pct, float min, float max, List<Color> colors) {
+        pct = Mth.clamp(pct, 0, 1);
+        int colorCount = colors.size() - 1;
+        float lerp = easing.ease(pct, 0, 1, 1);
+        float colorIndex = colorCount * lerp;
+        int index = (int) Mth.clamp(colorIndex, 0, colorCount);
+        Color color = colors.get(index);
+        Color nextColor = index == colorCount ? color : colors.get(index + 1);
+        return ColorHelper.colorLerp(easing, colorIndex - (int) (colorIndex), min, max, nextColor, color);
     }
 
     public static Color darker(Color color, int times) {

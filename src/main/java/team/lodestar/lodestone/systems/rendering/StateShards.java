@@ -3,7 +3,6 @@ package team.lodestar.lodestone.systems.rendering;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
 
 public class StateShards extends RenderStateShard {
 
@@ -30,7 +29,6 @@ public class StateShards extends RenderStateShard {
         RenderSystem.defaultBlendFunc();
         RenderSystem.depthMask(true);
     });
-
 
 
 }

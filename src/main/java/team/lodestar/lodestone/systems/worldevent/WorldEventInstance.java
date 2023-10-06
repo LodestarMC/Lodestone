@@ -1,12 +1,12 @@
 package team.lodestar.lodestone.systems.worldevent;
 
-import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
-import team.lodestar.lodestone.network.SyncWorldEventPacket;
-import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
+import team.lodestar.lodestone.network.SyncWorldEventPacket;
+import team.lodestar.lodestone.setup.LodestonePacketRegistry;
+import team.lodestar.lodestone.setup.worldevent.LodestoneWorldEventTypeRegistry;
 
 import java.util.UUID;
 
@@ -15,7 +15,7 @@ import java.util.UUID;
  * They can exist on the client and are ticked separately.
  */
 public abstract class WorldEventInstance {
-    public UUID uuid;
+    public UUID uuid; //TODO: figure out why this is here.
     public WorldEventType type;
     public boolean discarded;
 
@@ -44,6 +44,7 @@ public abstract class WorldEventInstance {
     }
 
     public void tick(Level level) {
+
     }
 
     public void end(Level level) {
@@ -57,18 +58,18 @@ public abstract class WorldEventInstance {
         return tag;
     }
 
-    public static <T extends WorldEventInstance> T deserializeDefaultWorldEventNBT(T instance, CompoundTag tag) {
-        instance.uuid = tag.getUUID("uuid");
-        instance.type = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(tag.getString("type"));
-        instance.discarded = tag.getBoolean("discarded");
-        return instance;
+    public WorldEventInstance deserializeNBT(CompoundTag tag) {
+        uuid = tag.getUUID("uuid");
+        type = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(tag.getString("type"));
+        discarded = tag.getBoolean("discarded");
+        return this;
     }
 
     public static <T extends WorldEventInstance> void sync(T instance) {
-        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
+        LodestonePacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
     }
 
     public static <T extends WorldEventInstance> void sync(T instance, ServerPlayer player) {
-        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
+        LodestonePacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
     }
 }

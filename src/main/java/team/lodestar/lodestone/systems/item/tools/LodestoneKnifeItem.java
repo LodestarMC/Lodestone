@@ -12,7 +12,7 @@ public class LodestoneKnifeItem extends KnifeItem {
     private Multimap<Attribute, AttributeModifier> attributes;
 
     public LodestoneKnifeItem(Tier tier, float attackDamageIn, float attackSpeedIn, Properties properties) {
-        super(tier, attackDamageIn, attackSpeedIn-2f, properties);
+        super(tier, attackDamageIn, attackSpeedIn - 2f, properties);
     }
 
     @Override

@@ -34,24 +34,24 @@ public abstract class PostProcessor {
     protected static final Minecraft MC = Minecraft.getInstance();
 
     public static final Collection<Pair<String, Consumer<Uniform>>> COMMON_UNIFORMS = Lists.newArrayList(
-        Pair.of("cameraPos", u -> u.set(MC.gameRenderer.getMainCamera().getPosition().toVector3f())),
-        Pair.of("lookVector", u -> u.set(MC.gameRenderer.getMainCamera().getLookVector())),
-        Pair.of("upVector", u -> u.set(MC.gameRenderer.getMainCamera().getUpVector())),
-        Pair.of("leftVector", u -> u.set(MC.gameRenderer.getMainCamera().getLeftVector())),
-        Pair.of("invViewMat", u -> {
-            Matrix4f invertedViewMatrix = new Matrix4f(PostProcessor.viewModelStack.last().pose());
-            invertedViewMatrix.invert();
-            u.set(invertedViewMatrix);
-        }),
-        Pair.of("invProjMat", u -> {
-            Matrix4f invertedProjectionMatrix = new Matrix4f(RenderSystem.getProjectionMatrix());
-            invertedProjectionMatrix.invert();
-            u.set(invertedProjectionMatrix);
-        }),
-        Pair.of("nearPlaneDistance", u -> u.set(GameRenderer.PROJECTION_Z_NEAR)),
-        Pair.of("farPlaneDistance", u -> u.set(MC.gameRenderer.getDepthFar())),
-        Pair.of("fov", u -> u.set((float) Math.toRadians(MC.gameRenderer.getFov(MC.gameRenderer.getMainCamera(), MC.getFrameTime(), true)))),
-        Pair.of("aspectRatio", u -> u.set((float) MC.getWindow().getWidth() / (float) MC.getWindow().getHeight()))
+            Pair.of("cameraPos", u -> u.set(new Vector3f(MC.gameRenderer.getMainCamera().getPosition().toVector3f()))),
+            Pair.of("lookVector", u -> u.set(MC.gameRenderer.getMainCamera().getLookVector())),
+            Pair.of("upVector", u -> u.set(MC.gameRenderer.getMainCamera().getUpVector())),
+            Pair.of("leftVector", u -> u.set(MC.gameRenderer.getMainCamera().getLeftVector())),
+            Pair.of("invViewMat", u -> {
+                Matrix4f invertedViewMatrix = new Matrix4f(PostProcessor.viewModelStack.last().pose());
+                invertedViewMatrix.invert();
+                u.set(invertedViewMatrix);
+            }),
+            Pair.of("invProjMat", u -> {
+                Matrix4f invertedProjectionMatrix = new Matrix4f(RenderSystem.getProjectionMatrix());
+                invertedProjectionMatrix.invert();
+                u.set(invertedProjectionMatrix);
+            }),
+            Pair.of("nearPlaneDistance", u -> u.set(GameRenderer.PROJECTION_Z_NEAR)),
+            Pair.of("farPlaneDistance", u -> u.set(MC.gameRenderer.getDepthFar())),
+            Pair.of("fov", u -> u.set((float) Math.toRadians(MC.gameRenderer.getFov(MC.gameRenderer.getMainCamera(), MC.getFrameTime(), true)))),
+            Pair.of("aspectRatio", u -> u.set((float) MC.getWindow().getWidth() / (float) MC.getWindow().getHeight()))
     );
 
     /**
