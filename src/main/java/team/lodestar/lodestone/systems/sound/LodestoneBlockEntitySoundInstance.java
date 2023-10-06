@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.systems.sound;
 
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 
 public class LodestoneBlockEntitySoundInstance<T extends LodestoneBlockEntity> extends AbstractTickableSoundInstance {
 

@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.network;
 
-import team.lodestar.lodestone.handlers.FireEffectHandler;
-import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
+import team.lodestar.lodestone.handlers.FireEffectHandler;
+import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 
 import java.util.function.Supplier;
 

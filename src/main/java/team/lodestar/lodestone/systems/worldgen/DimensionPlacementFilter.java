@@ -12,38 +12,38 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementFilter;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import team.lodestar.lodestone.registry.common.LodestonePlacementFillerRegistry;
+import team.lodestar.lodestone.setup.LodestonePlacementFillerRegistry;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DimensionPlacementFilter extends PlacementFilter {
-  public static final Codec<DimensionPlacementFilter> CODEC = RecordCodecBuilder.create((codec) -> codec.group(
-          ResourceLocation.CODEC.listOf().fieldOf("dimensions").forGetter(o -> o.dimensions.stream().map(ResourceKey::location).collect(Collectors.toList()))).apply(codec, (r) -> new DimensionPlacementFilter(r.stream().map(o -> ResourceKey.create(Registries.DIMENSION, o)).collect(Collectors.toSet()))));
+    public static final Codec<DimensionPlacementFilter> CODEC = RecordCodecBuilder.create((codec) -> codec.group(
+            ResourceLocation.CODEC.listOf().fieldOf("dimensions").forGetter(o -> o.dimensions.stream().map(ResourceKey::location).collect(Collectors.toList()))).apply(codec, (r) -> new DimensionPlacementFilter(r.stream().map(o -> ResourceKey.create(Registries.DIMENSION, o)).collect(Collectors.toSet()))));
 
-  private final Set<ResourceKey<Level>> dimensions;
+    private final Set<ResourceKey<Level>> dimensions;
 
-  protected DimensionPlacementFilter(Set<ResourceKey<Level>> dimensions) {
-    this.dimensions = dimensions;
-  }
+    protected DimensionPlacementFilter(Set<ResourceKey<Level>> dimensions) {
+        this.dimensions = dimensions;
+    }
 
-  public static DimensionPlacementFilter of(Set<ResourceKey<Level>> dimensions) {
-    return new DimensionPlacementFilter(dimensions);
-  }
+    public static DimensionPlacementFilter of(Set<ResourceKey<Level>> dimensions) {
+        return new DimensionPlacementFilter(dimensions);
+    }
 
-  @Override
-  protected boolean shouldPlace(PlacementContext pContext, RandomSource pRandom, BlockPos pPos) {
-    ServerLevel level = pContext.getLevel().getLevel();
-    return dimensions.contains(level.dimension());
-  }
+    @Override
+    public PlacementModifierType<?> type() {
+        return LodestonePlacementFillerRegistry.DIMENSION;
+    }
 
-  @Override
-  public PlacementModifierType<?> type() {
-    return LodestonePlacementFillerRegistry.DIMENSION;
-  }
+    public static Set<ResourceKey<Level>> fromStrings(List<? extends String> dimensions) {
+        return dimensions.stream().map(o -> ResourceKey.create(Registries.DIMENSION, (new ResourceLocation(o)))).collect(Collectors.toSet());
+    }
 
-  public static Set<ResourceKey<Level>> fromStrings(List<? extends String> dimensions) {
-    return dimensions.stream().map(o -> ResourceKey.create(Registries.DIMENSION, (new ResourceLocation(o)))).collect(Collectors.toSet());
-  }
+    @Override
+    protected boolean shouldPlace(PlacementContext pContext, RandomSource pRandom, BlockPos pPos) {
+        ServerLevel level = pContext.getLevel().getLevel();
+        return dimensions.contains(level.dimension());
+    }
 }

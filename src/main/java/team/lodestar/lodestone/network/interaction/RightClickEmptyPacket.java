@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.network.interaction;
 
-import team.lodestar.lodestone.events.types.RightClickEmptyServer;
-import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
+import team.lodestar.lodestone.events.types.RightClickEmptyServer;
+import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
 
 import java.util.function.Supplier;
 

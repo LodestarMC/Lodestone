@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.item;
 
-import team.lodestar.lodestone.systems.entity.LodestoneBoatEntity;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -16,6 +15,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
+import team.lodestar.lodestone.systems.entity.LodestoneBoatEntity;
 
 import java.util.List;
 import java.util.function.Predicate;

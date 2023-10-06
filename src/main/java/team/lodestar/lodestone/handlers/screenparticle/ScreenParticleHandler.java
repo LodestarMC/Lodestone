@@ -1,21 +1,26 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
-import com.mojang.blaze3d.systems.*;
-import com.mojang.blaze3d.vertex.*;
-import com.mojang.datafixers.util.Pair;
+import com.mojang.blaze3d.vertex.Tesselator;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
-import net.minecraft.client.multiplayer.*;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.ItemStack;
-import team.lodestar.lodestone.config.ClientConfig;
-import team.lodestar.lodestone.systems.particle.screen.*;
-import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.TickEvent;
+import team.lodestar.lodestone.config.ClientConfig;
+import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleItemStackKey;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleItemStackRetrievalKey;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
+import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A handler for screen particles.
@@ -73,7 +78,7 @@ public class ScreenParticleHandler {
         canSpawnParticles = true;
     }
 
-    public static void renderItemStackEarly(ItemStack stack, int x, int y) {
+    public static void renderItemStackEarly(ItemStack stack, int x, int y, boolean b) {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
@@ -83,8 +88,19 @@ public class ScreenParticleHandler {
                 return;
             }
             if (!stack.isEmpty()) {
+
                 currentItemX = x + 8;
                 currentItemY = y + 8;
+
+                if (b && minecraft.screen instanceof AbstractContainerScreen<?> containerScreen) {//TODO this whole thing sucks
+                    int i = containerScreen.leftPos;
+                    int j = containerScreen.topPos;
+
+                    currentItemX += i;
+                    currentItemY += j;
+                } // TODO to here
+
+
                 ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitter != null) {
                     renderParticles(spawnAndPullParticles(minecraft.level, emitter, stack, false));
@@ -134,7 +150,7 @@ public class ScreenParticleHandler {
 
     public static void renderParticles(TickEvent.RenderTickEvent event) {
         if (event.phase.equals(TickEvent.Phase.END)) {
-            if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
+            if (false) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
                 return;
             }
             Screen screen = Minecraft.getInstance().screen;
@@ -160,7 +176,7 @@ public class ScreenParticleHandler {
     }
 
     private static void renderParticles(ScreenParticleHolder screenParticleTarget) {
-        if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
+        if (false) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
             return;
         }
         screenParticleTarget.particles.forEach((renderType, particles) -> {

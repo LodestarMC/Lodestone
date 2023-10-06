@@ -2,7 +2,6 @@ package team.lodestar.lodestone.helpers;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -42,11 +41,12 @@ public class DataHelper {
 
     /**
      * returns an integer array of random ints
+     *
      * @param count the amount of integers
      * @param range the range the random function uses
      */
     public static int[] nextInts(int count, int range) {
-        RandomSource rand = RandomSource.create();
+        Random rand = new Random();
         int[] ints = new int[count];
         for (int i = 0; i < count; i++) {
             while (true) {
@@ -115,9 +115,10 @@ public class DataHelper {
         }
         return ret;
     }
+
     /**
      * create a copy of all items in a list that match from another list of items
-     * */
+     */
     @SafeVarargs
     public static <T> Collection<T> getAll(Collection<? extends T> src, T... items) {
         return List.copyOf(getAll(src, t -> Arrays.stream(items).anyMatch(tAgain -> tAgain.getClass().isInstance(t))));
@@ -125,7 +126,7 @@ public class DataHelper {
 
     /**
      * create a copy of all items in a list that match from a predicate
-     * */
+     */
     public static <T> Collection<T> getAll(Collection<T> src, Predicate<T> pred) {
         return src.stream().filter(pred).collect(Collectors.toList());
     }
@@ -172,7 +173,7 @@ public class DataHelper {
     public static ArrayList<Vec3> blockOutlinePositions(Level level, BlockPos pos) {
         ArrayList<Vec3> arrayList = new ArrayList<>();
         double d0 = 0.5625D;
-        RandomSource random = level.random;
+        var random = level.random;
         for (Direction direction : Direction.values()) {
             BlockPos blockpos = pos.relative(direction);
             if (!level.getBlockState(blockpos).isSolidRender(level, blockpos)) {

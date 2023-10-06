@@ -10,7 +10,7 @@ import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.joml.Matrix4f;
-import team.lodestar.lodestone.helpers.render.RenderHelper;
+import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
 
@@ -34,6 +34,7 @@ public class RenderHandler {
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
     public static MultiBufferSource.BufferSource DELAYED_PARTICLE_RENDER;
 
+    public static PoseStack MAIN_POSE_STACK;
     public static Matrix4f MATRIX4F;
 
     public static float FOG_NEAR;
@@ -107,8 +108,7 @@ public class RenderHandler {
         }
         if (transparentOnly) {
             endBatches(bufferSource, transparentRenderTypes);
-        }
-        else {
+        } else {
             Collection<RenderType> nonTransparentRenderTypes = new ArrayList<>(buffer.keySet());
             nonTransparentRenderTypes.removeIf(transparentRenderTypes::contains);
             endBatches(bufferSource, nonTransparentRenderTypes);
@@ -130,7 +130,7 @@ public class RenderHandler {
 
     public static void endBatches(MultiBufferSource.BufferSource source, Collection<RenderType> renderTypes) {
         for (RenderType type : renderTypes) {
-            ShaderInstance instance = RenderHelper.getShaderFromRenderType(type);
+            ShaderInstance instance = RenderHelper.getShader(type);
             if (UNIFORM_HANDLERS.containsKey(type)) {
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);

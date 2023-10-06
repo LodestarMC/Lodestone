@@ -1,9 +1,5 @@
 package team.lodestar.lodestone.network;
 
-import team.lodestar.lodestone.systems.worldevent.WorldEventType;
-import team.lodestar.lodestone.handlers.WorldEventHandler;
-import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
-import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
@@ -12,6 +8,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
+import team.lodestar.lodestone.handlers.WorldEventHandler;
+import team.lodestar.lodestone.setup.worldevent.LodestoneWorldEventTypeRegistry;
+import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
+import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
 import java.util.function.Supplier;
 

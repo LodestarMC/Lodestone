@@ -1,11 +1,9 @@
 package team.lodestar.lodestone.systems.screenshake;
 
-import net.minecraft.util.RandomSource;
-import team.lodestar.lodestone.systems.easing.Easing;
 import net.minecraft.client.Camera;
 import net.minecraft.util.Mth;
-
-import java.util.Random;
+import net.minecraft.util.RandomSource;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 public class ScreenshakeInstance {
     public int progress;

@@ -1,12 +1,12 @@
 package team.lodestar.lodestone.network.screenshake;
 
-import team.lodestar.lodestone.handlers.ScreenshakeHandler;
-import team.lodestar.lodestone.systems.easing.Easing;
-import team.lodestar.lodestone.systems.screenshake.PositionedScreenshakeInstance;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
+import team.lodestar.lodestone.handlers.ScreenshakeHandler;
+import team.lodestar.lodestone.systems.easing.Easing;
+import team.lodestar.lodestone.systems.screenshake.PositionedScreenshakeInstance;
 
 import java.util.function.Supplier;
 
@@ -55,7 +55,7 @@ public class PositionedScreenshakePacket extends ScreenshakePacket {
 
     public static PositionedScreenshakePacket decode(FriendlyByteBuf buf) {
         //TODO: this is messy, but oh well
-        return ((PositionedScreenshakePacket)new PositionedScreenshakePacket(
+        return ((PositionedScreenshakePacket) new PositionedScreenshakePacket(
                 buf.readInt(),
                 new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()),
                 buf.readFloat(),

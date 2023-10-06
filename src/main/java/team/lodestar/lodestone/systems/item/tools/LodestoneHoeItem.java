@@ -8,14 +8,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Tier;
 
-public class LodestoneHoeItem extends HoeItem
-{
+public class LodestoneHoeItem extends HoeItem {
     private Multimap<Attribute, AttributeModifier> attributes;
 
-    public LodestoneHoeItem(Tier material, int damage, float speed, Properties properties)
-    {
-        super(material, damage-2, speed, properties.durability(material.getUses()));
+    public LodestoneHoeItem(Tier material, int damage, float speed, Properties properties) {
+        super(material, damage - 2, speed, properties.durability(material.getUses()));
     }
+
     @Override
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
         if (attributes == null) {

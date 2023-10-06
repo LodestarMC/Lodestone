@@ -10,6 +10,7 @@ public class ShaderDataBuffer {
 
     /**
      * Generate or regenerate TBO and texture
+     *
      * @param size the size of the buffer (how many float numbers it can store)
      */
     public void generate(long size) {

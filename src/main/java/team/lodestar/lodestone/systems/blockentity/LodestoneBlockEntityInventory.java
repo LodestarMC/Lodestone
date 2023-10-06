@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.blockentity;
 
-import team.lodestar.lodestone.helpers.block.BlockPosHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +13,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
+import team.lodestar.lodestone.helpers.BlockHelper;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -143,7 +143,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
     }
 
     public void dumpItems(Level level, BlockPos pos) {
-        dumpItems(level, BlockPosHelper.fromBlockPos(pos).add(0.5, 0.5, 0.5));
+        dumpItems(level, BlockHelper.fromBlockPos(pos).add(0.5, 0.5, 0.5));
     }
 
     public void dumpItems(Level level, Vec3 pos) {

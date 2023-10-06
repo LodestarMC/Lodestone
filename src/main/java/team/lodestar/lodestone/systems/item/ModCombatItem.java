@@ -21,7 +21,6 @@ import net.minecraftforge.common.ToolActions;
 /**
  * A simple copy of a sword, without actually being a sword.
  * Minecraft has some hardcoded instanceof SwordItem checks, which we use this to avoid.
- *
  */
 
 public class ModCombatItem extends TieredItem {

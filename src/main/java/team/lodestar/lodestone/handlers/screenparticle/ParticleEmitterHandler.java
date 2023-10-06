@@ -6,8 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.helpers.DataHelper;
-import team.lodestar.lodestone.systems.particle.screen.*;
-import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +34,10 @@ public class ParticleEmitterHandler {
     }
 
     public interface ItemParticleSupplier {
-        default void spawnEarlyParticles(ScreenParticleHolder target, Level level, float partialTick, ItemStack stack, float x, float y) {}
-        default void spawnLateParticles(ScreenParticleHolder target, Level level, float partialTick, ItemStack stack, float x, float y) {}
+        default void spawnEarlyParticles(ScreenParticleHolder target, Level level, float partialTick, ItemStack stack, float x, float y) {
+        }
+
+        default void spawnLateParticles(ScreenParticleHolder target, Level level, float partialTick, ItemStack stack, float x, float y) {
+        }
     }
 }

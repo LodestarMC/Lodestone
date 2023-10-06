@@ -12,8 +12,8 @@ import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 @Mixin(Screen.class)
 public class ScreenMixin {
 
-    @Inject(at = @At("HEAD"), method = "renderBackground(Lnet/minecraft/client/gui/GuiGraphics;)V")
-    private void lodestoneBeforeUiParticleMixin(GuiGraphics graphics, CallbackInfo ci) {
+    @Inject(at = @At("HEAD"), method = "renderBackground")
+    private void lodestone$BeforeUiParticleMixin(GuiGraphics pGuiGraphics, CallbackInfo ci) {
         ScreenParticleHandler.renderEarliestParticles();
     }
 }

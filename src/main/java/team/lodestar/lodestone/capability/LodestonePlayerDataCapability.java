@@ -1,14 +1,5 @@
 package team.lodestar.lodestone.capability;
 
-import net.minecraftforge.event.entity.*;
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.helpers.NBTHelper;
-import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
-import team.lodestar.lodestone.network.interaction.UpdateLeftClickPacket;
-import team.lodestar.lodestone.network.interaction.UpdateRightClickPacket;
-import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
-import team.lodestar.lodestone.systems.capability.LodestoneCapability;
-import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -22,8 +13,17 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.network.PacketDistributor;
+import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.helpers.NBTHelper;
+import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
+import team.lodestar.lodestone.network.interaction.UpdateLeftClickPacket;
+import team.lodestar.lodestone.network.interaction.UpdateRightClickPacket;
+import team.lodestar.lodestone.setup.LodestonePacketRegistry;
+import team.lodestar.lodestone.systems.capability.LodestoneCapability;
+import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
 
 public class LodestonePlayerDataCapability implements LodestoneCapability {
 
@@ -54,13 +54,15 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
     public static void playerJoin(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
             LodestonePlayerDataCapability.getCapabilityOptional(serverPlayer).ifPresent(capability -> capability.hasJoinedBefore = true);
-            LodestoneEntityDataCapability.syncData(serverPlayer, PacketDistributor.PLAYER.with(()->serverPlayer));
+            syncSelf(serverPlayer);
         }
     }
 
     public static void syncPlayerCapability(PlayerEvent.StartTracking event) {
-        if (event.getTarget() instanceof ServerPlayer target && event.getEntity() instanceof ServerPlayer player) {
-            LodestoneEntityDataCapability.syncData(target, PacketDistributor.PLAYER.with(()->player));
+        if (event.getTarget() instanceof Player player) {
+            if (player.level() instanceof ServerLevel) {
+                syncTracking(player);
+            }
         }
     }
 
@@ -73,11 +75,9 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
 
     public static void playerClone(PlayerEvent.Clone event) {
         event.getOriginal().revive();
-        LodestonePlayerDataCapability.getCapabilityOptional(event.getOriginal())
-                .ifPresent(o -> LodestonePlayerDataCapability.getCapabilityOptional(event.getEntity())
-                        .ifPresent(c -> {
-                            c.deserializeNBT(o.serializeNBT());
-                        }));
+        LodestonePlayerDataCapability.getCapabilityOptional(event.getOriginal()).ifPresent(o -> LodestonePlayerDataCapability.getCapabilityOptional(event.getEntity()).ifPresent(c -> {
+            c.deserializeNBT(o.serializeNBT());
+        }));
     }
 
     @Override
@@ -92,12 +92,44 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
         hasJoinedBefore = tag.getBoolean("firstTimeJoin");
     }
 
-    public static void sync(Player player, PacketDistributor.PacketTarget target, String... filter) {
-        getCapabilityOptional(player).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestonePlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTags(c.serializeNBT(), filter))));
+    public static void syncServer(Player player, NBTHelper.TagFilter filter) {
+        sync(player, PacketDistributor.SERVER.noArg(), filter);
+    }
+
+    public static void syncSelf(ServerPlayer player, NBTHelper.TagFilter filter) {
+        sync(player, PacketDistributor.PLAYER.with(() -> player), filter);
+    }
+
+    public static void syncTrackingAndSelf(Player player, NBTHelper.TagFilter filter) {
+        sync(player, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), filter);
+    }
+
+    public static void syncTracking(Player player, NBTHelper.TagFilter filter) {
+        sync(player, PacketDistributor.TRACKING_ENTITY.with(() -> player), filter);
+    }
+
+    public static void sync(Player player, PacketDistributor.PacketTarget target, NBTHelper.TagFilter filter) {
+        getCapabilityOptional(player).ifPresent(c -> LodestonePacketRegistry.ORTUS_CHANNEL.send(target, new SyncLodestonePlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTag(c.serializeNBT(), filter))));
+    }
+
+    public static void syncServer(Player player) {
+        sync(player, PacketDistributor.SERVER.noArg());
+    }
+
+    public static void syncSelf(ServerPlayer player) {
+        sync(player, PacketDistributor.PLAYER.with(() -> player));
+    }
+
+    public static void syncTrackingAndSelf(Player player) {
+        sync(player, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player));
+    }
+
+    public static void syncTracking(Player player) {
+        sync(player, PacketDistributor.TRACKING_ENTITY.with(() -> player));
     }
 
     public static void sync(Player player, PacketDistributor.PacketTarget target) {
-        getCapabilityOptional(player).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestonePlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
+        getCapabilityOptional(player).ifPresent(c -> LodestonePacketRegistry.ORTUS_CHANNEL.send(target, new SyncLodestonePlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
     }
 
     public static LazyOptional<LodestonePlayerDataCapability> getCapabilityOptional(Player player) {
@@ -117,11 +149,11 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
                 boolean right = minecraft.options.keyUse.isDown();
                 if (left != c.leftClickHeld) {
                     c.leftClickHeld = left;
-                    LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateLeftClickPacket(c.leftClickHeld));
+                    LodestonePacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateLeftClickPacket(c.leftClickHeld));
                 }
                 if (right != c.rightClickHeld) {
                     c.rightClickHeld = right;
-                    LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateRightClickPacket(c.rightClickHeld));
+                    LodestonePacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateRightClickPacket(c.rightClickHeld));
                 }
             });
         }

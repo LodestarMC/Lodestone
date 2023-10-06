@@ -1,10 +1,5 @@
 package team.lodestar.lodestone.capability;
 
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.capability.LodestoneCapability;
-import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
-import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
-import team.lodestar.lodestone.handlers.WorldEventHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
@@ -13,6 +8,11 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.handlers.WorldEventHandler;
+import team.lodestar.lodestone.systems.capability.LodestoneCapability;
+import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
+import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
 import java.util.ArrayList;
 

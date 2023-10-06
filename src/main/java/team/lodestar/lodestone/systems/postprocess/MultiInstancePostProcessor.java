@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.systems.postprocess;
 
-import team.lodestar.lodestone.LodestoneLib;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.EffectInstance;
+import team.lodestar.lodestone.LodestoneLib;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -15,12 +15,14 @@ public abstract class MultiInstancePostProcessor<I extends DynamicShaderFxInstan
 
     /**
      * THIS VALUE SHOULD NOT CHANGE!!!
+     *
      * @return max fx instance count
      */
     protected abstract int getMaxInstances();
 
     /**
      * THIS VALUE SHOULD NOT CHANGE!!!
+     *
      * @return the size of data (how many floats) it takes for passing one fx instance to the shader
      */
     protected abstract int getDataSizePerInstance();
@@ -34,6 +36,7 @@ public abstract class MultiInstancePostProcessor<I extends DynamicShaderFxInstan
 
     /**
      * Add a fx instance
+     *
      * @return the instance got added or null if the amount of instances has reached the max
      */
     @Nullable
@@ -49,7 +52,7 @@ public abstract class MultiInstancePostProcessor<I extends DynamicShaderFxInstan
 
     @Override
     public void beforeProcess(PoseStack viewModelStack) {
-        for (int i=instances.size()-1; i>=0; i--) {
+        for (int i = instances.size() - 1; i >= 0; i--) {
             DynamicShaderFxInstance instance = instances.get(i);
             instance.update(MC.getDeltaFrameTime());
             if (instance.isRemoved()) {
@@ -63,7 +66,7 @@ public abstract class MultiInstancePostProcessor<I extends DynamicShaderFxInstan
         }
 
         float[] data = new float[instances.size() * getDataSizePerInstance()];
-        for (int ins=0; ins<instances.size(); ins++) {
+        for (int ins = 0; ins < instances.size(); ins++) {
             DynamicShaderFxInstance instance = instances.get(ins);
             int offset = ins * getDataSizePerInstance();
             instance.writeDataToBuffer((index, d) -> {
@@ -74,12 +77,10 @@ public abstract class MultiInstancePostProcessor<I extends DynamicShaderFxInstan
         }
 
 
-
 //        float[] data = new float[getMaxInstances() * getDataSizePerInstance()];
 //        for (int i=0; i<getMaxInstances() * getDataSizePerInstance(); i++) {
 //            data[i] = (float) (time % 1F);
 //        }
-
 
 
         dataBuffer.upload(data);

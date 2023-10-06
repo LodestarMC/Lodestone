@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -23,16 +22,8 @@ import java.util.ArrayList;
  */
 @SuppressWarnings("unused")
 public class VecHelper {
-
     //TODO: re-implement all NECESSARY functions into the new vecHelper method and remove ones that are not required.
     public static final Vec3 CENTER_OF_ORIGIN = new Vec3(.5, .5, .5);
-
-    /**
-     * A method that takes in a direction enum (E.G. "UP") and returns a Vec3i object facing that direction
-     */
-    public static Vec3i offsetDir(Direction dir) {
-        return new Vec3i(dir.getStepX(), dir.getStepY(), dir.getStepZ());
-    }
 
     /**
      * A method that returns a position on the perimeter of a circle around a given Vec3 position
@@ -106,7 +97,7 @@ public class VecHelper {
     public static ArrayList<Vec3> blockOutlinePositions(Level level, BlockPos pos) {
         ArrayList<Vec3> arrayList = new ArrayList<>();
         double d0 = 0.5625D;
-        RandomSource random = level.random;
+        var random = level.random;
         for (Direction direction : Direction.values()) {
             BlockPos blockpos = pos.relative(direction);
             if (!level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
@@ -123,8 +114,7 @@ public class VecHelper {
     public static Vec3 getCenterOf(Vec3i pos) {
         if (pos.equals(Vec3i.ZERO))
             return CENTER_OF_ORIGIN;
-        return Vec3.atLowerCornerOf(pos)
-                .add(.5f, .5f, .5f);
+        return Vec3.atLowerCornerOf(pos).add(.5f, .5f, .5f);
     }
 
     public static Vec3 axisAlignedPlaneOf(Vec3 vec) {
@@ -175,24 +165,21 @@ public class VecHelper {
         if (mc.options.bobView().get()) {
             Entity renderViewEntity = mc.getCameraEntity();
             if (renderViewEntity instanceof Player player) {
-                float distWalkedModified = player.walkDist;
+                float distwalked_modified = player.walkDist;
 
-                float f = distWalkedModified - player.walkDistO;
-                float f1 = -(distWalkedModified + f * partialTicks);
+                float f = distwalked_modified - player.walkDistO;
+                float f1 = -(distwalked_modified + f * partialTicks);
                 float f2 = Mth.lerp(partialTicks, player.oBob, player.bob);
-                AxisAngle4f a2 = new AxisAngle4f(Math.abs(Mth.cos(f1 * (float) Math.PI - 0.2F) * f2) * 5.0F, Vector3fHelper.XP);
-                Quaternionf q2 = new Quaternionf(a2);
+                Quaternionf q2 = new Quaternionf(new AxisAngle4f(Math.abs(Mth.cos(f1 * (float) Math.PI - 0.2F) * f2) * 5.0F, Vector3fHelper.XP));
                 q2.conjugate();
                 result3f.rotate(q2);
 
-                AxisAngle4f a1 = new AxisAngle4f(Math.abs(Mth.sin(f1 * (float) Math.PI) * f2) * 3.0F, Vector3fHelper.ZP);
-                Quaternionf q1 = new Quaternionf(a1);
+                Quaternionf q1 = new Quaternionf(new AxisAngle4f(Math.abs(Mth.sin(f1 * (float) Math.PI) * f2) * 3.0F, Vector3fHelper.ZP));
                 q1.conjugate();
                 result3f.rotate(q1);
 
-                Vector3f bobTranslation = new Vector3f((Mth.sin(f1 * (float) Math.PI) * f2 * 0.5F),
-                        (-Math.abs(Mth.cos(f1 * (float) Math.PI) * f2)), 0.0f);
-                result3f.add(new Vector3f(bobTranslation.x(), -bobTranslation.y(), bobTranslation.z()));
+                Vector3f bob_translation = new Vector3f((Mth.sin(f1 * (float) Math.PI) * f2 * 0.5F), (-Math.abs(Mth.cos(f1 * (float) Math.PI) * f2)), 0.0f);
+                result3f.add(new Vector3f(bob_translation.x(), -bob_translation.y(), bob_translation.z()));
             }
         }
 
@@ -223,4 +210,5 @@ public class VecHelper {
             v.div(v.x, v.y, v.z, 1.0f);
         }
     }
+
 }

@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.systems.multiblock;
 
-import team.lodestar.lodestone.registry.common.LodestoneBlockEntityRegistry;
-import team.lodestar.lodestone.systems.block.LodestoneEntityBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import team.lodestar.lodestone.setup.LodestoneBlockEntityRegistry;
+import team.lodestar.lodestone.systems.block.LodestoneEntityBlock;
 
 /**
  * A basic Multiblock component block.

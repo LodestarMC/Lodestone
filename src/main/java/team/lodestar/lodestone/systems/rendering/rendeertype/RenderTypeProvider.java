@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.systems.rendering.rendeertype;
 
-import net.minecraft.*;
-import net.minecraft.client.renderer.*;
-import net.minecraft.resources.*;
-import team.lodestar.lodestone.registry.client.*;
+import net.minecraft.Util;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
+import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
 
-import java.util.function.*;
+import java.util.function.Function;
 
 public class RenderTypeProvider {
     private final Function<ResourceLocation, RenderType> function;
