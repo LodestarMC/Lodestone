@@ -104,7 +104,7 @@ public class LodestoneLib {
 
         //TODO remove
         ITEMS.register(modBus);
-        CREATIVE_MODE_TABS.register(modBus);
+        //CREATIVE_MODE_TABS.register(modBus);
 
         LodestoneBlockEntityRegistry.BLOCK_ENTITY_TYPES.register(modBus);
         LodestoneParticleRegistry.PARTICLES.register(modBus);
