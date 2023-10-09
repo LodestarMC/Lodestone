@@ -1,14 +1,12 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
-import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
-import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
-import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.*;
+import team.lodestar.lodestone.systems.particle.data.*;
+import team.lodestar.lodestone.systems.particle.data.color.*;
+import team.lodestar.lodestone.systems.particle.data.spin.*;
 
-import java.util.Collection;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.*;
 
 public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<T, Y>, Y extends SimpleParticleOptions> {
 
@@ -18,6 +16,11 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
 
     public T modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
         dataConsumer.accept(dataType.get());
+        return wrapper();
+    }
+
+    public T modifyData(Function<T, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType.apply(wrapper()));
         return wrapper();
     }
 
@@ -70,7 +73,7 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
     }
 
     public T multiplyGravity(float gravityMultiplier) {
-        return modifyGravity(f -> () -> f * gravityMultiplier);
+        return modifyGravity(f -> () -> f*gravityMultiplier);
     }
 
     public T modifyGravity(Function<Float, Supplier<Float>> gravityReplacement) {
