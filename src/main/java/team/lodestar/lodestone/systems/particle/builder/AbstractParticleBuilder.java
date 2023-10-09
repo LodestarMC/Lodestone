@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
+import com.mojang.datafixers.types.*;
 import team.lodestar.lodestone.systems.particle.*;
 import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.data.color.*;
@@ -16,6 +17,11 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
 
     public T modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
         dataConsumer.accept(dataType.get());
+        return wrapper();
+    }
+
+    public T modifyData(Function<T, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType.apply(wrapper()));
         return wrapper();
     }
 
