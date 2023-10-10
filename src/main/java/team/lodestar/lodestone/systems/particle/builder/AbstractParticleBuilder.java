@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
+import com.mojang.datafixers.types.*;
 import team.lodestar.lodestone.systems.particle.*;
 import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.data.color.*;
