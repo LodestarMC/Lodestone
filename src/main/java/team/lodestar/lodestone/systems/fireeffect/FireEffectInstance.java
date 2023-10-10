@@ -5,7 +5,7 @@ import net.minecraft.world.entity.Entity;
 import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
 import team.lodestar.lodestone.handlers.FireEffectHandler;
 import team.lodestar.lodestone.helpers.NBTHelper;
-import team.lodestar.lodestone.setup.LodestoneFireEffectRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneFireEffectRegistry;
 
 /**
  * A FireEffectInstance is a custom instance of a fire effect, functioning pretty much exactly as a normal fire effect would do

@@ -8,8 +8,6 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import team.lodestar.lodestone.command.DevWorldSetupCommand;
-import team.lodestar.lodestone.command.ScreenshakeCommand;
-
 import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -20,7 +18,7 @@ public class LodestoneCommandRegistry {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
         LiteralCommandNode<CommandSourceStack> cmd = dispatcher.register(Commands.literal("o")
                 .then(DevWorldSetupCommand.register())
-                .then(ScreenshakeCommand.register())
+                //.then(ScreenshakeCommand.register())
         );
         dispatcher.register(Commands.literal(LODESTONE)
                 .redirect(cmd));

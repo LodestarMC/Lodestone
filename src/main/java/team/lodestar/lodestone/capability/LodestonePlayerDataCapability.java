@@ -21,7 +21,7 @@ import team.lodestar.lodestone.helpers.NBTHelper;
 import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
 import team.lodestar.lodestone.network.interaction.UpdateLeftClickPacket;
 import team.lodestar.lodestone.network.interaction.UpdateRightClickPacket;
-import team.lodestar.lodestone.setup.LodestonePacketRegistry;
+import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.systems.capability.LodestoneCapability;
 import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
 
@@ -109,7 +109,7 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
     }
 
     public static void sync(Player player, PacketDistributor.PacketTarget target, NBTHelper.TagFilter filter) {
-        getCapabilityOptional(player).ifPresent(c -> LodestonePacketRegistry.ORTUS_CHANNEL.send(target, new SyncLodestonePlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTag(c.serializeNBT(), filter))));
+        getCapabilityOptional(player).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestonePlayerCapabilityPacket(player.getUUID(), NBTHelper.filterTag(c.serializeNBT(), filter))));
     }
 
     public static void syncServer(Player player) {
@@ -129,7 +129,7 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
     }
 
     public static void sync(Player player, PacketDistributor.PacketTarget target) {
-        getCapabilityOptional(player).ifPresent(c -> LodestonePacketRegistry.ORTUS_CHANNEL.send(target, new SyncLodestonePlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
+        getCapabilityOptional(player).ifPresent(c -> LodestonePacketRegistry.LODESTONE_CHANNEL.send(target, new SyncLodestonePlayerCapabilityPacket(player.getUUID(), c.serializeNBT())));
     }
 
     public static LazyOptional<LodestonePlayerDataCapability> getCapabilityOptional(Player player) {
@@ -149,11 +149,11 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
                 boolean right = minecraft.options.keyUse.isDown();
                 if (left != c.leftClickHeld) {
                     c.leftClickHeld = left;
-                    LodestonePacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateLeftClickPacket(c.leftClickHeld));
+                    LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateLeftClickPacket(c.leftClickHeld));
                 }
                 if (right != c.rightClickHeld) {
                     c.rightClickHeld = right;
-                    LodestonePacketRegistry.ORTUS_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateRightClickPacket(c.rightClickHeld));
+                    LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateRightClickPacket(c.rightClickHeld));
                 }
             });
         }
