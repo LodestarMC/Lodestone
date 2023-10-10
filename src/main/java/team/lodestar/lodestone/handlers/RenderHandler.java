@@ -62,16 +62,14 @@ public class RenderHandler {
 
     public static void beginBufferedRendering(PoseStack poseStack) {
         poseStack.pushPose();
-        LightTexture lightTexture = Minecraft.getInstance().gameRenderer.lightTexture();
-        lightTexture.turnOnLightLayer();
-        RenderSystem.activeTexture(org.lwjgl.opengl.GL13.GL_TEXTURE2);
         RenderSystem.enableCull();
         RenderSystem.enableDepthTest();
         RenderSystem.depthMask(false);
 
-        float fogRed = RenderSystem.getShaderFogColor()[0];
-        float fogGreen = RenderSystem.getShaderFogColor()[1];
-        float fogBlue = RenderSystem.getShaderFogColor()[2];
+        float[] shaderFogColor = RenderSystem.getShaderFogColor();
+        float fogRed = shaderFogColor[0];
+        float fogGreen = shaderFogColor[1];
+        float fogBlue = shaderFogColor[2];
         float shaderFogStart = RenderSystem.getShaderFogStart();
         float shaderFogEnd = RenderSystem.getShaderFogEnd();
         FogShape shaderFogShape = RenderSystem.getShaderFogShape();
@@ -116,16 +114,11 @@ public class RenderHandler {
     }
 
     public static void endBufferedRendering(PoseStack poseStack) {
-        LightTexture lightTexture = Minecraft.getInstance().gameRenderer.lightTexture();
         RenderSystem.setShaderFogStart(FOG_NEAR);
         RenderSystem.setShaderFogEnd(FOG_FAR);
         RenderSystem.setShaderFogShape(FOG_SHAPE);
         RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
-
         poseStack.popPose();
-        lightTexture.turnOffLightLayer();
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(true);
     }
 
     public static void endBatches(MultiBufferSource.BufferSource source, Collection<RenderType> renderTypes) {
@@ -144,27 +137,7 @@ public class RenderHandler {
 
     public static void addRenderType(RenderType type) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : type.bufferSize();
-        HashMap<RenderType, BufferBuilder> buffers = BUFFERS;
-        if (type.name.contains("particle")) {
-            buffers = PARTICLE_BUFFERS;
-        }
+        HashMap<RenderType, BufferBuilder> buffers = type.name.contains("particle") ? PARTICLE_BUFFERS : BUFFERS;
         buffers.put(type, new BufferBuilder(size));
     }
-
-//    public static void copyDepthBuffer() {
-//        if (COPIED_DEPTH_BUFFER) {
-//            return;
-//        }
-//        if (PARTICLE_DEPTH_BUFFER == null) {
-//            Window window = Minecraft.getInstance().getWindow();
-//            PARTICLE_DEPTH_BUFFER = new TextureTarget(window.getWidth(), window.getHeight(), true, Minecraft.ON_OSX);
-//            PARTICLE_DEPTH_BUFFER.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
-//            PARTICLE_DEPTH_BUFFER.clear(ON_OSX);
-//            return;
-//        }
-//        RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
-//        PARTICLE_DEPTH_BUFFER.copyDepthFrom(mainRenderTarget);
-//        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
-//        COPIED_DEPTH_BUFFER = true;
-//    }
 }
