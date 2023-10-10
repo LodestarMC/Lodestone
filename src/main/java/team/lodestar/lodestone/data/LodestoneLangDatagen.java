@@ -5,7 +5,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.helpers.DataHelper;
-import team.lodestar.lodestone.setup.LodestoneAttributeRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
 
 import java.util.HashSet;
 import java.util.Set;

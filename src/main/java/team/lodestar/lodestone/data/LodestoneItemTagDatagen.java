@@ -12,7 +12,8 @@ import team.lodestar.lodestone.LodestoneLib;
 
 import java.util.concurrent.CompletableFuture;
 
-import static team.lodestar.lodestone.setup.LodestoneItemTags.*;
+import static team.lodestar.lodestone.registry.common.tag.LodestoneItemTags.*;
+
 
 public class LodestoneItemTagDatagen extends ItemTagsProvider {
     public LodestoneItemTagDatagen(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockProvider, @Nullable ExistingFileHelper existingFileHelper) {
