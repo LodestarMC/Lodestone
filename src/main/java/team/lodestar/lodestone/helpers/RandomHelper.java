@@ -1,9 +1,8 @@
 package team.lodestar.lodestone.helpers;
 
-import net.minecraft.util.Mth;
-import team.lodestar.lodestone.systems.easing.Easing;
+import team.lodestar.lodestone.systems.easing.*;
 
-import java.util.Random;
+import java.util.*;
 
 public class RandomHelper {
 
@@ -27,7 +26,7 @@ public class RandomHelper {
     }
 
     public static int randomBetween(Random pRandom, Easing easing, int min, int max) {
-        return Math.round(weightedEasingLerp(easing, pRandom.nextFloat(), min, max));
+        return Math.round(EasingHelper.weightedEasingLerp(easing, pRandom.nextFloat(), min, max));
     }
 
     public static float randomBetween(Random pRandom, float min, float max) {
@@ -35,7 +34,7 @@ public class RandomHelper {
     }
 
     public static float randomBetween(Random pRandom, Easing easing, float min, float max) {
-        return weightedEasingLerp(easing, pRandom.nextFloat(), min, max);
+        return EasingHelper.weightedEasingLerp(easing, pRandom.nextFloat(), min, max);
     }
 
     public static double randomBetween(Random pRandom, double min, double max) {
@@ -43,6 +42,6 @@ public class RandomHelper {
     }
 
     public static double randomBetween(Random pRandom, Easing easing, double min, double max) {
-        return interpolateWithEasing(easing, pRandom.nextFloat(), min, max);
+        return EasingHelper.weightedEasingLerp(easing, pRandom.nextFloat(), min, max);
     }
 }
