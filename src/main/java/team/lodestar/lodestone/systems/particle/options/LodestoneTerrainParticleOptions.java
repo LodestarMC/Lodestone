@@ -13,11 +13,19 @@ public class LodestoneTerrainParticleOptions extends AbstractWorldParticleOption
         return Codec.unit(() -> new LodestoneTerrainParticleOptions(type));
     }
 
-    public BlockState blockState;
-    public BlockPos blockPos;
+    public final BlockState blockState;
+    public final BlockPos blockPos;
 
-    public LodestoneTerrainParticleOptions(ParticleType<?> type) {
+    public LodestoneTerrainParticleOptions(ParticleType<?> type, BlockState blockState, BlockPos blockPos) {
         super(type);
+        this.blockState = blockState;
+        this.blockPos = blockPos;
+    }
+    public LodestoneTerrainParticleOptions(ParticleType<?> type, BlockState blockState) {
+        this(type, blockState, null);
+    }
+    public LodestoneTerrainParticleOptions(ParticleType<?> type) {
+        this(type, null, null);
     }
 
     @Override

@@ -22,6 +22,7 @@ public class LodestoneParticleRegistry {
     public static RegistryObject<LodestoneSparkParticleType> SPARK_PARTICLE = PARTICLES.register("spark", LodestoneSparkParticleType::new);
 
     public static RegistryObject<LodestoneTerrainParticleType> TERRAIN_PARTICLE = PARTICLES.register("terrain", LodestoneTerrainParticleType::new);
+    public static RegistryObject<LodestoneItemCrumbsParticleType> ITEM_PARTICLE = PARTICLES.register("item", LodestoneItemCrumbsParticleType::new);
 
     public static void registerParticleFactory(ParticleFactoryRegisterEvent event) {
         Minecraft.getInstance().particleEngine.register(WISP_PARTICLE.get(), LodestoneParticleType.Factory::new);
@@ -33,5 +34,6 @@ public class LodestoneParticleRegistry {
         Minecraft.getInstance().particleEngine.register(SPARK_PARTICLE.get(), LodestoneSparkParticleType.Factory::new);
 
         Minecraft.getInstance().particleEngine.register(TERRAIN_PARTICLE.get(), new LodestoneTerrainParticleType.Factory());
+        Minecraft.getInstance().particleEngine.register(ITEM_PARTICLE.get(), new LodestoneItemCrumbsParticleType.Factory());
     }
 }
