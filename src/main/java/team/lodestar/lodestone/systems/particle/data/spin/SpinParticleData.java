@@ -32,8 +32,17 @@ public class SpinParticleData extends GenericParticleData {
     }
 
     public static SpinParticleDataBuilder createRandomDirection(Random random, float startingValue, float endingValue) {
-        startingValue *= random.nextBoolean() ? 1 : -1;
-        endingValue *= random.nextBoolean() ? 1 : -1;
+        final int direction = random.nextBoolean() ? 1 : -1;
+        startingValue *= direction;
+        endingValue *= direction;
         return new SpinParticleDataBuilder(startingValue, endingValue, -1);
+    }
+
+    public static SpinParticleDataBuilder createRandomDirection(Random random, float startingValue, float middleValue, float endingValue) {
+        final int direction = random.nextBoolean() ? 1 : -1;
+        startingValue *= direction;
+        middleValue *= direction;
+        endingValue *= direction;
+        return new SpinParticleDataBuilder(startingValue, middleValue, endingValue);
     }
 }
