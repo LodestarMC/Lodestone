@@ -16,6 +16,9 @@ import org.lwjgl.opengl.GL11;
 
 public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
 
+    //TODO: this class needs a refactor, there's barely any difference between teh different render types.
+
+
     LodestoneWorldParticleRenderType ADDITIVE = new LodestoneWorldParticleRenderType() {
         @Override
         public RenderType getRenderType() {
@@ -24,7 +27,7 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
 
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(false);
+            RenderSystem.depthMask(true);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
             RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
@@ -35,7 +38,6 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
         @Override
         public void end(Tesselator tesselator) {
             tesselator.end();
-            RenderSystem.depthMask(true);
             RenderSystem.disableBlend();
             RenderSystem.defaultBlendFunc();
         }
@@ -48,7 +50,7 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
 
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(false);
+            RenderSystem.depthMask(true);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
@@ -59,7 +61,6 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
         @Override
         public void end(Tesselator tesselator) {
             tesselator.end();
-            RenderSystem.depthMask(true);
             RenderSystem.disableBlend();
             RenderSystem.defaultBlendFunc();
         }
@@ -72,7 +73,7 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
 
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(false);
+            RenderSystem.depthMask(true);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
@@ -83,7 +84,6 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
         @Override
         public void end(Tesselator tesselator) {
             tesselator.end();
-            RenderSystem.depthMask(true);
             RenderSystem.disableBlend();
             RenderSystem.defaultBlendFunc();
         }
@@ -91,12 +91,12 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
     LodestoneWorldParticleRenderType TERRAIN_SHEET = new LodestoneWorldParticleRenderType() {
         @Override
         public RenderType getRenderType() {
-            return LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE;
+            return LodestoneRenderTypeRegistry.TRANSPARENT_BLOCK_PARTICLE;
         }
 
         @Override
         public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(false);
+            RenderSystem.depthMask(true);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
@@ -107,7 +107,6 @@ public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
         @Override
         public void end(Tesselator tesselator) {
             tesselator.end();
-            RenderSystem.depthMask(true);
             RenderSystem.disableBlend();
             RenderSystem.defaultBlendFunc();
         }
