@@ -37,4 +37,9 @@ public class LodestoneItemCrumbParticle extends GenericParticle<LodestoneItemCru
     protected float getV1() {
         return this.sprite.getV(((this.vo + 1.0F) / 4.0F * 16.0F));
     }
+
+    protected int getLightColor(float pPartialTick) {
+        BlockPos blockpos = new BlockPos(this.x, this.y, this.z);
+        return this.level.hasChunkAt(blockpos) ? LevelRenderer.getLightColor(this.level, blockpos) : 0;
+    }
 }
