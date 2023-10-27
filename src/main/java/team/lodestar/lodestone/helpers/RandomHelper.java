@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.helpers;
 
+import net.minecraft.util.Mth;
 import team.lodestar.lodestone.systems.easing.*;
 
 import java.util.*;

@@ -1,26 +1,20 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
-import com.mojang.blaze3d.vertex.Tesselator;
-import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.TickEvent;
 import team.lodestar.lodestone.config.ClientConfig;
-import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleItemStackKey;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleItemStackRetrievalKey;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
+import team.lodestar.lodestone.systems.particle.options.*;
+import team.lodestar.lodestone.systems.particle.screen.*;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.event.TickEvent;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A handler for screen particles.

@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public abstract class SimpleParticleOptions {
 
-    public static final ColorParticleData DEFAULT_COLOR = ColorParticleData.create(Color.WHITE, Color.BLACK).build();
+    public static final ColorParticleData DEFAULT_COLOR = ColorParticleData.create(Color.WHITE, Color.WHITE).build();
     public static final SpinParticleData DEFAULT_SPIN = SpinParticleData.create(0).build();
     public static final GenericParticleData DEFAULT_GENERIC = GenericParticleData.create(1, 0).build();
 
