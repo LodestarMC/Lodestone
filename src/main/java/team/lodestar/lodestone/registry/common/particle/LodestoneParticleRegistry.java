@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.setup;
 
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.particle.type.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -31,9 +31,8 @@ public class LodestoneParticleRegistry {
         event.registerSpriteSet(TWINKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
         event.registerSpriteSet(STAR_PARTICLE.get(), LodestoneParticleType.Factory::new);
 
-        Minecraft.getInstance().particleEngine.register(SPARK_PARTICLE.get(), LodestoneSparkParticleType.Factory::new);
-
-        Minecraft.getInstance().particleEngine.register(TERRAIN_PARTICLE.get(), new LodestoneTerrainParticleType.Factory());
-        Minecraft.getInstance().particleEngine.register(ITEM_PARTICLE.get(), new LodestoneItemCrumbsParticleType.Factory());
+        event.registerSpriteSet(SPARK_PARTICLE.get(), LodestoneSparkParticleType.Factory::new);
+        event.registerSpriteSet(TERRAIN_PARTICLE.get(), LodestoneTerrainParticleType.Factory::new);
+        event.registerSpriteSet(ITEM_PARTICLE.get(), LodestoneItemCrumbsParticleType.Factory::new);
     }
 }

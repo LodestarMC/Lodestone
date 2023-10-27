@@ -21,7 +21,10 @@ public class LodestoneTerrainParticleType extends ParticleType<LodestoneTerrainP
 
     public static class Factory implements ParticleProvider<LodestoneTerrainParticleOptions> {
 
-        public Factory() {
+        private final SpriteSet sprite;
+
+        public Factory(SpriteSet sprite) {
+            this.sprite = sprite;
         }
 
         @Nullable

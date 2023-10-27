@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.debug.GameModeSwitcherScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.*;
 import net.minecraft.world.item.ItemStack;
 import team.lodestar.lodestone.config.ClientConfig;

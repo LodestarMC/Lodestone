@@ -21,7 +21,10 @@ public class LodestoneItemCrumbsParticleType extends ParticleType<LodestoneItemC
 
     public static class Factory implements ParticleProvider<LodestoneItemCrumbsParticleOptions> {
 
-        public Factory() {
+        private final SpriteSet sprite;
+
+        public Factory(SpriteSet sprite) {
+            this.sprite = sprite;
         }
 
         @Nullable
