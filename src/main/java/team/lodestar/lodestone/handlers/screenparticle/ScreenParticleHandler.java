@@ -169,7 +169,7 @@ public class ScreenParticleHandler {
         renderParticles(LATE_PARTICLES);
     }
 
-    private static void renderParticles(ScreenParticleHolder screenParticleTarget) {
+    public static void renderParticles(ScreenParticleHolder screenParticleTarget) {
         if (false) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
             return;
         }
