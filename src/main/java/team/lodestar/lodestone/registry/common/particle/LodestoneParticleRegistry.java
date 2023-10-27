@@ -1,13 +1,13 @@
 package team.lodestar.lodestone.setup;
 
+import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.systems.particle.type.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.particle.type.LodestoneParticleType;
-import team.lodestar.lodestone.systems.particle.type.LodestoneSparkParticleType;
 
 @SuppressWarnings("unused")
 public class LodestoneParticleRegistry {
@@ -21,6 +21,8 @@ public class LodestoneParticleRegistry {
 
     public static RegistryObject<LodestoneSparkParticleType> SPARK_PARTICLE = PARTICLES.register("spark", LodestoneSparkParticleType::new);
 
+    public static RegistryObject<LodestoneTerrainParticleType> TERRAIN_PARTICLE = PARTICLES.register("terrain", LodestoneTerrainParticleType::new);
+    public static RegistryObject<LodestoneItemCrumbsParticleType> ITEM_PARTICLE = PARTICLES.register("item", LodestoneItemCrumbsParticleType::new);
 
     public static void registerParticleFactory(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(WISP_PARTICLE.get(), LodestoneParticleType.Factory::new);
@@ -29,6 +31,9 @@ public class LodestoneParticleRegistry {
         event.registerSpriteSet(TWINKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
         event.registerSpriteSet(STAR_PARTICLE.get(), LodestoneParticleType.Factory::new);
 
-        event.registerSpriteSet(SPARK_PARTICLE.get(), LodestoneSparkParticleType.Factory::new);
+        Minecraft.getInstance().particleEngine.register(SPARK_PARTICLE.get(), LodestoneSparkParticleType.Factory::new);
+
+        Minecraft.getInstance().particleEngine.register(TERRAIN_PARTICLE.get(), new LodestoneTerrainParticleType.Factory());
+        Minecraft.getInstance().particleEngine.register(ITEM_PARTICLE.get(), new LodestoneItemCrumbsParticleType.Factory());
     }
 }
