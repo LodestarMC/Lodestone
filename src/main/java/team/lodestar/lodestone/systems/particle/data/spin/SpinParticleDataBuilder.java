@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.data.spin;
 
+import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleDataBuilder;
 
@@ -17,7 +18,7 @@ public class SpinParticleDataBuilder extends GenericParticleDataBuilder {
         return this;
     }
 
-    public SpinParticleDataBuilder randomSpinOffset(Random random) {
+    public SpinParticleDataBuilder randomSpinOffset(RandomSource random) {
         this.spinOffset = random.nextFloat() * 6.28f;
         return this;
     }
