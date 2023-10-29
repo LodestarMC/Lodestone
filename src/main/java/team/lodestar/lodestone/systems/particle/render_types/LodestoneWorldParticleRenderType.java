@@ -35,7 +35,7 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
             LodestoneRenderTypeRegistry.TRANSPARENT_BLOCK_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
             GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
-    protected final RenderType renderType;
+    public final RenderType renderType;
     protected final ShaderHolder shaderHolder;
     protected final ResourceLocation texture;
     protected final GlStateManager.SourceFactor srcAlpha;

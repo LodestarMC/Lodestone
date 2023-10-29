@@ -15,7 +15,7 @@ import team.lodestar.lodestone.systems.rendering.*;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
 
 public class DirectionalParticle extends GenericParticle<DirectionalParticleOptions> {
-    
+
     public final Vec3 direction;
     public final Quaternion quaternion = new Quaternion(0.0F, 0.0F, 0.0F, 1.0F);
 
