@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.particle.render_types;
 
 import net.minecraft.client.renderer.*;
+import net.minecraft.resources.ResourceLocation;
 import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
 import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
 import com.mojang.blaze3d.platform.GlStateManager;
