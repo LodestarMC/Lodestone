@@ -132,7 +132,7 @@ public class BlockEntityHelper {
      * Returns a list of block entities within set coordinates, as stream
      */
     public static <T> Stream<T> getBlockEntitiesStream(Class<T> type, Level level, BlockPos pos, int x1, int y1, int z1, int x2, int y2, int z2) {
-        return getBlockEntitiesStream(type, level, new AABB((double) pos.getX() + 1.5f +  x1, (double) pos.getY() + 1.5f + y1, (double) pos.getZ() + 1.5f + z1, (double) pos.getX() + 0.5f + x2, (double) pos.getY() + 0.5f + y2, (double) pos.getZ() + 0.5f + z2));
+        return getBlockEntitiesStream(type, level, new AABB((double) pos.getX() + 1.5f + x1, (double) pos.getY() + 1.5f + y1, (double) pos.getZ() + 1.5f + z1, (double) pos.getX() + 0.5f + x2, (double) pos.getY() + 0.5f + y2, (double) pos.getZ() + 0.5f + z2));
     }
 
     /**

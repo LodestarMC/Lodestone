@@ -1,13 +1,15 @@
 package team.lodestar.lodestone.setup;
 
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.particle.type.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.systems.particle.type.LodestoneItemCrumbsParticleType;
+import team.lodestar.lodestone.systems.particle.type.LodestoneParticleType;
+import team.lodestar.lodestone.systems.particle.type.LodestoneSparkParticleType;
+import team.lodestar.lodestone.systems.particle.type.LodestoneTerrainParticleType;
 
 @SuppressWarnings("unused")
 public class LodestoneParticleRegistry {

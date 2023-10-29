@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.systems.particle.world;
 
-import net.minecraft.client.*;
-import net.minecraft.client.multiplayer.*;
-import net.minecraft.client.renderer.*;
-import net.minecraft.core.*;
-import net.minecraft.world.level.block.*;
-import team.lodestar.lodestone.systems.particle.options.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
+import team.lodestar.lodestone.systems.particle.options.LodestoneTerrainParticleOptions;
 
 public class LodestoneTerrainParticle extends GenericParticle<LodestoneTerrainParticleOptions> {
 

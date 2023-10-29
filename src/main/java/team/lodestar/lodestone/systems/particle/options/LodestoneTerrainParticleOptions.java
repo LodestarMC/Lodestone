@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.systems.particle.options;
 
-import com.mojang.brigadier.*;
-import com.mojang.serialization.*;
-import net.minecraft.core.*;
-import net.minecraft.core.particles.*;
-import net.minecraft.network.*;
-import net.minecraft.world.level.block.state.*;
+import com.mojang.brigadier.StringReader;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class LodestoneTerrainParticleOptions extends AbstractWorldParticleOptions {
 
@@ -21,9 +21,11 @@ public class LodestoneTerrainParticleOptions extends AbstractWorldParticleOption
         this.blockState = blockState;
         this.blockPos = blockPos;
     }
+
     public LodestoneTerrainParticleOptions(ParticleType<?> type, BlockState blockState) {
         this(type, blockState, null);
     }
+
     public LodestoneTerrainParticleOptions(ParticleType<?> type) {
         this(type, null, null);
     }

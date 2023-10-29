@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.systems.particle.world;
 
-import net.minecraft.client.*;
-import net.minecraft.client.multiplayer.*;
-import net.minecraft.client.renderer.*;
-import net.minecraft.core.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.client.model.data.ModelData;
-import team.lodestar.lodestone.systems.particle.options.*;
+import team.lodestar.lodestone.systems.particle.options.LodestoneItemCrumbsParticleOptions;
 
 public class LodestoneItemCrumbParticle extends GenericParticle<LodestoneItemCrumbsParticleOptions> {
 
@@ -38,7 +38,7 @@ public class LodestoneItemCrumbParticle extends GenericParticle<LodestoneItemCru
     }
 
     protected int getLightColor(float pPartialTick) {
-        BlockPos blockpos = new BlockPos((int)this.x, (int)this.y, (int)this.z);
+        BlockPos blockpos = new BlockPos((int) this.x, (int) this.y, (int) this.z);
         return this.level.hasChunkAt(blockpos) ? LevelRenderer.getLightColor(this.level, blockpos) : 0;
     }
 }

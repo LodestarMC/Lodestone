@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
-import net.minecraft.core.*;
-import net.minecraft.core.particles.*;
-import net.minecraft.world.level.block.state.*;
-import team.lodestar.lodestone.systems.particle.options.*;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.world.level.block.state.BlockState;
+import team.lodestar.lodestone.systems.particle.options.LodestoneTerrainParticleOptions;
 
-import java.util.function.*;
+import java.util.function.Supplier;
 
 public class TerrainParticleBuilder extends AbstractWorldParticleBuilder<TerrainParticleBuilder, LodestoneTerrainParticleOptions> {
 

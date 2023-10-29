@@ -2,7 +2,6 @@ package team.lodestar.lodestone.systems.particle.data.color;
 
 import net.minecraft.util.Mth;
 import team.lodestar.lodestone.systems.easing.Easing;
-import team.lodestar.lodestone.systems.particle.data.*;
 
 import java.awt.*;
 

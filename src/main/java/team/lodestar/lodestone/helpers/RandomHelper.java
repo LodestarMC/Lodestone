@@ -1,9 +1,8 @@
 package team.lodestar.lodestone.helpers;
 
 import net.minecraft.util.Mth;
-import team.lodestar.lodestone.systems.easing.*;
-
-import java.util.*;
+import net.minecraft.util.RandomSource;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 public class RandomHelper {
 
@@ -22,27 +21,27 @@ public class RandomHelper {
         return weightedEasingLerp(easing, (float) pDelta, (float) pStart, (float) pEnd);
     }
 
-    public static int randomBetween(Random pRandom, int min, int max) {
+    public static int randomBetween(RandomSource pRandom, int min, int max) {
         return randomBetween(pRandom, Easing.SINE_IN_OUT, min, max);
     }
 
-    public static int randomBetween(Random pRandom, Easing easing, int min, int max) {
+    public static int randomBetween(RandomSource pRandom, Easing easing, int min, int max) {
         return Math.round(EasingHelper.weightedEasingLerp(easing, pRandom.nextFloat(), min, max));
     }
 
-    public static float randomBetween(Random pRandom, float min, float max) {
+    public static float randomBetween(RandomSource pRandom, float min, float max) {
         return randomBetween(pRandom, Easing.SINE_IN_OUT, min, max);
     }
 
-    public static float randomBetween(Random pRandom, Easing easing, float min, float max) {
+    public static float randomBetween(RandomSource pRandom, Easing easing, float min, float max) {
         return EasingHelper.weightedEasingLerp(easing, pRandom.nextFloat(), min, max);
     }
 
-    public static double randomBetween(Random pRandom, double min, double max) {
+    public static double randomBetween(RandomSource pRandom, double min, double max) {
         return randomBetween(pRandom, Easing.SINE_IN_OUT, min, max);
     }
 
-    public static double randomBetween(Random pRandom, Easing easing, double min, double max) {
+    public static double randomBetween(RandomSource pRandom, Easing easing, double min, double max) {
         return EasingHelper.weightedEasingLerp(easing, pRandom.nextFloat(), min, max);
     }
 }

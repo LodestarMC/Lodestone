@@ -21,7 +21,7 @@ import team.lodestar.lodestone.systems.particle.options.AbstractWorldParticleOpt
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneWorldParticleRenderType;
 
 import java.awt.*;
-import java.util.*;
+import java.util.Collection;
 import java.util.function.Consumer;
 
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.ENDING_CURVE_INVISIBLE;
@@ -87,9 +87,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     public VertexConsumer getVertexConsumer(VertexConsumer original) {
         VertexConsumer consumerToUse = original;
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && renderType instanceof LodestoneWorldParticleRenderType lodestoneRenderType) {
-            if (lodestoneRenderType.shouldBuffer()) {
-                consumerToUse = RenderHandler.DELAYED_PARTICLE_RENDER.getBuffer(lodestoneRenderType.getRenderType());
-            }
+            consumerToUse = RenderHandler.DELAYED_PARTICLE_RENDER.getBuffer(lodestoneRenderType.renderType);
         }
         return consumerToUse;
     }

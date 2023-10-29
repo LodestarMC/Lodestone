@@ -18,7 +18,7 @@ public abstract class LodestoneArmorItem extends ArmorItem {
         super(materialIn, type, builder);
     }
 
-    public ImmutableMultimap.Builder<Attribute, AttributeModifier> createExtraAttributes(EquipmentSlot slot) {
+    public ImmutableMultimap.Builder<Attribute, AttributeModifier> createExtraAttributes(ArmorItem.Type type) {
         return new ImmutableMultimap.Builder<>();
     }
 
@@ -28,7 +28,7 @@ public abstract class LodestoneArmorItem extends ArmorItem {
         if (attributes == null) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = new ImmutableMultimap.Builder<>();
             attributeBuilder.putAll(defaultModifiers);
-            attributeBuilder.putAll(createExtraAttributes(type.getSlot()).build());
+            attributeBuilder.putAll(createExtraAttributes(type).build());
             attributes = attributeBuilder.build();
         }
         return equipmentSlot == this.type.getSlot() ? this.attributes : ImmutableMultimap.of();

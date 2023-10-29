@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 
 public class SoundMotifSoundType extends ExtendedSoundType {
     public final Supplier<SoundEvent> motifSound;
+
     public SoundMotifSoundType(Supplier<SoundEvent> motifSound, float volumeIn, float pitchIn, Supplier<SoundEvent> breakSoundIn, Supplier<SoundEvent> stepSoundIn, Supplier<SoundEvent> placeSoundIn, Supplier<SoundEvent> hitSoundIn, Supplier<SoundEvent> fallSoundIn) {
         super(volumeIn, pitchIn, breakSoundIn, stepSoundIn, placeSoundIn, hitSoundIn, fallSoundIn);
         this.motifSound = motifSound;

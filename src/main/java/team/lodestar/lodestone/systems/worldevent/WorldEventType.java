@@ -13,10 +13,10 @@ public class WorldEventType {
     }
 
     public WorldEventInstance createInstance(CompoundTag tag) {
-        return supplier.getInstance(tag);
+        return supplier.getInstance().deserializeNBT(tag);
     }
 
     public interface EventInstanceSupplier {
-        WorldEventInstance getInstance(CompoundTag tag);
+        WorldEventInstance getInstance();
     }
 }

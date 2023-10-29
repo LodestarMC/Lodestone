@@ -1,8 +1,5 @@
 package team.lodestar.lodestone.systems.particle.render_types;
 
-import net.minecraft.client.renderer.*;
-import team.lodestar.lodestone.setup.LodestoneRenderTypeRegistry;
-import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -10,112 +7,60 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.resources.ResourceLocation;
+import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry;
+import team.lodestar.lodestone.setup.LodestoneShaderRegistry;
+import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
-public interface LodestoneWorldParticleRenderType extends ParticleRenderType {
+public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
-    //TODO: this class needs a refactor, there's barely any difference between teh different render types.
+    public static final LodestoneWorldParticleRenderType ADDITIVE = new LodestoneWorldParticleRenderType(
+            LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
+            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 
+    public static final LodestoneWorldParticleRenderType TRANSPARENT = new LodestoneWorldParticleRenderType(
+            LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
+            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
-    LodestoneWorldParticleRenderType ADDITIVE = new LodestoneWorldParticleRenderType() {
-        @Override
-        public RenderType getRenderType() {
-            return LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE;
-        }
+    public static final LodestoneWorldParticleRenderType LUMITRANSPARENT = new LodestoneWorldParticleRenderType(
+            LodestoneRenderTypeRegistry.LUMITRANSPARENT_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
+            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
-        @Override
-        public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(true);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
+    public static final LodestoneWorldParticleRenderType TERRAIN_SHEET = new LodestoneWorldParticleRenderType(
+            LodestoneRenderTypeRegistry.TRANSPARENT_BLOCK_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
+            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
-        @Override
-        public void end(Tesselator tesselator) {
-            tesselator.end();
-            RenderSystem.disableBlend();
-            RenderSystem.defaultBlendFunc();
-        }
-    };
-    LodestoneWorldParticleRenderType TRANSPARENT = new LodestoneWorldParticleRenderType() {
-        @Override
-        public RenderType getRenderType() {
-            return LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE;
-        }
+    public final RenderType renderType;
+    protected final ShaderHolder shaderHolder;
+    protected final ResourceLocation texture;
+    protected final GlStateManager.SourceFactor srcAlpha;
+    protected final GlStateManager.DestFactor dstAlpha;
 
-        @Override
-        public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(true);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator tesselator) {
-            tesselator.end();
-            RenderSystem.disableBlend();
-            RenderSystem.defaultBlendFunc();
-        }
-    };
-    LodestoneWorldParticleRenderType LUMITRANSPARENT = new LodestoneWorldParticleRenderType() {
-        @Override
-        public RenderType getRenderType() {
-            return LodestoneRenderTypeRegistry.LUMITRANSPARENT_PARTICLE;
-        }
-
-        @Override
-        public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(true);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator tesselator) {
-            tesselator.end();
-            RenderSystem.disableBlend();
-            RenderSystem.defaultBlendFunc();
-        }
-    };
-    LodestoneWorldParticleRenderType TERRAIN_SHEET = new LodestoneWorldParticleRenderType() {
-        @Override
-        public RenderType getRenderType() {
-            return LodestoneRenderTypeRegistry.TRANSPARENT_BLOCK_PARTICLE;
-        }
-
-        @Override
-        public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(true);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator tesselator) {
-            tesselator.end();
-            RenderSystem.disableBlend();
-            RenderSystem.defaultBlendFunc();
-        }
-    };
-
-
-    default boolean shouldBuffer() {
-        return true;
+    public LodestoneWorldParticleRenderType(RenderType renderType, ShaderHolder shaderHolder, ResourceLocation texture, GlStateManager.SourceFactor srcAlpha, GlStateManager.DestFactor dstAlpha) {
+        this.renderType = renderType;
+        this.shaderHolder = shaderHolder;
+        this.texture = texture;
+        this.srcAlpha = srcAlpha;
+        this.dstAlpha = dstAlpha;
     }
 
-    RenderType getRenderType();
+    @Override
+    public void begin(BufferBuilder builder, TextureManager manager) {
+        RenderSystem.enableDepthTest();
+        RenderSystem.enableBlend();
+        RenderSystem.setShader(shaderHolder.getInstance());
+        RenderSystem.setShaderTexture(0, texture);
+        builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+    }
+
+    @Override
+    public void end(Tesselator pTesselator) {
+        pTesselator.end();
+        RenderSystem.disableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
+    }
 }
