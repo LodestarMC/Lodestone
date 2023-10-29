@@ -1,12 +1,10 @@
 package team.lodestar.lodestone.helpers.block;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Collection;
-import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -30,8 +28,9 @@ public class BlockPosHelper {
 
     /**
      * Generates a randomly picked position within a block
+     *
      * @param rand an instance of random
-     * @param pos the position the block is centered around
+     * @param pos  the position the block is centered around
      * @return The randomized vector position
      */
     public static Vec3 withinBlock(RandomSource rand, BlockPos pos) {

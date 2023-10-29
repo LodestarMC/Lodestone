@@ -4,8 +4,6 @@ import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 
-import java.util.Random;
-
 public class SpinParticleData extends GenericParticleData {
 
     public final float spinOffset;

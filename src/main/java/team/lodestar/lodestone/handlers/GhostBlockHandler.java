@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.world.level.block.state.BlockState;
 import team.lodestar.lodestone.systems.rendering.ghost.GhostBlockOptions;
 import team.lodestar.lodestone.systems.rendering.ghost.GhostBlockRenderer;
 
@@ -19,9 +18,10 @@ public class GhostBlockHandler {
 
     /**
      * Places a ghost block into the world, only one ghost can exist in a given slot
-     * @param slot A key for the ghost to occupy
+     *
+     * @param slot     A key for the ghost to occupy
      * @param renderer A renderer that handles how the ghost block is rendered into the world
-     * @param options A modular config parameter for the ghost block, allows you to define things like scale, transparency, and even render type
+     * @param options  A modular config parameter for the ghost block, allows you to define things like scale, transparency, and even render type
      * @param timeLeft Determines How long will the ghost block remain in the world
      * @return The ghost block placed into the world
      */

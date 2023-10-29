@@ -21,7 +21,7 @@ import team.lodestar.lodestone.systems.particle.options.AbstractWorldParticleOpt
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneWorldParticleRenderType;
 
 import java.awt.*;
-import java.util.*;
+import java.util.Collection;
 import java.util.function.Consumer;
 
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.ENDING_CURVE_INVISIBLE;

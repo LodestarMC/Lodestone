@@ -61,7 +61,7 @@ public class GhostBlockOptions {
     }
 
     public GhostBlockOptions withColor(Color color) {
-        return withColor(color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f);
+        return withColor(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
     }
 
     public GhostBlockOptions withColor(float r, float g, float b) {

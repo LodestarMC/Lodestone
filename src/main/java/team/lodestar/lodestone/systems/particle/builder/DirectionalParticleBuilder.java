@@ -1,11 +1,10 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
-import net.minecraft.core.particles.*;
-import net.minecraft.world.phys.*;
-import team.lodestar.lodestone.systems.particle.data.*;
-import team.lodestar.lodestone.systems.particle.options.*;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.world.phys.Vec3;
+import team.lodestar.lodestone.systems.particle.options.DirectionalParticleOptions;
 
-import java.util.function.*;
+import java.util.function.Supplier;
 
 public class DirectionalParticleBuilder extends AbstractWorldParticleBuilder<DirectionalParticleBuilder, DirectionalParticleOptions> {
 

@@ -1,12 +1,10 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
-import net.minecraft.core.*;
-import net.minecraft.core.particles.*;
-import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.state.*;
-import team.lodestar.lodestone.systems.particle.options.*;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.world.item.ItemStack;
+import team.lodestar.lodestone.systems.particle.options.LodestoneItemCrumbsParticleOptions;
 
-import java.util.function.*;
+import java.util.function.Supplier;
 
 public class ItemCrumbParticleBuilder extends AbstractWorldParticleBuilder<ItemCrumbParticleBuilder, LodestoneItemCrumbsParticleOptions> {
 

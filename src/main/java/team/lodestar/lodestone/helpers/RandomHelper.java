@@ -2,9 +2,7 @@ package team.lodestar.lodestone.helpers;
 
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import team.lodestar.lodestone.systems.easing.*;
-
-import java.util.*;
+import team.lodestar.lodestone.systems.easing.Easing;
 
 public class RandomHelper {
 

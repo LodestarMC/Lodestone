@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.systems.particle.options;
 
-import com.mojang.brigadier.*;
-import com.mojang.serialization.*;
-import net.minecraft.core.particles.*;
-import net.minecraft.network.*;
-import net.minecraft.world.phys.*;
+import com.mojang.brigadier.StringReader;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.phys.Vec3;
 
 public class DirectionalParticleOptions extends AbstractWorldParticleOptions {
 

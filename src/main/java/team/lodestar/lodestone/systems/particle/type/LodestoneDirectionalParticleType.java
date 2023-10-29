@@ -1,13 +1,16 @@
 package team.lodestar.lodestone.systems.particle.type;
 
-import com.mojang.serialization.*;
-import net.minecraft.client.multiplayer.*;
-import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.*;
-import team.lodestar.lodestone.systems.particle.options.*;
-import team.lodestar.lodestone.systems.particle.world.*;
+import com.mojang.serialization.Codec;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.core.particles.ParticleType;
+import team.lodestar.lodestone.systems.particle.options.DirectionalParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.DirectionalParticle;
 
-import javax.annotation.*;
+import javax.annotation.Nullable;
 
 public class LodestoneDirectionalParticleType extends ParticleType<DirectionalParticleOptions> {
     public LodestoneDirectionalParticleType() {

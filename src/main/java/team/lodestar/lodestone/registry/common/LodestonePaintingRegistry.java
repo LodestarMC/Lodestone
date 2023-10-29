@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.registry.common;
 
 import net.minecraft.world.entity.decoration.PaintingVariant;
-import team.lodestar.lodestone.LodestoneLib;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import team.lodestar.lodestone.LodestoneLib;
 
 
 public class LodestonePaintingRegistry {

@@ -19,7 +19,6 @@ import java.util.function.Function;
 
 import static com.mojang.blaze3d.vertex.DefaultVertexFormat.*;
 import static com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS;
-import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 import static team.lodestar.lodestone.handlers.RenderHandler.LARGER_BUFFER_SOURCES;
 
 public class LodestoneRenderTypeRegistry extends RenderStateShard {
@@ -179,6 +178,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
         public LodestoneCompositeStateBuilder setTextureState(ResourceLocation texture) {
             return setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_PARTICLES, false, false));
         }
+
         public LodestoneCompositeStateBuilder setShaderState(ShaderHolder shaderHolder) {
             return setShaderState(shaderHolder.getShard());
         }
@@ -187,6 +187,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
         public LodestoneCompositeStateBuilder setTextureState(EmptyTextureStateShard pTextureState) {
             return (LodestoneCompositeStateBuilder) super.setTextureState(pTextureState);
         }
+
         @Override
         public LodestoneCompositeStateBuilder setShaderState(ShaderStateShard pShaderState) {
             return (LodestoneCompositeStateBuilder) super.setShaderState(pShaderState);

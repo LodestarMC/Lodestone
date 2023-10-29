@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
-import com.mojang.math.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,8 +12,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
 import team.lodestar.lodestone.helpers.BlockHelper;
-import team.lodestar.lodestone.systems.particle.*;
-import team.lodestar.lodestone.systems.particle.options.*;
 import team.lodestar.lodestone.systems.particle.LodestoneWorldParticleActor;
 import team.lodestar.lodestone.systems.particle.options.AbstractWorldParticleOptions;
 

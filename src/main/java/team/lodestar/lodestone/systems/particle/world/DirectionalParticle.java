@@ -1,20 +1,17 @@
 package team.lodestar.lodestone.systems.particle.world;
 
-import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.*;
-import net.minecraft.client.*;
-import net.minecraft.client.multiplayer.*;
-import net.minecraft.client.particle.*;
-import net.minecraft.util.*;
-import net.minecraft.world.phys.*;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Camera;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import team.lodestar.lodestone.helpers.*;
-import team.lodestar.lodestone.systems.particle.*;
-import team.lodestar.lodestone.systems.particle.options.*;
-import team.lodestar.lodestone.systems.rendering.*;
+import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
+import team.lodestar.lodestone.systems.particle.options.DirectionalParticleOptions;
 
-import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
+import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.FIRST_INDEX;
 
 public class DirectionalParticle extends GenericParticle<DirectionalParticleOptions> {
 
@@ -25,15 +22,12 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
         super(world, data, spriteSet, x, y, z, xd, yd, zd);
         this.direction = data.direction;
 
-        float yRot = ((float)(Mth.atan2(direction.x, direction.z) * (double)(180F / (float)Math.PI)));
-        float xRot = ((float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180F / (float)Math.PI)));
+        float yRot = ((float) (Mth.atan2(direction.x, direction.z) * (double) (180F / (float) Math.PI)));
+        float xRot = ((float) (Mth.atan2(direction.y, direction.horizontalDistance()) * (double) (180F / (float) Math.PI)));
         float yaw = (float) Math.toRadians(-yRot);
         float pitch = (float) Math.toRadians(-xRot);
         quaternion.mul(oldSchool(0, yaw, 0));
         quaternion.mul(oldSchool(pitch, 0, 0));
-
-        //quaternion.mul(new Quaternionf()).setAngleAxis(0.0F, 0, yaw, 0);
-        //quaternion.mul(new Quaternionf()).setAngleAxis(0.0F, pitch, 0, 0);
     }
 
     public Quaternionf oldSchool(float pX, float pY, float pZ) {
@@ -54,12 +48,12 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
         consumer = getVertexConsumer(consumer);
         Vec3 vec3 = camera.getPosition();
-        float x = (float)(Mth.lerp(partialTicks, this.xo, this.x) - vec3.x());
-        float y = (float)(Mth.lerp(partialTicks, this.yo, this.y) - vec3.y());
-        float z = (float)(Mth.lerp(partialTicks, this.zo, this.z) - vec3.z());
+        float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - vec3.x());
+        float y = (float) (Mth.lerp(partialTicks, this.yo, this.y) - vec3.y());
+        float z = (float) (Mth.lerp(partialTicks, this.zo, this.z) - vec3.z());
         Vector3f[] avector3f = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)};
         float f4 = this.getQuadSize(partialTicks);
-        for(int i = 0; i < 4; ++i) {
+        for (int i = 0; i < 4; ++i) {
             Vector3f vector3f = avector3f[i];
             vector3f.rotate(quaternion);
             vector3f.mul(f4);
