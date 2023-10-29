@@ -51,6 +51,7 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
     @Override
     public void begin(BufferBuilder builder, TextureManager manager) {
+        RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         RenderSystem.setShader(shaderHolder.getInstance());
@@ -63,5 +64,6 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
         pTesselator.end();
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
     }
 }
