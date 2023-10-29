@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.client;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
@@ -12,6 +12,7 @@ import team.lodestar.lodestone.systems.rendering.StateShards;
 import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeData;
 import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeProvider;
 import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
+import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -171,7 +172,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
 
     public static class LodestoneCompositeStateBuilder extends RenderType.CompositeState.CompositeStateBuilder {
 
-        public LodestoneCompositeStateBuilder() {
+        LodestoneCompositeStateBuilder() {
             super();
         }
 
