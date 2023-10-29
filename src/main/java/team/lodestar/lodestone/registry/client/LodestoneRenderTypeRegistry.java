@@ -44,13 +44,13 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
             .setShaderState(LodestoneShaderRegistry.PARTICLE)
             .setTransparencyState(StateShards.ADDITIVE_TRANSPARENCY)
             .setTextureState(TextureAtlas.LOCATION_PARTICLES)
-            .setDepthTestState(RenderStateShard.NO_DEPTH_TEST));
+            .setCullState(RenderStateShard.NO_CULL));
 
     public static final RenderType ADDITIVE_BLOCK_PARTICLE = createGenericRenderType("lodestone:additive_block_particle", PARTICLE, QUADS, builder()
             .setShaderState(LodestoneShaderRegistry.PARTICLE)
             .setTransparencyState(StateShards.ADDITIVE_TRANSPARENCY)
             .setTextureState(TextureAtlas.LOCATION_BLOCKS)
-            .setDepthTestState(RenderStateShard.NO_DEPTH_TEST));
+            .setCullState(RenderStateShard.NO_CULL));
 
     public static final RenderType ADDITIVE_BLOCK = createGenericRenderType("lodestone:additive_block", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
             .setShaderState(LodestoneShaderRegistry.LODESTONE_TEXTURE)
@@ -66,13 +66,13 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
             .setShaderState(LodestoneShaderRegistry.PARTICLE)
             .setTransparencyState(StateShards.NORMAL_TRANSPARENCY)
             .setTextureState(TextureAtlas.LOCATION_PARTICLES)
-            .setDepthTestState(RenderStateShard.NO_DEPTH_TEST));
+            .setCullState(RenderStateShard.NO_CULL));
 
     public static final RenderType TRANSPARENT_BLOCK_PARTICLE = createGenericRenderType("lodestone:transparent_block_particle", PARTICLE, QUADS, builder()
             .setShaderState(LodestoneShaderRegistry.PARTICLE)
             .setTransparencyState(StateShards.NORMAL_TRANSPARENCY)
             .setTextureState(TextureAtlas.LOCATION_BLOCKS)
-            .setDepthTestState(RenderStateShard.NO_DEPTH_TEST));
+            .setCullState(RenderStateShard.NO_CULL));
 
     public static final RenderType TRANSPARENT_BLOCK = createGenericRenderType("lodestone:transparent_block", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
             .setShaderState(LodestoneShaderRegistry.LODESTONE_TEXTURE)
@@ -167,7 +167,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     }
 
     public static LodestoneCompositeStateBuilder builder() {
-        return new LodestoneCompositeStateBuilder().setCullState(RenderStateShard.CULL).setLightmapState(RenderStateShard.LIGHTMAP);
+        return new LodestoneCompositeStateBuilder().setLightmapState(RenderStateShard.LIGHTMAP);
     }
 
     public static class LodestoneCompositeStateBuilder extends RenderType.CompositeState.CompositeStateBuilder {
