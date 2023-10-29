@@ -7,6 +7,8 @@ import net.minecraft.client.multiplayer.*;
 import net.minecraft.client.particle.*;
 import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import team.lodestar.lodestone.helpers.*;
 import team.lodestar.lodestone.systems.particle.*;
 import team.lodestar.lodestone.systems.particle.options.*;
@@ -17,7 +19,7 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 public class DirectionalParticle extends GenericParticle<DirectionalParticleOptions> {
 
     public final Vec3 direction;
-    public final Quaternion quaternion = new Quaternion(0.0F, 0.0F, 0.0F, 1.0F);
+    public final Quaternionf quaternion = new Quaternionf(0.0F, 0.0F, 0.0F, 1.0F);
 
     public DirectionalParticle(ClientLevel world, DirectionalParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, spriteSet, x, y, z, xd, yd, zd);
@@ -27,8 +29,8 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
         float xRot = ((float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180F / (float)Math.PI)));
         float yaw = (float) Math.toRadians(-yRot);
         float pitch = (float) Math.toRadians(-xRot);
-        quaternion.mul(new Quaternion(0, yaw, 0, false));
-        quaternion.mul(new Quaternion(pitch, 0, 0, false));
+        quaternion.mul(new Quaternionf(0, yaw, 0, false));
+        quaternion.mul(new Quaternionf(pitch, 0, 0, false));
     }
 
     @Override
@@ -42,7 +44,7 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
         float f4 = this.getQuadSize(partialTicks);
         for(int i = 0; i < 4; ++i) {
             Vector3f vector3f = avector3f[i];
-            vector3f.transform(quaternion);
+            vector3f.rotate(quaternion);
             vector3f.mul(f4);
             vector3f.add(x, y, z);
         }
