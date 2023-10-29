@@ -29,11 +29,25 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
         float xRot = ((float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180F / (float)Math.PI)));
         float yaw = (float) Math.toRadians(-yRot);
         float pitch = (float) Math.toRadians(-xRot);
-        //quaternion.mul(new Quaternionf(0, yaw, 0, false));
-        //quaternion.mul(new Quaternionf(pitch, 0, 0, false));
+        quaternion.mul(oldSchool(0, yaw, 0));
+        quaternion.mul(oldSchool(pitch, 0, 0));
 
-        quaternion.mul(new Quaternionf()).setAngleAxis(0.0F, 0, yaw, 0);
-        quaternion.mul(new Quaternionf()).setAngleAxis(0.0F, pitch, 0, 0);
+        //quaternion.mul(new Quaternionf()).setAngleAxis(0.0F, 0, yaw, 0);
+        //quaternion.mul(new Quaternionf()).setAngleAxis(0.0F, pitch, 0, 0);
+    }
+
+    public Quaternionf oldSchool(float pX, float pY, float pZ) {
+        float f = Mth.sin(0.5F * pX);
+        float f1 = Mth.cos(0.5F * pX);
+        float f2 = Mth.sin(0.5F * pY);
+        float f3 = Mth.cos(0.5F * pY);
+        float f4 = Mth.sin(0.5F * pZ);
+        float f5 = Mth.cos(0.5F * pZ);
+        float x = f * f3 * f5 + f1 * f2 * f4;
+        float y = f1 * f2 * f5 - f * f3 * f4;
+        float z = f * f2 * f5 + f1 * f3 * f4;
+        float w = f1 * f3 * f5 - f * f2 * f4;
+        return new Quaternionf(x, y, z, w);
     }
 
     @Override
