@@ -50,7 +50,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         this.spritePicker = options.spritePicker;
         this.discardFunctionType = options.discardFunctionType;
         this.colorData = options.colorData;
-        this.transparencyData = options.transparencyData;
+        this.transparencyData = GenericParticleData.constrictTransparency(options.transparencyData);
         this.scaleData = options.scaleData;
         this.spinData = options.spinData;
         this.actor = options.actor;
@@ -129,7 +129,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         pickColor(colorData.colorCurveEasing.ease(colorData.getProgress(age, lifetime), 0, 1, 1));
 
         quadSize = scaleData.getValue(age, lifetime);
-        alpha = transparencyData.getValue(age, lifetime);
+        alpha = Mth.clamp(transparencyData.getValue(age, lifetime), 0, 1);
         oRoll = roll;
         roll += spinData.getValue(age, lifetime);
 
