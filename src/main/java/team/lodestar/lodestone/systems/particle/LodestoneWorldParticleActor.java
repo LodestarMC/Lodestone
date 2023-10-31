@@ -32,4 +32,6 @@ public interface LodestoneWorldParticleActor {
     }
 
     int getParticleLifespan();
+
+    LodestoneWorldParticleActor tickParticle(int times);
 }
