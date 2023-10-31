@@ -21,7 +21,7 @@ import team.lodestar.lodestone.systems.particle.render_types.*;
 
 import java.awt.*;
 import java.util.*;
-import java.util.function.Consumer;
+import java.util.function.*;
 
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.ENDING_CURVE_INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.INVISIBLE;
@@ -36,10 +36,12 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     protected final GenericParticleData transparencyData;
     protected final GenericParticleData scaleData;
     protected final SpinParticleData spinData;
-    protected final Collection<Consumer<LodestoneWorldParticleActor>> actors;
+    protected final Collection<Consumer<LodestoneWorldParticleActor>> tickActors;
 
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
+
+    private int lifeDelay;
 
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
@@ -53,12 +55,13 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
         this.transparencyData = options.transparencyData;
         this.scaleData = options.scaleData;
         this.spinData = options.spinData;
-        this.actors = options.actors;
+        this.tickActors = options.tickActors;
         this.roll = options.spinData.spinOffset + options.spinData.startingValue;
         this.xd = xd;
         this.yd = yd;
         this.zd = zd;
         this.setLifetime(options.lifetimeSupplier.get());
+        this.lifeDelay = options.lifeDelaySupplier.get();
         this.gravity = options.gravityStrengthSupplier.get();
         this.hasPhysics = !options.noClip;
         this.friction = 1;
@@ -76,6 +79,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
                 pickSprite(spriteSet.sprites.size() - 1);
             }
         }
+        options.spawnActors.forEach(actor -> actor.accept(this));
         updateTraits();
     }
 
@@ -135,8 +139,8 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
         oRoll = roll;
         roll += spinData.getValue(age, lifetime);
 
-        if (!actors.isEmpty()) {
-            actors.forEach(a -> a.accept(this));
+        if (!tickActors.isEmpty()) {
+            tickActors.forEach(a -> a.accept(this));
         }
     }
 
@@ -147,6 +151,10 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
 
     @Override
     public void tick() {
+        if (lifeDelay > 0) {
+            lifeDelay--;
+            return;
+        }
         updateTraits();
         if (spriteSet != null) {
             if (getSpritePicker().equals(WITH_AGE)) {
@@ -158,6 +166,9 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
 
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        if (lifeDelay > 0) {
+            return;
+        }
         super.render(getVertexConsumer(consumer), camera, partialTicks);
     }
 
@@ -191,6 +202,12 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     @Override
     public int getParticleAge() {
         return age;
+    }
+
+    @Override
+    public LodestoneWorldParticleActor setParticleAge(int age) {
+        this.age = age;
+        return this;
     }
 
     @Override

@@ -12,7 +12,9 @@ public abstract class AbstractWorldParticleOptions extends SimpleParticleOptions
 
     public final ParticleType<?> type;
     public ParticleRenderType renderType;
-    public final Collection<Consumer<LodestoneWorldParticleActor>> actors = new ArrayList<>();
+    public final Collection<Consumer<LodestoneWorldParticleActor>> tickActors = new ArrayList<>();
+    public final Collection<Consumer<LodestoneWorldParticleActor>> spawnActors = new ArrayList<>();
+
     public boolean noClip = false;
 
     public AbstractWorldParticleOptions(ParticleType<?> type) {

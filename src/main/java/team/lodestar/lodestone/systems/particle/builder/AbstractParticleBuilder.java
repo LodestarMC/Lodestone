@@ -109,6 +109,24 @@ public abstract class AbstractParticleBuilder<T extends AbstractParticleBuilder<
         return wrapper();
     }
 
+    public T multiplyLifeDelay(float lifeDelayMultiplier) {
+        return modifyLifeDelay(i -> () -> (int) (i * lifeDelayMultiplier));
+    }
+
+    public T modifyLifeDelay(Function<Integer, Supplier<Integer>> lifeDelayReplacement) {
+        getParticleOptions().lifeDelaySupplier = lifeDelayReplacement.apply(getParticleOptions().lifeDelaySupplier.get());
+        return wrapper();
+    }
+
+    public T setLifeDelay(int lifeDelay) {
+        return setLifeDelay(() -> lifeDelay);
+    }
+
+    public T setLifeDelay(Supplier<Integer> lifeDelaySupplier) {
+        getParticleOptions().lifeDelaySupplier = lifeDelaySupplier;
+        return wrapper();
+    }
+
     public T setSpritePicker(SimpleParticleOptions.ParticleSpritePicker spritePicker) {
         getParticleOptions().spritePicker = spritePicker;
         return wrapper();

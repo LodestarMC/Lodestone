@@ -175,7 +175,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
         }
 
         public LodestoneCompositeStateBuilder setTextureState(ResourceLocation texture) {
-            return setTextureState(new RenderStateShard.TextureStateShard(TextureAtlas.LOCATION_PARTICLES, false, false));
+            return setTextureState(new RenderStateShard.TextureStateShard(texture, false, false));
         }
         public LodestoneCompositeStateBuilder setShaderState(ShaderHolder shaderHolder) {
             return setShaderState(shaderHolder.getShard());
