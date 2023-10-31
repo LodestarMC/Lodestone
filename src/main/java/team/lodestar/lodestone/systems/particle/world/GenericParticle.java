@@ -215,4 +215,12 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     public int getParticleLifespan() {
         return lifetime;
     }
+
+    @Override
+    public LodestoneWorldParticleActor tickParticle(int times) {
+        for (int i = 0; i < times; i++) {
+            tick();
+        }
+        return this;
+    }
 }
