@@ -74,4 +74,14 @@ public class GenericParticleData {
     public static GenericParticleDataBuilder create(float startingValue, float middleValue, float endingValue) {
         return new GenericParticleDataBuilder(startingValue, middleValue, endingValue);
     }
+
+    public static GenericParticleData constrictTransparency(GenericParticleData data) {
+        float startingValue = Mth.clamp(data.startingValue, 0, 1);
+        float middleValue = Mth.clamp(data.middleValue, 0, 1);
+        float endingValue = data.endingValue == -1 ? -1 : Mth.clamp(data.endingValue, 0, 1);
+        float coefficient = data.coefficient;
+        Easing startToMiddleEasing = data.startToMiddleEasing;
+        Easing middleToEndEasing = data.middleToEndEasing;
+        return new GenericParticleData(startingValue, middleValue, endingValue, coefficient, startToMiddleEasing, middleToEndEasing);
+    }
 }

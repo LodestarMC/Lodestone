@@ -41,7 +41,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
 
-    private int lifeDelay;
+    protected int lifeDelay;
 
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
@@ -52,7 +52,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
         this.spritePicker = options.spritePicker;
         this.discardFunctionType = options.discardFunctionType;
         this.colorData = options.colorData;
-        this.transparencyData = options.transparencyData;
+        this.transparencyData = GenericParticleData.constrictTransparency(options.transparencyData);
         this.scaleData = options.scaleData;
         this.spinData = options.spinData;
         this.tickActors = options.tickActors;
