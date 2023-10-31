@@ -29,7 +29,8 @@ public abstract class SimpleParticleOptions {
     public GenericParticleData scaleData = DEFAULT_GENERIC;
     public SpinParticleData spinData = DEFAULT_SPIN;
 
-    public Supplier<Integer> lifetimeSupplier = () -> 20;
-    public Supplier<Float> gravityStrengthSupplier = () -> 0f;
+    public Supplier<Integer> lifetimeSupplier = ()->20;
+    public Supplier<Integer> lifeDelaySupplier = ()->0;
+    public Supplier<Float> gravityStrengthSupplier = ()->0f;
 
 }

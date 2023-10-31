@@ -39,6 +39,8 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
 
+    private int lifeDelay;
+
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
     public GenericScreenParticle(ClientLevel world, ScreenParticleOptions options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double xMotion, double yMotion) {
@@ -60,6 +62,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
         this.yMotion = yMotion;
 
         this.setLifetime(options.lifetimeSupplier.get());
+        this.lifeDelay = options.lifeDelaySupplier.get();
         this.gravity = options.gravityStrengthSupplier.get();
         this.friction = 1;
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, colorData.r1)), (int) (255 * Math.min(1.0f, colorData.g1)), (int) (255 * Math.min(1.0f, colorData.b1)), hsv1);
@@ -137,6 +140,9 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
 
     @Override
     public void render(BufferBuilder bufferBuilder) {
+        if (lifeDelay > 0) {
+            return;
+        }
         if (tracksStack) {
             x = ScreenParticleHandler.currentItemX + stackTrackXOffset + xMoved;
             y = ScreenParticleHandler.currentItemY + stackTrackYOffset + yMoved;
@@ -146,6 +152,10 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
 
     @Override
     public void tick() {
+        if (lifeDelay > 0) {
+            lifeDelay--;
+            return;
+        }
         updateTraits();
         if (getSpritePicker().equals(WITH_AGE)) {
             setSpriteFromAge(spriteSet);

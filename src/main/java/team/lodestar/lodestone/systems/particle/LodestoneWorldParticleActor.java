@@ -2,6 +2,8 @@ package team.lodestar.lodestone.systems.particle;
 
 import net.minecraft.world.phys.Vec3;
 
+import java.util.function.*;
+
 public interface LodestoneWorldParticleActor {
 
     Vec3 getParticlePosition();
@@ -21,6 +23,12 @@ public interface LodestoneWorldParticleActor {
     LodestoneWorldParticleActor setParticleMotion(double x, double y, double z);
 
     int getParticleAge();
+
+    LodestoneWorldParticleActor setParticleAge(int age);
+
+    default LodestoneWorldParticleActor setParticleAge(Function<Integer, Integer> ageFunction) {
+        return setParticleAge(ageFunction.apply(getParticleAge()));
+    }
 
     int getParticleLifespan();
 }
