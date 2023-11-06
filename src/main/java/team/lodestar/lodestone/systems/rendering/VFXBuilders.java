@@ -121,6 +121,7 @@ public class VFXBuilders {
             this.b = b / 255f;
             return this;
         }
+
         public ScreenVFXBuilder setColorRaw(float r, float g, float b) {
             this.r = r;
             this.g = g;
@@ -320,6 +321,7 @@ public class VFXBuilders {
             this.b = b / 255f;
             return this;
         }
+
         public WorldVFXBuilder setColorRaw(float r, float g, float b) {
             this.r = r;
             this.g = g;
@@ -354,7 +356,13 @@ public class VFXBuilders {
             Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getPosition();
             return renderBeam(vertexConsumer, last, start, end, width, cameraPosition);
         }
+
         public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, @Nullable Matrix4f last, Vec3 start, Vec3 end, float width, Vec3 cameraPosition) {
+            return renderBeam(vertexConsumer, last, start, end, width, cameraPosition, builder -> {
+            });
+        }
+
+        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, @Nullable Matrix4f last, Vec3 start, Vec3 end, float width, Vec3 cameraPosition, Consumer<WorldVFXBuilder> consumer) {
             Vec3 delta = end.subtract(start);
             Vec3 normal = start.subtract(cameraPosition).cross(delta).normalize().multiply(width / 2f, width / 2f, width / 2f);
 
@@ -362,6 +370,7 @@ public class VFXBuilders {
 
             supplier.placeVertex(vertexConsumer, last, (float) positions[0].x, (float) positions[0].y, (float) positions[0].z, u0, v1);
             supplier.placeVertex(vertexConsumer, last, (float) positions[1].x, (float) positions[1].y, (float) positions[1].z, u1, v1);
+            consumer.accept(this);
             supplier.placeVertex(vertexConsumer, last, (float) positions[2].x, (float) positions[2].y, (float) positions[2].z, u1, v0);
             supplier.placeVertex(vertexConsumer, last, (float) positions[3].x, (float) positions[3].y, (float) positions[3].z, u0, v0);
 
@@ -372,6 +381,7 @@ public class VFXBuilders {
             return renderTrail(vertexConsumer, stack, trailSegments, f -> width, f -> {
             });
         }
+
         public WorldVFXBuilder renderTrail(VertexConsumer vertexConsumer, PoseStack stack, List<TrailPoint> trailSegments, Function<Float, Float> widthFunc) {
             return renderTrail(vertexConsumer, stack, trailSegments, widthFunc, f -> {
             });
