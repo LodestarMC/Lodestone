@@ -357,6 +357,12 @@ public class VFXBuilders {
             return renderBeam(vertexConsumer, last, start, end, width, cameraPosition);
         }
 
+        public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, @Nullable Matrix4f last, Vec3 start, Vec3 end, float width, Consumer<WorldVFXBuilder> consumer) {
+            Minecraft minecraft = Minecraft.getInstance();
+            Vec3 cameraPosition = minecraft.getBlockEntityRenderDispatcher().camera.getPosition();
+            return renderBeam(vertexConsumer, last, start, end, width, cameraPosition, consumer);
+        }
+
         public WorldVFXBuilder renderBeam(VertexConsumer vertexConsumer, @Nullable Matrix4f last, Vec3 start, Vec3 end, float width, Vec3 cameraPosition) {
             return renderBeam(vertexConsumer, last, start, end, width, cameraPosition, builder -> {
             });
