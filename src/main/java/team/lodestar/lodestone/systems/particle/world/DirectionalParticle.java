@@ -36,6 +36,12 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
         if (lifeDelay > 0) {
             return;
         }
+        roll = random.nextFloat()*6.2831855F;
+        Quaternion quaternion = this.quaternion.copy();
+        if (roll != 0) {
+            float f3 = Mth.lerp(partialTicks, this.oRoll, this.roll);
+            quaternion.mul(Vector3f.ZP.rotation(f3));
+        }
         consumer = getVertexConsumer(consumer);
         Vec3 vec3 = camera.getPosition();
         float x = (float)(Mth.lerp(partialTicks, this.xo, this.x) - vec3.x());
