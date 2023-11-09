@@ -36,7 +36,6 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
         if (lifeDelay > 0) {
             return;
         }
-        roll = random.nextFloat()*6.2831855F;
         Quaternion quaternion = this.quaternion.copy();
         if (roll != 0) {
             float f3 = Mth.lerp(partialTicks, this.oRoll, this.roll);
