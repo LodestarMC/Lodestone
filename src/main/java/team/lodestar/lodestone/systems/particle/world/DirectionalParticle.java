@@ -25,7 +25,7 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
 
         float yRot = ((float)(Mth.atan2(direction.x, direction.z) * (double)(180F / (float)Math.PI)));
         float xRot = ((float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180F / (float)Math.PI)));
-        float yaw = (float) Math.toRadians(-yRot);
+        float yaw = (float) Math.toRadians(yRot);
         float pitch = (float) Math.toRadians(-xRot);
         quaternion.mul(new Quaternion(0, yaw, 0, false));
         quaternion.mul(new Quaternion(pitch, 0, 0, false));
