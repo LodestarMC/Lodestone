@@ -2,6 +2,7 @@
   "required": true,
   "package": "team.lodestar.lodestone.mixin",
   "compatibilityLevel": "JAVA_17",
+  "refmap": "lodestone.refmap.json",
   "mixins": [
     "BlockItemMixin",
     "EntityMixin",
