@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.particle.world;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
@@ -49,6 +50,11 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
         if (lifeDelay > 0) {
             return;
         }
+        Quaternionf quaternion = new Quaternionf(this.quaternion);
+        if (roll != 0) {
+            quaternion.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));
+        }
+
         consumer = getVertexConsumer(consumer);
         Vec3 vec3 = camera.getPosition();
         float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - vec3.x());
