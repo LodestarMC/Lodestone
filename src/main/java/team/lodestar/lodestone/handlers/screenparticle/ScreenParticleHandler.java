@@ -31,21 +31,6 @@ import java.util.Map;
 public class ScreenParticleHandler {
 
     /**
-     * Earliest Screen Particles are rendered before nearly every piece of user interface.
-     */
-    public static final ScreenParticleHolder EARLIEST_PARTICLES = new ScreenParticleHolder();
-
-    /**
-     * Early Screen Particles are rendered after other UI elements, but before things like tooltips or other overlays.
-     */
-    public static final ScreenParticleHolder EARLY_PARTICLES = new ScreenParticleHolder();
-
-    /**
-     * Late Screen Particles are rendered after everything else.
-     */
-    public static final ScreenParticleHolder LATE_PARTICLES = new ScreenParticleHolder();
-
-    /**
      * Item Stack Bound Particles are rendered just after an item stack in the inventory. They are ticked the same as other particles.
      * We use a pair of a boolean and the ItemStack as a key. The boolean sorts item particles based on if the ItemStack in question is in the hotbar or not.
      */
@@ -66,10 +51,6 @@ public class ScreenParticleHandler {
             return;
         }
 
-        EARLIEST_PARTICLES.tick();
-        EARLY_PARTICLES.tick();
-        LATE_PARTICLES.tick();
-
         ITEM_PARTICLES.values().forEach(ScreenParticleHolder::tick);
         ITEM_PARTICLES.values().removeIf(ScreenParticleHolder::isEmpty);
 
@@ -88,7 +69,6 @@ public class ScreenParticleHandler {
                 return;
             }
             if (!stack.isEmpty()) {
-
                 currentItemX = x + 8;
                 currentItemY = y + 8;
 
@@ -99,7 +79,6 @@ public class ScreenParticleHandler {
                     currentItemX += i;
                     currentItemY += j;
                 } // TODO to here
-
 
                 ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitter != null) {
@@ -148,33 +127,6 @@ public class ScreenParticleHandler {
         }
     }
 
-    public static void renderParticles(TickEvent.RenderTickEvent event) {
-        if (event.phase.equals(TickEvent.Phase.END)) {
-            if (false) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
-                return;
-            }
-            Screen screen = Minecraft.getInstance().screen;
-
-            if (screen == null || screen instanceof ChatScreen || screen instanceof GameModeSwitcherScreen) {
-                renderEarliestParticles();
-            }
-            renderLateParticles();
-            canSpawnParticles = false;
-        }
-    }
-
-    public static void renderEarliestParticles() {
-        renderParticles(EARLIEST_PARTICLES);
-    }
-
-    public static void renderEarlyParticles() {
-        renderParticles(EARLY_PARTICLES);
-    }
-
-    public static void renderLateParticles() {
-        renderParticles(LATE_PARTICLES);
-    }
-
     public static void renderParticles(ScreenParticleHolder screenParticleTarget) {
         if (false) {//TODO ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()
             return;
@@ -189,9 +141,6 @@ public class ScreenParticleHandler {
     }
 
     public static void clearParticles() {
-        clearParticles(EARLIEST_PARTICLES);
-        clearParticles(EARLY_PARTICLES);
-        clearParticles(LATE_PARTICLES);
         ITEM_PARTICLES.values().forEach(ScreenParticleHandler::clearParticles);
     }
 

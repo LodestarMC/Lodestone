@@ -20,7 +20,6 @@
     "LevelRendererMixin",
     "MultiPlayerGameModeMixin",
     "ScreenEffectRendererMixin",
-    "ScreenMixin",
     "GuiGraphicsMixin"
   ],
   "injectors": {

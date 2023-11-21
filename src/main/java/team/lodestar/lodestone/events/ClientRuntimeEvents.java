@@ -101,7 +101,6 @@ public class ClientRuntimeEvents {
 
     @SubscribeEvent
     public static void renderTick(TickEvent.RenderTickEvent event) {
-        ScreenParticleHandler.renderParticles(event);
         ClientTickCounter.renderTick(event);
     }
 }
