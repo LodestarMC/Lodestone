@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import team.lodestar.lodestone.setup.LodestoneBlockEntityRegistry;
+import team.lodestar.lodestone.registry.common.*;
 
 public class LodestoneSignBlockEntity extends SignBlockEntity {
     public LodestoneSignBlockEntity(BlockPos pos, BlockState state) {

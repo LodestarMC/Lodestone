@@ -1,12 +1,12 @@
 package team.lodestar.lodestone.mixin;
 
 
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -18,6 +18,7 @@ public abstract class GuiGraphicsMixin implements TheWorstInterface {
 
     //TODO: WHAT :sobbing:
 
+    @Shadow @Final private PoseStack pose;
     @Unique
     boolean lodestone$bl = false;
 
@@ -25,7 +26,8 @@ public abstract class GuiGraphicsMixin implements TheWorstInterface {
     @Inject(method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;IIII)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;getItemRenderer()Lnet/minecraft/client/renderer/entity/ItemRenderer;", ordinal = 0))
     private void lodestone$renderGuiItem(LivingEntity entity, Level level, ItemStack stack, int x, int y, int p_283260_, int p_281995_, CallbackInfo ci) {
         if (!lodestone$bl) {
-            ScreenParticleHandler.renderItemStackEarly(stack, x, y, true);
+
+            ScreenParticleHandler.renderItemStackEarly(pose, stack, x, y, true);
         }
     }
 

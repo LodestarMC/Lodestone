@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.common.particle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.SpriteSet;

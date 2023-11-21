@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.common;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;

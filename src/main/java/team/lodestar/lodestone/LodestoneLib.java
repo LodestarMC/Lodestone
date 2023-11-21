@@ -27,9 +27,8 @@ import team.lodestar.lodestone.data.LodestoneBlockTagDatagen;
 import team.lodestar.lodestone.data.LodestoneItemTagDatagen;
 import team.lodestar.lodestone.data.LodestoneLangDatagen;
 import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
-import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
-import team.lodestar.lodestone.registry.common.LodestoneRecipeSerializerRegistry;
-import team.lodestar.lodestone.setup.*;
+import team.lodestar.lodestone.registry.common.*;
+import team.lodestar.lodestone.registry.common.particle.*;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.particle.builder.ScreenParticleBuilder;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
@@ -112,7 +111,7 @@ public class LodestoneLib {
         LodestoneParticleRegistry.PARTICLES.register(modBus);
         LodestoneAttributeRegistry.ATTRIBUTES.register(modBus);
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register(modBus);
-        LodestonePaintings.register(modBus);
+        LodestonePaintingRegistry.register(modBus);
 
         JeiCompat.init();
         CuriosCompat.init();

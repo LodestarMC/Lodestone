@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.setup;
+package team.lodestar.lodestone.registry.common.particle;
 
 import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;

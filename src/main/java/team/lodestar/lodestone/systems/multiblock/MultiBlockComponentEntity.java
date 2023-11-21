@@ -13,7 +13,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.helpers.BlockHelper;
-import team.lodestar.lodestone.setup.LodestoneBlockEntityRegistry;
+import team.lodestar.lodestone.registry.common.*;
 import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 
 /**
