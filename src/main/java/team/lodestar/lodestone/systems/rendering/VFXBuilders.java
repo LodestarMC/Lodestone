@@ -400,7 +400,7 @@ public class VFXBuilders {
             if (trailSegments.size() < 3) {
                 return this;
             }
-            List<Vector4f> positions = trailSegments.stream().map(TrailPoint::getMatrixPosition).peek(p -> p.mulTranspose(pose)).toList();//TODO mulTranspose was transform
+            List<Vector4f> positions = trailSegments.stream().map(TrailPoint::getMatrixPosition).peek(p -> p.mul(pose)).toList();//TODO mulTranspose was transform
             int count = trailSegments.size() - 1;
             float increment = 1.0F / (count - 1);
             ArrayList<TrailRenderPoint> points = new ArrayList<>();
