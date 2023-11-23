@@ -63,6 +63,7 @@ public class NBTCarryRecipe extends ShapedRecipe {
         public void toNetwork(@Nonnull FriendlyByteBuf buffer, @Nonnull NBTCarryRecipe recipe) {
             SHAPED_RECIPE.toNetwork(buffer, recipe);
             recipe.nbtCarry.toNetwork(buffer);
+            buffer.writeItem(recipe.result);
         }
     }
 }
