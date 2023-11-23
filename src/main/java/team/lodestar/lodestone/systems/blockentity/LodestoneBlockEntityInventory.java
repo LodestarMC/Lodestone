@@ -156,23 +156,26 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
     }
 
     public ItemStack interact(Level level, Player player, InteractionHand handIn) {
-        ItemStack held = player.getItemInHand(handIn);
-        player.swing(handIn, true);
-        int size = nonEmptyItemStacks.size() - 1;
-        if ((held.isEmpty() || firstEmptyItemIndex == -1) && size != -1) {
-            ItemStack takeOutStack = nonEmptyItemStacks.get(size);
-            if (takeOutStack.getItem().equals(held.getItem())) {
-                return insertItem(level, held);
+        if (!level.isClientSide) {
+            ItemStack held = player.getItemInHand(handIn);
+            player.swing(handIn, true);
+            int size = nonEmptyItemStacks.size() - 1;
+            if ((held.isEmpty() || firstEmptyItemIndex == -1) && size != -1) {
+                ItemStack takeOutStack = nonEmptyItemStacks.get(size);
+                if (takeOutStack.getItem().equals(held.getItem())) {
+                    return insertItem(player, held);
+                }
+                ItemStack extractedStack = extractItem(level, held, player);
+                boolean success = !extractedStack.isEmpty();
+                if (success) {
+                    insertItem(player, held);
+                }
+                return extractedStack;
+            } else {
+                return insertItem(player, held);
             }
-            ItemStack extractedStack = extractItem(level, held, player);
-            boolean success = !extractedStack.isEmpty();
-            if (success) {
-                insertItem(level, held);
-            }
-            return extractedStack;
-        } else {
-            return insertItem(level, held);
         }
+        return ItemStack.EMPTY;
     }
 
     public ItemStack extractItem(Level level, ItemStack heldStack, Player player) {
@@ -197,21 +200,19 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
         setStackInSlot(slot, ItemStack.EMPTY);
     }
 
-    public ItemStack insertItem(Level level, ItemStack stack) {
-        if (!level.isClientSide) {
-            if (!stack.isEmpty()) {
-                ItemStack simulate = insertItem(stack, true);
-                if (simulate.equals(stack)) {
-                    return ItemStack.EMPTY;
-                }
-                int count = stack.getCount() - simulate.getCount();
-                if (count > allowedItemSize) {
-                    count = allowedItemSize;
-                }
-                ItemStack input = stack.split(count);
-                insertItem(input, false);
-                return input;
+    public ItemStack insertItem(Player playerEntity, ItemStack stack) {
+        if (!stack.isEmpty()) {
+            ItemStack simulate = insertItem(stack, true);
+            if (simulate.equals(stack)) {
+                return ItemStack.EMPTY;
             }
+            int count = stack.getCount() - simulate.getCount();
+            if (count > allowedItemSize) {
+                count = allowedItemSize;
+            }
+            ItemStack input = stack.split(count);
+            insertItem(input, false);
+            return input;
         }
         return ItemStack.EMPTY;
     }
