@@ -201,6 +201,9 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
     }
 
     public ItemStack insertItem(Player playerEntity, ItemStack stack) {
+        return insertItem(playerEntity.level, stack);
+    }
+    public ItemStack insertItem(Level level, ItemStack stack) {
         if (!stack.isEmpty()) {
             ItemStack simulate = insertItem(stack, true);
             if (simulate.equals(stack)) {
