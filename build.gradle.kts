@@ -154,7 +154,7 @@ dependencies {
 
     implementation(fg.deobf("curse.maven:farmers_delight-398521:4638874"))
 
-    implementation(fg.deobf("com.sammy.malum:malum:${minecraftVersion}-1.6.17"))
+//    implementation(fg.deobf("com.sammy.malum:malum:${minecraftVersion}-1.6.17"))
 
 }
 
