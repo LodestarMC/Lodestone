@@ -54,6 +54,19 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         return wrapper();
     }
 
+    public T enableCull() {
+        return setShouldCull(true);
+    }
+
+    public T disableCull() {
+        return setShouldCull(false);
+    }
+
+    public T setShouldCull(boolean shouldCull) {
+        getParticleOptions().shouldCull = shouldCull;
+        return wrapper();
+    }
+
     public T setRandomMotion(double maxSpeed) {
         return setRandomMotion(maxSpeed, maxSpeed, maxSpeed);
     }
