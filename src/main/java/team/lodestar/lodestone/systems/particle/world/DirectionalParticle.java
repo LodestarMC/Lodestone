@@ -16,17 +16,19 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 
 public class DirectionalParticle extends GenericParticle<DirectionalParticleOptions> {
 
-    public final Vec3 direction;
-    public final Quaternion quaternion = new Quaternion(0.0F, 0.0F, 0.0F, 1.0F);
+    private Quaternion quaternion;
 
     public DirectionalParticle(ClientLevel world, DirectionalParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, spriteSet, x, y, z, xd, yd, zd);
-        this.direction = data.direction;
+        setDirection(data.direction);
+    }
 
+    public void setDirection(Vec3 direction) {
         float yRot = ((float)(Mth.atan2(direction.x, direction.z) * (double)(180F / (float)Math.PI)));
         float xRot = ((float)(Mth.atan2(direction.y, direction.horizontalDistance()) * (double)(180F / (float)Math.PI)));
         float yaw = (float) Math.toRadians(yRot);
         float pitch = (float) Math.toRadians(-xRot);
+        quaternion = new Quaternion(0.0F, 0.0F, 0.0F, 1.0F);
         quaternion.mul(new Quaternion(0, yaw, 0, false));
         quaternion.mul(new Quaternion(pitch, 0, 0, false));
     }
