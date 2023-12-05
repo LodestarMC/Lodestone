@@ -206,6 +206,7 @@ publishing {
         register<MavenPublication>("mavenJava") {
             artifactId = baseArchivesName
             from(components["java"])
+            fg.component(this)
         }
     }
     repositories {
