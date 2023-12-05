@@ -180,6 +180,11 @@ tasks.withType<ProcessResources> {
     }
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 tasks.withType<Jar> {
     val now = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
     manifest {
@@ -196,16 +201,12 @@ tasks.withType<Jar> {
     finalizedBy("reobfJar")
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
 publishing {
     publications {
         register<MavenPublication>("mavenJava") {
             artifactId = baseArchivesName
             artifact(tasks.jar.get())
+            fg.component(this)
         }
     }
     repositories {
