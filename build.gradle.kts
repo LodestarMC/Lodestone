@@ -196,6 +196,11 @@ tasks.withType<Jar> {
     finalizedBy("reobfJar")
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 publishing {
     publications {
         register<MavenPublication>("mavenJava") {
