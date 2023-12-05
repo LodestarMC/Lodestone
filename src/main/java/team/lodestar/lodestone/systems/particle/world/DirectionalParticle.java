@@ -16,7 +16,7 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 
 public class DirectionalParticle extends GenericParticle<DirectionalParticleOptions> {
 
-    private Quaternionf quaternion = new Quaternionf(0.0F, 0.0F, 0.0F, 1.0F);
+    private Quaternionf quaternion;
 
     public DirectionalParticle(ClientLevel world, DirectionalParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, spriteSet, x, y, z, xd, yd, zd);
