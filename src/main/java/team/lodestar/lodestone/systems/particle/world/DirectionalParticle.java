@@ -38,6 +38,7 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
         if (lifeDelay > 0) {
             return;
         }
+        renderActors.forEach(actor -> actor.accept(this));
         Quaternion quaternion = this.quaternion.copy();
         if (roll != 0) {
             float f3 = Mth.lerp(partialTicks, this.oRoll, this.roll);
