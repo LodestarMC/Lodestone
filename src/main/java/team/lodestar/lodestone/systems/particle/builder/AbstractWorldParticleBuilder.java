@@ -29,6 +29,7 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
 
     final ParticleType<Y> type;
 
+    boolean forceSpawn = false;
     double zMotion = 0;
     double maxZSpeed = 0;
     double maxZOffset = 0;
@@ -52,6 +53,19 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
 
     public T setRenderType(ParticleRenderType renderType) {
         getParticleOptions().renderType = renderType;
+        return wrapper();
+    }
+
+    public T enableForcedSpawn() {
+        return setForceSpawn(true);
+    }
+
+    public T disableForcedSpawn() {
+        return setForceSpawn(false);
+    }
+
+    public T setForceSpawn(boolean forceSpawn) {
+        this.forceSpawn = forceSpawn;
         return wrapper();
     }
 
@@ -170,7 +184,7 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         double yPos = Math.sin(pitch2) * yDist;
         double zPos = Math.cos(yaw2) * Math.cos(pitch2) * zDist;
 
-        level.addParticle(getParticleOptions(), x + xPos, y + yPos, z + zPos, xMotion, yMotion, zMotion);
+        level.addParticle(getParticleOptions(), forceSpawn, x + xPos, y + yPos, z + zPos, xMotion, yMotion, zMotion);
         return wrapper();
     }
 
@@ -195,7 +209,7 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
             double yPos = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : RANDOM.nextDouble();
             double zPos = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : RANDOM.nextDouble();
 
-            level.addParticle(getParticleOptions(), pos.getX() + xPos, pos.getY() + yPos, pos.getZ() + zPos, xMotion, yMotion, zMotion);
+            level.addParticle(getParticleOptions(), forceSpawn, pos.getX() + xPos, pos.getY() + yPos, pos.getZ() + zPos, xMotion, yMotion, zMotion);
 
         }
         return wrapper();
@@ -273,7 +287,7 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         double yPos = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getStepY() : RANDOM.nextDouble();
         double zPos = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getStepZ() : RANDOM.nextDouble();
 
-        level.addParticle(getParticleOptions(), pos.getX() + xPos, pos.getY() + yPos, pos.getZ() + zPos, xMotion, yMotion, zMotion);
+        level.addParticle(getParticleOptions(), forceSpawn, pos.getX() + xPos, pos.getY() + yPos, pos.getZ() + zPos, xMotion, yMotion, zMotion);
         return wrapper();
     }
 
@@ -297,7 +311,7 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         double xPos = Math.sin(yaw2) * Math.cos(pitch2) * xDist;
         double yPos = Math.sin(pitch2) * yDist;
         double zPos = Math.cos(yaw2) * Math.cos(pitch2) * zDist;
-        level.addParticle(getParticleOptions(), x + xPos + dx2, y + yPos, z + zPos + dz2, xMotion, ySpeed, zMotion);
+        level.addParticle(getParticleOptions(), forceSpawn, x + xPos + dx2, y + yPos, z + zPos + dz2, xMotion, ySpeed, zMotion);
         return wrapper();
     }
 
@@ -337,7 +351,7 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         this.yMotion += Math.sin(pitch) * ySpeed;
         this.zMotion += Math.cos(yaw) * Math.cos(pitch) * zSpeed;
         Vec3 pos = one.lerp(two, RANDOM.nextDouble());
-        level.addParticle(getParticleOptions(), pos.x, pos.y, pos.z, xMotion, yMotion, zMotion);
+        level.addParticle(getParticleOptions(), forceSpawn, pos.x, pos.y, pos.z, xMotion, yMotion, zMotion);
         return wrapper();
     }
 }
