@@ -39,6 +39,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     protected final GenericParticleData scaleData;
     protected final SpinParticleData spinData;
     protected final Collection<Consumer<LodestoneWorldParticleActor>> tickActors;
+    protected final Collection<Consumer<LodestoneWorldParticleActor>> renderActors;
 
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
@@ -59,6 +60,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
         this.scaleData = options.scaleData;
         this.spinData = options.spinData;
         this.tickActors = options.tickActors;
+        this.renderActors = options.renderActors;
         this.roll = options.spinData.spinOffset + options.spinData.startingValue;
         this.xd = xd;
         this.yd = yd;
@@ -172,6 +174,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
         if (lifeDelay > 0) {
             return;
         }
+        renderActors.forEach(actor -> actor.accept(this));
         super.render(getVertexConsumer(consumer), camera, partialTicks);
     }
 

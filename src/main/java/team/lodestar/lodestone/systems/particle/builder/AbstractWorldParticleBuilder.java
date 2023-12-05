@@ -160,9 +160,13 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         getParticleOptions().spawnActors.add(particleActor);
         return wrapper();
     }
+    public T addRenderActor(Consumer<LodestoneWorldParticleActor> particleActor) {
+        getParticleOptions().renderActors.add(particleActor);
+        return wrapper();
+    }
 
     public T clearActors() {
-        return clearTickActor().clearSpawnActors();
+        return clearTickActor().clearSpawnActors().clearRenderActors();
     }
 
     public T clearTickActor() {
@@ -171,6 +175,10 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
     }
     public T clearSpawnActors() {
         getParticleOptions().spawnActors.clear();
+        return wrapper();
+    }
+    public T clearRenderActors() {
+        getParticleOptions().renderActors.clear();
         return wrapper();
     }
 

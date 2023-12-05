@@ -18,6 +18,7 @@ public abstract class AbstractWorldParticleOptions extends SimpleParticleOptions
     public boolean shouldCull;
     public final Collection<Consumer<LodestoneWorldParticleActor>> tickActors = new ArrayList<>();
     public final Collection<Consumer<LodestoneWorldParticleActor>> spawnActors = new ArrayList<>();
+    public final Collection<Consumer<LodestoneWorldParticleActor>> renderActors = new ArrayList<>();
 
     public boolean noClip = false;
 
