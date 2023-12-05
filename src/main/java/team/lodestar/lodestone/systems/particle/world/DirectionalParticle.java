@@ -52,6 +52,7 @@ public class DirectionalParticle extends GenericParticle<DirectionalParticleOpti
         if (lifeDelay > 0) {
             return;
         }
+        renderActors.forEach(actor -> actor.accept(this));
         Quaternionf quaternion = new Quaternionf(this.quaternion);
         if (roll != 0) {
             quaternion.rotateZ(Mth.lerp(partialTicks, this.oRoll, this.roll));

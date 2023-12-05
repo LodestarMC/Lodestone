@@ -29,6 +29,7 @@ public class SparkParticle extends GenericParticle<SparkParticleOptions> {
         if (lifeDelay > 0) {
             return;
         }
+        renderActors.forEach(actor -> actor.accept(this));
         consumer = getVertexConsumer(consumer);
         Vec3 vec3 = camera.getPosition();
         float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - vec3.x());
