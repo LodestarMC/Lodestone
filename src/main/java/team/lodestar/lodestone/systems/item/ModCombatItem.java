@@ -33,7 +33,7 @@ public class ModCombatItem extends TieredItem {
 
     public ModCombatItem(Tier tier, float attackDamage, float attackSpeed, Properties builderIn) {
         super(tier, builderIn);
-        this.attackDamage = attackDamage + tier.getAttackDamageBonus();
+        this.attackDamage = attackDamage;
         this.attackSpeed = attackSpeed;
     }
 
