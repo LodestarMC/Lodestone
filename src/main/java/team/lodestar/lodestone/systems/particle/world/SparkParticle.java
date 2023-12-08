@@ -44,10 +44,4 @@ public class SparkParticle extends GenericParticle<SparkParticleOptions> {
         builder.setUV(getU0(), getV0(), getU1(), getV1()).setColorRaw(rCol, gCol, bCol).setAlpha(alpha);
         builder.renderBeam(consumer, null, movingFrom, movingTo, quadSize, Vec3.ZERO);
     }
-
-    @Override
-    public SimpleParticleOptions.ParticleSpritePicker getSpritePicker() {
-        return FIRST_INDEX;
-    }
-
 }
