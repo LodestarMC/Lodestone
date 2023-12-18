@@ -1,11 +1,14 @@
 package team.lodestar.lodestone.registry.common;
 
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.blockentity.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -54,7 +57,7 @@ public class LodestoneBlockEntityRegistry {
     public static class ClientOnly {
         @SubscribeEvent
         public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
-            //   event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
+               event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
         }
     }
 }

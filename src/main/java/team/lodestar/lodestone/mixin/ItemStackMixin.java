@@ -20,18 +20,18 @@ import java.util.Map;
 @Mixin(ItemStack.class)
 public class ItemStackMixin {
     @Unique
-    private AttributeModifier attributeModifier;
+    private AttributeModifier lodestone$attributeModifier;
 
     @ModifyVariable(method = "getTooltipLines", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getId()Ljava/util/UUID;", ordinal = 0), index = 13)
     private AttributeModifier lodestone$getTooltip(AttributeModifier value) {
-        this.attributeModifier = value;
+        this.lodestone$attributeModifier = value;
         return value;
     }
 
     @ModifyVariable(method = "getTooltipLines", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getOperation()Lnet/minecraft/world/entity/ai/attributes/AttributeModifier$Operation;", ordinal = 0), index = 16)
     private boolean lodestone$getTooltip(boolean value, @Nullable Player player, TooltipFlag flag) {
         if (player != null) {
-            if (attributeModifier.getId().equals(LodestoneAttributeRegistry.UUIDS.get(LodestoneAttributeRegistry.MAGIC_DAMAGE))) {
+            if (lodestone$attributeModifier.getId().equals(LodestoneAttributeRegistry.UUIDS.get(LodestoneAttributeRegistry.MAGIC_DAMAGE))) {
                 return true;
             }
         }
