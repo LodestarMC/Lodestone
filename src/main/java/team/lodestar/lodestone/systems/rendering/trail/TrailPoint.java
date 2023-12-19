@@ -3,7 +3,7 @@ package team.lodestar.lodestone.systems.rendering.trail;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector4f;
 
-public final class TrailPoint {
+public class TrailPoint {
     private final Vec3 position;
     private int timeActive;
 
