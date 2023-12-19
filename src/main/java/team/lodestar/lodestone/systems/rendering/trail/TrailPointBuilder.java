@@ -41,7 +41,11 @@ public class TrailPointBuilder {
     }
 
     public TrailPointBuilder addTrailPoint(Vec3 point) {
-        trailPoints.add(new TrailPoint(point, 0));
+        return addTrailPoint(new TrailPoint(point, 0));
+    }
+
+    public TrailPointBuilder addTrailPoint(TrailPoint point) {
+        trailPoints.add(point);
         return this;
     }
 

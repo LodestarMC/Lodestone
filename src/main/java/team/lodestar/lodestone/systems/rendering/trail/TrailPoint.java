@@ -17,6 +17,7 @@ public final class TrailPoint {
     }
 
     public Vector4f getMatrixPosition() {
+        Vec3 position = getPosition();
         return new Vector4f((float) position.x, (float) position.y, (float) position.z, 1.0f);
     }
 
@@ -29,6 +30,7 @@ public final class TrailPoint {
     }
 
     public TrailPoint lerp(TrailPoint trailPoint, float delta) {
+        Vec3 position = getPosition();
         return new TrailPoint(position.lerp(trailPoint.position, delta), timeActive);
     }
 
