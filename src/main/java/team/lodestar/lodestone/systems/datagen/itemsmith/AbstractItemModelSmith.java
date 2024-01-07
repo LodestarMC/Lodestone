@@ -10,9 +10,9 @@ public abstract class AbstractItemModelSmith {
 
     public static class ItemModelSmithData {
         public final LodestoneItemModelProvider provider;
-        public final Consumer<Supplier<Item>> consumer;
+        public final Consumer<Supplier<? extends Item>> consumer;
 
-        public ItemModelSmithData(LodestoneItemModelProvider provider, Consumer<Supplier<Item>> consumer) {
+        public ItemModelSmithData(LodestoneItemModelProvider provider, Consumer<Supplier<? extends Item>> consumer) {
             this.provider = provider;
             this.consumer = consumer;
         }

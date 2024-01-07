@@ -17,24 +17,24 @@ public class ItemModelSmith extends AbstractItemModelSmith {
     }
 
     @SafeVarargs
-    public final void act(ItemModelSmithData data, Supplier<Item>... items) {
-        for (Supplier<Item> item : items) {
+    public final void act(ItemModelSmithData data, Supplier<? extends Item>... items) {
+        for (Supplier<? extends Item> item : items) {
             act(data, item);
         }
         List.of(items).forEach(data.consumer);
     }
 
-    public void act(ItemModelSmithData data, Collection<Supplier<Item>> items) {
+    public void act(ItemModelSmithData data, Collection<Supplier<? extends Item>> items) {
         items.forEach(r -> act(data, r));
         new ArrayList<>(items).forEach(data.consumer);
     }
 
-    private void act(ItemModelSmithData data, Supplier<Item> registryObject) {
+    private void act(ItemModelSmithData data, Supplier<? extends Item> registryObject) {
         Item item = registryObject.get();
         modelSupplier.act(item, data.provider);
     }
 
-    public void act(Supplier<Item> registryObject, LodestoneItemModelProvider provider) {
+    public void act(Supplier<? extends Item> registryObject, LodestoneItemModelProvider provider) {
         Item item = registryObject.get();
         modelSupplier.act(item, provider);
     }
