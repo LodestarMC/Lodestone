@@ -114,7 +114,7 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
     }
 
     public ScreenParticleBuilder repeatOnStack(double xOffset, double yOffset, int n) {
-        for (int i = 0; i < n; i++) spawn(xOffset, yOffset);
+        for (int i = 0; i < n; i++) spawnOnStack(xOffset, yOffset);
         return this;
     }
 }
