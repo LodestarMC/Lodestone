@@ -14,7 +14,7 @@ public class ParticleEmitterHandler {
     public static final Map<Item, List<ItemParticleSupplier>> EMITTERS = new HashMap<>();
 
     public static void registerParticleEmitters(FMLClientSetupEvent event) {
-        DataHelper.takeAll(ForgeRegistries.ITEMS.getValues(), i -> i instanceof ItemParticleSupplier).forEach(i -> {
+        DataHelper.getAll(ForgeRegistries.ITEMS.getValues(), i -> i instanceof ItemParticleSupplier).forEach(i -> {
                     ItemParticleSupplier emitter = (ItemParticleSupplier) i;
                     registerItemParticleEmitter(i, emitter);
                 }
