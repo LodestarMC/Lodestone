@@ -14,10 +14,7 @@ import team.lodestar.lodestone.systems.particle.screen.ScreenParticleItemStackRe
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A handler for screen particles.
@@ -83,10 +80,12 @@ public class ScreenParticleHandler {
                     currentItemY += containerScreen.topPos;
                 } // TODO to here
 
-                ParticleEmitterHandler.ItemParticleSupplier emitter = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
-                if (emitter != null) {
-                    renderParticles(spawnAndPullParticles(minecraft.level, emitter, stack, false));
-                    cachedItemParticles = spawnAndPullParticles(minecraft.level, emitter, stack, true);
+                List<ParticleEmitterHandler.ItemParticleSupplier> emitters = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
+                if (emitters != null) {
+                    for (ParticleEmitterHandler.ItemParticleSupplier emitter : emitters) {
+                        renderParticles(spawnAndPullParticles(minecraft.level, emitter, stack, false));
+                        cachedItemParticles = spawnAndPullParticles(minecraft.level, emitter, stack, true);
+                    }
                 }
             }
         }

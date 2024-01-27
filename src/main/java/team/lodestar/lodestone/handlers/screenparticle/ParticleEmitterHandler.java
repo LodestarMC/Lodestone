@@ -8,15 +8,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ParticleEmitterHandler {
-    public static final Map<Item, ItemParticleSupplier> EMITTERS = new HashMap<>();
+    public static final Map<Item, List<ItemParticleSupplier>> EMITTERS = new HashMap<>();
 
     public static void registerParticleEmitters(FMLClientSetupEvent event) {
-        DataHelper.takeAll(new ArrayList<>(ForgeRegistries.ITEMS.getValues()), i -> i instanceof ItemParticleSupplier).forEach(i -> {
+        DataHelper.takeAll(ForgeRegistries.ITEMS.getValues(), i -> i instanceof ItemParticleSupplier).forEach(i -> {
                     ItemParticleSupplier emitter = (ItemParticleSupplier) i;
                     registerItemParticleEmitter(i, emitter);
                 }
@@ -24,12 +22,17 @@ public class ParticleEmitterHandler {
     }
 
     public static void registerItemParticleEmitter(Item item, ItemParticleSupplier emitter) {
-        EMITTERS.put(item, emitter);
+        if (EMITTERS.containsKey(item)) {
+            EMITTERS.get(item).add(emitter);
+        }
+        else {
+            EMITTERS.put(item, new ArrayList<>(List.of(emitter)));
+        }
     }
 
     public static void registerItemParticleEmitter(ItemParticleSupplier emitter, Item... items) {
         for (Item item : items) {
-            EMITTERS.put(item, emitter);
+            registerItemParticleEmitter(item, emitter);
         }
     }
 

@@ -152,8 +152,6 @@ dependencies {
     compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}:api"))
     runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}"))
 
-    implementation(fg.deobf("curse.maven:farmers_delight-398521:4638874"))
-
 //    implementation(fg.deobf("com.sammy.malum:malum:${minecraftVersion}-1.6.39"))
 }
 

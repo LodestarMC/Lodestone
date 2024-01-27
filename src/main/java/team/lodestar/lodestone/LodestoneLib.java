@@ -39,7 +39,6 @@ public class LodestoneLib {
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register(modBus);
         LodestonePaintingRegistry.register(modBus);
 
-        JeiCompat.init();
         CuriosCompat.init();
 
         modBus.addListener(this::gatherData);
