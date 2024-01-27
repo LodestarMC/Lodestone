@@ -75,7 +75,7 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
         public BlockModelBuilder texture(String key, ResourceLocation texture) {
             ResourceLocation actualLocation = texture;
             if (!texture.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE) && !provider.staticTextures.contains(texture)) {
-                String actualPath = texture.getPath().replace("block/", "block/" + provider.getTexturePath());
+                String actualPath = texture.getPath().replace("block/", "block/" + LodestoneBlockStateProvider.getTexturePath());
                 actualLocation = new ResourceLocation(texture.getNamespace(), actualPath);
             }
             BLOCK_TEXTURE_CACHE.put(key, actualLocation);

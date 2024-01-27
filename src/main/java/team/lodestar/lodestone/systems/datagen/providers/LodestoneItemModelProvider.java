@@ -32,7 +32,7 @@ public abstract class LodestoneItemModelProvider extends ItemModelProvider {
     }
 
     public ResourceLocation getBlockTexture(String path) {
-        return modLoc("block/" + getTexturePath() + path);
+        return modLoc("block/" + LodestoneBlockStateProvider.getTexturePath() + path);
     }
 
     public void createGenericModel(Item item, ResourceLocation modelType, ResourceLocation textureLocation) {
