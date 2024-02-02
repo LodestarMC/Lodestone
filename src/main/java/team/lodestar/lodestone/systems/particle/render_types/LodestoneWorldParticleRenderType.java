@@ -7,12 +7,14 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import team.lodestar.lodestone.registry.client.*;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
+
+import java.util.function.*;
 
 public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
@@ -33,14 +35,17 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
             GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
     public final RenderType renderType;
-    protected final ShaderHolder shaderHolder;
+    protected final Supplier<ShaderInstance> shader;
     protected final ResourceLocation texture;
     protected final GlStateManager.SourceFactor srcAlpha;
     protected final GlStateManager.DestFactor dstAlpha;
 
     public LodestoneWorldParticleRenderType(RenderType renderType, ShaderHolder shaderHolder, ResourceLocation texture, GlStateManager.SourceFactor srcAlpha, GlStateManager.DestFactor dstAlpha) {
+        this(renderType, shaderHolder.getInstance(), texture, srcAlpha, dstAlpha);
+    }
+    public LodestoneWorldParticleRenderType(RenderType renderType, Supplier<ShaderInstance> shader, ResourceLocation texture, GlStateManager.SourceFactor srcAlpha, GlStateManager.DestFactor dstAlpha) {
         this.renderType = renderType;
-        this.shaderHolder = shaderHolder;
+        this.shader = shader;
         this.texture = texture;
         this.srcAlpha = srcAlpha;
         this.dstAlpha = dstAlpha;
@@ -50,7 +55,7 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
     public void begin(BufferBuilder builder, TextureManager manager) {
         RenderSystem.enableDepthTest();
         RenderSystem.enableBlend();
-        RenderSystem.setShader(shaderHolder.getInstance());
+        RenderSystem.setShader(shader);
         RenderSystem.setShaderTexture(0, texture);
         builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
     }
