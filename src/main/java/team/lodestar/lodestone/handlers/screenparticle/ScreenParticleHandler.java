@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
+import org.joml.*;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
@@ -69,19 +70,23 @@ public class ScreenParticleHandler {
                 return;
             }
             if (!stack.isEmpty()) {
-                currentItemX = x + 8;
-                currentItemY = y + 8;
-
-                if (!renderingHotbar && minecraft.screen instanceof AbstractContainerScreen<?> containerScreen) {//TODO this whole thing sucks
-                    int i = containerScreen.leftPos;
-                    int j = containerScreen.topPos;
-
-                    currentItemX += containerScreen.leftPos;
-                    currentItemY += containerScreen.topPos;
-                } // TODO to here
-
                 List<ParticleEmitterHandler.ItemParticleSupplier> emitters = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitters != null) {
+                    currentItemX = x + 8;
+                    currentItemY = y + 8;
+
+
+                    if (currentItemX == 8 && currentItemY == 8) {
+                        final Matrix4f pose = poseStack.last().pose();
+                        float xOffset = pose.m30();
+                        float yOffset = pose.m31();
+                        currentItemX += xOffset;
+                        currentItemY += yOffset;
+                    }
+                    else if (!renderingHotbar && minecraft.screen instanceof AbstractContainerScreen<?> containerScreen) {
+                        currentItemX += containerScreen.leftPos;
+                        currentItemY += containerScreen.topPos;
+                    }
                     for (ParticleEmitterHandler.ItemParticleSupplier emitter : emitters) {
                         renderParticles(spawnAndPullParticles(minecraft.level, emitter, stack, false));
                         cachedItemParticles = spawnAndPullParticles(minecraft.level, emitter, stack, true);
