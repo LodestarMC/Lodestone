@@ -458,10 +458,10 @@ public class VFXBuilders {
 
         public WorldVFXBuilder renderSphere(VertexConsumer vertexConsumer, PoseStack stack, float radius, int longs, int lats) {
             Matrix4f last = stack.last().pose();
-            float startU = 0;
-            float startV = 0;
-            float endU = Mth.PI * 2;
-            float endV = Mth.PI;
+            float startU = u0;
+            float startV = v0;
+            float endU = Mth.PI * 2 * u1;
+            float endV = Mth.PI * v1;
             float stepU = (endU - startU) / longs;
             float stepV = (endV - startV) / lats;
             for (int i = 0; i < longs; ++i) {
