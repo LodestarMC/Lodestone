@@ -28,7 +28,7 @@ public class LodestoneAttributeEventHandler {
             if (source.getEntity() instanceof LivingEntity attacker) {
                 AttributeInstance magicProficiency = attacker.getAttribute(LodestoneAttributeRegistry.MAGIC_PROFICIENCY.get());
                 if (magicProficiency != null && magicProficiency.getValue() > 0) {
-                    amount += magicProficiency.getValue() * 0.5f;
+                    amount *= (1 + magicProficiency.getValue() * 0.1f);
                 }
             }
             AttributeInstance magicResistance = target.getAttribute(LodestoneAttributeRegistry.MAGIC_RESISTANCE.get());

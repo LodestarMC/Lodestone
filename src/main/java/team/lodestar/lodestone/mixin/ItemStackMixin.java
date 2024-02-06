@@ -49,7 +49,7 @@ public class ItemStackMixin {
                 if (modifier.getId().equals(LodestoneAttributeRegistry.UUIDS.get(LodestoneAttributeRegistry.MAGIC_DAMAGE))) {
                     AttributeInstance instance = player.getAttribute(LodestoneAttributeRegistry.MAGIC_PROFICIENCY.get());
                     if (instance != null && instance.getValue() > 0) {
-                        amount += instance.getValue() * 0.5f;
+                        amount *= (1 + instance.getValue() * 0.1f);
                     }
                     copied.put(key, new AttributeModifier(
                             modifier.getId(), modifier.getName(), amount, modifier.getOperation()
