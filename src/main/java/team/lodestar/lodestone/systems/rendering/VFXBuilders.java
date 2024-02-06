@@ -456,6 +456,9 @@ public class VFXBuilders {
             return this;
         }
 
+        /**
+         * RenderSphere requires a triangle-based RenderType.
+         */
         public WorldVFXBuilder renderSphere(VertexConsumer vertexConsumer, PoseStack stack, float radius, int longs, int lats) {
             Matrix4f last = stack.last().pose();
             float startU = u0;

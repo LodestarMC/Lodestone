@@ -28,11 +28,14 @@ import static team.lodestar.lodestone.systems.rendering.StateShards.NORMAL_TRANS
  * This happens for particles, as well as all of our custom RenderTypes
  */
 public class RenderHandler {
-    public static HashMap<RenderType, BufferBuilder> BUFFERS = new HashMap<>();
-    public static HashMap<RenderType, BufferBuilder> PARTICLE_BUFFERS = new HashMap<>();
+    public static final HashMap<RenderType, BufferBuilder> BUFFERS = new HashMap<>();
+    public static final HashMap<RenderType, BufferBuilder> PARTICLE_BUFFERS = new HashMap<>();
+    public static final HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
+    public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
+
+
     public static boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("rubidium");
 
-    public static HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
     public static MultiBufferSource.BufferSource DELAYED_PARTICLE_RENDER;
 
@@ -46,6 +49,7 @@ public class RenderHandler {
 
     public static void onClientSetup(FMLClientSetupEvent event) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
+
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size));
         DELAYED_PARTICLE_RENDER = MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size));
     }
@@ -90,6 +94,15 @@ public class RenderHandler {
         FOG_SHAPE = shaderFogShape;
     }
 
+    public static void endBufferedRendering(PoseStack poseStack) {
+        RenderSystem.setShaderFogStart(FOG_NEAR);
+        RenderSystem.setShaderFogEnd(FOG_FAR);
+        RenderSystem.setShaderFogShape(FOG_SHAPE);
+        RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
+        poseStack.popPose();
+    }
+
+
     public static void renderBufferedParticles(boolean transparentOnly) {
         renderBufferedBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS, transparentOnly);
     }
@@ -99,28 +112,13 @@ public class RenderHandler {
     }
 
     private static void renderBufferedBatches(MultiBufferSource.BufferSource bufferSource, HashMap<RenderType, BufferBuilder> buffer, boolean transparentOnly) {
-        Collection<RenderType> transparentRenderTypes = new ArrayList<>();
-        for (RenderType renderType : buffer.keySet()) {
-            RenderStateShard.TransparencyStateShard transparency = RenderHelper.getTransparencyShard(renderType);
-            if (transparency.equals(NORMAL_TRANSPARENCY)) {
-                transparentRenderTypes.add(renderType);
-            }
-        }
         if (transparentOnly) {
-            endBatches(bufferSource, transparentRenderTypes);
+            endBatches(bufferSource, TRANSPARENT_RENDER_TYPES);
         } else {
             Collection<RenderType> nonTransparentRenderTypes = new ArrayList<>(buffer.keySet());
-            nonTransparentRenderTypes.removeIf(transparentRenderTypes::contains);
+            nonTransparentRenderTypes.removeIf(TRANSPARENT_RENDER_TYPES::contains);
             endBatches(bufferSource, nonTransparentRenderTypes);
         }
-    }
-
-    public static void endBufferedRendering(PoseStack poseStack) {
-        RenderSystem.setShaderFogStart(FOG_NEAR);
-        RenderSystem.setShaderFogEnd(FOG_FAR);
-        RenderSystem.setShaderFogShape(FOG_SHAPE);
-        RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
-        poseStack.popPose();
     }
 
     public static void endBatches(MultiBufferSource.BufferSource source, Collection<RenderType> renderTypes) {
@@ -137,9 +135,14 @@ public class RenderHandler {
         }
     }
 
-    public static void addRenderType(RenderType type) {
-        int size = LARGER_BUFFER_SOURCES ? 262144 : type.bufferSize();
-        HashMap<RenderType, BufferBuilder> buffers = type.name.contains("particle") ? PARTICLE_BUFFERS : BUFFERS;
-        buffers.put(type, new BufferBuilder(size));
+    //TODO: offer some actual option here to decide if particle or not
+    public static void addRenderType(RenderType renderType) {
+        int size = LARGER_BUFFER_SOURCES ? 262144 : renderType.bufferSize();
+        final boolean isParticle = renderType.name.contains("particle");
+        HashMap<RenderType, BufferBuilder> buffers = isParticle ? PARTICLE_BUFFERS : BUFFERS;
+        buffers.put(renderType, new BufferBuilder(size));
+        if (NORMAL_TRANSPARENCY.equals(RenderHelper.getTransparencyShard(renderType))) {
+            TRANSPARENT_RENDER_TYPES.add(renderType);
+        }
     }
 }

@@ -152,7 +152,7 @@ dependencies {
     compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}:api"))
     runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}"))
 
-//    implementation(fg.deobf("com.sammy.malum:malum:${minecraftVersion}-1.6.68"))
+    implementation(fg.deobf("com.sammy.malum:malum:${minecraftVersion}-1.6.70"))
 }
 
 tasks.withType<ProcessResources> {
