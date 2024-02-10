@@ -484,13 +484,13 @@ public class VFXBuilders {
                     float textureV = v / endV * radius;
                     float textureUN = un / endU * radius;
                     float textureVN = vn / endV * radius;
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p0.x(), p0.y(), p0.z(), r, g, b, a, textureU, textureV, light);
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p2.x(), p2.y(), p2.z(), r, g, b, a, textureUN, textureV, light);
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p1.x(), p1.y(), p1.z(), r, g, b, a, textureU, textureVN, light);
+                    supplier.placeVertex(vertexConsumer, last, p0.x(), p0.y(), p0.z(), textureU, textureV);
+                    supplier.placeVertex(vertexConsumer, last, p2.x(), p2.y(), p2.z(), textureUN, textureV);
+                    supplier.placeVertex(vertexConsumer, last, p1.x(), p1.y(), p1.z(), textureU, textureVN);
 
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p3.x(), p3.y(), p3.z(), r, g, b, a, textureUN, textureVN, light);
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p1.x(), p1.y(), p1.z(), r, g, b, a, textureU, textureVN, light);
-                    RenderHelper.vertexPosColorUVLight(vertexConsumer, last, p2.x(), p2.y(), p2.z(), r, g, b, a, textureUN, textureV, light);
+                    supplier.placeVertex(vertexConsumer, last, p3.x(), p3.y(), p3.z(), textureUN, textureVN);
+                    supplier.placeVertex(vertexConsumer, last, p1.x(), p1.y(), p1.z(), textureU, textureVN);
+                    supplier.placeVertex(vertexConsumer, last, p2.x(), p2.y(), p2.z(), textureUN, textureV);
                 }
             }
             return this;
