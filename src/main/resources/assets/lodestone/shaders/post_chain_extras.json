@@ -1,0 +1,27 @@
+{
+  "targets": [
+    "lodestone"
+  ],
+  "passes": [
+    {
+      "name": "transparency",
+      "intarget": "minecraft:main",
+      "outtarget": "final",
+      "auxtargets": [
+        {
+          "name": "LodestoneSampler",
+          "id": "lodestone"
+        },
+        {
+          "name": "LodestoneDepthSampler",
+          "id": "lodestone:depth"
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "final",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

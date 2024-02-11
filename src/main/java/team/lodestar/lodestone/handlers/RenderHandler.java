@@ -1,17 +1,17 @@
 package team.lodestar.lodestone.handlers;
 
+import com.mojang.blaze3d.pipeline.*;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.*;
+import net.minecraft.client.renderer.*;
 import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.joml.Matrix4f;
+import team.lodestar.lodestone.*;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
@@ -33,7 +33,6 @@ public class RenderHandler {
     public static final HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
     public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
 
-
     public static boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("rubidium");
 
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
@@ -47,11 +46,25 @@ public class RenderHandler {
     public static FogShape FOG_SHAPE;
     public static float FOG_RED, FOG_GREEN, FOG_BLUE;
 
+    public static RenderTarget LODESTONE_TARGET;
+
     public static void onClientSetup(FMLClientSetupEvent event) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
 
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size));
         DELAYED_PARTICLE_RENDER = MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size));
+    }
+
+    public static void setupLodestoneRenderTarget(PostChain postChain) {
+        Minecraft minecraft = Minecraft.getInstance();
+        try {
+            postChain.load(minecraft.getTextureManager(), LodestoneLib.lodestonePath("shaders/post_chain_extras.json"));
+            LODESTONE_TARGET = postChain.getTempTarget("lodestone");
+        }
+        catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
+        float f = 0;
     }
 
     public static void cacheFogData(ViewportEvent.RenderFog event) {

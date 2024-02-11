@@ -3,9 +3,7 @@ package team.lodestar.lodestone.mixin;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.SoundType;
 import org.joml.Matrix4f;
@@ -25,6 +23,7 @@ import javax.annotation.Nullable;
 
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
+
     @Shadow
     @Nullable
     private ClientLevel level;
@@ -51,5 +50,11 @@ public class LevelRendererMixin {
     @Inject(method = "renderLevel", at = @At(value = "HEAD"))
     private void lodestoneLevelRendererPoseStackGrabber(PoseStack pPoseStack, float pPartialTick, long pFinishNanoTime, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pProjectionMatrix, CallbackInfo ci) {
         RenderHandler.MAIN_POSE_STACK = pPoseStack;
+    }
+
+    @ModifyVariable(method = "initTransparency", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/PostChain;getTempTarget(Ljava/lang/String;)Lcom/mojang/blaze3d/pipeline/RenderTarget;", ordinal = 4), index = 2)
+    private PostChain lodestone$initTransparency(PostChain value) {
+        RenderHandler.setupLodestoneRenderTarget(value);
+        return value;
     }
 }

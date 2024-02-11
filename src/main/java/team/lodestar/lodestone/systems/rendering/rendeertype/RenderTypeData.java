@@ -34,9 +34,8 @@ public class RenderTypeData {
         this.transparency = transparency;
     }
 
-    //TODO: this should use type.state.lightmapState but for whatever fucking reason the Access Transformer refuses to work.
     public RenderTypeData(String name, RenderType.CompositeRenderType type) {
-        this(name, type.format(), type.mode(), type.state.shaderState, type.state.transparencyState, type.state.textureState, type.state.cullState, LodestoneRenderTypeRegistry.LIGHTMAP);
+        this(name, type.format(), type.mode(), type.state.shaderState, type.state.transparencyState, type.state.textureState, type.state.cullState, type.state.lightmapState);
     }
 
     public RenderTypeData(RenderType.CompositeRenderType type) {
