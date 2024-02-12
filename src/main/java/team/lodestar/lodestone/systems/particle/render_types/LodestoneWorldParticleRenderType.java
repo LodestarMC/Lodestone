@@ -20,7 +20,7 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
     public static final LodestoneWorldParticleRenderType ADDITIVE = new LodestoneWorldParticleRenderType(
             LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
-            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+            LodestoneRenderTypeRegistry.ADDITIVE_FUNCTION);
 
     public static final LodestoneWorldParticleRenderType TRANSPARENT = new LodestoneWorldParticleRenderType(
             LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,

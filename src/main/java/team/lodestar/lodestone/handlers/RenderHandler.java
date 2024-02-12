@@ -46,7 +46,9 @@ public class RenderHandler {
     public static FogShape FOG_SHAPE;
     public static float FOG_RED, FOG_GREEN, FOG_BLUE;
 
-    public static RenderTarget LODESTONE_TARGET;
+    public static RenderTarget LODESTONE_DEPTH;
+    public static RenderTarget LODESTONE_TRANSLUCENT_TARGET;
+    public static RenderTarget LODESTONE_ADDITIVE_TARGET;
 
     public static void onClientSetup(FMLClientSetupEvent event) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
@@ -59,12 +61,17 @@ public class RenderHandler {
         Minecraft minecraft = Minecraft.getInstance();
         try {
             postChain.load(minecraft.getTextureManager(), LodestoneLib.lodestonePath("shaders/post_chain_extras.json"));
-            LODESTONE_TARGET = postChain.getTempTarget("lodestone");
+            LODESTONE_DEPTH = postChain.getTempTarget("lodestone_depth");
+            LODESTONE_TRANSLUCENT_TARGET = postChain.getTempTarget("lodestone_translucent");
+            LODESTONE_ADDITIVE_TARGET = postChain.getTempTarget("lodestone_additive");
             postChain.resize(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
         }
         catch (Exception exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    public static void copyDepthBuffer() {
     }
 
     public static void cacheFogData(ViewportEvent.RenderFog event) {
@@ -81,9 +88,6 @@ public class RenderHandler {
 
     public static void beginBufferedRendering(PoseStack poseStack) {
         poseStack.pushPose();
-        RenderSystem.enableCull();
-        RenderSystem.enableDepthTest();
-        RenderSystem.depthMask(false);
 
         float[] shaderFogColor = RenderSystem.getShaderFogColor();
         float fogRed = shaderFogColor[0];
@@ -105,6 +109,9 @@ public class RenderHandler {
         FOG_NEAR = shaderFogStart;
         FOG_FAR = shaderFogEnd;
         FOG_SHAPE = shaderFogShape;
+        if (Minecraft.getInstance().levelRenderer.transparencyChain != null) {
+            LODESTONE_DEPTH.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+        }
     }
 
     public static void endBufferedRendering(PoseStack poseStack) {

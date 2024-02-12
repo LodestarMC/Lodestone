@@ -30,6 +30,9 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
             GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
             GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
+    public static final Runnable ADDITIVE_FUNCTION = () -> RenderSystem.blendFunc(
+            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+
     public static final EmptyTextureStateShard NO_TEXTURE = RenderStateShard.NO_TEXTURE;
     public static final LightmapStateShard LIGHTMAP = RenderStateShard.LIGHTMAP;
     public static final LightmapStateShard NO_LIGHTMAP = RenderStateShard.NO_LIGHTMAP;
@@ -182,17 +185,23 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
                 .setCullState(cull));
     }
 
+    public static RenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder) {
+        return createGenericRenderType(name, format, mode, builder, null);
+    }
+
     /**
      * Creates a custom render type and creates a buffer builder for it.
      */
-
-    public static RenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder) {
+    public static RenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder, ShaderUniformHandler handler) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
         if (MODIFIER != null) {
             MODIFIER.accept(builder);
         }
         RenderType type = RenderType.create(name, format, builder.mode != null ? builder.mode : mode, size, false, false, builder.createCompositeState(true));
         RenderHandler.addRenderType(type);
+        if (handler != null) {
+            applyUniformChanges(type, handler);
+        }
         MODIFIER = null;
         return type;
     }

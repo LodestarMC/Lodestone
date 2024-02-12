@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.events;
 
-import com.mojang.blaze3d.pipeline.*;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
@@ -79,10 +78,10 @@ public class ClientRuntimeEvents {
         }
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
             Matrix4f last = new Matrix4f(RenderSystem.getModelViewMatrix());
-            final PostChain transparencyChain = levelRenderer.transparencyChain;
-            if (transparencyChain != null) {
-                RenderHandler.LODESTONE_TARGET.clear(Minecraft.ON_OSX);
-                RenderHandler.LODESTONE_TARGET.bindWrite(false);
+            final boolean isFabulous = levelRenderer.transparencyChain != null;
+            if (isFabulous) {
+                RenderHandler.LODESTONE_TRANSLUCENT_TARGET.clear(Minecraft.ON_OSX);
+                RenderHandler.LODESTONE_TRANSLUCENT_TARGET.bindWrite(false);
             }
             RenderHandler.beginBufferedRendering(poseStack);
             RenderHandler.renderBufferedParticles(true);
@@ -90,12 +89,17 @@ public class ClientRuntimeEvents {
                 RenderSystem.getModelViewMatrix().set(RenderHandler.MATRIX4F);
             }
             RenderHandler.renderBufferedBatches(true);
+            if (isFabulous) {
+                RenderHandler.LODESTONE_TRANSLUCENT_TARGET.unbindWrite();
+                RenderHandler.LODESTONE_ADDITIVE_TARGET.clear(Minecraft.ON_OSX);
+                RenderHandler.LODESTONE_ADDITIVE_TARGET.bindWrite(false);
+            }
             RenderHandler.renderBufferedBatches(false);
             RenderSystem.getModelViewMatrix().set(last);
             RenderHandler.renderBufferedParticles(false);
 
             RenderHandler.endBufferedRendering(poseStack);
-            if (transparencyChain != null) {
+            if (isFabulous) {
                 levelRenderer.getCloudsTarget().bindWrite(false);
             }
         }

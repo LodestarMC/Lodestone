@@ -44,8 +44,8 @@ public class LevelRendererMixin {
 
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "net.minecraft.client.renderer.PostChain.process(F)V", ordinal = 1))
     public void lodestone$injectionBeforeTransparencyChainProcess(CallbackInfo ci) {
-        RenderHandler.LODESTONE_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
         PostProcessHandler.copyDepthBuffer();
+        RenderHandler.copyDepthBuffer();
     }
 
     @Inject(method = "renderLevel", at = @At(value = "HEAD"))

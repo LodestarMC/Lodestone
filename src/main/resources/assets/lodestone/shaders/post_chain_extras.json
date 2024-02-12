@@ -1,6 +1,8 @@
 {
   "targets": [
-    "lodestone",
+    "lodestone_translucent",
+    "lodestone_additive",
+    "lodestone_depth",
     "final"
   ],
   "passes": [
@@ -11,15 +13,23 @@
       "auxtargets": [
         {
           "name": "DiffuseDepthSampler",
-          "id": "minecraft:main:depth"
+          "id": "lodestone_depth:depth"
         },
         {
-          "name": "LodestoneSampler",
-          "id": "lodestone"
+          "name": "LodestoneTranslucentSampler",
+          "id": "lodestone_translucent"
         },
         {
-          "name": "LodestoneDepthSampler",
-          "id": "lodestone:depth"
+          "name": "LodestoneTranslucentDepthSampler",
+          "id": "lodestone_translucent:depth"
+        },
+        {
+          "name": "LodestoneAdditiveSampler",
+          "id": "lodestone_additive"
+        },
+        {
+          "name": "LodestoneAdditiveDepthSampler",
+          "id": "lodestone_additive:depth"
         }
       ]
     },
