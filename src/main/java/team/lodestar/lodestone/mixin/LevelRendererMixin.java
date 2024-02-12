@@ -48,6 +48,11 @@ public class LevelRendererMixin {
         RenderHandler.copyDepthBuffer();
     }
 
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;bindWrite(Z)V", ordinal = 3))
+    public void lodestone$injectionAfterTransparencyChainProcess(CallbackInfo ci) {
+        RenderHandler.endBatchesLate();
+    }
+
     @Inject(method = "renderLevel", at = @At(value = "HEAD"))
     private void lodestoneLevelRendererPoseStackGrabber(PoseStack pPoseStack, float pPartialTick, long pFinishNanoTime, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pProjectionMatrix, CallbackInfo ci) {
         RenderHandler.MAIN_POSE_STACK = pPoseStack;
@@ -55,7 +60,7 @@ public class LevelRendererMixin {
 
     @ModifyVariable(method = "initTransparency", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/PostChain;getTempTarget(Ljava/lang/String;)Lcom/mojang/blaze3d/pipeline/RenderTarget;", ordinal = 4), index = 2)
     private PostChain lodestone$initTransparency(PostChain value) {
-        RenderHandler.setupLodestoneRenderTarget(value);
+        RenderHandler.setupLodestoneRenderTargets();
         return value;
     }
 }

@@ -246,7 +246,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     }
 
     public static LodestoneCompositeStateBuilder builder() {
-        return new LodestoneCompositeStateBuilder().setLightmapState(LIGHTMAP);
+        return new LodestoneCompositeStateBuilder().setLightmapState(LIGHTMAP).setWriteMaskState(RenderStateShard.COLOR_WRITE);
     }
 
     public static class LodestoneCompositeStateBuilder extends RenderType.CompositeState.CompositeStateBuilder {

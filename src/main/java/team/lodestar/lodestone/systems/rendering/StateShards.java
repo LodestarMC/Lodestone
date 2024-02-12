@@ -13,23 +13,19 @@ public class StateShards extends RenderStateShard {
     }
 
     public static final TransparencyStateShard ADDITIVE_TRANSPARENCY = new TransparencyStateShard("additive_transparency", () -> {
-        RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         LodestoneRenderTypeRegistry.ADDITIVE_FUNCTION.run();
     }, () -> {
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.depthMask(true);
     });
 
     public static final TransparencyStateShard NORMAL_TRANSPARENCY = new TransparencyStateShard("normal_transparency", () -> {
-        RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         LodestoneRenderTypeRegistry.TRANSPARENT_FUNCTION.run();
     }, () -> {
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.depthMask(true);
     });
 
 

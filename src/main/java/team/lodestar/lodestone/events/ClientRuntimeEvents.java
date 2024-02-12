@@ -64,7 +64,6 @@ public class ClientRuntimeEvents {
         Vec3 cameraPos = camera.getPosition();
         float partial = event.getPartialTick();
         PoseStack poseStack = event.getPoseStack();
-        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
 
@@ -77,31 +76,7 @@ public class ClientRuntimeEvents {
             RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
         }
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
-            Matrix4f last = new Matrix4f(RenderSystem.getModelViewMatrix());
-            final boolean isFabulous = levelRenderer.transparencyChain != null;
-            if (isFabulous) {
-                RenderHandler.LODESTONE_TRANSLUCENT_TARGET.clear(Minecraft.ON_OSX);
-                RenderHandler.LODESTONE_TRANSLUCENT_TARGET.bindWrite(false);
-            }
-            RenderHandler.beginBufferedRendering(poseStack);
-            RenderHandler.renderBufferedParticles(true);
-            if (RenderHandler.MATRIX4F != null) {
-                RenderSystem.getModelViewMatrix().set(RenderHandler.MATRIX4F);
-            }
-            RenderHandler.renderBufferedBatches(true);
-            if (isFabulous) {
-                RenderHandler.LODESTONE_TRANSLUCENT_TARGET.unbindWrite();
-                RenderHandler.LODESTONE_ADDITIVE_TARGET.clear(Minecraft.ON_OSX);
-                RenderHandler.LODESTONE_ADDITIVE_TARGET.bindWrite(false);
-            }
-            RenderHandler.renderBufferedBatches(false);
-            RenderSystem.getModelViewMatrix().set(last);
-            RenderHandler.renderBufferedParticles(false);
-
-            RenderHandler.endBufferedRendering(poseStack);
-            if (isFabulous) {
-                levelRenderer.getCloudsTarget().bindWrite(false);
-            }
+            RenderHandler.endBatchesEarly();
         }
 //        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_LEVEL)) {
 //            final PostChain transparencyChain = levelRenderer.transparencyChain;

@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.*;
 import net.minecraft.client.renderer.*;
-import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.joml.Matrix4f;
@@ -46,6 +46,7 @@ public class RenderHandler {
     public static FogShape FOG_SHAPE;
     public static float FOG_RED, FOG_GREEN, FOG_BLUE;
 
+    public static PostChain LODESTONE_POST_CHAIN;
     public static RenderTarget LODESTONE_DEPTH;
     public static RenderTarget LODESTONE_TRANSLUCENT_TARGET;
     public static RenderTarget LODESTONE_ADDITIVE_TARGET;
@@ -57,21 +58,71 @@ public class RenderHandler {
         DELAYED_PARTICLE_RENDER = MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size));
     }
 
-    public static void setupLodestoneRenderTarget(PostChain postChain) {
+    public static void setupLodestoneRenderTargets() {
         Minecraft minecraft = Minecraft.getInstance();
         try {
-            postChain.load(minecraft.getTextureManager(), LodestoneLib.lodestonePath("shaders/post_chain_extras.json"));
+            PostChain postChain = new PostChain(minecraft.getTextureManager(), minecraft.getResourceManager(), minecraft.getMainRenderTarget(), LodestoneLib.lodestonePath("shaders/post_chain_extras.json"));
+            postChain.resize(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
             LODESTONE_DEPTH = postChain.getTempTarget("lodestone_depth");
             LODESTONE_TRANSLUCENT_TARGET = postChain.getTempTarget("lodestone_translucent");
             LODESTONE_ADDITIVE_TARGET = postChain.getTempTarget("lodestone_additive");
-            postChain.resize(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
+            LODESTONE_POST_CHAIN = postChain;
         }
         catch (Exception exception) {
             throw new RuntimeException(exception);
         }
     }
+    public static void resize(int width, int height) {
+        if (LODESTONE_POST_CHAIN != null) {
+            LODESTONE_POST_CHAIN.resize(width, height);
+            LODESTONE_DEPTH.resize(width, height, Minecraft.ON_OSX);
+        }
+    }
 
     public static void copyDepthBuffer() {
+        RenderHandler.LODESTONE_DEPTH.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+        RenderHandler.LODESTONE_TRANSLUCENT_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+        RenderHandler.LODESTONE_ADDITIVE_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+    }
+
+    public static void endBatchesEarly() {
+        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+            endBatches(levelRenderer.transparencyChain != null);
+    }
+
+    public static void endBatchesLate() {
+        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+        if (levelRenderer.transparencyChain != null) {
+            LODESTONE_POST_CHAIN.process(Minecraft.getInstance().getPartialTick());
+        }
+    }
+
+    public static void endBatches(boolean isFabulous) {
+        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+        Matrix4f last = new Matrix4f(RenderSystem.getModelViewMatrix());
+        if (isFabulous) {
+            RenderHandler.LODESTONE_TRANSLUCENT_TARGET.clear(Minecraft.ON_OSX);
+            RenderHandler.LODESTONE_TRANSLUCENT_TARGET.bindWrite(false);
+        }
+        RenderHandler.beginBufferedRendering();
+        RenderHandler.renderBufferedParticles(true);
+        if (RenderHandler.MATRIX4F != null) {
+            RenderSystem.getModelViewMatrix().set(RenderHandler.MATRIX4F);
+        }
+        RenderHandler.renderBufferedBatches(true);
+        if (isFabulous) {
+            RenderHandler.LODESTONE_TRANSLUCENT_TARGET.unbindWrite();
+            RenderHandler.LODESTONE_ADDITIVE_TARGET.clear(Minecraft.ON_OSX);
+            RenderHandler.LODESTONE_ADDITIVE_TARGET.bindWrite(false);
+        }
+        RenderHandler.renderBufferedBatches(false);
+        RenderSystem.getModelViewMatrix().set(last);
+        RenderHandler.renderBufferedParticles(false);
+
+        RenderHandler.endBufferedRendering();
+        if (isFabulous) {
+            levelRenderer.getCloudsTarget().bindWrite(false);
+        }
     }
 
     public static void cacheFogData(ViewportEvent.RenderFog event) {
@@ -86,9 +137,7 @@ public class RenderHandler {
         FOG_BLUE = event.getBlue();
     }
 
-    public static void beginBufferedRendering(PoseStack poseStack) {
-        poseStack.pushPose();
-
+    public static void beginBufferedRendering() {
         float[] shaderFogColor = RenderSystem.getShaderFogColor();
         float fogRed = shaderFogColor[0];
         float fogGreen = shaderFogColor[1];
@@ -109,17 +158,13 @@ public class RenderHandler {
         FOG_NEAR = shaderFogStart;
         FOG_FAR = shaderFogEnd;
         FOG_SHAPE = shaderFogShape;
-        if (Minecraft.getInstance().levelRenderer.transparencyChain != null) {
-            LODESTONE_DEPTH.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-        }
     }
 
-    public static void endBufferedRendering(PoseStack poseStack) {
+    public static void endBufferedRendering() {
         RenderSystem.setShaderFogStart(FOG_NEAR);
         RenderSystem.setShaderFogEnd(FOG_FAR);
         RenderSystem.setShaderFogShape(FOG_SHAPE);
         RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
-        poseStack.popPose();
     }
 
 

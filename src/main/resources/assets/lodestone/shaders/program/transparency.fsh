@@ -59,5 +59,5 @@ void main() {
     for ( int ii = 1; ii < active_layers; ++ii ) {
         texelAccum = blend(texelAccum, color_layers[ii]);
     }
-    fragColor = vec4(depth_layers[0], depth_layers[0], depth_layers[0], 1.0);
+    fragColor = vec4(texelAccum.rgb, 1.0);
 }
