@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Camera;
+import net.minecraft.client.*;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
 import net.minecraft.core.BlockPos;
@@ -44,6 +44,7 @@ public class LevelRendererMixin {
 
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "net.minecraft.client.renderer.PostChain.process(F)V", ordinal = 1))
     public void lodestone$injectionBeforeTransparencyChainProcess(CallbackInfo ci) {
+        RenderHandler.LODESTONE_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
         PostProcessHandler.copyDepthBuffer();
     }
 

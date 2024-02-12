@@ -60,11 +60,11 @@ public class RenderHandler {
         try {
             postChain.load(minecraft.getTextureManager(), LodestoneLib.lodestonePath("shaders/post_chain_extras.json"));
             LODESTONE_TARGET = postChain.getTempTarget("lodestone");
+            postChain.resize(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
         }
         catch (Exception exception) {
             throw new RuntimeException(exception);
         }
-        float f = 0;
     }
 
     public static void cacheFogData(ViewportEvent.RenderFog event) {

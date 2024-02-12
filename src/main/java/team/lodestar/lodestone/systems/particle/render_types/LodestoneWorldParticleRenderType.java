@@ -24,37 +24,45 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
     public static final LodestoneWorldParticleRenderType TRANSPARENT = new LodestoneWorldParticleRenderType(
             LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
-            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            LodestoneRenderTypeRegistry.TRANSPARENT_FUNCTION);
 
     public static final LodestoneWorldParticleRenderType LUMITRANSPARENT = new LodestoneWorldParticleRenderType(
             LodestoneRenderTypeRegistry.LUMITRANSPARENT_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
-            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            LodestoneRenderTypeRegistry.TRANSPARENT_FUNCTION);
 
     public static final LodestoneWorldParticleRenderType TERRAIN_SHEET = new LodestoneWorldParticleRenderType(
             LodestoneRenderTypeRegistry.TRANSPARENT_BLOCK_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
-            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            LodestoneRenderTypeRegistry.TRANSPARENT_FUNCTION);
 
     public final RenderType renderType;
     protected final Supplier<ShaderInstance> shader;
     protected final ResourceLocation texture;
-    protected final GlStateManager.SourceFactor srcAlpha;
-    protected final GlStateManager.DestFactor dstAlpha;
+    protected final Runnable blendFunction;
 
     public LodestoneWorldParticleRenderType(RenderType renderType, ShaderHolder shaderHolder, ResourceLocation texture, GlStateManager.SourceFactor srcAlpha, GlStateManager.DestFactor dstAlpha) {
         this(renderType, shaderHolder.getInstance(), texture, srcAlpha, dstAlpha);
     }
+
     public LodestoneWorldParticleRenderType(RenderType renderType, Supplier<ShaderInstance> shader, ResourceLocation texture, GlStateManager.SourceFactor srcAlpha, GlStateManager.DestFactor dstAlpha) {
+        this(renderType, shader, texture, () -> RenderSystem.blendFunc(srcAlpha, dstAlpha));
+    }
+
+    public LodestoneWorldParticleRenderType(RenderType renderType, ShaderHolder shaderHolder, ResourceLocation texture, Runnable blendFunction) {
+        this(renderType, shaderHolder.getInstance(), texture, blendFunction);
+    }
+
+    public LodestoneWorldParticleRenderType(RenderType renderType, Supplier<ShaderInstance> shader, ResourceLocation texture, Runnable blendFunction) {
         this.renderType = renderType;
         this.shader = shader;
         this.texture = texture;
-        this.srcAlpha = srcAlpha;
-        this.dstAlpha = dstAlpha;
+        this.blendFunction = blendFunction;
     }
 
     @Override
     public void begin(BufferBuilder builder, TextureManager manager) {
         RenderSystem.enableDepthTest();
         RenderSystem.enableBlend();
+        blendFunction.run();
         RenderSystem.setShader(shader);
         RenderSystem.setShaderTexture(0, texture);
         builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);

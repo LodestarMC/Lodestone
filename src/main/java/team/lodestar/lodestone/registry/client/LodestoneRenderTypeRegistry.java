@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.registry.client;
 
+import com.mojang.blaze3d.platform.*;
+import com.mojang.blaze3d.systems.*;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -23,6 +25,10 @@ import static com.mojang.blaze3d.vertex.VertexFormat.Mode.*;
 import static team.lodestar.lodestone.handlers.RenderHandler.LARGER_BUFFER_SOURCES;
 
 public class LodestoneRenderTypeRegistry extends RenderStateShard {
+
+    public static final Runnable TRANSPARENT_FUNCTION = () -> RenderSystem.blendFuncSeparate(
+            GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+            GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
     public static final EmptyTextureStateShard NO_TEXTURE = RenderStateShard.NO_TEXTURE;
     public static final LightmapStateShard LIGHTMAP = RenderStateShard.LIGHTMAP;

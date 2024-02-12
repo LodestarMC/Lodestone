@@ -82,7 +82,6 @@ public class ClientRuntimeEvents {
             final PostChain transparencyChain = levelRenderer.transparencyChain;
             if (transparencyChain != null) {
                 RenderHandler.LODESTONE_TARGET.clear(Minecraft.ON_OSX);
-                RenderHandler.LODESTONE_TARGET.copyDepthFrom(minecraft.getMainRenderTarget());
                 RenderHandler.LODESTONE_TARGET.bindWrite(false);
             }
             RenderHandler.beginBufferedRendering(poseStack);
@@ -100,6 +99,12 @@ public class ClientRuntimeEvents {
                 levelRenderer.getCloudsTarget().bindWrite(false);
             }
         }
+//        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_LEVEL)) {
+//            final PostChain transparencyChain = levelRenderer.transparencyChain;
+//            if (transparencyChain != null) {
+//                RenderHandler.LODESTONE_TARGET.blitToScreen(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
+//            }
+//        }
         poseStack.popPose();
     }
 

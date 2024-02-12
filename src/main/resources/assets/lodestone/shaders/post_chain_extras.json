@@ -1,13 +1,18 @@
 {
   "targets": [
-    "lodestone"
+    "lodestone",
+    "final"
   ],
   "passes": [
     {
-      "name": "transparency",
+      "name": "lodestone:transparency",
       "intarget": "minecraft:main",
       "outtarget": "final",
       "auxtargets": [
+        {
+          "name": "DiffuseDepthSampler",
+          "id": "minecraft:main:depth"
+        },
         {
           "name": "LodestoneSampler",
           "id": "lodestone"

@@ -141,7 +141,9 @@ repositories {
 dependencies {
     minecraft("net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}")
 
-    annotationProcessor("org.spongepowered:mixin:${mixinVersion}:processor")
+    if (System.getProperty("idea.sync.active") != "true") {
+        annotationProcessor("org.spongepowered:mixin:${mixinVersion}:processor")
+    }
 
     // JEI Dependency
     compileOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-forge-api:${jeiVersion}"))
