@@ -2,7 +2,9 @@
   "targets": [
     "lodestone_translucent",
     "lodestone_additive",
-    "lodestone_depth",
+    "lodestone_translucent_depth",
+    "lodestone_additive_depth",
+    "lodestone_depth_cache",
     "final"
   ],
   "passes": [
@@ -13,7 +15,7 @@
       "auxtargets": [
         {
           "name": "DiffuseDepthSampler",
-          "id": "lodestone_depth:depth"
+          "id": "lodestone_depth_cache:depth"
         },
         {
           "name": "LodestoneTranslucentSampler",
@@ -21,7 +23,7 @@
         },
         {
           "name": "LodestoneTranslucentDepthSampler",
-          "id": "lodestone_translucent:depth"
+          "id": "lodestone_translucent_depth:depth"
         },
         {
           "name": "LodestoneAdditiveSampler",
@@ -29,7 +31,7 @@
         },
         {
           "name": "LodestoneAdditiveDepthSampler",
-          "id": "lodestone_additive:depth"
+          "id": "lodestone_additive_depth:depth"
         }
       ]
     },

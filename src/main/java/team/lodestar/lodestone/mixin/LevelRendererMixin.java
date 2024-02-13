@@ -62,4 +62,9 @@ public class LevelRendererMixin {
         RenderHandler.setupLodestoneRenderTargets();
         return value;
     }
+
+    @Inject(method = "deinitTransparency", at = @At(value = "HEAD"))
+    private void lodestone$deinitTransparency(CallbackInfo ci) {
+        RenderHandler.closeLodestoneRenderTargets();
+    }
 }

@@ -197,7 +197,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
         if (MODIFIER != null) {
             MODIFIER.accept(builder);
         }
-        RenderType type = RenderType.create(name, format, builder.mode != null ? builder.mode : mode, size, false, false, builder.createCompositeState(true));
+        RenderType type = RenderType.create(name, format, builder.mode != null ? builder.mode : mode, size, false, true, builder.createCompositeState(true));
         RenderHandler.addRenderType(type);
         if (handler != null) {
             applyUniformChanges(type, handler);
