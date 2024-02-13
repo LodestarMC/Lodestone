@@ -1,9 +1,9 @@
 {
   "targets": [
     "lodestone_translucent",
+    "lodestone_translucent_particle",
     "lodestone_additive",
-    "lodestone_translucent_depth",
-    "lodestone_additive_depth",
+    "lodestone_additive_particle",
     "lodestone_depth_cache",
     "final"
   ],
@@ -23,7 +23,15 @@
         },
         {
           "name": "LodestoneTranslucentDepthSampler",
-          "id": "lodestone_translucent_depth:depth"
+          "id": "lodestone_translucent:depth"
+        },
+        {
+          "name": "LodestoneTranslucentParticleSampler",
+          "id": "lodestone_translucent_particle"
+        },
+        {
+          "name": "LodestoneTranslucentParticleDepthSampler",
+          "id": "lodestone_translucent_particle:depth"
         },
         {
           "name": "LodestoneAdditiveSampler",
@@ -31,7 +39,15 @@
         },
         {
           "name": "LodestoneAdditiveDepthSampler",
-          "id": "lodestone_additive_depth:depth"
+          "id": "lodestone_additive:depth"
+        },
+        {
+          "name": "LodestoneAdditiveParticleSampler",
+          "id": "lodestone_additive_particle"
+        },
+        {
+          "name": "LodestoneAdditiveParticleDepthSampler",
+          "id": "lodestone_additive_particle:depth"
         }
       ]
     },

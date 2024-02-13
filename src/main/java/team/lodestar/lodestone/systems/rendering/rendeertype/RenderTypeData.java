@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import team.lodestar.lodestone.registry.client.*;
-import team.lodestar.lodestone.systems.rendering.StateShards;
+import team.lodestar.lodestone.systems.rendering.*;
 
 /**
  * Stores all relevant data from a RenderType.
@@ -34,11 +34,11 @@ public class RenderTypeData {
         this.transparency = transparency;
     }
 
-    public RenderTypeData(String name, RenderType.CompositeRenderType type) {
+    public RenderTypeData(String name, LodestoneRenderType type) {
         this(name, type.format(), type.mode(), type.state.shaderState, type.state.transparencyState, type.state.textureState, type.state.cullState, type.state.lightmapState);
     }
 
-    public RenderTypeData(RenderType.CompositeRenderType type) {
+    public RenderTypeData(LodestoneRenderType type) {
         this(type.name, type);
     }
 }

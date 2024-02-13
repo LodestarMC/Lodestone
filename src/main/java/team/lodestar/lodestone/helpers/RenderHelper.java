@@ -14,6 +14,7 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import team.lodestar.lodestone.systems.rendering.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +26,8 @@ public class RenderHelper {
     public static final int FULL_BRIGHT = 15728880;
 
     public static ShaderInstance getShader(RenderType type) {
-        if (type instanceof RenderType.CompositeRenderType compositeRenderType) {
-            Optional<Supplier<ShaderInstance>> shader = compositeRenderType.state.shaderState.shader;
+        if (type instanceof LodestoneRenderType renderType) {
+            Optional<Supplier<ShaderInstance>> shader = renderType.state.shaderState.shader;
             if (shader.isPresent()) {
                 return shader.get().get();
             }
@@ -35,7 +36,7 @@ public class RenderHelper {
     }
 
     public static RenderStateShard.TransparencyStateShard getTransparencyShard(RenderType type) {
-        if (type instanceof RenderType.CompositeRenderType compositeRenderType) {
+        if (type instanceof LodestoneRenderType compositeRenderType) {
             return compositeRenderType.state.transparencyState;
         }
         return null;

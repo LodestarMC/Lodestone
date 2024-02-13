@@ -5,14 +5,15 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry;
 import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry.*;
+import team.lodestar.lodestone.systems.rendering.*;
 
 import java.util.function.*;
 
 public class RenderTypeProvider {
-    private final Function<ResourceLocation, RenderType> function;
-    private final Function<ResourceLocation, RenderType> memorizedFunction;
+    private final Function<ResourceLocation, LodestoneRenderType> function;
+    private final Function<ResourceLocation, LodestoneRenderType> memorizedFunction;
 
-    public RenderTypeProvider(Function<ResourceLocation, RenderType> function) {
+    public RenderTypeProvider(Function<ResourceLocation, LodestoneRenderType> function) {
         this.function = function;
         this.memorizedFunction = Util.memoize(function);
     }
