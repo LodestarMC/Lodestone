@@ -61,7 +61,7 @@ public class RenderHandler {
     public static void setupLodestoneRenderTargets() {
         Minecraft minecraft = Minecraft.getInstance();
         try {
-            PostChain postChain = new PostChain(minecraft.getTextureManager(), minecraft.getResourceManager(), minecraft.getMainRenderTarget(), LodestoneLib.lodestonePath("shaders/post_chain_extras.json"));
+            PostChain postChain = new PostChain(minecraft.getTextureManager(), minecraft.getResourceManager(), minecraft.getMainRenderTarget(), LodestoneLib.lodestonePath("shaders/lodestone_post_chain.json"));
             postChain.resize(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
             LODESTONE_DEPTH = postChain.getTempTarget("lodestone_depth");
             LODESTONE_TRANSLUCENT_TARGET = postChain.getTempTarget("lodestone_translucent");
@@ -79,15 +79,9 @@ public class RenderHandler {
         }
     }
 
-    public static void copyDepthBuffer() {
-        RenderHandler.LODESTONE_DEPTH.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-        RenderHandler.LODESTONE_TRANSLUCENT_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-        RenderHandler.LODESTONE_ADDITIVE_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-    }
-
     public static void endBatchesEarly() {
         LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
-            endBatches(levelRenderer.transparencyChain != null);
+        endBatches(levelRenderer.transparencyChain != null);
     }
 
     public static void endBatchesLate() {
@@ -101,7 +95,9 @@ public class RenderHandler {
         LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
         Matrix4f last = new Matrix4f(RenderSystem.getModelViewMatrix());
         if (isFabulous) {
+            RenderHandler.LODESTONE_DEPTH.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             RenderHandler.LODESTONE_TRANSLUCENT_TARGET.clear(Minecraft.ON_OSX);
+            RenderHandler.LODESTONE_TRANSLUCENT_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             RenderHandler.LODESTONE_TRANSLUCENT_TARGET.bindWrite(false);
         }
         RenderHandler.beginBufferedRendering();
@@ -113,6 +109,7 @@ public class RenderHandler {
         if (isFabulous) {
             RenderHandler.LODESTONE_TRANSLUCENT_TARGET.unbindWrite();
             RenderHandler.LODESTONE_ADDITIVE_TARGET.clear(Minecraft.ON_OSX);
+            RenderHandler.LODESTONE_ADDITIVE_TARGET.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             RenderHandler.LODESTONE_ADDITIVE_TARGET.bindWrite(false);
         }
         RenderHandler.renderBufferedBatches(false);
