@@ -18,29 +18,29 @@ public class RenderTypeProvider {
         this.memorizedFunction = Util.memoize(function);
     }
 
-    public RenderType apply(ResourceLocation texture) {
+    public LodestoneRenderType apply(ResourceLocation texture) {
         return function.apply(texture);
     }
 
-    public RenderType apply(ResourceLocation texture, ShaderUniformHandler uniformHandler) {
+    public LodestoneRenderType apply(ResourceLocation texture, ShaderUniformHandler uniformHandler) {
         return LodestoneRenderTypeRegistry.applyUniformChanges(function.apply(texture), uniformHandler);
     }
 
-    public RenderType applyAndCache(ResourceLocation texture) {
+    public LodestoneRenderType applyAndCache(ResourceLocation texture) {
         return this.memorizedFunction.apply(texture);
     }
 
-    public RenderType applyWithModifier(ResourceLocation texture, Consumer<LodestoneCompositeStateBuilder> modifier) {
+    public LodestoneRenderType applyWithModifier(ResourceLocation texture, Consumer<LodestoneCompositeStateBuilder> modifier) {
         LodestoneRenderTypeRegistry.addRenderTypeModifier(modifier);
         return apply(texture);
     }
 
-    public RenderType applyWithModifier(ResourceLocation texture, ShaderUniformHandler uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
+    public LodestoneRenderType applyWithModifier(ResourceLocation texture, ShaderUniformHandler uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
         LodestoneRenderTypeRegistry.addRenderTypeModifier(modifier);
         return apply(texture, uniformHandler);
     }
 
-    public RenderType applyWithModifierAndCache(ResourceLocation texture, Consumer<LodestoneCompositeStateBuilder> modifier) {
+    public LodestoneRenderType applyWithModifierAndCache(ResourceLocation texture, Consumer<LodestoneCompositeStateBuilder> modifier) {
         LodestoneRenderTypeRegistry.addRenderTypeModifier(modifier);
         return applyAndCache(texture);
     }
