@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.systems.item;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -18,18 +17,16 @@ public abstract class LodestoneArmorItem extends ArmorItem {
         super(materialIn, type, builder);
     }
 
-    public ImmutableMultimap.Builder<Attribute, AttributeModifier> createExtraAttributes(ArmorItem.Type type) {
-        return new ImmutableMultimap.Builder<>();
-    }
+    public abstract Multimap<Attribute, AttributeModifier> createExtraAttributes(ArmorItem.Type type);
 
     @Override
     @NotNull
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot equipmentSlot) {
         if (attributes == null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = new ImmutableMultimap.Builder<>();
-            attributeBuilder.putAll(defaultModifiers);
-            attributeBuilder.putAll(createExtraAttributes(type).build());
-            attributes = attributeBuilder.build();
+            Multimap<Attribute, AttributeModifier> map = ArrayListMultimap.create();
+            map.putAll(defaultModifiers);
+            map.putAll(createExtraAttributes(type));
+            attributes = ImmutableMultimap.copyOf(map);
         }
         return equipmentSlot == this.type.getSlot() ? this.attributes : ImmutableMultimap.of();
     }
