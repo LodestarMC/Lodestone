@@ -23,10 +23,10 @@ public abstract class LodestoneArmorItem extends ArmorItem {
     @NotNull
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot equipmentSlot) {
         if (attributes == null) {
-            Multimap<Attribute, AttributeModifier> attributes = ArrayListMultimap.create();
-            attributes.putAll(defaultModifiers);
-            attributes.putAll(createExtraAttributes(type));
-            this.attributes = attributes;
+            ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = new ImmutableMultimap.Builder<>();
+            attributeBuilder.putAll(defaultModifiers);
+            attributeBuilder.putAll(createExtraAttributes(type));
+            this.attributes = attributeBuilder.build();
         }
         return equipmentSlot == this.type.getSlot() ? this.attributes : ImmutableMultimap.of();
     }
