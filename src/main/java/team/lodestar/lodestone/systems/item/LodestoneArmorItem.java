@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class LodestoneArmorItem extends ArmorItem {
-    private Multimap<Attribute, AttributeModifier> attributes;
+    protected Multimap<Attribute, AttributeModifier> attributes;
 
     public LodestoneArmorItem(ArmorMaterial materialIn, ArmorItem.Type type, Properties builder) {
         super(materialIn, type, builder);
@@ -23,10 +23,10 @@ public abstract class LodestoneArmorItem extends ArmorItem {
     @NotNull
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot equipmentSlot) {
         if (attributes == null) {
-            Multimap<Attribute, AttributeModifier> map = ArrayListMultimap.create();
-            map.putAll(defaultModifiers);
-            map.putAll(createExtraAttributes(type));
-            attributes = ImmutableMultimap.copyOf(map);
+            Multimap<Attribute, AttributeModifier> attributes = ArrayListMultimap.create();
+            attributes.putAll(defaultModifiers);
+            attributes.putAll(createExtraAttributes(type));
+            this.attributes = attributes;
         }
         return equipmentSlot == this.type.getSlot() ? this.attributes : ImmutableMultimap.of();
     }
