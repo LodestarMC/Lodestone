@@ -40,11 +40,13 @@ public class PostProcessHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onWorldRenderLast(RenderLevelStageEvent event) {
-        copyDepthBuffer(); // copy the depth buffer if the mixin didn't trigger
+        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_LEVEL)) {
+            copyDepthBuffer(); // copy the depth buffer if the mixin didn't trigger
 
-        PostProcessor.viewModelStack = event.getPoseStack();
-        instances.forEach(PostProcessor::applyPostProcess);
+            PostProcessor.viewModelStack = event.getPoseStack();
+            instances.forEach(PostProcessor::applyPostProcess);
 
-        didCopyDepth = false; // reset for next frame
+            didCopyDepth = false; // reset for next frame
+        }
     }
 }
