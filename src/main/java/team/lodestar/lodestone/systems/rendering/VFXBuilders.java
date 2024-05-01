@@ -241,19 +241,28 @@ public class VFXBuilders {
         protected RenderType renderType;
         protected VertexFormat format;
         protected WorldVertexPlacementSupplier supplier;
+        protected VertexConsumer vertexConsumer;
 
         public WorldVFXBuilder replaceBufferSource(MultiBufferSource bufferSource) {
             this.bufferSource = bufferSource;
             return this;
         }
-        
+
         public WorldVFXBuilder setRenderType(RenderType renderType) {
             this.renderType = renderType;
             return this;
         }
 
+        public WorldVFXBuilder setVertexConsumer(VertexConsumer vertexConsumer) {
+            this.vertexConsumer = vertexConsumer;
+            return this;
+        }
+
         public VertexConsumer getVertexConsumer() {
-            return bufferSource.getBuffer(renderType);
+            if (vertexConsumer == null) {
+                setVertexConsumer(bufferSource.getBuffer(renderType));
+            }
+            return vertexConsumer;
         }
 
         public WorldVFXBuilder setPosColorDefaultFormat() {
