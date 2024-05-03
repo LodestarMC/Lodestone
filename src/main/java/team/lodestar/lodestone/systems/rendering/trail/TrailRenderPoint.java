@@ -25,18 +25,18 @@ public class TrailRenderPoint {
         this(pos.x() + perp.x, pos.x() - perp.x, pos.y() + perp.y, pos.y() - perp.y, pos.z());
     }
 
-    public void renderStart(VertexConsumer builder, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
-        supplier.placeVertex(builder, null, xp, yp, z, u0, v0);
-        supplier.placeVertex(builder, null, xn, yn, z, u1, v0);
+    public void renderStart(VertexConsumer vertexConsumer, VFXBuilders.WorldVFXBuilder builder, float u0, float v0, float u1, float v1) {
+        builder.getSupplier().placeVertex(vertexConsumer, null, builder, xp, yp, z, u0, v0);
+        builder.getSupplier().placeVertex(vertexConsumer, null, builder, xn, yn, z, u1, v0);
     }
 
-    public void renderEnd(VertexConsumer builder, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
-        supplier.placeVertex(builder, null, xn, yn, z, u1, v1);
-        supplier.placeVertex(builder, null, xp, yp, z, u0, v1);
+    public void renderEnd(VertexConsumer vertexConsumer, VFXBuilders.WorldVFXBuilder builder, float u0, float v0, float u1, float v1) {
+        builder.getSupplier().placeVertex(vertexConsumer, null, builder, xn, yn, z, u1, v1);
+        builder.getSupplier().placeVertex(vertexConsumer, null, builder, xp, yp, z, u0, v1);
     }
 
-    public void renderMid(VertexConsumer builder, VFXBuilders.WorldVFXBuilder.WorldVertexPlacementSupplier supplier, float u0, float v0, float u1, float v1) {
-        renderEnd(builder, supplier, u0, v0, u1, v1);
-        renderStart(builder, supplier, u0, v0, u1, v1);
+    public void renderMid(VertexConsumer vertexConsumer, VFXBuilders.WorldVFXBuilder builder, float u0, float v0, float u1, float v1) {
+        renderEnd(vertexConsumer, builder, u0, v0, u1, v1);
+        renderStart(vertexConsumer, builder, u0, v0, u1, v1);
     }
 }

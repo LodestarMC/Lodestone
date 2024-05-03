@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.rendering;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
@@ -23,6 +24,7 @@ import team.lodestar.lodestone.systems.rendering.trail.TrailRenderPoint;
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -240,7 +242,7 @@ public class VFXBuilders {
         protected MultiBufferSource bufferSource = RenderHandler.DELAYED_RENDER;
         protected RenderType renderType;
         protected VertexFormat format;
-        protected WorldVertexPlacementSupplier supplier;
+        protected WorldVertexConsumerActor supplier;
         protected VertexConsumer vertexConsumer;
 
         public WorldVFXBuilder replaceBufferSource(MultiBufferSource bufferSource) {
@@ -248,8 +250,40 @@ public class VFXBuilders {
             return this;
         }
 
+        public static final HashMap<VertexFormatElement, WorldVertexConsumerActor> CONSUMER_INFO_MAP = new HashMap<>();
+        static {
+            CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_POSITION, (consumer, last, builder, x, y, z, u, v) -> consumer.vertex(x, y, z));
+            CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_COLOR, (consumer, last, builder, x, y, z, u, v) -> consumer.color(builder.r, builder.g, builder.b, builder.a));
+            CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_UV0, (consumer, last, builder, x, y, z, u, v) -> consumer.uv(u, v));
+            CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_UV2, (consumer, last, builder, x, y, z, u, v) -> consumer.uv2(builder.light));
+        } //TODO: add more here 11!!~!!!!!!!!!!
+
         public WorldVFXBuilder setRenderType(RenderType renderType) {
+            return setRenderTypeRaw(renderType).setFormat(renderType.format());
+        }
+
+        public WorldVFXBuilder setRenderTypeRaw(RenderType renderType) {
             this.renderType = renderType;
+            return this;
+        }
+
+        public WorldVFXBuilder setFormat(VertexFormat format) {
+            ImmutableList<VertexFormatElement> elements = format.getElements();
+            return setFormatRaw(format).setVertexSupplier((consumer, last, builder, x, y, z, u, v) -> {
+                for (VertexFormatElement element : elements) {
+                    CONSUMER_INFO_MAP.get(element).placeVertex(consumer, last, this, x, y, z, u, v);
+                }
+                consumer.endVertex();
+            });
+        }
+
+        public WorldVFXBuilder setFormatRaw(VertexFormat format) {
+            this.format = format;
+            return this;
+        }
+
+        public WorldVFXBuilder setVertexSupplier(WorldVertexConsumerActor supplier) {
+            this.supplier = supplier;
             return this;
         }
 
@@ -265,69 +299,20 @@ public class VFXBuilders {
             return vertexConsumer;
         }
 
-        public WorldVFXBuilder setPosColorDefaultFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> {
-                if (l == null)
-                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).endVertex();
-                else
-                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).endVertex();
-            }).setFormat(DefaultVertexFormat.POSITION_COLOR);
+        public MultiBufferSource getBufferSource() {
+            return bufferSource;
         }
 
-        public WorldVFXBuilder setPosColorLightmapDefaultFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> {
-                if (l == null)
-                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
-                else
-                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
-
-            }).setFormat(DefaultVertexFormat.POSITION_COLOR_LIGHTMAP);
+        public RenderType getRenderType() {
+            return renderType;
         }
 
-        public WorldVFXBuilder setPosTexDefaultFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> {
-                if (l == null)
-                    c.vertex(x, y, z).uv(u, v).endVertex();
-                else
-                    c.vertex(l, x, y, z).uv(u, v).endVertex();
-            }).setFormat(DefaultVertexFormat.POSITION_TEX);
+        public VertexFormat getFormat() {
+            return format;
         }
 
-        public WorldVFXBuilder setPosColorTexDefaultFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> {
-                if (l == null)
-                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex();
-                else
-                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex();
-            }).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX);
-        }
-
-        public WorldVFXBuilder setPosColorTexLightmapDefaultFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> {
-                if (l == null)
-                    c.vertex(x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex();
-                else
-                    c.vertex(l, x, y, z).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex();
-            }).setFormat(DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
-        }
-
-        public WorldVFXBuilder setParticleFormat() {
-            return setVertexSupplier((c, l, x, y, z, u, v) -> {
-                if (l == null)
-                    c.vertex(x, y, z).uv(u, v).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
-                else
-                    c.vertex(l, x, y, z).uv(u, v).color(this.r, this.g, this.b, this.a).uv2(this.light).endVertex();
-            }).setFormat(DefaultVertexFormat.PARTICLE);
-        }
-
-        public WorldVFXBuilder setFormat(VertexFormat format) {
-            this.format = format;
-            return this;
-        }
-
-        public WorldVFXBuilder setVertexSupplier(WorldVertexPlacementSupplier supplier) {
-            this.supplier = supplier;
-            return this;
+        public WorldVertexConsumerActor getSupplier() {
+            return supplier;
         }
 
         public WorldVFXBuilder setColor(Color color) {
@@ -401,11 +386,11 @@ public class VFXBuilders {
 
             Vec3[] positions = new Vec3[]{start.subtract(normal), start.add(normal), end.add(normal), end.subtract(normal)};
 
-            supplier.placeVertex(getVertexConsumer(), last, (float) positions[0].x, (float) positions[0].y, (float) positions[0].z, u0, v1);
-            supplier.placeVertex(getVertexConsumer(), last, (float) positions[1].x, (float) positions[1].y, (float) positions[1].z, u1, v1);
+            supplier.placeVertex(getVertexConsumer(), last, this, (float) positions[0].x, (float) positions[0].y, (float) positions[0].z, u0, v1);
+            supplier.placeVertex(getVertexConsumer(), last, this, (float) positions[1].x, (float) positions[1].y, (float) positions[1].z, u1, v1);
             consumer.accept(this);
-            supplier.placeVertex(getVertexConsumer(), last, (float) positions[2].x, (float) positions[2].y, (float) positions[2].z, u1, v0);
-            supplier.placeVertex(getVertexConsumer(), last, (float) positions[3].x, (float) positions[3].y, (float) positions[3].z, u0, v0);
+            supplier.placeVertex(getVertexConsumer(), last, this, (float) positions[2].x, (float) positions[2].y, (float) positions[2].z, u1, v0);
+            supplier.placeVertex(getVertexConsumer(), last, this, (float) positions[3].x, (float) positions[3].y, (float) positions[3].z, u0, v0);
 
             return this;
         }
@@ -445,14 +430,14 @@ public class VFXBuilders {
             int count = trailRenderPoints.size() - 1;
             float increment = 1.0F / count;
             vfxOperator.accept(0f);
-            trailRenderPoints.get(0).renderStart(getVertexConsumer(), supplier, u0, v0, u1, Mth.lerp(increment, v0, v1));
+            trailRenderPoints.get(0).renderStart(getVertexConsumer(), this, u0, v0, u1, Mth.lerp(increment, v0, v1));
             for (int i = 1; i < count; i++) {
                 float current = Mth.lerp(i * increment, v0, v1);
                 vfxOperator.accept(current);
-                trailRenderPoints.get(i).renderMid(getVertexConsumer(), supplier, u0, current, u1, current);
+                trailRenderPoints.get(i).renderMid(getVertexConsumer(), this, u0, current, u1, current);
             }
             vfxOperator.accept(1f);
-            trailRenderPoints.get(count).renderEnd(getVertexConsumer(), supplier, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
+            trailRenderPoints.get(count).renderEnd(getVertexConsumer(), this, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
             return this;
         }
 
@@ -477,10 +462,10 @@ public class VFXBuilders {
         }
 
         public WorldVFXBuilder renderQuad(Matrix4f last, Vector3f[] positions) {
-            supplier.placeVertex(getVertexConsumer(), last, positions[0].x(), positions[0].y(), positions[0].z(), u0, v1);
-            supplier.placeVertex(getVertexConsumer(), last, positions[1].x(), positions[1].y(), positions[1].z(), u1, v1);
-            supplier.placeVertex(getVertexConsumer(), last, positions[2].x(), positions[2].y(), positions[2].z(), u1, v0);
-            supplier.placeVertex(getVertexConsumer(), last, positions[3].x(), positions[3].y(), positions[3].z(), u0, v0);
+            supplier.placeVertex(getVertexConsumer(), last, this, positions[0].x(), positions[0].y(), positions[0].z(), u0, v1);
+            supplier.placeVertex(getVertexConsumer(), last, this, positions[1].x(), positions[1].y(), positions[1].z(), u1, v1);
+            supplier.placeVertex(getVertexConsumer(), last, this, positions[2].x(), positions[2].y(), positions[2].z(), u1, v0);
+            supplier.placeVertex(getVertexConsumer(), last, this, positions[3].x(), positions[3].y(), positions[3].z(), u0, v0);
             return this;
         }
 
@@ -512,21 +497,21 @@ public class VFXBuilders {
                     float textureV = v / endV * radius;
                     float textureUN = un / endU * radius;
                     float textureVN = vn / endV * radius;
-                    supplier.placeVertex(getVertexConsumer(), last, p0.x(), p0.y(), p0.z(), textureU, textureV);
-                    supplier.placeVertex(getVertexConsumer(), last, p2.x(), p2.y(), p2.z(), textureUN, textureV);
-                    supplier.placeVertex(getVertexConsumer(), last, p1.x(), p1.y(), p1.z(), textureU, textureVN);
+                    supplier.placeVertex(getVertexConsumer(), last, this, p0.x(), p0.y(), p0.z(), textureU, textureV);
+                    supplier.placeVertex(getVertexConsumer(), last, this, p2.x(), p2.y(), p2.z(), textureUN, textureV);
+                    supplier.placeVertex(getVertexConsumer(), last, this, p1.x(), p1.y(), p1.z(), textureU, textureVN);
 
-                    supplier.placeVertex(getVertexConsumer(), last, p3.x(), p3.y(), p3.z(), textureUN, textureVN);
-                    supplier.placeVertex(getVertexConsumer(), last, p1.x(), p1.y(), p1.z(), textureU, textureVN);
-                    supplier.placeVertex(getVertexConsumer(), last, p2.x(), p2.y(), p2.z(), textureUN, textureV);
+                    supplier.placeVertex(getVertexConsumer(), last, this, p3.x(), p3.y(), p3.z(), textureUN, textureVN);
+                    supplier.placeVertex(getVertexConsumer(), last, this, p1.x(), p1.y(), p1.z(), textureU, textureVN);
+                    supplier.placeVertex(getVertexConsumer(), last, this, p2.x(), p2.y(), p2.z(), textureUN, textureV);
                 }
             }
             return this;
         }
 
 
-        public interface WorldVertexPlacementSupplier {
-            void placeVertex(VertexConsumer consumer, Matrix4f last, float x, float y, float z, float u, float v);
+        public interface WorldVertexConsumerActor {
+            void placeVertex(VertexConsumer consumer, Matrix4f last, WorldVFXBuilder builder, float x, float y, float z, float u, float v);
         }
     }
 }

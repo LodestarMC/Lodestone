@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.world;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -15,7 +16,7 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 
 public class SparkParticle extends GenericParticle<SparkParticleOptions> {
 
-    public static final VFXBuilders.WorldVFXBuilder builder = VFXBuilders.createWorld().setParticleFormat();
+    public static final VFXBuilders.WorldVFXBuilder builder = VFXBuilders.createWorld().setFormat(DefaultVertexFormat.PARTICLE);
 
     public final GenericParticleData lengthData;
 
