@@ -251,8 +251,14 @@ public class VFXBuilders {
         }
 
         public static final HashMap<VertexFormatElement, WorldVertexConsumerActor> CONSUMER_INFO_MAP = new HashMap<>();
+
         static {
-            CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_POSITION, (consumer, last, builder, x, y, z, u, v) -> consumer.vertex(x, y, z));
+            CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_POSITION, (consumer, last, builder, x, y, z, u, v) -> {
+                if (last == null)
+                    consumer.vertex(x, y, z);
+                else
+                    consumer.vertex(last, x, y, z);
+            });
             CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_COLOR, (consumer, last, builder, x, y, z, u, v) -> consumer.color(builder.r, builder.g, builder.b, builder.a));
             CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_UV0, (consumer, last, builder, x, y, z, u, v) -> consumer.uv(u, v));
             CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_UV2, (consumer, last, builder, x, y, z, u, v) -> consumer.uv2(builder.light));
@@ -261,7 +267,7 @@ public class VFXBuilders {
         public WorldVFXBuilder setRenderType(RenderType renderType) {
             return setRenderTypeRaw(renderType).setFormat(renderType.format());
         }
-
+    
         public WorldVFXBuilder setRenderTypeRaw(RenderType renderType) {
             this.renderType = renderType;
             return this;
