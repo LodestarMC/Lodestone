@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.world;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -15,7 +16,7 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 
 public class SparkParticle extends GenericParticle<SparkParticleOptions> {
 
-    public static final VFXBuilders.WorldVFXBuilder builder = VFXBuilders.createWorld().setParticleFormat();
+    public static final VFXBuilders.WorldVFXBuilder builder = VFXBuilders.createWorld().setFormat(DefaultVertexFormat.PARTICLE);
 
     public final GenericParticleData lengthData;
 
@@ -30,7 +31,6 @@ public class SparkParticle extends GenericParticle<SparkParticleOptions> {
             return;
         }
         renderActors.forEach(actor -> actor.accept(this));
-        consumer = getVertexConsumer(consumer);
         Vec3 vec3 = camera.getPosition();
         float x = (float) (Mth.lerp(partialTicks, this.xo, this.x) - vec3.x());
         float y = (float) (Mth.lerp(partialTicks, this.yo, this.y) - vec3.y());
@@ -41,7 +41,8 @@ public class SparkParticle extends GenericParticle<SparkParticleOptions> {
         Vec3 offset = getParticleSpeed().normalize().scale(length);
         Vec3 movingTo = pos.add(offset);
         Vec3 movingFrom = pos.subtract(offset);
+        builder.setVertexConsumer(getVertexConsumer(consumer));
         builder.setUV(getU0(), getV0(), getU1(), getV1()).setColorRaw(rCol, gCol, bCol).setAlpha(alpha);
-        builder.renderBeam(consumer, null, movingFrom, movingTo, quadSize, Vec3.ZERO);
+        builder.renderBeam(null, movingFrom, movingTo, quadSize, Vec3.ZERO);
     }
 }
