@@ -48,4 +48,9 @@ public class RenderTypeProvider {
         LodestoneRenderTypeRegistry.addRenderTypeModifier(modifier);
         return applyAndCache(texture);
     }
+
+    public LodestoneRenderType applyWithModifierAndCache(ResourceLocation texture, ShaderUniformHandler uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
+        LodestoneRenderTypeRegistry.addRenderTypeModifier(modifier);
+        return LodestoneRenderTypeRegistry.applyUniformChanges(applyAndCache(texture), uniformHandler);
+    }
 }
