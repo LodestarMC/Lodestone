@@ -265,7 +265,7 @@ public class VFXBuilders {
         } //TODO: add more here 11!!~!!!!!!!!!!
 
         public WorldVFXBuilder setRenderType(RenderType renderType) {
-            return setRenderTypeRaw(renderType).setFormat(renderType.format());
+            return setRenderTypeRaw(renderType).setFormat(renderType.format()).setVertexConsumer(bufferSource.getBuffer(renderType));
         }
     
         public WorldVFXBuilder setRenderTypeRaw(RenderType renderType) {
