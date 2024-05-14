@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
-import com.mojang.blaze3d.pipeline.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -59,7 +58,7 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
     }
 
     public T setRenderTarget(RenderHandler.LodestoneRenderLayer renderLayer) {
-        getParticleOptions().renderTarget = renderLayer.getParticleTarget();
+        getParticleOptions().renderLayer = renderLayer;
         return wrapper();
     }
 
