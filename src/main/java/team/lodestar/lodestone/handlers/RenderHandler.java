@@ -28,6 +28,8 @@ import static team.lodestar.lodestone.systems.rendering.StateShards.NORMAL_TRANS
 public class RenderHandler {
     public static final HashMap<RenderType, BufferBuilder> BUFFERS = new HashMap<>();
     public static final HashMap<RenderType, BufferBuilder> PARTICLE_BUFFERS = new HashMap<>();
+    public static final HashMap<RenderType, BufferBuilder> LATE_BUFFERS = new HashMap<>();
+    public static final HashMap<RenderType, BufferBuilder> LATE_PARTICLE_BUFFERS = new HashMap<>();
     public static final HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
     public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
 
@@ -53,8 +55,8 @@ public class RenderHandler {
     public static void onClientSetup(FMLClientSetupEvent event) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
 
-        DELAYED_RENDER = new LodestoneRenderLayer(size);
-        LATE_DELAYED_RENDER = new LodestoneRenderLayer(size);
+        DELAYED_RENDER = new LodestoneRenderLayer(BUFFERS, PARTICLE_BUFFERS, size);
+        LATE_DELAYED_RENDER = new LodestoneRenderLayer(LATE_BUFFERS, LATE_PARTICLE_BUFFERS, size);
     }
 
     public static void setupLodestoneRenderTargets() {
@@ -224,11 +226,11 @@ public class RenderHandler {
 
 
     public static void renderBufferedParticles(LodestoneRenderLayer renderLayer, boolean transparentOnly) {
-        renderBufferedBatches(renderLayer.getParticleTarget(), PARTICLE_BUFFERS, transparentOnly);
+        renderBufferedBatches(renderLayer.getParticleTarget(), renderLayer.getParticleBuffers(), transparentOnly);
     }
 
     public static void renderBufferedBatches(LodestoneRenderLayer renderLayer, boolean transparentOnly) {
-        renderBufferedBatches(renderLayer.getTarget(), BUFFERS, transparentOnly);
+        renderBufferedBatches(renderLayer.getTarget(), renderLayer.getBuffers(), transparentOnly);
     }
 
     private static void renderBufferedBatches(MultiBufferSource.BufferSource bufferSource, HashMap<RenderType, BufferBuilder> buffer, boolean transparentOnly) {
@@ -260,7 +262,9 @@ public class RenderHandler {
         int size = LARGER_BUFFER_SOURCES ? 262144 : renderType.bufferSize();
         final boolean isParticle = renderType.name.contains("particle");
         HashMap<RenderType, BufferBuilder> buffers = isParticle ? PARTICLE_BUFFERS : BUFFERS;
+        HashMap<RenderType, BufferBuilder> lateBuffers = isParticle ? LATE_PARTICLE_BUFFERS : LATE_BUFFERS;
         buffers.put(renderType, new BufferBuilder(size));
+        lateBuffers.put(renderType, new BufferBuilder(size));
         if (NORMAL_TRANSPARENCY.equals(RenderHelper.getTransparencyShard(renderType))) {
             TRANSPARENT_RENDER_TYPES.add(renderType);
         }
@@ -268,16 +272,27 @@ public class RenderHandler {
 
     public static class LodestoneRenderLayer {
 
+        protected final HashMap<RenderType, BufferBuilder> buffers;
+        protected final HashMap<RenderType, BufferBuilder> particleBuffers;
+
         protected final MultiBufferSource.BufferSource target;
         protected final MultiBufferSource.BufferSource particleTarget;
 
-        public LodestoneRenderLayer(int size) {
-            this(MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size)), MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size)));
+        public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers, int size) {
+            this.buffers = buffers;
+            this.particleBuffers = particleBuffers;
+            this.target = MultiBufferSource.immediateWithBuffers(buffers, new BufferBuilder(size));
+            this.particleTarget = MultiBufferSource.immediateWithBuffers(particleBuffers, new BufferBuilder(size));
         }
-        public LodestoneRenderLayer(MultiBufferSource.BufferSource target, MultiBufferSource.BufferSource particleTarget) {
-            this.target = target;
-            this.particleTarget = particleTarget;
+
+        public HashMap<RenderType, BufferBuilder> getBuffers() {
+            return buffers;
         }
+
+        public HashMap<RenderType, BufferBuilder> getParticleBuffers() {
+            return particleBuffers;
+        }
+
         public MultiBufferSource.BufferSource getTarget() {
             return target;
         }
