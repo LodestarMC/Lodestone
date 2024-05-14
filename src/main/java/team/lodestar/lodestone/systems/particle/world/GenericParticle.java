@@ -97,7 +97,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     public VertexConsumer getVertexConsumer(VertexConsumer original) {
         VertexConsumer consumerToUse = original;
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && renderType instanceof LodestoneWorldParticleRenderType lodestoneRenderType) {
-            consumerToUse = RenderHandler.DELAYED_RENDER.getParticleTarget().getBuffer(lodestoneRenderType.renderType);
+            consumerToUse = renderLayer.getParticleTarget().getBuffer(lodestoneRenderType.renderType);
         }
         return consumerToUse;
     }
