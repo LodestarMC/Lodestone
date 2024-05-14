@@ -248,6 +248,10 @@ public class VFXBuilders {
         protected int modularActorAddIndex;
         protected int modularActorGetIndex;
 
+        public WorldVFXBuilder replaceBufferSource(RenderHandler.LodestoneRenderLayer renderLayer) {
+            return replaceBufferSource(renderLayer.getTarget());
+        }
+
         public WorldVFXBuilder replaceBufferSource(MultiBufferSource bufferSource) {
             this.bufferSource = bufferSource;
             return this;

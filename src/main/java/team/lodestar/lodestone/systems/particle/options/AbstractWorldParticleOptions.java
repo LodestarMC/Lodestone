@@ -1,8 +1,10 @@
 package team.lodestar.lodestone.systems.particle.options;
 
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.*;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
+import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.systems.particle.LodestoneWorldParticleActor;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 
@@ -15,6 +17,7 @@ public abstract class AbstractWorldParticleOptions extends SimpleParticleOptions
 
     public final ParticleType<?> type;
     public ParticleRenderType renderType;
+    public MultiBufferSource.BufferSource renderTarget = RenderHandler.DELAYED_RENDER.getParticleTarget();
     public boolean shouldCull;
     public final Collection<Consumer<LodestoneWorldParticleActor>> tickActors = new ArrayList<>();
     public final Collection<Consumer<LodestoneWorldParticleActor>> spawnActors = new ArrayList<>();
