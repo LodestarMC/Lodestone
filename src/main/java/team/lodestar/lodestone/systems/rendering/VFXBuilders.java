@@ -23,8 +23,7 @@ import team.lodestar.lodestone.systems.rendering.trail.TrailRenderPoint;
 
 import javax.annotation.Nullable;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -245,6 +244,10 @@ public class VFXBuilders {
         protected WorldVertexConsumerActor supplier;
         protected VertexConsumer vertexConsumer;
 
+        protected HashMap<Object, Consumer<WorldVFXBuilder>> modularActors = new HashMap<>();
+        protected int modularActorAddIndex;
+        protected int modularActorGetIndex;
+
         public WorldVFXBuilder replaceBufferSource(MultiBufferSource bufferSource) {
             this.bufferSource = bufferSource;
             return this;
@@ -267,7 +270,7 @@ public class VFXBuilders {
         public WorldVFXBuilder setRenderType(RenderType renderType) {
             return setRenderTypeRaw(renderType).setFormat(renderType.format()).setVertexConsumer(bufferSource.getBuffer(renderType));
         }
-    
+
         public WorldVFXBuilder setRenderTypeRaw(RenderType renderType) {
             this.renderType = renderType;
             return this;
@@ -303,6 +306,26 @@ public class VFXBuilders {
                 setVertexConsumer(bufferSource.getBuffer(renderType));
             }
             return vertexConsumer;
+        }
+
+        public WorldVFXBuilder addModularActor(Consumer<WorldVFXBuilder> actor) {
+            return addModularActor(modularActorAddIndex, actor);
+        }
+
+        public WorldVFXBuilder addModularActor(Object key, Consumer<WorldVFXBuilder> actor) {
+            if (modularActors == null) {
+                modularActors = new HashMap<>();
+            }
+            modularActors.put(key, actor);
+            return this;
+        }
+
+        public Optional<HashMap<Object, Consumer<WorldVFXBuilder>>> getModularActors() {
+            return Optional.ofNullable(modularActors);
+        }
+
+        public Optional<Consumer<WorldVFXBuilder>> getNextModularActor() {
+            return Optional.ofNullable(modularActors).map(m -> m.get(modularActorGetIndex++));
         }
 
         public MultiBufferSource getBufferSource() {
