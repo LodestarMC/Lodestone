@@ -238,7 +238,7 @@ public class VFXBuilders {
         protected int light = RenderHelper.FULL_BRIGHT;
         protected float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
 
-        protected MultiBufferSource bufferSource = RenderHandler.DELAYED_RENDER;
+        protected MultiBufferSource bufferSource = RenderHandler.DELAYED_RENDER.getTarget();
         protected RenderType renderType;
         protected VertexFormat format;
         protected WorldVertexConsumerActor supplier;
