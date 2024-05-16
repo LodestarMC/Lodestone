@@ -40,10 +40,12 @@ public class PostProcessHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onWorldRenderLast(RenderLevelStageEvent event) {
+        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SOLID_BLOCKS)) {
+            PostProcessor.viewModelStack = event.getPoseStack(); // Copy PoseStack from LevelRenderer#renderLevel
+        }
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_LEVEL)) {
             copyDepthBuffer(); // copy the depth buffer if the mixin didn't trigger
 
-            PostProcessor.viewModelStack = event.getPoseStack();
             instances.forEach(PostProcessor::applyPostProcess);
 
             didCopyDepth = false; // reset for next frame
