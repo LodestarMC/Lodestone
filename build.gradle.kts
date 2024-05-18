@@ -116,6 +116,9 @@ repositories {
     maven {
         name = "Curios maven"
         url = uri("https://maven.theillusivec4.top/")
+        content {
+            includeGroupByRegex("top\\.theillusivec4.*")
+        }
     }
     maven {
         name = "JEI maven"
