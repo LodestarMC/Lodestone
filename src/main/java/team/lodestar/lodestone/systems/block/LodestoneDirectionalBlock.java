@@ -15,21 +15,25 @@ public class LodestoneDirectionalBlock extends DirectionalBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        if (context.getPlayer().isShiftKeyDown()) {
+        if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
             return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection());
         }
         return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
     }
 
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 
+    @Override
     public BlockState rotate(BlockState state, Rotation rot) {
         return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
+    @Override
     public BlockState mirror(BlockState state, Mirror mirrorIn) {
         return state.setValue(FACING, mirrorIn.mirror(state.getValue(FACING)));
     }

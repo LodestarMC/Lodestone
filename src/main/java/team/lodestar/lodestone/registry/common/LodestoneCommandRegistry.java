@@ -17,7 +17,7 @@ public class LodestoneCommandRegistry {
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
-        LiteralCommandNode<CommandSourceStack> cmd = dispatcher.register(Commands.literal("o")
+        LiteralCommandNode<CommandSourceStack> cmd = dispatcher.register(Commands.literal("lode")
                         .then(DevWorldSetupCommand.register())
                 //.then(ScreenshakeCommand.register())
         );
