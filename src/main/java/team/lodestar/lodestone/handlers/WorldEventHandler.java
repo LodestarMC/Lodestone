@@ -90,7 +90,7 @@ public class WorldEventHandler {
                 } else {
                     instance.tick(level);
                     if (instance.dirty) {
-                        instance.updateClient();
+                        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new UpdateWorldEventPacket(instance.uuid, instance.synchronizeNBT()));
                         instance.dirty = false;
                     }
 

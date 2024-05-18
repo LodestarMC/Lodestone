@@ -4,9 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
-import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
-import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 
@@ -72,18 +70,18 @@ public abstract class WorldEventInstance {
         return this;
     }
 
+    // Update World Event Data Server -> Client
+    public CompoundTag synchronizeNBT() {
+        return serializeNBT(new CompoundTag());
+    }
+
+    //Duplicate World Event to Client, Only Call once per world event instance
     public static <T extends WorldEventInstance> void sync(T instance) {
         LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
     }
 
+    //Duplicate World Event to Client, Only Call once per world event instance
     public static <T extends WorldEventInstance> void sync(T instance, ServerPlayer player) {
         LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
-    }
-
-    // Update World Event Data Server -> Client
-    public void updateClient() {
-        CompoundTag tag = new CompoundTag();
-        this.serializeNBT(tag);
-        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new UpdateWorldEventPacket(this.uuid, tag));
     }
 }
