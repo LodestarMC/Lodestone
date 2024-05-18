@@ -89,7 +89,11 @@ public class WorldEventHandler {
                     iterator.remove();
                 } else {
                     instance.tick(level);
-                    updateWorldEvent(instance);
+                    if (instance.dirty) {
+                        instance.updateClient();
+                        instance.dirty = false;
+                    }
+
                 }
             }
         });
@@ -119,10 +123,4 @@ public class WorldEventHandler {
         }
     }
 
-    // Update World Event Data Server -> Client
-    public static void updateWorldEvent(WorldEventInstance instance) {
-        CompoundTag tag = new CompoundTag();
-        instance.serializeNBT(tag);
-        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new UpdateWorldEventPacket(instance.uuid, tag));
-    }
 }
