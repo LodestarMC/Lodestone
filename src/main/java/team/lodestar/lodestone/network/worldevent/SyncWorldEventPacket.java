@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.network;
+package team.lodestar.lodestone.network.worldevent;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

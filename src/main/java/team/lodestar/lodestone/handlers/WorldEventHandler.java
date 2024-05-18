@@ -9,9 +9,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.network.PacketDistributor;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
+import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPacket;
 import team.lodestar.lodestone.registry.client.LodestoneWorldEventRendererRegistry;
+import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventRenderer;
@@ -86,6 +89,7 @@ public class WorldEventHandler {
                     iterator.remove();
                 } else {
                     instance.tick(level);
+                    updateWorldEvent(instance);
                 }
             }
         });
@@ -113,5 +117,12 @@ public class WorldEventHandler {
             WorldEventInstance eventInstance = reader.createInstance(instanceTag);
             capability.activeWorldEvents.add(eventInstance);
         }
+    }
+
+    // Update World Event Data Server -> Client
+    public static void updateWorldEvent(WorldEventInstance instance) {
+        CompoundTag tag = new CompoundTag();
+        instance.serializeNBT(tag);
+        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new UpdateWorldEventPacket(instance.uuid, tag));
     }
 }

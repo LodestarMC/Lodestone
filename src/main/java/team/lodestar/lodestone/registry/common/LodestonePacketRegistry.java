@@ -6,8 +6,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
-import team.lodestar.lodestone.network.SyncWorldEventPacket;
+import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
 import team.lodestar.lodestone.network.TotemOfUndyingEffectPacket;
+import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPacket;
 import team.lodestar.lodestone.network.capability.SyncLodestoneEntityCapabilityPacket;
 import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
 import team.lodestar.lodestone.network.interaction.ResetRightClickDelayPacket;
@@ -36,6 +37,7 @@ public class LodestonePacketRegistry {
         ScreenshakePacket.register(LODESTONE_CHANNEL, index++);
         PositionedScreenshakePacket.register(LODESTONE_CHANNEL, index++);
         SyncWorldEventPacket.register(LODESTONE_CHANNEL, index++);
+        UpdateWorldEventPacket.register(LODESTONE_CHANNEL, index++);
         RightClickEmptyPacket.register(LODESTONE_CHANNEL, index++);
         UpdateLeftClickPacket.register(LODESTONE_CHANNEL, index++);
         UpdateRightClickPacket.register(LODESTONE_CHANNEL, index++);
