@@ -29,7 +29,7 @@ public class BlockStateSmithTypes {
      */
     public static BlockStateSmith<Block> GRASS_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
         String name = provider.getBlockName(block);
-        ResourceLocation side = provider.getBlockTexture(name + "_top");
+        ResourceLocation side = provider.getBlockTexture(name);
         ResourceLocation dirt = new ResourceLocation("block/dirt");
         ResourceLocation top = provider.getBlockTexture(name + "_top");
         provider.simpleBlock(block, provider.models().cubeBottomTop(name, side, dirt, top));
