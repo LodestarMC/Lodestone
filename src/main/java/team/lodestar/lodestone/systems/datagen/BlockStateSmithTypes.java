@@ -46,7 +46,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a tall grass block model and blockstate
      */
-    public static BlockStateSmith<Block> TALL_GRASS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.CROSS_MODEL_ITEM, (block, provider) -> {
+    public static BlockStateSmith<Block> TALL_GRASS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.AFFIXED_MODEL.apply("_top"), (block, provider) -> {
         String name = provider.getBlockName(block);
         provider.getVariantBuilder(block).forAllStates(s -> {
             final String affix = s.getValue(DoublePlantBlock.HALF).equals(DoubleBlockHalf.LOWER) ? "_bottom" : "_top";
