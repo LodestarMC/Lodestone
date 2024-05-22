@@ -18,6 +18,7 @@ import team.lodestar.lodestone.config.*;
 import team.lodestar.lodestone.data.*;
 import team.lodestar.lodestone.registry.common.*;
 import team.lodestar.lodestone.registry.common.particle.*;
+import team.lodestar.lodestone.systems.item.*;
 
 import java.util.concurrent.*;
 
@@ -42,6 +43,7 @@ public class LodestoneLib {
         CuriosCompat.init();
 
         modBus.addListener(this::gatherData);
+        modBus.addListener(LodestoneItemProperties::populateItemGroups);
     }
 
     public static ResourceLocation lodestonePath(String path) {

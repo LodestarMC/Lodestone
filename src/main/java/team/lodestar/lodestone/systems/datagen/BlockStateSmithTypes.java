@@ -25,6 +25,17 @@ public class BlockStateSmithTypes {
     });
 
     /**
+     * Generates a cube model and a blockstate to match.
+     */
+    public static BlockStateSmith<Block> GRASS_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
+        String name = provider.getBlockName(block);
+        ResourceLocation side = provider.getBlockTexture(name + "_top");
+        ResourceLocation dirt = new ResourceLocation("block/dirt");
+        ResourceLocation top = provider.getBlockTexture(name + "_top");
+        provider.simpleBlock(block, provider.models().cubeBottomTop(name, side, dirt, top));
+    });
+
+    /**
      * Generates a cross model, used by flowers and grass, and a blockstate to match.
      */
     public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.CROSS_MODEL_ITEM, (block, provider) -> {
