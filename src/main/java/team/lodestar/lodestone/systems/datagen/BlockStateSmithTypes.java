@@ -8,6 +8,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import team.lodestar.lodestone.systems.datagen.statesmith.BlockStateSmith;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
 
+@SuppressWarnings("unused")
 public class BlockStateSmithTypes {
 
     /**
@@ -28,11 +29,7 @@ public class BlockStateSmithTypes {
      * Generates a grass block model and a blockstate to match.
      */
     public static BlockStateSmith<Block> GRASS_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
-        String name = provider.getBlockName(block);
-        ResourceLocation side = provider.getBlockTexture(name);
-        ResourceLocation dirt = new ResourceLocation("block/dirt");
-        ResourceLocation top = provider.getBlockTexture(name + "_top");
-        provider.simpleBlock(block, provider.models().cubeBottomTop(name, side, dirt, top));
+        provider.simpleBlock(block, provider.grassBlockModel(block));
     });
 
     /**
@@ -44,12 +41,10 @@ public class BlockStateSmithTypes {
     });
 
     /**
-     * Generates leaves. Not much else to say here.
+     * Generates a leaves model and blockstate to match.
      */
     public static BlockStateSmith<Block> LEAVES_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
-        String name = provider.getBlockName(block);
-        ModelFile leaves = provider.models().withExistingParent(name, new ResourceLocation("block/leaves")).texture("all", provider.getBlockTexture(name));
-        provider.simpleBlock(block, leaves);
+        provider.simpleBlock(block, provider.leavesBlockModel(block));
     });
 
     /**
