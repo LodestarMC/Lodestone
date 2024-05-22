@@ -48,7 +48,11 @@ public class BlockStateSmithTypes {
      */
     public static BlockStateSmith<Block> TALL_GRASS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.CROSS_MODEL_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
-        provider.getVariantBuilder(block).forAllStates(s -> ConfiguredModel.builder().modelFile(provider.models().cross(name, provider.getBlockTexture(name + (s.getValue(DoublePlantBlock.HALF).equals(DoubleBlockHalf.LOWER) ? "_bottom" : "_top")))).build());
+        provider.getVariantBuilder(block).forAllStates(s -> {
+            final String affix = s.getValue(DoublePlantBlock.HALF).equals(DoubleBlockHalf.LOWER) ? "_bottom" : "_top";
+            final String affixedName = name + affix;
+            return ConfiguredModel.builder().modelFile(provider.models().cross(affixedName, provider.getBlockTexture(affixedName))).build();
+        });
     });
 
     /**
