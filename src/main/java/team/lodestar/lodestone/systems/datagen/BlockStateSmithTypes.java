@@ -2,11 +2,14 @@ package team.lodestar.lodestone.systems.datagen;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.*;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import team.lodestar.lodestone.systems.datagen.statesmith.BlockStateSmith;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
+
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
 
 @SuppressWarnings("unused")
 public class BlockStateSmithTypes {
@@ -38,6 +41,14 @@ public class BlockStateSmithTypes {
     public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.CROSS_MODEL_ITEM, (block, provider) -> {
         String name = provider.getBlockName(block);
         provider.simpleBlock(block, provider.models().cross(name, provider.getBlockTexture(name)));
+    });
+
+    /**
+     * Generates a tall grass block model and blockstate
+     */
+    public static BlockStateSmith<Block> TALL_GRASS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.CROSS_MODEL_ITEM, (block, provider) -> {
+        String name = provider.getBlockName(block);
+        provider.getVariantBuilder(block).forAllStates(s -> ConfiguredModel.builder().modelFile(provider.models().cross(name, provider.getBlockTexture(name + (s.getValue(DoublePlantBlock.HALF).equals(DoubleBlockHalf.LOWER) ? "_bottom" : "_top")))).build());
     });
 
     /**
