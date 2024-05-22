@@ -3,8 +3,7 @@ package team.lodestar.lodestone.systems.datagen.providers;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
@@ -51,6 +50,15 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
             String name = getBlockName(b);
             return modelFileFunction.apply(name, getBlockTexture(name));
         };
+    }
+
+    public void varyingRotationBlock(Block block, ModelFile model) {
+        ConfiguredModel.Builder<VariantBlockStateBuilder> builder = getVariantBuilder(block).partialState().modelForState()
+                .modelFile(model)
+                .nextModel().modelFile(model).rotationY(90)
+                .nextModel().modelFile(model).rotationY(180)
+                .nextModel().modelFile(model).rotationY(270);
+        simpleBlock(block, builder.build());
     }
 
     public ModelFile predefinedModel(Block block) {
