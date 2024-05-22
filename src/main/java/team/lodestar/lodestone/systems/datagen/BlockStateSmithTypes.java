@@ -25,7 +25,7 @@ public class BlockStateSmithTypes {
     });
 
     /**
-     * Generates a cube model and a blockstate to match.
+     * Generates a grass block model and a blockstate to match.
      */
     public static BlockStateSmith<Block> GRASS_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
         String name = provider.getBlockName(block);
