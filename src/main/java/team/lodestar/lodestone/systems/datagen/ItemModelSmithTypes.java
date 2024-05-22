@@ -36,10 +36,19 @@ public class ItemModelSmithTypes {
         String name = provider.getItemName(item);
         provider.createGenericModel(item, GENERATED, provider.getBlockTexture(name));
     }));
+    public static Function<String, ItemModelSmith> AFFIXED_BLOCK_TEXTURE_MODEL = Util.memoize((affix) -> new ItemModelSmith(((item, provider) -> {
+        String name = provider.getItemName(item);
+        provider.createGenericModel(item, GENERATED, provider.getBlockTexture(name + affix));
+    })));
+
     public static ItemModelSmith BLOCK_MODEL_ITEM = new ItemModelSmith(((item, provider) -> {
         String name = provider.getItemName(item);
         provider.getBuilder(name).parent(new ModelFile.UncheckedModelFile(provider.modLoc("block/" + name)));
     }));
+    public static Function<String, ItemModelSmith> AFFIXED_BLOCK_MODEL = Util.memoize((affix) -> new ItemModelSmith(((item, provider) -> {
+        String name = provider.getItemName(item);
+        provider.getBuilder(name).parent(new ModelFile.UncheckedModelFile(provider.modLoc("block/" + name + affix)));
+    })));
 
     public static ItemModelSmith CROSS_MODEL_ITEM = new ItemModelSmith(((item, provider) -> {
         provider.createGenericModel(item, GENERATED, provider.getBlockTextureFromCache("cross"));
@@ -53,11 +62,6 @@ public class ItemModelSmithTypes {
         provider.fenceInventory(name, provider.getBlockTextureFromCache("texture"));
     }));
 
-    public static Function<String, ItemModelSmith> AFFIXED_MODEL = Util.memoize((affix) -> new ItemModelSmith(((item, provider) -> {
-        String name = provider.getItemName(item);
-        provider.getBuilder(name).parent(new ModelFile.UncheckedModelFile(provider.modLoc("block/" + name + affix)));
-    })));
-
-    public static ItemModelSmith BUTTON_ITEM = AFFIXED_MODEL.apply("_inventory");
-    public static ItemModelSmith TRAPDOOR_ITEM = AFFIXED_MODEL.apply("_bottom");
+    public static ItemModelSmith BUTTON_ITEM = AFFIXED_BLOCK_MODEL.apply("_inventory");
+    public static ItemModelSmith TRAPDOOR_ITEM = AFFIXED_BLOCK_MODEL.apply("_bottom");
 }
