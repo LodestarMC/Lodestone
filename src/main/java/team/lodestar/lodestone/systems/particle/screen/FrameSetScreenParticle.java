@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
+import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 public class FrameSetScreenParticle extends GenericScreenParticle {
     public ArrayList<Integer> frameSet = new ArrayList<>();
 
-    public FrameSetScreenParticle(ClientLevel world, ScreenParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double xMotion, double yMotion) {
+    public FrameSetScreenParticle(ClientLevel world, ScreenParticleOptions data, FabricSpriteProviderImpl spriteSet, double x, double y, double xMotion, double yMotion) {
         super(world, data, spriteSet, x, y, xMotion, yMotion);
     }
 
@@ -20,8 +21,8 @@ public class FrameSetScreenParticle extends GenericScreenParticle {
     }
 
     public void setSprite(int spriteIndex) {
-        if (spriteIndex < spriteSet.sprites.size() && spriteIndex >= 0) {
-            setSprite(spriteSet.sprites.get(spriteIndex));
+        if (spriteIndex < spriteSet.getSprites().size() && spriteIndex >= 0) {
+            setSprite(spriteSet.getSprites().get(spriteIndex));
         }
     }
 

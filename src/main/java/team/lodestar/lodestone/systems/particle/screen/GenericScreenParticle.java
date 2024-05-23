@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.particle.screen;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.util.FastColor;
@@ -24,7 +25,7 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 
 public class GenericScreenParticle extends TextureSheetScreenParticle {
     private final LodestoneScreenParticleRenderType renderType;
-    protected final ParticleEngine.MutableSpriteSet spriteSet;
+    protected final FabricSpriteProviderImpl spriteSet;
     protected final SimpleParticleOptions.ParticleSpritePicker spritePicker;
     protected final SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType;
     protected final ColorParticleData colorData;
@@ -43,7 +44,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
 
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
-    public GenericScreenParticle(ClientLevel world, ScreenParticleOptions options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double xMotion, double yMotion) {
+    public GenericScreenParticle(ClientLevel world, ScreenParticleOptions options, FabricSpriteProviderImpl spriteSet, double x, double y, double xMotion, double yMotion) {
         super(world, x, y);
         this.renderType = options.renderType;
         this.spriteSet = spriteSet;
@@ -75,7 +76,7 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
             pickSprite(0);
         }
         if (getSpritePicker().equals(LAST_INDEX)) {
-            pickSprite(spriteSet.sprites.size() - 1);
+            pickSprite(spriteSet.getSprites().size() - 1);
         }
         updateTraits();
     }
@@ -85,8 +86,8 @@ public class GenericScreenParticle extends TextureSheetScreenParticle {
     }
 
     public void pickSprite(int spriteIndex) {
-        if (spriteIndex < spriteSet.sprites.size() && spriteIndex >= 0) {
-            setSprite(spriteSet.sprites.get(spriteIndex));
+        if (spriteIndex < spriteSet.getSprites().size() && spriteIndex >= 0) {
+            setSprite(spriteSet.getSprites().get(spriteIndex));
         }
     }
 

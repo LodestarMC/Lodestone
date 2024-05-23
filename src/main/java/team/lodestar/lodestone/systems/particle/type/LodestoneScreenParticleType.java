@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.type;
 
+import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.SpriteSet;
@@ -23,7 +24,7 @@ public class LodestoneScreenParticleType extends ScreenParticleType<ScreenPartic
 
         @Override
         public ScreenParticle createParticle(ClientLevel pLevel, ScreenParticleOptions options, double x, double y, double pXSpeed, double pYSpeed) {
-            return new GenericScreenParticle(pLevel, options, (ParticleEngine.MutableSpriteSet) sprite, x, y, pXSpeed, pYSpeed);
+            return new GenericScreenParticle(pLevel, options, (FabricSpriteProviderImpl) sprite, x, y, pXSpeed, pYSpeed);
         }
     }
 }
