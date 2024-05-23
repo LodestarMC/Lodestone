@@ -29,6 +29,10 @@ public class RenderTypeProvider {
         return this.memorizedFunction.apply(texture);
     }
 
+    public LodestoneRenderType applyAndCache(ResourceLocation texture, ShaderUniformHandler uniformHandler) {
+        return LodestoneRenderTypeRegistry.applyUniformChanges(this.memorizedFunction.apply(texture), uniformHandler);
+    }
+
     public LodestoneRenderType applyWithModifier(ResourceLocation texture, Consumer<LodestoneCompositeStateBuilder> modifier) {
         LodestoneRenderTypeRegistry.addRenderTypeModifier(modifier);
         return apply(texture);
@@ -42,5 +46,10 @@ public class RenderTypeProvider {
     public LodestoneRenderType applyWithModifierAndCache(ResourceLocation texture, Consumer<LodestoneCompositeStateBuilder> modifier) {
         LodestoneRenderTypeRegistry.addRenderTypeModifier(modifier);
         return applyAndCache(texture);
+    }
+
+    public LodestoneRenderType applyWithModifierAndCache(ResourceLocation texture, ShaderUniformHandler uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
+        LodestoneRenderTypeRegistry.addRenderTypeModifier(modifier);
+        return LodestoneRenderTypeRegistry.applyUniformChanges(applyAndCache(texture), uniformHandler);
     }
 }

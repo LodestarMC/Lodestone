@@ -53,7 +53,7 @@ public abstract class GhostBlockRenderer {
             BlockRenderDispatcher dispatch = Minecraft.getInstance().getBlockRenderer();
             BakedModel bakedModel = dispatch.getBlockModel(options.blockState);
             RenderType renderType = ItemBlockRenderTypes.getRenderType(options.blockState, false);
-            VertexConsumer consumer = RenderHandler.DELAYED_RENDER.getBuffer(renderType);
+            VertexConsumer consumer = RenderHandler.DELAYED_RENDER.getTarget().getBuffer(renderType);
             BlockPos pos = options.blockPos;
 
             ps.translate(pos.getX(), pos.getY(), pos.getZ());
@@ -80,7 +80,7 @@ public abstract class GhostBlockRenderer {
             BlockRenderDispatcher dispatch = minecraft.getBlockRenderer();
             BakedModel bakedModel = dispatch.getBlockModel(options.blockState);
             RenderType renderType = RenderType.translucent();
-            VertexConsumer consumer = RenderHandler.DELAYED_RENDER.getBuffer(renderType);
+            VertexConsumer consumer = RenderHandler.DELAYED_RENDER.getTarget().getBuffer(renderType);
             BlockPos pos = options.blockPos;
 
             ps.translate(pos.getX(), pos.getY(), pos.getZ());

@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.network;
+package team.lodestar.lodestone.network.worldevent;
 
 import me.pepperbell.simplenetworking.SimpleChannel;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;

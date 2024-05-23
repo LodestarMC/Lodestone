@@ -30,6 +30,7 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 
 public class GenericParticle<T extends AbstractWorldParticleOptions> extends TextureSheetParticle implements LodestoneWorldParticleActor {
     protected final ParticleRenderType renderType;
+    protected final RenderHandler.LodestoneRenderLayer renderLayer;
     protected final boolean shouldCull;
     protected final FabricSpriteProviderImpl spriteSet;
     protected final SimpleParticleOptions.ParticleSpritePicker spritePicker;
@@ -51,6 +52,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     public GenericParticle(ClientLevel world, T options, FabricSpriteProviderImpl spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, x, y, z);
         this.renderType = options.renderType == null ? LodestoneWorldParticleRenderType.ADDITIVE : options.renderType;
+        this.renderLayer = options.renderLayer;
         this.shouldCull = options.shouldCull;
         this.spriteSet = spriteSet;
         this.spritePicker = options.spritePicker;
@@ -95,7 +97,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     public VertexConsumer getVertexConsumer(VertexConsumer original) {
         VertexConsumer consumerToUse = original;
         if (ClientConfig.DELAYED_PARTICLE_RENDERING.getConfigValue() && renderType instanceof LodestoneWorldParticleRenderType lodestoneRenderType) {
-            consumerToUse = RenderHandler.DELAYED_PARTICLE_RENDER.getBuffer(lodestoneRenderType.renderType);
+            consumerToUse = renderLayer.getParticleTarget().getBuffer(lodestoneRenderType.renderType);
         }
         return consumerToUse;
     }

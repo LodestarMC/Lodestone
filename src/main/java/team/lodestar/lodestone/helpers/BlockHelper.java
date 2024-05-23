@@ -62,19 +62,21 @@ public class BlockHelper {
     /**
      * Saves a block position to nbt.
      */
-    public static void saveBlockPos(CompoundTag compoundNBT, BlockPos pos) {
+    public static CompoundTag saveBlockPos(CompoundTag compoundNBT, BlockPos pos) {
         compoundNBT.putInt("X", pos.getX());
         compoundNBT.putInt("Y", pos.getY());
         compoundNBT.putInt("Z", pos.getZ());
+        return compoundNBT;
     }
 
     /**
      * Saves a block position to nbt with extra text to differentiate it.
      */
-    public static void saveBlockPos(CompoundTag compoundNBT, BlockPos pos, String extra) {
+    public static CompoundTag saveBlockPos(CompoundTag compoundNBT, BlockPos pos, String extra) {
         compoundNBT.putInt(extra + "_X", pos.getX());
         compoundNBT.putInt(extra + "_Y", pos.getY());
         compoundNBT.putInt(extra + "_Z", pos.getZ());
+        return compoundNBT;
     }
 
     /**

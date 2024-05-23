@@ -11,6 +11,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
+import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.helpers.BlockHelper;
 import team.lodestar.lodestone.systems.particle.LodestoneWorldParticleActor;
 import team.lodestar.lodestone.systems.particle.options.AbstractWorldParticleOptions;
@@ -53,6 +54,11 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
 
     public T setRenderType(ParticleRenderType renderType) {
         getParticleOptions().renderType = renderType;
+        return wrapper();
+    }
+
+    public T setRenderTarget(RenderHandler.LodestoneRenderLayer renderLayer) {
+        getParticleOptions().renderLayer = renderLayer;
         return wrapper();
     }
 
