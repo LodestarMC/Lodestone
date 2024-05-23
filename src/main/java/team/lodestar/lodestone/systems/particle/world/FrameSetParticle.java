@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.world;
 
+import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
@@ -12,7 +13,7 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 public class FrameSetParticle extends GenericParticle {
     public ArrayList<Integer> frameSet = new ArrayList<>();
 
-    public FrameSetParticle(ClientLevel world, WorldParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
+    public FrameSetParticle(ClientLevel world, WorldParticleOptions data, FabricSpriteProviderImpl spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, spriteSet, x, y, z, xd, yd, zd);
     }
 

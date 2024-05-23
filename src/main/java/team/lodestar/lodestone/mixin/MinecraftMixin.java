@@ -40,6 +40,6 @@ public abstract class MinecraftMixin {
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/packs/resources/ReloadableResourceManager;registerReloadListener(Lnet/minecraft/server/packs/resources/PreparableReloadListener;)V", ordinal = 17))
     private void lodestone$registerParticleFactories(GameConfig gameConfig, CallbackInfo ci) {
         LodestoneScreenParticleRegistry.registerParticleFactory();
-        LodestoneParticleRegistry.registerFactories();
+        //LodestoneParticleRegistry.registerParticleFactory();
     }
 }

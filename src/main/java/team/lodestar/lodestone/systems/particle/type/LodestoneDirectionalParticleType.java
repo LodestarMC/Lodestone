@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.particle.type;
 
 import com.mojang.serialization.Codec;
+import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleEngine;
@@ -33,7 +34,7 @@ public class LodestoneDirectionalParticleType extends ParticleType<DirectionalPa
         @Nullable
         @Override
         public Particle createParticle(DirectionalParticleOptions data, ClientLevel world, double x, double y, double z, double mx, double my, double mz) {
-            return new DirectionalParticle(world, data, (ParticleEngine.MutableSpriteSet) sprite, x, y, z, mx, my, mz);
+            return new DirectionalParticle(world, data, (FabricSpriteProviderImpl) sprite, x, y, z, mx, my, mz);
         }
     }
 }

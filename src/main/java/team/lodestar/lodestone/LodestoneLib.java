@@ -43,8 +43,7 @@ public class LodestoneLib implements ModInitializer {
         LodestonePaintingRegistry.register();
 
         LodestoneBlockEntityRegistry.BLOCK_ENTITY_TYPES.register();
-        //LodestoneParticleRegistry.PARTICLES.register();
-        LodestoneParticleRegistry.init();
+        LodestoneParticleRegistry.PARTICLES.register();
         LodestoneAttributeRegistry.ATTRIBUTES.register();
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register();
         EntityAttributeModificationEvent.ADD.register(LodestoneAttributeRegistry::modifyEntityAttributes);

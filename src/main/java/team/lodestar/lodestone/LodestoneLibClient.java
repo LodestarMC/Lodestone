@@ -27,7 +27,7 @@ public class LodestoneLibClient implements ClientModInitializer {
 
         ConfigRegistry.registerConfig(LodestoneLib.LODESTONE, ConfigType.CLIENT, ClientConfig.clientSpec);
 
-        //LodestoneParticleRegistry.registerParticleFactory();
+        LodestoneParticleRegistry.registerParticleFactory();
         //LodestoneScreenParticleRegistry.registerParticleFactory();
 
         LodestoneBlockEntityRegistry.ClientOnly.registerRenderer();
