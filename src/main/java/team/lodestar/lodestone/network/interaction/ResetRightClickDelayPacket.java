@@ -11,13 +11,12 @@ import java.util.function.Supplier;
 
 public class ResetRightClickDelayPacket extends LodestoneClientPacket {
 
+    public ResetRightClickDelayPacket(FriendlyByteBuf buf) {
+
+    }
+
     @Override
     public void executeClient(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
         Minecraft.getInstance().rightClickDelay = 0;
     }
-
-    public static ResetRightClickDelayPacket decode(FriendlyByteBuf buf) {
-        return new ResetRightClickDelayPacket();
-    }
-
 }

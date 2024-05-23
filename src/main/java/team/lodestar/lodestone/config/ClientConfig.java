@@ -27,11 +27,11 @@ public class ClientConfig extends LodestoneConfig {
     }
 
     public static final ClientConfig INSTANCE;
-    public static final ModConfigSpec SPEC;
+    public static final ModConfigSpec clientSpec;
 
     static {
         final Pair<ClientConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(ClientConfig::new);
-        SPEC = specPair.getRight();
+        clientSpec = specPair.getRight();
         INSTANCE = specPair.getLeft();
     }
 }

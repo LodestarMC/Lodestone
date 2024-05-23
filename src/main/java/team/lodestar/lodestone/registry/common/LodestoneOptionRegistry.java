@@ -10,6 +10,7 @@ import net.minecraft.util.Mth;
 
 public class LodestoneOptionRegistry {
 
+    /*TODO
     public static final OptionInstance<Double> SCREENSHAKE_INTENSITY = createSliderOption("lodestone.options.screenshakeIntensity");
     public static final OptionInstance<Double> FIRE_OFFSET = createSliderOption("lodestone.options.fireOffset");
 
@@ -24,11 +25,16 @@ public class LodestoneOptionRegistry {
         });
     }
 
+     */
+
     public static void addOption() {
+        /*
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
             if (screen instanceof AccessibilityOptionsScreen accessibilityOptionsScreen) {
                 accessibilityOptionsScreen.list.addSmall(SCREENSHAKE_INTENSITY, FIRE_OFFSET);
             }
         });
+
+         */
     }
 }

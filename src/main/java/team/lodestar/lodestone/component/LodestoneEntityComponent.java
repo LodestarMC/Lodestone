@@ -13,9 +13,9 @@ public class LodestoneEntityComponent implements AutoSyncedComponent {
 
     public FireEffectInstance fireEffectInstance;
 
-    private final LivingEntity entity;
+    private final Entity entity;
 
-    public LodestoneEntityComponent(LivingEntity entity) {
+    public LodestoneEntityComponent(Entity entity) {
         this.entity = entity;
     }
 

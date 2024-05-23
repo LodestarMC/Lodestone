@@ -48,7 +48,7 @@ dependencies {
     // at runtime, use the full JEI jar for Fabric
     modRuntimeOnly("mezz.jei:jei-${property("minecraft_version")}-fabric:${property("jei_version")}")
 
-    modImplementation("dev.emi:trinkets:${property("trinkets_version")}")
+    modImplementation("dev.emi:trinkets:${property("trinkets_version")}") { isTransitive = false }
 
     modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${property("cca_version")}")
     modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${property("cca_version")}")

@@ -17,6 +17,10 @@ public class UpdateLeftClickPacket extends LodestoneServerPacket {
         this.leftClickHeld = rightClick;
     }
 
+    public UpdateLeftClickPacket(FriendlyByteBuf buf) {
+        leftClickHeld = buf.readBoolean();
+    }
+
     public void encode(FriendlyByteBuf buf) {
         buf.writeBoolean(leftClickHeld);
     }

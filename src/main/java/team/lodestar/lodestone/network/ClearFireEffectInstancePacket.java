@@ -18,6 +18,10 @@ public class ClearFireEffectInstancePacket extends LodestoneClientPacket {
         this.entityID = entityID;
     }
 
+    public ClearFireEffectInstancePacket(FriendlyByteBuf buf) {
+        entityID = buf.readInt();
+    }
+
     public void encode(FriendlyByteBuf buf) {
         buf.writeInt(entityID);
     }

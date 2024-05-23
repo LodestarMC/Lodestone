@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.registry.client;
 
-import com.ibm.icu.impl.Pair;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import team.lodestar.lodestone.LodestoneLib;
@@ -9,6 +9,7 @@ import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -31,7 +32,7 @@ public class LodestoneShaderRegistry {
 
 
     public static void shaderRegistry(ResourceProvider manager) throws IOException {
-
+        shaderList = new ArrayList<>();
         registerShader(LODESTONE_TEXTURE.createInstance(manager));
         registerShader(PARTICLE.createInstance(manager));
         registerShader(SCREEN_PARTICLE.createInstance(manager));

@@ -15,12 +15,12 @@ import java.util.function.Supplier;
 
 public class RightClickEmptyPacket extends LodestoneServerPacket {
 
+    public RightClickEmptyPacket(FriendlyByteBuf buf) {
+
+    }
+
     @Override
     public void executeServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
         LodestoneInteractionEvent.RIGHT_CLICK_EMPTY.invoker().onRightClickEmpty(player);
-    }
-
-    public static RightClickEmptyPacket decode(FriendlyByteBuf buf) {
-        return new RightClickEmptyPacket();
     }
 }

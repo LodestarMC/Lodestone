@@ -38,8 +38,7 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "minecraft": "~${minecraft_version}",
-    "java": ">=21",
-    "fabric-language-kotlin": ">=${fabric_kotlin_version}"
+    "java": ">=17"
   },
   "custom": {
     "cardinal-components": [

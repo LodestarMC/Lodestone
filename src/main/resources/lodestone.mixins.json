@@ -16,6 +16,7 @@
     "CreativeModeInventoryScreenMixin",
     "EffectProgramMixin",
     "EntityRenderDispatcherMixin",
+    "FabricSpriteProviderImplAccessor",
     "FogRendererMixin",
     "GameRendererMixin",
     "GuiGraphicsMixin",
@@ -23,7 +24,9 @@
     "LevelRendererMixin",
     "MinecraftMixin",
     "MultiPlayerGameModeMixin",
-    "ScreenEffectRendererMixin"
+    "ParticleEngineMixin",
+    "ScreenEffectRendererMixin",
+    "ShaderInstanceMixin"
   ],
   "injectors": {
     "defaultRequire": 1

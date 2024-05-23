@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -26,6 +27,11 @@ public class TotemOfUndyingEffectPacket extends LodestoneClientPacket {
     public TotemOfUndyingEffectPacket(int entityId, ItemStack stack) {
         this.entityId = entityId;
         this.stack = stack;
+    }
+
+    public TotemOfUndyingEffectPacket(FriendlyByteBuf buf) {
+        entityId = buf.readInt();
+        stack = buf.readItem();
     }
 
     public void encode(FriendlyByteBuf buf) {

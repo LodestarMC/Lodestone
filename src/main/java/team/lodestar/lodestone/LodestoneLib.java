@@ -1,5 +1,8 @@
 package team.lodestar.lodestone;
 
+import io.github.fabricators_of_create.porting_lib.config.ConfigRegistry;
+import io.github.fabricators_of_create.porting_lib.config.ConfigType;
+import io.github.fabricators_of_create.porting_lib.config.PortingLibConfig;
 import io.github.fabricators_of_create.porting_lib.entity.events.*;
 import io.github.fabricators_of_create.porting_lib.entity.events.living.LivingHurtEvent;
 import net.fabricmc.api.ModInitializer;
@@ -18,6 +21,7 @@ import team.lodestar.lodestone.events.LodestoneInteractionEvent;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.registry.common.*;
 import team.lodestar.lodestone.registry.common.particle.*;
+import team.lodestar.lodestone.systems.config.LodestoneConfig;
 
 import java.util.concurrent.*;
 
@@ -44,6 +48,7 @@ public class LodestoneLib implements ModInitializer {
         LodestoneAttributeRegistry.ATTRIBUTES.register();
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register();
         EntityAttributeModificationEvent.ADD.register(LodestoneAttributeRegistry::modifyEntityAttributes);
+
         PlayerEvents.ON_JOIN_WORLD.register(WorldEventHandler::playerJoin);
         PlayerEvents.ON_JOIN_WORLD.register(LodestonePlayerComponent::playerJoin);
 

@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.mixin;
 
-import com.ibm.icu.impl.Pair;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.blaze3d.shaders.Program;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
