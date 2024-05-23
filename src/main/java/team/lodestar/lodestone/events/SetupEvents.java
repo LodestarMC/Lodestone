@@ -1,26 +1,9 @@
 package team.lodestar.lodestone.events;
 
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import team.lodestar.lodestone.component.LodestoneEntityDataCapability;
-import team.lodestar.lodestone.component.LodestonePlayerDataCapability;
-import team.lodestar.lodestone.component.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SetupEvents {
-
-    @SubscribeEvent
-    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        LodestoneWorldDataCapability.registerCapabilities(event);
-        LodestoneEntityDataCapability.registerCapabilities(event);
-        LodestonePlayerDataCapability.registerCapabilities(event);
-    }
 
     @SubscribeEvent
     public static void registerCommon(FMLCommonSetupEvent event) {

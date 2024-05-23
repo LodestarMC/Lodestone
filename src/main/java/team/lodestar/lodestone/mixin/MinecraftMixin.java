@@ -33,9 +33,4 @@ public abstract class MinecraftMixin {
     private void onFrameStart(boolean tick, CallbackInfo ci) {
         ClientTickCounter.renderTick(isPaused() ? pausePartialTick : getFrameTime());
     }
-
-    @Inject(method = "startAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;resetAttackStrengthTicker()V", shift = At.Shift.AFTER))
-    private void leftClickEmpty(CallbackInfoReturnable<Boolean> cir) {
-        new PlayerInteractionEvents.LeftClickEmpty(this.player).sendEvent();
-    }
 }

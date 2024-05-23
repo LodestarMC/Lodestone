@@ -8,6 +8,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import team.lodestar.lodestone.events.LodestoneInteractionEvent;
 import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
 
 import java.util.function.Supplier;
@@ -16,7 +17,7 @@ public class RightClickEmptyPacket extends LodestoneServerPacket {
 
     @Override
     public void executeServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
-        PlayerInteractionEvents.LeftClickEmpty.onRightClickEmptyServer(player);
+        LodestoneInteractionEvent.RIGHT_CLICK_EMPTY.invoker().onRightClickEmpty(player);
     }
 
     public static RightClickEmptyPacket decode(FriendlyByteBuf buf) {

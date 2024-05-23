@@ -1,6 +1,8 @@
 package team.lodestar.lodestone;
 
 import io.github.fabricators_of_create.porting_lib.entity.events.PlayerEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerInteractionEvents;
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerTickEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.resources.ResourceLocation;
@@ -10,6 +12,8 @@ import team.lodestar.lodestone.compability.*;
 import team.lodestar.lodestone.config.*;
 import team.lodestar.lodestone.data.*;
 import team.lodestar.lodestone.events.EntityAttributeModificationEvent;
+import team.lodestar.lodestone.events.LodestoneInteractionEvent;
+import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
 import team.lodestar.lodestone.handlers.WorldEventHandler;
 import team.lodestar.lodestone.registry.common.*;
 import team.lodestar.lodestone.registry.common.particle.*;
@@ -40,6 +44,9 @@ public class LodestoneLib implements ModInitializer {
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register();
         EntityAttributeModificationEvent.ADD.register(LodestoneAttributeRegistry::modifyEntityAttributes);
         PlayerEvents.ON_JOIN_WORLD.register(WorldEventHandler::playerJoin);
+
+        PlacementAssistantHandler.registerPlacementAssistants();
+        LodestoneInteractionEvent.RIGHT_CLICK_BLOCK.register(PlacementAssistantHandler::placeBlock);
 
         CuriosCompat.init();
     }

@@ -6,8 +6,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import team.lodestar.lodestone.component.LodestonePlayerDataCapability;
-import team.lodestar.lodestone.events.types.RightClickEmptyServer;
+import team.lodestar.lodestone.component.LodestoneComponents;
+import team.lodestar.lodestone.events.LodestoneInteractionEvent;
 import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
 
 public class UpdateRightClickPacket extends LodestoneServerPacket {
@@ -25,9 +25,9 @@ public class UpdateRightClickPacket extends LodestoneServerPacket {
     @Override
     public void executeServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
         if (rightClickHeld) {
-            RightClickEmptyServer.onRightClickEmptyServer(player);
+            LodestoneInteractionEvent.RIGHT_CLICK_EMPTY.invoker().onRightClickEmpty(player);
         }
-        LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.rightClickHeld = rightClickHeld);
+        LodestoneComponents.LODESTONE_PLAYER_COMPONENT.maybeGet(player).ifPresent(c -> c.rightClickHeld = rightClickHeld);
     }
 
     public static UpdateRightClickPacket decode(FriendlyByteBuf buf) {

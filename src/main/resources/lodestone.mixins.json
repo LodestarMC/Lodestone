@@ -7,7 +7,8 @@
     "BlockItemMixin",
     "EntityMixin",
     "ItemStackMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "ServerPlayerGameModeMixin"
   ],
   "client": [
     "AbstractContainerScreenMixin",

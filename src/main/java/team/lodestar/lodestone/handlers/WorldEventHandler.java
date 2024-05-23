@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.component.LodestoneWorldComponent;
-import team.lodestar.lodestone.component.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.registry.client.LodestoneWorldEventRendererRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;

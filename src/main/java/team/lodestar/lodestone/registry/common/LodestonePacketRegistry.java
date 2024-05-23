@@ -5,8 +5,6 @@ import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
 import team.lodestar.lodestone.network.SyncWorldEventPacket;
 import team.lodestar.lodestone.network.TotemOfUndyingEffectPacket;
-import team.lodestar.lodestone.network.capability.SyncLodestoneEntityCapabilityPacket;
-import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
 import team.lodestar.lodestone.network.interaction.ResetRightClickDelayPacket;
 import team.lodestar.lodestone.network.interaction.RightClickEmptyPacket;
 import team.lodestar.lodestone.network.interaction.UpdateLeftClickPacket;
@@ -14,8 +12,6 @@ import team.lodestar.lodestone.network.interaction.UpdateRightClickPacket;
 import team.lodestar.lodestone.network.screenshake.PositionedScreenshakePacket;
 import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
 
-import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
-import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
 
 @SuppressWarnings("unused")
 public class LodestonePacketRegistry {
@@ -28,11 +24,6 @@ public class LodestonePacketRegistry {
         int index = 0;
 
         //TwoWay
-        LODESTONE_CHANNEL.registerC2SPacket(SyncLodestonePlayerCapabilityPacket.class, index++);
-        LODESTONE_CHANNEL.registerS2CPacket(SyncLodestonePlayerCapabilityPacket.class, index++);
-
-        LODESTONE_CHANNEL.registerC2SPacket(SyncLodestoneEntityCapabilityPacket.class, index++);
-        LODESTONE_CHANNEL.registerS2CPacket(SyncLodestoneEntityCapabilityPacket.class, index++);
 
         //S2C
         LODESTONE_CHANNEL.registerS2CPacket(ClearFireEffectInstancePacket.class, index++);
