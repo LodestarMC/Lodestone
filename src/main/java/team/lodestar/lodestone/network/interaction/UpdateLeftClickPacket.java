@@ -1,12 +1,13 @@
 package team.lodestar.lodestone.network.interaction;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.simple.SimpleChannel;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
-
-import java.util.function.Supplier;
 
 public class UpdateLeftClickPacket extends LodestoneServerPacket {
 
@@ -16,17 +17,17 @@ public class UpdateLeftClickPacket extends LodestoneServerPacket {
         this.leftClickHeld = rightClick;
     }
 
+    public UpdateLeftClickPacket(FriendlyByteBuf buf) {
+        leftClickHeld = buf.readBoolean();
+    }
+
     public void encode(FriendlyByteBuf buf) {
         buf.writeBoolean(leftClickHeld);
     }
 
     @Override
-    public void execute(Supplier<NetworkEvent.Context> context) {
-        LodestonePlayerDataCapability.getCapabilityOptional(context.get().getSender()).ifPresent(c -> c.leftClickHeld = leftClickHeld);
-    }
-
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, UpdateLeftClickPacket.class, UpdateLeftClickPacket::encode, UpdateLeftClickPacket::decode, UpdateLeftClickPacket::handle);
+    public void executeServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
+        LodestoneComponents.LODESTONE_PLAYER_COMPONENT.maybeGet(player).ifPresent(c -> c.leftClickHeld = leftClickHeld);
     }
 
     public static UpdateLeftClickPacket decode(FriendlyByteBuf buf) {

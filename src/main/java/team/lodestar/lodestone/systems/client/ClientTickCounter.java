@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.systems.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.event.TickEvent;
 
 public class ClientTickCounter {
     public static long ticksInGame = 0L;
@@ -11,10 +10,8 @@ public class ClientTickCounter {
         return (float) ticksInGame + partialTicks;
     }
 
-    public static void renderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase.equals(TickEvent.Phase.START)) {
-            partialTicks = event.renderTickTime;
-        }
+    public static void renderTick(float renderTickTime) {
+        partialTicks = renderTickTime;
     }
 
     public static void clientTick() {

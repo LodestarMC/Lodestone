@@ -1,7 +1,11 @@
 package team.lodestar.lodestone.helpers;
 
+import dev.emi.trinkets.api.SlotReference;
+import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -11,10 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
-import team.lodestar.lodestone.compability.CuriosCompat;
+import team.lodestar.lodestone.compability.TrinketsCompat;
 import team.lodestar.lodestone.systems.item.IEventResponderItem;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class ItemHelper {
     public static <T extends LivingEntity> boolean damageItem(ItemStack stack, int amount, T entityIn, Consumer<T> onBroken) {
         if (!entityIn.level().isClientSide && (!(entityIn instanceof Player) || !((Player) entityIn).getAbilities().instabuild)) {
             if (stack.isDamageableItem()) {
-                amount = stack.getItem().damageItem(stack, amount, entityIn, onBroken);
+                var damageableItem = (DamageableItem) stack.getItem();
                 if (stack.hurt(amount, entityIn.getRandom(), entityIn instanceof ServerPlayer ? (ServerPlayer) entityIn : null)) {
                     onBroken.accept(entityIn);
                     Item item = stack.getItem();
@@ -86,7 +87,9 @@ public class ItemHelper {
     }
 
     public static ArrayList<ItemStack> getEventResponders(LivingEntity attacker) {
-        ArrayList<ItemStack> itemStacks = CuriosCompat.LOADED ? CurioHelper.getEquippedCurios(attacker, p -> p.getItem() instanceof IEventResponderItem) : new ArrayList<>();
+        ArrayList<Tuple<SlotReference, ItemStack>> equippedCurios = TrinketsHelper.getEquippedTrinkets(attacker, p -> p.getItem() instanceof IEventResponderItem);
+
+        ArrayList<ItemStack> itemStacks = TrinketsCompat.LOADED ? new ArrayList<>(equippedCurios.stream().map(Tuple::getB).toList()) : new ArrayList<>();
         ItemStack stack = attacker.getMainHandItem();
         if (stack.getItem() instanceof IEventResponderItem) {
             itemStacks.add(stack);
@@ -119,14 +122,10 @@ public class ItemHelper {
 
     public static void quietlyGiveItemToPlayer(Player player, ItemStack stack) {
         if (stack.isEmpty()) return;
-        IItemHandler inventory = new PlayerMainInvWrapper(player.getInventory());
         Level level = player.level();
         ItemStack remainder = stack;
         if (!remainder.isEmpty()) {
-            remainder = ItemHandlerHelper.insertItemStacked(inventory, remainder, false);
-        }
-        if (!remainder.isEmpty() && !level.isClientSide) {
-            spawnItemOnEntity(player, stack);
+            ItemHandlerHelper.giveItemToPlayer(player, remainder);
         }
     }
 

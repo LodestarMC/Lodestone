@@ -2,6 +2,9 @@ package team.lodestar.lodestone.systems.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
+import io.github.fabricators_of_create.porting_lib.tool.ToolActions;
+import io.github.fabricators_of_create.porting_lib.tool.addons.ToolActionItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -16,14 +19,13 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolActions;
 
 /**
  * A simple copy of a sword, without actually being a sword.
  * Minecraft has some hardcoded instanceof SwordItem checks, which we use this to avoid.
  */
 
-public class ModCombatItem extends TieredItem {
+public class ModCombatItem extends TieredItem implements ToolActionItem {
     private final float attackDamage;
     private final float attackSpeed;
     private Multimap<Attribute, AttributeModifier> attributes;
@@ -88,7 +90,7 @@ public class ModCombatItem extends TieredItem {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
         return toolAction.equals(ToolActions.SWORD_DIG);
     }
 }

@@ -3,8 +3,7 @@ package team.lodestar.lodestone.systems.worldevent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PacketDistributor;
-import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
+import team.lodestar.lodestone.network.SyncWorldEventPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 
@@ -18,7 +17,6 @@ public abstract class WorldEventInstance {
     public UUID uuid; //TODO: figure out why this is here.
     public WorldEventType type;
     public boolean discarded;
-    public boolean dirty;
 
     public WorldEventInstance(WorldEventType type) {
         this.uuid = UUID.randomUUID();
@@ -52,10 +50,6 @@ public abstract class WorldEventInstance {
         discarded = true;
     }
 
-    public void setDirty() {
-        dirty = true;
-    }
-
     public CompoundTag serializeNBT(CompoundTag tag) {
         tag.putUUID("uuid", uuid);
         tag.putString("type", type.id);
@@ -70,18 +64,11 @@ public abstract class WorldEventInstance {
         return this;
     }
 
-    // Update World Event Data Server -> Client
-    public CompoundTag synchronizeNBT() {
-        return serializeNBT(new CompoundTag());
-    }
-
-    //Duplicate World Event to Client, Only Call once per world event instance
     public static <T extends WorldEventInstance> void sync(T instance) {
-        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
+        LodestonePacketRegistry.LODESTONE_CHANNEL.sendToClientsInCurrentServer(new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
     }
 
-    //Duplicate World Event to Client, Only Call once per world event instance
     public static <T extends WorldEventInstance> void sync(T instance, ServerPlayer player) {
-        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
+        LodestonePacketRegistry.LODESTONE_CHANNEL.sendToClient(new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())), player);
     }
 }

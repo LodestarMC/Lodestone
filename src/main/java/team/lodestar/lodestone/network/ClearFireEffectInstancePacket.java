@@ -1,13 +1,12 @@
 package team.lodestar.lodestone.network;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.simple.SimpleChannel;
 import team.lodestar.lodestone.handlers.FireEffectHandler;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
-
-import java.util.function.Supplier;
 
 public class ClearFireEffectInstancePacket extends LodestoneClientPacket {
 
@@ -17,17 +16,17 @@ public class ClearFireEffectInstancePacket extends LodestoneClientPacket {
         this.entityID = entityID;
     }
 
+    public ClearFireEffectInstancePacket(FriendlyByteBuf buf) {
+        entityID = buf.readInt();
+    }
+
     public void encode(FriendlyByteBuf buf) {
         buf.writeInt(entityID);
     }
 
     @Override
-    public void execute(Supplier<NetworkEvent.Context> context) {
+    public void executeClient(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
         FireEffectHandler.setCustomFireInstance(Minecraft.getInstance().level.getEntity(entityID), null);
-    }
-
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, ClearFireEffectInstancePacket.class, ClearFireEffectInstancePacket::encode, ClearFireEffectInstancePacket::decode, ClearFireEffectInstancePacket::handle);
     }
 
     public static ClearFireEffectInstancePacket decode(FriendlyByteBuf buf) {

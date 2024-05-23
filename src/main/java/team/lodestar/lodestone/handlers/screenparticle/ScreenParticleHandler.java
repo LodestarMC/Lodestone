@@ -1,11 +1,11 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
 import com.mojang.blaze3d.vertex.*;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.TickEvent;
 import org.joml.*;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
@@ -54,10 +54,8 @@ public class ScreenParticleHandler {
         canSpawnParticles = true;
     }
 
-    public static void renderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase.equals(TickEvent.Phase.END)) {
-            canSpawnParticles = false;
-        }
+    public static void renderTick(WorldRenderContext ctx) {
+        canSpawnParticles = false;
     }
 
     public static void renderItemStackEarly(PoseStack poseStack, ItemStack stack, int x, int y) {
@@ -139,7 +137,7 @@ public class ScreenParticleHandler {
             return;
         }
         screenParticleTarget.particles.forEach((renderType, particles) -> {
-            renderType.begin(TESSELATOR.getBuilder(), Minecraft.getInstance().textureManager);
+            renderType.begin(TESSELATOR.getBuilder(), Minecraft.getInstance().getTextureManager());
             for (ScreenParticle next : particles) {
                 next.render(TESSELATOR.getBuilder());
             }

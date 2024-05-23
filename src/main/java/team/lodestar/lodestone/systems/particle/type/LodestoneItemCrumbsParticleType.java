@@ -9,7 +9,7 @@ import net.minecraft.core.particles.ParticleType;
 import team.lodestar.lodestone.systems.particle.options.LodestoneItemCrumbsParticleOptions;
 import team.lodestar.lodestone.systems.particle.world.LodestoneItemCrumbParticle;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class LodestoneItemCrumbsParticleType extends ParticleType<LodestoneItemCrumbsParticleOptions> {
     public LodestoneItemCrumbsParticleType() {
