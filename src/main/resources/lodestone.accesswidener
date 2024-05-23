@@ -82,6 +82,11 @@ accessible method net/minecraft/world/item/enchantment/EnchantmentHelper runIter
 accessible method net/minecraft/world/item/enchantment/EnchantmentHelper runIterationOnItem (Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/world/item/ItemStack;)V
 accessible field net/minecraft/client/renderer/RenderType$CompositeRenderType OUTLINE Ljava/util/function/BiFunction;
 accessible field net/minecraft/client/renderer/entity/BoatRenderer boatResources Ljava/util/Map;
+mutable field net/minecraft/client/renderer/entity/BoatRenderer boatResources Ljava/util/Map;
 accessible field net/minecraft/client/Minecraft pause Z
 accessible field net/minecraft/client/Minecraft pausePartialTick F
-accessible method net/minecraft/world/level/block/state/BlockBehaviour asBlock ()Lnet/minecraft/world/level/block/Block;
+accessible field net/minecraft/client/particle/ParticleEngine spriteSets Ljava/util/Map;
+accessible field net/minecraft/client/renderer/RenderType$CompositeState states Lcom/google/common/collect/ImmutableList;
+accessible method net/minecraft/client/renderer/RenderStateShard$EmptyTextureStateShard cutoutTexture ()Ljava/util/Optional;
+accessible field net/minecraft/world/item/ArmorItem defaultModifiers Lcom/google/common/collect/Multimap;
+accessible field net/minecraft/world/item/SwordItem defaultModifiers Lcom/google/common/collect/Multimap;

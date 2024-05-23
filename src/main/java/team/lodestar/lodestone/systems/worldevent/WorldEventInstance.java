@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.worldevent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.network.SyncWorldEventPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
@@ -65,10 +66,10 @@ public abstract class WorldEventInstance {
     }
 
     public static <T extends WorldEventInstance> void sync(T instance) {
-        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
+        LodestonePacketRegistry.LODESTONE_CHANNEL.sendToClientsInCurrentServer(new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
     }
 
     public static <T extends WorldEventInstance> void sync(T instance, ServerPlayer player) {
-        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
+        LodestonePacketRegistry.LODESTONE_CHANNEL.sendToClient(new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())), player);
     }
 }

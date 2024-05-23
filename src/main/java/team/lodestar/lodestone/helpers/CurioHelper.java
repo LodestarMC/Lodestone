@@ -7,11 +7,9 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.apache.commons.lang3.tuple.ImmutableTriple;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -40,49 +38,12 @@ public class CurioHelper {
         return List.of();
     }
 
-    public static ArrayList<ItemStack> getEquippedCurios(LivingEntity entity, Predicate<ItemStack> predicate) {
-        Optional<IItemHandlerModifiable> optional = CuriosApi.getCuriosHelper().getEquippedCurios(entity).resolve();
-        ArrayList<ItemStack> stacks = new ArrayList<>();
-        if (optional.isPresent()) {
-            IItemHandlerModifiable handler = optional.get();
-            for (int i = 0; i < handler.getSlots(); i++) {
-                ItemStack stack = handler.getStackInSlot(i);
-                if (predicate.test(stack)) {
-                    stacks.add(stack);
-                }
-            }
+    public static ArrayList<Tuple<SlotReference, ItemStack>> getEquippedCurios(LivingEntity entity, Predicate<ItemStack> predicate) {
+        var v = TrinketsApi.TRINKET_COMPONENT.maybeGet(entity);
+        if (v.isPresent()) {
+            TrinketComponent component = v.get();
+            return new ArrayList<>(component.getEquipped(predicate));
         }
-        return stacks;
-    }
-
-    public static Optional<ImmutableTriple<String, Integer, ItemStack>> findCosmeticCurio(Predicate<ItemStack> filter, LivingEntity livingEntity) {
-        ImmutableTriple<String, Integer, ItemStack> result = CuriosApi.getCuriosHelper().getCuriosHandler(livingEntity).map(handler ->
-        {
-            Map<String, ICurioStacksHandler> curios = handler.getCurios();
-
-            for (String id : curios.keySet()) {
-                ICurioStacksHandler stacksHandler = curios.get(id);
-                IDynamicStackHandler stackHandler = stacksHandler.getStacks();
-                IDynamicStackHandler cosmeticStackHelper = stacksHandler.getCosmeticStacks();
-
-                for (int i = 0; i < stackHandler.getSlots(); i++) {
-                    ItemStack stack = stackHandler.getStackInSlot(i);
-
-                    if (!stack.isEmpty() && filter.test(stack)) {
-                        return new ImmutableTriple<>(id, i, stack);
-                    }
-                }
-                for (int i = 0; i < cosmeticStackHelper.getSlots(); i++) {
-                    ItemStack stack = cosmeticStackHelper.getStackInSlot(i);
-
-                    if (!stack.isEmpty() && filter.test(stack)) {
-                        return new ImmutableTriple<>(id, i, stack);
-                    }
-                }
-            }
-            return new ImmutableTriple<>("", 0, ItemStack.EMPTY);
-        }).orElse(new ImmutableTriple<>("", 0, ItemStack.EMPTY));
-
-        return result.getLeft().isEmpty() ? Optional.empty() : Optional.of(result);
+        return new ArrayList<>();
     }
 }

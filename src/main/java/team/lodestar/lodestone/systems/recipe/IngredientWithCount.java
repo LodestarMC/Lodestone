@@ -10,6 +10,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import team.lodestar.lodestone.helpers.ItemHelper;
 
 import java.util.List;
+import java.util.Optional;
 
 public class IngredientWithCount implements IRecipeComponent {
     public final Ingredient ingredient;
@@ -22,7 +23,7 @@ public class IngredientWithCount implements IRecipeComponent {
 
     @Override
     public ItemStack getStack() {
-        return new ItemStack(getItem(), getCount(), ingredient.getItems()[0].getTag());
+        return new ItemStack(getItem(), getCount(), Optional.ofNullable(ingredient.getItems()[0].getTag()));
     }
 
     @Override

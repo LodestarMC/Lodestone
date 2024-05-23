@@ -1,9 +1,11 @@
 package team.lodestar.lodestone.helpers;
 
+import dev.emi.trinkets.api.SlotReference;
 import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -41,6 +43,7 @@ public class ItemHelper {
     public static <T extends LivingEntity> boolean damageItem(ItemStack stack, int amount, T entityIn, Consumer<T> onBroken) {
         if (!entityIn.level().isClientSide && (!(entityIn instanceof Player) || !((Player) entityIn).getAbilities().instabuild)) {
             if (stack.isDamageableItem()) {
+                Damage
                 amount = ((DamageableItem)stack.getItem()).damageItem(stack, amount, entityIn, onBroken);
                 if (stack.hurt(amount, entityIn.getRandom(), entityIn instanceof ServerPlayer ? (ServerPlayer) entityIn : null)) {
                     onBroken.accept(entityIn);
@@ -85,7 +88,9 @@ public class ItemHelper {
     }
 
     public static ArrayList<ItemStack> getEventResponders(LivingEntity attacker) {
-        ArrayList<ItemStack> itemStacks = CuriosCompat.LOADED ? CurioHelper.getEquippedCurios(attacker, p -> p.getItem() instanceof IEventResponderItem) : new ArrayList<>();
+        ArrayList<Tuple<SlotReference, ItemStack>> equippedCurios = CurioHelper.getEquippedCurios(attacker, p -> p.getItem() instanceof IEventResponderItem);
+
+        ArrayList<ItemStack> itemStacks = CuriosCompat.LOADED ? new ArrayList<>(equippedCurios.stream().map(Tuple::getB).toList()) : new ArrayList<>();
         ItemStack stack = attacker.getMainHandItem();
         if (stack.getItem() instanceof IEventResponderItem) {
             itemStacks.add(stack);
