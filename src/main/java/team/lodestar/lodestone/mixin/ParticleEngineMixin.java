@@ -15,7 +15,7 @@ import java.util.List;
 
 @Mixin(ParticleEngine.class)
 final class ParticleEngineMixin {
-/*
+
     @Mutable
     @Final
     @Shadow
@@ -24,9 +24,9 @@ final class ParticleEngineMixin {
     @Inject(at = @At("RETURN"), method = "<clinit>")
     private static void lodestone$addTypes(CallbackInfo ci) {
         RENDER_ORDER = ImmutableList.<ParticleRenderType>builder().addAll(RENDER_ORDER)
-                .add(ParticleO.ADDITIVE, ParticleTextureSheets.TRANSPARENT)
+                .add(LodestoneWorldP.ADDITIVE, ParticleTextureSheets.TRANSPARENT)
                 .build();
     }
 
- */
+
 }
