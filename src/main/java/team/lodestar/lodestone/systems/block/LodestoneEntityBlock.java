@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.block;
 
+import io.github.fabricators_of_create.porting_lib.blocks.extensions.OnExplodedBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -17,7 +18,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 
@@ -28,7 +28,7 @@ import java.util.function.Supplier;
  * It's important to still utilize generic, T extends YourBlockEntity, in order to allow for other mods to extend your block and use a different block entity
  */
 @SuppressWarnings("unchecked")
-public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block implements EntityBlock {
+public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block implements EntityBlock, OnExplodedBlock {
 
     protected Supplier<BlockEntityType<T>> blockEntityType = null;
     protected BlockEntityTicker<T> ticker = null;
@@ -68,16 +68,16 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state) {
         if (hasTileEntity(state)) {
-            if (world.getBlockEntity(pos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                ItemStack stack = simpleBlockEntity.onClone(state, target, world, pos, player);
+            if (level.getBlockEntity(pos) instanceof LodestoneBlockEntity simpleBlockEntity) {
+                ItemStack stack = simpleBlockEntity.onClone(state, level, pos);
                 if (!stack.isEmpty()) {
                     return stack;
                 }
             }
         }
-        return super.getCloneItemStack(state, target, world, pos, player);
+        return super.getCloneItemStack(level, pos, state);
     }
 
     @Override
@@ -86,11 +86,14 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
         super.playerWillDestroy(level, pos, state, player);
     }
 
+
     @Override
     public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
         onBlockBroken(state, level, pos, null);
-        super.onBlockExploded(state, level, pos, explosion);
+        OnExplodedBlock.super.onBlockExploded(state, level, pos, explosion);
     }
+
+
 
     public void onBlockBroken(BlockState state, BlockGetter level, BlockPos pos, @Nullable Player player) {
         if (hasTileEntity(state)) {

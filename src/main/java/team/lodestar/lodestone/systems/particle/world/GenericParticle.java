@@ -1,9 +1,9 @@
 package team.lodestar.lodestone.systems.particle.world;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.util.FastColor;
@@ -32,7 +32,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     protected final ParticleRenderType renderType;
     protected final RenderHandler.LodestoneRenderLayer renderLayer;
     protected final boolean shouldCull;
-    protected final ParticleEngine.MutableSpriteSet spriteSet;
+    protected final FabricSpriteProviderImpl spriteSet;
     protected final SimpleParticleOptions.ParticleSpritePicker spritePicker;
     protected final SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType;
     protected final ColorParticleData colorData;
@@ -49,7 +49,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
 
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
-    public GenericParticle(ClientLevel world, T options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
+    public GenericParticle(ClientLevel world, T options, FabricSpriteProviderImpl spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, x, y, z);
         this.renderType = options.renderType == null ? LodestoneWorldParticleRenderType.ADDITIVE : options.renderType;
         this.renderLayer = options.renderLayer;
@@ -83,7 +83,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
                 pickSprite(0);
             }
             if (getSpritePicker().equals(LAST_INDEX)) {
-                pickSprite(spriteSet.sprites.size() - 1);
+                pickSprite(spriteSet.getSprites().size() - 1);
             }
         }
         options.spawnActors.forEach(actor -> actor.accept(this));
@@ -103,8 +103,8 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     }
 
     public void pickSprite(int spriteIndex) {
-        if (spriteIndex < spriteSet.sprites.size() && spriteIndex >= 0) {
-            setSprite(spriteSet.sprites.get(spriteIndex));
+        if (spriteIndex < spriteSet.getSprites().size() && spriteIndex >= 0) {
+            setSprite(spriteSet.getSprites().get(spriteIndex));
         }
     }
 

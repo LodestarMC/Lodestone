@@ -1,16 +1,12 @@
 package team.lodestar.lodestone.systems.multiblock;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.helpers.BlockHelper;
 import team.lodestar.lodestone.registry.common.*;
@@ -59,23 +55,5 @@ public class MultiBlockComponentEntity extends LodestoneBlockEntity {
             core.onBreak(player);
         }
         super.onBreak(player);
-    }
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (corePos != null && level.getBlockEntity(corePos) instanceof MultiBlockCoreEntity core) {
-            return core.getCapability(cap);
-        }
-        return super.getCapability(cap);
-    }
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (corePos != null && level.getBlockEntity(corePos) instanceof MultiBlockCoreEntity core) {
-            return core.getCapability(cap, side);
-        }
-        return super.getCapability(cap, side);
     }
 }

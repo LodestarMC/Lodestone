@@ -1,12 +1,9 @@
 package team.lodestar.lodestone.systems.textureloader;
-
+/*TODO
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
-import net.minecraftforge.client.event.RegisterTextureAtlasSpriteLoadersEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import team.lodestar.lodestone.helpers.ColorHelper;
 import team.lodestar.lodestone.systems.easing.Easing;
 
@@ -87,3 +84,5 @@ public class LodestoneTextureLoader {
         NativeImage modifyTexture(NativeImage nativeImage);
     }
 }
+
+ */

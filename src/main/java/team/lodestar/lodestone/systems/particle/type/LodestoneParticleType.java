@@ -1,16 +1,16 @@
 package team.lodestar.lodestone.systems.particle.type;
 
 import com.mojang.serialization.Codec;
+import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleType;
 import team.lodestar.lodestone.systems.particle.options.WorldParticleOptions;
 import team.lodestar.lodestone.systems.particle.world.GenericParticle;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class LodestoneParticleType extends ParticleType<WorldParticleOptions> {
     public LodestoneParticleType() {
@@ -33,7 +33,7 @@ public class LodestoneParticleType extends ParticleType<WorldParticleOptions> {
         @Nullable
         @Override
         public Particle createParticle(WorldParticleOptions data, ClientLevel world, double x, double y, double z, double mx, double my, double mz) {
-            return new GenericParticle(world, data, (ParticleEngine.MutableSpriteSet) sprite, x, y, z, mx, my, mz);
+            return new GenericParticle(world, data, (FabricSpriteProviderImpl) sprite, x, y, z, mx, my, mz);
         }
     }
 }

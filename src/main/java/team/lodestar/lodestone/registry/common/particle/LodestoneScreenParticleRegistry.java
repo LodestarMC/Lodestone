@@ -3,8 +3,8 @@ package team.lodestar.lodestone.registry.common.particle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.mixin.FabricSpriteProviderImplAccessor;
 import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
 import team.lodestar.lodestone.systems.particle.type.LodestoneScreenParticleType;
@@ -20,7 +20,7 @@ public class LodestoneScreenParticleRegistry {
     public static final ScreenParticleType<ScreenParticleOptions> TWINKLE = registerType(new LodestoneScreenParticleType());
     public static final ScreenParticleType<ScreenParticleOptions> STAR = registerType(new LodestoneScreenParticleType());
 
-    public static void registerParticleFactory(RegisterParticleProvidersEvent event) {//TODO maybe use event?
+    public static void registerParticleFactory() {
         registerProvider(WISP, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("wisp"))));
         registerProvider(SMOKE, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("smoke"))));
         registerProvider(SPARKLE, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("sparkle"))));
@@ -38,6 +38,7 @@ public class LodestoneScreenParticleRegistry {
     }
 
     public static SpriteSet getSpriteSet(ResourceLocation resourceLocation) {
-        return Minecraft.getInstance().particleEngine.spriteSets.get(resourceLocation);
+        Minecraft minecraft = Minecraft.getInstance();
+        return FabricSpriteProviderImplAccessor.FabricSpriteProviderImpl(minecraft.particleEngine, minecraft.particleEngine.spriteSets.get(resourceLocation));
     }
 }

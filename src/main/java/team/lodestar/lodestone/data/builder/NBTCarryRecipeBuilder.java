@@ -10,6 +10,7 @@ import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.RequirementsStrategy;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -17,10 +18,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.registry.common.LodestoneRecipeSerializerRegistry;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -88,11 +88,11 @@ public class NBTCarryRecipeBuilder { //TODO: Rewrite this bloody mess, please.
     }
 
     public void build(Consumer<FinishedRecipe> consumerIn) {
-        this.build(consumerIn, ForgeRegistries.ITEMS.getKey(this.result));
+        this.build(consumerIn, BuiltInRegistries.ITEM.getKey(this.result));
     }
 
     public void build(Consumer<FinishedRecipe> consumerIn, String save) {
-        ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
+        ResourceLocation resourcelocation = BuiltInRegistries.ITEM.getKey(this.result);
         if ((new ResourceLocation(save)).equals(resourcelocation)) {
             throw new IllegalStateException("Shaped Recipe " + save + " should remove its 'save' argument");
         } else {
@@ -178,7 +178,7 @@ public class NBTCarryRecipeBuilder { //TODO: Rewrite this bloody mess, please.
             json.add("key", jsonobject);
             json.add("nbtCarry", nbtCarry.toJson());
             JsonObject jsonobject1 = new JsonObject();
-            jsonobject1.addProperty("item", ForgeRegistries.ITEMS.getKey(this.result).toString());
+            jsonobject1.addProperty("item", BuiltInRegistries.ITEM.getKey(this.result).toString());
             if (this.count > 1) {
                 jsonobject1.addProperty("count", this.count);
             }

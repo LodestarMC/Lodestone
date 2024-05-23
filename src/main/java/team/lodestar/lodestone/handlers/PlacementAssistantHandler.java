@@ -1,6 +1,8 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -8,9 +10,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.systems.placementassistance.IPlacementAssistant;
 
@@ -25,30 +24,30 @@ public class PlacementAssistantHandler {
     public static int animationTick = 0;
     public static BlockHitResult target;
 
-    public static void registerPlacementAssistants(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> DataHelper.getAll(new ArrayList<>(ForgeRegistries.BLOCKS.getValues()), b -> b instanceof IPlacementAssistant).forEach(i -> {
+    public static void registerPlacementAssistants() {
+        DataHelper.getAll(new ArrayList<>(BuiltInRegistries.BLOCK.stream().toList()), b -> b instanceof IPlacementAssistant).forEach(i -> {
                             IPlacementAssistant assistant = (IPlacementAssistant) i;
                             ASSISTANTS.add(assistant);
-                        }
-                )
-        );
+        });
     }
-
-    public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
-        Player player = event.getEntity();
+    public static boolean placeBlock(Player player, InteractionHand interactionHand, BlockPos pos, BlockHitResult blockHitResult) {
         Level level = player.level();
         if (level.isClientSide) {
-            List<Pair<IPlacementAssistant, ItemStack>> assistants = findAssistants(level, player, event.getHitVec());
+            List<Pair<IPlacementAssistant, ItemStack>> assistants = findAssistants(level, player, blockHitResult);
             for (Pair<IPlacementAssistant, ItemStack> pair : assistants) {
                 IPlacementAssistant assistant = pair.getFirst();
-                BlockState state = level.getBlockState(event.getPos());
-                assistant.onPlaceBlock(player, level, event.getHitVec(), state, pair.getSecond());
+                BlockState state = level.getBlockState(pos);
+                assistant.onPlaceBlock(player, level, blockHitResult, state, pair.getSecond());
             }
             animationTick = Math.max(0, animationTick - 5);
         }
+        return false;
     }
 
     public static void tick(Player player, HitResult hitResult) {
+        if (player == null) {
+            return;
+        }
         Level level = player.level();
         List<Pair<IPlacementAssistant, ItemStack>> placementAssistants = findAssistants(level, player, hitResult);
         if (hitResult instanceof BlockHitResult blockHitResult && !blockHitResult.getType().equals(HitResult.Type.MISS)) {
@@ -94,4 +93,6 @@ public class PlacementAssistantHandler {
     public static float getCurrentAlpha() {
         return Math.min(animationTick / 10F, 1F);
     }
+
+
 }

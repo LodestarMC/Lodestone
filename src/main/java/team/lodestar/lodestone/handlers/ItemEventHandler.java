@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.handlers;
 
+import io.github.fabricators_of_create.porting_lib.entity.events.living.LivingHurtEvent;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import team.lodestar.lodestone.helpers.ItemHelper;
 import team.lodestar.lodestone.systems.item.IEventResponderItem;
 
@@ -11,23 +11,22 @@ import team.lodestar.lodestone.systems.item.IEventResponderItem;
  */
 public class ItemEventHandler {
 
-    public static void respondToDeath(LivingDeathEvent event) {
-        if (event.isCanceled()) {
-            return;
-        }
-        LivingEntity target = event.getEntity();
+    public static boolean respondToDeath(LivingEntity livingEntity, DamageSource damageSource, float damageAmount) {
         LivingEntity attacker = null;
-        if (event.getSource().getEntity() instanceof LivingEntity directAttacker) {
+        if (damageSource.getEntity() instanceof LivingEntity directAttacker) {
             attacker = directAttacker;
         }
         if (attacker == null) {
-            attacker = target.getLastHurtByMob();
+            attacker = livingEntity.getLastHurtByMob();
         }
         if (attacker != null) {
             LivingEntity finalAttacker = attacker;
-            ItemHelper.getEventResponders(attacker).forEach(s -> ((IEventResponderItem) s.getItem()).killEvent(event, finalAttacker, target, s));
+            ItemHelper.getEventResponders(attacker).forEach(s -> ((IEventResponderItem) s.getItem()).killEvent(finalAttacker, livingEntity, s, damageSource, damageAmount));
         }
+
+        return true;
     }
+
 
     public static void respondToHurt(LivingHurtEvent event) {
         if (event.isCanceled() || event.getAmount() <= 0) {
@@ -35,8 +34,10 @@ public class ItemEventHandler {
         }
         LivingEntity target = event.getEntity();
         if (event.getSource().getEntity() instanceof LivingEntity attacker) {
-            ItemHelper.getEventResponders(attacker).forEach(s -> ((IEventResponderItem) s.getItem()).hurtEvent(event, attacker, target, s));
-            ItemHelper.getEventResponders(target).forEach(s -> ((IEventResponderItem) s.getItem()).takeDamageEvent(event, attacker, target, s));
+            ItemHelper.getEventResponders(attacker).forEach(s -> ((IEventResponderItem) s.getItem()).hurtEvent(attacker, target, s));
+            ItemHelper.getEventResponders(target).forEach(s -> ((IEventResponderItem) s.getItem()).takeDamageEvent(attacker, target, s));
         }
     }
+
+
 }

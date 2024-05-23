@@ -6,8 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.network.PacketDistributor;
-import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
+import team.lodestar.lodestone.component.LodestoneComponents;
+import team.lodestar.lodestone.component.LodestoneEntityComponent;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
 import team.lodestar.lodestone.registry.client.LodestoneFireEffectRendererRegistry;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
@@ -31,11 +31,11 @@ public class FireEffectHandler {
     }
 
     public static FireEffectInstance getFireEffectInstance(Entity entity) {
-        return LodestoneEntityDataCapability.getCapability(entity).fireEffectInstance;
+        return LodestoneComponents.LODESTONE_ENTITY_COMPONENT.get(entity).fireEffectInstance;
     }
 
     public static void setCustomFireInstance(Entity entity, FireEffectInstance instance) {
-        LodestoneEntityDataCapability.getCapabilityOptional(entity).ifPresent(c -> {
+        LodestoneComponents.LODESTONE_ENTITY_COMPONENT.maybeGet(entity).ifPresent(c -> {
             c.fireEffectInstance = instance;
             if (c.fireEffectInstance != null) {
                 if (entity.getRemainingFireTicks() > 0) {
@@ -45,18 +45,18 @@ public class FireEffectHandler {
                     c.fireEffectInstance.sync(entity);
                 }
             } else if (!entity.level().isClientSide) {
-                LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
+                LodestonePacketRegistry.LODESTONE_CHANNEL.sendToClientsTracking(new ClearFireEffectInstancePacket(entity.getId()), entity);
             }
         });
     }
 
-    public static void serializeNBT(LodestoneEntityDataCapability capability, CompoundTag tag) {
+    public static void serializeNBT(LodestoneEntityComponent capability, CompoundTag tag) {
         if (capability.fireEffectInstance != null) {
             capability.fireEffectInstance.serializeNBT(tag);
         }
     }
 
-    public static void deserializeNBT(LodestoneEntityDataCapability capability, CompoundTag tag) {
+    public static void deserializeNBT(LodestoneEntityComponent capability, CompoundTag tag) {
         capability.fireEffectInstance = FireEffectInstance.deserializeNBT(tag);
     }
 

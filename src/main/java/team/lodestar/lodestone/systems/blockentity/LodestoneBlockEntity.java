@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.systems.blockentity;
 
+import io.github.fabricators_of_create.porting_lib.block.CustomDataPacketHandlingBlockEntity;
+import io.github.fabricators_of_create.porting_lib.block.CustomUpdateTagHandlingBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -15,14 +17,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.block.LodestoneEntityBlock;
 
 /**
  * A simple block entity with various frequently used methods called from {@link LodestoneEntityBlock}
  */
-public class LodestoneBlockEntity extends BlockEntity {
+public class LodestoneBlockEntity extends BlockEntity implements CustomUpdateTagHandlingBlockEntity, CustomDataPacketHandlingBlockEntity {
 
     public boolean needsSync;
 
@@ -40,7 +41,7 @@ public class LodestoneBlockEntity extends BlockEntity {
     public void onNeighborUpdate(BlockState state, BlockPos pos, BlockPos neighbor) {
     }
 
-    public ItemStack onClone(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+    public ItemStack onClone(BlockState state, BlockGetter level, BlockPos pos) {
         return ItemStack.EMPTY;
     }
 
@@ -60,7 +61,7 @@ public class LodestoneBlockEntity extends BlockEntity {
     @Override
     public void handleUpdateTag(CompoundTag tag) {
         if (tag != null) {
-            super.handleUpdateTag(tag);
+            CustomUpdateTagHandlingBlockEntity.super.handleUpdateTag(tag);
         }
     }
 
@@ -77,7 +78,6 @@ public class LodestoneBlockEntity extends BlockEntity {
 
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
         handleUpdateTag(getUpdatePacket().getTag());
     }
 

@@ -9,7 +9,7 @@ import net.minecraft.core.particles.ParticleType;
 import team.lodestar.lodestone.systems.particle.options.LodestoneTerrainParticleOptions;
 import team.lodestar.lodestone.systems.particle.world.LodestoneTerrainParticle;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class LodestoneTerrainParticleType extends ParticleType<LodestoneTerrainParticleOptions> {
     public LodestoneTerrainParticleType() {

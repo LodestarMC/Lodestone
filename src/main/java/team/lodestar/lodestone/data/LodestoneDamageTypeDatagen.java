@@ -1,24 +1,22 @@
 package team.lodestar.lodestone.data;
 
-import net.minecraft.core.*;
-import net.minecraft.core.HolderLookup.*;
-import net.minecraft.data.*;
-import net.minecraft.data.tags.*;
-import net.minecraft.world.damagesource.*;
-import net.minecraftforge.common.data.*;
-import team.lodestar.lodestone.*;
-import team.lodestar.lodestone.registry.common.tag.*;
+
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.DamageTypeTagsProvider;
+import net.minecraft.world.damagesource.DamageTypes;
+import team.lodestar.lodestone.registry.common.tag.LodestoneDamageTypeTags;
 
 import java.util.concurrent.*;
 
 public class LodestoneDamageTypeDatagen extends DamageTypeTagsProvider {
 
-    public LodestoneDamageTypeDatagen(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pProvider, ExistingFileHelper existingFileHelper) {
-        super(pOutput, pProvider, LodestoneLib.LODESTONE, existingFileHelper);
+    public LodestoneDamageTypeDatagen(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pProvider) {
+        super(pOutput, pProvider );
     }
 
     @Override
-    protected void addTags(Provider pProvider) {
+    protected void addTags(HolderLookup.Provider pProvider) {
         tag(LodestoneDamageTypeTags.IS_MAGIC).add(DamageTypes.MAGIC, DamageTypes.INDIRECT_MAGIC);
     }
 }

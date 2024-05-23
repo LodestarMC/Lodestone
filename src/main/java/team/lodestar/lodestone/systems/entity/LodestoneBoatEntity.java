@@ -1,8 +1,10 @@
 package team.lodestar.lodestone.systems.entity;
 
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -11,8 +13,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 public class LodestoneBoatEntity extends Boat {
@@ -74,6 +74,6 @@ public class LodestoneBoatEntity extends Boat {
     @Override
     @NotNull
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+        return new ClientboundAddEntityPacket(this);
     }
 }

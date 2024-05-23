@@ -1,14 +1,14 @@
 package team.lodestar.lodestone.network.screenshake;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.simple.SimpleChannel;
 import team.lodestar.lodestone.handlers.ScreenshakeHandler;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
-
-import java.util.function.Supplier;
 
 public class ScreenshakePacket extends LodestoneClientPacket {
     public final int duration;
@@ -17,6 +17,10 @@ public class ScreenshakePacket extends LodestoneClientPacket {
 
     public ScreenshakePacket(int duration) {
         this.duration = duration;
+    }
+
+    public ScreenshakePacket(FriendlyByteBuf buf) {
+        this.duration = buf.readInt();
     }
 
     public ScreenshakePacket setIntensity(float intensity) {
@@ -56,13 +60,8 @@ public class ScreenshakePacket extends LodestoneClientPacket {
     }
 
     @Override
-    public void execute(Supplier<NetworkEvent.Context> context) {
-        //TODO: fix this
+    public void executeClient(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
         ScreenshakeHandler.addScreenshake(new ScreenshakeInstance(duration).setIntensity(intensity1, intensity2, intensity3).setEasing(intensityCurveStartEasing, intensityCurveEndEasing));
-    }
-
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, ScreenshakePacket.class, ScreenshakePacket::encode, ScreenshakePacket::decode, ScreenshakePacket::handle);
     }
 
     public static ScreenshakePacket decode(FriendlyByteBuf buf) {

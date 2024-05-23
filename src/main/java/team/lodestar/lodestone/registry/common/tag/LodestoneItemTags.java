@@ -2,7 +2,6 @@ package team.lodestar.lodestone.registry.common.tag;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
@@ -32,6 +31,10 @@ public class LodestoneItemTags {
     }
 
     public static TagKey<Item> forgeTag(String name) {
-        return ItemTags.create(new ResourceLocation("forge", name));
+        return create(new ResourceLocation("forge", name));
+    }
+
+    public static TagKey<Item> create(final ResourceLocation name) {
+        return TagKey.create(Registries.ITEM, name);
     }
 }

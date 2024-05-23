@@ -1,13 +1,14 @@
 package team.lodestar.lodestone.network.interaction;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.simple.SimpleChannel;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
-import team.lodestar.lodestone.events.types.RightClickEmptyServer;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import team.lodestar.lodestone.component.LodestoneComponents;
+import team.lodestar.lodestone.events.LodestoneInteractionEvent;
 import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
-
-import java.util.function.Supplier;
 
 public class UpdateRightClickPacket extends LodestoneServerPacket {
 
@@ -17,20 +18,20 @@ public class UpdateRightClickPacket extends LodestoneServerPacket {
         this.rightClickHeld = rightClick;
     }
 
+    public UpdateRightClickPacket(FriendlyByteBuf buf) {
+        rightClickHeld = buf.readBoolean();
+    }
+
     public void encode(FriendlyByteBuf buf) {
         buf.writeBoolean(rightClickHeld);
     }
 
     @Override
-    public void execute(Supplier<NetworkEvent.Context> context) {
+    public void executeServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
         if (rightClickHeld) {
-            RightClickEmptyServer.onRightClickEmptyServer(context.get().getSender());
+            LodestoneInteractionEvent.RIGHT_CLICK_EMPTY.invoker().onRightClickEmpty(player);
         }
-        LodestonePlayerDataCapability.getCapabilityOptional(context.get().getSender()).ifPresent(c -> c.rightClickHeld = rightClickHeld);
-    }
-
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, UpdateRightClickPacket.class, UpdateRightClickPacket::encode, UpdateRightClickPacket::decode, UpdateRightClickPacket::handle);
+        LodestoneComponents.LODESTONE_PLAYER_COMPONENT.maybeGet(player).ifPresent(c -> c.rightClickHeld = rightClickHeld);
     }
 
     public static UpdateRightClickPacket decode(FriendlyByteBuf buf) {

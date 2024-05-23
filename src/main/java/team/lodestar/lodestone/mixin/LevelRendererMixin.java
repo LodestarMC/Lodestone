@@ -6,6 +6,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.SoundType;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,11 +16,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import team.lodestar.lodestone.events.LodestoneRenderEvents;
+import team.lodestar.lodestone.events.Stage;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.systems.postprocess.PostProcessHandler;
 import team.lodestar.lodestone.systems.sound.ExtendedSoundType;
 
-import javax.annotation.Nullable;
 
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
@@ -30,10 +32,18 @@ public class LevelRendererMixin {
     @Unique
     private SoundType lodestone$blockSoundType;
 
-    @ModifyVariable(method = "levelEvent", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;stateById(I)Lnet/minecraft/world/level/block/state/BlockState;")), at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;playLocalSound(Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V", ordinal = 0), index = 17)
+
+    @ModifyVariable(method = "levelEvent",
+            slice = @Slice(from = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Block;stateById(I)Lnet/minecraft/world/level/block/state/BlockState;")),
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/client/multiplayer/ClientLevel;playLocalSound(Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V",
+                    ordinal = 0))
     private SoundType lodestone$GetBreakSound(SoundType type) {
         return this.lodestone$blockSoundType = type;
     }
+
+
 
     @Inject(method = "levelEvent", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;stateById(I)Lnet/minecraft/world/level/block/state/BlockState;")), at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;playLocalSound(Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FFZ)V", ordinal = 0))
     private void lodestone$CallExtendedBreakSound(int pType, BlockPos pPos, int pData, CallbackInfo ci) {
@@ -66,5 +76,32 @@ public class LevelRendererMixin {
     @Inject(method = "deinitTransparency", at = @At(value = "HEAD"))
     private void lodestone$deinitTransparency(CallbackInfo ci) {
         RenderHandler.closeLodestoneRenderTargets();
+    }
+
+    //EVENTS
+
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", ordinal = 16))
+    private void lodestone$injectEvent(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci){
+        LodestoneRenderEvents.AFTER_PARTICLES.invoker().render(poseStack, partialTick, Stage.AFTER_PARTICLES);
+    }
+
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", ordinal = 19))
+    private void lodestone$injectEvent2(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci){
+        LodestoneRenderEvents.AFTER_PARTICLES.invoker().render(poseStack, partialTick, Stage.AFTER_PARTICLES);
+    }
+
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderSnowAndRain(Lnet/minecraft/client/renderer/LightTexture;FDDD)V", ordinal = 0))
+    private void lodestone$injectEvent3(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci){
+        LodestoneRenderEvents.AFTER_WEATHER.invoker().render(poseStack, partialTick, Stage.AFTER_WEATHER);
+    }
+
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderSnowAndRain(Lnet/minecraft/client/renderer/LightTexture;FDDD)V", ordinal = 1))
+    private void lodestone$injectEvent4(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci){
+        LodestoneRenderEvents.AFTER_WEATHER.invoker().render(poseStack, partialTick, Stage.AFTER_WEATHER);
+    }
+
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V"))
+    private void lodestone$injectEvent5(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci){
+        LodestoneRenderEvents.AFTER_SKY.invoker().render(poseStack, partialTick, Stage.AFTER_SKY);
     }
 }

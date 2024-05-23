@@ -1,20 +1,29 @@
 package team.lodestar.lodestone.network.screenshake;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.simple.SimpleChannel;
 import team.lodestar.lodestone.handlers.ScreenshakeHandler;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.screenshake.PositionedScreenshakeInstance;
-
-import java.util.function.Supplier;
 
 public class PositionedScreenshakePacket extends ScreenshakePacket {
     public final Vec3 position;
     public final float falloffDistance;
     public final float maxDistance;
     public final Easing falloffEasing;
+
+    public PositionedScreenshakePacket(FriendlyByteBuf buf) {
+        super(buf.readInt());
+        //TODO: this is messy, but oh well
+        position = new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
+        falloffDistance = buf.readFloat();
+        maxDistance = buf.readFloat();
+        falloffEasing = Easing.valueOf(buf.readUtf());
+    }
 
     public PositionedScreenshakePacket(int duration, Vec3 position, float falloffDistance, float maxDistance, Easing falloffEasing) {
         super(duration);
@@ -29,7 +38,7 @@ public class PositionedScreenshakePacket extends ScreenshakePacket {
     }
 
     @Override
-    public void execute(Supplier<NetworkEvent.Context> context) {
+    public void executeClient(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
         ScreenshakeHandler.addScreenshake(new PositionedScreenshakeInstance(duration, position, falloffDistance, maxDistance, falloffEasing).setIntensity(intensity1, intensity2, intensity3).setEasing(intensityCurveStartEasing, intensityCurveEndEasing));
     }
 
@@ -49,25 +58,5 @@ public class PositionedScreenshakePacket extends ScreenshakePacket {
         buf.writeUtf(intensityCurveEndEasing.name);
     }
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, PositionedScreenshakePacket.class, PositionedScreenshakePacket::encode, PositionedScreenshakePacket::decode, PositionedScreenshakePacket::handle);
-    }
 
-    public static PositionedScreenshakePacket decode(FriendlyByteBuf buf) {
-        //TODO: this is messy, but oh well
-        return ((PositionedScreenshakePacket) new PositionedScreenshakePacket(
-                buf.readInt(),
-                new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()),
-                buf.readFloat(),
-                buf.readFloat(),
-                Easing.valueOf(buf.readUtf())
-        ).setIntensity(
-                buf.readFloat(),
-                buf.readFloat(),
-                buf.readFloat()
-        ).setEasing(
-                Easing.valueOf(buf.readUtf()),
-                Easing.valueOf(buf.readUtf())
-        ));
-    }
 }

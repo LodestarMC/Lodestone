@@ -4,14 +4,11 @@ import com.mojang.blaze3d.pipeline.*;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.*;
 import net.minecraft.client.renderer.*;
-import net.minecraftforge.client.event.*;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.joml.Matrix4f;
 import team.lodestar.lodestone.*;
-import team.lodestar.lodestone.config.*;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
@@ -28,15 +25,13 @@ import static team.lodestar.lodestone.systems.rendering.StateShards.NORMAL_TRANS
 public class RenderHandler {
     public static final HashMap<RenderType, BufferBuilder> BUFFERS = new HashMap<>();
     public static final HashMap<RenderType, BufferBuilder> PARTICLE_BUFFERS = new HashMap<>();
-    public static final HashMap<RenderType, BufferBuilder> LATE_BUFFERS = new HashMap<>();
-    public static final HashMap<RenderType, BufferBuilder> LATE_PARTICLE_BUFFERS = new HashMap<>();
     public static final HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
     public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
 
-    public static boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("rubidium");
+    public static boolean LARGER_BUFFER_SOURCES = FabricLoader.getInstance().isModLoaded("sodium");
 
-    public static LodestoneRenderLayer DELAYED_RENDER;
-    public static LodestoneRenderLayer LATE_DELAYED_RENDER;
+    public static MultiBufferSource.BufferSource DELAYED_RENDER;
+    public static MultiBufferSource.BufferSource DELAYED_PARTICLE_RENDER;
 
     public static PoseStack MAIN_POSE_STACK;
     public static Matrix4f MATRIX4F;
@@ -52,11 +47,12 @@ public class RenderHandler {
     public static RenderTarget LODESTONE_ADDITIVE;
     public static RenderTarget LODESTONE_ADDITIVE_PARTICLE;
     public static PostChain LODESTONE_POST_CHAIN;
-    public static void onClientSetup(FMLClientSetupEvent event) {
+
+    public static void onClientSetup() {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
 
-        DELAYED_RENDER = new LodestoneRenderLayer(BUFFERS, PARTICLE_BUFFERS, size);
-        LATE_DELAYED_RENDER = new LodestoneRenderLayer(LATE_BUFFERS, LATE_PARTICLE_BUFFERS, size);
+        DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size));
+        DELAYED_PARTICLE_RENDER = MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size));
     }
 
     public static void setupLodestoneRenderTargets() {
@@ -102,43 +98,20 @@ public class RenderHandler {
     }
 
     public static void endBatchesEarly() {
-        if (ClientConfig.EXPERIMENTAL_FABULOUS_LAYERING.getConfigValue()) {
-            LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
-            final boolean isFabulous = levelRenderer.transparencyChain != null;
-            endBatchesExperimental(DELAYED_RENDER, isFabulous);
-            endBatchesExperimental(LATE_DELAYED_RENDER, isFabulous);
-        }
-        else {
-            endBatches(DELAYED_RENDER);
-            endBatches(LATE_DELAYED_RENDER);
-        }
+        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+        endBatches(levelRenderer.transparencyChain != null);
     }
 
     public static void endBatchesLate() {
-        if (ClientConfig.EXPERIMENTAL_FABULOUS_LAYERING.getConfigValue()) {
-            LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
-            if (levelRenderer.transparencyChain != null) {
-                LODESTONE_POST_CHAIN.process(Minecraft.getInstance().getPartialTick());
-            }
+        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+        if (levelRenderer.transparencyChain != null) {
+            Minecraft mc = Minecraft.getInstance();
+            var partial = mc.pause ? mc.pausePartialTick : mc.timer.partialTick;
+            LODESTONE_POST_CHAIN.process(partial);
         }
     }
 
-    public static void endBatches(LodestoneRenderLayer renderLayer) {
-        Matrix4f last = new Matrix4f(RenderSystem.getModelViewMatrix());
-        beginBufferedRendering();
-        renderBufferedParticles(renderLayer, true);
-        if (RenderHandler.MATRIX4F != null) {
-            RenderSystem.getModelViewMatrix().set(MATRIX4F);
-        }
-        renderBufferedBatches(renderLayer, true);
-        renderBufferedBatches(renderLayer, false);
-        RenderSystem.getModelViewMatrix().set(last);
-        renderBufferedParticles(renderLayer, false);
-
-        endBufferedRendering();
-    }
-
-    public static void endBatchesExperimental(LodestoneRenderLayer renderLayer, boolean isFabulous) {
+    public static void endBatches(boolean isFabulous) {
         LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
         Matrix4f last = new Matrix4f(RenderSystem.getModelViewMatrix());
         if (isFabulous) {
@@ -148,7 +121,7 @@ public class RenderHandler {
             LODESTONE_TRANSLUCENT_PARTICLE.bindWrite(false);
         }
         beginBufferedRendering();
-        renderBufferedParticles(renderLayer, true);
+        renderBufferedParticles(true);
         if (RenderHandler.MATRIX4F != null) {
             RenderSystem.getModelViewMatrix().set(MATRIX4F);
         }
@@ -158,14 +131,14 @@ public class RenderHandler {
             LODESTONE_TRANSLUCENT.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             LODESTONE_TRANSLUCENT.bindWrite(false);
         }
-        renderBufferedBatches(renderLayer, true);
+        renderBufferedBatches(true);
         if (isFabulous) {
             LODESTONE_TRANSLUCENT.unbindWrite();
             LODESTONE_ADDITIVE.clear(Minecraft.ON_OSX);
             LODESTONE_ADDITIVE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             LODESTONE_ADDITIVE.bindWrite(false);
         }
-        renderBufferedBatches(renderLayer, false);
+        renderBufferedBatches(false);
         RenderSystem.getModelViewMatrix().set(last);
         if (isFabulous) {
             LODESTONE_ADDITIVE.unbindWrite();
@@ -173,7 +146,7 @@ public class RenderHandler {
             LODESTONE_ADDITIVE_PARTICLE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             LODESTONE_ADDITIVE_PARTICLE.bindWrite(false);
         }
-        renderBufferedParticles(renderLayer, false);
+        renderBufferedParticles(false);
 
         endBufferedRendering();
         if (isFabulous) {
@@ -182,16 +155,16 @@ public class RenderHandler {
         }
     }
 
-    public static void cacheFogData(ViewportEvent.RenderFog event) {
-        FOG_NEAR = event.getNearPlaneDistance();
-        FOG_FAR = event.getFarPlaneDistance();
-        FOG_SHAPE = event.getFogShape();
+    public static void cacheFogData(float start, float end, FogShape shape) {
+        FOG_NEAR = start;
+        FOG_FAR = end;
+        FOG_SHAPE = shape;
     }
 
-    public static void cacheFogData(ViewportEvent.ComputeFogColor event) {
-        FOG_RED = event.getRed();
-        FOG_GREEN = event.getGreen();
-        FOG_BLUE = event.getBlue();
+    public static void cacheFogData(float fogRed, float fogGreen, float fogBlue) {
+        FOG_RED = fogRed;
+        FOG_GREEN = fogGreen;
+        FOG_BLUE = fogBlue;
     }
 
     public static void beginBufferedRendering() {
@@ -225,12 +198,12 @@ public class RenderHandler {
     }
 
 
-    public static void renderBufferedParticles(LodestoneRenderLayer renderLayer, boolean transparentOnly) {
-        renderBufferedBatches(renderLayer.getParticleTarget(), renderLayer.getParticleBuffers(), transparentOnly);
+    public static void renderBufferedParticles(boolean transparentOnly) {
+        renderBufferedBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS, transparentOnly);
     }
 
-    public static void renderBufferedBatches(LodestoneRenderLayer renderLayer, boolean transparentOnly) {
-        renderBufferedBatches(renderLayer.getTarget(), renderLayer.getBuffers(), transparentOnly);
+    public static void renderBufferedBatches(boolean transparentOnly) {
+        renderBufferedBatches(DELAYED_RENDER, BUFFERS, transparentOnly);
     }
 
     private static void renderBufferedBatches(MultiBufferSource.BufferSource bufferSource, HashMap<RenderType, BufferBuilder> buffer, boolean transparentOnly) {
@@ -262,43 +235,12 @@ public class RenderHandler {
         int size = LARGER_BUFFER_SOURCES ? 262144 : renderType.bufferSize();
         final boolean isParticle = renderType.name.contains("particle");
         HashMap<RenderType, BufferBuilder> buffers = isParticle ? PARTICLE_BUFFERS : BUFFERS;
-        HashMap<RenderType, BufferBuilder> lateBuffers = isParticle ? LATE_PARTICLE_BUFFERS : LATE_BUFFERS;
         buffers.put(renderType, new BufferBuilder(size));
-        lateBuffers.put(renderType, new BufferBuilder(size));
         if (NORMAL_TRANSPARENCY.equals(RenderHelper.getTransparencyShard(renderType))) {
             TRANSPARENT_RENDER_TYPES.add(renderType);
         }
     }
 
-    public static class LodestoneRenderLayer {
 
-        protected final HashMap<RenderType, BufferBuilder> buffers;
-        protected final HashMap<RenderType, BufferBuilder> particleBuffers;
 
-        protected final MultiBufferSource.BufferSource target;
-        protected final MultiBufferSource.BufferSource particleTarget;
-
-        public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers, int size) {
-            this.buffers = buffers;
-            this.particleBuffers = particleBuffers;
-            this.target = MultiBufferSource.immediateWithBuffers(buffers, new BufferBuilder(size));
-            this.particleTarget = MultiBufferSource.immediateWithBuffers(particleBuffers, new BufferBuilder(size));
-        }
-
-        public HashMap<RenderType, BufferBuilder> getBuffers() {
-            return buffers;
-        }
-
-        public HashMap<RenderType, BufferBuilder> getParticleBuffers() {
-            return particleBuffers;
-        }
-
-        public MultiBufferSource.BufferSource getTarget() {
-            return target;
-        }
-
-        public MultiBufferSource.BufferSource getParticleTarget() {
-            return particleTarget;
-        }
-    }
 }

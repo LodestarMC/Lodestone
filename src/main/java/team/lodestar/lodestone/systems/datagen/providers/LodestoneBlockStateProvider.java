@@ -1,11 +1,12 @@
 package team.lodestar.lodestone.systems.datagen.providers;
 
+import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
+import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockStateProvider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.*;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
 
 import java.util.HashSet;
@@ -52,34 +53,12 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
         };
     }
 
-    public void varyingRotationBlock(Block block, ModelFile model) {
-        ConfiguredModel.Builder<VariantBlockStateBuilder> builder = getVariantBuilder(block).partialState().modelForState()
-                .modelFile(model)
-                .nextModel().modelFile(model).rotationY(90)
-                .nextModel().modelFile(model).rotationY(180)
-                .nextModel().modelFile(model).rotationY(270);
-        simpleBlock(block, builder.build());
-    }
-
     public ModelFile predefinedModel(Block block) {
-        return models().getExistingFile(ForgeRegistries.BLOCKS.getKey(block));
+        return models().getExistingFile(BuiltInRegistries.BLOCK.getKey(block));
     }
 
     public ModelFile predefinedModel(Block block, String extension) {
-        return models().getExistingFile(extend(ForgeRegistries.BLOCKS.getKey(block), extension));
-    }
-
-    public ModelFile grassBlockModel(Block block) {
-        String name = getBlockName(block);
-        ResourceLocation side = getBlockTexture(name);
-        ResourceLocation dirt = new ResourceLocation("block/dirt");
-        ResourceLocation top = getBlockTexture(name + "_top");
-        return models().cubeBottomTop(name, side, dirt, top);
-    }
-
-    public ModelFile leavesBlockModel(Block block) {
-        String name = getBlockName(block);
-        return models().withExistingParent(name, new ResourceLocation("block/leaves")).texture("all", getBlockTexture(name));
+        return models().getExistingFile(extend(BuiltInRegistries.BLOCK.getKey(block), extension));
     }
 
     public ModelFile airModel(Block block) {
@@ -93,7 +72,7 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
     }
 
     public String getBlockName(Block block) {
-        return ForgeRegistries.BLOCKS.getKey(block).getPath();
+        return BuiltInRegistries.BLOCK.getKey(block).getPath();
     }
 
     public ResourceLocation getBlockTexture(String path) {

@@ -1,23 +1,21 @@
 package team.lodestar.lodestone.data;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import team.lodestar.lodestone.LodestoneLib;
 
 import java.util.concurrent.CompletableFuture;
 
 import static team.lodestar.lodestone.registry.common.tag.LodestoneItemTags.*;
 
 
-public class LodestoneItemTagDatagen extends ItemTagsProvider {
-    public LodestoneItemTagDatagen(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockProvider, @Nullable ExistingFileHelper existingFileHelper) {
-        super(output, provider, blockProvider, LodestoneLib.LODESTONE, existingFileHelper);
+public class LodestoneItemTagDatagen extends FabricTagProvider.ItemTagProvider {
+
+    public LodestoneItemTagDatagen(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture, @Nullable FabricTagProvider.BlockTagProvider blockTagProvider) {
+        super(output, completableFuture, blockTagProvider);
     }
 
     @Override
@@ -28,7 +26,7 @@ public class LodestoneItemTagDatagen extends ItemTagsProvider {
     @Override
     protected void addTags(@NotNull HolderLookup.Provider provider) {
         tag(NUGGETS_COPPER);
-        tag(INGOTS_COPPER).add(Items.COPPER_INGOT);
+        getOrCreateTagBuilder(INGOTS_COPPER).add(Items.COPPER_INGOT);
         tag(NUGGETS_LEAD);
         tag(INGOTS_LEAD);
         tag(NUGGETS_SILVER);

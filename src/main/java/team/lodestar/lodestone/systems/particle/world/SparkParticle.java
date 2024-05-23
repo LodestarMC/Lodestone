@@ -2,17 +2,14 @@ package team.lodestar.lodestone.systems.particle.world;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.options.SparkParticleOptions;
 import team.lodestar.lodestone.systems.rendering.VFXBuilders;
-
-import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.FIRST_INDEX;
 
 public class SparkParticle extends GenericParticle<SparkParticleOptions> {
 
@@ -20,7 +17,7 @@ public class SparkParticle extends GenericParticle<SparkParticleOptions> {
 
     public final GenericParticleData lengthData;
 
-    public SparkParticle(ClientLevel world, SparkParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
+    public SparkParticle(ClientLevel world, SparkParticleOptions data, FabricSpriteProviderImpl spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, spriteSet, x, y, z, xd, yd, zd);
         this.lengthData = data.lengthData;
     }
