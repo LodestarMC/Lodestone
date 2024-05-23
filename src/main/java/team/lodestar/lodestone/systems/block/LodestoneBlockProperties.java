@@ -246,18 +246,6 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
     @Override
     @NotNull
-    public LodestoneBlockProperties lootFrom(@NotNull Supplier<? extends Block> blockIn) {
-        hasInheritedLoot();
-        return (LodestoneBlockProperties) super.lootFrom(blockIn);
-    }
-
-    public BlockBehaviour.Properties lootFrom(Supplier<? extends Block> blockIn) {
-        this.lootTableSupplier = () -> blockIn.get().getLootTable();
-        return this;
-    }
-
-    @Override
-    @NotNull
     public LodestoneBlockProperties air() {
         return (LodestoneBlockProperties) super.air();
     }

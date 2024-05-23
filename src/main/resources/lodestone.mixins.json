@@ -4,9 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "lodestone.refmap.json",
   "mixins": [
-    "BlockBehaviourMixin",
     "BlockItemMixin",
-    "BlockBehaviourPropertiesMixin",
     "EntityMixin",
     "ItemStackMixin",
     "LivingEntityMixin",
