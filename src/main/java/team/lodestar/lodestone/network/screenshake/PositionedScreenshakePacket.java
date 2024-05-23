@@ -18,6 +18,15 @@ public class PositionedScreenshakePacket extends ScreenshakePacket {
     public final float maxDistance;
     public final Easing falloffEasing;
 
+    public PositionedScreenshakePacket(FriendlyByteBuf buf) {
+        super(buf.readInt());
+        //TODO: this is messy, but oh well
+        position = new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
+        falloffDistance = buf.readFloat();
+        maxDistance = buf.readFloat();
+        falloffEasing = Easing.valueOf(buf.readUtf());
+    }
+
     public PositionedScreenshakePacket(int duration, Vec3 position, float falloffDistance, float maxDistance, Easing falloffEasing) {
         super(duration);
         this.position = position;
@@ -51,21 +60,5 @@ public class PositionedScreenshakePacket extends ScreenshakePacket {
         buf.writeUtf(intensityCurveEndEasing.name);
     }
 
-    public static PositionedScreenshakePacket decode(FriendlyByteBuf buf) {
-        //TODO: this is messy, but oh well
-        return ((PositionedScreenshakePacket) new PositionedScreenshakePacket(
-                buf.readInt(),
-                new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()),
-                buf.readFloat(),
-                buf.readFloat(),
-                Easing.valueOf(buf.readUtf())
-        ).setIntensity(
-                buf.readFloat(),
-                buf.readFloat(),
-                buf.readFloat()
-        ).setEasing(
-                Easing.valueOf(buf.readUtf()),
-                Easing.valueOf(buf.readUtf())
-        ));
-    }
+
 }

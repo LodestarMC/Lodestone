@@ -21,6 +21,10 @@ public class ScreenshakePacket extends LodestoneClientPacket {
         this.duration = duration;
     }
 
+    public ScreenshakePacket(FriendlyByteBuf buf) {
+        this.duration = buf.readInt();
+    }
+
     public ScreenshakePacket setIntensity(float intensity) {
         return setIntensity(intensity, intensity);
     }

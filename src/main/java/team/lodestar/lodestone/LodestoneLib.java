@@ -20,8 +20,7 @@ import team.lodestar.lodestone.events.EntityAttributeModificationEvent;
 import team.lodestar.lodestone.events.LodestoneInteractionEvent;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.registry.common.*;
-import team.lodestar.lodestone.registry.common.particle.*;
-import team.lodestar.lodestone.systems.config.LodestoneConfig;
+import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry;
 
 import java.util.concurrent.*;
 

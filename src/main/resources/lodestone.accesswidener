@@ -90,3 +90,5 @@ accessible field net/minecraft/client/renderer/RenderType$CompositeState states 
 accessible method net/minecraft/client/renderer/RenderStateShard$EmptyTextureStateShard cutoutTexture ()Ljava/util/Optional;
 accessible field net/minecraft/world/item/ArmorItem defaultModifiers Lcom/google/common/collect/Multimap;
 accessible field net/minecraft/world/item/SwordItem defaultModifiers Lcom/google/common/collect/Multimap;
+accessible method net/minecraft/client/particle/ParticleEngine register (Lnet/minecraft/core/particles/ParticleType;Lnet/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration;)V
+accessible class net/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration

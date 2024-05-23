@@ -21,12 +21,12 @@ public class LodestoneScreenParticleRegistry {
     public static final ScreenParticleType<ScreenParticleOptions> TWINKLE = registerType(new LodestoneScreenParticleType());
     public static final ScreenParticleType<ScreenParticleOptions> STAR = registerType(new LodestoneScreenParticleType());
 
-    public static void registerParticleFactory(Minecraft minecraft) {
-        registerProvider(WISP, new LodestoneScreenParticleType.Factory(getSpriteSet(minecraft, LodestoneLib.lodestonePath("wisp"))));
-        registerProvider(SMOKE, new LodestoneScreenParticleType.Factory(getSpriteSet(minecraft, LodestoneLib.lodestonePath("smoke"))));
-        registerProvider(SPARKLE, new LodestoneScreenParticleType.Factory(getSpriteSet(minecraft, LodestoneLib.lodestonePath("sparkle"))));
-        registerProvider(TWINKLE, new LodestoneScreenParticleType.Factory(getSpriteSet(minecraft, LodestoneLib.lodestonePath("twinkle"))));
-        registerProvider(STAR, new LodestoneScreenParticleType.Factory(getSpriteSet(minecraft, LodestoneLib.lodestonePath("star"))));
+    public static void registerParticleFactory() {
+        registerProvider(WISP, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("wisp"))));
+        registerProvider(SMOKE, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("smoke"))));
+        registerProvider(SPARKLE, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("sparkle"))));
+        registerProvider(TWINKLE, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("twinkle"))));
+        registerProvider(STAR, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("star"))));
     }
 
     public static <T extends ScreenParticleOptions> ScreenParticleType<T> registerType(ScreenParticleType<T> type) {
@@ -38,7 +38,8 @@ public class LodestoneScreenParticleRegistry {
         type.provider = provider;
     }
 
-    public static SpriteSet getSpriteSet(Minecraft minecraft, ResourceLocation resourceLocation) {
+    public static SpriteSet getSpriteSet(ResourceLocation resourceLocation) {
+        Minecraft minecraft = Minecraft.getInstance();
         return FabricSpriteProviderImplAccessor.FabricSpriteProviderImpl(minecraft.particleEngine, minecraft.particleEngine.spriteSets.get(resourceLocation));
     }
 }
