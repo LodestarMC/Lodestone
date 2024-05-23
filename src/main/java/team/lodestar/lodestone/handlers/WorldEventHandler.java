@@ -10,7 +10,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.component.LodestoneWorldComponent;
+import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPacket;
 import team.lodestar.lodestone.registry.client.LodestoneWorldEventRendererRegistry;
+import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventRenderer;
@@ -46,7 +48,7 @@ public class WorldEventHandler {
                     WorldEventRenderer<WorldEventInstance> renderer = LodestoneWorldEventRendererRegistry.RENDERERS.get(instance.type);
                     if (renderer != null) {
                         if (renderer.canRender(instance)) {
-                            renderer.render(instance, stack, RenderHandler.DELAYED_RENDER, partialTicks);
+                            renderer.render(instance, stack, RenderHandler.DELAYED_RENDER.getTarget(), partialTicks);
                         }
                     }
                 }
@@ -86,6 +88,10 @@ public class WorldEventHandler {
                     iterator.remove();
                 } else {
                     instance.tick(level);
+                    if (instance.dirty) {
+                        LodestonePacketRegistry.LODESTONE_CHANNEL.sendToClientsInCurrentServer(new UpdateWorldEventPacket(instance.uuid, instance.synchronizeNBT()));
+                        instance.dirty = false;
+                    }
                 }
             }
         });

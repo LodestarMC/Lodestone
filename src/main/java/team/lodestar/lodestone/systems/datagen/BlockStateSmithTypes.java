@@ -5,6 +5,7 @@ import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
 import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import team.lodestar.lodestone.systems.datagen.statesmith.BlockStateSmith;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
 
@@ -25,6 +26,13 @@ public class BlockStateSmithTypes {
     });
 
     /**
+     * Generates a grass block model and a blockstate to match.
+     */
+    public static BlockStateSmith<Block> GRASS_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
+        provider.simpleBlock(block, provider.grassBlockModel(block));
+    });
+
+    /**
      * Generates a cross model, used by flowers and grass, and a blockstate to match.
      */
     public static BlockStateSmith<Block> CROSS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.CROSS_MODEL_ITEM, (block, provider) -> {
@@ -33,12 +41,22 @@ public class BlockStateSmithTypes {
     });
 
     /**
-     * Generates leaves. Not much else to say here.
+     * Generates a tall grass block model and blockstate
+     */
+    public static BlockStateSmith<Block> TALL_GRASS_MODEL_BLOCK = new BlockStateSmith<>(Block.class, ItemModelSmithTypes.AFFIXED_BLOCK_TEXTURE_MODEL.apply("_top"), (block, provider) -> {
+        String name = provider.getBlockName(block);
+        provider.getVariantBuilder(block).forAllStates(s -> {
+            final String affix = s.getValue(DoublePlantBlock.HALF).equals(DoubleBlockHalf.LOWER) ? "_bottom" : "_top";
+            final String affixedName = name + affix;
+            return ConfiguredModel.builder().modelFile(provider.models().cross(affixedName, provider.getBlockTexture(affixedName))).build();
+        });
+    });
+
+    /**
+     * Generates a leaves model and blockstate to match.
      */
     public static BlockStateSmith<Block> LEAVES_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
-        String name = provider.getBlockName(block);
-        ModelFile leaves = provider.models().withExistingParent(name, new ResourceLocation("block/leaves")).texture("all", provider.getBlockTexture(name));
-        provider.simpleBlock(block, leaves);
+        provider.simpleBlock(block, provider.leavesBlockModel(block));
     });
 
     /**

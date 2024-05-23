@@ -30,6 +30,7 @@ public class LodestoneLibClient implements ClientModInitializer {
 
         WorldRenderEvents.END.register(ScreenParticleHandler::renderTick);
         WorldRenderEvents.LAST.register(PostProcessHandler::onWorldRenderLast);
+        WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register(PostProcessHandler::onAfterSolidBlocks);
         ClientTickEvents.END_CLIENT_TICK.register(ClientRuntimeEvents::clientTick);
 
         LodestoneRenderEvents.AFTER_SKY.register(ClientRuntimeEvents::renderStages);
