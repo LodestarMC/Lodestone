@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.fireeffect;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
+import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.component.LodestoneEntityComponent;
 import team.lodestar.lodestone.handlers.FireEffectHandler;
 import team.lodestar.lodestone.helpers.NBTHelper;
@@ -70,5 +71,9 @@ public class FireEffectInstance {
         FireEffectInstance instance = new FireEffectInstance(LodestoneFireEffectRegistry.FIRE_TYPES.get(fireTag.getString("type")));
         instance.setDuration(fireTag.getInt("duration"));
         return instance;
+    }
+
+    public void sync(Entity entity) {
+        LodestoneComponents.LODESTONE_ENTITY_COMPONENT.sync(entity);
     }
 }

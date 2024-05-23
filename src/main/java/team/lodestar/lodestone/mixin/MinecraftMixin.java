@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.mixin;
 
+import io.github.fabricators_of_create.porting_lib.entity.events.PlayerInteractionEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
@@ -9,6 +10,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import team.lodestar.lodestone.systems.client.ClientTickCounter;
 
 
@@ -30,5 +32,10 @@ public abstract class MinecraftMixin {
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;render(FJZ)V"))
     private void onFrameStart(boolean tick, CallbackInfo ci) {
         ClientTickCounter.renderTick(isPaused() ? pausePartialTick : getFrameTime());
+    }
+
+    @Inject(method = "startAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;resetAttackStrengthTicker()V", shift = At.Shift.AFTER))
+    private void leftClickEmpty(CallbackInfoReturnable<Boolean> cir) {
+        new PlayerInteractionEvents.LeftClickEmpty(this.player).sendEvent();
     }
 }

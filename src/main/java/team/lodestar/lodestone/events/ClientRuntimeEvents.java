@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import team.lodestar.lodestone.component.LodestonePlayerComponent;
-import team.lodestar.lodestone.component.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.client.ClientTickCounter;
