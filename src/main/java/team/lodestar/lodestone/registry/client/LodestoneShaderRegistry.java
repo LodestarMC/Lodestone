@@ -1,16 +1,22 @@
 package team.lodestar.lodestone.registry.client;
 
+import com.ibm.icu.impl.Pair;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.function.Consumer;
 
 import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
 
 public class LodestoneShaderRegistry {
+
+    public static List<Pair<ShaderInstance, Consumer<ShaderInstance>>> shaderList;
 
     public static ShaderHolder LODESTONE_TEXTURE = new ShaderHolder(lodestonePath("lodestone_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "LumiTransparency");
 
@@ -24,21 +30,22 @@ public class LodestoneShaderRegistry {
     public static ShaderHolder SCROLLING_TRIANGLE_TEXTURE = new ShaderHolder(lodestonePath("shapes/scrolling_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "Speed", "LumiTransparency");
 
 
-    @SubscribeEvent
-    public static void shaderRegistry(RegisterShadersEvent event) throws IOException {
-        ResourceProvider provider = event.getResourceProvider();
+    public static void shaderRegistry(ResourceProvider manager) throws IOException {
 
-        registerShader(event, LODESTONE_TEXTURE.createInstance(provider));
-        registerShader(event, PARTICLE.createInstance(provider));
-        registerShader(event, SCREEN_PARTICLE.createInstance(provider));
-        registerShader(event, DISTORTED_TEXTURE.createInstance(provider));
-        registerShader(event, SCROLLING_TEXTURE.createInstance(provider));
-        registerShader(event, TRIANGLE_TEXTURE.createInstance(provider));
-        registerShader(event, SCROLLING_TRIANGLE_TEXTURE.createInstance(provider));
+        registerShader(LODESTONE_TEXTURE.createInstance(manager));
+        registerShader(PARTICLE.createInstance(manager));
+        registerShader(SCREEN_PARTICLE.createInstance(manager));
+        registerShader(DISTORTED_TEXTURE.createInstance(manager));
+        registerShader(SCROLLING_TEXTURE.createInstance(manager));
+        registerShader(TRIANGLE_TEXTURE.createInstance(manager));
+        registerShader(SCROLLING_TRIANGLE_TEXTURE.createInstance(manager));
     }
 
-    public static void registerShader(RegisterShadersEvent event, ExtendedShaderInstance extendedShaderInstance) {
-        event.registerShader(extendedShaderInstance, s -> {
-        });
+    public static void registerShader(ExtendedShaderInstance extendedShaderInstance) {
+        registerShader(extendedShaderInstance, (shader) -> ((ExtendedShaderInstance) shader).getShaderHolder());
+    }
+
+    public static void registerShader(ShaderInstance shader, Consumer<ShaderInstance> onLoaded) {
+        shaderList.add(Pair.of(shader, onLoaded));
     }
 }

@@ -8,12 +8,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.NotNull;
 
 /**
  * A simple block entity which holds a single ItemStack
@@ -38,31 +34,13 @@ public abstract class ItemHolderBlockEntity extends LodestoneBlockEntity {
 
     @Override
     protected void saveAdditional(CompoundTag compound) {
-        inventory.save(compound);
+        inventory.serializeNBT();
         super.saveAdditional(compound);
     }
 
     @Override
     public void load(CompoundTag compound) {
-        inventory.load(compound);
+        inventory.deserializeNBT(compound);
         super.load(compound);
-    }
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventory.inventoryOptional.cast();
-        }
-        return super.getCapability(cap);
-    }
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return inventory.inventoryOptional.cast();
-        }
-        return super.getCapability(cap, side);
     }
 }

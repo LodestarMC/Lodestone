@@ -15,23 +15,19 @@ import static team.lodestar.lodestone.LodestoneLib.RANDOM;
 
 public class ClientRuntimeEvents {
 
-    @SubscribeEvent
-    public static void clientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase.equals(TickEvent.Phase.END)) {
-            Minecraft minecraft = Minecraft.getInstance();
-            if (minecraft.level != null) {
-                ClientTickCounter.clientTick();
-                if (minecraft.isPaused()) {
-                    return;
-                }
-                Camera camera = minecraft.gameRenderer.getMainCamera();
-                GhostBlockHandler.tickGhosts();
-                WorldEventHandler.tick(minecraft.level);
-                PlacementAssistantHandler.tick(minecraft.player, minecraft.hitResult);
-                ScreenshakeHandler.clientTick(camera, RANDOM);
-                LodestonePlayerDataCapability.ClientOnly.clientTick(event);
-                ScreenParticleHandler.tickParticles();
+    public static void clientTick(Minecraft minecraft) {
+        if (minecraft.level != null) {
+            ClientTickCounter.clientTick();
+            if (minecraft.isPaused()) {
+                return;
             }
+            Camera camera = minecraft.gameRenderer.getMainCamera();
+            GhostBlockHandler.tickGhosts();
+            WorldEventHandler.tick(minecraft.level);
+            PlacementAssistantHandler.tick(minecraft.player, minecraft.hitResult);
+            ScreenshakeHandler.clientTick(camera, RANDOM);
+            LodestonePlayerDataCapability.ClientOnly.clientTick();
+            ScreenParticleHandler.tickParticles();
         }
     }
 
@@ -69,12 +65,9 @@ public class ClientRuntimeEvents {
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
             RenderHandler.endBatchesEarly();
         }
-//        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_LEVEL)) {
-//            final PostChain transparencyChain = levelRenderer.transparencyChain;
-//            if (transparencyChain != null) {
-//                RenderHandler.LODESTONE_TARGET.blitToScreen(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
-//            }
-//        }
+
         poseStack.popPose();
     }
+
+
 }

@@ -141,7 +141,7 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
     }
 
     public static class ClientOnly {
-        public static void clientTick(TickEvent.ClientTickEvent event) {
+        public static void clientTick() {
             Minecraft minecraft = Minecraft.getInstance();
             Player player = minecraft.player;
             LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> {
