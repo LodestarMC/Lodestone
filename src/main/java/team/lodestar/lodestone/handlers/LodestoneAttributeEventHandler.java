@@ -3,7 +3,6 @@ package team.lodestar.lodestone.handlers;
 import io.github.fabricators_of_create.porting_lib.entity.events.living.LivingHurtEvent;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.*;
-import net.minecraft.resources.*;
 import net.minecraft.world.damagesource.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;

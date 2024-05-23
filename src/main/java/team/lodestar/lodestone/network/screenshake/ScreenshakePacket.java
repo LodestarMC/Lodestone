@@ -10,8 +10,6 @@ import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
-import java.util.function.Supplier;
-
 public class ScreenshakePacket extends LodestoneClientPacket {
     public final int duration;
     public float intensity1, intensity2, intensity3;

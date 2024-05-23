@@ -1,13 +1,5 @@
 package team.lodestar.lodestone.registry.common;
 
-import com.mojang.serialization.Codec;
-import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.minecraft.client.OptionInstance;
-import net.minecraft.client.gui.screens.AccessibilityOptionsScreen;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
-
 public class LodestoneOptionRegistry {
 
     /*TODO

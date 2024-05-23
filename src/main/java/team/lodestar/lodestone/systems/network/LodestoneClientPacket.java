@@ -9,8 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
 
-import java.util.function.Supplier;
-
 public abstract class LodestoneClientPacket implements S2CPacket {
 
     @Override

@@ -9,8 +9,6 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 
-import java.util.function.Supplier;
-
 public abstract class LodestoneClientNBTPacket extends LodestoneClientPacket {
     protected CompoundTag data;
 

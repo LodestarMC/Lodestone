@@ -8,8 +8,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import team.lodestar.lodestone.handlers.FireEffectHandler;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 
-import java.util.function.Supplier;
-
 public class ClearFireEffectInstancePacket extends LodestoneClientPacket {
 
     private final int entityID;

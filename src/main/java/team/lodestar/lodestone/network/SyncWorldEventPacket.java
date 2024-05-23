@@ -12,8 +12,6 @@ import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
-import java.util.function.Supplier;
-
 public class SyncWorldEventPacket extends LodestoneClientPacket {
     String type;
     public boolean start;

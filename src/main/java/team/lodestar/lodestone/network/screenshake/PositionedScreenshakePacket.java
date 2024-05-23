@@ -10,8 +10,6 @@ import team.lodestar.lodestone.handlers.ScreenshakeHandler;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.screenshake.PositionedScreenshakeInstance;
 
-import java.util.function.Supplier;
-
 public class PositionedScreenshakePacket extends ScreenshakePacket {
     public final Vec3 position;
     public final float falloffDistance;

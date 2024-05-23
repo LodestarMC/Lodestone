@@ -17,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.block.LodestoneEntityBlock;
 
@@ -42,7 +41,7 @@ public class LodestoneBlockEntity extends BlockEntity implements CustomUpdateTag
     public void onNeighborUpdate(BlockState state, BlockPos pos, BlockPos neighbor) {
     }
 
-    public ItemStack onClone(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+    public ItemStack onClone(BlockState state, BlockGetter level, BlockPos pos) {
         return ItemStack.EMPTY;
     }
 

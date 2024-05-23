@@ -1,19 +1,14 @@
 package team.lodestar.lodestone.systems.particle.world;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.*;
 import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.options.DirectionalParticleOptions;
-
-import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.FIRST_INDEX;
 
 public class DirectionalParticle extends GenericParticle<DirectionalParticleOptions> {
 

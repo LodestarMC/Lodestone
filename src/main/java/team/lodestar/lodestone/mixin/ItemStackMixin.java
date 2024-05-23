@@ -22,18 +22,21 @@ public class ItemStackMixin {
     @Unique
     private AttributeModifier lodestone$attributeModifier;
 
-    /*
+
     @ModifyVariable(method = "getTooltipLines", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getId()Ljava/util/UUID;", ordinal = 0), index = 13)
     private AttributeModifier lodestone$getTooltip(AttributeModifier value) {
         this.lodestone$attributeModifier = value;
         return value;
     }
 
-     */
-
-    /*
-    @ModifyVariable(method = "getTooltipLines", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getOperation()Lnet/minecraft/world/entity/ai/attributes/AttributeModifier$Operation;", ordinal = 0), index = 16)
-    private boolean lodestone$getTooltip(boolean value, @Nullable Player player, TooltipFlag flag) {
+    @ModifyVariable(
+            method = "getTooltipLines",
+            at = @At(
+                    value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getOperation()Lnet/minecraft/world/entity/ai/attributes/AttributeModifier$Operation;",
+            ordinal = 0
+    ))
+    private boolean lodestone$getTooltip2(boolean value, @Nullable Player player, TooltipFlag flag) {
         if (player != null) {
             if (lodestone$attributeModifier.getId().equals(LodestoneAttributeRegistry.UUIDS.get(LodestoneAttributeRegistry.MAGIC_DAMAGE))) {
                 return true;
@@ -42,11 +45,8 @@ public class ItemStackMixin {
         return value;
     }
 
-     */
-
-    /*
     @ModifyVariable(method = "getTooltipLines", at = @At("STORE"))
-    private Multimap<Attribute, AttributeModifier> lodestone$getTooltip(Multimap<Attribute, AttributeModifier> map, @Nullable Player player, TooltipFlag flag) {
+    private Multimap<Attribute, AttributeModifier> lodestone$getTooltip3(Multimap<Attribute, AttributeModifier> map, @Nullable Player player, TooltipFlag flag) {
         if (player != null) {
             Multimap<Attribute, AttributeModifier> copied = LinkedHashMultimap.create();
             for (Map.Entry<Attribute, AttributeModifier> entry : map.entries()) {
@@ -70,6 +70,4 @@ public class ItemStackMixin {
         }
         return map;
     }
-
-     */
 }

@@ -3,7 +3,6 @@ package team.lodestar.lodestone.systems.worldevent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.network.SyncWorldEventPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;

@@ -7,8 +7,6 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 
-import java.util.function.Supplier;
-
 public class ResetRightClickDelayPacket extends LodestoneClientPacket {
 
     public ResetRightClickDelayPacket(FriendlyByteBuf buf) {

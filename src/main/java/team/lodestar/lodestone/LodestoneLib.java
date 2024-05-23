@@ -1,28 +1,19 @@
 package team.lodestar.lodestone;
 
-import io.github.fabricators_of_create.porting_lib.config.ConfigRegistry;
-import io.github.fabricators_of_create.porting_lib.config.ConfigType;
-import io.github.fabricators_of_create.porting_lib.config.PortingLibConfig;
 import io.github.fabricators_of_create.porting_lib.entity.events.*;
 import io.github.fabricators_of_create.porting_lib.entity.events.living.LivingHurtEvent;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import org.apache.logging.log4j.*;
 import team.lodestar.lodestone.compability.*;
 import team.lodestar.lodestone.component.LodestonePlayerComponent;
-import team.lodestar.lodestone.config.*;
-import team.lodestar.lodestone.data.*;
 import team.lodestar.lodestone.events.EntityAttributeModificationEvent;
 import team.lodestar.lodestone.events.LodestoneInteractionEvent;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.registry.common.*;
 import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry;
-
-import java.util.concurrent.*;
 
 public class LodestoneLib implements ModInitializer {
 
@@ -58,7 +49,7 @@ public class LodestoneLib implements ModInitializer {
         LivingHurtEvent.HURT.register(ItemEventHandler::respondToHurt);
         LivingHurtEvent.HURT.register(LodestoneAttributeEventHandler::processAttributes);
 
-        CuriosCompat.init();
+        TrinketsCompat.init();
 
         ThrowawayBlockDataHandler.wipeCache();
     }

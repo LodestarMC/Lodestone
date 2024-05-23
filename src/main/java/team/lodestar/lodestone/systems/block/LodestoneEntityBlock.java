@@ -18,7 +18,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 
@@ -68,21 +67,18 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
         super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
     }
 
-    /*TODO
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockGetter level, BlockPos pos, BlockState state) {
         if (hasTileEntity(state)) {
-            if (world.getBlockEntity(pos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                ItemStack stack = simpleBlockEntity.onClone(state, target, world, pos, player);
+            if (level.getBlockEntity(pos) instanceof LodestoneBlockEntity simpleBlockEntity) {
+                ItemStack stack = simpleBlockEntity.onClone(state, level, pos);
                 if (!stack.isEmpty()) {
                     return stack;
                 }
             }
         }
-        return super.getCloneItemStack(state, target, world, pos, player);
+        return super.getCloneItemStack(level, pos, state);
     }
-
-     */
 
     @Override
     public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {

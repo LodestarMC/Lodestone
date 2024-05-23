@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.item;
 
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 

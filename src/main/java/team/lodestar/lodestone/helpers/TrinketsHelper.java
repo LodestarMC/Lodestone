@@ -14,22 +14,22 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 @SuppressWarnings("unused")
-public class CurioHelper {
+public class TrinketsHelper {
 
-    public static Optional<Tuple<SlotReference, ItemStack>> getEquippedCurio(LivingEntity entity, Predicate<ItemStack> predicate) {
+    public static Optional<Tuple<SlotReference, ItemStack>> getEquippedTrinket(LivingEntity entity, Predicate<ItemStack> predicate) {
         return TrinketsApi.TRINKET_COMPONENT.maybeGet(entity).flatMap(trinketComponent -> trinketComponent.getEquipped(predicate).stream().findFirst());
     }
 
-    public static Optional<Tuple<SlotReference, ItemStack>> getEquippedCurio(LivingEntity entity, Item curio) {
+    public static Optional<Tuple<SlotReference, ItemStack>> getEquippedTrinket(LivingEntity entity, Item curio) {
         var comp = TrinketsApi.TRINKET_COMPONENT.maybeGet(entity);
         return comp.flatMap(trinketComponent -> trinketComponent.getEquipped(curio).stream().findFirst());
     }
 
     public static boolean hasCurioEquipped(LivingEntity entity, Item curio) {
-        return getEquippedCurio(entity, curio).isPresent();
+        return getEquippedTrinket(entity, curio).isPresent();
     }
 
-    public static List<Tuple<SlotReference, ItemStack>> getEquippedCurios(LivingEntity entity) {
+    public static List<Tuple<SlotReference, ItemStack>> getEquippedTrinkets(LivingEntity entity) {
         var v = TrinketsApi.TRINKET_COMPONENT.maybeGet(entity);
         if (v.isPresent()) {
             TrinketComponent component = v.get();
@@ -38,7 +38,7 @@ public class CurioHelper {
         return List.of();
     }
 
-    public static ArrayList<Tuple<SlotReference, ItemStack>> getEquippedCurios(LivingEntity entity, Predicate<ItemStack> predicate) {
+    public static ArrayList<Tuple<SlotReference, ItemStack>> getEquippedTrinkets(LivingEntity entity, Predicate<ItemStack> predicate) {
         var v = TrinketsApi.TRINKET_COMPONENT.maybeGet(entity);
         if (v.isPresent()) {
             TrinketComponent component = v.get();

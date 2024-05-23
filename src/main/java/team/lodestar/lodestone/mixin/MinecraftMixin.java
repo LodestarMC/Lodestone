@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.mixin;
 
-import io.github.fabricators_of_create.porting_lib.entity.events.PlayerInteractionEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.main.GameConfig;
 import net.minecraft.client.player.LocalPlayer;
@@ -11,8 +10,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry;
 import team.lodestar.lodestone.registry.common.particle.LodestoneScreenParticleRegistry;
 import team.lodestar.lodestone.systems.client.ClientTickCounter;
 
@@ -40,6 +37,5 @@ public abstract class MinecraftMixin {
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/packs/resources/ReloadableResourceManager;registerReloadListener(Lnet/minecraft/server/packs/resources/PreparableReloadListener;)V", ordinal = 17))
     private void lodestone$registerParticleFactories(GameConfig gameConfig, CallbackInfo ci) {
         LodestoneScreenParticleRegistry.registerParticleFactory();
-        //LodestoneParticleRegistry.registerParticleFactory();
     }
 }

@@ -1,10 +1,8 @@
 package team.lodestar.lodestone.data;
 
-import io.github.fabricators_of_create.porting_lib.data.LanguageProvider;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;

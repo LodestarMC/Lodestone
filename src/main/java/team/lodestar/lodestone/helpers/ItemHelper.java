@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import team.lodestar.lodestone.compability.CuriosCompat;
+import team.lodestar.lodestone.compability.TrinketsCompat;
 import team.lodestar.lodestone.systems.item.IEventResponderItem;
 
 import java.util.ArrayList;
@@ -87,9 +87,9 @@ public class ItemHelper {
     }
 
     public static ArrayList<ItemStack> getEventResponders(LivingEntity attacker) {
-        ArrayList<Tuple<SlotReference, ItemStack>> equippedCurios = CurioHelper.getEquippedCurios(attacker, p -> p.getItem() instanceof IEventResponderItem);
+        ArrayList<Tuple<SlotReference, ItemStack>> equippedCurios = TrinketsHelper.getEquippedTrinkets(attacker, p -> p.getItem() instanceof IEventResponderItem);
 
-        ArrayList<ItemStack> itemStacks = CuriosCompat.LOADED ? new ArrayList<>(equippedCurios.stream().map(Tuple::getB).toList()) : new ArrayList<>();
+        ArrayList<ItemStack> itemStacks = TrinketsCompat.LOADED ? new ArrayList<>(equippedCurios.stream().map(Tuple::getB).toList()) : new ArrayList<>();
         ItemStack stack = attacker.getMainHandItem();
         if (stack.getItem() instanceof IEventResponderItem) {
             itemStacks.add(stack);

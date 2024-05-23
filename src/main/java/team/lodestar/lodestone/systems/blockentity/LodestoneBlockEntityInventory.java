@@ -1,28 +1,19 @@
 package team.lodestar.lodestone.systems.blockentity;
 
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
-import net.fabricmc.fabric.api.transfer.v1.storage.StorageUtil;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import team.lodestar.lodestone.helpers.BlockHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * A powerful ItemStackHandler designed to work with block entities
@@ -84,7 +75,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
         }
     }
 
-    public ItemStack interact(Level level, Player player, InteractionHand handIn) {
+    public void interact(Level level, Player player, InteractionHand handIn) {
         if (!level.isClientSide) {
             ItemStack held = player.getItemInHand(handIn);
             player.swing(handIn, true);
@@ -92,26 +83,16 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
             if ((held.isEmpty() || firstEmptyItemIndex == -1) && size != -1) {
                 ItemStack takeOutStack = nonEmptyItemStacks.get(size);
                 if (takeOutStack.getItem().equals(held.getItem())) {
-                    return insertItem(player, held);
+                    TransferUtil.insertItem(this, held);
+                    return;
                 }
-                ItemStack extractedStack = extractItem(level, held, player);
-                boolean success = !extractedStack.isEmpty();
-                if (success) {
-                    insertItem(player, held);
+                long extractedStack = TransferUtil.extractItem(this, held);
+                if (extractedStack > 0) {
+                    TransferUtil.insertItem(this, held);
                 }
-                return extractedStack;
             } else {
-                return insertItem(player, held);
+                TransferUtil.insertItem(this, held);
             }
         }
-        return ItemStack.EMPTY;
-    }
-
-    private ItemStack extractItem(Level level, ItemStack held, Player player) {
-        return (held); //TODO
-    }
-
-    private ItemStack insertItem(Player player, ItemStack held) {
-        return held; //TODO
     }
 }

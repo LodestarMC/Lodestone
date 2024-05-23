@@ -5,15 +5,12 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
-
-import java.util.function.Supplier;
 
 public class TotemOfUndyingEffectPacket extends LodestoneClientPacket {
     private final int entityId;

@@ -12,8 +12,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
-import java.util.function.Supplier;
-
 public abstract class LodestoneTwoWayNBTPacket extends LodestoneTwoWayPacket {
     protected CompoundTag data;
 
