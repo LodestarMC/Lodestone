@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.handlers;
 
+import io.github.fabricators_of_create.porting_lib.entity.events.living.LivingHurtEvent;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.resources.*;
@@ -7,11 +8,9 @@ import net.minecraft.world.damagesource.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.level.*;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
 import team.lodestar.lodestone.registry.common.tag.*;
 
-import javax.annotation.*;
 
 /**
  * A handler for common attributes I use in my mods.

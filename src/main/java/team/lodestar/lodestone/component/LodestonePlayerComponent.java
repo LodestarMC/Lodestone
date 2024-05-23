@@ -5,7 +5,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.network.interaction.UpdateLeftClickPacket;
 import team.lodestar.lodestone.network.interaction.UpdateRightClickPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
@@ -21,6 +24,21 @@ public class LodestonePlayerComponent implements AutoSyncedComponent {
 
     public LodestonePlayerComponent(Player player) {
         this.player = player;
+    }
+
+    public static void playerTick(Player player) {
+        LodestoneComponents.LODESTONE_PLAYER_COMPONENT.maybeGet(player).ifPresent(c -> {
+            c.rightClickTime = c.rightClickHeld ? c.rightClickTime + 1 : 0;
+            c.leftClickTime = c.leftClickHeld ? c.leftClickTime + 1 : 0;
+        });
+    }
+
+    public static boolean playerJoin(Entity entity, Level level, boolean b) {
+        if (entity instanceof ServerPlayer serverPlayer) {
+            LodestoneComponents.LODESTONE_PLAYER_COMPONENT.maybeGet(serverPlayer).ifPresent(capability -> capability.hasJoinedBefore = true);
+            LodestoneComponents.LODESTONE_PLAYER_COMPONENT.sync(serverPlayer);
+        }
+        return true;
     }
 
     @Override
