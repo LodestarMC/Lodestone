@@ -43,8 +43,7 @@ public class ItemHelper {
     public static <T extends LivingEntity> boolean damageItem(ItemStack stack, int amount, T entityIn, Consumer<T> onBroken) {
         if (!entityIn.level().isClientSide && (!(entityIn instanceof Player) || !((Player) entityIn).getAbilities().instabuild)) {
             if (stack.isDamageableItem()) {
-                Damage
-                amount = ((DamageableItem)stack.getItem()).damageItem(stack, amount, entityIn, onBroken);
+                var damageableItem = (DamageableItem) stack.getItem();
                 if (stack.hurt(amount, entityIn.getRandom(), entityIn instanceof ServerPlayer ? (ServerPlayer) entityIn : null)) {
                     onBroken.accept(entityIn);
                     Item item = stack.getItem();
