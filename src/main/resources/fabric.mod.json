@@ -3,13 +3,13 @@
   "id": "lodestone",
   "version": "${version}",
 
-  "name": "Lodestone",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
-    "Sammy;, MrSterner"
+    "${mod_authors}, MrSterner"
   ],
 
-  "license": "CC0-1.0",
+  "license": "${mod_license}",
   "icon": "assets/lodestone/icon.png",
 
   "environment": "*",
@@ -21,10 +21,10 @@
       "team.lodestar.lodestone.LodestoneLibClient"
     ],
     "cardinal-components-entity": [
-      "team.lodestar.lodestone.registry.LodestoneComponents"
+      "team.lodestar.lodestone.component.LodestoneComponents"
     ],
     "cardinal-components-world": [
-      "team.lodestar.lodestone.registry.LodestoneComponents"
+      "team.lodestar.lodestone.component.LodestoneComponents"
     ],
     "fabric-datagen": [
       "team.lodestar.lodestone.data.LodestoneDatagen"
@@ -40,6 +40,13 @@
     "minecraft": "~${minecraft_version}",
     "java": ">=21",
     "fabric-language-kotlin": ">=${fabric_kotlin_version}"
+  },
+  "custom": {
+    "cardinal-components": [
+      "lodestone:player",
+      "lodestone:entity",
+      "lodestone:world_event"
+    ]
   },
   "suggests": {
     "another-mod": "*"

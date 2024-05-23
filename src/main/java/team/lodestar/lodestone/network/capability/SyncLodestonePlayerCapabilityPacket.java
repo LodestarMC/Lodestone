@@ -12,11 +12,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.player.Player;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
+import team.lodestar.lodestone.component.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.systems.network.LodestoneTwoWayNBTPacket;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
 @SuppressWarnings("ConstantConditions")
 public class SyncLodestonePlayerCapabilityPacket extends LodestoneTwoWayNBTPacket {

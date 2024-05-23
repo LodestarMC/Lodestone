@@ -7,7 +7,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.PacketDistributor;
-import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
+import team.lodestar.lodestone.component.LodestoneEntityComponent;
+import team.lodestar.lodestone.component.LodestoneEntityDataCapability;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
 import team.lodestar.lodestone.registry.client.LodestoneFireEffectRendererRegistry;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
@@ -50,13 +51,13 @@ public class FireEffectHandler {
         });
     }
 
-    public static void serializeNBT(LodestoneEntityDataCapability capability, CompoundTag tag) {
+    public static void serializeNBT(LodestoneEntityComponent capability, CompoundTag tag) {
         if (capability.fireEffectInstance != null) {
             capability.fireEffectInstance.serializeNBT(tag);
         }
     }
 
-    public static void deserializeNBT(LodestoneEntityDataCapability capability, CompoundTag tag) {
+    public static void deserializeNBT(LodestoneEntityComponent capability, CompoundTag tag) {
         capability.fireEffectInstance = FireEffectInstance.deserializeNBT(tag);
     }
 

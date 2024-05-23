@@ -6,9 +6,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
+import team.lodestar.lodestone.component.LodestoneEntityDataCapability;
+import team.lodestar.lodestone.component.LodestonePlayerDataCapability;
+import team.lodestar.lodestone.component.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 

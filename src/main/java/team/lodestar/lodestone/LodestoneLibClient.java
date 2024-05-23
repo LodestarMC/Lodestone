@@ -4,6 +4,7 @@ import io.github.fabricators_of_create.porting_lib.client_events.event.client.Re
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import team.lodestar.lodestone.component.LodestonePlayerComponent;
 import team.lodestar.lodestone.events.ClientRuntimeEvents;
 import team.lodestar.lodestone.events.LodestoneRenderEvents;
 import team.lodestar.lodestone.handlers.RenderHandler;
@@ -29,6 +30,7 @@ public class LodestoneLibClient implements ClientModInitializer {
 
         RenderHandler.onClientSetup();
         ParticleEmitterHandler.registerParticleEmitters();
+        ClientTickEvents.END_CLIENT_TICK.register(LodestonePlayerComponent::clientTick);
     }
 
     public static void initEvents(){

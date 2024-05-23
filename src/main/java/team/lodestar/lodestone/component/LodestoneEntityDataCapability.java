@@ -1,5 +1,5 @@
-package team.lodestar.lodestone.capability;
-
+package team.lodestar.lodestone.component;
+/*
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -90,3 +90,5 @@ public class LodestoneEntityDataCapability implements LodestoneCapability {
         return entity.getCapability(CAPABILITY).orElse(new LodestoneEntityDataCapability());
     }
 }
+
+ */

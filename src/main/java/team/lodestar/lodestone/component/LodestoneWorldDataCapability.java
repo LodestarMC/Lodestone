@@ -1,5 +1,5 @@
-package team.lodestar.lodestone.capability;
-
+package team.lodestar.lodestone.component;
+/*
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
@@ -54,4 +54,5 @@ public class LodestoneWorldDataCapability implements LodestoneCapability {
     public static LodestoneWorldDataCapability getCapability(Level level) {
         return level.getCapability(CAPABILITY).orElse(new LodestoneWorldDataCapability());
     }
-}
+
+ */

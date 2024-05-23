@@ -6,10 +6,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
+import team.lodestar.lodestone.component.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
-
-import java.util.function.Supplier;
 
 public class UpdateLeftClickPacket extends LodestoneServerPacket {
 
