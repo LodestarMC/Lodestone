@@ -104,4 +104,9 @@ public class LevelRendererMixin {
     private void lodestone$injectEvent5(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci){
         LodestoneRenderEvents.AFTER_SKY.invoker().render(poseStack, partialTick, Stage.AFTER_SKY);
     }
+
+    @Inject(method = "renderChunkLayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;clearRenderState()V"))
+    private void lodestone$injectEvent6(RenderType renderType, PoseStack poseStack, double camX, double camY, double camZ, Matrix4f projectionMatrix, CallbackInfo ci){
+        LodestoneRenderEvents.BEFORE_CLEAR.invoker().render(renderType, poseStack, Stage.AFTER_SOLID_BLOCKS);
+    }
 }
