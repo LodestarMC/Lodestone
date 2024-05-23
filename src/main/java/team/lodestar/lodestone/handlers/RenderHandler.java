@@ -9,6 +9,7 @@ import net.minecraft.client.*;
 import net.minecraft.client.renderer.*;
 import org.joml.Matrix4f;
 import team.lodestar.lodestone.*;
+import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
@@ -25,13 +26,16 @@ import static team.lodestar.lodestone.systems.rendering.StateShards.NORMAL_TRANS
 public class RenderHandler {
     public static final HashMap<RenderType, BufferBuilder> BUFFERS = new HashMap<>();
     public static final HashMap<RenderType, BufferBuilder> PARTICLE_BUFFERS = new HashMap<>();
+    public static final HashMap<RenderType, BufferBuilder> LATE_BUFFERS = new HashMap<>();
+    public static final HashMap<RenderType, BufferBuilder> LATE_PARTICLE_BUFFERS = new HashMap<>();
+
     public static final HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
     public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
 
     public static boolean LARGER_BUFFER_SOURCES = FabricLoader.getInstance().isModLoaded("sodium");
 
-    public static MultiBufferSource.BufferSource DELAYED_RENDER;
-    public static MultiBufferSource.BufferSource DELAYED_PARTICLE_RENDER;
+    public static LodestoneRenderLayer DELAYED_RENDER;
+    public static LodestoneRenderLayer LATE_DELAYED_RENDER;
 
     public static PoseStack MAIN_POSE_STACK;
     public static Matrix4f MATRIX4F;
@@ -51,8 +55,8 @@ public class RenderHandler {
     public static void onClientSetup() {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
 
-        DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size));
-        DELAYED_PARTICLE_RENDER = MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size));
+        DELAYED_RENDER = new LodestoneRenderLayer(BUFFERS, PARTICLE_BUFFERS, size);
+        LATE_DELAYED_RENDER = new LodestoneRenderLayer(LATE_BUFFERS, LATE_PARTICLE_BUFFERS, size);
     }
 
     public static void setupLodestoneRenderTargets() {
@@ -98,20 +102,45 @@ public class RenderHandler {
     }
 
     public static void endBatchesEarly() {
-        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
-        endBatches(levelRenderer.transparencyChain != null);
-    }
-
-    public static void endBatchesLate() {
-        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
-        if (levelRenderer.transparencyChain != null) {
-            Minecraft mc = Minecraft.getInstance();
-            var partial = mc.pause ? mc.pausePartialTick : mc.timer.partialTick;
-            LODESTONE_POST_CHAIN.process(partial);
+        if (ClientConfig.EXPERIMENTAL_FABULOUS_LAYERING.getConfigValue()) {
+            LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+            final boolean isFabulous = levelRenderer.transparencyChain != null;
+            endBatchesExperimental(DELAYED_RENDER, isFabulous);
+            endBatchesExperimental(LATE_DELAYED_RENDER, isFabulous);
+        }
+        else {
+            endBatches(DELAYED_RENDER);
+            endBatches(LATE_DELAYED_RENDER);
         }
     }
 
-    public static void endBatches(boolean isFabulous) {
+    public static void endBatchesLate() {
+        if (ClientConfig.EXPERIMENTAL_FABULOUS_LAYERING.getConfigValue()) {
+            LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+            if (levelRenderer.transparencyChain != null) {
+                Minecraft mc = Minecraft.getInstance();
+                var partial = mc.pause ? mc.pausePartialTick : mc.timer.partialTick;
+                LODESTONE_POST_CHAIN.process(partial);
+            }
+        }
+    }
+
+    public static void endBatches(LodestoneRenderLayer renderLayer) {
+        Matrix4f last = new Matrix4f(RenderSystem.getModelViewMatrix());
+        beginBufferedRendering();
+        renderBufferedParticles(renderLayer, true);
+        if (RenderHandler.MATRIX4F != null) {
+            RenderSystem.getModelViewMatrix().set(MATRIX4F);
+        }
+        renderBufferedBatches(renderLayer, true);
+        renderBufferedBatches(renderLayer, false);
+        RenderSystem.getModelViewMatrix().set(last);
+        renderBufferedParticles(renderLayer, false);
+
+        endBufferedRendering();
+    }
+
+    public static void endBatchesExperimental(LodestoneRenderLayer renderLayer,boolean isFabulous) {
         LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
         Matrix4f last = new Matrix4f(RenderSystem.getModelViewMatrix());
         if (isFabulous) {
@@ -121,7 +150,7 @@ public class RenderHandler {
             LODESTONE_TRANSLUCENT_PARTICLE.bindWrite(false);
         }
         beginBufferedRendering();
-        renderBufferedParticles(true);
+        renderBufferedParticles(renderLayer, true);
         if (RenderHandler.MATRIX4F != null) {
             RenderSystem.getModelViewMatrix().set(MATRIX4F);
         }
@@ -131,14 +160,14 @@ public class RenderHandler {
             LODESTONE_TRANSLUCENT.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             LODESTONE_TRANSLUCENT.bindWrite(false);
         }
-        renderBufferedBatches(true);
+        renderBufferedBatches(renderLayer, true);
         if (isFabulous) {
             LODESTONE_TRANSLUCENT.unbindWrite();
             LODESTONE_ADDITIVE.clear(Minecraft.ON_OSX);
             LODESTONE_ADDITIVE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             LODESTONE_ADDITIVE.bindWrite(false);
         }
-        renderBufferedBatches(false);
+        renderBufferedBatches(renderLayer, false);
         RenderSystem.getModelViewMatrix().set(last);
         if (isFabulous) {
             LODESTONE_ADDITIVE.unbindWrite();
@@ -146,7 +175,7 @@ public class RenderHandler {
             LODESTONE_ADDITIVE_PARTICLE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             LODESTONE_ADDITIVE_PARTICLE.bindWrite(false);
         }
-        renderBufferedParticles(false);
+        renderBufferedParticles(renderLayer, false);
 
         endBufferedRendering();
         if (isFabulous) {
@@ -198,12 +227,12 @@ public class RenderHandler {
     }
 
 
-    public static void renderBufferedParticles(boolean transparentOnly) {
-        renderBufferedBatches(DELAYED_PARTICLE_RENDER, PARTICLE_BUFFERS, transparentOnly);
+    public static void renderBufferedParticles(LodestoneRenderLayer renderLayer, boolean transparentOnly) {
+        renderBufferedBatches(renderLayer.particleTarget, PARTICLE_BUFFERS, transparentOnly);
     }
 
-    public static void renderBufferedBatches(boolean transparentOnly) {
-        renderBufferedBatches(DELAYED_RENDER, BUFFERS, transparentOnly);
+    public static void renderBufferedBatches(LodestoneRenderLayer renderLayer, boolean transparentOnly) {
+        renderBufferedBatches(renderLayer.target, BUFFERS, transparentOnly);
     }
 
     private static void renderBufferedBatches(MultiBufferSource.BufferSource bufferSource, HashMap<RenderType, BufferBuilder> buffer, boolean transparentOnly) {
@@ -235,12 +264,44 @@ public class RenderHandler {
         int size = LARGER_BUFFER_SOURCES ? 262144 : renderType.bufferSize();
         final boolean isParticle = renderType.name.contains("particle");
         HashMap<RenderType, BufferBuilder> buffers = isParticle ? PARTICLE_BUFFERS : BUFFERS;
+        HashMap<RenderType, BufferBuilder> lateBuffers = isParticle ? LATE_PARTICLE_BUFFERS : LATE_BUFFERS;
         buffers.put(renderType, new BufferBuilder(size));
+        lateBuffers.put(renderType, new BufferBuilder(size));
         if (NORMAL_TRANSPARENCY.equals(RenderHelper.getTransparencyShard(renderType))) {
             TRANSPARENT_RENDER_TYPES.add(renderType);
         }
     }
 
 
+    public static class LodestoneRenderLayer {
 
+        protected final HashMap<RenderType, BufferBuilder> buffers;
+        protected final HashMap<RenderType, BufferBuilder> particleBuffers;
+
+        protected final MultiBufferSource.BufferSource target;
+        protected final MultiBufferSource.BufferSource particleTarget;
+
+        public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers, int size) {
+            this.buffers = buffers;
+            this.particleBuffers = particleBuffers;
+            this.target = MultiBufferSource.immediateWithBuffers(buffers, new BufferBuilder(size));
+            this.particleTarget = MultiBufferSource.immediateWithBuffers(particleBuffers, new BufferBuilder(size));
+        }
+
+        public HashMap<RenderType, BufferBuilder> getBuffers() {
+            return buffers;
+        }
+
+        public HashMap<RenderType, BufferBuilder> getParticleBuffers() {
+            return particleBuffers;
+        }
+
+        public MultiBufferSource.BufferSource getTarget() {
+            return target;
+        }
+
+        public MultiBufferSource.BufferSource getParticleTarget() {
+            return particleTarget;
+        }
+    }
 }

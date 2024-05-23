@@ -12,7 +12,7 @@ public class LodestoneCommandRegistry {
 
     public static void registerCommands() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            LiteralCommandNode<CommandSourceStack> command = dispatcher.register(Commands.literal("o").then(DevWorldSetupCommand.register()));
+            LiteralCommandNode<CommandSourceStack> command = dispatcher.register(Commands.literal("lode").then(DevWorldSetupCommand.register()));
             dispatcher.register(Commands.literal(LODESTONE).redirect(command));
         });
     }

@@ -1,14 +1,13 @@
 package team.lodestar.lodestone.network.worldevent;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.simple.SimpleChannel;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
+import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
@@ -24,19 +23,23 @@ public class UpdateWorldEventPacket extends LodestoneClientPacket {
         this.eventData = eventData;
     }
 
+    public UpdateWorldEventPacket(FriendlyByteBuf buf) {
+        uuid = buf.readUUID();
+        eventData = buf.readNbt();
+    }
+
     @Override
     public void encode(FriendlyByteBuf buf) {
         buf.writeUUID(uuid);
         buf.writeNbt(eventData);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public void execute(Supplier<NetworkEvent.Context> context) {
+    public void executeClient(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
         ClientLevel level = Minecraft.getInstance().level;
         if (level != null) {
-            level.getCapability(LodestoneWorldDataCapability.CAPABILITY).ifPresent(capability -> {
-                for (WorldEventInstance instance : capability.activeWorldEvents) {
+            LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(c -> {
+                for (WorldEventInstance instance : c.activeWorldEvents) {
                     if (instance.uuid.equals(uuid)) {
                         instance.deserializeNBT(eventData);
                         break;
@@ -44,13 +47,5 @@ public class UpdateWorldEventPacket extends LodestoneClientPacket {
                 }
             });
         }
-    }
-
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, UpdateWorldEventPacket.class, UpdateWorldEventPacket::encode, UpdateWorldEventPacket::decode, UpdateWorldEventPacket::handle);
-    }
-
-    public static UpdateWorldEventPacket decode(FriendlyByteBuf buf) {
-        return new UpdateWorldEventPacket(buf.readUUID(), buf.readNbt());
     }
 }

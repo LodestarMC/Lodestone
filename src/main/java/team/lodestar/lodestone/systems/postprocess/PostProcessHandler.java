@@ -1,7 +1,10 @@
 package team.lodestar.lodestone.systems.postprocess;
 
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.minecraft.client.renderer.RenderType;
+import team.lodestar.lodestone.events.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +37,19 @@ public class PostProcessHandler {
         instances.forEach(i -> i.resize(width, height));
     }
 
+    public static void onAfterSolidBlocks(WorldRenderContext ctx) {
+        PostProcessor.viewModelStack = ctx.matrixStack(); // Copy PoseStack from LevelRenderer#renderLevel
+    }
 
     public static void onWorldRenderLast(WorldRenderContext ctx) {
         copyDepthBuffer(); // copy the depth buffer if the mixin didn't trigger
 
-        PostProcessor.viewModelStack = ctx.matrixStack();
         instances.forEach(PostProcessor::applyPostProcess);
 
         didCopyDepth = false; // reset for next frame
+    }
+
+    public static void onAfterSolidBlocks(RenderType renderType, PoseStack poseStack, Stage stage) {
+        PostProcessor.viewModelStack = poseStack;
     }
 }

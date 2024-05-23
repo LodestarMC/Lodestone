@@ -35,6 +35,7 @@ public class LodestoneLibClient implements ClientModInitializer {
         LodestoneRenderEvents.AFTER_SKY.register(ClientRuntimeEvents::renderStages);
         LodestoneRenderEvents.AFTER_PARTICLES.register(ClientRuntimeEvents::renderStages);
         LodestoneRenderEvents.AFTER_WEATHER.register(ClientRuntimeEvents::renderStages);
+        LodestoneRenderEvents.BEFORE_CLEAR.register(PostProcessHandler::onAfterSolidBlocks);
 
         RenderHandler.onClientSetup();
     }

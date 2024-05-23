@@ -1,8 +1,10 @@
 package team.lodestar.lodestone.systems.datagen.providers;
 
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
+import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
 import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockStateProvider;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.VariantBlockStateBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
