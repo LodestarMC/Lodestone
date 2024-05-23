@@ -2,6 +2,7 @@ package team.lodestar.lodestone.registry.common.particle;
 
 import io.github.fabricators_of_create.porting_lib.util.LazyRegistrar;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import team.lodestar.lodestone.LodestoneLib;
@@ -25,15 +26,17 @@ public class LodestoneParticleRegistry {
     public static RegistryObject<LodestoneTerrainParticleType> TERRAIN_PARTICLE = PARTICLES.register("terrain", LodestoneTerrainParticleType::new);
     public static RegistryObject<LodestoneItemCrumbsParticleType> ITEM_PARTICLE = PARTICLES.register("item", LodestoneItemCrumbsParticleType::new);
 
-    public static void registerParticleFactory(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(WISP_PARTICLE.get(), LodestoneParticleType.Factory::new);
-        event.registerSpriteSet(SMOKE_PARTICLE.get(), LodestoneParticleType.Factory::new);
-        event.registerSpriteSet(SPARKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
-        event.registerSpriteSet(TWINKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
-        event.registerSpriteSet(STAR_PARTICLE.get(), LodestoneParticleType.Factory::new);
+    public static void registerParticleFactory() {
+        ParticleFactoryRegistry.getInstance().register(WISP_PARTICLE.get(), LodestoneParticleType.Factory::new);
+        
+        ParticleFactoryRegistry.getInstance().register(WISP_PARTICLE.get(), LodestoneParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(SMOKE_PARTICLE.get(), LodestoneParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(SPARKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(TWINKLE_PARTICLE.get(), LodestoneParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(STAR_PARTICLE.get(), LodestoneParticleType.Factory::new);
 
-        event.registerSpriteSet(SPARK_PARTICLE.get(), LodestoneSparkParticleType.Factory::new);
-        event.registerSpriteSet(TERRAIN_PARTICLE.get(), LodestoneTerrainParticleType.Factory::new);
-        event.registerSpriteSet(ITEM_PARTICLE.get(), LodestoneItemCrumbsParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(SPARK_PARTICLE.get(), LodestoneSparkParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(TERRAIN_PARTICLE.get(), LodestoneTerrainParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(ITEM_PARTICLE.get(), LodestoneItemCrumbsParticleType.Factory::new);
     }
 }

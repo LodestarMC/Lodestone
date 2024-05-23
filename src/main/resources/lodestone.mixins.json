@@ -15,6 +15,7 @@
     "CreativeModeInventoryScreenMixin",
     "EffectProgramMixin",
     "EntityRenderDispatcherMixin",
+    "FogRendererMixin",
     "GameRendererMixin",
     "GuiGraphicsMixin",
     "GuiMixin",

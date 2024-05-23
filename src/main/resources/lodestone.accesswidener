@@ -82,3 +82,5 @@ accessible method net/minecraft/world/item/enchantment/EnchantmentHelper runIter
 accessible method net/minecraft/world/item/enchantment/EnchantmentHelper runIterationOnItem (Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/world/item/ItemStack;)V
 accessible field net/minecraft/client/renderer/RenderType$CompositeRenderType OUTLINE Ljava/util/function/BiFunction;
 accessible field net/minecraft/client/renderer/entity/BoatRenderer boatResources Ljava/util/Map;
+accessible field net/minecraft/client/Minecraft pause Z
+accessible field net/minecraft/client/Minecraft pausePartialTick F
