@@ -24,8 +24,7 @@ public class LodestonePacketRegistry {
     public static final SimpleChannel LODESTONE_CHANNEL = new SimpleChannel(LodestoneLib.lodestonePath("main"));
 
     @SuppressWarnings("UnusedAssignment")
-    @SubscribeEvent
-    public static void registerPackets(FMLCommonSetupEvent event) {
+    public static void registerPackets() {
         int index = 0;
 
         //TwoWay

@@ -13,6 +13,11 @@ import java.util.function.Supplier;
 
 public abstract class LodestoneClientPacket implements S2CPacket {
 
+    @Override
+    public void encode(FriendlyByteBuf buf) {
+
+    }
+
     @Environment(EnvType.CLIENT)
     @Override
     public void handle(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {

@@ -25,6 +25,9 @@
     ],
     "cardinal-components-world": [
       "team.lodestar.lodestone.registry.LodestoneComponents"
+    ],
+    "fabric-datagen": [
+      "team.lodestar.lodestone.data.LodestoneDatagen"
     ]
   },
   "mixins": [

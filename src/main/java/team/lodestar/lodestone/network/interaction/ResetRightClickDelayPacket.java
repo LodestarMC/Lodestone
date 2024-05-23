@@ -19,4 +19,5 @@ public class ResetRightClickDelayPacket extends LodestoneClientPacket {
     public static ResetRightClickDelayPacket decode(FriendlyByteBuf buf) {
         return new ResetRightClickDelayPacket();
     }
+
 }

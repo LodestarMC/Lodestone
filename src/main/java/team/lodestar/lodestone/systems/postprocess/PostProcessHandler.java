@@ -1,6 +1,8 @@
 package team.lodestar.lodestone.systems.postprocess;
 
 
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +34,11 @@ public class PostProcessHandler {
         instances.forEach(i -> i.resize(width, height));
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onWorldRenderLast(RenderLevelStageEvent event) {
+
+    public static void onWorldRenderLast(WorldRenderContext ctx) {
         copyDepthBuffer(); // copy the depth buffer if the mixin didn't trigger
 
-        PostProcessor.viewModelStack = event.getPoseStack();
+        PostProcessor.viewModelStack = ctx.matrixStack();
         instances.forEach(PostProcessor::applyPostProcess);
 
         didCopyDepth = false; // reset for next frame

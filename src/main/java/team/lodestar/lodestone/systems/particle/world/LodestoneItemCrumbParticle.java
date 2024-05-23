@@ -14,7 +14,7 @@ public class LodestoneItemCrumbParticle extends GenericParticle<LodestoneItemCru
     public LodestoneItemCrumbParticle(ClientLevel world, LodestoneItemCrumbsParticleOptions data, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, null, x, y, z, xd, yd, zd);
         var model = Minecraft.getInstance().getItemRenderer().getModel(data.stack, world, null, 0);
-        this.setSprite(model.getOverrides().resolve(model, data.stack, world, null, 0).getParticleIcon(ModelData.EMPTY));
+        this.setSprite(model.getOverrides().resolve(model, data.stack, world, null, 0).getParticleIcon());
         this.quadSize /= 2.0F;
         this.uo = this.random.nextFloat() * 3.0F;
         this.vo = this.random.nextFloat() * 3.0F;

@@ -61,6 +61,10 @@ dependencies {
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
 }
 
+fabricApi {
+    configureDataGeneration()
+}
+
 tasks {
 
     processResources {

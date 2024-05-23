@@ -13,8 +13,8 @@ import java.util.concurrent.*;
 
 public class LodestoneDamageTypeDatagen extends DamageTypeTagsProvider {
 
-    public LodestoneDamageTypeDatagen(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pProvider, ExistingFileHelper existingFileHelper) {
-        super(pOutput, pProvider, LodestoneLib.LODESTONE, existingFileHelper);
+    public LodestoneDamageTypeDatagen(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pProvider) {
+        super(pOutput, pProvider );
     }
 
     @Override
