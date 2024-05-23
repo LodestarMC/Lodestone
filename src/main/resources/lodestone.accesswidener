@@ -70,3 +70,9 @@ accessible field net/minecraft/client/renderer/RenderStateShard name Ljava/lang/
 accessible field net/minecraft/client/renderer/ShaderInstance uniformMap Ljava/util/Map;
 accessible method net/minecraft/client/renderer/ShaderInstance parseUniformNode (Lcom/google/gson/JsonElement;)V
 accessible field net/minecraft/client/renderer/ShaderInstance uniforms Ljava/util/List;
+
+accessible field net/minecraft/client/renderer/RenderType$CompositeState outlineProperty Lnet/minecraft/client/renderer/RenderType$OutlineProperty;
+accessible class net/minecraft/client/renderer/RenderType$OutlineProperty
+accessible field net/minecraft/client/renderer/RenderType sortOnUpload Z
+accessible field net/minecraft/client/renderer/LevelRenderer transparencyChain Lnet/minecraft/client/renderer/PostChain;
+accessible field com/mojang/blaze3d/vertex/BufferUploader lastImmediateBuffer Lcom/mojang/blaze3d/vertex/VertexBuffer;
