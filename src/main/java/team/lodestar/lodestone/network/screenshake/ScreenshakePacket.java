@@ -62,10 +62,6 @@ public class ScreenshakePacket extends LodestoneClientPacket {
         ScreenshakeHandler.addScreenshake(new ScreenshakeInstance(duration).setIntensity(intensity1, intensity2, intensity3).setEasing(intensityCurveStartEasing, intensityCurveEndEasing));
     }
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, ScreenshakePacket.class, ScreenshakePacket::encode, ScreenshakePacket::decode, ScreenshakePacket::handle);
-    }
-
     public static ScreenshakePacket decode(FriendlyByteBuf buf) {
         return new ScreenshakePacket(
                 buf.readInt()

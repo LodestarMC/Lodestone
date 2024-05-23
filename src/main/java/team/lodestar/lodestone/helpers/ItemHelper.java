@@ -118,14 +118,10 @@ public class ItemHelper {
 
     public static void quietlyGiveItemToPlayer(Player player, ItemStack stack) {
         if (stack.isEmpty()) return;
-        var inventory = new PlayerMainInvWrapper(player.getInventory());
         Level level = player.level();
         ItemStack remainder = stack;
         if (!remainder.isEmpty()) {
-            remainder = ItemHandlerHelper.insertItemStacked(inventory, remainder, false);
-        }
-        if (!remainder.isEmpty() && !level.isClientSide) {
-            spawnItemOnEntity(player, stack);
+            ItemHandlerHelper.giveItemToPlayer(player, remainder);
         }
     }
 

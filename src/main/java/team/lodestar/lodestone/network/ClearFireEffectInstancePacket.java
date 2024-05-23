@@ -29,10 +29,6 @@ public class ClearFireEffectInstancePacket extends LodestoneClientPacket {
         FireEffectHandler.setCustomFireInstance(Minecraft.getInstance().level.getEntity(entityID), null);
     }
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, ClearFireEffectInstancePacket.class, ClearFireEffectInstancePacket::encode, ClearFireEffectInstancePacket::decode, ClearFireEffectInstancePacket::handle);
-    }
-
     public static ClearFireEffectInstancePacket decode(FriendlyByteBuf buf) {
         return new ClearFireEffectInstancePacket(buf.readInt());
     }

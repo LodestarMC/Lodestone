@@ -12,9 +12,6 @@ import java.util.function.Supplier;
 
 public abstract class LodestoneServerPacket implements C2SPacket {
 
-    public void encode(FriendlyByteBuf buf) {
-    }
-
     @Override
     public void handle(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
         executeServer(server, player, listener, responseSender, channel);

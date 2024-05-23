@@ -38,10 +38,6 @@ public class SyncWorldEventPacket extends LodestoneClientPacket {
         WorldEventHandler.addWorldEvent(level, start, eventType.createInstance(eventData));
     }
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, SyncWorldEventPacket.class, SyncWorldEventPacket::encode, SyncWorldEventPacket::decode, SyncWorldEventPacket::handle);
-    }
-
     public static SyncWorldEventPacket decode(FriendlyByteBuf buf) {
         return new SyncWorldEventPacket(buf.readUtf(), buf.readBoolean(), buf.readNbt());
     }

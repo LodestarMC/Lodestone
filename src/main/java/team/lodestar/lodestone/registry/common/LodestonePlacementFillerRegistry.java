@@ -13,12 +13,9 @@ public class LodestonePlacementFillerRegistry {
     public static PlacementModifierType<ChancePlacementFilter> CHANCE;
     public static PlacementModifierType<DimensionPlacementFilter> DIMENSION;
 
-    @SubscribeEvent
-    public static void registerTypes(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            CHANCE = register("lodestone:chance", ChancePlacementFilter.CODEC);
-            DIMENSION = register("lodestone:dimension", DimensionPlacementFilter.CODEC);
-        });
+    public static void registerTypes() {
+        CHANCE = register("lodestone:chance", ChancePlacementFilter.CODEC);
+        DIMENSION = register("lodestone:dimension", DimensionPlacementFilter.CODEC);
     }
 
     public static <P extends PlacementModifier> PlacementModifierType<P> register(String name, Codec<P> codec) {

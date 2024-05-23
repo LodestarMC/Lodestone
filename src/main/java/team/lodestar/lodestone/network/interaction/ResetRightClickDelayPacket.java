@@ -16,10 +16,6 @@ public class ResetRightClickDelayPacket extends LodestoneClientPacket {
         Minecraft.getInstance().rightClickDelay = 0;
     }
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, ResetRightClickDelayPacket.class, ResetRightClickDelayPacket::encode, ResetRightClickDelayPacket::decode, ResetRightClickDelayPacket::handle);
-    }
-
     public static ResetRightClickDelayPacket decode(FriendlyByteBuf buf) {
         return new ResetRightClickDelayPacket();
     }

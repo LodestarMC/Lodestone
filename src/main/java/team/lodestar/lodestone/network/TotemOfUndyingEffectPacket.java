@@ -45,10 +45,6 @@ public class TotemOfUndyingEffectPacket extends LodestoneClientPacket {
         }
     }
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, TotemOfUndyingEffectPacket.class, TotemOfUndyingEffectPacket::encode, TotemOfUndyingEffectPacket::decode, TotemOfUndyingEffectPacket::handle);
-    }
-
     public static TotemOfUndyingEffectPacket decode(FriendlyByteBuf buf) {
         return new TotemOfUndyingEffectPacket(buf.readInt(), buf.readItem());
     }

@@ -28,10 +28,6 @@ public class UpdateLeftClickPacket extends LodestoneServerPacket {
         LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.leftClickHeld = leftClickHeld);
     }
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, UpdateLeftClickPacket.class, UpdateLeftClickPacket::encode, UpdateLeftClickPacket::decode, UpdateLeftClickPacket::handle);
-    }
-
     public static UpdateLeftClickPacket decode(FriendlyByteBuf buf) {
         return new UpdateLeftClickPacket(buf.readBoolean());
     }

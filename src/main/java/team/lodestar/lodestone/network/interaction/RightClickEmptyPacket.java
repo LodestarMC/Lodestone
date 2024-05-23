@@ -18,10 +18,6 @@ public class RightClickEmptyPacket extends LodestoneServerPacket {
         RightClickEmptyServer.onRightClickEmptyServer(player);
     }
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, RightClickEmptyPacket.class, RightClickEmptyPacket::encode, RightClickEmptyPacket::decode, RightClickEmptyPacket::handle);
-    }
-
     public static RightClickEmptyPacket decode(FriendlyByteBuf buf) {
         return new RightClickEmptyPacket();
     }

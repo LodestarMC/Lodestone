@@ -21,6 +21,7 @@ public abstract class LodestoneTwoWayNBTPacket extends LodestoneTwoWayPacket {
         this.data = data;
     }
 
+    @Override
     public void encode(FriendlyByteBuf buf) {
         buf.writeNbt(data);
     }

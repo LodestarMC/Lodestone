@@ -16,6 +16,7 @@ public abstract class LodestoneServerNBTPacket extends LodestoneServerPacket {
         this.data = data;
     }
 
+    @Override
     public void encode(FriendlyByteBuf buf) {
         buf.writeNbt(data);
     }

@@ -16,9 +16,6 @@ import java.util.function.Supplier;
 
 public abstract class LodestoneTwoWayPacket implements C2SPacket, S2CPacket {
 
-    public void encode(FriendlyByteBuf buf) {
-    }
-
     @Override
     public void handle(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
 

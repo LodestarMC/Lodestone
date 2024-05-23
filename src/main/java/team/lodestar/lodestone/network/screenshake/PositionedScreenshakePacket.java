@@ -51,10 +51,6 @@ public class PositionedScreenshakePacket extends ScreenshakePacket {
         buf.writeUtf(intensityCurveEndEasing.name);
     }
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, PositionedScreenshakePacket.class, PositionedScreenshakePacket::encode, PositionedScreenshakePacket::decode, PositionedScreenshakePacket::handle);
-    }
-
     public static PositionedScreenshakePacket decode(FriendlyByteBuf buf) {
         //TODO: this is messy, but oh well
         return ((PositionedScreenshakePacket) new PositionedScreenshakePacket(

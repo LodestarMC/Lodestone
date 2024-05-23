@@ -32,10 +32,6 @@ public class UpdateRightClickPacket extends LodestoneServerPacket {
         LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.rightClickHeld = rightClickHeld);
     }
 
-    public static void register(SimpleChannel instance, int index) {
-        instance.registerMessage(index, UpdateRightClickPacket.class, UpdateRightClickPacket::encode, UpdateRightClickPacket::decode, UpdateRightClickPacket::handle);
-    }
-
     public static UpdateRightClickPacket decode(FriendlyByteBuf buf) {
         return new UpdateRightClickPacket(buf.readBoolean());
     }
