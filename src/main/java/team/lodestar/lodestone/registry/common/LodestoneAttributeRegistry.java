@@ -1,9 +1,11 @@
 package team.lodestar.lodestone.registry.common;
 
+import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import io.github.fabricators_of_create.porting_lib.util.LazyRegistrar;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 
 import java.util.HashMap;
@@ -33,12 +35,7 @@ public class LodestoneAttributeRegistry {
         return registryObject;
     }
 
-    @SubscribeEvent
-    public static void modifyEntityAttributes(EntityAttributeModificationEvent event) {
-        event.getTypes().forEach(e -> {
-            event.add(e, MAGIC_RESISTANCE.get());
-            event.add(e, MAGIC_PROFICIENCY.get());
-            event.add(e, MAGIC_DAMAGE.get());
-        });
+    public static AttributeSupplier.Builder modifyEntityAttributes(AttributeSupplier.Builder builder) {
+        return builder.add(MAGIC_RESISTANCE.get()).add(MAGIC_PROFICIENCY.get()).add(MAGIC_DAMAGE.get());
     }
 }

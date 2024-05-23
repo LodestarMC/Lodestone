@@ -31,43 +31,28 @@ public class ClientRuntimeEvents {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void renderFog(ViewportEvent.RenderFog event) {
-        RenderHandler.cacheFogData(event);
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void fogColors(ViewportEvent.ComputeFogColor event) {
-        RenderHandler.cacheFogData(event);
-    }
-
     /**
      * The main render loop of Lodestone. We end all of our batches here.
      */
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void renderStages(RenderLevelStageEvent event) {
+    public static void renderStages(PoseStack poseStack, float partial, Stage stage) {
         Minecraft minecraft = Minecraft.getInstance();
         Camera camera = minecraft.gameRenderer.getMainCamera();
         Vec3 cameraPos = camera.getPosition();
-        float partial = event.getPartialTick();
-        PoseStack poseStack = event.getPoseStack();
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
 
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SKY)) {
+        if (stage == Stage.AFTER_SKY) {
             GhostBlockHandler.renderGhosts(poseStack);
             WorldEventHandler.ClientOnly.renderWorldEvents(poseStack, partial);
         }
 
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) {
+        if (stage == Stage.AFTER_PARTICLES) {
             RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
         }
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
+        if (stage == Stage.AFTER_WEATHER) {
             RenderHandler.endBatchesEarly();
         }
 
         poseStack.popPose();
     }
-
-
 }

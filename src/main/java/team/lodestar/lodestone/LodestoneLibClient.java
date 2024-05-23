@@ -5,6 +5,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import team.lodestar.lodestone.events.ClientRuntimeEvents;
+import team.lodestar.lodestone.events.LodestoneRenderEvents;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
@@ -34,5 +35,6 @@ public class LodestoneLibClient implements ClientModInitializer {
         WorldRenderEvents.END.register(ScreenParticleHandler::renderTick);
         WorldRenderEvents.LAST.register(PostProcessHandler::onWorldRenderLast);
         ClientTickEvents.END_CLIENT_TICK.register(ClientRuntimeEvents::clientTick);
+        LodestoneRenderEvents.AFTER_SKY.register(ClientRuntimeEvents::renderStages);
     }
 }

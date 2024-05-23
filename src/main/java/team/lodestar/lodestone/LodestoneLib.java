@@ -8,6 +8,7 @@ import org.apache.logging.log4j.*;
 import team.lodestar.lodestone.compability.*;
 import team.lodestar.lodestone.config.*;
 import team.lodestar.lodestone.data.*;
+import team.lodestar.lodestone.events.EntityAttributeModificationEvent;
 import team.lodestar.lodestone.registry.common.*;
 import team.lodestar.lodestone.registry.common.particle.*;
 
@@ -35,6 +36,7 @@ public class LodestoneLib implements ModInitializer {
         LodestoneParticleRegistry.PARTICLES.register();
         LodestoneAttributeRegistry.ATTRIBUTES.register();
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register();
+        EntityAttributeModificationEvent.ADD.register(LodestoneAttributeRegistry::modifyEntityAttributes);
 
         CuriosCompat.init();
     }
