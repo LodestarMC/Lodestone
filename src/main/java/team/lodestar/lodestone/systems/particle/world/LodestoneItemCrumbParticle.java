@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.client.model.data.ModelData;
 import team.lodestar.lodestone.systems.particle.options.LodestoneItemCrumbsParticleOptions;
 
 public class LodestoneItemCrumbParticle extends GenericParticle<LodestoneItemCrumbsParticleOptions> {

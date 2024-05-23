@@ -10,7 +10,7 @@ import net.minecraft.core.particles.ParticleType;
 import team.lodestar.lodestone.systems.particle.options.SparkParticleOptions;
 import team.lodestar.lodestone.systems.particle.world.SparkParticle;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class LodestoneSparkParticleType extends ParticleType<SparkParticleOptions> {
     public LodestoneSparkParticleType() {

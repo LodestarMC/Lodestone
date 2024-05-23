@@ -10,7 +10,7 @@ import net.minecraft.core.particles.ParticleType;
 import team.lodestar.lodestone.systems.particle.options.DirectionalParticleOptions;
 import team.lodestar.lodestone.systems.particle.world.DirectionalParticle;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class LodestoneDirectionalParticleType extends ParticleType<DirectionalParticleOptions> {
     public LodestoneDirectionalParticleType() {
