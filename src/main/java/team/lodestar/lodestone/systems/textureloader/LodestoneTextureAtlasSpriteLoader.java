@@ -1,5 +1,5 @@
 package team.lodestar.lodestone.systems.textureloader;
-
+/*TODO
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -31,3 +31,5 @@ public class LodestoneTextureAtlasSpriteLoader implements ITextureAtlasSpriteLoa
         return new TextureAtlasSprite(atlasName, contents, atlasWidth, atlasHeight, spriteX, spriteY);
     }
 }
+
+ */

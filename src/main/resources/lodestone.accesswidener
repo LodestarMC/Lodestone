@@ -84,3 +84,4 @@ accessible field net/minecraft/client/renderer/RenderType$CompositeRenderType OU
 accessible field net/minecraft/client/renderer/entity/BoatRenderer boatResources Ljava/util/Map;
 accessible field net/minecraft/client/Minecraft pause Z
 accessible field net/minecraft/client/Minecraft pausePartialTick F
+accessible method net/minecraft/world/level/block/state/BlockBehaviour asBlock ()Lnet/minecraft/world/level/block/Block;

@@ -1,5 +1,9 @@
 package team.lodestar.lodestone.systems.block;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.impl.datagen.FabricDataGenHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -12,8 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraftforge.data.loading.DatagenModLoader;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
@@ -86,14 +88,14 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     }
 
     public LodestoneBlockProperties setRenderType(Supplier<Supplier<RenderType>> renderType) {
-        if (FMLEnvironment.dist.isClient()) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             addThrowawayData(d -> d.setRenderType(renderType));
         }
         return this;
     }
 
     public LodestoneBlockProperties addDatagenData(Function<LodestoneDatagenBlockData, LodestoneDatagenBlockData> function) {
-        if (DatagenModLoader.isRunningDataGen()) {
+        if (false) {//TODO ???
             ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.put(this, function.apply(ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, new LodestoneDatagenBlockData())));
         }
         return this;
@@ -236,7 +238,7 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     @NotNull
     @SuppressWarnings("deprecation")
     public LodestoneBlockProperties dropsLike(@NotNull Block block) {
-        if (DatagenModLoader.isRunningDataGen()) {
+        if (false) { //TODO ???
             getDatagenData().hasInheritedLootTable = true;
         }
         return (LodestoneBlockProperties) super.dropsLike(block);
@@ -247,6 +249,11 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     public LodestoneBlockProperties lootFrom(@NotNull Supplier<? extends Block> blockIn) {
         hasInheritedLoot();
         return (LodestoneBlockProperties) super.lootFrom(blockIn);
+    }
+
+    public BlockBehaviour.Properties lootFrom(Supplier<? extends Block> blockIn) {
+        this.lootTableSupplier = () -> blockIn.get().getLootTable();
+        return this;
     }
 
     @Override
