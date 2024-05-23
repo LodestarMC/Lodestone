@@ -3,7 +3,7 @@ package team.lodestar.lodestone.registry.common;
 import me.pepperbell.simplenetworking.SimpleChannel;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
-import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
+import team.lodestar.lodestone.network.SyncWorldEventPacket;
 import team.lodestar.lodestone.network.TotemOfUndyingEffectPacket;
 import team.lodestar.lodestone.network.interaction.ResetRightClickDelayPacket;
 import team.lodestar.lodestone.network.interaction.RightClickEmptyPacket;
