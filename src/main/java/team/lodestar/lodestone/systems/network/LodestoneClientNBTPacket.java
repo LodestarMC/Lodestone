@@ -1,10 +1,13 @@
 package team.lodestar.lodestone.systems.network;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -20,11 +23,11 @@ public abstract class LodestoneClientNBTPacket extends LodestoneClientPacket {
     }
 
     @Override
-    public final void execute(Supplier<NetworkEvent.Context> context) {
-        execute(context, data);
+    public void executeClient(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
+        executeClientNbt(client, listener, responseSender, channel, data);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void execute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
+    @Environment(EnvType.CLIENT)
+    public void executeClientNbt(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel, CompoundTag data) {
     }
 }

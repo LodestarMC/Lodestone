@@ -1,6 +1,8 @@
 package team.lodestar.lodestone;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import org.apache.logging.log4j.*;
 import team.lodestar.lodestone.compability.*;
 import team.lodestar.lodestone.config.*;
@@ -49,6 +51,6 @@ public class LodestoneLib implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
+        LodestoneCommandRegistry.registerCommands();
     }
 }

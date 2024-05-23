@@ -1,14 +1,13 @@
 package team.lodestar.lodestone.registry.common;
 
+import io.github.fabricators_of_create.porting_lib.util.LazyRegistrar;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.decoration.PaintingVariant;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.LodestoneLib;
 
 
 public class LodestonePaintingRegistry {
-    public static final DeferredRegister<PaintingVariant> PAINTING_MOTIVES = DeferredRegister.create(ForgeRegistries.PAINTING_VARIANTS, LodestoneLib.LODESTONE);
+    public static final LazyRegistrar<PaintingVariant> PAINTING_MOTIVES = LazyRegistrar.create(BuiltInRegistries.PAINTING_VARIANT, LodestoneLib.LODESTONE);
 
     public static void register(IEventBus bus) {
         PAINTING_MOTIVES.register(bus);

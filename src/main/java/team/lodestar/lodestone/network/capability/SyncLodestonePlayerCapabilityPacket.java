@@ -1,13 +1,17 @@
 package team.lodestar.lodestone.network.capability;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.simple.SimpleChannel;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.systems.network.LodestoneTwoWayNBTPacket;
 
@@ -36,16 +40,16 @@ public class SyncLodestonePlayerCapabilityPacket extends LodestoneTwoWayNBTPacke
         return tag;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public void clientExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
-        Player player = Minecraft.getInstance().level.getPlayerByUUID(uuid);
+    public void serverExecute(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel, CompoundTag data) {
+        Player player = context.get().getSender().level().getPlayerByUUID(uuid);
         LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.deserializeNBT(data));
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
-    public void serverExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
-        Player player = context.get().getSender().level().getPlayerByUUID(uuid);
+    public void clientExecute(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel, CompoundTag data) {
+        Player player = Minecraft.getInstance().level.getPlayerByUUID(uuid);
         LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.deserializeNBT(data));
     }
 

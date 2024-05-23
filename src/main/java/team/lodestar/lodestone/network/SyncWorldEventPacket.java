@@ -1,13 +1,12 @@
 package team.lodestar.lodestone.network;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.simple.SimpleChannel;
 import team.lodestar.lodestone.handlers.WorldEventHandler;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
@@ -32,9 +31,8 @@ public class SyncWorldEventPacket extends LodestoneClientPacket {
         buf.writeNbt(eventData);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public void execute(Supplier<NetworkEvent.Context> context) {
+    public void executeClient(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
         WorldEventType eventType = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(type);
         ClientLevel level = Minecraft.getInstance().level;
         WorldEventHandler.addWorldEvent(level, start, eventType.createInstance(eventData));

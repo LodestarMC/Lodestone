@@ -1,12 +1,13 @@
 package team.lodestar.lodestone.systems.network;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
-import java.util.function.Supplier;
 
 public abstract class LodestoneServerNBTPacket extends LodestoneServerPacket {
     protected CompoundTag data;
@@ -20,11 +21,10 @@ public abstract class LodestoneServerNBTPacket extends LodestoneServerPacket {
     }
 
     @Override
-    public final void execute(Supplier<NetworkEvent.Context> context) {
-        execute(context, data);
+    public void executeServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
+        executeServerNbt(server, player, listener, responseSender, channel, data);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void execute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
+    public void executeServerNbt(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel, CompoundTag data) {
     }
 }

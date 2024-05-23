@@ -16,7 +16,6 @@ import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeProvider;
 import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
-import javax.annotation.*;
 import java.util.HashMap;
 import java.util.function.*;
 

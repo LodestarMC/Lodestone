@@ -1,5 +1,8 @@
 package team.lodestar.lodestone.systems.sound;
 
+import io.github.fabricators_of_create.porting_lib.util.LazySoundType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
@@ -9,16 +12,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.ForgeSoundType;
 
 import java.util.function.Supplier;
 
 /**
  * An ExtendedSoundType is a simple extension of ForgeSoundType, also providing hooks for when each individual sound is played.
  */
-public class ExtendedSoundType extends ForgeSoundType {
+public class ExtendedSoundType extends LazySoundType {
     public ExtendedSoundType(float volumeIn, float pitchIn, Supplier<SoundEvent> breakSoundIn, Supplier<SoundEvent> stepSoundIn, Supplier<SoundEvent> placeSoundIn, Supplier<SoundEvent> hitSoundIn, Supplier<SoundEvent> fallSoundIn) {
         super(volumeIn, pitchIn, breakSoundIn, stepSoundIn, placeSoundIn, hitSoundIn, fallSoundIn);
     }
@@ -35,7 +35,7 @@ public class ExtendedSoundType extends ForgeSoundType {
 
     /**
      * Called by mixin injection when an entity triggers the block step sound in
-     * <p>{@link net.minecraft.world.entity.Entity#playStepSound(BlockPos, BlockState)}
+     * <p>{@link net.minecraft.world.entity.Entity#playStepSound(BlockPos, BlockState)} (BlockPos, BlockState)}
      * <p> Example Implementation, matches the original logic of the parent sound being played:
      * <pre>{@code level.playSound(null, pos.getX(), pos.getY(), pos.getZ(), getStepSound(), category, getVolume() * 0.15F, getPitch());}</pre>
      */
@@ -57,7 +57,7 @@ public class ExtendedSoundType extends ForgeSoundType {
      * <p> Example Implementation, matches the original logic of the parent sound being played:
      * <pre>{@code Minecraft.getInstance().getSoundManager().play(new SimpleSoundInstance(getHitSound(), SoundSource.BLOCKS, (getVolume() + 1.0F) / 8.0F, getPitch() * 0.5F, pos));}</pre>
      */
-    @OnlyIn(value = Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void onPlayHitSound(BlockPos pos) {
 
     }

@@ -1,8 +1,11 @@
 package team.lodestar.lodestone.network.interaction;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.events.types.RightClickEmptyServer;
 import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
@@ -22,11 +25,11 @@ public class UpdateRightClickPacket extends LodestoneServerPacket {
     }
 
     @Override
-    public void execute(Supplier<NetworkEvent.Context> context) {
+    public void executeServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
         if (rightClickHeld) {
-            RightClickEmptyServer.onRightClickEmptyServer(context.get().getSender());
+            RightClickEmptyServer.onRightClickEmptyServer(player);
         }
-        LodestonePlayerDataCapability.getCapabilityOptional(context.get().getSender()).ifPresent(c -> c.rightClickHeld = rightClickHeld);
+        LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.rightClickHeld = rightClickHeld);
     }
 
     public static void register(SimpleChannel instance, int index) {

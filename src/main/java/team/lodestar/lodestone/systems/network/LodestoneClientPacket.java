@@ -1,34 +1,27 @@
 package team.lodestar.lodestone.systems.network;
 
+import me.pepperbell.simplenetworking.S2CPacket;
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public abstract class LodestoneClientPacket {
+public abstract class LodestoneClientPacket implements S2CPacket {
 
     public void encode(FriendlyByteBuf buf) {
     }
 
-    public final void handle(Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() -> {
-            if (context.get().getDirection().getReceptionSide().equals(LogicalSide.CLIENT)) {
-                LodestoneClientPacket.ClientOnly.clientData(this, context);
-            }
-        });
-        context.get().setPacketHandled(true);
+    @Environment(EnvType.CLIENT)
+    @Override
+    public void handle(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
+        executeClient(client, listener, responseSender, channel);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void execute(Supplier<NetworkEvent.Context> context) {
-    }
-
-    public static class ClientOnly {
-        public static void clientData(LodestoneClientPacket packet, Supplier<NetworkEvent.Context> context) {
-            packet.execute(context);
-        }
+    public void executeClient(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
     }
 }

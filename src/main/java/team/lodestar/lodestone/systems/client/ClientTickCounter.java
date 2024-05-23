@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.systems.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.event.TickEvent;
 
 public class ClientTickCounter {
     public static long ticksInGame = 0L;

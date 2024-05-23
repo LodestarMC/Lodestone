@@ -3,7 +3,6 @@ package team.lodestar.lodestone.registry.common.particle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;

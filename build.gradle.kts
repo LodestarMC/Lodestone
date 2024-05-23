@@ -8,6 +8,10 @@ version = property("mod_version")!!
 
 val port_lib_modules: String by extra
 
+loom {
+    accessWidenerPath = file("src/main/resources/lodestone.accesswidener")
+}
+
 repositories {
     mavenCentral()
     maven("https://maven.theillusivec4.top/") { name = "Curios maven" }
@@ -30,7 +34,9 @@ repositories {
 
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
+
     mappings(loom.layered {
+        officialMojangMappings()
         parchment("org.parchmentmc.data:parchment-1.20.1:2023.09.03@zip")
     })
 
@@ -46,6 +52,7 @@ dependencies {
 
     modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${property("cca_version")}")
     modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${property("cca_version")}")
+    modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-world:${property("cca_version")}")
 
     port_lib_modules.split(",").forEach { module ->
         modApi(("io.github.fabricators_of_create.Porting-Lib:$module:${property("port_lib_version")}"))

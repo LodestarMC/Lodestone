@@ -1,0 +1,52 @@
+accessWidener v2 named
+accessible method net/minecraft/client/Camera setRotation (FF)V
+accessible method net/minecraft/client/renderer/RenderType$CompositeState$CompositeStateBuilder <init> ()V
+accessible field net/minecraft/client/gui/screens/SimpleOptionsSubScreen list Lnet/minecraft/client/gui/components/OptionsList;
+accessible field net/minecraft/client/Minecraft rightClickDelay I
+accessible field net/minecraft/world/item/crafting/ShapedRecipe result Lnet/minecraft/world/item/ItemStack;
+accessible field net/minecraft/world/effect/MobEffectInstance amplifier I
+accessible field net/minecraft/world/effect/MobEffectInstance duration I
+accessible method net/minecraft/world/entity/LivingEntity onEffectUpdated (Lnet/minecraft/world/effect/MobEffectInstance;ZLnet/minecraft/world/entity/Entity;)V
+accessible field net/minecraft/client/renderer/RenderType$CompositeState shaderState Lnet/minecraft/client/renderer/RenderStateShard$ShaderStateShard;
+accessible class net/minecraft/client/renderer/RenderStateShard$TransparencyStateShard
+accessible field net/minecraft/client/renderer/RenderType$CompositeState transparencyState Lnet/minecraft/client/renderer/RenderStateShard$TransparencyStateShard;
+accessible field net/minecraft/client/renderer/RenderStateShard$ShaderStateShard shader Ljava/util/Optional;
+accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen leftPos I
+accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen topPos I
+
+accessible method net/minecraft/world/level/block/state/BlockBehaviour$Properties <init> ()V
+accessible field net/minecraft/world/level/block/state/BlockBehaviour properties Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties destroyTime F
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties explosionResistance F
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties hasCollision Z
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isRandomlyTicking Z
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties lightEmission Ljava/util/function/ToIntFunction;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties mapColor Ljava/util/function/Function;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties soundType Lnet/minecraft/world/level/block/SoundType;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties friction F
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties speedFactor F
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties dynamicShape Z
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties canOcclude Z
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isAir Z
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties requiresCorrectToolForDrops Z
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties jumpFactor F
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties drops Lnet/minecraft/resources/ResourceLocation;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties ignitedByLava Z
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties forceSolidOn Z
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties pushReaction Lnet/minecraft/world/level/material/PushReaction;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties spawnParticlesOnBreak Z
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties instrument Lnet/minecraft/world/level/block/state/properties/NoteBlockInstrument;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties replaceable Z
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isValidSpawn Lnet/minecraft/world/level/block/state/BlockBehaviour$StateArgumentPredicate;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isRedstoneConductor Lnet/minecraft/world/level/block/state/BlockBehaviour$StatePredicate;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isSuffocating Lnet/minecraft/world/level/block/state/BlockBehaviour$StatePredicate;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isViewBlocking Lnet/minecraft/world/level/block/state/BlockBehaviour$StatePredicate;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties emissiveRendering Lnet/minecraft/world/level/block/state/BlockBehaviour$StatePredicate;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties requiredFeatures Lnet/minecraft/world/flag/FeatureFlagSet;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties offsetFunction Ljava/util/Optional;
+accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties hasPostProcess Lnet/minecraft/world/level/block/state/BlockBehaviour$StatePredicate;
+
+accessible field net/minecraft/world/entity/vehicle/Boat lastYd D
+accessible field net/minecraft/world/entity/vehicle/Boat status Lnet/minecraft/world/entity/vehicle/Boat$Status;
+accessible field net/minecraft/world/item/DiggerItem defaultModifiers Lcom/google/common/collect/Multimap;
+accessible field net/minecraft/client/Minecraft timer Lnet/minecraft/client/Timer;

@@ -1,15 +1,8 @@
 package team.lodestar.lodestone.systems.capability;
 
+import io.github.fabricators_of_create.porting_lib.core.util.INBTSerializable;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullSupplier;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * A basic provider for your lodestone capability
@@ -27,9 +20,9 @@ public class LodestoneCapabilityProvider<C extends INBTSerializable<CompoundTag>
         this.capOptional = LazyOptional.of(capInstance);
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         return capability.orEmpty(cap, capOptional);
     }
 

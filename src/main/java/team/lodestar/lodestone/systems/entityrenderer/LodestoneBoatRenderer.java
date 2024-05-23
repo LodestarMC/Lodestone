@@ -24,4 +24,6 @@ public class LodestoneBoatRenderer extends BoatRenderer {
     public Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(@NotNull Boat boat) {
         return Pair.of(boatTexture, boatModel);
     }
+
+
 }

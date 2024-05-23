@@ -1,10 +1,16 @@
 package team.lodestar.lodestone.systems.network;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
 import java.util.function.Supplier;
 
@@ -20,19 +26,20 @@ public abstract class LodestoneTwoWayNBTPacket extends LodestoneTwoWayPacket {
     }
 
     @Override
-    public final void serverExecute(Supplier<NetworkEvent.Context> context) {
-        serverExecute(context, data);
+    public void handle(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
+        serverExecute(server, player, listener, responseSender, channel, data);
+    }
+
+    public void serverExecute(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel, CompoundTag data) {
     }
 
     @Override
-    public final void clientExecute(Supplier<NetworkEvent.Context> context) {
-        clientExecute(context, data);
+    public void handle(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
+        super.handle(client, listener, responseSender, channel);
+        clientExecute(client, listener, responseSender, channel, data);
     }
 
-    public void serverExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public void clientExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
+    @Environment(EnvType.CLIENT)
+    public void clientExecute(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel, CompoundTag data) {
     }
 }

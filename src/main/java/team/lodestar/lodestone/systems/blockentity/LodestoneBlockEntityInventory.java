@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.systems.blockentity;
 
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
+import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -9,13 +11,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
 import team.lodestar.lodestone.helpers.BlockHelper;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -29,7 +26,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
     public final int allowedItemSize;
     public Predicate<ItemStack> inputPredicate;
     public Predicate<ItemStack> outputPredicate;
-    public final LazyOptional<IItemHandler> inventoryOptional = LazyOptional.of(() -> this);
+    public final LazyOptional<?> inventoryOptional = LazyOptional.of(() -> this);
 
     public ArrayList<ItemStack> nonEmptyItemStacks = new ArrayList<>();
 
@@ -70,7 +67,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
     }
 
     @Override
-    public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+    public boolean isItemValid(int slot, @NotNull ItemStack stack) {
         if (inputPredicate != null) {
             if (!inputPredicate.test(stack)) {
                 return false;
@@ -79,7 +76,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
         return super.isItemValid(slot, stack);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public ItemStack extractItem(int slot, int amount, boolean simulate) {
         if (outputPredicate != null) {

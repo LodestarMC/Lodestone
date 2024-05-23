@@ -1,12 +1,12 @@
 package team.lodestar.lodestone.systems.datagen.providers;
 
+import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
+import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockStateProvider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
 
 import java.util.HashSet;
@@ -54,11 +54,11 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
     }
 
     public ModelFile predefinedModel(Block block) {
-        return models().getExistingFile(ForgeRegistries.BLOCKS.getKey(block));
+        return models().getExistingFile(BuiltInRegistries.BLOCK.getKey(block));
     }
 
     public ModelFile predefinedModel(Block block, String extension) {
-        return models().getExistingFile(extend(ForgeRegistries.BLOCKS.getKey(block), extension));
+        return models().getExistingFile(extend(BuiltInRegistries.BLOCK.getKey(block), extension));
     }
 
     public ModelFile airModel(Block block) {
@@ -72,7 +72,7 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
     }
 
     public String getBlockName(Block block) {
-        return ForgeRegistries.BLOCKS.getKey(block).getPath();
+        return BuiltInRegistries.BLOCK.getKey(block).getPath();
     }
 
     public ResourceLocation getBlockTexture(String path) {

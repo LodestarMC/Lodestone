@@ -22,12 +22,15 @@
     ],
     "cardinal-components-entity": [
       "team.lodestar.lodestone.registry.LodestoneComponents"
+    ],
+    "cardinal-components-world": [
+      "team.lodestar.lodestone.registry.LodestoneComponents"
     ]
   },
   "mixins": [
     "lodestone.mixins.json"
   ],
-
+  "accessWidener": "lodestone.accesswidener",
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",

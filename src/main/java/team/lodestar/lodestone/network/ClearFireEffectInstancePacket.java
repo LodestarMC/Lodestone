@@ -1,6 +1,9 @@
 package team.lodestar.lodestone.network;
 
+import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -22,7 +25,7 @@ public class ClearFireEffectInstancePacket extends LodestoneClientPacket {
     }
 
     @Override
-    public void execute(Supplier<NetworkEvent.Context> context) {
+    public void executeClient(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
         FireEffectHandler.setCustomFireInstance(Minecraft.getInstance().level.getEntity(entityID), null);
     }
 
