@@ -1,9 +1,9 @@
 package team.lodestar.lodestone.data;
 
+import io.github.fabricators_of_create.porting_lib.data.LanguageProvider;
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
 

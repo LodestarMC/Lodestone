@@ -76,3 +76,6 @@ accessible class net/minecraft/client/renderer/RenderType$OutlineProperty
 accessible field net/minecraft/client/renderer/RenderType sortOnUpload Z
 accessible field net/minecraft/client/renderer/LevelRenderer transparencyChain Lnet/minecraft/client/renderer/PostChain;
 accessible field com/mojang/blaze3d/vertex/BufferUploader lastImmediateBuffer Lcom/mojang/blaze3d/vertex/VertexBuffer;
+
+accessible method net/minecraft/world/item/enchantment/EnchantmentHelper runIterationOnInventory (Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Ljava/lang/Iterable;)V
+accessible method net/minecraft/world/item/enchantment/EnchantmentHelper runIterationOnItem (Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/world/item/ItemStack;)V

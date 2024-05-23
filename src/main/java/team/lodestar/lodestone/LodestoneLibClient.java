@@ -1,6 +1,10 @@
 package team.lodestar.lodestone;
 
+import io.github.fabricators_of_create.porting_lib.client_events.event.client.RenderArmCallback;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.registry.common.LodestoneBlockEntityRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneOptionRegistry;
 
@@ -10,5 +14,10 @@ public class LodestoneLibClient implements ClientModInitializer {
 
         LodestoneBlockEntityRegistry.ClientOnly.registerRenderer();
         LodestoneOptionRegistry.addOption();
+
+    }
+
+    public static void initEvents(){
+        WorldRenderEvents.END.register(ScreenParticleHandler::renderTick);
     }
 }

@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.helpers;
 
+import io.github.fabricators_of_create.porting_lib.item.DamageableItem;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -40,7 +41,7 @@ public class ItemHelper {
     public static <T extends LivingEntity> boolean damageItem(ItemStack stack, int amount, T entityIn, Consumer<T> onBroken) {
         if (!entityIn.level().isClientSide && (!(entityIn instanceof Player) || !((Player) entityIn).getAbilities().instabuild)) {
             if (stack.isDamageableItem()) {
-                amount = stack.getItem().damageItem(stack, amount, entityIn, onBroken);
+                amount = ((DamageableItem)stack.getItem()).damageItem(stack, amount, entityIn, onBroken);
                 if (stack.hurt(amount, entityIn.getRandom(), entityIn instanceof ServerPlayer ? (ServerPlayer) entityIn : null)) {
                     onBroken.accept(entityIn);
                     Item item = stack.getItem();
@@ -117,7 +118,7 @@ public class ItemHelper {
 
     public static void quietlyGiveItemToPlayer(Player player, ItemStack stack) {
         if (stack.isEmpty()) return;
-        IItemHandler inventory = new PlayerMainInvWrapper(player.getInventory());
+        var inventory = new PlayerMainInvWrapper(player.getInventory());
         Level level = player.level();
         ItemStack remainder = stack;
         if (!remainder.isEmpty()) {
