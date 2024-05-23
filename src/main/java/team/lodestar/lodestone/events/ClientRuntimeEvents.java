@@ -6,6 +6,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
+import team.lodestar.lodestone.component.LodestonePlayerComponent;
 import team.lodestar.lodestone.component.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
@@ -26,7 +27,7 @@ public class ClientRuntimeEvents {
             WorldEventHandler.tick(minecraft.level);
             PlacementAssistantHandler.tick(minecraft.player, minecraft.hitResult);
             ScreenshakeHandler.clientTick(camera, RANDOM);
-            LodestonePlayerDataCapability.ClientOnly.clientTick();
+            LodestonePlayerComponent.clientTick(minecraft);
             ScreenParticleHandler.tickParticles();
         }
     }

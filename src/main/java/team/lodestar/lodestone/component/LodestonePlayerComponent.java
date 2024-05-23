@@ -42,11 +42,11 @@ public class LodestonePlayerComponent implements AutoSyncedComponent {
             boolean right = minecraft.options.keyUse.isDown();
             if (left != c.leftClickHeld) {
                 c.leftClickHeld = left;
-                LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateLeftClickPacket(c.leftClickHeld));
+                LodestonePacketRegistry.LODESTONE_CHANNEL.sendToServer(new UpdateLeftClickPacket(c.leftClickHeld));
             }
             if (right != c.rightClickHeld) {
                 c.rightClickHeld = right;
-                LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateRightClickPacket(c.rightClickHeld));
+                LodestonePacketRegistry.LODESTONE_CHANNEL.sendToServer(new UpdateRightClickPacket(c.rightClickHeld));
             }
         });
     }

@@ -6,7 +6,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import team.lodestar.lodestone.component.LodestonePlayerDataCapability;
+import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
 
 public class UpdateLeftClickPacket extends LodestoneServerPacket {
@@ -23,7 +23,7 @@ public class UpdateLeftClickPacket extends LodestoneServerPacket {
 
     @Override
     public void executeServer(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl listener, PacketSender responseSender, SimpleChannel channel) {
-        LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.leftClickHeld = leftClickHeld);
+        LodestoneComponents.LODESTONE_PLAYER_COMPONENT.maybeGet(player).ifPresent(c -> c.leftClickHeld = leftClickHeld);
     }
 
     public static UpdateLeftClickPacket decode(FriendlyByteBuf buf) {

@@ -30,7 +30,6 @@ public class LodestoneLibClient implements ClientModInitializer {
 
         RenderHandler.onClientSetup();
         ParticleEmitterHandler.registerParticleEmitters();
-        ClientTickEvents.END_CLIENT_TICK.register(LodestonePlayerComponent::clientTick);
     }
 
     public static void initEvents(){
