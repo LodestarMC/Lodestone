@@ -1,17 +1,6 @@
 package team.lodestar.lodestone;
 
-import net.minecraft.core.*;
-import net.minecraft.data.*;
-import net.minecraft.resources.*;
-import net.minecraft.util.*;
-import net.minecraftforge.common.*;
-import net.minecraftforge.common.data.*;
-import net.minecraftforge.data.event.*;
-import net.minecraftforge.eventbus.api.*;
-import net.minecraftforge.fml.*;
-import net.minecraftforge.fml.common.*;
-import net.minecraftforge.fml.config.*;
-import net.minecraftforge.fml.javafmlmod.*;
+import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.*;
 import team.lodestar.lodestone.compability.*;
 import team.lodestar.lodestone.config.*;
@@ -21,8 +10,7 @@ import team.lodestar.lodestone.registry.common.particle.*;
 
 import java.util.concurrent.*;
 
-@Mod(LodestoneLib.LODESTONE)
-public class LodestoneLib {
+public class LodestoneLib implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String LODESTONE = "lodestone";
     public static final RandomSource RANDOM = RandomSource.create();
@@ -57,5 +45,10 @@ public class LodestoneLib {
         event.getGenerator().addProvider(true, blockTagDatagen);
         event.getGenerator().addProvider(true, new LodestoneItemTagDatagen(packOutput, lookupProvider, blockTagDatagen.contentsGetter(), existingFileHelper));
         event.getGenerator().addProvider(true, new LodestoneDamageTypeDatagen(packOutput, lookupProvider, existingFileHelper));
+    }
+
+    @Override
+    public void onInitialize() {
+
     }
 }

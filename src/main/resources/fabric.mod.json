@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "lodestone",
+  "version": "${version}",
+
+  "name": "Lodestone",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Sammy;, MrSterner"
+  ],
+
+  "license": "CC0-1.0",
+  "icon": "assets/lodestone/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "team.lodestar.lodestone.LodestoneLib"
+    ],
+    "client": [
+      "team.lodestar.lodestone.LodestoneLibClient"
+    ],
+    "cardinal-components-entity": [
+      "team.lodestar.lodestone.registry.LodestoneComponents"
+    ]
+  },
+  "mixins": [
+    "lodestone.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=21",
+    "fabric-language-kotlin": ">=${fabric_kotlin_version}"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
