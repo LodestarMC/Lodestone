@@ -19,9 +19,9 @@
     "GuiGraphicsMixin",
     "GuiMixin",
     "LevelRendererMixin",
+    "MinecraftMixin",
     "MultiPlayerGameModeMixin",
-    "ScreenEffectRendererMixin",
-    "GuiGraphicsMixin"
+    "ScreenEffectRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

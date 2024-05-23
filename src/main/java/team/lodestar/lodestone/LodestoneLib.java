@@ -1,6 +1,7 @@
 package team.lodestar.lodestone;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import org.apache.logging.log4j.*;

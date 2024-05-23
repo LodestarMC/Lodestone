@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.registry.common.LodestoneBlockEntityRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneOptionRegistry;
+import team.lodestar.lodestone.systems.client.ClientTickCounter;
 import team.lodestar.lodestone.systems.postprocess.PostProcessHandler;
 
 public class LodestoneLibClient implements ClientModInitializer {

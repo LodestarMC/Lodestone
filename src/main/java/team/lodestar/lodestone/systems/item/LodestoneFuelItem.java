@@ -6,7 +6,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 import org.jetbrains.annotations.Nullable;
 
-public class LodestoneFuelItem extends Item {
+public class LodestoneFuelItem extends CombustibleItem {
     public final int fuel;
 
     public LodestoneFuelItem(Properties properties, int fuel) {

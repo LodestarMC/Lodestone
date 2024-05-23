@@ -10,10 +10,8 @@ public class ClientTickCounter {
         return (float) ticksInGame + partialTicks;
     }
 
-    public static void renderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase.equals(TickEvent.Phase.START)) {
-            partialTicks = event.renderTickTime;
-        }
+    public static void renderTick(float renderTickTime) {
+        partialTicks = renderTickTime;
     }
 
     public static void clientTick() {

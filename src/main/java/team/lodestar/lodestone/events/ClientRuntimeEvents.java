@@ -4,15 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import org.joml.Matrix4f;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.handlers.*;
@@ -21,7 +13,6 @@ import team.lodestar.lodestone.systems.client.ClientTickCounter;
 
 import static team.lodestar.lodestone.LodestoneLib.RANDOM;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClientRuntimeEvents {
 
     @SubscribeEvent
@@ -85,11 +76,5 @@ public class ClientRuntimeEvents {
 //            }
 //        }
         poseStack.popPose();
-    }
-
-    @SubscribeEvent
-    public static void renderTick(TickEvent.RenderTickEvent event) {
-        ScreenParticleHandler.renderTick(event);
-        ClientTickCounter.renderTick(event);
     }
 }

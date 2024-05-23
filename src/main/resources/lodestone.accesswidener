@@ -68,6 +68,7 @@ accessible field net/minecraft/client/renderer/RenderType$CompositeState cullSta
 accessible field net/minecraft/client/renderer/RenderType$CompositeState lightmapState Lnet/minecraft/client/renderer/RenderStateShard$LightmapStateShard;
 accessible field net/minecraft/client/renderer/RenderStateShard name Ljava/lang/String;
 accessible field net/minecraft/client/renderer/ShaderInstance uniformMap Ljava/util/Map;
+extendable method net/minecraft/client/renderer/ShaderInstance parseUniformNode (Lcom/google/gson/JsonElement;)V
 accessible method net/minecraft/client/renderer/ShaderInstance parseUniformNode (Lcom/google/gson/JsonElement;)V
 accessible field net/minecraft/client/renderer/ShaderInstance uniforms Ljava/util/List;
 
@@ -79,3 +80,5 @@ accessible field com/mojang/blaze3d/vertex/BufferUploader lastImmediateBuffer Lc
 
 accessible method net/minecraft/world/item/enchantment/EnchantmentHelper runIterationOnInventory (Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Ljava/lang/Iterable;)V
 accessible method net/minecraft/world/item/enchantment/EnchantmentHelper runIterationOnItem (Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Lnet/minecraft/world/item/ItemStack;)V
+accessible field net/minecraft/client/renderer/RenderType$CompositeRenderType OUTLINE Ljava/util/function/BiFunction;
+accessible field net/minecraft/client/renderer/entity/BoatRenderer boatResources Ljava/util/Map;
