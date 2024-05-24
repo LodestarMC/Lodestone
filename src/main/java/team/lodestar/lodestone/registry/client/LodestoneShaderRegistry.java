@@ -18,6 +18,7 @@ import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
 public class LodestoneShaderRegistry {
 
     public static ShaderHolder LODESTONE_TEXTURE = new ShaderHolder(lodestonePath("lodestone_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "LumiTransparency");
+    public static ShaderHolder LODESTONE_TEXT = new ShaderHolder(lodestonePath("lodestone_text"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
 
     public static ShaderHolder PARTICLE = new ShaderHolder(lodestonePath("particle/particle"), DefaultVertexFormat.PARTICLE, "LumiTransparency");
 
@@ -29,11 +30,13 @@ public class LodestoneShaderRegistry {
     public static ShaderHolder SCROLLING_TRIANGLE_TEXTURE = new ShaderHolder(lodestonePath("shapes/scrolling_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "Speed", "LumiTransparency");
 
 
+
     @SubscribeEvent
     public static void shaderRegistry(RegisterShadersEvent event) throws IOException {
         ResourceProvider provider = event.getResourceProvider();
 
         registerShader(event, LODESTONE_TEXTURE.createInstance(provider));
+        registerShader(event, LODESTONE_TEXT.createInstance(provider));
         registerShader(event, PARTICLE.createInstance(provider));
         registerShader(event, SCREEN_PARTICLE.createInstance(provider));
         registerShader(event, DISTORTED_TEXTURE.createInstance(provider));

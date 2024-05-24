@@ -25,9 +25,7 @@ public class LodestoneRenderType extends RenderType {
             pState.states.forEach(RenderStateShard::clearRenderState);
         });
         this.state = pState;
-        this.outline = pState.outlineProperty == RenderType.OutlineProperty.AFFECTS_OUTLINE ? pState.textureState.cutoutTexture().map((p_173270_) -> {
-            return OUTLINE.apply(p_173270_, pState.cullState);
-        }) : Optional.empty();
+        this.outline = pState.outlineProperty == RenderType.OutlineProperty.AFFECTS_OUTLINE ? pState.textureState.cutoutTexture().map((p_173270_) -> OUTLINE.apply(p_173270_, pState.cullState)) : Optional.empty();
         this.isOutline = pState.outlineProperty == RenderType.OutlineProperty.IS_OUTLINE;
     }
 
