@@ -1,5 +1,5 @@
 package team.lodestar.lodestone.systems.textureloader;
-/*TODO
+
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
@@ -16,11 +16,6 @@ public class LodestoneTextureLoader {
     protected static final ColorLerp GRADIENT = (image, x, y, luminosity, s) -> ((y % 16) / 16f);
     protected static final ColorLerp LUMINOUS_GRADIENT = (image, x, y, luminosity, s) -> (((y % 16) / 16f) + luminosity / s) / 2f;
     protected static final ColorLerp LUMINOUS = (image, x, y, luminosity, s) -> luminosity / s;
-
-    public static void registerTextureLoader(String loaderName, ResourceLocation targetPath, ResourceLocation inputImage, TextureModifier textureModifier, RegisterTextureAtlasSpriteLoadersEvent event) {
-        IEventBus busMod = FMLJavaModLoadingContext.get().getModEventBus();
-        event.register(loaderName, new LodestoneTextureAtlasSpriteLoader(textureModifier));
-    }
 
     public static NativeImage applyGrayscale(NativeImage nativeimage) {
         for (int x = 0; x < nativeimage.getWidth(); x++) {
@@ -85,4 +80,3 @@ public class LodestoneTextureLoader {
     }
 }
 
- */
