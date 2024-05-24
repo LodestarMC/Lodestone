@@ -63,6 +63,19 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
         return models().getExistingFile(extend(BuiltInRegistries.BLOCK.getKey(block), extension));
     }
 
+    public ModelFile grassBlockModel(Block block) {
+        String name = getBlockName(block);
+        ResourceLocation side = getBlockTexture(name);
+        ResourceLocation dirt = new ResourceLocation("block/dirt");
+        ResourceLocation top = getBlockTexture(name + "_top");
+        return models().cubeBottomTop(name, side, dirt, top);
+    }
+
+    public ModelFile leavesBlockModel(Block block) {
+        String name = getBlockName(block);
+        return models().withExistingParent(name, new ResourceLocation("block/leaves")).texture("all", getBlockTexture(name));
+    }
+
     public ModelFile airModel(Block block) {
         String name = getBlockName(block);
         return models().withExistingParent(name, new ResourceLocation("block/air"));
