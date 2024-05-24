@@ -2,6 +2,7 @@ package team.lodestar.lodestone.mixin;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -12,9 +13,13 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import team.lodestar.lodestone.events.LodestoneItemEvent;
 import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
 
+import java.util.List;
 import java.util.Map;
 
 @Mixin(ItemStack.class)
@@ -69,5 +74,10 @@ public class ItemStackMixin {
             return copied;
         }
         return map;
+    }
+
+    @Inject(method = "getTooltipLines", at = @At(value = "RETURN"))
+    private void lodestone$tooltipEvent(@Nullable Player player, TooltipFlag isAdvanced, CallbackInfoReturnable<List<Component>> cir){
+        LodestoneItemEvent.ON_ITEM_TOOLTIP.invoker().on((ItemStack) (Object) this, player, cir.getReturnValue(), isAdvanced);
     }
 }

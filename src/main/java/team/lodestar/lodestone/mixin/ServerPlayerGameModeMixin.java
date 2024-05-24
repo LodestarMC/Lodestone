@@ -25,4 +25,12 @@ public class ServerPlayerGameModeMixin {
             cir.setReturnValue(InteractionResult.FAIL);
         }
     }
+
+    @Inject(method = "useItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;use(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/InteractionResultHolder;"), cancellable = true)
+    private void onUseItem(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+        boolean shouldCancel = LodestoneInteractionEvent.RIGHT_CLICK_ITEM.invoker().onRightClickItem(player, hand, stack);
+        if (shouldCancel) {
+            cir.setReturnValue(InteractionResult.FAIL);
+        }
+    }
 }

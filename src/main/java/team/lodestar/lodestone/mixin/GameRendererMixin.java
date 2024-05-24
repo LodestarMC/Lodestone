@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import team.lodestar.lodestone.events.LodestoneShaderRegistrationEvent;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.registry.client.LodestoneShaderRegistry;
 import team.lodestar.lodestone.systems.postprocess.PostProcessHandler;
@@ -29,7 +30,6 @@ public class GameRendererMixin {
 
     @Inject(method = "reloadShaders", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
     private void lodestone$registerShaders(ResourceProvider resourceProvider, CallbackInfo ci, List<Program> list, List<Pair<ShaderInstance, Consumer<ShaderInstance>>> list2) throws IOException {
-        LodestoneShaderRegistry.shaderRegistry(resourceProvider);
-        list2.addAll(LodestoneShaderRegistry.shaderList);
+        LodestoneShaderRegistrationEvent.EVENT.invoker().register(resourceProvider, list2);
     }
 }
