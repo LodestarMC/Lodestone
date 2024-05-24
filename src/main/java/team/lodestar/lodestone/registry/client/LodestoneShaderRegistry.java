@@ -33,6 +33,7 @@ public class LodestoneShaderRegistry {
     public static void init() {
         LodestoneShaderRegistrationEvent.EVENT.register((provider, shaderList1) -> {
             shaderList1.add(Pair.of(LODESTONE_TEXTURE.createInstance(provider), getConsumer()));
+            shaderList1.add(Pair.of(LODESTONE_TEXT.createInstance(provider), getConsumer()));
             shaderList1.add(Pair.of(PARTICLE.createInstance(provider), getConsumer()));
             shaderList1.add(Pair.of(SCREEN_PARTICLE.createInstance(provider), getConsumer()));
             shaderList1.add(Pair.of(DISTORTED_TEXTURE.createInstance(provider), getConsumer()));
