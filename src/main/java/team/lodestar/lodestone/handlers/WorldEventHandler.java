@@ -61,7 +61,7 @@ public class WorldEventHandler {
     }
 
     public static <T extends WorldEventInstance> T addWorldEvent(Level level, boolean shouldStart, T instance) {
-        LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(Minecraft.getInstance().level).ifPresent(c -> {
+        LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(c -> {
             c.inboundWorldEvents.add(instance);
             if (shouldStart) {
                 instance.start(level);

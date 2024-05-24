@@ -1,6 +1,8 @@
 package team.lodestar.lodestone.network.worldevent;
 
 import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -35,14 +37,11 @@ public class SyncWorldEventPacket extends LodestoneClientPacket {
         buf.writeNbt(eventData);
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     public void executeClient(Minecraft client, ClientPacketListener listener, PacketSender responseSender, SimpleChannel channel) {
         WorldEventType eventType = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(type);
         ClientLevel level = Minecraft.getInstance().level;
         WorldEventHandler.addWorldEvent(level, start, eventType.createInstance(eventData));
-    }
-
-    public static SyncWorldEventPacket decode(FriendlyByteBuf buf) {
-        return new SyncWorldEventPacket(buf.readUtf(), buf.readBoolean(), buf.readNbt());
     }
 }

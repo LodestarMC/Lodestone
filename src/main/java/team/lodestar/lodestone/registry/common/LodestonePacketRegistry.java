@@ -1,6 +1,8 @@
 package team.lodestar.lodestone.registry.common;
 
+import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 import me.pepperbell.simplenetworking.SimpleChannel;
+import net.fabricmc.api.EnvType;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
 import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
@@ -17,11 +19,12 @@ import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPacket;
 @SuppressWarnings("unused")
 public class LodestonePacketRegistry {
     public static final String PROTOCOL_VERSION = "1";
-    //public static SimpleChannel LODESTONE_CHANNEL = NetworkRegistry.newSimpleChannel(lodestonePath("main"), () -> LodestonePacketRegistry.PROTOCOL_VERSION, LodestonePacketRegistry.PROTOCOL_VERSION::equals, LodestonePacketRegistry.PROTOCOL_VERSION::equals);
     public static final SimpleChannel LODESTONE_CHANNEL = new SimpleChannel(LodestoneLib.lodestonePath("main"));
 
     @SuppressWarnings("UnusedAssignment")
     public static void registerPackets() {
+        LODESTONE_CHANNEL.initServerListener();
+        EnvExecutor.runWhenOn(EnvType.CLIENT, () -> LODESTONE_CHANNEL::initClientListener);
         int index = 0;
 
         //TwoWay
