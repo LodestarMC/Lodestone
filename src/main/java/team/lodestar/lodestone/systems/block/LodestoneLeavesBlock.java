@@ -11,34 +11,35 @@ import team.lodestar.lodestone.systems.easing.*;
 
 import java.awt.*;
 
-public class LodestoneLeavesBlock extends LeavesBlock implements IForgeBlock {
+public abstract class LodestoneLeavesBlock extends LeavesBlock implements IForgeBlock {
 
-    public final IntegerProperty colorProperty;
     public final Color minColor;
     public final Color maxColor;
 
-    public LodestoneLeavesBlock(Properties properties, IntegerProperty colorProperty, Color minColor, Color maxColor) {
+    public LodestoneLeavesBlock(Properties properties, Color minColor, Color maxColor) {
         super(properties);
         this.minColor = minColor;
         this.maxColor = maxColor;
-        this.colorProperty = colorProperty;
-        registerDefaultState(defaultBlockState().setValue(colorProperty, 0));
+        registerDefaultState(defaultBlockState().setValue(getColorProperty(), 0));
     }
+
+    public abstract IntegerProperty getColorProperty();
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(DISTANCE, PERSISTENT, WATERLOGGED, colorProperty);
+        builder.add(DISTANCE, PERSISTENT, WATERLOGGED, getColorProperty());
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return super.getStateForPlacement(context).setValue(colorProperty, 0);
+        return super.getStateForPlacement(context).setValue(getColorProperty(), 0);
     }
 
     public static void registerSimpleGradientColors(BlockColors blockColors, LodestoneLeavesBlock leavesBlock) {
         blockColors.register((s, l, p, c) -> {
-            float colorMax = leavesBlock.colorProperty.getPossibleValues().size();
-            float color = s.getValue(leavesBlock.colorProperty);
+            final IntegerProperty colorProperty = leavesBlock.getColorProperty();
+            float colorMax = colorProperty.getPossibleValues().size();
+            float color = s.getValue(colorProperty);
             float pct = (colorMax - (color / colorMax));
             float value = Easing.SINE_IN_OUT.ease(pct, 0, 1, 1);
             int red = (int) Mth.lerp(value, leavesBlock.minColor.getRed(), leavesBlock.maxColor.getRed());
