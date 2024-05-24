@@ -22,13 +22,11 @@ public class LodestoneItemProperties extends Item.Properties {
     }
 
     public static void populateItemGroups(CreativeModeTab tab, FabricItemGroupEntries entry) {
-        /*TODO fabric is wayy off
-        for (CreativeModeTab all : CreativeModeTabs.allTabs()) {
-            if (TAB_SORTING.containsKey(all.)) {
-                TAB_SORTING.get(tabKey).stream().map(BuiltInRegistries.ITEM::get).forEach(entry::accept);
+        Optional<ResourceKey<CreativeModeTab>> opt = BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(tab);
+        if (opt.isPresent()) {
+            if (TAB_SORTING.containsKey(opt.get())) {
+                TAB_SORTING.get(opt.get()).stream().map(BuiltInRegistries.ITEM::get).forEach(entry::accept);
             }
         }
-
-         */
     }
 }
