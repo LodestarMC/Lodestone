@@ -19,6 +19,7 @@ import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
 public class LodestoneShaderRegistry {
 
     public static ShaderHolder LODESTONE_TEXTURE = new ShaderHolder(lodestonePath("lodestone_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "LumiTransparency");
+    public static ShaderHolder LODESTONE_TEXT = new ShaderHolder(lodestonePath("lodestone_text"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP);
 
     public static ShaderHolder PARTICLE = new ShaderHolder(lodestonePath("particle/particle"), DefaultVertexFormat.PARTICLE, "LumiTransparency");
 
