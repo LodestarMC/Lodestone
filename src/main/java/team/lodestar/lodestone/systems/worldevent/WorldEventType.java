@@ -1,13 +1,14 @@
 package team.lodestar.lodestone.systems.worldevent;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 
 public class WorldEventType {
 
-    public final String id;
+    public final ResourceLocation id;
     public final EventInstanceSupplier supplier;
 
-    public WorldEventType(String id, EventInstanceSupplier supplier) {
+    public WorldEventType(ResourceLocation id, EventInstanceSupplier supplier) {
         this.id = id;
         this.supplier = supplier;
     }

@@ -9,17 +9,18 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import team.lodestar.lodestone.handlers.WorldEventHandler;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
 public class SyncWorldEventPacket extends LodestoneClientPacket {
-    String type;
+    ResourceLocation type;
     public boolean start;
     public CompoundTag eventData;
 
-    public SyncWorldEventPacket(String type, boolean start, CompoundTag eventData) {
+    public SyncWorldEventPacket(ResourceLocation type, boolean start, CompoundTag eventData) {
         this.type = type;
         this.start = start;
         this.eventData = eventData;
@@ -32,7 +33,7 @@ public class SyncWorldEventPacket extends LodestoneClientPacket {
     }
 
     public void encode(FriendlyByteBuf buf) {
-        buf.writeUtf(type);
+        buf.writeResourceLocation(type);
         buf.writeBoolean(start);
         buf.writeNbt(eventData);
     }

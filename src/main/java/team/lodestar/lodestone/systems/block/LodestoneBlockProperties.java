@@ -93,9 +93,7 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     }
 
     public LodestoneBlockProperties addDatagenData(Function<LodestoneDatagenBlockData, LodestoneDatagenBlockData> function) {
-        if (false) {//TODO ???
-            ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.put(this, function.apply(ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, new LodestoneDatagenBlockData())));
-        }
+        ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.put(this, function.apply(ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, new LodestoneDatagenBlockData())));
         return this;
     }
 
@@ -236,9 +234,7 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     @NotNull
     @SuppressWarnings("deprecation")
     public LodestoneBlockProperties dropsLike(@NotNull Block block) {
-        if (false) { //TODO ???
-            getDatagenData().hasInheritedLootTable = true;
-        }
+        getDatagenData().hasInheritedLootTable = true;
         return (LodestoneBlockProperties) super.dropsLike(block);
     }
 

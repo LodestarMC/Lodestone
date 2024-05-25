@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.worldevent;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
@@ -18,6 +19,7 @@ public abstract class WorldEventInstance {
     public WorldEventType type;
     public boolean discarded;
     public boolean dirty;
+    public boolean frozen = false;
 
     public WorldEventInstance(WorldEventType type) {
         this.uuid = UUID.randomUUID();
@@ -51,21 +53,33 @@ public abstract class WorldEventInstance {
         discarded = true;
     }
 
+    /**
+     * If the event is dirty, it will be synchronized to the client then set to not dirty.
+     */
     public void setDirty() {
         dirty = true;
     }
 
+    /**
+     * If the event is frozen, it will not be ticked in {@link #tick(Level)}
+     */
+    public boolean isFrozen() {
+        return frozen;
+    }
+
     public CompoundTag serializeNBT(CompoundTag tag) {
         tag.putUUID("uuid", uuid);
-        tag.putString("type", type.id);
+        tag.putString("type", type.id.toString());
         tag.putBoolean("discarded", discarded);
+        tag.putBoolean("frozen", frozen);
         return tag;
     }
 
     public WorldEventInstance deserializeNBT(CompoundTag tag) {
         uuid = tag.getUUID("uuid");
-        type = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(tag.getString("type"));
+        type = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(new ResourceLocation(tag.getString("type")));
         discarded = tag.getBoolean("discarded");
+        frozen = tag.getBoolean("frozen");
         return this;
     }
 

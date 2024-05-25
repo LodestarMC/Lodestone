@@ -3,6 +3,7 @@ package team.lodestar.lodestone.handlers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -77,6 +78,13 @@ public class WorldEventHandler {
         }
     }
 
+    /**
+     * Ticks all active world events in the given level.
+     * <p>
+     * Will tick on both client and server side.
+     * <p>
+     * See {@link WorldEventInstance#tick(Level)}
+     */
     public static void tick(Level level) {
         LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(c -> {
             c.activeWorldEvents.addAll(c.inboundWorldEvents);
@@ -87,7 +95,7 @@ public class WorldEventHandler {
                 if (instance.discarded) {
                     iterator.remove();
                 } else {
-                    instance.tick(level);
+                    if (!instance.isFrozen()) instance.tick(level);
                     if (instance.dirty) {
                         LodestonePacketRegistry.LODESTONE_CHANNEL.sendToClientsInCurrentServer(new UpdateWorldEventPacket(instance.uuid, instance.synchronizeNBT()));
                         instance.dirty = false;
@@ -115,7 +123,7 @@ public class WorldEventHandler {
         int worldEventCount = worldTag.getInt("worldEventCount");
         for (int i = 0; i < worldEventCount; i++) {
             CompoundTag instanceTag = worldTag.getCompound("worldEvent_" + i);
-            WorldEventType reader = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(instanceTag.getString("type"));
+            WorldEventType reader = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(new ResourceLocation(instanceTag.getString("type")));
             WorldEventInstance eventInstance = reader.createInstance(instanceTag);
             capability.activeWorldEvents.add(eventInstance);
         }
