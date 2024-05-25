@@ -1,0 +1,11 @@
+{
+  "options.lodestone.attribute.name.lodestone.magic_damage": "Magic Damage",
+  "options.lodestone.attribute.name.lodestone.magic_proficiency": "Magic Proficiency",
+  "options.lodestone.attribute.name.lodestone.magic_resistance": "Magic Resistance",
+  "options.lodestone.command.lodestone.devsetup": "World setup for not-annoying development work",
+  "options.lodestone.command.lodestone.screenshake": "Command Successful, enjoy your screenshake.",
+  "options.lodestone.fire_offset": "Fire Overlay Offset",
+  "options.lodestone.options.lodestone.fire_offset.tooltip": "Offsets the fire overlay effect downwards, clearing up your vision.",
+  "options.lodestone.options.lodestone.screenshake_intensity.tooltip": "Controls how much screenshake is applied to your screen.",
+  "options.lodestone.screenshake_intensity": "Screenshake Intensity"
+}

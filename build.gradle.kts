@@ -17,11 +17,11 @@ loom {
             name("Data Generation")
             vmArg("-Dfabric-api.datagen")
             vmArg("-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}")
-            vmArg("-Dfabric-api.datagen.modid=${property("mod_id")}")
-            vmArg("-Dfabric-api.datagen.strict-validation")
+            vmArg("-Dfabric-api.datagen.modid=lodestone")
+            //vmArg("-Dfabric-api.datagen.strict-validation")
 
             property("porting_lib.datagen.existing_resources", file("src/main/resources").absolutePath)
-            //property("lodestone.data.server", "false")
+            property("lodestone.data.server", "false")
 
             runDir("build/datagen")
         }
