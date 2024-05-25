@@ -181,7 +181,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     }
 
     public static LodestoneRenderType createGenericRenderType(RenderTypeToken token, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture, CullStateShard cull) {
-        return createGenericRenderType(token, format, mode, shader, transparency, texture, cull);
+        return createGenericRenderType(token.getIdentifier(), format, mode, shader, transparency, texture, cull);
     }
 
     public static LodestoneRenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture, CullStateShard cull) {
@@ -194,7 +194,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     }
 
     public static LodestoneRenderType createGenericRenderType(RenderTypeToken token, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder) {
-        return createGenericRenderType(token, format, mode, builder);
+        return createGenericRenderType(token.getIdentifier(), format, mode, builder);
     }
 
     public static LodestoneRenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder) {
@@ -202,7 +202,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     }
 
     public static LodestoneRenderType createGenericRenderType(RenderTypeToken token, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder, ShaderUniformHandler handler) {
-        return createGenericRenderType(token, format, mode, builder, handler);
+        return createGenericRenderType(token.getIdentifier(), format, mode, builder, handler);
     }
     /**
      * Creates a custom render type and creates a buffer builder for it.
