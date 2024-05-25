@@ -1,11 +1,8 @@
 package team.lodestar.lodestone;
 
-import net.minecraft.core.*;
-import net.minecraft.data.*;
 import net.minecraft.resources.*;
 import net.minecraft.util.*;
 import net.minecraftforge.common.*;
-import net.minecraftforge.common.data.*;
 import net.minecraftforge.data.event.*;
 import net.minecraftforge.eventbus.api.*;
 import net.minecraftforge.fml.*;
@@ -20,8 +17,6 @@ import team.lodestar.lodestone.registry.common.*;
 import team.lodestar.lodestone.registry.common.particle.*;
 import team.lodestar.lodestone.systems.item.*;
 
-import java.util.concurrent.*;
-
 @Mod(LodestoneLib.LODESTONE)
 public class LodestoneLib {
     public static final Logger LOGGER = LogManager.getLogger();
@@ -32,13 +27,13 @@ public class LodestoneLib {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         IEventBus forgeBus = MinecraftForge.EVENT_BUS;
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
-        LodestoneCommandRegistry.registerArgumentTypes();
 
         LodestoneBlockEntityRegistry.BLOCK_ENTITY_TYPES.register(modBus);
         LodestoneParticleRegistry.PARTICLES.register(modBus);
         LodestoneAttributeRegistry.ATTRIBUTES.register(modBus);
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register(modBus);
         LodestonePaintingRegistry.register(modBus);
+        LodestoneArgumentTypeRegistry.register(modBus);
 
         CuriosCompat.init();
 

@@ -7,7 +7,7 @@ import net.minecraft.commands.Commands;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import team.lodestar.lodestone.command.DevWorldSetupCommand;
+import team.lodestar.lodestone.command.*;
 
 import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
@@ -19,13 +19,17 @@ public class LodestoneCommandRegistry {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
         LiteralCommandNode<CommandSourceStack> cmd = dispatcher.register(Commands.literal("lode")
                         .then(DevWorldSetupCommand.register())
+                        .then(Commands.literal("worldevent")
+                                .then(RemoveActiveWorldEventsCommand.register())
+                                .then(ListActiveWorldEventsCommand.register())
+                                .then(GetDataWorldEventCommand.register())
+                                .then(FreezeActiveWorldEventsCommand.register())
+                                .then(UnfreezeActiveWorldEventsCommand.register())
+                        )
                 //.then(ScreenshakeCommand.register())
         );
         dispatcher.register(Commands.literal(LODESTONE)
                 .redirect(cmd));
-    }
-
-    public static void registerArgumentTypes() {
     }
 
     /*TODO
