@@ -27,7 +27,7 @@ public class SyncWorldEventPacket extends LodestoneClientPacket {
     }
 
     public SyncWorldEventPacket(FriendlyByteBuf buf) {
-        type = buf.readUtf();
+        type = buf.readResourceLocation();
         start = buf.readBoolean();
         eventData = new CompoundTag();
     }
