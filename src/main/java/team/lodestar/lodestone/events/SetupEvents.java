@@ -11,6 +11,7 @@ import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
+import team.lodestar.lodestone.registry.common.LodestoneArgumentTypeRegistry;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SetupEvents {
@@ -25,6 +26,7 @@ public class SetupEvents {
     @SubscribeEvent
     public static void registerCommon(FMLCommonSetupEvent event) {
         PlacementAssistantHandler.registerPlacementAssistants(event);
+        LodestoneArgumentTypeRegistry.registerArgumentTypes();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
