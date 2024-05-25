@@ -37,7 +37,6 @@ public class LodestoneLib implements ModInitializer {
         LodestonePacketRegistry.registerPackets();
         LodestonePaintingRegistry.register();
         LodestoneArgumentTypeRegistry.COMMAND_ARGUMENT_TYPES.register();
-        LodestoneArgumentTypeRegistry.registerArgumentTypes();
 
         LodestoneBlockEntityRegistry.BLOCK_ENTITY_TYPES.register();
         LodestoneParticleRegistry.PARTICLES.register();
@@ -57,6 +56,9 @@ public class LodestoneLib implements ModInitializer {
 
         TrinketsCompat.init();
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register(LodestoneItemProperties::populateItemGroups);
-        //ThrowawayBlockDataHandler.wipeCache();
+
+        if (!FabricDataGenHelper.ENABLED) {
+            ThrowawayBlockDataHandler.wipeCache();
+        }
     }
 }

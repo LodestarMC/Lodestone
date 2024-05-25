@@ -12,7 +12,7 @@ public class LodestoneBlockTags {
     }
 
     public static TagKey<Block> forgeTag(String name) {
-        return create(new ResourceLocation("forge", name));
+        return create(new ResourceLocation("c", name));
     }
 
     public static TagKey<Block> create(final ResourceLocation name) {

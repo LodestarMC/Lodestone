@@ -31,7 +31,7 @@ public class LodestoneItemTags {
     }
 
     public static TagKey<Item> forgeTag(String name) {
-        return create(new ResourceLocation("forge", name));
+        return create(new ResourceLocation("c", name));
     }
 
     public static TagKey<Item> create(final ResourceLocation name) {

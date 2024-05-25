@@ -10,6 +10,6 @@ public class LodestoneDamageTypeTags {
     public static final TagKey<DamageType> IS_MAGIC = forgeTag("is_magic");
 
     public static TagKey<DamageType> forgeTag(String path) {
-        return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("forge", path));
+        return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("c", path));
     }
 }

@@ -14,7 +14,7 @@ import static team.lodestar.lodestone.registry.common.tag.LodestoneItemTags.*;
 
 public class LodestoneItemTagDatagen extends FabricTagProvider.ItemTagProvider {
 
-    public LodestoneItemTagDatagen(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture, @Nullable FabricTagProvider.BlockTagProvider blockTagProvider) {
+    public LodestoneItemTagDatagen(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture, FabricTagProvider.BlockTagProvider blockTagProvider) {
         super(output, completableFuture, blockTagProvider);
     }
 
@@ -25,23 +25,23 @@ public class LodestoneItemTagDatagen extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void addTags(@NotNull HolderLookup.Provider provider) {
-        tag(NUGGETS_COPPER);
+        getOrCreateTagBuilder(NUGGETS_COPPER);
         getOrCreateTagBuilder(INGOTS_COPPER).add(Items.COPPER_INGOT);
-        tag(NUGGETS_LEAD);
-        tag(INGOTS_LEAD);
-        tag(NUGGETS_SILVER);
-        tag(INGOTS_SILVER);
-        tag(NUGGETS_ALUMINUM);
-        tag(INGOTS_ALUMINUM);
-        tag(NUGGETS_NICKEL);
-        tag(INGOTS_NICKEL);
-        tag(NUGGETS_URANIUM);
-        tag(INGOTS_URANIUM);
-        tag(NUGGETS_OSMIUM);
-        tag(INGOTS_OSMIUM);
-        tag(NUGGETS_ZINC);
-        tag(INGOTS_ZINC);
-        tag(NUGGETS_TIN);
-        tag(INGOTS_TIN);
+        getOrCreateTagBuilder(NUGGETS_LEAD);
+        getOrCreateTagBuilder(INGOTS_LEAD);
+        getOrCreateTagBuilder(NUGGETS_SILVER);
+        getOrCreateTagBuilder(INGOTS_SILVER);
+        getOrCreateTagBuilder(NUGGETS_ALUMINUM);
+        getOrCreateTagBuilder(INGOTS_ALUMINUM);
+        getOrCreateTagBuilder(NUGGETS_NICKEL);
+        getOrCreateTagBuilder(INGOTS_NICKEL);
+        getOrCreateTagBuilder(NUGGETS_URANIUM);
+        getOrCreateTagBuilder(INGOTS_URANIUM);
+        getOrCreateTagBuilder(NUGGETS_OSMIUM);
+        getOrCreateTagBuilder(INGOTS_OSMIUM);
+        getOrCreateTagBuilder(NUGGETS_ZINC);
+        getOrCreateTagBuilder(INGOTS_ZINC);
+        getOrCreateTagBuilder(NUGGETS_TIN);
+        getOrCreateTagBuilder(INGOTS_TIN);
     }
 }

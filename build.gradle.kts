@@ -10,6 +10,30 @@ val port_lib_modules: String by extra
 
 loom {
     accessWidenerPath = file("src/main/resources/lodestone.accesswidener")
+
+    runs {
+        create("data") {
+            client()
+            name("Data Generation")
+            vmArg("-Dfabric-api.datagen")
+            vmArg("-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}")
+            vmArg("-Dfabric-api.datagen.modid=${property("mod_id")}")
+            vmArg("-Dfabric-api.datagen.strict-validation")
+
+            property("porting_lib.datagen.existing_resources", file("src/main/resources").absolutePath)
+            //property("lodestone.data.server", "false")
+
+            runDir("build/datagen")
+        }
+    }
+}
+
+sourceSets {
+    named("main") {
+        resources {
+            srcDir("src/generated/resources")
+        }
+    }
 }
 
 repositories {
@@ -59,10 +83,6 @@ dependencies {
     }
 
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
-}
-
-fabricApi {
-    configureDataGeneration()
 }
 
 tasks {
