@@ -111,7 +111,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
      * For Static Definitions use {@link RenderTypeProvider#apply(RenderTypeToken)}, otherwise use {@link RenderTypeProvider#applyAndCache(RenderTypeToken)}
      */
     public static final RenderTypeProvider TEXTURE = new RenderTypeProvider((token) ->
-            createGenericRenderType(token, POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
+            createGenericRenderType("texture", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
                     .setShaderState(LodestoneShaderRegistry.LODESTONE_TEXTURE)
                     .setTransparencyState(StateShards.NO_TRANSPARENCY)
                     .setLightmapState(LIGHTMAP)
@@ -119,56 +119,55 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
                     .setTextureState(token.get())));
 
     public static final RenderTypeProvider TRANSPARENT_TEXTURE = new RenderTypeProvider((token) ->
-            createGenericRenderType(token, POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
+            createGenericRenderType("transparent_texture", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
                     .setShaderState(LodestoneShaderRegistry.LODESTONE_TEXTURE)
                     .setTransparencyState(StateShards.NORMAL_TRANSPARENCY)
                     .setLightmapState(LIGHTMAP)
                     .setCullState(CULL)
                     .setTextureState(token.get())));
     public static final RenderTypeProvider TRANSPARENT_TEXTURE_TRIANGLE = new RenderTypeProvider((token) ->
-            createGenericRenderType(token, POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
+            createGenericRenderType("transparent_texture_triangles", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
                     .setShaderState(LodestoneShaderRegistry.TRIANGLE_TEXTURE)
                     .setTransparencyState(StateShards.NORMAL_TRANSPARENCY)
                     .setLightmapState(LIGHTMAP)
                     .setCullState(CULL)
                     .setTextureState(token.get())));
     public static final RenderTypeProvider TRANSPARENT_SCROLLING_TEXTURE_TRIANGLE = new RenderTypeProvider((token) ->
-            createGenericRenderType(token, POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
+            createGenericRenderType("transparent_scrolling_texture_triangles", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
                     .setShaderState(LodestoneShaderRegistry.SCROLLING_TRIANGLE_TEXTURE)
                     .setTransparencyState(StateShards.NORMAL_TRANSPARENCY)
                     .setLightmapState(LIGHTMAP)
                     .setCullState(CULL)
                     .setTextureState(token.get())));
     public static final RenderTypeProvider TRANSPARENT_TEXT = new RenderTypeProvider((token) ->
-            LodestoneRenderTypeRegistry.createGenericRenderType(token, POSITION_COLOR_TEX_LIGHTMAP, QUADS, LodestoneRenderTypeRegistry.builder()
+            LodestoneRenderTypeRegistry.createGenericRenderType("transparent_text", POSITION_COLOR_TEX_LIGHTMAP, QUADS, LodestoneRenderTypeRegistry.builder()
                     .setShaderState(LodestoneShaderRegistry.LODESTONE_TEXT.getShard())
                     .setTransparencyState(StateShards.TRANSLUCENT_TRANSPARENCY)
                     .setTextureState(token.get())));
 
-
     public static final RenderTypeProvider ADDITIVE_TEXTURE = new RenderTypeProvider((token) ->
-            createGenericRenderType(token, POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
+            createGenericRenderType("additive_texture", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
                     .setShaderState(LodestoneShaderRegistry.LODESTONE_TEXTURE)
                     .setTransparencyState(StateShards.ADDITIVE_TRANSPARENCY)
                     .setLightmapState(LIGHTMAP)
                     .setCullState(CULL)
                     .setTextureState(token.get())));
     public static final RenderTypeProvider ADDITIVE_TEXTURE_TRIANGLE = new RenderTypeProvider((token) ->
-            createGenericRenderType(token, POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
+            createGenericRenderType("additive_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
                     .setShaderState(LodestoneShaderRegistry.TRIANGLE_TEXTURE)
                     .setTransparencyState(StateShards.ADDITIVE_TRANSPARENCY)
                     .setLightmapState(LIGHTMAP)
                     .setCullState(CULL)
                     .setTextureState(token.get())));
     public static final RenderTypeProvider ADDITIVE_SCROLLING_TEXTURE_TRIANGLE = new RenderTypeProvider((token) ->
-            createGenericRenderType(token, POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
+            createGenericRenderType("additive_scrolling_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
                     .setShaderState(LodestoneShaderRegistry.SCROLLING_TRIANGLE_TEXTURE)
                     .setTransparencyState(StateShards.ADDITIVE_TRANSPARENCY)
                     .setLightmapState(LIGHTMAP)
                     .setCullState(CULL)
                     .setTextureState(token.get())));
     public static final RenderTypeProvider ADDITIVE_TEXT = new RenderTypeProvider((token) ->
-            LodestoneRenderTypeRegistry.createGenericRenderType(token, POSITION_COLOR_TEX_LIGHTMAP, QUADS, LodestoneRenderTypeRegistry.builder()
+            LodestoneRenderTypeRegistry.createGenericRenderType("additive_text", POSITION_COLOR_TEX_LIGHTMAP, QUADS, LodestoneRenderTypeRegistry.builder()
                     .setShaderState(LodestoneShaderRegistry.LODESTONE_TEXT.getShard())
                     .setTransparencyState(StateShards.ADDITIVE_TRANSPARENCY)
                     .setTextureState(token.get())));
@@ -181,10 +180,6 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
         return createGenericRenderType(name, format, QUADS, shader, transparency, new TextureStateShard(texture, false, false), CULL);
     }
 
-    public static LodestoneRenderType createGenericRenderType(RenderTypeToken token, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture, CullStateShard cull) {
-        return createGenericRenderType(token.getIdentifier(), format, mode, shader, transparency, texture, cull);
-    }
-
     public static LodestoneRenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, ShaderStateShard shader, TransparencyStateShard transparency, EmptyTextureStateShard texture, CullStateShard cull) {
         return createGenericRenderType(name, format, mode, builder()
                 .setShaderState(shader)
@@ -194,16 +189,8 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
                 .setCullState(cull));
     }
 
-    public static LodestoneRenderType createGenericRenderType(RenderTypeToken token, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder) {
-        return createGenericRenderType(token.getIdentifier(), format, mode, builder);
-    }
-
     public static LodestoneRenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder) {
         return createGenericRenderType(name, format, mode, builder, null);
-    }
-
-    public static LodestoneRenderType createGenericRenderType(RenderTypeToken token, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder, ShaderUniformHandler handler) {
-        return createGenericRenderType(token.getIdentifier(), format, mode, builder, handler);
     }
     /**
      * Creates a custom render type and creates a buffer builder for it.
