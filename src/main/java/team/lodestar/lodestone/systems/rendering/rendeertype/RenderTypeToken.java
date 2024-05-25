@@ -8,7 +8,8 @@ import java.util.function.*;
 
 public class RenderTypeToken implements Supplier<RenderStateShard.EmptyTextureStateShard> {
 
-    private static final HashMap<ResourceLocation, RenderTypeToken> CACHED_TOKENS = new HashMap<>();
+    private static final HashMap<ResourceLocation, RenderTypeToken> CACHED_TEXTURE_TOKENS = new HashMap<>();
+    private static final HashMap<RenderStateShard.EmptyTextureStateShard, RenderTypeToken> CACHED_STATE_TOKENS = new HashMap<>();
 
     private final UUID identifier;
     private final RenderStateShard.EmptyTextureStateShard texture;
@@ -26,8 +27,16 @@ public class RenderTypeToken implements Supplier<RenderStateShard.EmptyTextureSt
         return new RenderTypeToken(texture);
     }
 
+    public static RenderTypeToken createToken(RenderStateShard.EmptyTextureStateShard texture) {
+        return new RenderTypeToken(texture);
+    }
+
     public static RenderTypeToken createCachedToken(ResourceLocation texture) {
-        return CACHED_TOKENS.computeIfAbsent(texture, RenderTypeToken::new);
+        return CACHED_TEXTURE_TOKENS.computeIfAbsent(texture, RenderTypeToken::new);
+    }
+
+    public static RenderTypeToken createCachedToken(RenderStateShard.EmptyTextureStateShard texture) {
+        return CACHED_STATE_TOKENS.computeIfAbsent(texture, RenderTypeToken::new);
     }
 
     @Override
