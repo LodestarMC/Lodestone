@@ -5,11 +5,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.command.arguments.WorldEventInstanceArgument;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
+import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
@@ -26,7 +24,7 @@ public class FreezeActiveWorldEventsCommand {
                 .requires(cs -> cs.hasPermission(2))
                 .then(Commands.literal("all")
                         .executes(ctx -> {
-                            LodestoneWorldDataCapability.getCapabilityOptional(ctx.getSource().getLevel()).ifPresent(c -> {
+                            LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(ctx.getSource().getLevel()).ifPresent(c -> {
                                 List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents;
                                 List<WorldEventInstance> notCurrentlyFrozen = activeWorldEvents.stream().filter(event -> !event.isFrozen()).toList();
                                 if (notCurrentlyFrozen.isEmpty()) {
@@ -59,7 +57,7 @@ public class FreezeActiveWorldEventsCommand {
                                 .then(Commands.argument("type", WorldEventTypeArgument.worldEventType())
                                         .executes(ctx -> {
                                             WorldEventType type = WorldEventTypeArgument.getEventType(ctx, "type");
-                                            LodestoneWorldDataCapability.getCapabilityOptional(ctx.getSource().getLevel()).ifPresent(c -> {
+                                            LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(ctx.getSource().getLevel()).ifPresent(c -> {
                                                 List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
                                                 List<WorldEventInstance> notCurrentlyFrozen = activeWorldEvents.stream().filter(event -> !event.isFrozen()).toList();
                                                 if (notCurrentlyFrozen.isEmpty()) {

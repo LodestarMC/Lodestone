@@ -8,8 +8,8 @@ import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.*;
 import net.minecraft.server.level.ServerLevel;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
+import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
@@ -68,7 +68,7 @@ public class ListActiveWorldEventsCommand {
         private List<WorldEventInstance> activeWorldEvents;
 
         protected ActiveWorldEventReport(ServerLevel level) {
-            LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(c -> {
+            LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(c -> {
                 instanceCount = c.activeWorldEvents.size();
                 frozenCount = (int) c.activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).count();
                 activeWorldEvents = c.activeWorldEvents;
@@ -76,7 +76,7 @@ public class ListActiveWorldEventsCommand {
         }
 
         protected ActiveWorldEventReport(ServerLevel level, WorldEventType worldEventType) {
-            LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(c -> {
+            LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(c -> {
                 instanceCount = (int) c.activeWorldEvents.stream().filter(worldEventInstance -> worldEventInstance.type.equals(worldEventType)).count();
                 frozenCount = (int) c.activeWorldEvents.stream().filter(worldEventInstance -> worldEventInstance.type.equals(worldEventType) && worldEventInstance.isFrozen()).count();
                 activeWorldEvents = c.activeWorldEvents;

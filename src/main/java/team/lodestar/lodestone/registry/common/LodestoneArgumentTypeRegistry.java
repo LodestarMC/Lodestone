@@ -15,11 +15,11 @@ import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
 public class LodestoneArgumentTypeRegistry {
     public static final LazyRegistrar<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = LazyRegistrar.create(BuiltInRegistries.COMMAND_ARGUMENT_TYPE, LodestoneLib.LODESTONE);
 
-    public static final RegistryObject<ArgumentTypeInfo<WorldEventTypeArgument,?>> WORLD_EVENT_TYPE_ARG = COMMAND_ARGUMENT_TYPES.register("world_event_type_arg", () -> SingletonArgumentInfo.contextFree(WorldEventTypeArgument::worldEventType));
-    public static final RegistryObject<ArgumentTypeInfo<WorldEventInstanceArgument,?>> WORLD_EVENT_INSTANCE_ARG = COMMAND_ARGUMENT_TYPES.register("world_event_instance_arg", () -> SingletonArgumentInfo.contextFree(WorldEventInstanceArgument::worldEventInstance));
+    //public static final RegistryObject<ArgumentTypeInfo<WorldEventTypeArgument,?>> WORLD_EVENT_TYPE_ARG = COMMAND_ARGUMENT_TYPES.register("world_event_type_arg", () -> SingletonArgumentInfo.contextFree(WorldEventTypeArgument::worldEventType));
+    //public static final RegistryObject<ArgumentTypeInfo<WorldEventInstanceArgument,?>> WORLD_EVENT_INSTANCE_ARG = COMMAND_ARGUMENT_TYPES.register("world_event_instance_arg", () -> SingletonArgumentInfo.contextFree(WorldEventInstanceArgument::worldEventInstance));
 
     public static void registerArgumentTypes() {
-        ArgumentTypeRegistry.registerArgumentType(LodestoneLib.lodestonePath("world_event_type_arg"), WorldEventTypeArgument.class, WORLD_EVENT_TYPE_ARG.get());
-        ArgumentTypeRegistry.registerArgumentType(LodestoneLib.lodestonePath("world_event_instance_arg"), WorldEventInstanceArgument.class, WORLD_EVENT_INSTANCE_ARG.get());
+        ArgumentTypeRegistry.registerArgumentType(LodestoneLib.lodestonePath("world_event_type_arg"), WorldEventTypeArgument.class, SingletonArgumentInfo.contextFree(WorldEventTypeArgument::worldEventType));
+        ArgumentTypeRegistry.registerArgumentType(LodestoneLib.lodestonePath("world_event_instance_arg"), WorldEventInstanceArgument.class, SingletonArgumentInfo.contextFree(WorldEventInstanceArgument::worldEventInstance));
     }
 }

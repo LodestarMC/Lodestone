@@ -7,6 +7,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import io.github.fabricators_of_create.porting_lib.util.ServerLifecycleHooks;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.core.registries.Registries;
@@ -14,10 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.server.ServerLifecycleHooks;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
+import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
 import java.util.Set;
@@ -60,7 +60,7 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
                     if (levelResourceKey == null) return;
                     Level level = server.getLevel(levelResourceKey);
                     if (level == null) return;
-                    LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(capability -> capability.activeWorldEvents.forEach(worldEventInstance -> {
+                    LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(capability -> capability.activeWorldEvents.forEach(worldEventInstance -> {
                         if (worldEventInstance.uuid.equals(uuid)) {
                             eventInstance.set(worldEventInstance);
                         }
@@ -79,7 +79,7 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
         S s = context.getSource();
         if (s instanceof SharedSuggestionProvider sharedsuggestionprovider) {
@@ -87,7 +87,7 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
                 if (levelResourceKey == null) return;
                 Level level = Minecraft.getInstance().level;
                 if (level == null) return;
-                LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(capability -> {
+                LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(capability -> {
                     capability.activeWorldEvents.forEach(worldEventInstance -> {
                         builder.suggest(worldEventInstance.uuid.toString());
                     });
