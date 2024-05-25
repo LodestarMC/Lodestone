@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.block;
 
 import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.impl.datagen.FabricDataGenHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.TagKey;
@@ -93,7 +94,9 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     }
 
     public LodestoneBlockProperties addDatagenData(Function<LodestoneDatagenBlockData, LodestoneDatagenBlockData> function) {
-        ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.put(this, function.apply(ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, new LodestoneDatagenBlockData())));
+        if (FabricDataGenHelper.ENABLED) {
+            ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.put(this, function.apply(ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, new LodestoneDatagenBlockData())));
+        }
         return this;
     }
 
@@ -234,7 +237,9 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     @NotNull
     @SuppressWarnings("deprecation")
     public LodestoneBlockProperties dropsLike(@NotNull Block block) {
-        getDatagenData().hasInheritedLootTable = true;
+        if (FabricDataGenHelper.ENABLED) {
+            getDatagenData().hasInheritedLootTable = true;
+        }
         return (LodestoneBlockProperties) super.dropsLike(block);
     }
 

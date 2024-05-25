@@ -2,9 +2,11 @@ package team.lodestar.lodestone;
 
 import io.github.fabricators_of_create.porting_lib.entity.events.*;
 import io.github.fabricators_of_create.porting_lib.entity.events.living.LivingHurtEvent;
+import io.github.fabricators_of_create.porting_lib.tags.data.DataGenerators;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.impl.datagen.FabricDataGenHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import org.apache.logging.log4j.*;
@@ -55,7 +57,6 @@ public class LodestoneLib implements ModInitializer {
 
         TrinketsCompat.init();
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register(LodestoneItemProperties::populateItemGroups);
-
-        ThrowawayBlockDataHandler.wipeCache();
+        //ThrowawayBlockDataHandler.wipeCache();
     }
 }
