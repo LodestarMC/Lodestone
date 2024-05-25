@@ -34,8 +34,8 @@ public class ItemEventHandler {
         }
         LivingEntity target = event.getEntity();
         if (event.getSource().getEntity() instanceof LivingEntity attacker) {
-            ItemHelper.getEventResponders(attacker).forEach(s -> ((IEventResponderItem) s.getItem()).hurtEvent(attacker, target, s));
-            ItemHelper.getEventResponders(target).forEach(s -> ((IEventResponderItem) s.getItem()).takeDamageEvent(attacker, target, s));
+            ItemHelper.getEventResponders(attacker).forEach(s -> ((IEventResponderItem) s.getItem()).hurtEvent(event, attacker, target, s));
+            ItemHelper.getEventResponders(target).forEach(s -> ((IEventResponderItem) s.getItem()).takeDamageEvent(event, attacker, target, s));
         }
     }
 
