@@ -57,7 +57,7 @@ public class LodestoneLib implements ModInitializer {
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register(LodestoneItemProperties::populateItemGroups);
 
         if (!FabricDataGenHelper.ENABLED) {
-            ThrowawayBlockDataHandler.wipeCache();
+            //TODO ThrowawayBlockDataHandler.wipeCache();
         }
     }
 }
