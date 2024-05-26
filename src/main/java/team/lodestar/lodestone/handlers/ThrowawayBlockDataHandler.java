@@ -12,7 +12,7 @@ public class ThrowawayBlockDataHandler {
     public static HashMap<LodestoneBlockProperties, LodestoneDatagenBlockData> DATAGEN_DATA_CACHE = new HashMap<>();
 
     public static void wipeCache() {
-        THROWAWAY_DATA_CACHE = null;
-        DATAGEN_DATA_CACHE = null;
+        THROWAWAY_DATA_CACHE = new HashMap<>();
+        DATAGEN_DATA_CACHE = new HashMap<>();
     }
 }
