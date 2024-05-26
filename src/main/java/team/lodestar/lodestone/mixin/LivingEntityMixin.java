@@ -17,10 +17,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import team.lodestar.lodestone.events.EntityAttributeModificationEvent;
 import team.lodestar.lodestone.events.LodestoneInteractionEvent;
 import team.lodestar.lodestone.events.LodestoneMobEffectEvents;
 import team.lodestar.lodestone.systems.sound.ExtendedSoundType;
+
+import static team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry.*;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
@@ -48,9 +49,7 @@ public class LivingEntityMixin {
 
     @ModifyReturnValue(method = "createLivingAttributes", at = @At("RETURN"))
     private static AttributeSupplier.Builder lodestone$CreateLivingAttributes(AttributeSupplier.Builder original) {
-        AttributeSupplier.Builder list = original;
-        list = EntityAttributeModificationEvent.ADD.invoker().add(list);;
-        return list;
+        return original.add(MAGIC_RESISTANCE.get()).add(MAGIC_PROFICIENCY.get()).add(MAGIC_DAMAGE.get());
     }
 
     @Inject(method = "startUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseDuration()I"), cancellable = true)

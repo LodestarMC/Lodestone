@@ -12,7 +12,6 @@ import net.minecraft.util.RandomSource;
 import org.apache.logging.log4j.*;
 import team.lodestar.lodestone.compability.*;
 import team.lodestar.lodestone.component.LodestonePlayerComponent;
-import team.lodestar.lodestone.events.EntityAttributeModificationEvent;
 import team.lodestar.lodestone.events.LodestoneInteractionEvent;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.registry.common.*;
@@ -41,7 +40,6 @@ public class LodestoneLib implements ModInitializer {
         LodestoneParticleRegistry.PARTICLES.register();
         LodestoneAttributeRegistry.ATTRIBUTES.register();
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register();
-        EntityAttributeModificationEvent.ADD.register(LodestoneAttributeRegistry::modifyEntityAttributes);
 
         PlayerEvents.ON_JOIN_WORLD.register(WorldEventHandler::playerJoin);
         PlayerEvents.ON_JOIN_WORLD.register(LodestonePlayerComponent::playerJoin);

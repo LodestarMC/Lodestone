@@ -33,8 +33,4 @@ public class LodestoneAttributeRegistry {
         UUIDS.put(registryObject, UUID.randomUUID());
         return registryObject;
     }
-
-    public static AttributeSupplier.Builder modifyEntityAttributes(AttributeSupplier.Builder builder) {
-        return builder.add(MAGIC_RESISTANCE.get()).add(MAGIC_PROFICIENCY.get()).add(MAGIC_DAMAGE.get());
-    }
 }
