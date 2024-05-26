@@ -79,6 +79,9 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
     }
 
     public LodestoneThrowawayBlockData getThrowawayData() {
+        if (ThrowawayBlockDataHandler.THROWAWAY_DATA_CACHE == null) {
+            return LodestoneThrowawayBlockData.EMPTY;
+        }
         return ThrowawayBlockDataHandler.THROWAWAY_DATA_CACHE.getOrDefault(this, LodestoneThrowawayBlockData.EMPTY);
     }
 
