@@ -36,7 +36,6 @@ public class LodestoneLib implements ModInitializer {
         LodestonePlacementFillerRegistry.registerTypes();
         LodestonePacketRegistry.registerPackets();
         LodestonePaintingRegistry.register();
-        LodestoneArgumentTypeRegistry.COMMAND_ARGUMENT_TYPES.register();
 
         LodestoneBlockEntityRegistry.BLOCK_ENTITY_TYPES.register();
         LodestoneParticleRegistry.PARTICLES.register();

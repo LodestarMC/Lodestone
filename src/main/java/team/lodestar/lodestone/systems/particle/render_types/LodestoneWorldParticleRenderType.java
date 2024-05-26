@@ -6,6 +6,8 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -16,6 +18,7 @@ import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
 import java.util.function.*;
 
+@Environment(EnvType.CLIENT)
 public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
     public static final LodestoneWorldParticleRenderType ADDITIVE = new LodestoneWorldParticleRenderType(
