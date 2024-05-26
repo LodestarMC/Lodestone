@@ -32,7 +32,7 @@ public class LodestoneLibClient implements ClientModInitializer {
         LodestoneShaderRegistry.init();
         LodestoneArgumentTypeRegistry.registerArgumentTypes();
 
-        WorldRenderEvents.END.register(ScreenParticleHandler::renderTick);
+        //WorldRenderEvents.END.register(ScreenParticleHandler::renderTick);
         WorldRenderEvents.LAST.register(PostProcessHandler::onWorldRenderLast);
         ClientTickEvents.END_CLIENT_TICK.register(ClientRuntimeEvents::clientTick);
 

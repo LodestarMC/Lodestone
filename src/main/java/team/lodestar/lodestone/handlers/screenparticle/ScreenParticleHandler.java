@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
 import com.mojang.blaze3d.vertex.*;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -54,7 +53,7 @@ public class ScreenParticleHandler {
         canSpawnParticles = true;
     }
 
-    public static void renderTick(WorldRenderContext ctx) {
+    public static void renderTick() {
         canSpawnParticles = false;
     }
 
