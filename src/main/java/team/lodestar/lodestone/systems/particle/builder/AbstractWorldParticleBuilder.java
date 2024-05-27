@@ -148,6 +148,11 @@ public abstract class AbstractWorldParticleBuilder<T extends AbstractWorldPartic
         return wrapper();
     }
 
+    public T setDepthFade(float strength) {
+        getParticleOptions().depthFade = strength;
+        return wrapper();
+    }
+
     public T act(Consumer<T> particleBuilderConsumer) {
         particleBuilderConsumer.accept(wrapper());
         return wrapper();
