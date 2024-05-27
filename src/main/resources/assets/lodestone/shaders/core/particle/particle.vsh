@@ -2,7 +2,7 @@
 
 #moj_import <fog.glsl>
 #moj_import <projection.glsl>
-#moj_import <lodestone:common.glsl>
+#moj_import <lodestone:common_math.glsl>
 
 in vec3 Position;
 in vec2 UV0;
