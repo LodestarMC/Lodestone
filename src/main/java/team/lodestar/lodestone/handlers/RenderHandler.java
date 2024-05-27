@@ -47,8 +47,7 @@ public class RenderHandler {
     public static FogShape FOG_SHAPE;
     public static float FOG_RED, FOG_GREEN, FOG_BLUE;
 
-    public static RenderTarget TEMP_RENDER_TARGET = new TextureTarget(Minecraft.getInstance().getMainRenderTarget().width, Minecraft.getInstance().getMainRenderTarget().height, true, Minecraft.ON_OSX);
-
+    public static RenderTarget TEMP_RENDER_TARGET;
     public static RenderTarget LODESTONE_DEPTH_CACHE;
     public static RenderTarget LODESTONE_TRANSLUCENT;
     public static RenderTarget LODESTONE_TRANSLUCENT_PARTICLE;
@@ -256,7 +255,9 @@ public class RenderHandler {
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);
             }
-            instance.setSampler("SceneDepthBuffer", TEMP_RENDER_TARGET.getDepthTextureId());
+            if (TEMP_RENDER_TARGET != null) {
+                instance.setSampler("SceneDepthBuffer", TEMP_RENDER_TARGET.getDepthTextureId());
+            }
 
             source.endBatch(type);
             if (instance instanceof ExtendedShaderInstance extendedShaderInstance) {

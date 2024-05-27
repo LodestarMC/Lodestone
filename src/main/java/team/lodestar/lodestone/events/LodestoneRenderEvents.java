@@ -13,25 +13,31 @@ public interface LodestoneRenderEvents {
 
     Event<AfterWeather> AFTER_WEATHER = EventFactory.createArrayBacked(AfterWeather.class, (poseStack, partialTick, stage) -> { }, callbacks -> (poseStack, partialTick, stage)  -> {
         for (final AfterWeather callback : callbacks) {
-            callback.render(poseStack, partialTick, Stage.AFTER_WEATHER);
+            callback.render(poseStack, partialTick, stage);
         }
     });
 
     Event<AfterParticles> AFTER_PARTICLES = EventFactory.createArrayBacked(AfterParticles.class, (poseStack, partialTick, stage) -> { }, callbacks -> (poseStack, partialTick, stage) -> {
         for (final AfterParticles callback : callbacks) {
-            callback.render(poseStack, partialTick, Stage.AFTER_PARTICLES);
+            callback.render(poseStack, partialTick, stage);
         }
     });
 
     Event<AfterSky> AFTER_SKY = EventFactory.createArrayBacked(AfterSky.class, (poseStack, partialTick, stage) -> { }, callbacks -> (poseStack, partialTick, stage) -> {
         for (final AfterSky callback : callbacks) {
-            callback.render(poseStack, partialTick, Stage.AFTER_SKY);
+            callback.render(poseStack, partialTick, stage);
         }
     });
 
     Event<BeforeClear> BEFORE_CLEAR = EventFactory.createArrayBacked(BeforeClear.class, (poseStack, partialTick, stage) -> { }, callbacks -> (poseStack, partialTick, stage) -> {
         for (final BeforeClear callback : callbacks) {
-            callback.render(poseStack, partialTick, Stage.AFTER_SKY);
+            callback.render(poseStack, partialTick, stage);
+        }
+    });
+
+    Event<AfterBlockEntities> AFTER_BLOCK_ENTITIES = EventFactory.createArrayBacked(AfterBlockEntities.class, (poseStack, partialTick, stage) -> { }, callbacks -> (poseStack, partialTick, stage) -> {
+        for (final AfterBlockEntities callback : callbacks) {
+            callback.render(poseStack, partialTick, stage);
         }
     });
 
@@ -53,5 +59,10 @@ public interface LodestoneRenderEvents {
     @FunctionalInterface
     interface BeforeClear {
         void render(RenderType renderType, PoseStack poseStack, Stage stage);
+    }
+
+    @FunctionalInterface
+    interface AfterBlockEntities {
+        void render(PoseStack poseStack, float partialTick, Stage stage);
     }
 }

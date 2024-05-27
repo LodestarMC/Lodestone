@@ -53,7 +53,7 @@ public class ClientRuntimeEvents {
             RenderHandler.endBatchesEarly();
         }
 
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES)) {
+        if (stage == Stage.AFTER_BLOCK_ENTITIES) {
             RenderHandler.copyDepthBuffer(RenderHandler.TEMP_RENDER_TARGET);
         }
 //        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_LEVEL)) {
