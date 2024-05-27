@@ -1,7 +1,7 @@
 #version 150
 
 #moj_import <fog.glsl>
-#moj_import <lodestone:commoner.glsl>
+#moj_import <lodestone:common_math.glsl>
 
 uniform sampler2D Sampler0;
 uniform sampler2D SceneDepthBuffer;

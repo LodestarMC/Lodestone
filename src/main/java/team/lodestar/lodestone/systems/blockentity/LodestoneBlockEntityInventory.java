@@ -31,6 +31,8 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
     public int nonEmptyItemAmount;
     public int firstEmptyItemIndex;
 
+    private LodestoneBlockEntity blockEntity;
+
     public LodestoneBlockEntityInventory(int slotCount, int allowedItemSize, Predicate<ItemStack> inputPredicate, Predicate<ItemStack> outputPredicate) {
         this(slotCount, allowedItemSize, inputPredicate);
         this.outputPredicate = outputPredicate;
@@ -54,6 +56,11 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
 
     public boolean isEmpty() {
         return nonEmptyItemAmount == 0;
+    }
+
+    @Override
+    public void setChanged() {
+        super.setChanged();
     }
 
     public void clear() {
