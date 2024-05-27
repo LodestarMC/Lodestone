@@ -18,6 +18,7 @@ public abstract class AbstractWorldParticleOptions extends SimpleParticleOptions
     public ParticleRenderType renderType;
     public RenderHandler.LodestoneRenderLayer renderLayer = RenderHandler.DELAYED_RENDER;
     public boolean shouldCull;
+    public float depthFade = 0.0F;
     public final Collection<Consumer<LodestoneWorldParticleActor>> tickActors = new ArrayList<>();
     public final Collection<Consumer<LodestoneWorldParticleActor>> spawnActors = new ArrayList<>();
     public final Collection<Consumer<LodestoneWorldParticleActor>> renderActors = new ArrayList<>();
