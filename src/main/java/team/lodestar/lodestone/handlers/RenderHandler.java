@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.pipeline.*;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -10,6 +11,7 @@ import net.minecraftforge.client.event.*;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL30C;
 import team.lodestar.lodestone.*;
 import team.lodestar.lodestone.config.*;
 import team.lodestar.lodestone.helpers.RenderHelper;
@@ -45,6 +47,8 @@ public class RenderHandler {
     public static float FOG_FAR;
     public static FogShape FOG_SHAPE;
     public static float FOG_RED, FOG_GREEN, FOG_BLUE;
+
+    public static RenderTarget TEMP_RENDER_TARGET = new TextureTarget(Minecraft.getInstance().getMainRenderTarget().width, Minecraft.getInstance().getMainRenderTarget().height, true, Minecraft.ON_OSX);
 
     public static RenderTarget LODESTONE_DEPTH_CACHE;
     public static RenderTarget LODESTONE_TRANSLUCENT;
@@ -250,6 +254,8 @@ public class RenderHandler {
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);
             }
+            instance.setSampler("SceneDepthBuffer", TEMP_RENDER_TARGET.getDepthTextureId());
+
             source.endBatch(type);
             if (instance instanceof ExtendedShaderInstance extendedShaderInstance) {
                 extendedShaderInstance.setUniformDefaults();
@@ -269,6 +275,15 @@ public class RenderHandler {
             TRANSPARENT_RENDER_TYPES.add(renderType);
         }
     }
+
+    public static void copyDepthBuffer(RenderTarget tempRenderTarget) {
+        if (tempRenderTarget == null) return;
+        RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
+        tempRenderTarget.copyDepthFrom(mainRenderTarget);
+        GlStateManager._glBindFramebuffer(GL30C.GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
+    }
+
+
 
     public static class LodestoneRenderLayer {
 
