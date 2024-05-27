@@ -28,6 +28,14 @@ float getDepth(sampler2D DepthBuffer, vec2 uv) {
     return texture(DepthBuffer, uv).r;
 }
 
+float getDepthProj(sampler2D DepthBuffer, vec4 uv) {
+    return textureProj(DepthBuffer, uv).r;
+}
+
+float getDepthFromClipSpace(vec4 clipSpacePosition) {
+    return (clipSpacePosition.z / clipSpacePosition.w + 1.0) / 2.0;
+}
+
 vec3 getWorldPos(sampler2D DepthBuffer, vec2 texCoord, mat4 invProjMat, mat4 invViewMat, vec3 cameraPos) {
     float z = getDepth(DepthBuffer, texCoord) * 2.0 - 1.0;
     vec4 clipSpacePosition = vec4(texCoord * 2.0 - 1.0, z, 1.0);
