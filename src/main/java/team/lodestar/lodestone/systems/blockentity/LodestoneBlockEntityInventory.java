@@ -17,6 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.helpers.BlockHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
     public Predicate<ItemStack> outputPredicate;
     public final LazyOptional<?> inventoryOptional = LazyOptional.of(() -> this);
 
-    public ArrayList<SingleSlotStorage<ItemVariant>> nonEmptyItemStacks = new ArrayList<>();
+    public ArrayList<ItemStack> nonEmptyItemStacks = new ArrayList<>();
 
     public int emptyItemAmount;
     public int nonEmptyItemAmount;
@@ -38,21 +39,22 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
 
     private LodestoneBlockEntity blockEntity;
 
-    public LodestoneBlockEntityInventory(int slotCount, int allowedItemSize, Predicate<ItemStack> inputPredicate, Predicate<ItemStack> outputPredicate) {
-        this(slotCount, allowedItemSize, inputPredicate);
+    public LodestoneBlockEntityInventory(LodestoneBlockEntity blockEntity, int slotCount, int allowedItemSize, Predicate<ItemStack> inputPredicate, Predicate<ItemStack> outputPredicate) {
+        this(blockEntity, slotCount, allowedItemSize, inputPredicate);
         this.outputPredicate = outputPredicate;
     }
 
-    public LodestoneBlockEntityInventory(int slotCount, int allowedItemSize, Predicate<ItemStack> inputPredicate) {
-        this(slotCount, allowedItemSize);
+    public LodestoneBlockEntityInventory(LodestoneBlockEntity blockEntity, int slotCount, int allowedItemSize, Predicate<ItemStack> inputPredicate) {
+        this(blockEntity, slotCount, allowedItemSize);
         this.inputPredicate = inputPredicate;
     }
 
-    public LodestoneBlockEntityInventory(int slotCount, int allowedItemSize) {
+    public LodestoneBlockEntityInventory(LodestoneBlockEntity blockEntity, int slotCount, int allowedItemSize) {
         super(slotCount);
         this.slotCount = slotCount;
         this.allowedItemSize = allowedItemSize;
         updateData();
+        this.blockEntity = blockEntity;
     }
 
     @Override
@@ -88,18 +90,52 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
     }
 
     public void updateData() {
-        var stacks = getSlots();
-        nonEmptyItemStacks = stacks.stream().filter(s -> !s.getSlots().isEmpty()).collect(Collectors.toCollection(ArrayList::new));
+        NonNullList<ItemStack> stacks = convertToNonNullItemStacks(getSlots());
+        nonEmptyItemStacks = stacks.stream().filter(s -> !s.isEmpty()).collect(Collectors.toCollection(ArrayList::new));
         nonEmptyItemAmount = nonEmptyItemStacks.size();
-        emptyItemAmount = (int) stacks.stream().filter(storageViews -> storageViews.getSlots().isEmpty()).count();
+        emptyItemAmount = (int) stacks.stream().filter(ItemStack::isEmpty).count();
         for (int i = 0; i < stacks.size(); i++) {
-            var stack = stacks.get(i);
-            if (stack.isResourceBlank()) {
+            ItemStack stack = stacks.get(i);
+            if (stack.isEmpty()) {
                 firstEmptyItemIndex = i;
                 return;
             }
         }
         firstEmptyItemIndex = -1;
+    }
+
+    public static ArrayList<ItemStack> convertToItemStacks(ArrayList<SingleSlotStorage<ItemVariant>> nonEmptyItemStacks) {
+        ArrayList<ItemStack> itemStacks = new ArrayList<>();
+
+        for (SingleSlotStorage<ItemVariant> slot : nonEmptyItemStacks) {
+            // Get the ItemVariant from the slot
+            ItemVariant itemVariant = slot.getResource();
+
+            // Convert ItemVariant to ItemStack
+            ItemStack itemStack = itemVariant.toStack((int) slot.getAmount());
+
+            // Add the ItemStack to the new list
+            itemStacks.add(itemStack);
+        }
+
+        return itemStacks;
+    }
+
+    public static NonNullList<ItemStack> convertToNonNullItemStacks(List<SingleSlotStorage<ItemVariant>> nonEmptyItemStacks) {
+        NonNullList<ItemStack> itemStacks = NonNullList.create();
+
+        for (SingleSlotStorage<ItemVariant> slot : nonEmptyItemStacks) {
+            // Get the ItemVariant from the slot
+            ItemVariant itemVariant = slot.getResource();
+
+            // Convert ItemVariant to ItemStack
+            ItemStack itemStack = itemVariant.toStack((int) slot.getAmount());
+
+            // Add the ItemStack to the new list
+            itemStacks.add(itemStack);
+        }
+
+        return itemStacks;
     }
 
     public void dumpItems(Level level, BlockPos pos) {
@@ -121,7 +157,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
             player.swing(handIn, true);
             int size = nonEmptyItemStacks.size() - 1;
             if ((held.isEmpty() || firstEmptyItemIndex == -1) && size != -1) {
-                ItemStack takeOutStack = nonEmptyItemStacks.get(size).getResource().toStack();
+                ItemStack takeOutStack = nonEmptyItemStacks.get(size);
                 if (takeOutStack.getItem().equals(held.getItem())) {
                     TransferUtil.insertItem(this, held);
                     return;
