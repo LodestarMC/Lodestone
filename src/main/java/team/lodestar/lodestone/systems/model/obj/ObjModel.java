@@ -19,9 +19,6 @@ public class ObjModel implements ModifierBuilder {
     public ResourceLocation modelLocation;
     private final List<ObjModifier> modifiers = new ArrayList<>();
 
-    /**
-     * @param modelLocation The location of the model. Ex: new ResourceLocation("modid", "model") "/assets/modid/obj/model.obj"
-     */
     public ObjModel(ResourceLocation modelLocation) {
         this.modelLocation = modelLocation;
     }
