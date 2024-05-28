@@ -11,6 +11,7 @@ import team.lodestar.lodestone.events.LodestoneRenderEvents;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
+import team.lodestar.lodestone.registry.client.LodestoneOBJModelRegistry;
 import team.lodestar.lodestone.registry.client.LodestoneShaderRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneArgumentTypeRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneBlockEntityRegistry;
@@ -31,6 +32,7 @@ public class LodestoneLibClient implements ClientModInitializer {
         ParticleEmitterHandler.registerParticleEmitters();
         LodestoneShaderRegistry.init();
         LodestoneArgumentTypeRegistry.registerArgumentTypes();
+        LodestoneOBJModelRegistry.loadModels();
 
         //WorldRenderEvents.END.register(ScreenParticleHandler::renderTick);
         WorldRenderEvents.LAST.register(PostProcessHandler::onWorldRenderLast);
