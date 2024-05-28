@@ -11,12 +11,13 @@ uniform vec4 ColorModulator;
 uniform float FogStart;
 uniform float FogEnd;
 uniform vec4 FogColor;
+uniform mat4 InvProjMat;
+uniform vec2 ScreenSize;
 
 in float vertexDistance;
 in vec4 vertexColor;
 in vec2 texCoord0;
-in float pixelDepth;
-in vec4 screenProjUV;
+in float pixelDepthClip;
 
 out vec4 fragColor;
 
@@ -33,10 +34,15 @@ void main() {
     vec4 color = transformColor(texture(Sampler0, texCoord0), LumiTransparency);
     fragColor = applyFog(color, FogStart, FogEnd, FogColor, vertexDistance);
 
-    float sceneDepth = getDepthProj(SceneDepthBuffer, screenProjUV);
+    vec2 screenUV = gl_FragCoord.xy/ScreenSize;
 
-    float spacing = sceneDepth - pixelDepth;
-    float fade = clamp(spacing * 20.0, 0.0, 1.0);
+    float sceneDepthClip = getDepth(SceneDepthBuffer, screenUV);
+
+    vec3 sceneViewSpace = viewSpaceFromDepth(SceneDepthBuffer, screenUV, InvProjMat);
+    vec3 pixelViewSpace = viewSpaceFromDepthFloat(pixelDepthClip, screenUV, InvProjMat);
+
+    float spacing = pixelViewSpace.z - sceneViewSpace.z;
+    float fade = clamp(spacing * 0.5, 0.0, 1.0);
 
     fragColor.a *= fade;
 }

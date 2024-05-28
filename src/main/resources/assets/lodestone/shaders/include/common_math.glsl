@@ -44,3 +44,25 @@ vec3 getWorldPos(sampler2D DepthBuffer, vec2 texCoord, mat4 invProjMat, mat4 inv
     vec4 localSpacePosition = invViewMat * viewSpacePosition;
     return cameraPos + localSpacePosition.xyz;
 }
+
+vec3 viewSpaceFromDepth(sampler2D DepthBuffer, vec2 texCoord, mat4 invProjMat) {
+    float z = getDepth(DepthBuffer, texCoord) * 2.0 - 1.0;
+    vec4 clipSpacePosition = vec4(texCoord * 2.0 - 1.0, z, 1.0);
+    vec4 viewSpacePosition = invProjMat * clipSpacePosition;
+    return viewSpacePosition.xyz / viewSpacePosition.w;
+}
+
+vec3 viewSpaceFromDepthFloat(float depth , vec2 texCoord, mat4 invProjMat) {
+    float z = depth * 2.0 - 1.0;
+    vec4 clipSpacePosition = vec4(texCoord * 2.0 - 1.0, z, 1.0);
+    vec4 viewSpacePosition = invProjMat * clipSpacePosition;
+    return viewSpacePosition.xyz / viewSpacePosition.w;
+}
+
+vec4 projectionUVFromPosition(vec4 position) {
+    vec4 projection = position * 0.5;
+    projection.xy = vec2(projection.x + projection.w, projection.y + projection.w);
+    projection.zw = position.zw;
+    return projection;
+}
+
