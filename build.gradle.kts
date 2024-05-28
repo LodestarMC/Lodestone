@@ -8,6 +8,11 @@ version = property("mod_version")!!
 
 val port_lib_modules: String by extra
 
+version = "${property("minecraft_version")}-${property("mod_version")}"
+if (System.getenv("BUILD_NUMBER") != null) {
+    version = "${property("minecraft_version")}-${property("mod_version")}.${System.getenv("BUILD_NUMBER")}"
+}
+
 loom {
     accessWidenerPath = file("src/main/resources/lodestone.accesswidener")
 
