@@ -33,12 +33,6 @@ public class LodestoneOBJModelRegistry {
 //        lodBuilder.create(20.0f, LodestoneLib.lodestonePath("three"));
 //    }));
 
-    /**
-     * Registers an OBJ model.
-     *
-     * @param location The location of the model. Ex: new ResourceLocation("modid", "model") "/assets/modid/obj/model.obj"
-     * @return The model.
-     */
     public static ObjModel registerObjModel(ObjModel objModel) {
         OBJ_MODELS.add(objModel);
         return objModel;
