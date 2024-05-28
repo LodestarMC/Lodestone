@@ -257,6 +257,7 @@ public class RenderHandler {
             }
             if (TEMP_RENDER_TARGET != null) {
                 instance.setSampler("SceneDepthBuffer", TEMP_RENDER_TARGET.getDepthTextureId());
+                instance.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
             }
 
             source.endBatch(type);
