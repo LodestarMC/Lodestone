@@ -16,7 +16,15 @@ public class LodestoneTerrainParticleOptions<T extends LodestoneParticleBehavior
         this.blockPos = blockPos;
     }
 
+    public LodestoneTerrainParticleOptions(ParticleType<?> type, BlockState blockState, BlockPos blockPos) {
+        this(type, null, blockState, blockPos);
+    }
+
     public LodestoneTerrainParticleOptions(ParticleType<?> type, T behavior, BlockState blockState) {
         this(type, behavior, blockState, null);
+    }
+
+    public LodestoneTerrainParticleOptions(ParticleType<?> type, BlockState blockState) {
+        this(type, blockState, null);
     }
 }

@@ -12,4 +12,8 @@ public class LodestoneItemCrumbsParticleOptions<T extends LodestoneParticleBehav
         super(type, behavior);
         this.stack = stack;
     }
+
+    public LodestoneItemCrumbsParticleOptions(ParticleType<?> type, ItemStack stack) {
+        this(type, null, stack);
+    }
 }
