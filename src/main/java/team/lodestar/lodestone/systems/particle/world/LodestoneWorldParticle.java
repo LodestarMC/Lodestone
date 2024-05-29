@@ -281,7 +281,7 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         return zd;
     }
 
-    public Vec3 getParticleMotion() {
+    public Vec3 getParticleSpeed() {
         return new Vec3(getXMotion(), getYMotion(), getZMotion());
     }
 
