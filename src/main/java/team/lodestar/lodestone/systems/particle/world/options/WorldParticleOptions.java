@@ -33,6 +33,10 @@ public class WorldParticleOptions<T extends LodestoneParticleBehavior<T>> extend
         this.behavior = behavior;
     }
 
+    public WorldParticleOptions(ParticleType<?> type) {
+        this(type, null);
+    }
+
     @Override
     public ParticleType<?> getType() {
         return type;
