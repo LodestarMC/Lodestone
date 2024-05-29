@@ -42,7 +42,7 @@ public class WorldParticleBuilder<T extends WorldParticleOptions> extends Abstra
     public static WorldParticleBuilder<WorldParticleOptions> create(Supplier<ParticleType<WorldParticleOptions>> particle, LodestoneParticleBehavior behavior) {
         return create(new WorldParticleOptions(particle, behavior));
     }
-    
+
     public static<T extends WorldParticleOptions> WorldParticleBuilder<T> create(T options) {
         return new WorldParticleBuilder<>(options);
     }

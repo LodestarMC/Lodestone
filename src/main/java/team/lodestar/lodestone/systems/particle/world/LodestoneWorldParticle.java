@@ -6,8 +6,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.util.FastColor;
-import net.minecraft.util.Mth;
+import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.handlers.RenderHandler;
@@ -289,7 +288,11 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         return lifetime;
     }
 
-    public int age() {
+    public int getAge() {
         return age;
+    }
+
+    public RandomSource getRandom() {
+        return random;
     }
 }
