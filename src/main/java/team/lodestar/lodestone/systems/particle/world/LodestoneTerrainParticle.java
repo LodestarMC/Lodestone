@@ -8,13 +8,13 @@ import net.minecraft.world.level.block.Blocks;
 import team.lodestar.lodestone.systems.particle.world.options.LodestoneTerrainParticleOptions;
 import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
-public class LodestoneTerrainParticle<T extends LodestoneParticleBehavior<T>> extends LodestoneWorldParticle<T> {
+public class LodestoneTerrainParticle extends LodestoneWorldParticle {
 
     private final BlockPos blockPos;
     private final float uo;
     private final float vo;
 
-    public LodestoneTerrainParticle(ClientLevel world, LodestoneTerrainParticleOptions<T> data, double x, double y, double z, double xd, double yd, double zd) {
+    public LodestoneTerrainParticle(ClientLevel world, LodestoneTerrainParticleOptions data, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, null, x, y, z, xd, yd, zd);
         this.blockPos = data.blockPos;
         if (!data.blockState.is(Blocks.GRASS_BLOCK)) {

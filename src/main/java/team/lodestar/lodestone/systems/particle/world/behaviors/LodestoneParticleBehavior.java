@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 
-public interface LodestoneParticleBehavior<T extends LodestoneParticleBehavior<T>> {
+public interface LodestoneParticleBehavior {
 
-    void render(LodestoneWorldParticle<T> particle, VertexConsumer consumer, Camera camera, float partialTicks);
+    void render(LodestoneWorldParticle particle, VertexConsumer consumer, Camera camera, float partialTicks);
 }

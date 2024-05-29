@@ -7,12 +7,12 @@ import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
 import java.util.function.*;
 
-public class LodestoneTerrainParticleOptions<T extends LodestoneParticleBehavior<T>> extends WorldParticleOptions<T> {
+public class LodestoneTerrainParticleOptions extends WorldParticleOptions {
 
     public final BlockState blockState;
     public final BlockPos blockPos;
 
-    public LodestoneTerrainParticleOptions(Supplier<ParticleType<?>> type, T behavior, BlockState blockState, BlockPos blockPos) {
+    public LodestoneTerrainParticleOptions(Supplier<ParticleType<?>> type, LodestoneParticleBehavior behavior, BlockState blockState, BlockPos blockPos) {
         super(type, behavior);
         this.blockState = blockState;
         this.blockPos = blockPos;
@@ -22,7 +22,7 @@ public class LodestoneTerrainParticleOptions<T extends LodestoneParticleBehavior
         this(type, null, blockState, blockPos);
     }
 
-    public LodestoneTerrainParticleOptions(Supplier<ParticleType<?>> type, T behavior, BlockState blockState) {
+    public LodestoneTerrainParticleOptions(Supplier<ParticleType<?>> type, LodestoneParticleBehavior behavior, BlockState blockState) {
         this(type, behavior, blockState, null);
     }
 

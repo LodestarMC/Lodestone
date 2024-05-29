@@ -28,9 +28,9 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
 
-public class LodestoneWorldParticle<T extends LodestoneParticleBehavior<T>> extends TextureSheetParticle {
+public class LodestoneWorldParticle extends TextureSheetParticle {
     protected final ParticleRenderType renderType;
-    protected final T behavior;
+    protected final LodestoneParticleBehavior behavior;
 
     protected final RenderHandler.LodestoneRenderLayer renderLayer;
     protected final boolean shouldCull;
@@ -41,8 +41,8 @@ public class LodestoneWorldParticle<T extends LodestoneParticleBehavior<T>> exte
     protected final GenericParticleData transparencyData;
     protected final GenericParticleData scaleData;
     protected final SpinParticleData spinData;
-    protected final Collection<Consumer<LodestoneWorldParticle<T>>> tickActors;
-    protected final Collection<Consumer<LodestoneWorldParticle<T>>> renderActors;
+    protected final Collection<Consumer<LodestoneWorldParticle>> tickActors;
+    protected final Collection<Consumer<LodestoneWorldParticle>> renderActors;
 
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
@@ -51,7 +51,7 @@ public class LodestoneWorldParticle<T extends LodestoneParticleBehavior<T>> exte
 
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
-    public LodestoneWorldParticle(ClientLevel world, WorldParticleOptions<T> options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
+    public LodestoneWorldParticle(ClientLevel world, WorldParticleOptions options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, x, y, z);
         this.renderType = options.renderType;
         this.behavior = options.behavior;

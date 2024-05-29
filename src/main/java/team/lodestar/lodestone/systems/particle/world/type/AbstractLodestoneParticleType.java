@@ -12,7 +12,7 @@ import team.lodestar.lodestone.systems.particle.world.options.*;
 
 import javax.annotation.*;
 
-public class AbstractLodestoneParticleType<T extends WorldParticleOptions<?>> extends ParticleType<T> {
+public class AbstractLodestoneParticleType<T extends WorldParticleOptions> extends ParticleType<T> {
 
     public AbstractLodestoneParticleType() {
         super(false, new ParticleOptions.Deserializer<>() {
@@ -36,7 +36,7 @@ public class AbstractLodestoneParticleType<T extends WorldParticleOptions<?>> ex
 
     //TODO: this hellspawn abomination also needs to be nuked.
     // Ideally, lodestone particles would be completely ignored when it comes to networking/commands
-    public static <K extends WorldParticleOptions<?>> Codec<K> genericCodec(ParticleType<?> type) {
-        return Codec.unit(() -> (K) new WorldParticleOptions<>(() -> type, null));
+    public static <K extends WorldParticleOptions> Codec<K> genericCodec(ParticleType<?> type) {
+        return Codec.unit(() -> (K) new WorldParticleOptions(() -> type, null));
     }
 }

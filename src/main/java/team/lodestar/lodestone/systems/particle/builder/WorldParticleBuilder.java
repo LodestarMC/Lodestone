@@ -2,7 +2,6 @@ package team.lodestar.lodestone.systems.particle.builder;
 
 import net.minecraft.client.particle.*;
 import net.minecraft.core.*;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.phys.*;
@@ -11,7 +10,6 @@ import org.joml.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.helpers.*;
 import team.lodestar.lodestone.systems.particle.world.*;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 
 import java.lang.*;
@@ -20,175 +18,175 @@ import java.util.*;
 import java.util.Random;
 import java.util.function.*;
 
-public class WorldParticleBuilder<T extends LodestoneParticleBehavior<T>, K extends WorldParticleOptions<T>, O extends WorldParticleBuilder<T, K, O>> extends AbstractParticleBuilder<O, K> {
+public class WorldParticleBuilder<T extends WorldParticleOptions, K extends WorldParticleBuilder<T, K>> extends AbstractParticleBuilder<K, T> {
 
     private static final Random RANDOM = new Random();
 
-    final K options;
+    final T options;
 
     boolean forceSpawn = false;
     double zMotion = 0;
     double maxZSpeed = 0;
     double maxZOffset = 0;
 
-    public static<T extends LodestoneParticleBehavior<T>, K extends WorldParticleOptions<T>, O extends WorldParticleBuilder<T, K, O>> WorldParticleBuilder<T, K, O> create(K options) {
+    public static<T extends WorldParticleOptions, K extends WorldParticleBuilder<T, K>> WorldParticleBuilder<T, K> create(T options) {
         return new WorldParticleBuilder<>(options);
     }
 
-    protected WorldParticleBuilder(K options) {
+    protected WorldParticleBuilder(T options) {
         this.options = options;
     }
 
     @Override
-    public K getParticleOptions() {
+    public T getParticleOptions() {
         return options;
     }
 
-    public O enableNoClip() {
+    public K enableNoClip() {
         return setNoClip(true);
     }
 
-    public O disableNoClip() {
+    public K disableNoClip() {
         return setNoClip(false);
     }
 
-    public O setNoClip(boolean noClip) {
+    public K setNoClip(boolean noClip) {
         getParticleOptions().noClip = noClip;
         return wrapper();
     }
 
-    public O setRenderType(ParticleRenderType renderType) {
+    public K setRenderType(ParticleRenderType renderType) {
         getParticleOptions().renderType = renderType;
         return wrapper();
     }
 
-    public O setRenderTarget(RenderHandler.LodestoneRenderLayer renderLayer) {
+    public K setRenderTarget(RenderHandler.LodestoneRenderLayer renderLayer) {
         getParticleOptions().renderLayer = renderLayer;
         return wrapper();
     }
 
-    public O enableForcedSpawn() {
+    public K enableForcedSpawn() {
         return setForceSpawn(true);
     }
 
-    public O disableForcedSpawn() {
+    public K disableForcedSpawn() {
         return setForceSpawn(false);
     }
 
-    public O setForceSpawn(boolean forceSpawn) {
+    public K setForceSpawn(boolean forceSpawn) {
         this.forceSpawn = forceSpawn;
         return wrapper();
     }
 
-    public O enableCull() {
+    public K enableCull() {
         return setShouldCull(true);
     }
 
-    public O disableCull() {
+    public K disableCull() {
         return setShouldCull(false);
     }
 
-    public O setShouldCull(boolean shouldCull) {
+    public K setShouldCull(boolean shouldCull) {
         getParticleOptions().shouldCull = shouldCull;
         return wrapper();
     }
 
-    public O setRandomMotion(double maxSpeed) {
+    public K setRandomMotion(double maxSpeed) {
         return setRandomMotion(maxSpeed, maxSpeed, maxSpeed);
     }
 
-    public O setRandomMotion(double maxHSpeed, double maxVSpeed) {
+    public K setRandomMotion(double maxHSpeed, double maxVSpeed) {
         return setRandomMotion(maxHSpeed, maxVSpeed, maxHSpeed);
     }
 
-    public O setRandomMotion(double maxXSpeed, double maxYSpeed, double maxZSpeed) {
+    public K setRandomMotion(double maxXSpeed, double maxYSpeed, double maxZSpeed) {
         this.maxXSpeed = maxXSpeed;
         this.maxYSpeed = maxYSpeed;
         this.maxZSpeed = maxZSpeed;
         return wrapper();
     }
 
-    public O addMotion(Vector3f motion) {
+    public K addMotion(Vector3f motion) {
         return addMotion(motion.x(), motion.y(), motion.z());
     }
 
-    public O addMotion(Vec3 motion) {
+    public K addMotion(Vec3 motion) {
         return addMotion(motion.x, motion.y, motion.z);
     }
 
-    public O addMotion(double vx, double vy, double vz) {
+    public K addMotion(double vx, double vy, double vz) {
         this.xMotion += vx;
         this.yMotion += vy;
         this.zMotion += vz;
         return wrapper();
     }
 
-    public O setMotion(Vector3f motion) {
+    public K setMotion(Vector3f motion) {
         return setMotion(motion.x(), motion.y(), motion.z());
     }
 
-    public O setMotion(Vec3 motion) {
+    public K setMotion(Vec3 motion) {
         return setMotion(motion.x, motion.y, motion.z);
     }
 
-    public O setMotion(double vx, double vy, double vz) {
+    public K setMotion(double vx, double vy, double vz) {
         this.xMotion = vx;
         this.yMotion = vy;
         this.zMotion = vz;
         return wrapper();
     }
 
-    public O setRandomOffset(double maxDistance) {
+    public K setRandomOffset(double maxDistance) {
         return setRandomOffset(maxDistance, maxDistance, maxDistance);
     }
 
-    public O setRandomOffset(double maxHDist, double maxVDist) {
+    public K setRandomOffset(double maxHDist, double maxVDist) {
         return setRandomOffset(maxHDist, maxVDist, maxHDist);
     }
 
-    public O setRandomOffset(double maxXDist, double maxYDist, double maxZDist) {
+    public K setRandomOffset(double maxXDist, double maxYDist, double maxZDist) {
         this.maxXOffset = maxXDist;
         this.maxYOffset = maxYDist;
         this.maxZOffset = maxZDist;
         return wrapper();
     }
 
-    public O act(Consumer<O> particleBuilderConsumer) {
+    public K act(Consumer<K> particleBuilderConsumer) {
         particleBuilderConsumer.accept(wrapper());
         return wrapper();
     }
 
-    public O addTickActor(Consumer<LodestoneWorldParticle<T>> particleActor) {
+    public K addTickActor(Consumer<LodestoneWorldParticle> particleActor) {
         getParticleOptions().tickActors.add(particleActor);
         return wrapper();
     }
-    public O addSpawnActor(Consumer<LodestoneWorldParticle<T>> particleActor) {
+    public K addSpawnActor(Consumer<LodestoneWorldParticle> particleActor) {
         getParticleOptions().spawnActors.add(particleActor);
         return wrapper();
     }
-    public O addRenderActor(Consumer<LodestoneWorldParticle<T>> particleActor) {
+    public K addRenderActor(Consumer<LodestoneWorldParticle> particleActor) {
         getParticleOptions().renderActors.add(particleActor);
         return wrapper();
     }
 
-    public O clearActors() {
+    public K clearActors() {
         return clearTickActor().clearSpawnActors().clearRenderActors();
     }
 
-    public O clearTickActor() {
+    public K clearTickActor() {
         getParticleOptions().tickActors.clear();
         return wrapper();
     }
-    public O clearSpawnActors() {
+    public K clearSpawnActors() {
         getParticleOptions().spawnActors.clear();
         return wrapper();
     }
-    public O clearRenderActors() {
+    public K clearRenderActors() {
         getParticleOptions().renderActors.clear();
         return wrapper();
     }
 
-    public O spawn(Level level, double x, double y, double z) {
+    public K spawn(Level level, double x, double y, double z) {
         double yaw = RANDOM.nextFloat() * Math.PI * 2, pitch = RANDOM.nextFloat() * Math.PI - Math.PI / 2, xSpeed = RANDOM.nextFloat() * maxXSpeed, ySpeed = RANDOM.nextFloat() * maxYSpeed, zSpeed = RANDOM.nextFloat() * maxZSpeed;
         this.xMotion += Math.sin(yaw) * Math.cos(pitch) * xSpeed;
         this.yMotion += Math.sin(pitch) * ySpeed;
@@ -202,12 +200,12 @@ public class WorldParticleBuilder<T extends LodestoneParticleBehavior<T>, K exte
         return wrapper();
     }
 
-    public O repeat(Level level, double x, double y, double z, int n) {
+    public K repeat(Level level, double x, double y, double z, int n) {
         for (int i = 0; i < n; i++) spawn(level, x, y, z);
         return wrapper();
     }
 
-    public O surroundBlock(Level level, BlockPos pos, Direction... directions) {
+    public K surroundBlock(Level level, BlockPos pos, Direction... directions) {
         if (directions.length == 0) {
             directions = Direction.values();
         }
@@ -229,17 +227,17 @@ public class WorldParticleBuilder<T extends LodestoneParticleBehavior<T>, K exte
         return wrapper();
     }
 
-    public O repeatSurroundBlock(Level level, BlockPos pos, int n) {
+    public K repeatSurroundBlock(Level level, BlockPos pos, int n) {
         for (int i = 0; i < n; i++) surroundBlock(level, pos);
         return wrapper();
     }
 
-    public O repeatSurroundBlock(Level level, BlockPos pos, int n, Direction... directions) {
+    public K repeatSurroundBlock(Level level, BlockPos pos, int n, Direction... directions) {
         for (int i = 0; i < n; i++) surroundBlock(level, pos, directions);
         return wrapper();
     }
 
-    public O surroundVoxelShape(Level level, BlockPos pos, VoxelShape voxelShape, int max) {
+    public K surroundVoxelShape(Level level, BlockPos pos, VoxelShape voxelShape, int max) {
         int[] c = new int[1];
         int perBoxMax = max / voxelShape.toAabbs().size();
         Supplier<Boolean> r = () -> {
@@ -280,7 +278,7 @@ public class WorldParticleBuilder<T extends LodestoneParticleBehavior<T>, K exte
         return wrapper();
     }
 
-    public O surroundVoxelShape(Level level, BlockPos pos, BlockState state, int max) {
+    public K surroundVoxelShape(Level level, BlockPos pos, BlockState state, int max) {
         VoxelShape voxelShape = state.getShape(level, pos);
         if (voxelShape.isEmpty()) {
             voxelShape = Shapes.block();
@@ -288,7 +286,7 @@ public class WorldParticleBuilder<T extends LodestoneParticleBehavior<T>, K exte
         return surroundVoxelShape(level, pos, voxelShape, max);
     }
 
-    public O spawnAtRandomFace(Level level, BlockPos pos) {
+    public K spawnAtRandomFace(Level level, BlockPos pos) {
         Direction direction = Direction.values()[RANDOM.nextInt(Direction.values().length)];
         double yaw = RANDOM.nextFloat() * Math.PI * 2, pitch = RANDOM.nextFloat() * Math.PI - Math.PI / 2, xSpeed = RANDOM.nextFloat() * maxXSpeed, ySpeed = RANDOM.nextFloat() * maxYSpeed, zSpeed = RANDOM.nextFloat() * maxZSpeed;
         this.xMotion += Math.sin(yaw) * Math.cos(pitch) * xSpeed;
@@ -305,12 +303,12 @@ public class WorldParticleBuilder<T extends LodestoneParticleBehavior<T>, K exte
         return wrapper();
     }
 
-    public O repeatRandomFace(Level level, BlockPos pos, int n) {
+    public K repeatRandomFace(Level level, BlockPos pos, int n) {
         for (int i = 0; i < n; i++) spawnAtRandomFace(level, pos);
         return wrapper();
     }
 
-    public O createCircle(Level level, double x, double y, double z, double distance, double currentCount, double totalCount) {
+    public K createCircle(Level level, double x, double y, double z, double distance, double currentCount, double totalCount) {
         double xSpeed = RANDOM.nextFloat() * maxXSpeed, ySpeed = RANDOM.nextFloat() * maxYSpeed, zSpeed = RANDOM.nextFloat() * maxZSpeed;
         double theta = (Math.PI * 2) / totalCount;
         double finalAngle = (currentCount / totalCount) + (theta * currentCount);
@@ -329,12 +327,12 @@ public class WorldParticleBuilder<T extends LodestoneParticleBehavior<T>, K exte
         return wrapper();
     }
 
-    public O repeatCircle(Level level, double x, double y, double z, double distance, int times) {
+    public K repeatCircle(Level level, double x, double y, double z, double distance, int times) {
         for (int i = 0; i < times; i++) createCircle(level, x, y, z, distance, i, times);
         return wrapper();
     }
 
-    public O createBlockOutline(Level level, BlockPos pos, BlockState state) {
+    public K createBlockOutline(Level level, BlockPos pos, BlockState state) {
         VoxelShape voxelShape = state.getShape(level, pos);
         double d = 0.25;
         voxelShape.forAllBoxes(
@@ -359,7 +357,7 @@ public class WorldParticleBuilder<T extends LodestoneParticleBehavior<T>, K exte
         return wrapper();
     }
 
-    public O spawnLine(Level level, Vec3 one, Vec3 two) {
+    public K spawnLine(Level level, Vec3 one, Vec3 two) {
         double yaw = RANDOM.nextFloat() * Math.PI * 2, pitch = RANDOM.nextFloat() * Math.PI - Math.PI / 2, xSpeed = RANDOM.nextFloat() * maxXSpeed, ySpeed = RANDOM.nextFloat() * maxYSpeed, zSpeed = RANDOM.nextFloat() * maxZSpeed;
         this.xMotion += Math.sin(yaw) * Math.cos(pitch) * xSpeed;
         this.yMotion += Math.sin(pitch) * ySpeed;
