@@ -19,12 +19,12 @@ public class AbstractLodestoneParticleType<T extends WorldParticleOptions<?>> ex
             //TODO: this hellspawn abomination should be nuked from orbit.
             @Override
             public T fromCommand(ParticleType<T> type, StringReader reader) {
-                return (T) new WorldParticleOptions(type, null);
+                return (T) new WorldParticleOptions(()->type, null);
             }
 
             @Override
             public T fromNetwork(ParticleType<T> type, FriendlyByteBuf buf) {
-                return (T) new WorldParticleOptions(type, null);
+                return (T) new WorldParticleOptions(()->type, null);
             }
         });
     }
