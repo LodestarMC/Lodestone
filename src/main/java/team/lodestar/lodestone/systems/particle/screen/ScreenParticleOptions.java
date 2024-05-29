@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.particle.options;
+package team.lodestar.lodestone.systems.particle.screen;
 
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;

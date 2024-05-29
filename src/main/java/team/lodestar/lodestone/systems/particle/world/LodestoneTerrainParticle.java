@@ -5,9 +5,10 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
-import team.lodestar.lodestone.systems.particle.options.LodestoneTerrainParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.options.LodestoneTerrainParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
-public class LodestoneTerrainParticle extends GenericParticle<LodestoneTerrainParticleOptions> {
+public class LodestoneTerrainParticle extends LodestoneWorldParticle {
 
     private final BlockPos blockPos;
     private final float uo;
@@ -32,22 +33,22 @@ public class LodestoneTerrainParticle extends GenericParticle<LodestoneTerrainPa
 
 
     @Override
-    protected float getU0() {
+    public float getU0() {
         return this.sprite.getU(((this.uo + 1.0F) / 4.0F * 16.0F));
     }
 
     @Override
-    protected float getU1() {
+    public float getU1() {
         return this.sprite.getU((this.uo / 4.0F * 16.0F));
     }
 
     @Override
-    protected float getV0() {
+    public float getV0() {
         return this.sprite.getV((this.vo / 4.0F * 16.0F));
     }
 
     @Override
-    protected float getV1() {
+    public float getV1() {
         return this.sprite.getV(((this.vo + 1.0F) / 4.0F * 16.0F));
     }
 

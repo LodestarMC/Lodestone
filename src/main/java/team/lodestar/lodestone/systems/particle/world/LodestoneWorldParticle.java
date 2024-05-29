@@ -6,19 +6,18 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.util.FastColor;
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.*;
+import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.helpers.RenderHelper;
-import team.lodestar.lodestone.systems.particle.LodestoneWorldParticleActor;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
-import team.lodestar.lodestone.systems.particle.options.AbstractWorldParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.options.WorldParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneWorldParticleRenderType;
+import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
 import java.awt.*;
 import java.util.Collection;
@@ -28,8 +27,10 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleDiscardFunctionType.INVISIBLE;
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
 
-public class GenericParticle<T extends AbstractWorldParticleOptions> extends TextureSheetParticle implements LodestoneWorldParticleActor {
+public class LodestoneWorldParticle extends TextureSheetParticle {
     protected final ParticleRenderType renderType;
+    protected final LodestoneParticleBehavior behavior;
+
     protected final RenderHandler.LodestoneRenderLayer renderLayer;
     protected final boolean shouldCull;
     protected final ParticleEngine.MutableSpriteSet spriteSet;
@@ -39,8 +40,8 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     protected final GenericParticleData transparencyData;
     protected final GenericParticleData scaleData;
     protected final SpinParticleData spinData;
-    protected final Collection<Consumer<LodestoneWorldParticleActor>> tickActors;
-    protected final Collection<Consumer<LodestoneWorldParticleActor>> renderActors;
+    protected final Collection<Consumer<LodestoneWorldParticle>> tickActors;
+    protected final Collection<Consumer<LodestoneWorldParticle>> renderActors;
 
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
@@ -49,9 +50,10 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
 
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
-    public GenericParticle(ClientLevel world, T options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
+    public LodestoneWorldParticle(ClientLevel world, WorldParticleOptions options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, x, y, z);
-        this.renderType = options.renderType == null ? LodestoneWorldParticleRenderType.ADDITIVE : options.renderType;
+        this.renderType = options.renderType;
+        this.behavior = options.behavior;
         this.renderLayer = options.renderLayer;
         this.shouldCull = options.shouldCull;
         this.spriteSet = spriteSet;
@@ -152,7 +154,7 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     }
 
     @Override
-    protected int getLightColor(float pPartialTick) {
+    public int getLightColor(float pPartialTick) {
         return RenderHelper.FULL_BRIGHT;
     }
 
@@ -177,6 +179,10 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
             return;
         }
         renderActors.forEach(actor -> actor.accept(this));
+        if (behavior != null) {
+            behavior.render(this, consumer, camera, partialTicks);
+            return;
+        }
         super.render(getVertexConsumer(consumer), camera, partialTicks);
     }
 
@@ -191,48 +197,106 @@ public class GenericParticle<T extends AbstractWorldParticleOptions> extends Tex
     }
 
     @Override
-    public Vec3 getParticlePosition() {
-        return new Vec3(x, y, z);
+    public float getQuadSize(float pScaleFactor) {
+        return super.getQuadSize(pScaleFactor);
     }
 
     @Override
-    public LodestoneWorldParticleActor setParticlePosition(double x, double y, double z) {
-        setPos(x, y, z);
-        return this;
+    public float getU0() {
+        return super.getU0();
     }
 
     @Override
+    public float getU1() {
+        return super.getU1();
+    }
+
+    @Override
+    public float getV0() {
+        return super.getV0();
+    }
+
+    @Override
+    public float getV1() {
+        return super.getV1();
+    }
+
+    public float getRoll() {
+        return roll;
+    }
+    public float getORoll() {
+        return oRoll;
+    }
+
+    public float getRed() {
+        return rCol;
+    }
+
+    public float getGreen() {
+        return gCol;
+    }
+
+    public float getBlue() {
+        return bCol;
+    }
+
+    public float getAlpha() {
+        return alpha;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public double getXOld() {
+        return xo;
+    }
+
+    public double getYOld() {
+        return yo;
+    }
+
+    public double getZOld() {
+        return zo;
+    }
+
+    public double getXMotion() {
+        return xd;
+    }
+
+    public double getYMotion() {
+        return yd;
+    }
+
+    public double getZMotion() {
+        return zd;
+    }
+
     public Vec3 getParticleSpeed() {
-        return new Vec3(xd, yd, zd);
+        return new Vec3(getXMotion(), getYMotion(), getZMotion());
+    }
+    
+    public void setParticleSpeed(Vec3 speed) {
+        setParticleSpeed(speed.x, speed.y, speed.z);
     }
 
-    @Override
-    public LodestoneWorldParticleActor setParticleMotion(double x, double y, double z) {
-        setParticleSpeed(x, y, z);
-        return this;
-    }
-
-    @Override
-    public int getParticleAge() {
-        return age;
-    }
-
-    @Override
-    public LodestoneWorldParticleActor setParticleAge(int age) {
-        this.age = age;
-        return this;
-    }
-
-    @Override
-    public int getParticleLifespan() {
+    public int getLifetime() {
         return lifetime;
     }
 
-    @Override
-    public LodestoneWorldParticleActor tickParticle(int times) {
-        for (int i = 0; i < times; i++) {
-            tick();
-        }
-        return this;
+    public int getAge() {
+        return age;
+    }
+
+    public RandomSource getRandom() {
+        return random;
     }
 }

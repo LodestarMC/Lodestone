@@ -1,9 +1,9 @@
-package team.lodestar.lodestone.systems.particle.type;
+package team.lodestar.lodestone.systems.particle.screen;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.SpriteSet;
-import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
 import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;

@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.particle.type;
+package team.lodestar.lodestone.systems.particle.world.type;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -6,27 +6,20 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleType;
-import team.lodestar.lodestone.systems.particle.options.LodestoneTerrainParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.LodestoneTerrainParticle;
+import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
 import javax.annotation.Nullable;
 
-public class LodestoneTerrainParticleType extends ParticleType<LodestoneTerrainParticleOptions> {
+public class LodestoneTerrainParticleType extends AbstractLodestoneParticleType<LodestoneTerrainParticleOptions> {
     public LodestoneTerrainParticleType() {
-        super(false, LodestoneTerrainParticleOptions.DESERIALIZER);
-    }
-
-    @Override
-    public Codec<LodestoneTerrainParticleOptions> codec() {
-        return LodestoneTerrainParticleOptions.terrainCodec(this);
+        super();
     }
 
     public static class Factory implements ParticleProvider<LodestoneTerrainParticleOptions> {
 
-        private final SpriteSet sprite;
-
-        public Factory(SpriteSet sprite) {
-            this.sprite = sprite;
+        public Factory() {
         }
 
         @Nullable

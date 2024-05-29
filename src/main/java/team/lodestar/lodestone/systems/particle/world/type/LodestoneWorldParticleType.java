@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.particle.type;
+package team.lodestar.lodestone.systems.particle.world.type;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -7,20 +7,14 @@ import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleType;
-import team.lodestar.lodestone.systems.particle.options.WorldParticleOptions;
-import team.lodestar.lodestone.systems.particle.world.GenericParticle;
+import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
+import team.lodestar.lodestone.systems.particle.world.options.*;
 
 import javax.annotation.Nullable;
 
-public class LodestoneParticleType extends ParticleType<WorldParticleOptions> {
-    public LodestoneParticleType() {
-        super(false, WorldParticleOptions.DESERIALIZER);
-    }
-
-
-    @Override
-    public Codec<WorldParticleOptions> codec() {
-        return WorldParticleOptions.worldCodec(this);
+public class LodestoneWorldParticleType extends AbstractLodestoneParticleType<WorldParticleOptions> {
+    public LodestoneWorldParticleType() {
+        super();
     }
 
     public static class Factory implements ParticleProvider<WorldParticleOptions> {
@@ -33,7 +27,7 @@ public class LodestoneParticleType extends ParticleType<WorldParticleOptions> {
         @Nullable
         @Override
         public Particle createParticle(WorldParticleOptions data, ClientLevel world, double x, double y, double z, double mx, double my, double mz) {
-            return new GenericParticle(world, data, (ParticleEngine.MutableSpriteSet) sprite, x, y, z, mx, my, mz);
+            return new LodestoneWorldParticle(world, data, (ParticleEngine.MutableSpriteSet) sprite, x, y, z, mx, my, mz);
         }
     }
 }
