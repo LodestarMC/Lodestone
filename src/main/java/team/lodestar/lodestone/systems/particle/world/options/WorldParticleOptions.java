@@ -9,6 +9,7 @@ import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.*;
+import team.lodestar.lodestone.systems.particle.world.type.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,12 +29,12 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
 
     public boolean noClip = false;
 
-    public WorldParticleOptions(Supplier<ParticleType<?>> type, LodestoneParticleBehavior behavior) {
+    public<T extends WorldParticleOptions> WorldParticleOptions(Supplier<ParticleType<T>> type, LodestoneParticleBehavior behavior) {
         this.type = type.get();
         this.behavior = behavior;
     }
 
-    public WorldParticleOptions(Supplier<ParticleType<?>> type) {
+    public<T extends WorldParticleOptions> WorldParticleOptions(Supplier<ParticleType<T>> type) {
         this(type, null);
     }
 

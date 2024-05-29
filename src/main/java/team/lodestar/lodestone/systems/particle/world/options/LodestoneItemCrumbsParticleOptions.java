@@ -10,12 +10,12 @@ public class LodestoneItemCrumbsParticleOptions extends WorldParticleOptions {
 
     public final ItemStack stack;
 
-    public LodestoneItemCrumbsParticleOptions(Supplier<ParticleType<?>> type, LodestoneParticleBehavior behavior, ItemStack stack) {
+    public LodestoneItemCrumbsParticleOptions(Supplier<ParticleType<LodestoneItemCrumbsParticleOptions>> type, LodestoneParticleBehavior behavior, ItemStack stack) {
         super(type, behavior);
         this.stack = stack;
     }
 
-    public LodestoneItemCrumbsParticleOptions(Supplier<ParticleType<?>> type, ItemStack stack) {
+    public LodestoneItemCrumbsParticleOptions(Supplier<ParticleType<LodestoneItemCrumbsParticleOptions>> type, ItemStack stack) {
         this(type, null, stack);
     }
 }
