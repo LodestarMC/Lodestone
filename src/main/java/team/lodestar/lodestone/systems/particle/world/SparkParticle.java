@@ -7,14 +7,12 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.options.SparkParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.options.SparkParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 
-import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.FIRST_INDEX;
-
-public class SparkParticle extends GenericParticle<SparkParticleOptions> {
+public class SparkParticle<T extends LodestoneParticleBehavior<T>> extends LodestoneWorldParticle<T> {
 
     public static final VFXBuilders.WorldVFXBuilder builder = VFXBuilders.createWorld().setFormat(DefaultVertexFormat.PARTICLE);
 
@@ -38,7 +36,7 @@ public class SparkParticle extends GenericParticle<SparkParticleOptions> {
         final Vec3 pos = new Vec3(x, y, z);
 
         float length = lengthData.getValue(age, lifetime);
-        Vec3 offset = getParticleSpeed().normalize().scale(length);
+        Vec3 offset = getParticleMotion().normalize().scale(length);
         Vec3 movingTo = pos.add(offset);
         Vec3 movingFrom = pos.subtract(offset);
         builder.setVertexConsumer(getVertexConsumer(consumer));

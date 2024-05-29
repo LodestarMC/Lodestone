@@ -3,16 +3,17 @@ package team.lodestar.lodestone.systems.particle.world;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
-import team.lodestar.lodestone.systems.particle.options.WorldParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.behaviors.*;
+import team.lodestar.lodestone.systems.particle.world.options.*;
 
 import java.util.ArrayList;
 
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.FIRST_INDEX;
 
-public class FrameSetParticle extends GenericParticle {
+public class FrameSetParticle<T extends LodestoneParticleBehavior<T>> extends LodestoneWorldParticle<T> {
     public ArrayList<Integer> frameSet = new ArrayList<>();
 
-    public FrameSetParticle(ClientLevel world, WorldParticleOptions data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
+    public FrameSetParticle(ClientLevel world, WorldParticleOptions<T> data, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, spriteSet, x, y, z, xd, yd, zd);
     }
 
