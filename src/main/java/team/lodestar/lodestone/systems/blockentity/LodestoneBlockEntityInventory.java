@@ -1,10 +1,12 @@
 package team.lodestar.lodestone.systems.blockentity;
 
 import io.github.fabricators_of_create.porting_lib.transfer.TransferUtil;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandlerContainer;
 import io.github.fabricators_of_create.porting_lib.util.LazyOptional;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -151,24 +153,55 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
         }
     }
 
-    public void interact(Level level, Player player, InteractionHand handIn) {
+    public boolean interact(LodestoneBlockEntity be, Level level, Player player, InteractionHand handIn, Predicate<ItemStack> predicate) {
+
         if (!level.isClientSide) {
+            boolean res = false;
             ItemStack held = player.getItemInHand(handIn);
-            player.swing(handIn, true);
-            int size = nonEmptyItemStacks.size() - 1;
-            if ((held.isEmpty() || firstEmptyItemIndex == -1) && size != -1) {
-                ItemStack takeOutStack = nonEmptyItemStacks.get(size);
-                if (takeOutStack.getItem().equals(held.getItem())) {
-                    TransferUtil.insertItem(this, held);
-                    return;
+            if (predicate.test(held)) {
+                player.swing(handIn, true);
+
+                if (held.isEmpty()) {
+                    res = interactExtractInv(be, player);
+                } else {
+                    res = interactInsertInv(be, held);
                 }
-                long extractedStack = TransferUtil.extractItem(this, held);
-                if (extractedStack > 0) {
-                    TransferUtil.insertItem(this, held);
-                }
-            } else {
-                TransferUtil.insertItem(this, held);
+            }
+            return res;
+        }
+        return false;
+    }
+
+    public boolean interactInsertInv(LodestoneBlockEntity be, ItemStack stack){
+        try (Transaction t = TransferUtil.getTransaction()){
+
+            long inserted = insert(ItemVariant.of(stack), stack.getCount(), t);
+            stack.shrink((int)inserted);
+            t.commit();
+
+            if (inserted > 0) {
+                setChanged();
+                be.notifyUpdate();
+                return true;
             }
         }
+        return false;
+    }
+
+    public boolean interactExtractInv(LodestoneBlockEntity be, Player player){
+        if (!nonEmptyItemStacks.isEmpty()) {
+            try (Transaction t = TransferUtil.getTransaction()) {
+                ItemStack takeOutStack = nonEmptyItemStacks.get(nonEmptyItemStacks.size() - 1);
+                long extracted = extract(ItemVariant.of(takeOutStack), takeOutStack.getCount(), t);
+                t.commit();
+                if (extracted > 0) {
+                    ItemHandlerHelper.giveItemToPlayer(player, takeOutStack);
+                    setChanged();
+                    be.notifyUpdate();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
