@@ -4,17 +4,19 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-import team.lodestar.lodestone.systems.particle.options.DirectionalParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.options.DirectionalParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
-public class DirectionalParticle extends GenericParticle<DirectionalParticleOptions> {
+public class DirectionalParticle<T extends LodestoneParticleBehavior<T>> extends LodestoneWorldParticle<T> {
 
     private Quaternionf quaternion;
 
-    public DirectionalParticle(ClientLevel world, DirectionalParticleOptions data, FabricSpriteProviderImpl spriteSet, double x, double y, double z, double xd, double yd, double zd) {
+    public DirectionalParticle(ClientLevel world, DirectionalParticleOptions<T> data, FabricSpriteProviderImpl spriteSet, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, spriteSet, x, y, z, xd, yd, zd);
         setDirection(data.direction);
     }

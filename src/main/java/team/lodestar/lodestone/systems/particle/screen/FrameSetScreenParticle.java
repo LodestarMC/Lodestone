@@ -2,7 +2,7 @@ package team.lodestar.lodestone.systems.particle.screen;
 
 import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.multiplayer.ClientLevel;
-import team.lodestar.lodestone.systems.particle.options.ScreenParticleOptions;
+import net.minecraft.client.particle.ParticleEngine;
 
 import java.util.ArrayList;
 

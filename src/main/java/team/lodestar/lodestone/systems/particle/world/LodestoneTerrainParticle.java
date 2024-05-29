@@ -5,15 +5,16 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
-import team.lodestar.lodestone.systems.particle.options.LodestoneTerrainParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.options.LodestoneTerrainParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
-public class LodestoneTerrainParticle extends GenericParticle<LodestoneTerrainParticleOptions> {
+public class LodestoneTerrainParticle<T extends LodestoneParticleBehavior<T>> extends LodestoneWorldParticle<T> {
 
     private final BlockPos blockPos;
     private final float uo;
     private final float vo;
 
-    public LodestoneTerrainParticle(ClientLevel world, LodestoneTerrainParticleOptions data, double x, double y, double z, double xd, double yd, double zd) {
+    public LodestoneTerrainParticle(ClientLevel world, LodestoneTerrainParticleOptions<T> data, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, null, x, y, z, xd, yd, zd);
         this.blockPos = data.blockPos;
         if (!data.blockState.is(Blocks.GRASS_BLOCK)) {
@@ -32,22 +33,22 @@ public class LodestoneTerrainParticle extends GenericParticle<LodestoneTerrainPa
 
 
     @Override
-    protected float getU0() {
+    public float getU0() {
         return this.sprite.getU(((this.uo + 1.0F) / 4.0F * 16.0F));
     }
 
     @Override
-    protected float getU1() {
+    public float getU1() {
         return this.sprite.getU((this.uo / 4.0F * 16.0F));
     }
 
     @Override
-    protected float getV0() {
+    public float getV0() {
         return this.sprite.getV((this.vo / 4.0F * 16.0F));
     }
 
     @Override
-    protected float getV1() {
+    public float getV1() {
         return this.sprite.getV(((this.vo + 1.0F) / 4.0F * 16.0F));
     }
 

@@ -105,16 +105,8 @@ public class RenderHandler {
     }
 
     public static void endBatchesEarly() {
-        if (ClientConfig.EXPERIMENTAL_FABULOUS_LAYERING.getConfigValue()) {
-            LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
-            final boolean isFabulous = levelRenderer.transparencyChain != null;
-            endBatchesExperimental(DELAYED_RENDER, isFabulous);
-            endBatchesExperimental(LATE_DELAYED_RENDER, isFabulous);
-        }
-        else {
-            endBatches(DELAYED_RENDER);
-            endBatches(LATE_DELAYED_RENDER);
-        }
+        endBatches(DELAYED_RENDER);
+        endBatches(LATE_DELAYED_RENDER);
     }
 
     public static void endBatchesLate() {
