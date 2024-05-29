@@ -7,12 +7,12 @@ import net.minecraft.core.BlockPos;
 import team.lodestar.lodestone.systems.particle.world.options.LodestoneItemCrumbsParticleOptions;
 import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
-public class LodestoneItemCrumbParticle<T extends LodestoneParticleBehavior<T>> extends LodestoneWorldParticle<T> {
+public class LodestoneItemCrumbParticle extends LodestoneWorldParticle {
 
     private final float uo;
     private final float vo;
 
-    public LodestoneItemCrumbParticle(ClientLevel world, LodestoneItemCrumbsParticleOptions<T> data, double x, double y, double z, double xd, double yd, double zd) {
+    public LodestoneItemCrumbParticle(ClientLevel world, LodestoneItemCrumbsParticleOptions data, double x, double y, double z, double xd, double yd, double zd) {
         super(world, data, null, x, y, z, xd, yd, zd);
         var model = Minecraft.getInstance().getItemRenderer().getModel(data.stack, world, null, 0);
         this.setSprite(model.getOverrides().resolve(model, data.stack, world, null, 0).getParticleIcon());

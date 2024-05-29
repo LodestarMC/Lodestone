@@ -8,7 +8,7 @@ import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.rendering.*;
 
-public class SparkParticleBehavior implements LodestoneParticleBehavior<SparkParticleBehavior> {
+public class SparkParticleBehavior implements LodestoneParticleBehavior {
 
     public final GenericParticleData lengthData;
 
@@ -19,7 +19,7 @@ public class SparkParticleBehavior implements LodestoneParticleBehavior<SparkPar
     }
 
     @Override
-    public void render(LodestoneWorldParticle<SparkParticleBehavior> particle, VertexConsumer consumer, Camera camera, float partialTicks) {
+    public void render(LodestoneWorldParticle particle, VertexConsumer consumer, Camera camera, float partialTicks) {
         Vec3 vec3 = camera.getPosition();
         float x = (float) (Mth.lerp(partialTicks, particle.getXOld(), particle.getX()) - vec3.x());
         float y = (float) (Mth.lerp(partialTicks, particle.getYOld(), particle.getY()) - vec3.y());

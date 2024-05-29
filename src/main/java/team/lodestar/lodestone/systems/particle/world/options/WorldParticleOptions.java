@@ -15,20 +15,20 @@ import java.util.Collection;
 import java.util.function.*;
 
 
-public class WorldParticleOptions<T extends LodestoneParticleBehavior<T>> extends SimpleParticleOptions implements ParticleOptions {
+public class WorldParticleOptions extends SimpleParticleOptions implements ParticleOptions {
 
     public final ParticleType<?> type;
-    public final T behavior;
+    public final LodestoneParticleBehavior behavior;
     public ParticleRenderType renderType = LodestoneWorldParticleRenderType.ADDITIVE;
     public RenderHandler.LodestoneRenderLayer renderLayer = RenderHandler.DELAYED_RENDER;
     public boolean shouldCull;
-    public final Collection<Consumer<LodestoneWorldParticle<T>>> tickActors = new ArrayList<>();
-    public final Collection<Consumer<LodestoneWorldParticle<T>>> spawnActors = new ArrayList<>();
-    public final Collection<Consumer<LodestoneWorldParticle<T>>> renderActors = new ArrayList<>();
+    public final Collection<Consumer<LodestoneWorldParticle>> tickActors = new ArrayList<>();
+    public final Collection<Consumer<LodestoneWorldParticle>> spawnActors = new ArrayList<>();
+    public final Collection<Consumer<LodestoneWorldParticle>> renderActors = new ArrayList<>();
 
     public boolean noClip = false;
 
-    public WorldParticleOptions(Supplier<ParticleType<?>> type, T behavior) {
+    public WorldParticleOptions(Supplier<ParticleType<?>> type, LodestoneParticleBehavior behavior) {
         this.type = type.get();
         this.behavior = behavior;
     }

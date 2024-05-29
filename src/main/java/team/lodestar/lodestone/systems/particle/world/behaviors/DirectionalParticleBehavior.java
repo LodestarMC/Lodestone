@@ -10,7 +10,7 @@ import team.lodestar.lodestone.systems.particle.world.*;
 import java.lang.*;
 import java.lang.Math;
 
-public class DirectionalParticleBehavior implements LodestoneParticleBehavior<DirectionalParticleBehavior> {
+public class DirectionalParticleBehavior implements LodestoneParticleBehavior {
 
     private final Quaternionf quaternion;
 
@@ -25,7 +25,7 @@ public class DirectionalParticleBehavior implements LodestoneParticleBehavior<Di
     }
 
     @Override
-    public void render(LodestoneWorldParticle<DirectionalParticleBehavior> particle, VertexConsumer consumer, Camera camera, float partialTicks) {
+    public void render(LodestoneWorldParticle particle, VertexConsumer consumer, Camera camera, float partialTicks) {
         Quaternionf quaternion = new Quaternionf(this.quaternion);
         if (particle.getRoll() != 0) {
             quaternion.rotateZ(Mth.lerp(partialTicks, particle.getORoll(), particle.getRoll()));

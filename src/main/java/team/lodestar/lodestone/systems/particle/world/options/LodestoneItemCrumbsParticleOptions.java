@@ -6,11 +6,11 @@ import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
 import java.util.function.*;
 
-public class LodestoneItemCrumbsParticleOptions<T extends LodestoneParticleBehavior<T>> extends WorldParticleOptions<T> {
+public class LodestoneItemCrumbsParticleOptions extends WorldParticleOptions {
 
     public final ItemStack stack;
 
-    public LodestoneItemCrumbsParticleOptions(Supplier<ParticleType<?>> type, T behavior, ItemStack stack) {
+    public LodestoneItemCrumbsParticleOptions(Supplier<ParticleType<?>> type, LodestoneParticleBehavior behavior, ItemStack stack) {
         super(type, behavior);
         this.stack = stack;
     }
