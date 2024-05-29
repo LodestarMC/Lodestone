@@ -1,6 +1,6 @@
 #version 150
 
-#moj_import <fog.glsl>
+#moj_import <lodestone:common_math.glsl>
 
 in vec3 Position;
 in vec4 Color;
@@ -23,7 +23,7 @@ void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
-    vertexDistance = fog_distance(ModelViewMat, IViewRotMat * Position, FogShape);
+    vertexDistance = fogDistance(ModelViewMat, IViewRotMat, Position, FogShape);
 
     texCoord0 = UV0;
     texCoord2 = UV2;
