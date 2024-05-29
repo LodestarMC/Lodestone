@@ -162,7 +162,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
                 player.swing(handIn, true);
 
                 if (held.isEmpty()) {
-                    res = interactExtractInv(be, player);
+                    res = !interactExtractInv(be, player).isEmpty();
                 } else {
                     res = interactInsertInv(be, held);
                 }
@@ -188,7 +188,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
         return false;
     }
 
-    public boolean interactExtractInv(LodestoneBlockEntity be, Player player){
+    public ItemStack interactExtractInv(LodestoneBlockEntity be, Player player){
         if (!nonEmptyItemStacks.isEmpty()) {
             try (Transaction t = TransferUtil.getTransaction()) {
                 ItemStack takeOutStack = nonEmptyItemStacks.get(nonEmptyItemStacks.size() - 1);
@@ -198,10 +198,10 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
                     ItemHandlerHelper.giveItemToPlayer(player, takeOutStack);
                     setChanged();
                     be.notifyUpdate();
-                    return true;
+                    return takeOutStack;
                 }
             }
         }
-        return false;
+        return ItemStack.EMPTY;
     }
 }

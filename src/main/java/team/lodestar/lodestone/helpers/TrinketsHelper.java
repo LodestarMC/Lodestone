@@ -7,6 +7,8 @@ import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class TrinketsHelper {
         return comp.flatMap(trinketComponent -> trinketComponent.getEquipped(curio).stream().findFirst());
     }
 
-    public static boolean hasCurioEquipped(LivingEntity entity, Item curio) {
+    public static boolean hasTrinketEquipped(LivingEntity entity, Item curio) {
         return getEquippedTrinket(entity, curio).isPresent();
     }
 
@@ -45,5 +47,22 @@ public class TrinketsHelper {
             return new ArrayList<>(component.getEquipped(predicate));
         }
         return new ArrayList<>();
+    }
+
+    public static Optional<ImmutablePair<SlotReference, ItemStack>> findCosmeticCurio(Predicate<ItemStack> filter, LivingEntity livingEntity) {
+        var optionalTrinketComponent = TrinketsApi.TRINKET_COMPONENT.maybeGet(livingEntity);
+        if (optionalTrinketComponent.isPresent()) {
+            var comp = optionalTrinketComponent.get();
+            List<Tuple<SlotReference, ItemStack>> equipped = comp.getAllEquipped();
+            for (Tuple<SlotReference, ItemStack> i : equipped) {
+                ItemStack stack = i.getB();
+                if (!stack.isEmpty() && filter.test(stack)) {
+                    return Optional.of(new ImmutablePair<>(i.getA(), stack));
+                }
+            }
+
+        }
+
+        return Optional.empty();
     }
 }
