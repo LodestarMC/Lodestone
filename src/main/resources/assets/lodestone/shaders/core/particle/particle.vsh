@@ -1,6 +1,5 @@
 #version 150
 
-#moj_import <fog.glsl>
 #moj_import <lodestone:common_math.glsl>
 
 in vec3 Position;
@@ -29,7 +28,7 @@ void main() {
     pixelDepthClip = getDepthFromClipSpace(clipSpacePos);
 
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
-    vertexDistance = fog_distance(ModelViewMat, IViewRotMat * Position, FogShape);
+    vertexDistance = fogDistance(ModelViewMat, IViewRotMat, Position, FogShape);
 
     texCoord0 = UV0;
 }

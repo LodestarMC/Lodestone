@@ -1,5 +1,7 @@
 #version 150
 
+#moj_import <lodestone:common_math.glsl>
+
 uniform sampler2D Sampler0;
 uniform float LumiTransparency;
 uniform float GameTime;
@@ -17,11 +19,6 @@ in vec2 texCoord0;
 
 out vec4 fragColor;
 
-vec4 transformColor(vec4 initialColor, float lumiTransparent) {
-    initialColor = lumiTransparent == 1. ? vec4(initialColor.xyz, (0.21 * initialColor.r + 0.71 * initialColor.g + 0.07 * initialColor.b)) : initialColor;
-    return initialColor * vertexColor * ColorModulator;
-}
-
 void main() {
     float time = GameTime * Speed + TimeOffset;
     vec2 uv = texCoord0;
@@ -33,6 +30,6 @@ void main() {
 
     uv.x = clamp(uv.x, uCap.x, uCap.y);
     uv.y = clamp(uv.y, vCap.x, vCap.y);
-    vec4 color = transformColor(texture(Sampler0, uv), LumiTransparency);
+    vec4 color = transformColor(texture(Sampler0, texCoord0), LumiTransparency, vertexColor, ColorModulator);
     fragColor = color;
 }
