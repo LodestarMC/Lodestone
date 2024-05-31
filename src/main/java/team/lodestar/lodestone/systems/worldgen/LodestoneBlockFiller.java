@@ -12,20 +12,36 @@ import java.util.stream.*;
 
 public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.LodestoneBlockFillerLayer> {
 
+    public static final LodestoneLayerToken MAIN = new LodestoneLayerToken();
+
+    protected final LodestoneBlockFillerLayer mainLayer;
+
+    public LodestoneBlockFiller() {
+        mainLayer = new LodestoneBlockFillerLayer(MAIN, MergingStrategy.REPLACE);
+    }
+
     public LodestoneBlockFiller addLayer(LodestoneBlockFillerLayer layer) {
         add(layer);
         return this;
     }
 
     public LodestoneBlockFillerLayer getLayer(LodestoneLayerToken layerToken) {
+        if (layerToken.equals(MAIN)) {
+            return mainLayer;
+        }
         return stream().filter(l -> l.layerToken.equals(layerToken)).findFirst().orElseThrow();
     }
 
+    public LodestoneBlockFillerLayer getMainLayer() {
+        return mainLayer;
+    }
+
     public LodestoneBlockFillerLayer fill(LevelAccessor level) {
-        while (size() > 1) {
-            mergeLayers(get(size() - 2), get(size() - 1));
+        var mainLayer = getMainLayer();
+        mainLayer.clear();
+        for (int i = 0; i < size(); i++) {
+            mergeLayers(mainLayer, get(i));
         }
-        var mainLayer = get(0);
         var discarded = mainLayer.entrySet().stream().filter(entry -> entry.getValue().tryDiscard(level, entry.getKey())).map(Map.Entry::getValue).collect(Collectors.toCollection(ArrayList::new));
 
         mainLayer.forEach((pos, blockStateEntry) -> {
@@ -37,7 +53,6 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
     }
 
     protected void mergeLayers(LodestoneBlockFillerLayer toLayer, LodestoneBlockFillerLayer fromLayer) {
-        remove(fromLayer);
         fromLayer.mergingStrategy.mergingFunction.accept(toLayer, fromLayer);
     }
 
