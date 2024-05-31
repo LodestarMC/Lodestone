@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.worldgen;
 
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -12,36 +13,20 @@ import java.util.stream.*;
 
 public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.LodestoneBlockFillerLayer> {
 
-    public static final LodestoneLayerToken MAIN = new LodestoneLayerToken();
-
-    protected final LodestoneBlockFillerLayer mainLayer;
-
-    public LodestoneBlockFiller() {
-        mainLayer = new LodestoneBlockFillerLayer(MAIN, MergingStrategy.REPLACE);
-    }
-
     public LodestoneBlockFiller addLayer(LodestoneBlockFillerLayer layer) {
         add(layer);
         return this;
     }
 
-    public LodestoneBlockFillerLayer getLayer(LodestoneLayerToken layerToken) {
-        if (layerToken.equals(MAIN)) {
-            return mainLayer;
-        }
-        return stream().filter(l -> l.layerToken.equals(layerToken)).findFirst().orElseThrow();
+    public Optional<LodestoneBlockFillerLayer> getLayer(String name) {
+        return stream().filter(l -> l.index.equals(name)).findFirst();
     }
 
-    public LodestoneBlockFillerLayer getMainLayer() {
-        return mainLayer;
-    }
-
-    public LodestoneBlockFillerLayer fill(LevelAccessor level) {
-        var mainLayer = getMainLayer();
-        mainLayer.clear();
-        for (int i = 0; i < size(); i++) {
-            mergeLayers(mainLayer, get(i));
+    public void fill(LevelAccessor level) {
+        while (size() > 1) {
+            mergeLayers(get(size() - 2), get(size() - 1));
         }
+        var mainLayer = get(0);
         var discarded = mainLayer.entrySet().stream().filter(entry -> entry.getValue().tryDiscard(level, entry.getKey())).map(Map.Entry::getValue).collect(Collectors.toCollection(ArrayList::new));
 
         mainLayer.forEach((pos, blockStateEntry) -> {
@@ -49,44 +34,31 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
                 blockStateEntry.place(level, pos);
             }
         });
-        return mainLayer;
     }
 
     protected void mergeLayers(LodestoneBlockFillerLayer toLayer, LodestoneBlockFillerLayer fromLayer) {
+        remove(fromLayer);
         fromLayer.mergingStrategy.mergingFunction.accept(toLayer, fromLayer);
     }
 
-    public enum MergingStrategy {
-        REPLACE(HashMap::putAll),
-        ADD((to, from) -> from.forEach(to::putIfAbsent));
-
-        public final BiConsumer<LodestoneBlockFiller.LodestoneBlockFillerLayer, LodestoneBlockFiller.LodestoneBlockFillerLayer> mergingFunction;
-
-        MergingStrategy(BiConsumer<LodestoneBlockFiller.LodestoneBlockFillerLayer, LodestoneBlockFiller.LodestoneBlockFillerLayer> mergingFunction) {
-            this.mergingFunction = mergingFunction;
-        }
-    }
-
-    public static class LodestoneLayerToken {
-        public final UUID index;
-
-        public LodestoneLayerToken(UUID index) {
-            this.index = index;
-        }
-
-        public LodestoneLayerToken() {
-            this(UUID.randomUUID());
-        }
-    }
-
     public static class LodestoneBlockFillerLayer extends HashMap<BlockPos, LodestoneBlockFiller.BlockStateEntry> {
+        public enum MergingStrategy {
+            REPLACE(HashMap::putAll),
+            ADD((to, from) -> from.forEach(to::putIfAbsent));
+
+            public final BiConsumer<LodestoneBlockFiller.LodestoneBlockFillerLayer, LodestoneBlockFiller.LodestoneBlockFillerLayer> mergingFunction;
+
+            MergingStrategy(BiConsumer<LodestoneBlockFiller.LodestoneBlockFillerLayer, LodestoneBlockFiller.LodestoneBlockFillerLayer> mergingFunction) {
+                this.mergingFunction = mergingFunction;
+            }
+        }
 
         public final MergingStrategy mergingStrategy;
-        public final LodestoneLayerToken layerToken;
+        public final String index;
 
-        public LodestoneBlockFillerLayer(LodestoneLayerToken layerToken, MergingStrategy mergingStrategy) {
-            this.layerToken = layerToken;
+        public LodestoneBlockFillerLayer(MergingStrategy mergingStrategy, String index) {
             this.mergingStrategy = mergingStrategy;
+            this.index = index;
         }
 
         public void fill(LevelAccessor level) {
@@ -138,9 +110,9 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
                 BlockHelper.updateState(realLevel, pos);
             }
         }
-    }
 
-    public interface EntryDiscardPredicate {
-        boolean shouldDiscard(LevelAccessor level, BlockPos pos, BlockState state);
+        public interface EntryDiscardPredicate {
+            boolean shouldDiscard(LevelAccessor level, BlockPos pos, BlockState state);
+        }
     }
 }
