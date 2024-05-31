@@ -6,47 +6,93 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import team.lodestar.lodestone.helpers.BlockHelper;
 
-import java.util.HashMap;
-import java.util.function.Function;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-public class LodestoneBlockFiller {
-    protected final HashMap<BlockPos, BlockStateEntry> entries = new HashMap<>();
-    protected final boolean careful;
+public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.LodestoneBlockFillerLayer> {
 
-    public LodestoneBlockFiller(boolean careful) {
-        this.careful = careful;
+    public LodestoneBlockFiller addLayer(LodestoneBlockFillerLayer layer) {
+        add(layer);
+        return this;
+    }
+
+    public Optional<LodestoneBlockFillerLayer> getLayer(String name) {
+        return stream().filter(l -> l.index.equals(name)).findFirst();
     }
 
     public void fill(LevelAccessor level) {
-        getEntries().forEach((pos, entry) -> {
-            if (!isCareful() || entry.canPlace(level, pos)) {
-                entry.place(level, pos);
+        while (size() > 1) {
+            mergeLayers(get(size() - 2), get(size() - 1));
+        }
+        var mainLayer = get(0);
+        var discarded = mainLayer.entrySet().stream().filter(entry -> entry.getValue().tryDiscard(level, entry.getKey())).map(Map.Entry::getValue).collect(Collectors.toCollection(ArrayList::new));
+
+        mainLayer.forEach((pos, blockStateEntry) -> {
+            if (!discarded.contains(blockStateEntry)) {
+                blockStateEntry.place(level, pos);
             }
         });
     }
 
-    public void replace(BlockPos pos, Function<BlockStateEntry, BlockStateEntry> entryFunction) {
-        getEntries().replace(pos, entryFunction.apply(getEntries().get(pos)));
+    protected void mergeLayers(LodestoneBlockFillerLayer toLayer, LodestoneBlockFillerLayer fromLayer) {
+        remove(fromLayer);
+        fromLayer.mergingStrategy.mergingFunction.accept(toLayer, fromLayer);
     }
 
-    public HashMap<BlockPos, BlockStateEntry> getEntries() {
-        return entries;
+    public static class LodestoneBlockFillerLayer extends HashMap<BlockPos, LodestoneBlockFiller.BlockStateEntry> {
+        public enum MergingStrategy {
+            REPLACE(HashMap::putAll),
+            ADD((to, from) -> from.forEach(to::putIfAbsent));
+
+            public final BiConsumer<LodestoneBlockFiller.LodestoneBlockFillerLayer, LodestoneBlockFiller.LodestoneBlockFillerLayer> mergingFunction;
+
+            MergingStrategy(BiConsumer<LodestoneBlockFiller.LodestoneBlockFillerLayer, LodestoneBlockFiller.LodestoneBlockFillerLayer> mergingFunction) {
+                this.mergingFunction = mergingFunction;
+            }
+        }
+
+        public final MergingStrategy mergingStrategy;
+        public final String index;
+
+        public LodestoneBlockFillerLayer(MergingStrategy mergingStrategy, String index) {
+            this.mergingStrategy = mergingStrategy;
+            this.index = index;
+        }
+
+        public void fill(LevelAccessor level) {
+            forEach((pos, entry) -> {
+                if (entry.canPlace(level, pos)) {
+                    entry.place(level, pos);
+                }
+            });
+        }
+
+        public void replace(BlockPos pos, Function<BlockStateEntry, BlockStateEntry> entryFunction) {
+            replace(pos, entryFunction.apply(get(pos)));
+        }
     }
 
-    public boolean isCareful() {
-        return careful;
-    }
-
-    @SuppressWarnings("ClassCanBeRecord")
     public static class BlockStateEntry {
-        protected final BlockState state;
+
+        private final BlockState state;
+        private final EntryDiscardPredicate discardPredicate;
+
+        public BlockStateEntry(BlockState state, EntryDiscardPredicate discardPredicate) {
+            this.state = state;
+            this.discardPredicate = discardPredicate;
+        }
 
         public BlockStateEntry(BlockState state) {
-            this.state = state;
+            this(state, null);
         }
 
         public BlockState getState() {
             return state;
+        }
+
+        public boolean tryDiscard(LevelAccessor level, BlockPos pos) {
+            return discardPredicate != null && discardPredicate.shouldDiscard(level, pos, state);
         }
 
         public boolean canPlace(LevelAccessor level, BlockPos pos) {
@@ -58,10 +104,14 @@ public class LodestoneBlockFiller {
         }
 
         public void place(LevelAccessor level, BlockPos pos) {
-            level.setBlock(pos, state, 19);
-            if (level instanceof Level) {
-                BlockHelper.updateState((Level) level, pos);
+            level.setBlock(pos, getState(), 19);
+            if (level instanceof Level realLevel) {
+                BlockHelper.updateState(realLevel, pos);
             }
+        }
+
+        public interface EntryDiscardPredicate {
+            boolean shouldDiscard(LevelAccessor level, BlockPos pos, BlockState state);
         }
     }
 }
