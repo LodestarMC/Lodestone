@@ -22,7 +22,7 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         return stream().filter(l -> l.layerToken.equals(layerToken)).findFirst().orElseThrow();
     }
 
-    public void fill(LevelAccessor level) {
+    public LodestoneBlockFillerLayer fill(LevelAccessor level) {
         while (size() > 1) {
             mergeLayers(get(size() - 2), get(size() - 1));
         }
@@ -34,6 +34,7 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
                 blockStateEntry.place(level, pos);
             }
         });
+        return mainLayer;
     }
 
     protected void mergeLayers(LodestoneBlockFillerLayer toLayer, LodestoneBlockFillerLayer fromLayer) {
