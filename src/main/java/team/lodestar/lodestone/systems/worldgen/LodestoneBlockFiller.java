@@ -17,6 +17,10 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         return this;
     }
 
+    public Optional<LodestoneBlockFillerLayer> getLayer(LodestoneLayerToken layerToken) {
+        return stream().filter(l -> l.layerToken.equals(layerToken)).findFirst();
+    }
+
     public void fill(LevelAccessor level) {
         while (size() > 1) {
             mergeLayers(get(size() - 2), get(size() - 1));
@@ -47,11 +51,25 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         }
     }
 
+    public static class LodestoneLayerToken {
+        public final UUID index;
+
+        public LodestoneLayerToken(UUID index) {
+            this.index = index;
+        }
+
+        public LodestoneLayerToken() {
+            this(UUID.randomUUID());
+        }
+    }
+
     public static class LodestoneBlockFillerLayer extends HashMap<BlockPos, LodestoneBlockFiller.BlockStateEntry> {
 
         public final MergingStrategy mergingStrategy;
+        public final LodestoneLayerToken layerToken;
 
-        public LodestoneBlockFillerLayer(MergingStrategy mergingStrategy) {
+        public LodestoneBlockFillerLayer(LodestoneLayerToken layerToken, MergingStrategy mergingStrategy) {
+            this.layerToken = layerToken;
             this.mergingStrategy = mergingStrategy;
         }
 
