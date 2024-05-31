@@ -18,8 +18,8 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         return this;
     }
 
-    public Optional<LodestoneBlockFillerLayer> getLayer(LodestoneLayerToken layerToken) {
-        return stream().filter(l -> l.layerToken.equals(layerToken)).findFirst();
+    public LodestoneBlockFillerLayer getLayer(LodestoneLayerToken layerToken) {
+        return stream().filter(l -> l.layerToken.equals(layerToken)).findFirst().orElseThrow();
     }
 
     public void fill(LevelAccessor level) {
