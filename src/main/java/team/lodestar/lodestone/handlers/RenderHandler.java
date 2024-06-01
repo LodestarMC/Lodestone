@@ -246,6 +246,7 @@ public class RenderHandler {
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);
             }
+            copyDepthBuffer(TEMP_RENDER_TARGET);
             instance.setSampler("SceneDepthBuffer", TEMP_RENDER_TARGET.getDepthTextureId());
             instance.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
 
