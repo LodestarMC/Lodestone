@@ -274,7 +274,6 @@ public class RenderHandler {
         }
     }
 
-
     public static void copyDepthBuffer(RenderTarget tempRenderTarget) {
         if (tempRenderTarget == null) return;
         RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
