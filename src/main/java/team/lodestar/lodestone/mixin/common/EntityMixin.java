@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.mixin;
+package team.lodestar.lodestone.mixin.common;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;

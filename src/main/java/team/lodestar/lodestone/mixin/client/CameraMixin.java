@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.mixin;
+package team.lodestar.lodestone.mixin.client;
 
 import net.minecraft.client.Camera;
 import net.minecraft.world.entity.Entity;

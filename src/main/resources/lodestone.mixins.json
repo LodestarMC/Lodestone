@@ -4,30 +4,31 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "lodestone.refmap.json",
   "mixins": [
-    "BlockItemMixin",
-    "EntityMixin",
     "ItemEntityMixin",
-    "ItemStackMixin",
-    "LivingEntityMixin",
-    "ServerPlayerGameModeMixin"
+    "ServerPlayerGameModeMixin",
+    "common.BlockItemMixin",
+    "common.EntityMixin",
+    "common.ItemStackMixin",
+    "common.LivingEntityMixin"
   ],
   "client": [
-    "AbstractContainerScreenMixin",
-    "CameraMixin",
-    "CreativeModeInventoryScreenMixin",
-    "EffectProgramMixin",
-    "EntityRenderDispatcherMixin",
     "FabricSpriteProviderImplAccessor",
     "FogRendererMixin",
-    "GameRendererMixin",
-    "GuiGraphicsMixin",
-    "GuiMixin",
-    "LevelRendererMixin",
     "MinecraftMixin",
-    "MultiPlayerGameModeMixin",
     "ParticleEngineMixin",
-    "ScreenEffectRendererMixin",
-    "ShaderInstanceMixin"
+    "ShaderInstanceMixin",
+    "client.AbstractContainerScreenMixin",
+    "client.CameraMixin",
+    "client.CreativeModeInventoryScreenMixin",
+    "client.EffectProgramMixin",
+    "client.EntityRenderDispatcherMixin",
+    "client.GameRendererMixin",
+    "client.GuiGraphicsMixin",
+    "client.GuiMixin",
+    "client.LevelRendererMixin",
+    "client.MultiPlayerGameModeMixin",
+    "client.ScreenEffectRendererMixin",
+    "client.GuiGraphicsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
