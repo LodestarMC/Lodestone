@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.mixin;
+package team.lodestar.lodestone.mixin.common;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;

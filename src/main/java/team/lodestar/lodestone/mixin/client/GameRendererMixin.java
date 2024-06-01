@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.mixin;
+package team.lodestar.lodestone.mixin.client;
 
 import net.minecraft.client.renderer.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
