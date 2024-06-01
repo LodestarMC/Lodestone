@@ -102,6 +102,7 @@ public class RenderHandler {
             LODESTONE_POST_CHAIN.resize(width, height);
             LODESTONE_DEPTH_CACHE.resize(width, height, Minecraft.ON_OSX);
         }
+        if (TEMP_RENDER_TARGET != null) TEMP_RENDER_TARGET.resize(width, height, Minecraft.ON_OSX);
     }
 
     public static void endBatchesEarly() {
