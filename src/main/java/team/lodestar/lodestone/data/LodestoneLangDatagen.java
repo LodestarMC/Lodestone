@@ -25,7 +25,7 @@ public class LodestoneLangDatagen extends FabricLanguageProvider {
 
         attributes.forEach(a -> {
             String name = DataHelper.toTitleCase(a.getId().getPath(), "_");
-            addOption(builder,"attribute.name.lodestone." + a.getId().getPath(), name);
+            builder.add("attribute.name.lodestone." + a.getId().getPath(), name);
         });
         addOption(builder,"screenshake_intensity", "Screenshake Intensity");
         addOptionTooltip(builder, "screenshake_intensity", "Controls how much screenshake is applied to your screen.");

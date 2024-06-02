@@ -1,7 +1,7 @@
 {
-  "options.lodestone.attribute.name.lodestone.magic_damage": "Magic Damage",
-  "options.lodestone.attribute.name.lodestone.magic_proficiency": "Magic Proficiency",
-  "options.lodestone.attribute.name.lodestone.magic_resistance": "Magic Resistance",
+  "attribute.name.lodestone.magic_damage": "Magic Damage",
+  "attribute.name.lodestone.magic_proficiency": "Magic Proficiency",
+  "attribute.name.lodestone.magic_resistance": "Magic Resistance",
   "options.lodestone.command.lodestone.devsetup": "World setup for not-annoying development work",
   "options.lodestone.command.lodestone.screenshake": "Command Successful, enjoy your screenshake.",
   "options.lodestone.fire_offset": "Fire Overlay Offset",
