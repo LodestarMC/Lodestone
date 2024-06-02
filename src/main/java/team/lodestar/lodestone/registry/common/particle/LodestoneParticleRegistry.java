@@ -9,7 +9,6 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneItemCrumbsParticleType;
-import team.lodestar.lodestone.systems.particle.world.type.LodestoneSparkParticleType;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneTerrainParticleType;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;
 

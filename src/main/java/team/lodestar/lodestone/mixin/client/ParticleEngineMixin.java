@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.mixin;
+package team.lodestar.lodestone.mixin.client;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.particle.ParticleEngine;
