@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 import io.github.fabricators_of_create.porting_lib.util.ServerLifecycleHooks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -43,6 +44,7 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
     public static WorldEventInstance getEventInstance(CommandContext<?> context, String name) {
         return context.getArgument(name, WorldEventInstance.class);
     }
+
     @Override
     public WorldEventInstance parse(StringReader reader) throws CommandSyntaxException {
         String s = reader.readString();
@@ -85,13 +87,18 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
         if (s instanceof SharedSuggestionProvider sharedsuggestionprovider) {
             sharedsuggestionprovider.levels().forEach(levelResourceKey -> {
                 if (levelResourceKey == null) return;
-                Level level = Minecraft.getInstance().level;
-                if (level == null) return;
-                LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(capability -> {
-                    capability.activeWorldEvents.forEach(worldEventInstance -> {
-                        builder.suggest(worldEventInstance.uuid.toString());
+                EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () -> {
+
+                    Level level = Minecraft.getInstance().level;
+                    if (level == null) return;
+                    LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(capability -> {
+                        capability.activeWorldEvents.forEach(worldEventInstance -> {
+                            builder.suggest(worldEventInstance.uuid.toString());
+                        });
                     });
+
                 });
+
             });
         }
         return builder.buildFuture();
