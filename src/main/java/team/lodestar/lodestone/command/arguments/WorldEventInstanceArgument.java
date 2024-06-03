@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.component.LodestoneComponents;
+import team.lodestar.lodestone.mixin.ClientSuggestionProviderMixin;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
 import java.util.Set;
@@ -87,20 +88,17 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
         if (s instanceof SharedSuggestionProvider sharedsuggestionprovider) {
             sharedsuggestionprovider.levels().forEach(levelResourceKey -> {
                 if (levelResourceKey == null) return;
-                EnvExecutor.runWhenOn(EnvType.CLIENT, () -> () -> {
 
-                    Level level = Minecraft.getInstance().level;
-                    if (level == null) return;
-                    LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(capability -> {
-                        capability.activeWorldEvents.forEach(worldEventInstance -> {
-                            builder.suggest(worldEventInstance.uuid.toString());
-                        });
+                final Minecraft client = ((ClientSuggestionProviderMixin) sharedsuggestionprovider).getMinecraft();
+                if (client == null) return;
+                LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(client).ifPresent(capability -> {
+                    capability.activeWorldEvents.forEach(worldEventInstance -> {
+                        builder.suggest(worldEventInstance.uuid.toString());
                     });
-
                 });
-
             });
         }
+
         return builder.buildFuture();
     }
 
