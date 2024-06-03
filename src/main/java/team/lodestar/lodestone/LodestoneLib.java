@@ -31,6 +31,7 @@ public class LodestoneLib implements ModInitializer {
     @Override
     public void onInitialize() {
 
+        LodestoneArgumentTypeRegistry.registerArgumentTypes();
         LodestoneCommandRegistry.registerCommands();
         LodestonePlacementFillerRegistry.registerTypes();
         LodestonePacketRegistry.registerPackets();

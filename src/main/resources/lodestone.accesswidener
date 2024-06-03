@@ -93,3 +93,5 @@ transitive-accessible field net/minecraft/world/item/SwordItem defaultModifiers 
 transitive-accessible method net/minecraft/client/particle/ParticleEngine register (Lnet/minecraft/core/particles/ParticleType;Lnet/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration;)V
 transitive-accessible class net/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration
 transitive-accessible field net/minecraft/nbt/CompoundTag tags Ljava/util/Map;
+
+accessible field net/minecraft/commands/synchronization/ArgumentTypeInfos BY_CLASS Ljava/util/Map;

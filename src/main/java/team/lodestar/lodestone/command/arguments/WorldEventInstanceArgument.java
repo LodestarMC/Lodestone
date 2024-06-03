@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 import io.github.fabricators_of_create.porting_lib.util.ServerLifecycleHooks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -18,6 +19,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.component.LodestoneComponents;
+import team.lodestar.lodestone.mixin.ClientSuggestionProviderMixin;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
 import java.util.Set;
@@ -43,6 +45,7 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
     public static WorldEventInstance getEventInstance(CommandContext<?> context, String name) {
         return context.getArgument(name, WorldEventInstance.class);
     }
+
     @Override
     public WorldEventInstance parse(StringReader reader) throws CommandSyntaxException {
         String s = reader.readString();
@@ -85,15 +88,17 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
         if (s instanceof SharedSuggestionProvider sharedsuggestionprovider) {
             sharedsuggestionprovider.levels().forEach(levelResourceKey -> {
                 if (levelResourceKey == null) return;
-                Level level = Minecraft.getInstance().level;
-                if (level == null) return;
-                LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(capability -> {
+
+                final Minecraft client = ((ClientSuggestionProviderMixin) sharedsuggestionprovider).getMinecraft();
+                if (client == null) return;
+                LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(client).ifPresent(capability -> {
                     capability.activeWorldEvents.forEach(worldEventInstance -> {
                         builder.suggest(worldEventInstance.uuid.toString());
                     });
                 });
             });
         }
+
         return builder.buildFuture();
     }
 

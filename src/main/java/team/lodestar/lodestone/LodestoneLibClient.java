@@ -31,7 +31,6 @@ public class LodestoneLibClient implements ClientModInitializer {
         LodestoneOptionRegistry.addOption();
         ParticleEmitterHandler.registerParticleEmitters();
         LodestoneShaderRegistry.init();
-        LodestoneArgumentTypeRegistry.registerArgumentTypes();
         LodestoneOBJModelRegistry.loadModels();
 
         //WorldRenderEvents.END.register(ScreenParticleHandler::renderTick);
