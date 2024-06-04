@@ -102,18 +102,48 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         }
     }
 
-    public static class BlockStateEntry {
+    public interface EntryDiscardPredicate {
+        boolean shouldDiscard(LevelAccessor level, BlockPos pos, BlockState state);
+    }
 
+    public interface EntryPlacementPredicate {
+        boolean canPlace(LevelAccessor level, BlockPos pos, BlockState state);
+    }
+
+    public static class BlockStateEntryBuilder {
         private final BlockState state;
-        private final EntryDiscardPredicate discardPredicate;
 
-        public BlockStateEntry(BlockState state, EntryDiscardPredicate discardPredicate) {
+        private EntryDiscardPredicate discardPredicate;
+        private EntryPlacementPredicate placementPredicate;
+
+        public BlockStateEntryBuilder(BlockState state) {
             this.state = state;
-            this.discardPredicate = discardPredicate;
         }
 
-        public BlockStateEntry(BlockState state) {
-            this(state, null);
+        public BlockStateEntryBuilder setDiscardPredicate(EntryDiscardPredicate discardPredicate) {
+            this.discardPredicate = discardPredicate;
+            return this;
+        }
+
+        public BlockStateEntryBuilder setPlacementPredicate(EntryPlacementPredicate placementPredicate) {
+            this.placementPredicate = placementPredicate;
+            return this;
+        }
+
+        public BlockStateEntry build() {
+            return new BlockStateEntry(state, discardPredicate, placementPredicate);
+        }
+    }
+
+    public static class BlockStateEntry {
+        private final BlockState state;
+        private final EntryDiscardPredicate discardPredicate;
+        private final EntryPlacementPredicate placementPredicate;
+
+        private BlockStateEntry(BlockState state, EntryDiscardPredicate discardPredicate, EntryPlacementPredicate placementPredicate) {
+            this.state = state;
+            this.discardPredicate = discardPredicate;
+            this.placementPredicate = placementPredicate;
         }
 
         public BlockState getState() {
@@ -129,6 +159,9 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
                 return false;
             }
             BlockState state = level.getBlockState(pos);
+            if (placementPredicate != null && !placementPredicate.canPlace(level, pos, state)) {
+                return false;
+            }
             return level.isEmptyBlock(pos) || state.canBeReplaced();
         }
 
@@ -138,9 +171,5 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
                 BlockHelper.updateState(realLevel, pos);
             }
         }
-    }
-
-    public interface EntryDiscardPredicate {
-        boolean shouldDiscard(LevelAccessor level, BlockPos pos, BlockState state);
     }
 }
