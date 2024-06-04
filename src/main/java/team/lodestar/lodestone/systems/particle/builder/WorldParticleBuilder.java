@@ -36,10 +36,10 @@ public class WorldParticleBuilder<T extends WorldParticleOptions> extends Abstra
     double maxZSpeed = 0;
     double maxZOffset = 0;
 
-    public static WorldParticleBuilder<WorldParticleOptions> create(Supplier<ParticleType<WorldParticleOptions>> particle) {
+    public static WorldParticleBuilder<WorldParticleOptions> create(ParticleType<WorldParticleOptions> particle) {
         return create(particle, null);
     }
-    public static WorldParticleBuilder<WorldParticleOptions> create(Supplier<ParticleType<WorldParticleOptions>> particle, LodestoneParticleBehavior behavior) {
+    public static WorldParticleBuilder<WorldParticleOptions> create(ParticleType<WorldParticleOptions> particle, LodestoneParticleBehavior behavior) {
         return create(new WorldParticleOptions(particle, behavior));
     }
 
