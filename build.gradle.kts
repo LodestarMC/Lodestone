@@ -108,6 +108,9 @@ tasks {
         from("LICENSE")
     }
 
+    compileJava{
+        targetCompatibility = "17"
+    }
 
 }
 

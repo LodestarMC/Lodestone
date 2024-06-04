@@ -38,7 +38,9 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "minecraft": "~${minecraft_version}",
-    "java": ">=17"
+    "java": ">=17",
+    "cardinal-components-base": "*",
+    "porting_lib_base": "*"
   },
   "custom": {
     "cardinal-components": [
