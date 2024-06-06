@@ -116,6 +116,10 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         boolean canPlace(LevelAccessor level, BlockPos pos, BlockState state);
     }
 
+    public static BlockStateEntryBuilder build(BlockState state) {
+        return new BlockStateEntryBuilder(state);
+    }
+
     public static class BlockStateEntryBuilder {
         private final BlockState state;
 
