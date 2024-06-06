@@ -17,9 +17,8 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
     protected final LodestoneBlockFillerLayer mainLayer;
 
     public LodestoneBlockFiller() {
-        mainLayer = new LodestoneBlockFillerLayer(MAIN, MergingStrategy.REPLACE);
+        mainLayer = new LodestoneBlockFillerLayer(MAIN);
     }
-
 
     public LodestoneBlockFiller addLayer(LodestoneBlockFillerLayer layer) {
         add(layer);
@@ -56,18 +55,7 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
     }
 
     protected void mergeLayers(LodestoneBlockFillerLayer toLayer, LodestoneBlockFillerLayer fromLayer) {
-        fromLayer.mergingStrategy.mergingFunction.accept(toLayer, fromLayer);
-    }
-
-    public enum MergingStrategy {
-        REPLACE(HashMap::putAll),
-        ADD((to, from) -> from.forEach(to::putIfAbsent));
-
-        public final BiConsumer<LodestoneBlockFiller.LodestoneBlockFillerLayer, LodestoneBlockFiller.LodestoneBlockFillerLayer> mergingFunction;
-
-        MergingStrategy(BiConsumer<LodestoneBlockFiller.LodestoneBlockFillerLayer, LodestoneBlockFiller.LodestoneBlockFillerLayer> mergingFunction) {
-            this.mergingFunction = mergingFunction;
-        }
+        fromLayer.forEach(toLayer::putIfAbsent);
     }
 
     public static class LodestoneLayerToken {
@@ -84,12 +72,10 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
 
     public static class LodestoneBlockFillerLayer extends HashMap<BlockPos, LodestoneBlockFiller.BlockStateEntry> {
 
-        public final MergingStrategy mergingStrategy;
         public final LodestoneLayerToken layerToken;
 
-        public LodestoneBlockFillerLayer(LodestoneLayerToken layerToken, MergingStrategy mergingStrategy) {
+        public LodestoneBlockFillerLayer(LodestoneLayerToken layerToken) {
             this.layerToken = layerToken;
-            this.mergingStrategy = mergingStrategy;
         }
 
         public void fill(LevelAccessor level) {
