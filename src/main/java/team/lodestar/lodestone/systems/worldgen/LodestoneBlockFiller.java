@@ -47,7 +47,9 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
 
         mainLayer.forEach((pos, blockStateEntry) -> {
             if (!discarded.contains(blockStateEntry)) {
-                blockStateEntry.place(level, pos);
+                if (blockStateEntry.canPlace(level, pos)) {
+                    blockStateEntry.place(level, pos);
+                }
             }
         });
         return mainLayer;
