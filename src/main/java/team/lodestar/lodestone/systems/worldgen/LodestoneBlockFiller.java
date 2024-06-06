@@ -128,7 +128,7 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         private final BlockState state;
         private EntryDiscardPredicate discardPredicate;
         private EntryPlacementPredicate placementPredicate;
-        private boolean isCareful;
+        private boolean forcePlace;
 
         public BlockStateEntryBuilder(BlockState state) {
             this.state = state;
@@ -144,17 +144,17 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
             return this;
         }
 
-        public BlockStateEntryBuilder setCareful() {
-            return setCareful(true);
+        public BlockStateEntryBuilder setForcePlace() {
+            return setForcePlace(true);
         }
 
-        public BlockStateEntryBuilder setCareful(boolean isCareful) {
-            this.isCareful = isCareful;
+        public BlockStateEntryBuilder setForcePlace(boolean forcePlace) {
+            this.forcePlace = forcePlace;
             return this;
         }
 
         public BlockStateEntry build() {
-            return new BlockStateEntry(state, discardPredicate, placementPredicate, isCareful);
+            return new BlockStateEntry(state, discardPredicate, placementPredicate, forcePlace);
         }
     }
 
@@ -162,13 +162,13 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         private final BlockState state;
         private final EntryDiscardPredicate discardPredicate;
         private final EntryPlacementPredicate placementPredicate;
-        private final boolean isCareful;
+        private final boolean forcePlace;
 
-        private BlockStateEntry(BlockState state, EntryDiscardPredicate discardPredicate, EntryPlacementPredicate placementPredicate, boolean isCareful) {
+        private BlockStateEntry(BlockState state, EntryDiscardPredicate discardPredicate, EntryPlacementPredicate placementPredicate, boolean forcePlace) {
             this.state = state;
             this.discardPredicate = discardPredicate;
             this.placementPredicate = placementPredicate;
-            this.isCareful = isCareful;
+            this.forcePlace = forcePlace;
         }
 
         public BlockState getState() {
@@ -187,7 +187,7 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
             if (placementPredicate != null && !placementPredicate.canPlace(level, pos, state)) {
                 return false;
             }
-            if (!isCareful) {
+            if (forcePlace) {
                 return true;
             }
             return level.isEmptyBlock(pos) || state.canBeReplaced();
