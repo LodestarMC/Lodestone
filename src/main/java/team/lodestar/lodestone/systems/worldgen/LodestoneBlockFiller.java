@@ -20,6 +20,7 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         mainLayer = new LodestoneBlockFillerLayer(MAIN, MergingStrategy.REPLACE);
     }
 
+
     public LodestoneBlockFiller addLayer(LodestoneBlockFillerLayer layer) {
         add(layer);
         return this;
@@ -99,6 +100,10 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
 
         public void replace(BlockPos pos, Function<BlockStateEntry, BlockStateEntry> entryFunction) {
             replace(pos, entryFunction.apply(get(pos)));
+        }
+
+        public BlockStateEntry put(BlockPos key, BlockStateEntryBuilder value) {
+            return super.put(key, value.build());
         }
     }
 
