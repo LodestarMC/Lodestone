@@ -105,6 +105,10 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         public BlockStateEntry put(BlockPos key, BlockStateEntryBuilder value) {
             return super.put(key, value.build());
         }
+
+        public BlockStateEntry putIfAbsent(BlockPos key, BlockStateEntryBuilder value) {
+            return super.putIfAbsent(key, value.build());
+        }
     }
 
     public interface EntryDiscardPredicate {
