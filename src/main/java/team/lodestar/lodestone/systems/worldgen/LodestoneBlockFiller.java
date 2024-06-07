@@ -20,6 +20,15 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         mainLayer = new LodestoneBlockFillerLayer(MAIN);
     }
 
+    public LodestoneBlockFiller(LodestoneBlockFillerLayer... layers) {
+        this(new ArrayList<>(List.of(layers)));
+    }
+
+    public LodestoneBlockFiller(Collection<LodestoneBlockFillerLayer> layers) {
+        this();
+        layers.forEach(this::addLayer);
+    }
+
     public LodestoneBlockFiller addLayer(LodestoneLayerToken token) {
         return addLayer(new LodestoneBlockFillerLayer(token));
     }
