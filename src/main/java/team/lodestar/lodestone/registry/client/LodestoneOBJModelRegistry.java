@@ -5,7 +5,6 @@ import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.model.obj.lod.MultiLODModel;
 import team.lodestar.lodestone.systems.model.obj.ObjModel;
 import team.lodestar.lodestone.systems.model.obj.lod.strategy.LODStrategy;
-import team.lodestar.lodestone.systems.model.obj.modifier.TriangulateModifier;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,26 +6,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.model.obj.modifier.ModifierBuilder;
-import team.lodestar.lodestone.systems.model.obj.modifier.ObjModifier;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-public class ObjModel implements ModifierBuilder {
+public class ObjModel {
     public ArrayList<Face> faces = new ArrayList<>();
     public ResourceLocation modelLocation;
-    private final List<ObjModifier> modifiers = new ArrayList<>();
 
     public ObjModel(ResourceLocation modelLocation) {
         this.modelLocation = modelLocation;
-    }
-
-    public ObjModel(ResourceLocation modelLocation, ModifierBuilderSetup setup) {
-        this.modelLocation = modelLocation;
-        setup.setup(this);
     }
 
     public void loadModel() {
@@ -33,10 +24,8 @@ public class ObjModel implements ModifierBuilder {
         String modID = this.modelLocation.getNamespace();
         String fileName = this.modelLocation.getPath();
         ResourceLocation resourceLocation = new ResourceLocation(modID, "obj/" + fileName + ".obj");
-        LodestoneLib.LOGGER.info("Resolved resource location: " + resourceLocation);
         Optional<Resource> resourceO = Minecraft.getInstance().getResourceManager().getResource(resourceLocation);
         if (resourceO.isEmpty()) {
-            LodestoneLib.LOGGER.error("Resource not found: " + resourceLocation);
             throw new RuntimeException("Resource not found: " + resourceLocation);
         }
         Resource resource = resourceO.get();
@@ -61,15 +50,5 @@ public class ObjModel implements ModifierBuilder {
         faces.forEach(face -> {
             face.renderFace(poseStack, buffer, packedLight);
         });
-    }
-
-    @Override
-    public void applyModifier(ObjModifier modifier) {
-        modifiers.add(modifier);
-    }
-
-    @FunctionalInterface
-    public interface ModifierBuilderSetup {
-        void setup(ModifierBuilder builder);
     }
 }
