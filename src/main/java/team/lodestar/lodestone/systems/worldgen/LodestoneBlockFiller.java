@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.*;
 import team.lodestar.lodestone.helpers.BlockHelper;
 
 import java.util.*;
@@ -41,7 +42,7 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         return this;
     }
 
-    public LodestoneBlockFillerLayer getLayer(LodestoneLayerToken layerToken) {
+    public LodestoneBlockFillerLayer getLayer(@NotNull LodestoneLayerToken layerToken) {
         if (layerToken.equals(MAIN)) {
             return mainLayer;
         }
