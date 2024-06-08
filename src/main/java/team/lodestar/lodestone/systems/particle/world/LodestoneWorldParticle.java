@@ -299,4 +299,10 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
     public RandomSource getRandom() {
         return random;
     }
+
+    public void tick(int times) {
+        for (int i = 0; i < times; i++) {
+            tick();
+        }
+    }
 }
