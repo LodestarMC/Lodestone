@@ -7,6 +7,7 @@ import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.*;
+import net.minecraftforge.registries.*;
 import org.joml.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.helpers.*;
@@ -36,17 +37,17 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     double maxZSpeed = 0;
     double maxZOffset = 0;
 
-    public static WorldParticleBuilder create(ParticleType<WorldParticleOptions> particle) {
+    public static WorldParticleBuilder create(LodestoneWorldParticleType particle) {
         return create(particle, null);
     }
-    public static WorldParticleBuilder create(ParticleType<WorldParticleOptions> particle, LodestoneParticleBehavior behavior) {
+    public static WorldParticleBuilder create(LodestoneWorldParticleType particle, LodestoneParticleBehavior behavior) {
         return create(new WorldParticleOptions(particle, behavior));
     }
 
-    public static WorldParticleBuilder create(Supplier<ParticleType<WorldParticleOptions>> particle) {
+    public static WorldParticleBuilder create(RegistryObject<LodestoneWorldParticleType> particle) {
         return create(particle, null);
     }
-    public static WorldParticleBuilder create(Supplier<ParticleType<WorldParticleOptions>> particle, LodestoneParticleBehavior behavior) {
+    public static WorldParticleBuilder create(RegistryObject<LodestoneWorldParticleType> particle, LodestoneParticleBehavior behavior) {
         return create(new WorldParticleOptions(particle.get(), behavior));
     }
 

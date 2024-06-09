@@ -29,12 +29,12 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
 
     public boolean noClip = false;
 
-    public<T extends WorldParticleOptions> WorldParticleOptions(ParticleType<T> type, LodestoneParticleBehavior behavior) {
+    public WorldParticleOptions(ParticleType<?> type, LodestoneParticleBehavior behavior) {
         this.type = type;
         this.behavior = behavior;
     }
 
-    public<T extends WorldParticleOptions> WorldParticleOptions(ParticleType<T> type) {
+    public WorldParticleOptions(ParticleType<?> type) {
         this(type, null);
     }
 
