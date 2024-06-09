@@ -25,182 +25,182 @@ import java.util.*;
 import java.util.Random;
 import java.util.function.*;
 
-public class WorldParticleBuilder<T extends WorldParticleOptions> extends AbstractParticleBuilder<T> {
+public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleOptions> {
 
     private static final Random RANDOM = new Random();
 
-    final T options;
+    final WorldParticleOptions options;
 
     boolean forceSpawn = false;
     double zMotion = 0;
     double maxZSpeed = 0;
     double maxZOffset = 0;
 
-    public static WorldParticleBuilder<WorldParticleOptions> create(ParticleType<WorldParticleOptions> particle) {
+    public static WorldParticleBuilder create(ParticleType<WorldParticleOptions> particle) {
         return create(particle, null);
     }
-    public static WorldParticleBuilder<WorldParticleOptions> create(ParticleType<WorldParticleOptions> particle, LodestoneParticleBehavior behavior) {
+    public static WorldParticleBuilder create(ParticleType<WorldParticleOptions> particle, LodestoneParticleBehavior behavior) {
         return create(new WorldParticleOptions(particle, behavior));
     }
 
-    public static<T extends WorldParticleOptions> WorldParticleBuilder<T> create(T options) {
-        return new WorldParticleBuilder<>(options);
+    public static WorldParticleBuilder create(WorldParticleOptions options) {
+        return new WorldParticleBuilder(options);
     }
 
-    protected WorldParticleBuilder(T options) {
+    protected WorldParticleBuilder(WorldParticleOptions options) {
         this.options = options;
     }
 
     @Override
-    public T getParticleOptions() {
+    public WorldParticleOptions getParticleOptions() {
         return options;
     }
 
-    public WorldParticleBuilder<T> enableNoClip() {
+    public WorldParticleBuilder enableNoClip() {
         return setNoClip(true);
     }
 
-    public WorldParticleBuilder<T> disableNoClip() {
+    public WorldParticleBuilder disableNoClip() {
         return setNoClip(false);
     }
 
-    public WorldParticleBuilder<T> setNoClip(boolean noClip) {
+    public WorldParticleBuilder setNoClip(boolean noClip) {
         getParticleOptions().noClip = noClip;
         return this;
     }
 
-    public WorldParticleBuilder<T> setRenderType(ParticleRenderType renderType) {
+    public WorldParticleBuilder setRenderType(ParticleRenderType renderType) {
         getParticleOptions().renderType = renderType;
         return this;
     }
 
-    public WorldParticleBuilder<T> setRenderTarget(RenderHandler.LodestoneRenderLayer renderLayer) {
+    public WorldParticleBuilder setRenderTarget(RenderHandler.LodestoneRenderLayer renderLayer) {
         getParticleOptions().renderLayer = renderLayer;
         return this;
     }
 
-    public WorldParticleBuilder<T> enableForcedSpawn() {
+    public WorldParticleBuilder enableForcedSpawn() {
         return setForceSpawn(true);
     }
 
-    public WorldParticleBuilder<T> disableForcedSpawn() {
+    public WorldParticleBuilder disableForcedSpawn() {
         return setForceSpawn(false);
     }
 
-    public WorldParticleBuilder<T> setForceSpawn(boolean forceSpawn) {
+    public WorldParticleBuilder setForceSpawn(boolean forceSpawn) {
         this.forceSpawn = forceSpawn;
         return this;
     }
 
-    public WorldParticleBuilder<T> enableCull() {
+    public WorldParticleBuilder enableCull() {
         return setShouldCull(true);
     }
 
-    public WorldParticleBuilder<T> disableCull() {
+    public WorldParticleBuilder disableCull() {
         return setShouldCull(false);
     }
 
-    public WorldParticleBuilder<T> setShouldCull(boolean shouldCull) {
+    public WorldParticleBuilder setShouldCull(boolean shouldCull) {
         getParticleOptions().shouldCull = shouldCull;
         return this;
     }
 
-    public WorldParticleBuilder<T> setRandomMotion(double maxSpeed) {
+    public WorldParticleBuilder setRandomMotion(double maxSpeed) {
         return setRandomMotion(maxSpeed, maxSpeed, maxSpeed);
     }
 
-    public WorldParticleBuilder<T> setRandomMotion(double maxHSpeed, double maxVSpeed) {
+    public WorldParticleBuilder setRandomMotion(double maxHSpeed, double maxVSpeed) {
         return setRandomMotion(maxHSpeed, maxVSpeed, maxHSpeed);
     }
 
-    public WorldParticleBuilder<T> setRandomMotion(double maxXSpeed, double maxYSpeed, double maxZSpeed) {
+    public WorldParticleBuilder setRandomMotion(double maxXSpeed, double maxYSpeed, double maxZSpeed) {
         this.maxXSpeed = maxXSpeed;
         this.maxYSpeed = maxYSpeed;
         this.maxZSpeed = maxZSpeed;
         return this;
     }
 
-    public WorldParticleBuilder<T> addMotion(Vector3f motion) {
+    public WorldParticleBuilder addMotion(Vector3f motion) {
         return addMotion(motion.x(), motion.y(), motion.z());
     }
 
-    public WorldParticleBuilder<T> addMotion(Vec3 motion) {
+    public WorldParticleBuilder addMotion(Vec3 motion) {
         return addMotion(motion.x, motion.y, motion.z);
     }
 
-    public WorldParticleBuilder<T> addMotion(double vx, double vy, double vz) {
+    public WorldParticleBuilder addMotion(double vx, double vy, double vz) {
         this.xMotion += vx;
         this.yMotion += vy;
         this.zMotion += vz;
         return this;
     }
 
-    public WorldParticleBuilder<T> setMotion(Vector3f motion) {
+    public WorldParticleBuilder setMotion(Vector3f motion) {
         return setMotion(motion.x(), motion.y(), motion.z());
     }
 
-    public WorldParticleBuilder<T> setMotion(Vec3 motion) {
+    public WorldParticleBuilder setMotion(Vec3 motion) {
         return setMotion(motion.x, motion.y, motion.z);
     }
 
-    public WorldParticleBuilder<T> setMotion(double vx, double vy, double vz) {
+    public WorldParticleBuilder setMotion(double vx, double vy, double vz) {
         this.xMotion = vx;
         this.yMotion = vy;
         this.zMotion = vz;
         return this;
     }
 
-    public WorldParticleBuilder<T> setRandomOffset(double maxDistance) {
+    public WorldParticleBuilder setRandomOffset(double maxDistance) {
         return setRandomOffset(maxDistance, maxDistance, maxDistance);
     }
 
-    public WorldParticleBuilder<T> setRandomOffset(double maxHDist, double maxVDist) {
+    public WorldParticleBuilder setRandomOffset(double maxHDist, double maxVDist) {
         return setRandomOffset(maxHDist, maxVDist, maxHDist);
     }
 
-    public WorldParticleBuilder<T> setRandomOffset(double maxXDist, double maxYDist, double maxZDist) {
+    public WorldParticleBuilder setRandomOffset(double maxXDist, double maxYDist, double maxZDist) {
         this.maxXOffset = maxXDist;
         this.maxYOffset = maxYDist;
         this.maxZOffset = maxZDist;
         return this;
     }
 
-    public WorldParticleBuilder<T> act(Consumer<WorldParticleBuilder<T>> particleBuilderConsumer) {
+    public WorldParticleBuilder act(Consumer<WorldParticleBuilder> particleBuilderConsumer) {
         particleBuilderConsumer.accept(this);
         return this;
     }
 
-    public WorldParticleBuilder<T> addTickActor(Consumer<LodestoneWorldParticle> particleActor) {
+    public WorldParticleBuilder addTickActor(Consumer<LodestoneWorldParticle> particleActor) {
         getParticleOptions().tickActors.add(particleActor);
         return this;
     }
-    public WorldParticleBuilder<T> addSpawnActor(Consumer<LodestoneWorldParticle> particleActor) {
+    public WorldParticleBuilder addSpawnActor(Consumer<LodestoneWorldParticle> particleActor) {
         getParticleOptions().spawnActors.add(particleActor);
         return this;
     }
-    public WorldParticleBuilder<T> addRenderActor(Consumer<LodestoneWorldParticle> particleActor) {
+    public WorldParticleBuilder addRenderActor(Consumer<LodestoneWorldParticle> particleActor) {
         getParticleOptions().renderActors.add(particleActor);
         return this;
     }
 
-    public WorldParticleBuilder<T> clearActors() {
+    public WorldParticleBuilder clearActors() {
         return clearTickActor().clearSpawnActors().clearRenderActors();
     }
 
-    public WorldParticleBuilder<T> clearTickActor() {
+    public WorldParticleBuilder clearTickActor() {
         getParticleOptions().tickActors.clear();
         return this;
     }
-    public WorldParticleBuilder<T> clearSpawnActors() {
+    public WorldParticleBuilder clearSpawnActors() {
         getParticleOptions().spawnActors.clear();
         return this;
     }
-    public WorldParticleBuilder<T> clearRenderActors() {
+    public WorldParticleBuilder clearRenderActors() {
         getParticleOptions().renderActors.clear();
         return this;
     }
 
-    public WorldParticleBuilder<T> spawn(Level level, double x, double y, double z) {
+    public WorldParticleBuilder spawn(Level level, double x, double y, double z) {
         double yaw = RANDOM.nextFloat() * Math.PI * 2, pitch = RANDOM.nextFloat() * Math.PI - Math.PI / 2, xSpeed = RANDOM.nextFloat() * maxXSpeed, ySpeed = RANDOM.nextFloat() * maxYSpeed, zSpeed = RANDOM.nextFloat() * maxZSpeed;
         this.xMotion += Math.sin(yaw) * Math.cos(pitch) * xSpeed;
         this.yMotion += Math.sin(pitch) * ySpeed;
@@ -214,12 +214,12 @@ public class WorldParticleBuilder<T extends WorldParticleOptions> extends Abstra
         return this;
     }
 
-    public WorldParticleBuilder<T> repeat(Level level, double x, double y, double z, int n) {
+    public WorldParticleBuilder repeat(Level level, double x, double y, double z, int n) {
         for (int i = 0; i < n; i++) spawn(level, x, y, z);
         return this;
     }
 
-    public WorldParticleBuilder<T> surroundBlock(Level level, BlockPos pos, Direction... directions) {
+    public WorldParticleBuilder surroundBlock(Level level, BlockPos pos, Direction... directions) {
         if (directions.length == 0) {
             directions = Direction.values();
         }
@@ -241,17 +241,17 @@ public class WorldParticleBuilder<T extends WorldParticleOptions> extends Abstra
         return this;
     }
 
-    public WorldParticleBuilder<T> repeatSurroundBlock(Level level, BlockPos pos, int n) {
+    public WorldParticleBuilder repeatSurroundBlock(Level level, BlockPos pos, int n) {
         for (int i = 0; i < n; i++) surroundBlock(level, pos);
         return this;
     }
 
-    public WorldParticleBuilder<T> repeatSurroundBlock(Level level, BlockPos pos, int n, Direction... directions) {
+    public WorldParticleBuilder repeatSurroundBlock(Level level, BlockPos pos, int n, Direction... directions) {
         for (int i = 0; i < n; i++) surroundBlock(level, pos, directions);
         return this;
     }
 
-    public WorldParticleBuilder<T> surroundVoxelShape(Level level, BlockPos pos, VoxelShape voxelShape, int max) {
+    public WorldParticleBuilder surroundVoxelShape(Level level, BlockPos pos, VoxelShape voxelShape, int max) {
         int[] c = new int[1];
         int perBoxMax = max / voxelShape.toAabbs().size();
         Supplier<Boolean> r = () -> {
@@ -292,7 +292,7 @@ public class WorldParticleBuilder<T extends WorldParticleOptions> extends Abstra
         return this;
     }
 
-    public WorldParticleBuilder<T> surroundVoxelShape(Level level, BlockPos pos, BlockState state, int max) {
+    public WorldParticleBuilder surroundVoxelShape(Level level, BlockPos pos, BlockState state, int max) {
         VoxelShape voxelShape = state.getShape(level, pos);
         if (voxelShape.isEmpty()) {
             voxelShape = Shapes.block();
@@ -300,7 +300,7 @@ public class WorldParticleBuilder<T extends WorldParticleOptions> extends Abstra
         return surroundVoxelShape(level, pos, voxelShape, max);
     }
 
-    public WorldParticleBuilder<T> spawnAtRandomFace(Level level, BlockPos pos) {
+    public WorldParticleBuilder spawnAtRandomFace(Level level, BlockPos pos) {
         Direction direction = Direction.values()[RANDOM.nextInt(Direction.values().length)];
         double yaw = RANDOM.nextFloat() * Math.PI * 2, pitch = RANDOM.nextFloat() * Math.PI - Math.PI / 2, xSpeed = RANDOM.nextFloat() * maxXSpeed, ySpeed = RANDOM.nextFloat() * maxYSpeed, zSpeed = RANDOM.nextFloat() * maxZSpeed;
         this.xMotion += Math.sin(yaw) * Math.cos(pitch) * xSpeed;
@@ -317,12 +317,12 @@ public class WorldParticleBuilder<T extends WorldParticleOptions> extends Abstra
         return this;
     }
 
-    public WorldParticleBuilder<T> repeatRandomFace(Level level, BlockPos pos, int n) {
+    public WorldParticleBuilder repeatRandomFace(Level level, BlockPos pos, int n) {
         for (int i = 0; i < n; i++) spawnAtRandomFace(level, pos);
         return this;
     }
 
-    public WorldParticleBuilder<T> createCircle(Level level, double x, double y, double z, double distance, double currentCount, double totalCount) {
+    public WorldParticleBuilder createCircle(Level level, double x, double y, double z, double distance, double currentCount, double totalCount) {
         double xSpeed = RANDOM.nextFloat() * maxXSpeed, ySpeed = RANDOM.nextFloat() * maxYSpeed, zSpeed = RANDOM.nextFloat() * maxZSpeed;
         double theta = (Math.PI * 2) / totalCount;
         double finalAngle = (currentCount / totalCount) + (theta * currentCount);
@@ -341,12 +341,12 @@ public class WorldParticleBuilder<T extends WorldParticleOptions> extends Abstra
         return this;
     }
 
-    public WorldParticleBuilder<T> repeatCircle(Level level, double x, double y, double z, double distance, int times) {
+    public WorldParticleBuilder repeatCircle(Level level, double x, double y, double z, double distance, int times) {
         for (int i = 0; i < times; i++) createCircle(level, x, y, z, distance, i, times);
         return this;
     }
 
-    public WorldParticleBuilder<T> createBlockOutline(Level level, BlockPos pos, BlockState state) {
+    public WorldParticleBuilder createBlockOutline(Level level, BlockPos pos, BlockState state) {
         VoxelShape voxelShape = state.getShape(level, pos);
         double d = 0.25;
         voxelShape.forAllBoxes(
@@ -371,7 +371,7 @@ public class WorldParticleBuilder<T extends WorldParticleOptions> extends Abstra
         return this;
     }
 
-    public WorldParticleBuilder<T> spawnLine(Level level, Vec3 one, Vec3 two) {
+    public WorldParticleBuilder spawnLine(Level level, Vec3 one, Vec3 two) {
         double yaw = RANDOM.nextFloat() * Math.PI * 2, pitch = RANDOM.nextFloat() * Math.PI - Math.PI / 2, xSpeed = RANDOM.nextFloat() * maxXSpeed, ySpeed = RANDOM.nextFloat() * maxYSpeed, zSpeed = RANDOM.nextFloat() * maxZSpeed;
         this.xMotion += Math.sin(yaw) * Math.cos(pitch) * xSpeed;
         this.yMotion += Math.sin(pitch) * ySpeed;
@@ -382,107 +382,102 @@ public class WorldParticleBuilder<T extends WorldParticleOptions> extends Abstra
     }
 
     @Override
-    public WorldParticleBuilder<T> modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        return (WorldParticleBuilder<T>) super.modifyData(dataType, dataConsumer);
+    public WorldParticleBuilder modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        return (WorldParticleBuilder) super.modifyData(dataType, dataConsumer);
     }
 
     @Override
-    public WorldParticleBuilder<T> modifyData(Function<AbstractParticleBuilder<T>, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        return (WorldParticleBuilder<T>) super.modifyData(dataType, dataConsumer);
+    public WorldParticleBuilder modifyColorData(Consumer<ColorParticleData> dataConsumer) {
+        return (WorldParticleBuilder) super.modifyColorData(dataConsumer);
     }
 
     @Override
-    public WorldParticleBuilder<T> modifyColorData(Consumer<ColorParticleData> dataConsumer) {
-        return (WorldParticleBuilder<T>) super.modifyColorData(dataConsumer);
+    public WorldParticleBuilder setColorData(ColorParticleData colorData) {
+        return (WorldParticleBuilder) super.setColorData(colorData);
     }
 
     @Override
-    public WorldParticleBuilder<T> setColorData(ColorParticleData colorData) {
-        return (WorldParticleBuilder<T>) super.setColorData(colorData);
+    public WorldParticleBuilder setScaleData(GenericParticleData scaleData) {
+        return (WorldParticleBuilder) super.setScaleData(scaleData);
     }
 
     @Override
-    public WorldParticleBuilder<T> setScaleData(GenericParticleData scaleData) {
-        return (WorldParticleBuilder<T>) super.setScaleData(scaleData);
+    public WorldParticleBuilder setTransparencyData(GenericParticleData transparencyData) {
+        return (WorldParticleBuilder) super.setTransparencyData(transparencyData);
     }
 
     @Override
-    public WorldParticleBuilder<T> setTransparencyData(GenericParticleData transparencyData) {
-        return (WorldParticleBuilder<T>) super.setTransparencyData(transparencyData);
+    public WorldParticleBuilder setSpinData(SpinParticleData spinData) {
+        return (WorldParticleBuilder) super.setSpinData(spinData);
     }
 
     @Override
-    public WorldParticleBuilder<T> setSpinData(SpinParticleData spinData) {
-        return (WorldParticleBuilder<T>) super.setSpinData(spinData);
+    public WorldParticleBuilder multiplyGravity(float gravityMultiplier) {
+        return (WorldParticleBuilder) super.multiplyGravity(gravityMultiplier);
     }
 
     @Override
-    public WorldParticleBuilder<T> multiplyGravity(float gravityMultiplier) {
-        return (WorldParticleBuilder<T>) super.multiplyGravity(gravityMultiplier);
+    public WorldParticleBuilder modifyGravity(Function<Float, Supplier<Float>> gravityReplacement) {
+        return (WorldParticleBuilder) super.modifyGravity(gravityReplacement);
     }
 
     @Override
-    public WorldParticleBuilder<T> modifyGravity(Function<Float, Supplier<Float>> gravityReplacement) {
-        return (WorldParticleBuilder<T>) super.modifyGravity(gravityReplacement);
+    public WorldParticleBuilder setGravityStrength(float gravity) {
+        return (WorldParticleBuilder) super.setGravityStrength(gravity);
     }
 
     @Override
-    public WorldParticleBuilder<T> setGravityStrength(float gravity) {
-        return (WorldParticleBuilder<T>) super.setGravityStrength(gravity);
+    public WorldParticleBuilder setGravityStrength(Supplier<Float> gravityStrengthSupplier) {
+        return (WorldParticleBuilder) super.setGravityStrength(gravityStrengthSupplier);
     }
 
     @Override
-    public WorldParticleBuilder<T> setGravityStrength(Supplier<Float> gravityStrengthSupplier) {
-        return (WorldParticleBuilder<T>) super.setGravityStrength(gravityStrengthSupplier);
+    public WorldParticleBuilder multiplyLifetime(float lifetimeMultiplier) {
+        return (WorldParticleBuilder) super.multiplyLifetime(lifetimeMultiplier);
     }
 
     @Override
-    public WorldParticleBuilder<T> multiplyLifetime(float lifetimeMultiplier) {
-        return (WorldParticleBuilder<T>) super.multiplyLifetime(lifetimeMultiplier);
+    public WorldParticleBuilder modifyLifetime(Function<Integer, Supplier<Integer>> lifetimeReplacement) {
+        return (WorldParticleBuilder) super.modifyLifetime(lifetimeReplacement);
     }
 
     @Override
-    public WorldParticleBuilder<T> modifyLifetime(Function<Integer, Supplier<Integer>> lifetimeReplacement) {
-        return (WorldParticleBuilder<T>) super.modifyLifetime(lifetimeReplacement);
+    public WorldParticleBuilder setLifetime(int lifetime) {
+        return (WorldParticleBuilder) super.setLifetime(lifetime);
     }
 
     @Override
-    public WorldParticleBuilder<T> setLifetime(int lifetime) {
-        return (WorldParticleBuilder<T>) super.setLifetime(lifetime);
+    public WorldParticleBuilder setLifetime(Supplier<Integer> lifetimeSupplier) {
+        return (WorldParticleBuilder) super.setLifetime(lifetimeSupplier);
     }
 
     @Override
-    public WorldParticleBuilder<T> setLifetime(Supplier<Integer> lifetimeSupplier) {
-        return (WorldParticleBuilder<T>) super.setLifetime(lifetimeSupplier);
+    public WorldParticleBuilder multiplyLifeDelay(float lifeDelayMultiplier) {
+        return (WorldParticleBuilder) super.multiplyLifeDelay(lifeDelayMultiplier);
     }
 
     @Override
-    public WorldParticleBuilder<T> multiplyLifeDelay(float lifeDelayMultiplier) {
-        return (WorldParticleBuilder<T>) super.multiplyLifeDelay(lifeDelayMultiplier);
+    public WorldParticleBuilder modifyLifeDelay(Function<Integer, Supplier<Integer>> lifeDelayReplacement) {
+        return (WorldParticleBuilder) super.modifyLifeDelay(lifeDelayReplacement);
     }
 
     @Override
-    public WorldParticleBuilder<T> modifyLifeDelay(Function<Integer, Supplier<Integer>> lifeDelayReplacement) {
-        return (WorldParticleBuilder<T>) super.modifyLifeDelay(lifeDelayReplacement);
+    public WorldParticleBuilder setLifeDelay(int lifeDelay) {
+        return (WorldParticleBuilder) super.setLifeDelay(lifeDelay);
     }
 
     @Override
-    public WorldParticleBuilder<T> setLifeDelay(int lifeDelay) {
-        return (WorldParticleBuilder<T>) super.setLifeDelay(lifeDelay);
+    public WorldParticleBuilder setLifeDelay(Supplier<Integer> lifeDelaySupplier) {
+        return (WorldParticleBuilder) super.setLifeDelay(lifeDelaySupplier);
     }
 
     @Override
-    public WorldParticleBuilder<T> setLifeDelay(Supplier<Integer> lifeDelaySupplier) {
-        return (WorldParticleBuilder<T>) super.setLifeDelay(lifeDelaySupplier);
+    public WorldParticleBuilder setSpritePicker(SimpleParticleOptions.ParticleSpritePicker spritePicker) {
+        return (WorldParticleBuilder) super.setSpritePicker(spritePicker);
     }
 
     @Override
-    public WorldParticleBuilder<T> setSpritePicker(SimpleParticleOptions.ParticleSpritePicker spritePicker) {
-        return (WorldParticleBuilder<T>) super.setSpritePicker(spritePicker);
-    }
-
-    @Override
-    public WorldParticleBuilder<T> setDiscardFunction(SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType) {
-        return (WorldParticleBuilder<T>) super.setDiscardFunction(discardFunctionType);
+    public WorldParticleBuilder setDiscardFunction(SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType) {
+        return (WorldParticleBuilder) super.setDiscardFunction(discardFunctionType);
     }
 }

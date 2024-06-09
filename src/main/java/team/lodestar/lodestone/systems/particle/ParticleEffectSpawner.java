@@ -8,38 +8,38 @@ import team.lodestar.lodestone.systems.particle.world.options.*;
 import javax.annotation.*;
 import java.util.function.*;
 
-public class ParticleEffectSpawner<T extends WorldParticleOptions, K extends WorldParticleOptions> {
+public class ParticleEffectSpawner {
 
-    private final WorldParticleBuilder<T> builder;
-    private final Consumer<WorldParticleBuilder<T>> particleSpawner;
+    private final WorldParticleBuilder builder;
+    private final Consumer<WorldParticleBuilder> particleSpawner;
 
-    private final WorldParticleBuilder<K> bloomBuilder;
-    private final Consumer<WorldParticleBuilder<K>> bloomSpawner;
+    private final WorldParticleBuilder bloomBuilder;
+    private final Consumer<WorldParticleBuilder> bloomSpawner;
 
-    public ParticleEffectSpawner(WorldParticleBuilder<T> builder, Consumer<WorldParticleBuilder<T>> particleSpawner, @Nullable WorldParticleBuilder<K> bloomBuilder, @Nullable Consumer<WorldParticleBuilder<K>> bloomSpawner) {
+    public ParticleEffectSpawner(WorldParticleBuilder builder, Consumer<WorldParticleBuilder> particleSpawner, @Nullable WorldParticleBuilder bloomBuilder, @Nullable Consumer<WorldParticleBuilder> bloomSpawner) {
         this.builder = builder;
         this.particleSpawner = particleSpawner;
         this.bloomBuilder = bloomBuilder;
         this.bloomSpawner = bloomSpawner;
     }
 
-    public ParticleEffectSpawner(Level level, Vec3 pos, WorldParticleBuilder<T> builder, WorldParticleBuilder<K> bloomBuilder) {
+    public ParticleEffectSpawner(Level level, Vec3 pos, WorldParticleBuilder builder, WorldParticleBuilder bloomBuilder) {
         this(builder, b -> b.spawn(level, pos.x, pos.y, pos.z), bloomBuilder, b -> b.spawn(level, pos.x, pos.y, pos.z));
     }
 
-    public ParticleEffectSpawner(Level level, Vec3 pos, WorldParticleBuilder<T> builder) {
+    public ParticleEffectSpawner(Level level, Vec3 pos, WorldParticleBuilder builder) {
         this(builder, b -> b.spawn(level, pos.x, pos.y, pos.z), null, null);
     }
 
-    public ParticleEffectSpawner(WorldParticleBuilder<T> builder, Consumer<WorldParticleBuilder<T>> particleSpawner) {
+    public ParticleEffectSpawner(WorldParticleBuilder builder, Consumer<WorldParticleBuilder> particleSpawner) {
         this(builder, particleSpawner, null, null);
     }
 
-    public WorldParticleBuilder<T> getBuilder() {
+    public WorldParticleBuilder getBuilder() {
         return builder;
     }
 
-    public WorldParticleBuilder<K> getBloomBuilder() {
+    public WorldParticleBuilder getBloomBuilder() {
         return bloomBuilder;
     }
 
