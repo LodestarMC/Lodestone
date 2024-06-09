@@ -387,6 +387,11 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     @Override
+    public WorldParticleBuilder modifyData(Function<AbstractParticleBuilder<WorldParticleOptions>, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        return (WorldParticleBuilder) super.modifyData(dataType, dataConsumer);
+    }
+
+    @Override
     public WorldParticleBuilder modifyColorData(Consumer<ColorParticleData> dataConsumer) {
         return (WorldParticleBuilder) super.modifyColorData(dataConsumer);
     }
