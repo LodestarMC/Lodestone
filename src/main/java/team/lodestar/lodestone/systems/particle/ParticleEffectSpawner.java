@@ -8,22 +8,22 @@ import team.lodestar.lodestone.systems.particle.world.options.*;
 import javax.annotation.*;
 import java.util.function.*;
 
-public class ParticleEffectSpawner<T extends WorldParticleOptions> {
+public class ParticleEffectSpawner<T extends WorldParticleOptions, K extends WorldParticleOptions> {
 
     private final WorldParticleBuilder<T> builder;
     private final Consumer<WorldParticleBuilder<T>> particleSpawner;
 
-    private final WorldParticleBuilder<T> bloomBuilder;
-    private final Consumer<WorldParticleBuilder<T>> bloomSpawner;
+    private final WorldParticleBuilder<K> bloomBuilder;
+    private final Consumer<WorldParticleBuilder<K>> bloomSpawner;
 
-    public ParticleEffectSpawner(WorldParticleBuilder<T> builder, Consumer<WorldParticleBuilder<T>> particleSpawner, @Nullable WorldParticleBuilder<T> bloomBuilder, @Nullable Consumer<WorldParticleBuilder<T>> bloomSpawner) {
+    public ParticleEffectSpawner(WorldParticleBuilder<T> builder, Consumer<WorldParticleBuilder<T>> particleSpawner, @Nullable WorldParticleBuilder<K> bloomBuilder, @Nullable Consumer<WorldParticleBuilder<K>> bloomSpawner) {
         this.builder = builder;
         this.particleSpawner = particleSpawner;
         this.bloomBuilder = bloomBuilder;
         this.bloomSpawner = bloomSpawner;
     }
 
-    public ParticleEffectSpawner(Level level, Vec3 pos, WorldParticleBuilder<T> builder, WorldParticleBuilder<T> bloomBuilder) {
+    public ParticleEffectSpawner(Level level, Vec3 pos, WorldParticleBuilder<T> builder, WorldParticleBuilder<K> bloomBuilder) {
         this(builder, b -> b.spawn(level, pos.x, pos.y, pos.z), bloomBuilder, b -> b.spawn(level, pos.x, pos.y, pos.z));
     }
 
@@ -39,7 +39,7 @@ public class ParticleEffectSpawner<T extends WorldParticleOptions> {
         return builder;
     }
 
-    public WorldParticleBuilder<T> getBloomBuilder() {
+    public WorldParticleBuilder<K> getBloomBuilder() {
         return bloomBuilder;
     }
 
