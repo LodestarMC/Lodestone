@@ -407,6 +407,11 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     @Override
+    public WorldParticleBuilder setLengthData(GenericParticleData scaleData) {
+        return (WorldParticleBuilder) super.setLengthData(scaleData);
+    }
+
+    @Override
     public WorldParticleBuilder setTransparencyData(GenericParticleData transparencyData) {
         return (WorldParticleBuilder) super.setTransparencyData(transparencyData);
     }
