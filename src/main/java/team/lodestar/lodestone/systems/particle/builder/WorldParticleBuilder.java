@@ -43,6 +43,13 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return create(new WorldParticleOptions(particle, behavior));
     }
 
+    public static WorldParticleBuilder create(Supplier<ParticleType<WorldParticleOptions>> particle) {
+        return create(particle, null);
+    }
+    public static WorldParticleBuilder create(Supplier<ParticleType<WorldParticleOptions>> particle, LodestoneParticleBehavior behavior) {
+        return create(new WorldParticleOptions(particle.get(), behavior));
+    }
+
     public static WorldParticleBuilder create(WorldParticleOptions options) {
         return new WorldParticleBuilder(options);
     }
