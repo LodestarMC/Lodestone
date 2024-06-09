@@ -58,6 +58,15 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
         return getParticleOptions().scaleData;
     }
 
+    public AbstractParticleBuilder<T> setLengthData(GenericParticleData scaleData) {
+        getParticleOptions().lengthData = scaleData;
+        return this;
+    }
+
+    public GenericParticleData getLengthData() {
+        return getParticleOptions().lengthData;
+    }
+
     public AbstractParticleBuilder<T> setTransparencyData(GenericParticleData transparencyData) {
         getParticleOptions().transparencyData = transparencyData;
         return this;

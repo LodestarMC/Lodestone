@@ -28,25 +28,26 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
 
 public class LodestoneWorldParticle extends TextureSheetParticle {
-    protected final ParticleRenderType renderType;
-    protected final LodestoneParticleBehavior behavior;
+    public final ParticleRenderType renderType;
+    public final LodestoneParticleBehavior behavior;
 
-    protected final RenderHandler.LodestoneRenderLayer renderLayer;
-    protected final boolean shouldCull;
-    protected final FabricSpriteProviderImpl spriteSet;
-    protected final SimpleParticleOptions.ParticleSpritePicker spritePicker;
-    protected final SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType;
-    protected final ColorParticleData colorData;
-    protected final GenericParticleData transparencyData;
-    protected final GenericParticleData scaleData;
-    protected final SpinParticleData spinData;
-    protected final Collection<Consumer<LodestoneWorldParticle>> tickActors;
-    protected final Collection<Consumer<LodestoneWorldParticle>> renderActors;
+    public final RenderHandler.LodestoneRenderLayer renderLayer;
+    public final boolean shouldCull;
+    public final FabricSpriteProviderImpl spriteSet;
+    public final SimpleParticleOptions.ParticleSpritePicker spritePicker;
+    public final SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType;
+    public final ColorParticleData colorData;
+    public final GenericParticleData transparencyData;
+    public final GenericParticleData scaleData;
+    public final GenericParticleData lengthData;
+    public final SpinParticleData spinData;
+    public final Collection<Consumer<LodestoneWorldParticle>> tickActors;
+    public final Collection<Consumer<LodestoneWorldParticle>> renderActors;
 
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
 
-    protected int lifeDelay;
+    public int lifeDelay;
 
     float[] hsv1 = new float[3], hsv2 = new float[3];
 
@@ -62,6 +63,7 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         this.colorData = options.colorData;
         this.transparencyData = GenericParticleData.constrictTransparency(options.transparencyData);
         this.scaleData = options.scaleData;
+        this.lengthData = options.lengthData;
         this.spinData = options.spinData;
         this.tickActors = options.tickActors;
         this.renderActors = options.renderActors;
