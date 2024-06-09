@@ -44,10 +44,10 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return create(new WorldParticleOptions(particle, behavior));
     }
 
-    public static WorldParticleBuilder create(RegistryObject<LodestoneWorldParticleType> particle) {
+    public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle) {
         return create(particle, null);
     }
-    public static WorldParticleBuilder create(RegistryObject<LodestoneWorldParticleType> particle, LodestoneParticleBehavior behavior) {
+    public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle, LodestoneParticleBehavior behavior) {
         return create(new WorldParticleOptions(particle.get(), behavior));
     }
 
