@@ -10,13 +10,7 @@ import team.lodestar.lodestone.systems.rendering.*;
 
 public class SparkParticleBehavior implements LodestoneParticleBehavior {
 
-    public final GenericParticleData lengthData;
-
     private static final VFXBuilders.WorldVFXBuilder SPARK_BUILDER = VFXBuilders.createWorld().setFormat(DefaultVertexFormat.PARTICLE);
-
-    public SparkParticleBehavior(GenericParticleData lengthData) {
-        this.lengthData = lengthData;
-    }
 
     @Override
     public void render(LodestoneWorldParticle particle, VertexConsumer consumer, Camera camera, float partialTicks) {
@@ -26,7 +20,7 @@ public class SparkParticleBehavior implements LodestoneParticleBehavior {
         float z = (float) (Mth.lerp(partialTicks, particle.getZOld(), particle.getZ()) - vec3.z());
         final Vec3 pos = new Vec3(x, y, z);
 
-        float length = lengthData.getValue(particle.getAge(), particle.getLifetime());
+        float length = particle.lengthData.getValue(particle.getAge(), particle.getLifetime());
         Vec3 offset = particle.getParticleSpeed().normalize().scale(length);
         Vec3 movingTo = pos.add(offset);
         Vec3 movingFrom = pos.subtract(offset);

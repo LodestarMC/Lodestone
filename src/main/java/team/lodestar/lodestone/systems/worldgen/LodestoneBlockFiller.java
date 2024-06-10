@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.*;
 import team.lodestar.lodestone.helpers.BlockHelper;
 
 import java.util.*;
@@ -17,15 +18,31 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
     protected final LodestoneBlockFillerLayer mainLayer;
 
     public LodestoneBlockFiller() {
-        mainLayer = new LodestoneBlockFillerLayer(MAIN, MergingStrategy.REPLACE);
+        mainLayer = new LodestoneBlockFillerLayer(MAIN);
     }
 
-    public LodestoneBlockFiller addLayer(LodestoneBlockFillerLayer layer) {
-        add(layer);
+    public LodestoneBlockFiller(LodestoneBlockFillerLayer... layers) {
+        this(new ArrayList<>(List.of(layers)));
+    }
+
+    public LodestoneBlockFiller(Collection<LodestoneBlockFillerLayer> layers) {
+        this();
+        addAll(layers);
+    }
+
+    public LodestoneBlockFiller addLayers(LodestoneLayerToken... tokens) {
+        for (LodestoneLayerToken token : tokens) {
+            addLayers(new LodestoneBlockFillerLayer(token));
+        }
         return this;
     }
 
-    public LodestoneBlockFillerLayer getLayer(LodestoneLayerToken layerToken) {
+    public LodestoneBlockFiller addLayers(LodestoneBlockFillerLayer... layers) {
+        addAll(List.of(layers));
+        return this;
+    }
+
+    public LodestoneBlockFillerLayer getLayer(@NotNull LodestoneLayerToken layerToken) {
         if (layerToken.equals(MAIN)) {
             return mainLayer;
         }
@@ -46,25 +63,16 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
 
         mainLayer.forEach((pos, blockStateEntry) -> {
             if (!discarded.contains(blockStateEntry)) {
-                blockStateEntry.place(level, pos);
+                if (blockStateEntry.canPlace(level, pos)) {
+                    blockStateEntry.place(level, pos);
+                }
             }
         });
         return mainLayer;
     }
 
     protected void mergeLayers(LodestoneBlockFillerLayer toLayer, LodestoneBlockFillerLayer fromLayer) {
-        fromLayer.mergingStrategy.mergingFunction.accept(toLayer, fromLayer);
-    }
-
-    public enum MergingStrategy {
-        REPLACE(HashMap::putAll),
-        ADD((to, from) -> from.forEach(to::putIfAbsent));
-
-        public final BiConsumer<LodestoneBlockFiller.LodestoneBlockFillerLayer, LodestoneBlockFiller.LodestoneBlockFillerLayer> mergingFunction;
-
-        MergingStrategy(BiConsumer<LodestoneBlockFiller.LodestoneBlockFillerLayer, LodestoneBlockFiller.LodestoneBlockFillerLayer> mergingFunction) {
-            this.mergingFunction = mergingFunction;
-        }
+        fromLayer.forEach(toLayer::putIfAbsent);
     }
 
     public static class LodestoneLayerToken {
@@ -81,12 +89,10 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
 
     public static class LodestoneBlockFillerLayer extends HashMap<BlockPos, LodestoneBlockFiller.BlockStateEntry> {
 
-        public final MergingStrategy mergingStrategy;
         public final LodestoneLayerToken layerToken;
 
-        public LodestoneBlockFillerLayer(LodestoneLayerToken layerToken, MergingStrategy mergingStrategy) {
+        public LodestoneBlockFillerLayer(LodestoneLayerToken layerToken) {
             this.layerToken = layerToken;
-            this.mergingStrategy = mergingStrategy;
         }
 
         public void fill(LevelAccessor level) {
@@ -100,20 +106,74 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
         public void replace(BlockPos pos, Function<BlockStateEntry, BlockStateEntry> entryFunction) {
             replace(pos, entryFunction.apply(get(pos)));
         }
+
+        public BlockStateEntry put(BlockPos key, BlockStateEntryBuilder value) {
+            return super.put(key, value.build());
+        }
+
+        public BlockStateEntry putIfAbsent(BlockPos key, BlockStateEntryBuilder value) {
+            return super.putIfAbsent(key, value.build());
+        }
+    }
+
+    public interface EntryDiscardPredicate {
+        boolean shouldDiscard(LevelAccessor level, BlockPos pos, BlockState state);
+    }
+
+    public interface EntryPlacementPredicate {
+        boolean canPlace(LevelAccessor level, BlockPos pos, BlockState state);
+    }
+
+    public static BlockStateEntryBuilder create(BlockState state) {
+        return new BlockStateEntryBuilder(state);
+    }
+
+    public static class BlockStateEntryBuilder {
+
+        private final BlockState state;
+        private EntryDiscardPredicate discardPredicate;
+        private EntryPlacementPredicate placementPredicate;
+        private boolean forcePlace;
+
+        public BlockStateEntryBuilder(BlockState state) {
+            this.state = state;
+        }
+
+        public BlockStateEntryBuilder setDiscardPredicate(EntryDiscardPredicate discardPredicate) {
+            this.discardPredicate = discardPredicate;
+            return this;
+        }
+
+        public BlockStateEntryBuilder setPlacementPredicate(EntryPlacementPredicate placementPredicate) {
+            this.placementPredicate = placementPredicate;
+            return this;
+        }
+
+        public BlockStateEntryBuilder setForcePlace() {
+            return setForcePlace(true);
+        }
+
+        public BlockStateEntryBuilder setForcePlace(boolean forcePlace) {
+            this.forcePlace = forcePlace;
+            return this;
+        }
+
+        public BlockStateEntry build() {
+            return new BlockStateEntry(state, discardPredicate, placementPredicate, forcePlace);
+        }
     }
 
     public static class BlockStateEntry {
-
         private final BlockState state;
         private final EntryDiscardPredicate discardPredicate;
+        private final EntryPlacementPredicate placementPredicate;
+        private final boolean forcePlace;
 
-        public BlockStateEntry(BlockState state, EntryDiscardPredicate discardPredicate) {
+        private BlockStateEntry(BlockState state, EntryDiscardPredicate discardPredicate, EntryPlacementPredicate placementPredicate, boolean forcePlace) {
             this.state = state;
             this.discardPredicate = discardPredicate;
-        }
-
-        public BlockStateEntry(BlockState state) {
-            this(state, null);
+            this.placementPredicate = placementPredicate;
+            this.forcePlace = forcePlace;
         }
 
         public BlockState getState() {
@@ -129,6 +189,12 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
                 return false;
             }
             BlockState state = level.getBlockState(pos);
+            if (placementPredicate != null && !placementPredicate.canPlace(level, pos, state)) {
+                return false;
+            }
+            if (forcePlace) {
+                return true;
+            }
             return level.isEmptyBlock(pos) || state.canBeReplaced();
         }
 
@@ -138,9 +204,5 @@ public class LodestoneBlockFiller extends ArrayList<LodestoneBlockFiller.Lodesto
                 BlockHelper.updateState(realLevel, pos);
             }
         }
-    }
-
-    public interface EntryDiscardPredicate {
-        boolean shouldDiscard(LevelAccessor level, BlockPos pos, BlockState state);
     }
 }

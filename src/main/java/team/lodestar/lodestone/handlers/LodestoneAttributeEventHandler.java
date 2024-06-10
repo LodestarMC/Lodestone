@@ -54,6 +54,11 @@ public class LodestoneAttributeEventHandler {
     }
 
     public static double applyMagicResistance(double magicResistance) {
-        return (1 - (0.75 * (1 / (0.2 * (magicResistance + 1))))) * 0.8;
+        if (magicResistance >= 20) {
+            return Math.max(0.25f, 0.5f - (magicResistance-20)*0.0125f);
+        }
+        else {
+            return 1 - magicResistance * 0.025f;
+        }
     }
 }

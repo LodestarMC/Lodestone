@@ -27,6 +27,7 @@ public abstract class SimpleParticleOptions {
     public ColorParticleData colorData = DEFAULT_COLOR;
     public GenericParticleData transparencyData = DEFAULT_GENERIC;
     public GenericParticleData scaleData = DEFAULT_GENERIC;
+    public GenericParticleData lengthData = DEFAULT_GENERIC;
     public SpinParticleData spinData = DEFAULT_SPIN;
 
     public Supplier<Integer> lifetimeSupplier = ()->20;
