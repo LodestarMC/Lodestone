@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.*;
 import net.minecraft.core.particles.*;
@@ -7,7 +8,6 @@ import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.*;
-import net.minecraftforge.registries.*;
 import org.joml.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.helpers.*;
