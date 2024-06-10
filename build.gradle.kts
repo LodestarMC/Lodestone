@@ -5,6 +5,7 @@ plugins {
 }
 
 version = property("mod_version")!!
+group = property("mod_group_id")!!
 
 val port_lib_modules: String by extra
 
@@ -119,4 +120,18 @@ java {
     // if it is present.
     // If you remove this line, sources will not be generated.
     withSourcesJar()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            artifactId = base.archivesName.get()
+            from(components.getByName("java"))
+        }
+    }
+    repositories {
+        maven {
+            url = uri("file://${System.getenv("local_maven")}")
+        }
+    }
 }
