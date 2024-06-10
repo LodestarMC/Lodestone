@@ -102,19 +102,12 @@ public class RenderHandler {
             LODESTONE_POST_CHAIN.resize(width, height);
             LODESTONE_DEPTH_CACHE.resize(width, height, Minecraft.ON_OSX);
         }
+        if (TEMP_RENDER_TARGET != null) TEMP_RENDER_TARGET.resize(width, height, Minecraft.ON_OSX);
     }
 
     public static void endBatchesEarly() {
-        if (ClientConfig.EXPERIMENTAL_FABULOUS_LAYERING.getConfigValue()) {
-            LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
-            final boolean isFabulous = levelRenderer.transparencyChain != null;
-            endBatchesExperimental(DELAYED_RENDER, isFabulous);
-            endBatchesExperimental(LATE_DELAYED_RENDER, isFabulous);
-        }
-        else {
-            endBatches(DELAYED_RENDER);
-            endBatches(LATE_DELAYED_RENDER);
-        }
+        endBatches(DELAYED_RENDER);
+        endBatches(LATE_DELAYED_RENDER);
     }
 
     public static void endBatchesLate() {
@@ -255,11 +248,12 @@ public class RenderHandler {
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);
             }
+
             if (TEMP_RENDER_TARGET != null) {
+                copyDepthBuffer(TEMP_RENDER_TARGET);
                 instance.setSampler("SceneDepthBuffer", TEMP_RENDER_TARGET.getDepthTextureId());
                 instance.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
             }
-
             source.endBatch(type);
             if (instance instanceof ExtendedShaderInstance extendedShaderInstance) {
                 extendedShaderInstance.setUniformDefaults();
