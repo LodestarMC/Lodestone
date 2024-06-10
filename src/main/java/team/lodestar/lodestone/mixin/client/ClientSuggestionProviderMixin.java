@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.mixin;
+package team.lodestar.lodestone.mixin.client;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
