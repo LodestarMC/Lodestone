@@ -34,7 +34,7 @@ public class SparkParticleBehavior implements LodestoneParticleBehavior {
         Vec3 offset = particle.getParticleSpeed().normalize().scale(length);
         Vec3 movingTo = pos.add(offset);
         Vec3 movingFrom = pos.subtract(offset);
-        SPARK_BUILDER.setVertexConsumer(particle.getVertexConsumer(consumer))
+        SPARK_BUILDER.setVertexConsumer(consumer)
                 .setUV(particle.getU0(), particle.getV0(), particle.getU1(), particle.getV1())
                 .setColorRaw(particle.getRed(), particle.getGreen(), particle.getBlue())
                 .setAlpha(particle.getAlpha())

@@ -36,7 +36,6 @@ public class DirectionalParticleBehavior implements LodestoneParticleBehavior {
             quaternion.rotateZ(Mth.lerp(partialTicks, particle.getORoll(), particle.getRoll()));
         }
 
-        consumer = particle.getVertexConsumer(consumer);
         Vec3 vec3 = camera.getPosition();
         float x = (float) (Mth.lerp(partialTicks, particle.getXOld(), particle.getX()) - vec3.x());
         float y = (float) (Mth.lerp(partialTicks, particle.getYOld(), particle.getY()) - vec3.y());

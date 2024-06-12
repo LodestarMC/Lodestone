@@ -155,7 +155,9 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         if (!tickActors.isEmpty()) {
             tickActors.forEach(a -> a.accept(this));
         }
-        behaviorComponent.tick(this);
+        if (behaviorComponent != null) {
+            behaviorComponent.tick(this);
+        }
     }
 
     @Override
