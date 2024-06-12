@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
-import team.lodestar.lodestone.systems.particle.world.options.*;
 
 public interface LodestoneParticleBehavior {
 
@@ -14,5 +13,5 @@ public interface LodestoneParticleBehavior {
 
     void render(LodestoneWorldParticle particle, VertexConsumer consumer, Camera camera, float partialTicks);
 
-    LodestoneParticleBehaviorComponent getComponent(LodestoneParticleBehaviorComponent component);
+    LodestoneBehaviorComponent getComponent(LodestoneBehaviorComponent component);
 }

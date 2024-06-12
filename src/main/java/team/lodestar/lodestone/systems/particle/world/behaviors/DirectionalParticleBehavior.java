@@ -7,7 +7,6 @@ import net.minecraft.world.phys.*;
 import org.joml.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
-import team.lodestar.lodestone.systems.particle.world.options.*;
 
 import java.lang.*;
 import java.lang.Math;
@@ -18,8 +17,8 @@ public class DirectionalParticleBehavior implements LodestoneParticleBehavior {
     }
 
     @Override
-    public DirectionalParticleBehaviorComponent getComponent(LodestoneParticleBehaviorComponent component) {
-        return component instanceof DirectionalParticleBehaviorComponent directional ? directional : LodestoneParticleBehaviorComponent.DIRECTIONAL;
+    public DirectionalBehaviorComponent getComponent(LodestoneBehaviorComponent component) {
+        return component instanceof DirectionalBehaviorComponent directional ? directional : LodestoneBehaviorComponent.DIRECTIONAL;
     }
 
     @Override

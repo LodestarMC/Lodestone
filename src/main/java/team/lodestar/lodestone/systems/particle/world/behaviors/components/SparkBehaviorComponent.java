@@ -4,15 +4,15 @@ import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
-public class SparkParticleBehaviorComponent implements LodestoneParticleBehaviorComponent {
+public class SparkBehaviorComponent implements LodestoneBehaviorComponent {
 
     private final GenericParticleData lengthData;
 
-    public SparkParticleBehaviorComponent(GenericParticleData lengthData) {
+    public SparkBehaviorComponent(GenericParticleData lengthData) {
         this.lengthData = lengthData;
     }
 
-    public SparkParticleBehaviorComponent() {
+    public SparkBehaviorComponent() {
         this(null);
     }
 

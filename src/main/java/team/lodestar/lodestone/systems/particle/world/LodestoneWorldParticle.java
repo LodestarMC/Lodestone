@@ -32,7 +32,7 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
 
     public final ParticleRenderType renderType;
     public final LodestoneParticleBehavior behavior;
-    public final LodestoneParticleBehaviorComponent behaviorComponent;
+    public final LodestoneBehaviorComponent behaviorComponent;
 
     public final RenderHandler.LodestoneRenderLayer renderLayer;
     public final boolean shouldCull;
@@ -155,6 +155,7 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         if (!tickActors.isEmpty()) {
             tickActors.forEach(a -> a.accept(this));
         }
+        behaviorComponent.tick(this);
     }
 
     @Override

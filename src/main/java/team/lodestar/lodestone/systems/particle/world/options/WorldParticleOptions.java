@@ -5,7 +5,6 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.*;
 import net.minecraftforge.registries.*;
-import org.checkerframework.checker.nullness.qual.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.*;
@@ -23,7 +22,7 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
 
     public final ParticleType<?> type;
     public LodestoneParticleBehavior behavior = LodestoneParticleBehavior.BILLBOARD;
-    public LodestoneParticleBehaviorComponent behaviorComponent;
+    public LodestoneBehaviorComponent behaviorComponent;
     public ParticleRenderType renderType = LodestoneWorldParticleRenderType.ADDITIVE;
     public RenderHandler.LodestoneRenderLayer renderLayer = RenderHandler.DELAYED_RENDER;
     public boolean shouldCull;
@@ -41,7 +40,7 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
         this(type.get());
     }
 
-    public WorldParticleOptions setBehavior(LodestoneParticleBehaviorComponent behaviorComponent) {
+    public WorldParticleOptions setBehavior(LodestoneBehaviorComponent behaviorComponent) {
         if (behaviorComponent == null) {
             return this;
         }
