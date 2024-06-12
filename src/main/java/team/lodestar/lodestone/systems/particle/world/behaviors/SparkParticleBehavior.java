@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.*;
 import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
-import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
 import team.lodestar.lodestone.systems.rendering.*;
@@ -18,8 +17,8 @@ public class SparkParticleBehavior implements LodestoneParticleBehavior {
     }
 
     @Override
-    public SparkParticleBehaviorComponent getComponent(LodestoneParticleBehaviorComponent component) {
-        return component instanceof SparkParticleBehaviorComponent spark ? spark : LodestoneParticleBehaviorComponent.SPARK;
+    public SparkBehaviorComponent getComponent(LodestoneBehaviorComponent component) {
+        return component instanceof SparkBehaviorComponent spark ? spark : LodestoneBehaviorComponent.SPARK;
     }
 
     @Override

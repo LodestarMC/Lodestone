@@ -15,7 +15,6 @@ import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.data.color.*;
 import team.lodestar.lodestone.systems.particle.data.spin.*;
 import team.lodestar.lodestone.systems.particle.world.*;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.type.*;
@@ -40,14 +39,14 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     public static WorldParticleBuilder create(LodestoneWorldParticleType particle) {
         return create(particle, null);
     }
-    public static WorldParticleBuilder create(LodestoneWorldParticleType particle, LodestoneParticleBehaviorComponent behavior) {
+    public static WorldParticleBuilder create(LodestoneWorldParticleType particle, LodestoneBehaviorComponent behavior) {
         return create(new WorldParticleOptions(particle).setBehavior(behavior));
     }
 
     public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle) {
         return create(particle, null);
     }
-    public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle, LodestoneParticleBehaviorComponent behavior) {
+    public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle, LodestoneBehaviorComponent behavior) {
         return create(new WorldParticleOptions(particle.get()).setBehavior(behavior));
     }
 
@@ -64,7 +63,7 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return options;
     }
 
-    public WorldParticleBuilder setBehaviorComponent(LodestoneParticleBehaviorComponent behaviorComponent) {
+    public WorldParticleBuilder setBehaviorComponent(LodestoneBehaviorComponent behaviorComponent) {
         getParticleOptions().setBehavior(behaviorComponent);
         return this;
     }

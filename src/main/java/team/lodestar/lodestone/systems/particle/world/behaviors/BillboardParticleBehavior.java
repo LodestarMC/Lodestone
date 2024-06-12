@@ -8,15 +8,13 @@ import org.joml.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
 
-import java.lang.Math;
-
 public class BillboardParticleBehavior implements LodestoneParticleBehavior {
 
     protected BillboardParticleBehavior() {
     }
 
     @Override
-    public LodestoneParticleBehaviorComponent getComponent(LodestoneParticleBehaviorComponent component) {
+    public LodestoneBehaviorComponent getComponent(LodestoneBehaviorComponent component) {
         return null;
     }
 
