@@ -5,6 +5,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.*;
 import net.minecraftforge.registries.*;
+import org.checkerframework.checker.nullness.qual.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.*;
@@ -21,7 +22,7 @@ import java.util.function.*;
 public class WorldParticleOptions extends SimpleParticleOptions implements ParticleOptions {
 
     public final ParticleType<?> type;
-    public final LodestoneParticleBehavior behavior;
+    public LodestoneParticleBehavior behavior = LodestoneParticleBehavior.BILLBOARD;
     public LodestoneParticleBehaviorComponent behaviorComponent;
     public ParticleRenderType renderType = LodestoneWorldParticleRenderType.ADDITIVE;
     public RenderHandler.LodestoneRenderLayer renderLayer = RenderHandler.DELAYED_RENDER;
@@ -32,24 +33,16 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
 
     public boolean noClip = false;
 
-    public WorldParticleOptions(ParticleType<?> type, LodestoneParticleBehavior behavior) {
+    protected WorldParticleOptions(ParticleType<?> type) {
         this.type = type;
-        this.behavior = behavior;
     }
 
-    public WorldParticleOptions(ParticleType<?> type) {
-        this(type, LodestoneParticleBehavior.BILLBOARD);
-    }
-
-    public WorldParticleOptions(RegistryObject<? extends LodestoneWorldParticleType> type, LodestoneParticleBehavior behavior) {
-        this(type.get(), behavior);
-    }
-
-    public WorldParticleOptions(RegistryObject<? extends LodestoneWorldParticleType> type) {
+    protected WorldParticleOptions(RegistryObject<? extends LodestoneWorldParticleType> type) {
         this(type.get());
     }
 
-    public WorldParticleOptions setComponent(LodestoneParticleBehaviorComponent behaviorComponent) {
+    public WorldParticleOptions setBehavior(LodestoneParticleBehaviorComponent behaviorComponent) {
+        this.behavior = behaviorComponent.getBehaviorType();
         this.behaviorComponent = behaviorComponent;
         return this;
     }

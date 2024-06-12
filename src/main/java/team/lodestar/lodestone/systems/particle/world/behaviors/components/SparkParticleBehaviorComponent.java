@@ -19,4 +19,9 @@ public class SparkParticleBehaviorComponent implements LodestoneParticleBehavior
     public GenericParticleData getLengthData(LodestoneWorldParticle particle) {
         return lengthData != null ? lengthData : particle.scaleData;
     }
+
+    @Override
+    public LodestoneParticleBehavior getBehaviorType() {
+        return LodestoneParticleBehavior.SPARK;
+    }
 }
