@@ -6,27 +6,33 @@ import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
 import org.joml.*;
 import team.lodestar.lodestone.systems.particle.world.*;
+import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
+import team.lodestar.lodestone.systems.particle.world.options.*;
 
 import java.lang.*;
 import java.lang.Math;
 
 public class DirectionalParticleBehavior implements LodestoneParticleBehavior {
 
-    private final Quaternionf quaternion;
+    protected DirectionalParticleBehavior() {
+    }
 
-    public DirectionalParticleBehavior(Vec3 direction) {
-        float yRot = ((float) (Mth.atan2(direction.x, direction.z) * (double) (180F / (float) Math.PI)));
-        float xRot = ((float) (Mth.atan2(direction.y, direction.horizontalDistance()) * (double) (180F / (float) Math.PI)));
-        float yaw = (float) Math.toRadians(yRot);
-        float pitch = (float) Math.toRadians(-xRot);
-        quaternion = new Quaternionf(0.0F, 0.0F, 0.0F, 1.0F);
-        quaternion.mul(oldSchool(0, yaw, 0));
-        quaternion.mul(oldSchool(pitch, 0, 0));
+    @Override
+    public DirectionalParticleBehaviorComponent getComponent(LodestoneParticleBehaviorComponent component) {
+        return component instanceof DirectionalParticleBehaviorComponent directional ? directional : LodestoneParticleBehaviorComponent.DIRECTIONAL;
     }
 
     @Override
     public void render(LodestoneWorldParticle particle, VertexConsumer consumer, Camera camera, float partialTicks) {
-        Quaternionf quaternion = new Quaternionf(this.quaternion);
+        var component = getComponent(particle.behaviorComponent);
+        var direction = component.getDirection(particle);
+        float yRot = ((float) (Mth.atan2(direction.x, direction.z) * (double) (180F / (float) Math.PI)));
+        float xRot = ((float) (Mth.atan2(direction.y, direction.horizontalDistance()) * (double) (180F / (float) Math.PI)));
+        float yaw = (float) Math.toRadians(yRot);
+        float pitch = (float) Math.toRadians(-xRot);
+        Quaternionf quaternion = new Quaternionf(0.0F, 0.0F, 0.0F, 1.0F);
+        quaternion.mul(oldSchool(0, yaw, 0));
+        quaternion.mul(oldSchool(pitch, 0, 0));
         if (particle.getRoll() != 0) {
             quaternion.rotateZ(Mth.lerp(partialTicks, particle.getORoll(), particle.getRoll()));
         }

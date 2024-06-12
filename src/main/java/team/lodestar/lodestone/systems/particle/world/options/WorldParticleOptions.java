@@ -4,11 +4,13 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.*;
+import net.minecraftforge.registries.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.*;
+import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
 import team.lodestar.lodestone.systems.particle.world.type.*;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
 
     public final ParticleType<?> type;
     public final LodestoneParticleBehavior behavior;
+    public LodestoneParticleBehaviorComponent behaviorComponent;
     public ParticleRenderType renderType = LodestoneWorldParticleRenderType.ADDITIVE;
     public RenderHandler.LodestoneRenderLayer renderLayer = RenderHandler.DELAYED_RENDER;
     public boolean shouldCull;
@@ -35,7 +38,15 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
     }
 
     public WorldParticleOptions(ParticleType<?> type) {
-        this(type, null);
+        this(type, LodestoneParticleBehavior.BILLBOARD);
+    }
+
+    public WorldParticleOptions(RegistryObject<? extends LodestoneWorldParticleType> type, LodestoneParticleBehavior behavior) {
+        this(type.get(), behavior);
+    }
+
+    public WorldParticleOptions(RegistryObject<? extends LodestoneWorldParticleType> type) {
+        this(type.get());
     }
 
     @Override
