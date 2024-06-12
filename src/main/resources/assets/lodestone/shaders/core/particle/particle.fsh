@@ -30,7 +30,7 @@ void main() {
 
     float sceneDepthClip = getDepth(SceneDepthBuffer, screenUV);
 
-    vec3 sceneViewSpace = viewSpaceFromDepth(getDepth(SceneDepthBuffer, screenUV), screenUV, InvProjMat);
+    vec3 sceneViewSpace = viewSpaceFromDepth(sceneDepthClip, screenUV, InvProjMat);
     vec3 pixelViewSpace = viewSpaceFromDepth(pixelDepthClip, screenUV, InvProjMat);
 
     fragColor.a *= applyDepthFade(sceneViewSpace.z, pixelViewSpace.z, DepthFadeIntensity);
