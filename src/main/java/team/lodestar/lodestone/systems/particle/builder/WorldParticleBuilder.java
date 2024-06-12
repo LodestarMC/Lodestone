@@ -3,7 +3,6 @@ package team.lodestar.lodestone.systems.particle.builder;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.*;
-import net.minecraft.core.particles.*;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.phys.*;
@@ -66,7 +65,7 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     public WorldParticleBuilder setBehaviorComponent(LodestoneParticleBehaviorComponent behaviorComponent) {
-        getParticleOptions().setComponent(behaviorComponent);
+        getParticleOptions().setBehavior(behaviorComponent);
         return this;
     }
 

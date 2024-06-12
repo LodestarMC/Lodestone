@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.particle.world.behaviors.components;
 import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.world.*;
+import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
 import java.util.function.*;
 
@@ -20,5 +21,10 @@ public class DirectionalParticleBehaviorComponent implements LodestoneParticleBe
 
     public Vec3 getDirection(LodestoneWorldParticle particle) {
         return direction.apply(particle);
+    }
+
+    @Override
+    public LodestoneParticleBehavior getBehaviorType() {
+        return LodestoneParticleBehavior.DIRECTIONAL;
     }
 }
