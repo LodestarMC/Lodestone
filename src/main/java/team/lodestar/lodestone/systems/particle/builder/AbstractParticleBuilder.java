@@ -18,6 +18,7 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
     double maxXSpeed = 0, maxYSpeed = 0;
     double maxXOffset = 0, maxYOffset = 0;
 
+
     public AbstractParticleBuilder<T> modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
         dataConsumer.accept(dataType.get());
         return this;
@@ -56,15 +57,6 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
 
     public GenericParticleData getScaleData() {
         return getParticleOptions().scaleData;
-    }
-
-    public AbstractParticleBuilder<T> setLengthData(GenericParticleData scaleData) {
-        getParticleOptions().lengthData = scaleData;
-        return this;
-    }
-
-    public GenericParticleData getLengthData() {
-        return getParticleOptions().lengthData;
     }
 
     public AbstractParticleBuilder<T> setTransparencyData(GenericParticleData transparencyData) {

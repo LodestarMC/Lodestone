@@ -17,6 +17,7 @@ import team.lodestar.lodestone.systems.particle.data.color.*;
 import team.lodestar.lodestone.systems.particle.data.spin.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.*;
+import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.type.*;
 
@@ -62,6 +63,11 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     @Override
     public WorldParticleOptions getParticleOptions() {
         return options;
+    }
+
+    public WorldParticleBuilder setBehaviorComponent(LodestoneParticleBehaviorComponent behaviorComponent) {
+        getParticleOptions().behaviorComponent = behaviorComponent;
+        return this;
     }
 
     public WorldParticleBuilder enableNoClip() {
@@ -412,11 +418,6 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     @Override
     public WorldParticleBuilder setScaleData(GenericParticleData scaleData) {
         return (WorldParticleBuilder) super.setScaleData(scaleData);
-    }
-
-    @Override
-    public WorldParticleBuilder setLengthData(GenericParticleData scaleData) {
-        return (WorldParticleBuilder) super.setLengthData(scaleData);
     }
 
     @Override
