@@ -66,7 +66,7 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     public WorldParticleBuilder setBehaviorComponent(LodestoneParticleBehaviorComponent behaviorComponent) {
-        getParticleOptions().behaviorComponent = behaviorComponent;
+        getParticleOptions().setComponent(behaviorComponent);
         return this;
     }
 

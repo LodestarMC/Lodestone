@@ -49,6 +49,11 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
         this(type.get());
     }
 
+    public WorldParticleOptions setComponent(LodestoneParticleBehaviorComponent behaviorComponent) {
+        this.behaviorComponent = behaviorComponent;
+        return this;
+    }
+
     @Override
     public ParticleType<?> getType() {
         return type;
