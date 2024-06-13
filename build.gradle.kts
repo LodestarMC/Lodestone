@@ -90,7 +90,7 @@ dependencies {
         modApi(("io.github.fabricators_of_create.Porting-Lib:$module:${property("port_lib_version")}"))
     }
 
-    modApi("maven.modrinth:sodium:${property("sodium_version")}")
+    modImplementation("maven.modrinth:sodium:${property("sodium_version")}")
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
 }
 
