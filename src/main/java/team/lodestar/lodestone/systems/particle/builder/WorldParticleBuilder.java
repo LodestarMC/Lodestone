@@ -69,9 +69,16 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return this;
     }
 
-    public <T extends LodestoneBehaviorComponent> WorldParticleBuilder getDataFromBehavior(Class<T> targetClass, Function<T, GenericParticleData> behaviorConsumer, Consumer<GenericParticleData> dataConsumer) {
+    public <T extends LodestoneBehaviorComponent> Optional<GenericParticleData> getBehaviorData(Class<T> targetClass, Function<T, GenericParticleData> dataGetter) {
         if (targetClass.isInstance(options.behaviorComponent)) {
-            dataConsumer.accept(behaviorConsumer.apply((T) options.behaviorComponent));
+            return Optional.of(dataGetter.apply((T) options.behaviorComponent));
+        }
+        return Optional.empty();
+    }
+
+    public <T extends LodestoneBehaviorComponent> WorldParticleBuilder modifyBehaviorData(Class<T> targetClass, Function<T, GenericParticleData> dataGetter, Consumer<GenericParticleData> dataConsumer) {
+        if (targetClass.isInstance(options.behaviorComponent)) {
+            dataConsumer.accept(dataGetter.apply((T) options.behaviorComponent));
         }
         return this;
     }

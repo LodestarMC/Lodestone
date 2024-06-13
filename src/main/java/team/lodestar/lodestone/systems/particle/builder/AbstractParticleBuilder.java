@@ -7,7 +7,7 @@ import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 
-import java.util.Collection;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -21,6 +21,11 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
 
     public AbstractParticleBuilder<T> modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
         dataConsumer.accept(dataType.get());
+        return this;
+    }
+
+    public AbstractParticleBuilder<T> modifyData(Optional<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataType.ifPresent(dataConsumer);
         return this;
     }
 
