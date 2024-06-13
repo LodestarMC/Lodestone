@@ -20,6 +20,11 @@ public class BedrockDirectionalBehaviorComponent extends DirectionalBehaviorComp
         this.yaw = yawData.spinOffset + yawData.startingValue;
     }
 
+    public BedrockDirectionalBehaviorComponent() {
+        this.pitchData = null;
+        this.yawData = null;
+    }
+
     public BedrockDirectionalBehaviorComponent(SpinParticleData data) {
         this(data, data);
     }
@@ -34,6 +39,8 @@ public class BedrockDirectionalBehaviorComponent extends DirectionalBehaviorComp
 
     @Override
     public void tick(LodestoneWorldParticle particle) {
+        SpinParticleData pitchData = this.pitchData != null ? this.pitchData : particle.spinData;
+        SpinParticleData yawData = this.yawData != null ? this.yawData : particle.spinData;
         pitch += pitchData.getValue(particle.getAge(), particle.getLifetime());
         yaw += yawData.getValue(particle.getAge(), particle.getLifetime());
     }
