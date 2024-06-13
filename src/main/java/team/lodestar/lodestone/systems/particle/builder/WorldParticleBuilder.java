@@ -15,6 +15,7 @@ import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.data.color.*;
 import team.lodestar.lodestone.systems.particle.data.spin.*;
 import team.lodestar.lodestone.systems.particle.world.*;
+import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.type.*;
@@ -63,8 +64,21 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return options;
     }
 
-    public WorldParticleBuilder setBehaviorComponent(LodestoneBehaviorComponent behaviorComponent) {
+    public WorldParticleBuilder setBehavior(LodestoneBehaviorComponent behaviorComponent) {
         getParticleOptions().setBehavior(behaviorComponent);
+        return this;
+    }
+
+    public <T extends LodestoneBehaviorComponent> WorldParticleBuilder getDataFromBehavior(Class<T> targetClass, Function<T, GenericParticleData> behaviorConsumer, Consumer<GenericParticleData> dataConsumer) {
+        if (targetClass.isInstance(options.behaviorComponent)) {
+            dataConsumer.accept(behaviorConsumer.apply((T) options.behaviorComponent));
+        }
+        return this;
+    }
+    public <T extends LodestoneBehaviorComponent> WorldParticleBuilder modifyBehaviorData(Class<T> targetClass, Consumer<T> behaviorConsumer) {
+        if (targetClass.isInstance(options.behaviorComponent)) {
+            behaviorConsumer.accept((T) options.behaviorComponent);
+        }
         return this;
     }
 

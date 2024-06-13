@@ -24,4 +24,8 @@ public class SparkBehaviorComponent implements LodestoneBehaviorComponent {
     public LodestoneParticleBehavior getBehaviorType() {
         return LodestoneParticleBehavior.SPARK;
     }
+
+    public GenericParticleData getLengthData() {
+        return lengthData;
+    }
 }

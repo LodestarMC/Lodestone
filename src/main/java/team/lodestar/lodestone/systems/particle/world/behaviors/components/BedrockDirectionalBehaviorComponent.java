@@ -1,14 +1,16 @@
 package team.lodestar.lodestone.systems.particle.world.behaviors.components;
 
 import net.minecraft.world.phys.*;
+import team.lodestar.lodestone.systems.particle.builder.*;
 import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.data.spin.*;
 import team.lodestar.lodestone.systems.particle.world.*;
+import team.lodestar.lodestone.systems.particle.world.options.*;
 
 public class BedrockDirectionalBehaviorComponent extends DirectionalBehaviorComponent {
 
-    public final SpinParticleData pitchData;
-    public final SpinParticleData yawData;
+    private SpinParticleData pitchData;
+    private SpinParticleData yawData;
 
     public float pitch;
     public float yaw;
@@ -39,9 +41,23 @@ public class BedrockDirectionalBehaviorComponent extends DirectionalBehaviorComp
 
     @Override
     public void tick(LodestoneWorldParticle particle) {
-        SpinParticleData pitchData = this.pitchData != null ? this.pitchData : particle.spinData;
-        SpinParticleData yawData = this.yawData != null ? this.yawData : particle.spinData;
-        pitch += pitchData.getValue(particle.getAge(), particle.getLifetime());
-        yaw += yawData.getValue(particle.getAge(), particle.getLifetime());
+        pitch += getPitchData(particle.spinData).getValue(particle.getAge(), particle.getLifetime());
+        yaw += getYawData(particle.spinData).getValue(particle.getAge(), particle.getLifetime());
+    }
+
+    public SpinParticleData getPitchData(AbstractParticleBuilder<WorldParticleOptions> builder) {
+        return getPitchData(builder.getSpinData());
+    }
+
+    public SpinParticleData getYawData(AbstractParticleBuilder<WorldParticleOptions> builder) {
+        return getYawData(builder.getSpinData());
+    }
+
+    public SpinParticleData getPitchData(SpinParticleData delegate) {
+        return pitchData != null ? pitchData : delegate;
+    }
+
+    public SpinParticleData getYawData(SpinParticleData delegate) {
+        return yawData != null ? yawData : delegate;
     }
 }
