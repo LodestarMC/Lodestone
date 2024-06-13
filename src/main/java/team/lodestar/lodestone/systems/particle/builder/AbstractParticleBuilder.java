@@ -18,29 +18,6 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
     double maxXSpeed = 0, maxYSpeed = 0;
     double maxXOffset = 0, maxYOffset = 0;
 
-
-    public AbstractParticleBuilder<T> modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        dataConsumer.accept(dataType.get());
-        return this;
-    }
-
-    public AbstractParticleBuilder<T> modifyData(Optional<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        dataType.ifPresent(dataConsumer);
-        return this;
-    }
-
-    public AbstractParticleBuilder<T> modifyData(Function<AbstractParticleBuilder<T>, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        dataConsumer.accept(dataType.apply(this));
-        return this;
-    }
-
-    public final AbstractParticleBuilder<T> modifyData(Collection<Supplier<GenericParticleData>> dataTypes, Consumer<GenericParticleData> dataConsumer) {
-        for (Supplier<GenericParticleData> dataFunction : dataTypes) {
-            dataConsumer.accept(dataFunction.get());
-        }
-        return this;
-    }
-
     public AbstractParticleBuilder<T> modifyColorData(Consumer<ColorParticleData> dataConsumer) {
         dataConsumer.accept(getColorData());
         return this;
