@@ -49,6 +49,13 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
         return this;
     }
 
+    public WorldParticleOptions safeSetBehavior(LodestoneBehaviorComponent behaviorComponent) {
+        if (!behavior.equals(LodestoneParticleBehavior.BILLBOARD)) {
+            return this;
+        }
+        return setBehavior(behaviorComponent);
+    }
+
     @Override
     public ParticleType<?> getType() {
         return type;
