@@ -55,6 +55,7 @@ repositories {
             includeGroup("curse.maven")
         }
     }
+    maven(url = "https://api.modrinth.com/maven")
     maven(url = "https://maven.ladysnake.org/releases")
     maven("https://maven.terraformersmc.com/")
     maven(url = "https://maven.parchmentmc.org")
@@ -89,6 +90,7 @@ dependencies {
         modApi(("io.github.fabricators_of_create.Porting-Lib:$module:${property("port_lib_version")}"))
     }
 
+    modApi("maven.modrinth:sodium:${property("sodium_version")}")
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
 }
 

@@ -2,7 +2,9 @@
   "required": true,
   "package": "team.lodestar.lodestone.mixin",
   "compatibilityLevel": "JAVA_17",
+  "plugin": "team.lodestar.lodestone.mixin.LodestoneMixinPlugin",
   "mixins": [
+    "client.integration.sodium.SodiumWorldRendererMixin",
     "common.BlockItemMixin",
     "common.EntityMixin",
     "common.ItemEntityMixin",
@@ -27,7 +29,8 @@
     "client.MultiPlayerGameModeMixin",
     "client.ParticleEngineMixin",
     "client.ScreenEffectRendererMixin",
-    "client.ShaderInstanceMixin"
+    "client.ShaderInstanceMixin",
+    "client.integration.notsodium.LevelRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
