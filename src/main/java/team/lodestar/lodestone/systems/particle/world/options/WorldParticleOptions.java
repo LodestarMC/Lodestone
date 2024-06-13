@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.systems.particle.world.options;
 
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.*;
-import net.minecraftforge.registries.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.*;

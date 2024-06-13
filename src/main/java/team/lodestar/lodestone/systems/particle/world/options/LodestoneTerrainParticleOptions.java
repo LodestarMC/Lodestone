@@ -1,10 +1,9 @@
 package team.lodestar.lodestone.systems.particle.world.options;
 
+import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.*;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 import team.lodestar.lodestone.systems.particle.world.type.*;
 
 import java.util.function.*;
