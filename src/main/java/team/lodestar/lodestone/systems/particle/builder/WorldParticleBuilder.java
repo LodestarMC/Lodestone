@@ -89,6 +89,32 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return this;
     }
 
+    public WorldParticleBuilder modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType.get());
+        return this;
+    }
+
+    public WorldParticleBuilder modifyData(Optional<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataType.ifPresent(dataConsumer);
+        return this;
+    }
+
+    public WorldParticleBuilder modifyData(Function<WorldParticleBuilder, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType.apply(this));
+        return this;
+    }
+
+    public WorldParticleBuilder modifyDataOptional(Function<WorldParticleBuilder, Optional<GenericParticleData>> dataType, Consumer<GenericParticleData> dataConsumer) {
+        return modifyData(dataType.apply(this), dataConsumer);
+    }
+
+    public final WorldParticleBuilder modifyData(Collection<Supplier<GenericParticleData>> dataTypes, Consumer<GenericParticleData> dataConsumer) {
+        for (Supplier<GenericParticleData> dataFunction : dataTypes) {
+            dataConsumer.accept(dataFunction.get());
+        }
+        return this;
+    }
+
     public WorldParticleBuilder enableNoClip() {
         return setNoClip(true);
     }
@@ -412,16 +438,6 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         Vec3 pos = one.lerp(two, RANDOM.nextDouble());
         level.addParticle(getParticleOptions(), forceSpawn, pos.x, pos.y, pos.z, xMotion, yMotion, zMotion);
         return this;
-    }
-
-    @Override
-    public WorldParticleBuilder modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        return (WorldParticleBuilder) super.modifyData(dataType, dataConsumer);
-    }
-
-    @Override
-    public WorldParticleBuilder modifyData(Function<AbstractParticleBuilder<WorldParticleOptions>, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        return (WorldParticleBuilder) super.modifyData(dataType, dataConsumer);
     }
 
     @Override
