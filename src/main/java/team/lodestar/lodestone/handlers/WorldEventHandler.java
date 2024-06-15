@@ -8,11 +8,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.network.PacketDistributor;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
+import team.lodestar.lodestone.events.types.worldevent.*;
 import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPacket;
 import team.lodestar.lodestone.registry.client.LodestoneWorldEventRendererRegistry;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
@@ -32,6 +34,7 @@ public class WorldEventHandler {
                     WorldEventRenderer<WorldEventInstance> renderer = LodestoneWorldEventRendererRegistry.RENDERERS.get(instance.type);
                     if (renderer != null) {
                         if (renderer.canRender(instance)) {
+                            MinecraftForge.EVENT_BUS.post(new WorldEventRenderEvent(instance, renderer, stack, RenderHandler.DELAYED_RENDER.getTarget(), partialTicks));
                             renderer.render(instance, stack, RenderHandler.DELAYED_RENDER.getTarget(), partialTicks);
                         }
                     }
@@ -45,6 +48,7 @@ public class WorldEventHandler {
     }
 
     public static <T extends WorldEventInstance> T addWorldEvent(Level level, boolean shouldStart, T instance) {
+        MinecraftForge.EVENT_BUS.post(new WorldEventCreationEvent(instance, level));
         LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(capability -> {
             capability.inboundWorldEvents.add(instance);
             if (shouldStart) {
@@ -94,9 +98,13 @@ public class WorldEventHandler {
             while (iterator.hasNext()) {
                 WorldEventInstance instance = iterator.next();
                 if (instance.discarded) {
+                    MinecraftForge.EVENT_BUS.post(new WorldEventDiscardEvent(instance, level));
                     iterator.remove();
                 } else {
-                    if (!instance.isFrozen()) instance.tick(level);
+                    if (!instance.isFrozen()) {
+                        MinecraftForge.EVENT_BUS.post(new WorldEventTickEvent(instance, level));
+                        instance.tick(level);
+                    }
                     if (instance.dirty) {
                         LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new UpdateWorldEventPacket(instance.uuid, instance.synchronizeNBT()));
                         instance.dirty = false;
