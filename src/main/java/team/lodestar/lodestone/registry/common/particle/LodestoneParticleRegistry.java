@@ -24,15 +24,5 @@ public class LodestoneParticleRegistry {
     public static RegistryObject<LodestoneTerrainParticleType> TERRAIN_PARTICLE = PARTICLES.register("terrain", LodestoneTerrainParticleType::new);
     public static RegistryObject<LodestoneItemCrumbsParticleType> ITEM_PARTICLE = PARTICLES.register("item", LodestoneItemCrumbsParticleType::new);
 
-    public static void registerParticleFactory(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(WISP_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(SMOKE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(SPARKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(TWINKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(STAR_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
 
-        event.registerSpriteSet(SPARK_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(TERRAIN_PARTICLE.get(), s -> new LodestoneTerrainParticleType.Factory());
-        event.registerSpriteSet(ITEM_PARTICLE.get(), s -> new LodestoneItemCrumbsParticleType.Factory());
-    }
 }
