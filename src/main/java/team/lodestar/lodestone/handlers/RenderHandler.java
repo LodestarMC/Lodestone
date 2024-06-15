@@ -64,21 +64,22 @@ public class RenderHandler {
     }
 
     public static void setupLodestoneRenderTargets() {
-        Minecraft minecraft = Minecraft.getInstance();
-        try {
-            PostChain postChain = new PostChain(minecraft.getTextureManager(), minecraft.getResourceManager(), minecraft.getMainRenderTarget(), LodestoneLib.lodestonePath("shaders/lodestone_post_chain.json"));
-            postChain.resize(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
-            LODESTONE_DEPTH_CACHE = postChain.getTempTarget("lodestone_depth_cache");
+        if (ClientConfig.EXPERIMENTAL_FABULOUS_LAYERING.getConfigValue()) {
+            Minecraft minecraft = Minecraft.getInstance();
+            try {
+                PostChain postChain = new PostChain(minecraft.getTextureManager(), minecraft.getResourceManager(), minecraft.getMainRenderTarget(), LodestoneLib.lodestonePath("shaders/lodestone_post_chain.json"));
+                postChain.resize(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
+                LODESTONE_DEPTH_CACHE = postChain.getTempTarget("lodestone_depth_cache");
 
-            LODESTONE_TRANSLUCENT = postChain.getTempTarget("lodestone_translucent");
-            LODESTONE_TRANSLUCENT_PARTICLE = postChain.getTempTarget("lodestone_translucent_particle");
-            LODESTONE_ADDITIVE = postChain.getTempTarget("lodestone_additive");
-            LODESTONE_ADDITIVE_PARTICLE = postChain.getTempTarget("lodestone_additive_particle");
+                LODESTONE_TRANSLUCENT = postChain.getTempTarget("lodestone_translucent");
+                LODESTONE_TRANSLUCENT_PARTICLE = postChain.getTempTarget("lodestone_translucent_particle");
+                LODESTONE_ADDITIVE = postChain.getTempTarget("lodestone_additive");
+                LODESTONE_ADDITIVE_PARTICLE = postChain.getTempTarget("lodestone_additive_particle");
 
-            LODESTONE_POST_CHAIN = postChain;
-        }
-        catch (Exception exception) {
-            throw new RuntimeException(exception);
+                LODESTONE_POST_CHAIN = postChain;
+            } catch (Exception exception) {
+                throw new RuntimeException(exception);
+            }
         }
     }
 
@@ -107,6 +108,11 @@ public class RenderHandler {
     }
 
     public static void endBatchesEarly() {
+        if (ClientConfig.EXPERIMENTAL_FABULOUS_LAYERING.getConfigValue()) {
+            endBatchesExperimental(DELAYED_RENDER);
+            endBatchesExperimental(LATE_DELAYED_RENDER);
+            return;
+        }
         endBatches(DELAYED_RENDER);
         endBatches(LATE_DELAYED_RENDER);
     }
@@ -135,48 +141,42 @@ public class RenderHandler {
         endBufferedRendering();
     }
 
-    public static void endBatchesExperimental(LodestoneRenderLayer renderLayer, boolean isFabulous) {
+    public static void endBatchesExperimental(LodestoneRenderLayer renderLayer) {
         LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
         Matrix4f last = new Matrix4f(RenderSystem.getModelViewMatrix());
-        if (isFabulous) {
-            LODESTONE_DEPTH_CACHE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-            LODESTONE_TRANSLUCENT_PARTICLE.clear(Minecraft.ON_OSX);
-            LODESTONE_TRANSLUCENT_PARTICLE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-            LODESTONE_TRANSLUCENT_PARTICLE.bindWrite(false);
-        }
+        LODESTONE_DEPTH_CACHE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+        LODESTONE_TRANSLUCENT_PARTICLE.clear(Minecraft.ON_OSX);
+        LODESTONE_TRANSLUCENT_PARTICLE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+        LODESTONE_TRANSLUCENT_PARTICLE.bindWrite(false);
+
         beginBufferedRendering();
         renderBufferedParticles(renderLayer, true);
         if (RenderHandler.MATRIX4F != null) {
             RenderSystem.getModelViewMatrix().set(MATRIX4F);
         }
-        if (isFabulous) {
-            LODESTONE_TRANSLUCENT_PARTICLE.unbindWrite();
-            LODESTONE_TRANSLUCENT.clear(Minecraft.ON_OSX);
-            LODESTONE_TRANSLUCENT.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-            LODESTONE_TRANSLUCENT.bindWrite(false);
-        }
+        LODESTONE_TRANSLUCENT_PARTICLE.unbindWrite();
+        LODESTONE_TRANSLUCENT.clear(Minecraft.ON_OSX);
+        LODESTONE_TRANSLUCENT.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+        LODESTONE_TRANSLUCENT.bindWrite(false);
+
         renderBufferedBatches(renderLayer, true);
-        if (isFabulous) {
-            LODESTONE_TRANSLUCENT.unbindWrite();
-            LODESTONE_ADDITIVE.clear(Minecraft.ON_OSX);
-            LODESTONE_ADDITIVE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-            LODESTONE_ADDITIVE.bindWrite(false);
-        }
+        LODESTONE_TRANSLUCENT.unbindWrite();
+        LODESTONE_ADDITIVE.clear(Minecraft.ON_OSX);
+        LODESTONE_ADDITIVE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+        LODESTONE_ADDITIVE.bindWrite(false);
+
         renderBufferedBatches(renderLayer, false);
         RenderSystem.getModelViewMatrix().set(last);
-        if (isFabulous) {
-            LODESTONE_ADDITIVE.unbindWrite();
-            LODESTONE_ADDITIVE_PARTICLE.clear(Minecraft.ON_OSX);
-            LODESTONE_ADDITIVE_PARTICLE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
-            LODESTONE_ADDITIVE_PARTICLE.bindWrite(false);
-        }
+        LODESTONE_ADDITIVE.unbindWrite();
+        LODESTONE_ADDITIVE_PARTICLE.clear(Minecraft.ON_OSX);
+        LODESTONE_ADDITIVE_PARTICLE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+        LODESTONE_ADDITIVE_PARTICLE.bindWrite(false);
+
         renderBufferedParticles(renderLayer, false);
 
         endBufferedRendering();
-        if (isFabulous) {
-            LODESTONE_ADDITIVE_PARTICLE.unbindWrite();
-            levelRenderer.getCloudsTarget().bindWrite(false);
-        }
+        LODESTONE_ADDITIVE_PARTICLE.unbindWrite();
+        levelRenderer.getCloudsTarget().bindWrite(false);
     }
 
     public static void cacheFogData(ViewportEvent.RenderFog event) {

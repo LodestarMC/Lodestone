@@ -4,11 +4,13 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.*;
+import net.minecraftforge.registries.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.*;
+import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
 import team.lodestar.lodestone.systems.particle.world.type.*;
 
 import java.util.ArrayList;
@@ -19,7 +21,8 @@ import java.util.function.*;
 public class WorldParticleOptions extends SimpleParticleOptions implements ParticleOptions {
 
     public final ParticleType<?> type;
-    public final LodestoneParticleBehavior behavior;
+    public LodestoneParticleBehavior behavior = LodestoneParticleBehavior.BILLBOARD;
+    public LodestoneBehaviorComponent behaviorComponent;
     public ParticleRenderType renderType = LodestoneWorldParticleRenderType.ADDITIVE;
     public RenderHandler.LodestoneRenderLayer renderLayer = RenderHandler.DELAYED_RENDER;
     public boolean shouldCull;
@@ -29,13 +32,28 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
 
     public boolean noClip = false;
 
-    public WorldParticleOptions(ParticleType<?> type, LodestoneParticleBehavior behavior) {
+    public WorldParticleOptions(ParticleType<?> type) {
         this.type = type;
-        this.behavior = behavior;
     }
 
-    public WorldParticleOptions(ParticleType<?> type) {
-        this(type, null);
+    public WorldParticleOptions(RegistryObject<? extends LodestoneWorldParticleType> type) {
+        this(type.get());
+    }
+
+    public WorldParticleOptions setBehavior(LodestoneBehaviorComponent behaviorComponent) {
+        if (behaviorComponent == null) {
+            return this;
+        }
+        this.behavior = behaviorComponent.getBehaviorType();
+        this.behaviorComponent = behaviorComponent;
+        return this;
+    }
+
+    public WorldParticleOptions setBehaviorIfDefault(LodestoneBehaviorComponent behaviorComponent) {
+        if (!behavior.equals(LodestoneParticleBehavior.BILLBOARD)) {
+            return this;
+        }
+        return setBehavior(behaviorComponent);
     }
 
     @Override
