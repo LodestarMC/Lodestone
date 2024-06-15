@@ -18,6 +18,7 @@ import java.util.UUID;
 public abstract class WorldEventInstance {
     public UUID uuid; //TODO: figure out why this is here.
     public WorldEventType type;
+    public Level level;
     public boolean discarded;
     public boolean dirty;
     public boolean frozen = false;
@@ -44,6 +45,7 @@ public abstract class WorldEventInstance {
     }
 
     public void start(Level level) {
+        this.level = level;
     }
 
     public void tick(Level level) {
@@ -66,6 +68,10 @@ public abstract class WorldEventInstance {
      */
     public boolean isFrozen() {
         return frozen;
+    }
+
+    public Level getLevel() {
+        return level;
     }
 
     public CompoundTag serializeNBT(CompoundTag tag) {
