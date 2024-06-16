@@ -10,9 +10,9 @@ import net.minecraft.world.phys.Vec2;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import team.lodestar.lodestone.handlers.RenderHandler;
 
 import java.util.List;
-import java.util.Locale;
 
 public record Face(List<Vertex> vertices) {
     public void renderFace(PoseStack poseStack, RenderType renderType, int packedLight) {
@@ -53,9 +53,7 @@ public record Face(List<Vertex> vertices) {
 
     public Vector3f getCentroid() {
         Vector3f centroid = new Vector3f();
-        for (Vertex vertex : vertices) {
-            centroid.add(vertex.position());
-        }
+        for (Vertex vertex : vertices) centroid.add(vertex.position());
         centroid.div(vertices.size());
         return centroid;
     }
