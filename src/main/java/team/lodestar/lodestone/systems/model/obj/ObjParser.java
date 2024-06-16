@@ -53,7 +53,11 @@ public class ObjParser {
                     int textureIndex = parts.length > 1 && !parts[1].isEmpty() ? Integer.parseInt(parts[1]) - 1 : 0;
                     int normalIndex = parts.length > 2 ? Integer.parseInt(parts[2]) - 1 : 0;
 
-                    Vertex vertex = new Vertex(vertices.get(vertexIndex), normals.get(normalIndex), uvs.get(textureIndex));
+                    Vector3f position = vertices.get(vertexIndex);
+                    Vector3f normal = normals.get(normalIndex);
+                    Vec2 uv = uvs.get(textureIndex);
+
+                    Vertex vertex = new Vertex(position, normal, uv);
                     faceVertices.add(vertex);
                 }
 
