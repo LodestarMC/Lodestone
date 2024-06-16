@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
-import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.model.obj.ObjModel;
 import team.lodestar.lodestone.systems.model.obj.lod.strategy.LODStrategy;
 
@@ -18,12 +17,11 @@ public class MultiLODModel extends ObjModel implements LevelOfDetailBuilder {
     public MultiLODModel(LODStrategy lodStrategy, LevelOfDetailBuilderSetup setup) {
         super(null);
         this.lodStrategy = lodStrategy;
-        setup.setup(this);
+        setup.lodBuilder(this);
     }
 
     @Override
     public void create(float argument, ResourceLocation modelLocation) {
-        if (this.lodStrategy.equals(LODStrategy.Distance)) argument *= argument;
         lodEntries.add(new LevelOfDetail(new ObjModel(modelLocation), argument));
     }
 
@@ -43,6 +41,6 @@ public class MultiLODModel extends ObjModel implements LevelOfDetailBuilder {
 
     @FunctionalInterface
     public interface LevelOfDetailBuilderSetup {
-        void setup(LevelOfDetailBuilder builder);
+        void lodBuilder(LevelOfDetailBuilder builder);
     }
 }

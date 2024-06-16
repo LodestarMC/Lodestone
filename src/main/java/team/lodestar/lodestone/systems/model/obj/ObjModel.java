@@ -14,9 +14,11 @@ import java.util.Optional;
 public class ObjModel {
     public ArrayList<Face> faces = new ArrayList<>();
     public ResourceLocation modelLocation;
+    protected ObjParser objParser;
 
     public ObjModel(ResourceLocation modelLocation) {
         this.modelLocation = modelLocation;
+        this.objParser = new ObjParser();
     }
 
     public void loadModel() {
@@ -29,9 +31,8 @@ public class ObjModel {
             throw new RuntimeException("Resource not found: " + resourceLocation);
         }
         Resource resource = resourceO.get();
-        ObjParser objParser = new ObjParser();
         try {
-            objParser.parseObjFile(resource);
+            this.objParser.parseObjFile(resource);
             this.faces = objParser.getFaces();
         } catch (IOException e) {
             LodestoneLib.LOGGER.error("Error parsing OBJ file: " + resourceLocation, e);
