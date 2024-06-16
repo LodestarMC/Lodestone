@@ -9,13 +9,16 @@ import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
 import team.lodestar.lodestone.registry.common.particle.*;
+import team.lodestar.lodestone.systems.particle.world.type.LodestoneItemCrumbsParticleType;
+import team.lodestar.lodestone.systems.particle.world.type.LodestoneTerrainParticleType;
+import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientSetupEvents {
 
     @SubscribeEvent
     public static void registerParticleFactory(RegisterParticleProvidersEvent event) {
-        LodestoneParticleRegistry.registerParticleFactory(event);
+        registerParticleProviders(event);
         LodestoneScreenParticleRegistry.registerParticleFactory(event);
     }
 
@@ -24,5 +27,17 @@ public class ClientSetupEvents {
         RenderHandler.onClientSetup(event);
         ParticleEmitterHandler.registerParticleEmitters(event);
         ThrowawayBlockDataHandler.setRenderLayers(event);
+    }
+
+    private static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(LodestoneParticleRegistry.WISP_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleRegistry.SMOKE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleRegistry.SPARKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleRegistry.TWINKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleRegistry.STAR_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+
+        event.registerSpriteSet(LodestoneParticleRegistry.SPARK_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleRegistry.TERRAIN_PARTICLE.get(), s -> new LodestoneTerrainParticleType.Factory());
+        event.registerSpriteSet(LodestoneParticleRegistry.ITEM_PARTICLE.get(), s -> new LodestoneItemCrumbsParticleType.Factory());
     }
 }
