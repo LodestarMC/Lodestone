@@ -8,18 +8,24 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.Util;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
+import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.registry.client.*;
+import team.lodestar.lodestone.systems.rendering.*;
+import team.lodestar.lodestone.systems.rendering.rendeertype.*;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
 import java.util.function.*;
 
 @Environment(EnvType.CLIENT)
 public class LodestoneWorldParticleRenderType implements ParticleRenderType {
+
+    public static final Function<LodestoneWorldParticleRenderType, LodestoneWorldParticleRenderType> DEPTH_FADE = Util.memoize(LodestoneWorldParticleRenderType::addDepthFade);
 
     public static final LodestoneWorldParticleRenderType ADDITIVE = new LodestoneWorldParticleRenderType(
             LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
@@ -37,24 +43,24 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
             LodestoneRenderTypeRegistry.TRANSPARENT_BLOCK_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
             LodestoneRenderTypeRegistry.TRANSPARENT_FUNCTION);
 
-    public final RenderType renderType;
+    public final LodestoneRenderType renderType;
     protected final Supplier<ShaderInstance> shader;
     protected final ResourceLocation texture;
     protected final Runnable blendFunction;
 
-    public LodestoneWorldParticleRenderType(RenderType renderType, ShaderHolder shaderHolder, ResourceLocation texture, GlStateManager.SourceFactor srcAlpha, GlStateManager.DestFactor dstAlpha) {
+    public LodestoneWorldParticleRenderType(LodestoneRenderType renderType, ShaderHolder shaderHolder, ResourceLocation texture, GlStateManager.SourceFactor srcAlpha, GlStateManager.DestFactor dstAlpha) {
         this(renderType, shaderHolder.getInstance(), texture, srcAlpha, dstAlpha);
     }
 
-    public LodestoneWorldParticleRenderType(RenderType renderType, Supplier<ShaderInstance> shader, ResourceLocation texture, GlStateManager.SourceFactor srcAlpha, GlStateManager.DestFactor dstAlpha) {
+    public LodestoneWorldParticleRenderType(LodestoneRenderType renderType, Supplier<ShaderInstance> shader, ResourceLocation texture, GlStateManager.SourceFactor srcAlpha, GlStateManager.DestFactor dstAlpha) {
         this(renderType, shader, texture, () -> RenderSystem.blendFunc(srcAlpha, dstAlpha));
     }
 
-    public LodestoneWorldParticleRenderType(RenderType renderType, ShaderHolder shaderHolder, ResourceLocation texture, Runnable blendFunction) {
+    public LodestoneWorldParticleRenderType(LodestoneRenderType renderType, ShaderHolder shaderHolder, ResourceLocation texture, Runnable blendFunction) {
         this(renderType, shaderHolder.getInstance(), texture, blendFunction);
     }
 
-    public LodestoneWorldParticleRenderType(RenderType renderType, Supplier<ShaderInstance> shader, ResourceLocation texture, Runnable blendFunction) {
+    public LodestoneWorldParticleRenderType(LodestoneRenderType renderType, Supplier<ShaderInstance> shader, ResourceLocation texture, Runnable blendFunction) {
         this.renderType = renderType;
         this.shader = shader;
         this.texture = texture;
@@ -77,5 +83,14 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
+    }
+
+    public LodestoneWorldParticleRenderType withDepthFade() {
+        return DEPTH_FADE.apply(this);
+    }
+
+    private static LodestoneWorldParticleRenderType addDepthFade(LodestoneWorldParticleRenderType original) {
+        final LodestoneRenderType renderType = LodestoneRenderTypeRegistry.copyAndStore(original, original.renderType, ShaderUniformHandler.DEPTH_FADE);
+        return new LodestoneWorldParticleRenderType(renderType, original.shader, original.texture, original.blendFunction);
     }
 }

@@ -242,6 +242,9 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static LodestoneRenderType copyAndStore(Object index, LodestoneRenderType type) {
         return COPIES.computeIfAbsent(Pair.of(index, type), (p) -> GENERIC.apply(new RenderTypeData(type)));
     }
+    public static LodestoneRenderType copyAndStore(Object index, LodestoneRenderType type, ShaderUniformHandler handler) {
+        return applyUniformChanges(copyAndStore(index, type), handler);
+    }
 
     public static void addRenderTypeModifier(Consumer<LodestoneCompositeStateBuilder> modifier) {
         MODIFIER = modifier;
