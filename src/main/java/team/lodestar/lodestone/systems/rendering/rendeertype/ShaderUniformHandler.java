@@ -8,5 +8,9 @@ public interface ShaderUniformHandler {
         instance.safeGetUniform("LumiTransparency").set(1f);
     };
 
+    ShaderUniformHandler DEPTH_FADE = instance -> {
+        instance.safeGetUniform("DepthFade").set(1f);
+    };
+
     void updateShaderData(ShaderInstance instance);
 }
