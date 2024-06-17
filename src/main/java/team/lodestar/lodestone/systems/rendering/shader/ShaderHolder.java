@@ -43,6 +43,10 @@ public class ShaderHolder {
         return () -> shaderInstance;
     }
 
+    public void setShaderInstance(ShaderInstance reloadedShaderInstance) {
+        this.shaderInstance = (ExtendedShaderInstance) reloadedShaderInstance;
+    }
+
     public RenderStateShard.ShaderStateShard getShard() {
         return shard;
     }
