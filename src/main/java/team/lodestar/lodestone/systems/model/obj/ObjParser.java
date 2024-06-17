@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObjParser {
-
     public List<Vector3f> vertices = new ArrayList<>();
     public List<Vector3f> normals = new ArrayList<>();
     public List<Vec2> uvs = new ArrayList<>();
@@ -30,35 +29,36 @@ public class ObjParser {
                 float y = Float.parseFloat(tokens[2]);
                 float z = Float.parseFloat(tokens[3]);
                 vertices.add(new Vector3f(x, y, z));
+
             } else if (line.startsWith("vn ")) {
                 String[] tokens = line.split(" ");
                 float x = Float.parseFloat(tokens[1]);
                 float y = Float.parseFloat(tokens[2]);
                 float z = Float.parseFloat(tokens[3]);
                 normals.add(new Vector3f(x, y, z));
+
             } else if (line.startsWith("vt ")) {
                 String[] tokens = line.split(" ");
                 float u = Float.parseFloat(tokens[1]);
                 float v = Float.parseFloat(tokens[2]);
                 uvs.add(new Vec2(u, v));
+
             } else if (line.startsWith("f ")) {
                 String[] tokens = line.split(" ");
-                List<Vector3f> faceVertices = new ArrayList<>();
-                //Vector3f faceNormal = null;
-                List<Vector3f> faceNormals = new ArrayList<>();
-                List<Vec2> faceUVs = new ArrayList<>();
+                List<Vertex> faceVertices = new ArrayList<>();
 
                 for (int i = 1; i < tokens.length; i++) {
                     String[] parts = tokens[i].split("/");
                     int vertexIndex = Integer.parseInt(parts[0]) - 1;
                     int textureIndex = parts.length > 1 && !parts[1].isEmpty() ? Integer.parseInt(parts[1]) - 1 : 0;
                     int normalIndex = parts.length > 2 ? Integer.parseInt(parts[2]) - 1 : 0;
-                    faceVertices.add(vertices.get(vertexIndex));
-                    faceUVs.add(uvs.get(textureIndex));
-                    faceNormals.add(normals.get(normalIndex));
+
+                    Vertex vertex = new Vertex(vertices.get(vertexIndex), normals.get(normalIndex), uvs.get(textureIndex));
+                    faceVertices.add(vertex);
                 }
 
-                faces.add(new Face(faceVertices, faceNormals, faceUVs));
+                Face face = new Face(faceVertices);
+                faces.add(face);
             }
         }
         reader.close();

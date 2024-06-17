@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.systems.model.obj;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import team.lodestar.lodestone.LodestoneLib;
@@ -41,14 +41,11 @@ public class ObjModel {
 
     /**
      * Renders the model.
-     *
      * @param poseStack     The pose stack.
-     * @param buffer        The vertex consumer.
-     * @param packedLight   The packed light. 0-255;
+     * @param renderType    The render type.
+     * @param packedLight   The packed light.
      */
-    public void renderModel(PoseStack poseStack, VertexConsumer buffer, int packedLight) {
-        faces.forEach(face -> {
-            face.renderFace(poseStack, buffer, packedLight);
-        });
+    public void renderModel(PoseStack poseStack, RenderType renderType, int packedLight) {
+        faces.forEach(face -> face.renderFace(poseStack, renderType, packedLight));
     }
 }

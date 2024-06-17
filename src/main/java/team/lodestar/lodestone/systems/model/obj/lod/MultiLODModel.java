@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.systems.model.obj.lod;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
 import team.lodestar.lodestone.LodestoneLib;
@@ -35,10 +35,10 @@ public class MultiLODModel extends ObjModel implements LevelOfDetailBuilder {
     }
 
     @Override
-    public void renderModel(PoseStack poseStack, VertexConsumer buffer, int packedLight) {
+    public void renderModel(PoseStack poseStack, RenderType renderType, int packedLight) {
         Vector3f modelPosition = new Vector3f(0.0f, 0.0f, 0.0f);
         LevelOfDetail levelOfDetail = lodStrategy.getLODLevel(modelPosition, lodEntries);
-        levelOfDetail.getModel().renderModel(poseStack, buffer, packedLight);
+        levelOfDetail.getModel().renderModel(poseStack, renderType, packedLight);
     }
 
     @FunctionalInterface
