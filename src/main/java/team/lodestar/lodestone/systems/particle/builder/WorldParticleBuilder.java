@@ -3,7 +3,6 @@ package team.lodestar.lodestone.systems.particle.builder;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.*;
-import net.minecraft.core.particles.*;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.phys.*;
@@ -17,6 +16,7 @@ import team.lodestar.lodestone.systems.particle.data.color.*;
 import team.lodestar.lodestone.systems.particle.data.spin.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.*;
+import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.type.*;
 
@@ -40,15 +40,15 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     public static WorldParticleBuilder create(LodestoneWorldParticleType particle) {
         return create(particle, null);
     }
-    public static WorldParticleBuilder create(LodestoneWorldParticleType particle, LodestoneParticleBehavior behavior) {
-        return create(new WorldParticleOptions(particle, behavior));
+    public static WorldParticleBuilder create(LodestoneWorldParticleType particle, LodestoneBehaviorComponent behavior) {
+        return create(new WorldParticleOptions(particle).setBehavior(behavior));
     }
 
     public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle) {
         return create(particle, null);
     }
-    public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle, LodestoneParticleBehavior behavior) {
-        return create(new WorldParticleOptions(particle.get(), behavior));
+    public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle, LodestoneBehaviorComponent behavior) {
+        return create(new WorldParticleOptions(particle.get()).setBehavior(behavior));
     }
 
     public static WorldParticleBuilder create(WorldParticleOptions options) {
@@ -62,6 +62,57 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     @Override
     public WorldParticleOptions getParticleOptions() {
         return options;
+    }
+
+    public WorldParticleBuilder setBehavior(LodestoneBehaviorComponent behaviorComponent) {
+        getParticleOptions().setBehavior(behaviorComponent);
+        return this;
+    }
+
+    public <T extends LodestoneBehaviorComponent> Optional<GenericParticleData> getBehaviorData(Class<T> targetClass, Function<T, GenericParticleData> dataGetter) {
+        if (targetClass.isInstance(options.behaviorComponent)) {
+            return Optional.of(dataGetter.apply((T) options.behaviorComponent));
+        }
+        return Optional.empty();
+    }
+
+    public <T extends LodestoneBehaviorComponent> WorldParticleBuilder modifyBehaviorData(Class<T> targetClass, Function<T, GenericParticleData> dataGetter, Consumer<GenericParticleData> dataConsumer) {
+        if (targetClass.isInstance(options.behaviorComponent)) {
+            dataConsumer.accept(dataGetter.apply((T) options.behaviorComponent));
+        }
+        return this;
+    }
+    public <T extends LodestoneBehaviorComponent> WorldParticleBuilder modifyBehaviorData(Class<T> targetClass, Consumer<T> behaviorConsumer) {
+        if (targetClass.isInstance(options.behaviorComponent)) {
+            behaviorConsumer.accept((T) options.behaviorComponent);
+        }
+        return this;
+    }
+
+    public WorldParticleBuilder modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType.get());
+        return this;
+    }
+
+    public WorldParticleBuilder modifyData(Optional<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataType.ifPresent(dataConsumer);
+        return this;
+    }
+
+    public WorldParticleBuilder modifyData(Function<WorldParticleBuilder, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType.apply(this));
+        return this;
+    }
+
+    public WorldParticleBuilder modifyDataOptional(Function<WorldParticleBuilder, Optional<GenericParticleData>> dataType, Consumer<GenericParticleData> dataConsumer) {
+        return modifyData(dataType.apply(this), dataConsumer);
+    }
+
+    public final WorldParticleBuilder modifyData(Collection<Supplier<GenericParticleData>> dataTypes, Consumer<GenericParticleData> dataConsumer) {
+        for (Supplier<GenericParticleData> dataFunction : dataTypes) {
+            dataConsumer.accept(dataFunction.get());
+        }
+        return this;
     }
 
     public WorldParticleBuilder enableNoClip() {
@@ -390,16 +441,6 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     @Override
-    public WorldParticleBuilder modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        return (WorldParticleBuilder) super.modifyData(dataType, dataConsumer);
-    }
-
-    @Override
-    public WorldParticleBuilder modifyData(Function<AbstractParticleBuilder<WorldParticleOptions>, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        return (WorldParticleBuilder) super.modifyData(dataType, dataConsumer);
-    }
-
-    @Override
     public WorldParticleBuilder modifyColorData(Consumer<ColorParticleData> dataConsumer) {
         return (WorldParticleBuilder) super.modifyColorData(dataConsumer);
     }
@@ -412,11 +453,6 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     @Override
     public WorldParticleBuilder setScaleData(GenericParticleData scaleData) {
         return (WorldParticleBuilder) super.setScaleData(scaleData);
-    }
-
-    @Override
-    public WorldParticleBuilder setLengthData(GenericParticleData scaleData) {
-        return (WorldParticleBuilder) super.setLengthData(scaleData);
     }
 
     @Override

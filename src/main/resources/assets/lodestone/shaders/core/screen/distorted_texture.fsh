@@ -30,6 +30,6 @@ void main() {
 
     uv.x = clamp(uv.x, uCap.x, uCap.y);
     uv.y = clamp(uv.y, vCap.x, vCap.y);
-    vec4 color = transformColor(texture(Sampler0, texCoord0), LumiTransparency, vertexColor, ColorModulator);
+    vec4 color = transformColor(texture(Sampler0, uv), LumiTransparency, vertexColor, ColorModulator);
     fragColor = color;
 }

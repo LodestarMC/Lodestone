@@ -1,48 +1,29 @@
 package team.lodestar.lodestone.systems.model.obj.lod;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.RenderType;
 import org.joml.Vector3f;
-import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.model.obj.ObjModel;
-import team.lodestar.lodestone.systems.model.obj.lod.strategy.LODStrategy;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MultiLODModel<T> extends ObjModel {
+    private final LODStrategy<T> lodStrategy;
 
-public class MultiLODModel extends ObjModel implements LevelOfDetailBuilder {
-    private final List<LevelOfDetail> lodEntries = new ArrayList<>();
-    private final LODStrategy lodStrategy;
-
-    public MultiLODModel(LODStrategy lodStrategy, LevelOfDetailBuilderSetup setup) {
+    public MultiLODModel(LODStrategy<T> lodStrategy) {
         super(null);
         this.lodStrategy = lodStrategy;
-        setup.setup(this);
-    }
-
-    @Override
-    public void create(float argument, ResourceLocation modelLocation) {
-        if (this.lodStrategy.equals(LODStrategy.Distance)) argument *= argument;
-        lodEntries.add(new LevelOfDetail(new ObjModel(modelLocation), argument));
     }
 
     @Override
     public void loadModel() {
-        for (LevelOfDetail entry : lodEntries) {
-            entry.getModel().loadModel();
+        for (LevelOfDetail<T> levelOfDetail : lodStrategy.levelsOfDetail) {
+            levelOfDetail.getModel().loadModel();
         }
     }
 
     @Override
-    public void renderModel(PoseStack poseStack, VertexConsumer buffer, int packedLight) {
+    public void renderModel(PoseStack poseStack, RenderType renderType, int packedLight) {
         Vector3f modelPosition = new Vector3f(0.0f, 0.0f, 0.0f);
-        LevelOfDetail levelOfDetail = lodStrategy.getLODLevel(modelPosition, lodEntries);
-        levelOfDetail.getModel().renderModel(poseStack, buffer, packedLight);
-    }
-
-    @FunctionalInterface
-    public interface LevelOfDetailBuilderSetup {
-        void setup(LevelOfDetailBuilder builder);
+        LevelOfDetail<T> levelOfDetail = lodStrategy.getLODLevel(modelPosition);
+        levelOfDetail.getModel().renderModel(poseStack, renderType, packedLight);
     }
 }

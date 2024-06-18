@@ -7,7 +7,7 @@ import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 
-import java.util.Collection;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -17,23 +17,6 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
     double xMotion = 0, yMotion = 0;
     double maxXSpeed = 0, maxYSpeed = 0;
     double maxXOffset = 0, maxYOffset = 0;
-
-    public AbstractParticleBuilder<T> modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        dataConsumer.accept(dataType.get());
-        return this;
-    }
-
-    public AbstractParticleBuilder<T> modifyData(Function<AbstractParticleBuilder<T>, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        dataConsumer.accept(dataType.apply(this));
-        return this;
-    }
-
-    public final AbstractParticleBuilder<T> modifyData(Collection<Supplier<GenericParticleData>> dataTypes, Consumer<GenericParticleData> dataConsumer) {
-        for (Supplier<GenericParticleData> dataFunction : dataTypes) {
-            dataConsumer.accept(dataFunction.get());
-        }
-        return this;
-    }
 
     public AbstractParticleBuilder<T> modifyColorData(Consumer<ColorParticleData> dataConsumer) {
         dataConsumer.accept(getColorData());
@@ -56,15 +39,6 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
 
     public GenericParticleData getScaleData() {
         return getParticleOptions().scaleData;
-    }
-
-    public AbstractParticleBuilder<T> setLengthData(GenericParticleData scaleData) {
-        getParticleOptions().lengthData = scaleData;
-        return this;
-    }
-
-    public GenericParticleData getLengthData() {
-        return getParticleOptions().lengthData;
     }
 
     public AbstractParticleBuilder<T> setTransparencyData(GenericParticleData transparencyData) {

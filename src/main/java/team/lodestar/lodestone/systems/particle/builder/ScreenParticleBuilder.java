@@ -11,7 +11,7 @@ import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
 
-import java.util.Random;
+import java.util.*;
 import java.util.function.*;
 
 public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticleOptions> {
@@ -35,6 +35,32 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
     @Override
     public ScreenParticleOptions getParticleOptions() {
         return options;
+    }
+
+    public ScreenParticleBuilder modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType.get());
+        return this;
+    }
+
+    public ScreenParticleBuilder modifyData(Optional<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataType.ifPresent(dataConsumer);
+        return this;
+    }
+
+    public ScreenParticleBuilder modifyData(Function<ScreenParticleBuilder, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType.apply(this));
+        return this;
+    }
+
+    public ScreenParticleBuilder modifyDataOptional(Function<ScreenParticleBuilder, Optional<GenericParticleData>> dataType, Consumer<GenericParticleData> dataConsumer) {
+        return modifyData(dataType.apply(this), dataConsumer);
+    }
+
+    public final ScreenParticleBuilder modifyData(Collection<Supplier<GenericParticleData>> dataTypes, Consumer<GenericParticleData> dataConsumer) {
+        for (Supplier<GenericParticleData> dataFunction : dataTypes) {
+            dataConsumer.accept(dataFunction.get());
+        }
+        return this;
     }
 
     public ScreenParticleBuilder setDiscardFunction(SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType) {
@@ -121,16 +147,6 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
     public ScreenParticleBuilder repeatOnStack(double xOffset, double yOffset, int n) {
         for (int i = 0; i < n; i++) spawnOnStack(xOffset, yOffset);
         return this;
-    }
-
-    @Override
-    public ScreenParticleBuilder modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        return (ScreenParticleBuilder) super.modifyData(dataType, dataConsumer);
-    }
-
-    @Override
-    public ScreenParticleBuilder modifyData(Function<AbstractParticleBuilder<ScreenParticleOptions>, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        return (ScreenParticleBuilder) super.modifyData(dataType, dataConsumer);
     }
 
     @Override

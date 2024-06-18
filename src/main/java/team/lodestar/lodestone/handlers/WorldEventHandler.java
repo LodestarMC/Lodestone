@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.component.LodestoneWorldComponent;
+import team.lodestar.lodestone.events.types.worldevent.WorldEventEvents;
 import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPacket;
 import team.lodestar.lodestone.registry.client.LodestoneWorldEventRendererRegistry;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
@@ -49,6 +50,7 @@ public class WorldEventHandler {
                     WorldEventRenderer<WorldEventInstance> renderer = LodestoneWorldEventRendererRegistry.RENDERERS.get(instance.type);
                     if (renderer != null) {
                         if (renderer.canRender(instance)) {
+                            WorldEventEvents.RENDER.invoker().onRender(instance, renderer, stack, RenderHandler.DELAYED_RENDER.getTarget(), partialTicks);
                             renderer.render(instance, stack, RenderHandler.DELAYED_RENDER.getTarget(), partialTicks);
                         }
                     }
@@ -62,6 +64,7 @@ public class WorldEventHandler {
     }
 
     public static <T extends WorldEventInstance> T addWorldEvent(Level level, boolean shouldStart, T instance) {
+        WorldEventEvents.CREATION.invoker().onCreation(instance, level);
         LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(c -> {
             c.inboundWorldEvents.add(instance);
             if (shouldStart) {
@@ -93,9 +96,13 @@ public class WorldEventHandler {
             while (iterator.hasNext()) {
                 WorldEventInstance instance = iterator.next();
                 if (instance.discarded) {
+                    WorldEventEvents.DISCARD.invoker().onDiscard(instance, level);
                     iterator.remove();
                 } else {
-                    if (!instance.isFrozen()) instance.tick(level);
+                    if (!instance.isFrozen()) {
+                        WorldEventEvents.TICK.invoker().onTick(instance, level);
+                        instance.tick(level);
+                    }
                     if (instance.dirty) {
                         LodestonePacketRegistry.LODESTONE_CHANNEL.sendToClientsInCurrentServer(new UpdateWorldEventPacket(instance.uuid, instance.synchronizeNBT()));
                         instance.dirty = false;

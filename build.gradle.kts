@@ -9,10 +9,7 @@ group = property("mod_group_id")!!
 
 val port_lib_modules: String by extra
 
-version = "fabric-${property("minecraft_version")}-${property("mod_version")}"
-if (System.getenv("BUILD_NUMBER") != null) {
-    version = "fabric-${property("minecraft_version")}-${property("mod_version")}.${System.getenv("BUILD_NUMBER")}"
-}
+version = "${property("minecraft_version")}-${property("mod_version")}-fabric"
 
 base {
     archivesName.set("${property("mod_id")}")
@@ -58,6 +55,7 @@ repositories {
             includeGroup("curse.maven")
         }
     }
+    maven(url = "https://api.modrinth.com/maven")
     maven(url = "https://maven.ladysnake.org/releases")
     maven("https://maven.terraformersmc.com/")
     maven(url = "https://maven.parchmentmc.org")
@@ -92,6 +90,8 @@ dependencies {
         modApi(("io.github.fabricators_of_create.Porting-Lib:$module:${property("port_lib_version")}"))
     }
 
+    modImplementation("io.github.ladysnake:satin:${property("satin_version")}")
+    //modImplementation("maven.modrinth:sodium:${property("sodium_version")}")
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
 }
 

@@ -15,6 +15,7 @@ import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
 import team.lodestar.lodestone.systems.particle.world.options.WorldParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneWorldParticleRenderType;
 import team.lodestar.lodestone.systems.particle.world.behaviors.*;
@@ -28,8 +29,10 @@ import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.Par
 import static team.lodestar.lodestone.systems.particle.SimpleParticleOptions.ParticleSpritePicker.*;
 
 public class LodestoneWorldParticle extends TextureSheetParticle {
+
     public final ParticleRenderType renderType;
     public final LodestoneParticleBehavior behavior;
+    public final LodestoneBehaviorComponent behaviorComponent;
 
     public final RenderHandler.LodestoneRenderLayer renderLayer;
     public final boolean shouldCull;
@@ -39,7 +42,6 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
     public final ColorParticleData colorData;
     public final GenericParticleData transparencyData;
     public final GenericParticleData scaleData;
-    public final GenericParticleData lengthData;
     public final SpinParticleData spinData;
     public final Collection<Consumer<LodestoneWorldParticle>> tickActors;
     public final Collection<Consumer<LodestoneWorldParticle>> renderActors;
@@ -55,6 +57,7 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         super(world, x, y, z);
         this.renderType = options.renderType;
         this.behavior = options.behavior;
+        this.behaviorComponent = behavior.getComponent(options.behaviorComponent);
         this.renderLayer = options.renderLayer;
         this.shouldCull = options.shouldCull;
         this.spriteSet = spriteSet;
@@ -63,7 +66,6 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         this.colorData = options.colorData;
         this.transparencyData = GenericParticleData.constrictTransparency(options.transparencyData);
         this.scaleData = options.scaleData;
-        this.lengthData = options.lengthData;
         this.spinData = options.spinData;
         this.tickActors = options.tickActors;
         this.renderActors = options.renderActors;
@@ -153,6 +155,9 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         if (!tickActors.isEmpty()) {
             tickActors.forEach(a -> a.accept(this));
         }
+        if (behaviorComponent != null) {
+            behaviorComponent.tick(this);
+        }
     }
 
     @Override
@@ -182,10 +187,8 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         }
         renderActors.forEach(actor -> actor.accept(this));
         if (behavior != null) {
-            behavior.render(this, consumer, camera, partialTicks);
-            return;
+            behavior.render(this, getVertexConsumer(consumer), camera, partialTicks);
         }
-        super.render(getVertexConsumer(consumer), camera, partialTicks);
     }
 
     @Override
@@ -226,6 +229,7 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
     public float getRoll() {
         return roll;
     }
+
     public float getORoll() {
         return oRoll;
     }

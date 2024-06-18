@@ -39,6 +39,17 @@ public class ParticleEffectSpawner {
         return builder;
     }
 
+    public ParticleEffectSpawner act(Consumer<WorldParticleBuilder> builderConsumer) {
+        builderConsumer.accept(bloomBuilder);
+        builderConsumer.accept(builder);
+        return this;
+    }
+
+    public ParticleEffectSpawner actRaw(Consumer<WorldParticleBuilder> builderConsumer) {
+        builderConsumer.accept(builder);
+        return this;
+    }
+
     public WorldParticleBuilder getBloomBuilder() {
         return bloomBuilder;
     }
