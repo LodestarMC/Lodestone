@@ -2,6 +2,7 @@ package team.lodestar.lodestone.systems.block;
 
 import io.github.fabricators_of_create.porting_lib.tool.ToolAction;
 import io.github.fabricators_of_create.porting_lib.tool.ToolActions;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
@@ -15,6 +16,7 @@ public class LodestoneLogBlock extends RotatedPillarBlock {
     public LodestoneLogBlock(Properties properties, Supplier<Block> stripped) {
         super(properties);
         this.stripped = stripped;
+        StrippableBlockRegistry.register(stripped.get(), this);
     }
 
     @Override
