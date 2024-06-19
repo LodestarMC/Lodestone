@@ -5,17 +5,17 @@ import net.minecraft.client.renderer.RenderType;
 import org.joml.Vector3f;
 import team.lodestar.lodestone.systems.model.obj.ObjModel;
 
-public class MultiLODModel<T> extends ObjModel {
-    private final LODStrategy<T> lodStrategy;
+public class MultiLODModel extends ObjModel {
+    private final LODStrategy<?> lodStrategy;
 
-    public MultiLODModel(LODStrategy<T> lodStrategy) {
+    public MultiLODModel(LODStrategy<?> lodStrategy) {
         super(null);
         this.lodStrategy = lodStrategy;
     }
 
     @Override
     public void loadModel() {
-        for (LevelOfDetail<T> levelOfDetail : lodStrategy.levelsOfDetail) {
+        for (LevelOfDetail<?> levelOfDetail : lodStrategy.levelsOfDetail) {
             levelOfDetail.getModel().loadModel();
         }
     }
@@ -23,7 +23,7 @@ public class MultiLODModel<T> extends ObjModel {
     @Override
     public void renderModel(PoseStack poseStack, RenderType renderType, int packedLight) {
         Vector3f modelPosition = new Vector3f(0.0f, 0.0f, 0.0f);
-        LevelOfDetail<T> levelOfDetail = lodStrategy.getLODLevel(modelPosition);
+        LevelOfDetail<?> levelOfDetail = lodStrategy.getLODLevel(modelPosition);
         levelOfDetail.getModel().renderModel(poseStack, renderType, packedLight);
     }
 }

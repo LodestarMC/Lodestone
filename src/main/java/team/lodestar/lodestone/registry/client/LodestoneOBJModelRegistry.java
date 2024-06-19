@@ -17,9 +17,9 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = LodestoneLib.LODESTONE, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class LodestoneOBJModelRegistry {
     public static List<ObjModel> OBJ_MODELS = new ArrayList<>();
-    public static List<MultiLODModel<?>> LOD_MODELS = new ArrayList<>();
+    public static List<MultiLODModel> LOD_MODELS = new ArrayList<>();
 
-//    public static final MultiLODModel<?> LOD_MODEL = registerObjModel(new MultiLODModel<>(
+//    public static final MultiLODModel LOD_MODEL = registerObjModel(new MultiLODModel(
 //            LODStrategy.Distance(lodBuilder -> {
 //                lodBuilder.create(Mth.square(5.0f), LodestoneLib.lodestonePath("cube"));
 //                lodBuilder.create(Mth.square(10.0f), LodestoneLib.lodestonePath("one"));
@@ -33,7 +33,7 @@ public class LodestoneOBJModelRegistry {
         return objModel;
     }
 
-    public static MultiLODModel<?> registerObjModel(MultiLODModel<?> lodModel) {
+    public static MultiLODModel registerObjModel(MultiLODModel lodModel) {
         LOD_MODELS.add(lodModel);
         return lodModel;
     }
