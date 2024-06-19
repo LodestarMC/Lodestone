@@ -115,6 +115,7 @@ public class RenderHandler {
                 return;
             }
         }
+        copyDepthBuffer(TEMP_RENDER_TARGET);
         endBatches(DELAYED_RENDER);
         endBatches(LATE_DELAYED_RENDER);
     }
@@ -254,7 +255,6 @@ public class RenderHandler {
             }
 
             if (TEMP_RENDER_TARGET != null) {
-                copyDepthBuffer(TEMP_RENDER_TARGET);
                 instance.setSampler("SceneDepthBuffer", TEMP_RENDER_TARGET.getDepthTextureId());
                 instance.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
             }
@@ -284,8 +284,6 @@ public class RenderHandler {
         tempRenderTarget.copyDepthFrom(mainRenderTarget);
         GlStateManager._glBindFramebuffer(GL30C.GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
     }
-
-
 
     public static class LodestoneRenderLayer {
 
