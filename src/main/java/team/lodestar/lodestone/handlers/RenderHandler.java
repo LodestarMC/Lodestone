@@ -109,9 +109,12 @@ public class RenderHandler {
 
     public static void endBatchesEarly() {
         if (ClientConfig.EXPERIMENTAL_FABULOUS_LAYERING.getConfigValue()) {
-            endBatchesExperimental(DELAYED_RENDER);
-            endBatchesExperimental(LATE_DELAYED_RENDER);
-            return;
+            LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+            if (levelRenderer.transparencyChain != null) {
+                endBatchesExperimental(DELAYED_RENDER);
+                endBatchesExperimental(LATE_DELAYED_RENDER);
+                return;
+            }
         }
         endBatches(DELAYED_RENDER);
         endBatches(LATE_DELAYED_RENDER);
@@ -144,6 +147,7 @@ public class RenderHandler {
     public static void endBatchesExperimental(LodestoneRenderLayer renderLayer) {
         LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
         Matrix4f last = new Matrix4f(RenderSystem.getModelViewMatrix());
+
         LODESTONE_DEPTH_CACHE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
         LODESTONE_TRANSLUCENT_PARTICLE.clear(Minecraft.ON_OSX);
         LODESTONE_TRANSLUCENT_PARTICLE.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
