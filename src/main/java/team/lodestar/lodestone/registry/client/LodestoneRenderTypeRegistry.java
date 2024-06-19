@@ -22,7 +22,6 @@ import java.util.function.*;
 import static com.mojang.blaze3d.vertex.DefaultVertexFormat.*;
 import static com.mojang.blaze3d.vertex.VertexFormat.Mode.*;
 import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
-import static team.lodestar.lodestone.handlers.RenderHandler.LARGER_BUFFER_SOURCES;
 
 public class LodestoneRenderTypeRegistry extends RenderStateShard {
 
@@ -196,11 +195,10 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
      * Creates a custom render type and creates a buffer builder for it.
      */
     public static LodestoneRenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder, ShaderUniformHandler handler) {
-        int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
         if (MODIFIER != null) {
             MODIFIER.accept(builder);
         }
-        LodestoneRenderType type = LodestoneRenderType.createRenderType(name, format, builder.mode != null ? builder.mode : mode, size, false, true, builder.createCompositeState(true));
+        LodestoneRenderType type = LodestoneRenderType.createRenderType(name, format, builder.mode != null ? builder.mode : mode, 256, false, true, builder.createCompositeState(true));
         RenderHandler.addRenderType(type);
         if (handler != null) {
             applyUniformChanges(type, handler);

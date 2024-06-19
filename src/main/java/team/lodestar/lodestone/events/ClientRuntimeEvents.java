@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -76,14 +75,9 @@ public class ClientRuntimeEvents {
             RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
         }
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
-            RenderHandler.endBatchesEarly();
+            RenderHandler.endBatches();
         }
-//        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_LEVEL)) {
-//            final PostChain transparencyChain = levelRenderer.transparencyChain;
-//            if (transparencyChain != null) {
-//                RenderHandler.LODESTONE_TARGET.blitToScreen(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
-//            }
-//        }
+
         poseStack.popPose();
     }
 
