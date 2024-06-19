@@ -50,18 +50,8 @@ public class ClientRuntimeEvents {
             RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
         }
         if (stage == Stage.AFTER_WEATHER) {
-            RenderHandler.endBatchesEarly();
+            RenderHandler.endBatches();
         }
-
-        if (stage == Stage.AFTER_BLOCK_ENTITIES) {
-            RenderHandler.copyDepthBuffer(RenderHandler.TEMP_RENDER_TARGET);
-        }
-//        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_LEVEL)) {
-//            final PostChain transparencyChain = levelRenderer.transparencyChain;
-//            if (transparencyChain != null) {
-//                RenderHandler.LODESTONE_TARGET.blitToScreen(minecraft.getWindow().getWidth(), minecraft.getWindow().getHeight());
-//            }
-//        }
         poseStack.popPose();
     }
 }
