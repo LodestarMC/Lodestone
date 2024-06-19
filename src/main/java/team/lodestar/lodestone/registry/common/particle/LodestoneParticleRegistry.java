@@ -26,18 +26,4 @@ public class LodestoneParticleRegistry {
     public static final RegistryObject<LodestoneWorldParticleType> SPARK_PARTICLE = PARTICLES.register("spark", LodestoneWorldParticleType::new);
     public static final RegistryObject<LodestoneTerrainParticleType> TERRAIN_PARTICLE = PARTICLES.register("terrain" , LodestoneTerrainParticleType::new);
     public static final RegistryObject<LodestoneItemCrumbsParticleType> ITEM_PARTICLE = PARTICLES.register("item" , LodestoneItemCrumbsParticleType::new);
-
-
-    @Environment(EnvType.CLIENT)
-    public static void registerParticleFactory() {
-        ParticleFactoryRegistry.getInstance().register(WISP_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(SMOKE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(SPARKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(TWINKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(STAR_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-
-        ParticleFactoryRegistry.getInstance().register(SPARK_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        ParticleFactoryRegistry.getInstance().register(TERRAIN_PARTICLE.get(), s -> new team.lodestar.lodestone.systems.particle.world.type.LodestoneTerrainParticleType.Factory());
-        ParticleFactoryRegistry.getInstance().register(ITEM_PARTICLE.get(), s -> new LodestoneItemCrumbsParticleType.Factory());
-    }
 }

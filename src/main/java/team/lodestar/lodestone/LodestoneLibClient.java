@@ -3,7 +3,10 @@ package team.lodestar.lodestone;
 import io.github.fabricators_of_create.porting_lib.config.ConfigRegistry;
 import io.github.fabricators_of_create.porting_lib.config.ConfigType;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.events.ClientRuntimeEvents;
@@ -17,7 +20,11 @@ import team.lodestar.lodestone.registry.common.LodestoneArgumentTypeRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneBlockEntityRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneOptionRegistry;
 import team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry;
+import team.lodestar.lodestone.systems.particle.world.type.LodestoneItemCrumbsParticleType;
+import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;
 import team.lodestar.lodestone.systems.postprocess.PostProcessHandler;
+
+import static team.lodestar.lodestone.registry.common.particle.LodestoneParticleRegistry.*;
 
 public class LodestoneLibClient implements ClientModInitializer {
     @Override
@@ -25,7 +32,7 @@ public class LodestoneLibClient implements ClientModInitializer {
 
         ConfigRegistry.registerConfig(LodestoneLib.LODESTONE, ConfigType.CLIENT, ClientConfig.clientSpec);
 
-        LodestoneParticleRegistry.registerParticleFactory();
+        registerParticleFactory();
 
         LodestoneBlockEntityRegistry.ClientOnly.registerRenderer();
         LodestoneOptionRegistry.addOption();
@@ -43,5 +50,17 @@ public class LodestoneLibClient implements ClientModInitializer {
         LodestoneRenderEvents.BEFORE_CLEAR.register(PostProcessHandler::onAfterSolidBlocks);
 
         RenderHandler.onClientSetup();
+    }
+
+    public static void registerParticleFactory() {
+        ParticleFactoryRegistry.getInstance().register(WISP_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(SMOKE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(SPARKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(TWINKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(STAR_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+
+        ParticleFactoryRegistry.getInstance().register(SPARK_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(TERRAIN_PARTICLE.get(), s -> new team.lodestar.lodestone.systems.particle.world.type.LodestoneTerrainParticleType.Factory());
+        ParticleFactoryRegistry.getInstance().register(ITEM_PARTICLE.get(), s -> new LodestoneItemCrumbsParticleType.Factory());
     }
 }
