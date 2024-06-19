@@ -64,13 +64,13 @@ public class LevelRendererMixin {
 
     @ModifyVariable(method = "initTransparency", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/PostChain;getTempTarget(Ljava/lang/String;)Lcom/mojang/blaze3d/pipeline/RenderTarget;", ordinal = 4), index = 2)
     private PostChain lodestone$initTransparency(PostChain value) {
-        RenderHandler.setupLodestoneRenderTargets();
+        //RenderHandler.setupLodestoneRenderTargets();
         return value;
     }
 
     @Inject(method = "deinitTransparency", at = @At(value = "HEAD"))
     private void lodestone$deinitTransparency(CallbackInfo ci) {
-        RenderHandler.closeLodestoneRenderTargets();
+        //RenderHandler.closeLodestoneRenderTargets();
     }
 
     //EVENTS

@@ -35,7 +35,7 @@ public class RenderHandler {
     public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
 
     //public static boolean LARGER_BUFFER_SOURCES = FabricLoader.getInstance().isModLoaded("sodium");
-    public static RenderTarget LODESTONE_DEPTH_CACHE = new TextureTarget(Minecraft.getInstance().getMainRenderTarget().width, Minecraft.getInstance().getMainRenderTarget().height, true, Minecraft.ON_OSX);
+    public static RenderTarget LODESTONE_DEPTH_CACHE;
 
 
     public static LodestoneRenderLayer DELAYED_RENDER;
@@ -48,6 +48,11 @@ public class RenderHandler {
     public static float FOG_FAR;
     public static FogShape FOG_SHAPE;
     public static float FOG_RED, FOG_GREEN, FOG_BLUE;
+
+    public static void onClientSetup() {
+        DELAYED_RENDER = new LodestoneRenderLayer(BUFFERS, PARTICLE_BUFFERS);
+        LATE_DELAYED_RENDER = new LodestoneRenderLayer(LATE_BUFFERS, LATE_PARTICLE_BUFFERS);
+    }
 
     public static void resize(int width, int height) {
         if (LODESTONE_DEPTH_CACHE != null) {
@@ -143,8 +148,10 @@ public class RenderHandler {
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);
             }
-            instance.setSampler("SceneDepthBuffer", LODESTONE_DEPTH_CACHE.getDepthTextureId());
-            instance.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
+            if (LODESTONE_DEPTH_CACHE != null) {
+                instance.setSampler("SceneDepthBuffer", LODESTONE_DEPTH_CACHE.getDepthTextureId());
+                instance.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
+            }
 
             source.endBatch(type);
             if (instance instanceof ExtendedShaderInstance extendedShaderInstance) {

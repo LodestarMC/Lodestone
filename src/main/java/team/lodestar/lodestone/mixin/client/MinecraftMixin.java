@@ -52,7 +52,9 @@ public abstract class MinecraftMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void lodestone$onInit(GameConfig gameConfig, CallbackInfo ci) {
-        RenderHandler.TEMP_RENDER_TARGET = new TextureTarget(getMainRenderTarget().width, getMainRenderTarget().height, true, Minecraft.ON_OSX);;
+        RenderHandler.LODESTONE_DEPTH_CACHE = new TextureTarget(Minecraft.getInstance().getMainRenderTarget().width, Minecraft.getInstance().getMainRenderTarget().height, true, Minecraft.ON_OSX);
+
+        //RenderHandler.TEMP_RENDER_TARGET = new TextureTarget(getMainRenderTarget().width, getMainRenderTarget().height, true, Minecraft.ON_OSX);;
 
     }
 }
