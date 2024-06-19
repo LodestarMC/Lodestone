@@ -56,6 +56,7 @@ public class RenderHandler {
     public static RenderTarget LODESTONE_ADDITIVE;
     public static RenderTarget LODESTONE_ADDITIVE_PARTICLE;
     public static PostChain LODESTONE_POST_CHAIN;
+
     public static void onClientSetup(FMLClientSetupEvent event) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
 
@@ -116,6 +117,7 @@ public class RenderHandler {
                 return;
             }
         }
+        copyDepthBuffer(TEMP_RENDER_TARGET);
         endBatches(DELAYED_RENDER);
         endBatches(LATE_DELAYED_RENDER);
     }
@@ -251,7 +253,6 @@ public class RenderHandler {
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);
             }
-            copyDepthBuffer(TEMP_RENDER_TARGET);
             instance.setSampler("SceneDepthBuffer", TEMP_RENDER_TARGET.getDepthTextureId());
             instance.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
 
@@ -281,8 +282,6 @@ public class RenderHandler {
         tempRenderTarget.copyDepthFrom(mainRenderTarget);
         GlStateManager._glBindFramebuffer(GL30C.GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
     }
-
-
 
     public static class LodestoneRenderLayer {
 
