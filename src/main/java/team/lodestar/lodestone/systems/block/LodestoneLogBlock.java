@@ -16,7 +16,7 @@ public class LodestoneLogBlock extends RotatedPillarBlock {
     public LodestoneLogBlock(Properties properties, Supplier<Block> stripped) {
         super(properties);
         this.stripped = stripped;
-        StrippableBlockRegistry.register(stripped.get(), this);
+        StrippableBlockRegistry.register(this, stripped.get());
     }
 
     @Override
