@@ -29,11 +29,7 @@ public class CachedBlockEntitySoundInstance<T extends LodestoneBlockEntity> exte
         }
     }
 
-    public static void playSound(LodestoneBlockEntity blockEntity, Supplier<SoundEvent> soundEvent) {
-        playSound(blockEntity, soundEvent, 1, 1);
-    }
-    public static void playSound(LodestoneBlockEntity blockEntity, Supplier<SoundEvent> soundEvent, float volume, float pitch) {
-        var sound = new CachedBlockEntitySoundInstance<>(blockEntity, soundEvent, volume, pitch);
+    public static void playSound(LodestoneBlockEntity blockEntity, CachedBlockEntitySoundInstance<?> sound) {
         var blockPos = blockEntity.getBlockPos();
         if (ACTIVE_SOUNDS.containsKey(blockPos)) {
             var existingSound = ACTIVE_SOUNDS.get(blockPos);
