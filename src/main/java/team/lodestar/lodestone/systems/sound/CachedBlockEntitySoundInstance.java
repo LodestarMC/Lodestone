@@ -13,8 +13,8 @@ import java.util.function.Supplier;
 public class CachedBlockEntitySoundInstance<T extends LodestoneBlockEntity> extends LodestoneBlockEntitySoundInstance<T> {
     private static final Map<BlockPos, CachedBlockEntitySoundInstance<?>> ACTIVE_SOUNDS = new HashMap<>();
 
-    public CachedBlockEntitySoundInstance(T blockEntity, Supplier<SoundEvent> soundEvent) {
-        super(blockEntity, soundEvent.get(), 1f, 1f);
+    public CachedBlockEntitySoundInstance(T blockEntity, Supplier<SoundEvent> soundEvent, float volume, float pitch) {
+        super(blockEntity, soundEvent.get(), volume, pitch);
         var pos = blockEntity.getBlockPos();
         this.x = pos.getX() + 0.5f;
         this.y = pos.getY() + 0.5f;
@@ -30,7 +30,10 @@ public class CachedBlockEntitySoundInstance<T extends LodestoneBlockEntity> exte
     }
 
     public static void playSound(LodestoneBlockEntity blockEntity, Supplier<SoundEvent> soundEvent) {
-        var sound = new CachedBlockEntitySoundInstance<>(blockEntity, soundEvent);
+        playSound(blockEntity, soundEvent, 1, 1);
+    }
+    public static void playSound(LodestoneBlockEntity blockEntity, Supplier<SoundEvent> soundEvent, float volume, float pitch) {
+        var sound = new CachedBlockEntitySoundInstance<>(blockEntity, soundEvent, volume, pitch);
         var blockPos = blockEntity.getBlockPos();
         if (ACTIVE_SOUNDS.containsKey(blockPos)) {
             var existingSound = ACTIVE_SOUNDS.get(blockPos);
