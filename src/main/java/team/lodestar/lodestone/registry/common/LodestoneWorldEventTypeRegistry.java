@@ -1,11 +1,6 @@
 package team.lodestar.lodestone.registry.common;
-
+/*TODO
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.DeferredWorkQueue;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.ModLoadingStage;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.events.types.worldevent.WorldEventTypeRegistryEvent;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
@@ -22,7 +17,7 @@ public class LodestoneWorldEventTypeRegistry {
         return eventType;
     }
 
-    public static void postRegistryEvent(FMLCommonSetupEvent event) {
+    public static void postRegistryEvent() {
         DeferredWorkQueue queue = DeferredWorkQueue.lookup(Optional.of(ModLoadingStage.COMMON_SETUP)).orElseThrow();
 
         queue.enqueueWork(ModLoadingContext.get().getActiveContainer(), () -> {
@@ -31,3 +26,5 @@ public class LodestoneWorldEventTypeRegistry {
         });
     }
 }
+
+ */

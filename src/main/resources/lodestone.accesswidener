@@ -94,4 +94,5 @@ transitive-accessible method net/minecraft/client/particle/ParticleEngine regist
 transitive-accessible class net/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration
 transitive-accessible field net/minecraft/nbt/CompoundTag tags Ljava/util/Map;
 
-accessible field net/minecraft/commands/synchronization/ArgumentTypeInfos BY_CLASS Ljava/util/Map;
+transitive-accessible field net/minecraft/commands/synchronization/ArgumentTypeInfos BY_CLASS Ljava/util/Map;
+transitive-accessible field net/minecraft/client/renderer/RenderType$CompositeRenderType state Lnet/minecraft/client/renderer/RenderType$CompositeState;
