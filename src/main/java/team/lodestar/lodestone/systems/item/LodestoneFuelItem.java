@@ -11,6 +11,7 @@ public class LodestoneFuelItem extends CombustibleItem {
     public LodestoneFuelItem(Properties properties, int fuel) {
         super(properties);
         this.fuel = fuel;
+        setBurnTime(fuel);
     }
 
     @Override
