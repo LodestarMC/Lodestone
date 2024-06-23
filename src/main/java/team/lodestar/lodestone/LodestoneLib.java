@@ -35,12 +35,13 @@ public class LodestoneLib implements ModInitializer {
         return new ResourceLocation(LODESTONE, path);
     }
 
-    public static Item TEST_ITEM = new LodestoneFuelItem(new FabricItemSettings(), 200);
+    public static Item TEST_ITEM;
 
     @Override
     public void onInitialize() {
 
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            TEST_ITEM = new LodestoneFuelItem(new FabricItemSettings(), 200);
             Registry.register(BuiltInRegistries.ITEM, lodestonePath("test"), TEST_ITEM);
         }
 
