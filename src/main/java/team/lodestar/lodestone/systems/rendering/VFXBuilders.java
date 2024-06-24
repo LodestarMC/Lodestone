@@ -443,34 +443,37 @@ public class VFXBuilders {
         }
 
         public WorldVFXBuilder renderTrail(Matrix4f pose, List<TrailPoint> trailSegments, Function<Float, Float> widthFunc, Consumer<Float> vfxOperator) {
-            if (trailSegments.size() < 3) {
+            if (trailSegments.size() < 2) {
                 return this;
             }
             List<Vector4f> positions = trailSegments.stream().map(TrailPoint::getMatrixPosition).peek(p -> p.mul(pose)).toList();
             int count = trailSegments.size() - 1;
-            float increment = 1.0F / (count - 1);
-            ArrayList<TrailRenderPoint> points = new ArrayList<>();
-            for (int i = 0; i < count; i++) {
+            float increment = 1.0F / count;
+            TrailRenderPoint[] points = new TrailRenderPoint[trailSegments.size()];
+            for (int i = 1; i < count; i++) {
                 float width = widthFunc.apply(increment * i);
-                Vector4f start = positions.get(i);
-                Vector4f end = positions.get(i + 1);
-                points.add(new TrailRenderPoint(RenderHelper.midpoint(start, end), RenderHelper.screenSpaceQuadOffsets(start, end, width)));
+                Vector4f previous = positions.get(i - 1);
+                Vector4f current = positions.get(i);
+                Vector4f next = positions.get(i + 1);
+                points[i] = new TrailRenderPoint(current, RenderHelper.perpendicularTrailPoints(previous, next, width));
             }
+            float width = widthFunc.apply(0f);
+            points[0] = new TrailRenderPoint(positions.get(0), RenderHelper.perpendicularTrailPoints(positions.get(0), positions.get(1), width));
             return renderPoints(points, u0, v0, u1, v1, vfxOperator);
         }
 
-        public WorldVFXBuilder renderPoints(List<TrailRenderPoint> trailRenderPoints, float u0, float v0, float u1, float v1, Consumer<Float> vfxOperator) {
-            int count = trailRenderPoints.size() - 1;
+        public WorldVFXBuilder renderPoints(TrailRenderPoint[] points, float u0, float v0, float u1, float v1, Consumer<Float> vfxOperator) {
+            int count = points.length - 1;
             float increment = 1.0F / count;
             vfxOperator.accept(0f);
-            trailRenderPoints.get(0).renderStart(getVertexConsumer(), this, u0, v0, u1, Mth.lerp(increment, v0, v1));
+            points[0].renderStart(getVertexConsumer(), this, u0, v0, u1, Mth.lerp(increment, v0, v1));
             for (int i = 1; i < count; i++) {
                 float current = Mth.lerp(i * increment, v0, v1);
                 vfxOperator.accept(current);
-                trailRenderPoints.get(i).renderMid(getVertexConsumer(), this, u0, current, u1, current);
+                points[i].renderMid(getVertexConsumer(), this, u0, current, u1, current);
             }
             vfxOperator.accept(1f);
-            trailRenderPoints.get(count).renderEnd(getVertexConsumer(), this, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
+            points[count].renderEnd(getVertexConsumer(), this, u0, Mth.lerp((count) * increment, v0, v1), u1, v1);
             return this;
         }
 
