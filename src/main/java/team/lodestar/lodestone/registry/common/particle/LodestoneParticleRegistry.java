@@ -20,6 +20,8 @@ public class LodestoneParticleRegistry {
     public static RegistryObject<LodestoneWorldParticleType> TWINKLE_PARTICLE = PARTICLES.register("twinkle", LodestoneWorldParticleType::new);
     public static RegistryObject<LodestoneWorldParticleType> STAR_PARTICLE = PARTICLES.register("star", LodestoneWorldParticleType::new);
     public static RegistryObject<LodestoneWorldParticleType> SPARK_PARTICLE = PARTICLES.register("spark", LodestoneWorldParticleType::new);
+    public static RegistryObject<LodestoneWorldParticleType> EXTRUDING_SPARK_PARTICLE = PARTICLES.register("extruding_spark", LodestoneWorldParticleType::new);
+    public static RegistryObject<LodestoneWorldParticleType> THIN_EXTRUDING_SPARK_PARTICLE = PARTICLES.register("thin_extruding_spark", LodestoneWorldParticleType::new);
 
     public static RegistryObject<LodestoneTerrainParticleType> TERRAIN_PARTICLE = PARTICLES.register("terrain", LodestoneTerrainParticleType::new);
     public static RegistryObject<LodestoneItemCrumbsParticleType> ITEM_PARTICLE = PARTICLES.register("item", LodestoneItemCrumbsParticleType::new);
