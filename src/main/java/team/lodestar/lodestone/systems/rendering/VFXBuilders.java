@@ -457,8 +457,10 @@ public class VFXBuilders {
                 Vector4f next = positions.get(i + 1);
                 points[i] = new TrailRenderPoint(current, RenderHelper.perpendicularTrailPoints(previous, next, width));
             }
-            float width = widthFunc.apply(0f);
-            points[0] = new TrailRenderPoint(positions.get(0), RenderHelper.perpendicularTrailPoints(positions.get(0), positions.get(1), width));
+            points[0] = new TrailRenderPoint(positions.get(0),
+                    RenderHelper.perpendicularTrailPoints(positions.get(0), positions.get(1), widthFunc.apply(0f)));
+            points[count] = new TrailRenderPoint(positions.get(count),
+                    RenderHelper.perpendicularTrailPoints(positions.get(count-1), positions.get(count), widthFunc.apply(1f)));
             return renderPoints(points, u0, v0, u1, v1, vfxOperator);
         }
 
