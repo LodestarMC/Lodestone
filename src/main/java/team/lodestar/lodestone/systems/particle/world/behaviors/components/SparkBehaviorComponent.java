@@ -1,12 +1,14 @@
 package team.lodestar.lodestone.systems.particle.world.behaviors.components;
 
+import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
 public class SparkBehaviorComponent implements LodestoneBehaviorComponent {
 
-    private final GenericParticleData lengthData;
+    protected final GenericParticleData lengthData;
+    protected Vec3 cachedDirection;
 
     public SparkBehaviorComponent(GenericParticleData lengthData) {
         this.lengthData = lengthData;
@@ -16,8 +18,20 @@ public class SparkBehaviorComponent implements LodestoneBehaviorComponent {
         this(null);
     }
 
+    @Override
+    public void tick(LodestoneWorldParticle particle) {
+        var direction = particle.getParticleSpeed().normalize();
+        if (!direction.equals(Vec3.ZERO)) {
+            cachedDirection = direction;
+        }
+    }
+
     public GenericParticleData getLengthData(LodestoneWorldParticle particle) {
-        return lengthData != null ? lengthData : particle.scaleData;
+        return getLengthData() != null ? getLengthData() : particle.scaleData;
+    }
+
+    public Vec3 getDirection(LodestoneWorldParticle particle) {
+        return getCachedDirection() != null ? getCachedDirection() : particle.getParticleSpeed().normalize();
     }
 
     @Override
@@ -25,7 +39,19 @@ public class SparkBehaviorComponent implements LodestoneBehaviorComponent {
         return LodestoneParticleBehavior.SPARK;
     }
 
-    public GenericParticleData getLengthData() {
+    protected GenericParticleData getLengthData() {
         return lengthData;
+    }
+
+    protected Vec3 getCachedDirection() {
+        return cachedDirection;
+    }
+
+    public Vec3 sparkStart(Vec3 pos, Vec3 offset) {
+        return pos.subtract(offset);
+    }
+
+    public Vec3 sparkEnd(Vec3 pos, Vec3 offset) {
+        return pos.add(offset);
     }
 }

@@ -70,7 +70,7 @@ public class RenderHelper {
         return new Vector3f(Mth.cos(u) * Mth.sin(v) * r, Mth.cos(v) * r, Mth.sin(u) * Mth.sin(v) * r);
     }
 
-    public static Vec2 screenSpaceQuadOffsets(Vector4f start, Vector4f end, float width) {
+    public static Vec2 perpendicularTrailPoints(Vector4f start, Vector4f end, float width) {
         float x = -start.x();
         float y = -start.y();
         if (Math.abs(start.z()) > 0) {
