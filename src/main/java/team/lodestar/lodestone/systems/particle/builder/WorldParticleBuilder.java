@@ -69,6 +69,13 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return this;
     }
 
+    public <T extends LodestoneBehaviorComponent> Optional<T> getBehaviorComponent(Class<T> targetClass) {
+        if (targetClass.isInstance(getParticleOptions().behaviorComponent)) {
+            return Optional.of((T) getParticleOptions().behaviorComponent);
+        }
+        return Optional.empty();
+    }
+
     public <T extends LodestoneBehaviorComponent> Optional<GenericParticleData> getBehaviorData(Class<T> targetClass, Function<T, GenericParticleData> dataFunction) {
         if (targetClass.isInstance(options.behaviorComponent)) {
             return Optional.of(dataFunction.apply((T) options.behaviorComponent));
@@ -103,23 +110,28 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return this;
     }
 
-    public WorldParticleBuilder modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        dataConsumer.accept(dataType.get());
+    public WorldParticleBuilder modifyData(GenericParticleData dataType, Consumer<GenericParticleData> dataConsumer) {
+        dataConsumer.accept(dataType);
         return this;
     }
 
-    public WorldParticleBuilder modifyData(Optional<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+    public WorldParticleBuilder modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        return modifyData(dataType.get(), dataConsumer);
+    }
+
+    public WorldParticleBuilder modifyData(Function<WorldParticleBuilder, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
+        modifyData(dataType.apply(this), dataConsumer);
+        return this;
+    }
+
+    public WorldParticleBuilder modifyOptionalData(Optional<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
         dataType.ifPresent(dataConsumer);
         return this;
     }
 
-    public WorldParticleBuilder modifyData(Function<WorldParticleBuilder, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        dataConsumer.accept(dataType.apply(this));
+    public WorldParticleBuilder modifyOptionalData(Function<WorldParticleBuilder, Optional<GenericParticleData>> dataType, Consumer<GenericParticleData> dataConsumer) {
+        modifyOptionalData(dataType.apply(this), dataConsumer);
         return this;
-    }
-
-    public WorldParticleBuilder modifyDataOptional(Function<WorldParticleBuilder, Optional<GenericParticleData>> dataType, Consumer<GenericParticleData> dataConsumer) {
-        return modifyData(dataType.apply(this), dataConsumer);
     }
 
     public final WorldParticleBuilder modifyData(Collection<Supplier<GenericParticleData>> dataTypes, Consumer<GenericParticleData> dataConsumer) {
