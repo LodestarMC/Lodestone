@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.mixin.client.integration.sodium;
+package team.lodestar.lodestone.mixin.client.integration.sodium510;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
