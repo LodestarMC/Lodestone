@@ -46,8 +46,15 @@ public class ColorParticleData {
         return new ColorParticleDataBuilder(r1, g1, b1, r2, g2, b2);
     }
 
+    public static ColorParticleDataBuilder create(float r, float g, float b) {
+        return new ColorParticleDataBuilder(r, g, b, r, g, b);
+    }
+
     public static ColorParticleDataBuilder create(Color start, Color end) {
         return create(start.getRed() / 255f, start.getGreen() / 255f, start.getBlue() / 255f, end.getRed() / 255f, end.getGreen() / 255f, end.getBlue() / 255f);
     }
 
+    public static ColorParticleDataBuilder create(Color color) {
+        return create(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f);
+    }
 }
