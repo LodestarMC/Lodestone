@@ -39,11 +39,11 @@ public class SparkBehaviorComponent implements LodestoneBehaviorComponent {
         return LodestoneParticleBehavior.SPARK;
     }
 
-    protected GenericParticleData getLengthData() {
+    public GenericParticleData getLengthData() {
         return lengthData;
     }
 
-    protected Vec3 getCachedDirection() {
+    public Vec3 getCachedDirection() {
         return cachedDirection;
     }
 
