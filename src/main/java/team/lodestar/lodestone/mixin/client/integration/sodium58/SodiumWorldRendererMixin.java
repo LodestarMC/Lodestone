@@ -16,7 +16,8 @@ import team.lodestar.lodestone.events.Stage;
 
 @Mixin(SodiumWorldRenderer.class)
 public class SodiumWorldRendererMixin {
-    @Inject(method = "drawChunkLayer", at = @At(value = "INVOKE", target = "Lme/jellysquid/mods/sodium/client/render/chunk/RenderSectionManager;renderLayer(Lme/jellysquid/mods/sodium/client/render/chunk/ChunkRenderMatrices;Lme/jellysquid/mods/sodium/client/render/chunk/terrain/TerrainRenderPass;DDD)V"))
+
+    @Inject(method = "drawChunkLayer", at = @At(value = "TAIL"))
     private void lodestone$injectEvent6(RenderType renderLayer, PoseStack matrixStack, double x, double y, double z, CallbackInfo ci){
         LodestoneRenderEvents.BEFORE_CLEAR.invoker().render(renderLayer, matrixStack, Stage.AFTER_SOLID_BLOCKS);
     }
