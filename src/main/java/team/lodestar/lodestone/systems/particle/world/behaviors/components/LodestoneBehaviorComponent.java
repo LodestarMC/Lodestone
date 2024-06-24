@@ -7,6 +7,7 @@ public interface LodestoneBehaviorComponent {
 
     DirectionalBehaviorComponent DIRECTIONAL = new DirectionalBehaviorComponent();
     SparkBehaviorComponent SPARK = new SparkBehaviorComponent();
+    ExtrudingSparkBehaviorComponent EXTRUDING_SPARK = new ExtrudingSparkBehaviorComponent();
 
     LodestoneParticleBehavior getBehaviorType();
 
