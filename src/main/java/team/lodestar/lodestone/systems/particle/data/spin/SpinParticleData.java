@@ -13,6 +13,26 @@ public class SpinParticleData extends GenericParticleData {
         this.spinOffset = spinOffset;
     }
 
+    @Override
+    public SpinParticleData copy() {
+        return new SpinParticleData(spinOffset, startingValue, middleValue, endingValue, coefficient, startToMiddleEasing, middleToEndEasing).overrideValueMultiplier(valueMultiplier).overrideCoefficientMultiplier(coefficientMultiplier);
+    }
+
+    @Override
+    public SpinParticleData bake() {
+        return new SpinParticleData(spinOffset, startingValue*valueMultiplier, middleValue*valueMultiplier, endingValue*valueMultiplier, coefficient*coefficientMultiplier, startToMiddleEasing, middleToEndEasing);
+    }
+
+    @Override
+    public SpinParticleData overrideValueMultiplier(float valueMultiplier) {
+        return (SpinParticleData) super.overrideValueMultiplier(valueMultiplier);
+    }
+
+    @Override
+    public SpinParticleData overrideCoefficientMultiplier(float coefficientMultiplier) {
+        return (SpinParticleData) super.overrideCoefficientMultiplier(coefficientMultiplier);
+    }
+
     public static SpinParticleDataBuilder create(float value) {
         return new SpinParticleDataBuilder(value, value, -1);
     }
