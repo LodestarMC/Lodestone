@@ -20,6 +20,14 @@ public class GenericParticleData {
         this.middleToEndEasing = middleToEndEasing;
     }
 
+    public GenericParticleData copy() {
+        return new GenericParticleData(startingValue, middleValue, endingValue, coefficient, startToMiddleEasing, middleToEndEasing).overrideValueMultiplier(valueMultiplier).overrideCoefficientMultiplier(coefficientMultiplier);
+    }
+
+    public GenericParticleData bake() {
+        return new GenericParticleData(startingValue*valueMultiplier, middleValue*valueMultiplier, endingValue*valueMultiplier, coefficient*coefficientMultiplier, startToMiddleEasing, middleToEndEasing);
+    }
+
     public GenericParticleData multiplyCoefficient(float coefficientMultiplier) {
         this.coefficientMultiplier *= coefficientMultiplier;
         return this;
