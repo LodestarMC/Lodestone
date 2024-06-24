@@ -195,7 +195,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
                 long extracted = extract(ItemVariant.of(takeOutStack), takeOutStack.getCount(), t);
                 t.commit();
                 if (extracted > 0) {
-                    ItemHandlerHelper.giveItemToPlayer(player, takeOutStack);
+                    player.getInventory().placeItemBackInInventory(takeOutStack);
                     setChanged();
                     be.notifyUpdate();
                     return takeOutStack;
