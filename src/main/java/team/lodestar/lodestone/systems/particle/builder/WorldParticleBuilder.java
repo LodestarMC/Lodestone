@@ -68,12 +68,6 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         getParticleOptions().setBehavior(behaviorComponent);
         return this;
     }
-    public <T extends LodestoneBehaviorComponent> WorldParticleBuilder replaceExistingBehavior(Class<T> targetClass, Function<T, LodestoneBehaviorComponent> behaviorFunction) {
-        if (targetClass.isInstance(options.behaviorComponent)) {
-            getParticleOptions().setBehavior(behaviorFunction.apply((T) options.behaviorComponent));
-        }
-        return this;
-    }
 
     public <T extends LodestoneBehaviorComponent> Optional<LodestoneBehaviorComponent> getBehaviorComponent(Class<T> targetClass, Function<WorldParticleOptions, T> componentSupplier) {
         if (targetClass.isInstance(options.behaviorComponent)) {
@@ -82,11 +76,11 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return Optional.empty();
     }
 
-    public <T extends LodestoneBehaviorComponent> Optional<GenericParticleData> modifyBehaviorData(Class<T> targetClass, Function<T, GenericParticleData> dataFunction) {
+    public <T extends LodestoneBehaviorComponent> WorldParticleBuilder replaceExistingBehavior(Class<T> targetClass, Function<T, LodestoneBehaviorComponent> behaviorFunction) {
         if (targetClass.isInstance(options.behaviorComponent)) {
-            return Optional.of(dataFunction.apply((T) options.behaviorComponent));
+            getParticleOptions().setBehavior(behaviorFunction.apply((T) options.behaviorComponent));
         }
-        return Optional.empty();
+        return this;
     }
 
     public <T extends LodestoneBehaviorComponent> WorldParticleBuilder modifyBehaviorData(Class<T> targetClass, Function<T, GenericParticleData> dataGetter, Consumer<GenericParticleData> dataConsumer) {
@@ -95,7 +89,14 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         }
         return this;
     }
-    public <T extends LodestoneBehaviorComponent> WorldParticleBuilder modifyBehaviorData(Class<T> targetClass, Consumer<T> behaviorConsumer) {
+
+    public <T extends LodestoneBehaviorComponent> Optional<GenericParticleData> modifyBehaviorData(Class<T> targetClass, Function<T, GenericParticleData> dataFunction) {
+        if (targetClass.isInstance(options.behaviorComponent)) {
+            return Optional.of(dataFunction.apply((T) options.behaviorComponent));
+        }
+        return Optional.empty();
+    }
+    public <T extends LodestoneBehaviorComponent> WorldParticleBuilder modifyBehavior(Class<T> targetClass, Consumer<T> behaviorConsumer) {
         if (targetClass.isInstance(options.behaviorComponent)) {
             behaviorConsumer.accept((T) options.behaviorComponent);
         }
