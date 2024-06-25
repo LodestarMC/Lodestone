@@ -91,8 +91,8 @@ dependencies {
     }
 
     //modImplementation("io.github.ladysnake:satin:${property("satin_version")}")
-    //modImplementation("maven.modrinth:sodium:${property("sodium_version")}")
-    modImplementation("maven.modrinth:embeddium:${property("embeddium_version")}")
+    modImplementation("maven.modrinth:sodium:${property("sodium_version")}")
+    //modImplementation("maven.modrinth:embeddium:${property("embeddium_version")}")
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
 }
 

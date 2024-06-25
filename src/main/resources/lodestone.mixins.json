@@ -5,7 +5,7 @@
   "plugin": "team.lodestar.lodestone.mixin.LodestoneMixinPlugin",
   "mixins": [
     "client.integration.sodium510.SodiumWorldRendererMixin",
-    "client.integration.sodium58.SodiumWorldRendererMixin",
+    "client.integration.sodium58.SodiumWorldRenderer58Mixin",
     "common.BlockItemMixin",
     "common.EntityMixin",
     "common.ItemEntityMixin",
