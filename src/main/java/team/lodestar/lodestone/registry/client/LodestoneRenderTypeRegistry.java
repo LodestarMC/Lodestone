@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.*;
 import com.mojang.blaze3d.systems.*;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.*;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -197,7 +198,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
         if (MODIFIER != null) {
             MODIFIER.accept(builder);
         }
-        LodestoneRenderType type = LodestoneRenderType.createRenderType(name, format, builder.mode != null ? builder.mode : mode, 256, false, true, builder.createCompositeState(true));
+        LodestoneRenderType type = LodestoneRenderType.createRenderType(name, format, builder.mode != null ? builder.mode : mode, FabricLoader.getInstance().isModLoaded("sodium") ? 262144 : 256, false, true, builder.createCompositeState(true));
         RenderHandler.addRenderType(type);
         if (handler != null) {
             applyUniformChanges(type, handler);
