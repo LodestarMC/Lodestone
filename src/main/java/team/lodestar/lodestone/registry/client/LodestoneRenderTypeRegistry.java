@@ -198,7 +198,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
         if (MODIFIER != null) {
             MODIFIER.accept(builder);
         }
-        LodestoneRenderType type = LodestoneRenderType.createRenderType(name, format, builder.mode != null ? builder.mode : mode, FabricLoader.getInstance().isModLoaded("sodium") ? 262144 : 256, false, true, builder.createCompositeState(true));
+        LodestoneRenderType type = LodestoneRenderType.createRenderType(name, format, builder.mode != null ? builder.mode : mode, FabricLoader.getInstance().isModLoaded("sodium") ? 2097152 : 256, false, true, builder.createCompositeState(true));
         RenderHandler.addRenderType(type);
         if (handler != null) {
             applyUniformChanges(type, handler);
