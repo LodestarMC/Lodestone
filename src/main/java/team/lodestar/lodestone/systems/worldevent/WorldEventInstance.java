@@ -37,7 +37,11 @@ public abstract class WorldEventInstance {
     }
 
     public void start(Level level) {
-        this.level = level;
+        if (FMLEnvironment.dist.isClient()) {
+            this.level = Minecraft.getInstance().level;
+        } else {
+            this.level = level;
+        }
     }
 
     public void tick(Level level) {
