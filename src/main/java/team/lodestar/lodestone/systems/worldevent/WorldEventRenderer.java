@@ -8,11 +8,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public abstract class WorldEventRenderer<T extends WorldEventInstance> {
 
-    public boolean canRender(T instance) {
-        return false;
-    }
+    public abstract boolean canRender(T instance);
 
-    public void render(T instance, PoseStack poseStack, MultiBufferSource bufferSource, float partialTicks) {
-
-    }
+    public abstract void render(T instance, PoseStack poseStack, MultiBufferSource bufferSource, float partialTicks);
 }
