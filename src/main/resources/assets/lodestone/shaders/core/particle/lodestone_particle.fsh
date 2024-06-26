@@ -4,6 +4,7 @@
 
 uniform sampler2D Sampler0;
 uniform sampler2D SceneDepthBuffer;
+
 uniform float LumiTransparency;
 uniform float DepthFade;
 
@@ -23,15 +24,18 @@ out vec4 fragColor;
 
 
 void main() {
+    vec2 screenUV = gl_FragCoord.xy/ScreenSize;
+
     vec4 color = transformColor(texture(Sampler0, texCoord0), LumiTransparency, vertexColor, ColorModulator);
     fragColor = applyFog(color, FogStart, FogEnd, FogColor, vertexDistance);
 
-    vec2 screenUV = gl_FragCoord.xy/ScreenSize;
 
     float sceneDepthClip = getDepth(SceneDepthBuffer, screenUV);
 
     vec3 sceneViewSpace = viewSpaceFromDepth(sceneDepthClip, screenUV, InvProjMat);
     vec3 pixelViewSpace = viewSpaceFromDepth(pixelDepthClip, screenUV, InvProjMat);
 
-    fragColor.a *= applyDepthFade(sceneViewSpace.z, pixelViewSpace.z, DepthFade );
+    float depthFade = applyDepthFade(sceneViewSpace.z, pixelViewSpace.z, DepthFade);
+
+    fragColor.a *= depthFade;
 }
