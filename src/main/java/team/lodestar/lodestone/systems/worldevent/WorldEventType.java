@@ -7,10 +7,22 @@ public class WorldEventType {
 
     public final ResourceLocation id;
     public final EventInstanceSupplier supplier;
+    public final boolean clientSynced;
 
-    public WorldEventType(ResourceLocation id, EventInstanceSupplier supplier) {
+
+    /**
+     * @param id The id of the event type
+     * @param supplier The supplier for the event instance
+     * @param clientSynced Should this event exist on the client? It will be automatically synced in {@link WorldEventInstance#sync(net.minecraft.world.level.Level)}
+     */
+    public WorldEventType(ResourceLocation id, EventInstanceSupplier supplier, boolean clientSynced) {
         this.id = id;
         this.supplier = supplier;
+        this.clientSynced = clientSynced;
+    }
+
+    public boolean isClientSynced() {
+        return clientSynced;
     }
 
     public WorldEventInstance createInstance(CompoundTag tag) {

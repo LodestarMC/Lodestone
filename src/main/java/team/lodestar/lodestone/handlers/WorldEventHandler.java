@@ -65,7 +65,7 @@ public class WorldEventHandler {
                 LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(capability -> LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(worldCapability -> {
                     if (player instanceof ServerPlayer serverPlayer) {
                         for (WorldEventInstance instance : worldCapability.activeWorldEvents) {
-                            if (instance.isClientSynced()) {
+                            if (instance.type.isClientSynced()) {
                                 WorldEventInstance.sync(instance, serverPlayer);
                             }
                         }

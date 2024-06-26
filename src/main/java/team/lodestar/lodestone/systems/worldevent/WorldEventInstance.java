@@ -32,16 +32,9 @@ public abstract class WorldEventInstance {
      * Syncs the world event to all players.
      */
     public void sync(Level level) {
-        if (!level.isClientSide && isClientSynced()) {
+        if (!level.isClientSide && this.type.isClientSynced()) {
             sync(this);
         }
-    }
-
-    /**
-     * Should this event exist on the client? It will be automatically synced in {@link #sync(Level)}
-     */
-    public boolean isClientSynced() {
-        return false;
     }
 
     public void start(Level level) {
