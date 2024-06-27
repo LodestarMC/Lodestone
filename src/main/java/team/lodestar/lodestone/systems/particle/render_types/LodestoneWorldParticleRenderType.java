@@ -43,6 +43,10 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
             LodestoneRenderTypeRegistry.TRANSPARENT_BLOCK_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
             LodestoneRenderTypeRegistry.TRANSPARENT_FUNCTION);
 
+    public static final LodestoneWorldParticleRenderType ADDITIVE_TERRAIN_SHEET = new LodestoneWorldParticleRenderType(
+            LodestoneRenderTypeRegistry.ADDITIVE_BLOCK_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
+            LodestoneRenderTypeRegistry.ADDITIVE_FUNCTION);
+
     public final LodestoneRenderType renderType;
     protected final Supplier<ShaderInstance> shader;
     protected final ResourceLocation texture;
