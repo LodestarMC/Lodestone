@@ -1,11 +1,9 @@
 package team.lodestar.lodestone.systems.worldevent;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.PacketDistributor;
 import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
@@ -40,11 +38,7 @@ public abstract class WorldEventInstance {
     }
 
     public void start(Level level) {
-        if (FMLEnvironment.dist.isClient()) {
-            this.level = Minecraft.getInstance().level;
-        } else {
-            this.level = level;
-        }
+        this.level = level;
     }
 
     public void tick(Level level) {
