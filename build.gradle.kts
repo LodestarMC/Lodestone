@@ -75,12 +75,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
 
-    modCompileOnlyApi("mezz.jei:jei-${property("minecraft_version")}-common-api:${property("jei_version")}")
-    modCompileOnlyApi("mezz.jei:jei-${property("minecraft_version")}-fabric-api:${property("jei_version")}")
-    // at runtime, use the full JEI jar for Fabric
-    modRuntimeOnly("mezz.jei:jei-${property("minecraft_version")}-fabric:${property("jei_version")}")
-
-    modImplementation("dev.emi:trinkets:${property("trinkets_version")}") { isTransitive = false }
+    modApi("dev.emi:trinkets:${property("trinkets_version")}") { isTransitive = false }
 
     modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${property("cca_version")}")
     modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${property("cca_version")}")
@@ -91,7 +86,7 @@ dependencies {
     }
 
     //modImplementation("io.github.ladysnake:satin:${property("satin_version")}")
-    modImplementation("maven.modrinth:sodium:${property("sodium_version")}")
+    modApi("maven.modrinth:sodium:${property("sodium_version")}")
     //modImplementation("maven.modrinth:embeddium:${property("embeddium_version")}")
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
 }
