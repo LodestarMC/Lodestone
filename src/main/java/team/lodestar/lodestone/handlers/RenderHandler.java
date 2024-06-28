@@ -188,7 +188,7 @@ public class RenderHandler {
         protected final MultiBufferSource.BufferSource particleTarget;
 
         public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers) {
-            this(buffers, particleBuffers, 256);
+            this(buffers, particleBuffers, FabricLoader.getInstance().isModLoaded("sodium") ? 2097152 : 256);
         }
         public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers, int size) {
             this.buffers = buffers;
