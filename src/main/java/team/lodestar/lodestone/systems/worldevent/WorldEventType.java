@@ -21,6 +21,10 @@ public class WorldEventType {
         this.clientSynced = clientSynced;
     }
 
+    public WorldEventType(ResourceLocation id, EventInstanceSupplier supplier) {
+        this(id, supplier, false);
+    }
+
     public boolean isClientSynced() {
         return clientSynced;
     }
