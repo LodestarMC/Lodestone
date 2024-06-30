@@ -82,13 +82,15 @@ dependencies {
     modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-world:${property("cca_version")}")
 
     port_lib_modules.split(",").forEach { module ->
-        modApi(("io.github.fabricators_of_create.Porting-Lib:$module:${property("port_lib_version")}"))
+        include("io.github.fabricators_of_create.Porting-Lib:$module:${property("port_lib_version")}")
+        modApi("io.github.fabricators_of_create.Porting-Lib:$module:${property("port_lib_version")}")
     }
 
     //modImplementation("io.github.ladysnake:satin:${property("satin_version")}")
-    modApi("maven.modrinth:sodium:${property("sodium_version")}")
+    compileOnly("maven.modrinth:sodium:${property("sodium_version")}")
     //modImplementation("maven.modrinth:embeddium:${property("embeddium_version")}")
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
+    include("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
 }
 
 tasks {
