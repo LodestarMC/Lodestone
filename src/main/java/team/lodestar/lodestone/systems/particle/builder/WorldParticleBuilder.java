@@ -512,6 +512,26 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     @Override
+    public WorldParticleBuilder multiplyFriction(float GravityMultiplier) {
+        return (WorldParticleBuilder) super.multiplyFriction(GravityMultiplier);
+    }
+
+    @Override
+    public WorldParticleBuilder modifyFriction(Function<Float, Supplier<Float>> GravityReplacement) {
+        return (WorldParticleBuilder) super.modifyFriction(GravityReplacement);
+    }
+
+    @Override
+    public WorldParticleBuilder setFrictionStrength(float Gravity) {
+        return (WorldParticleBuilder) super.setFrictionStrength(Gravity);
+    }
+
+    @Override
+    public WorldParticleBuilder setFrictionStrength(Supplier<Float> GravityStrengthSupplier) {
+        return (WorldParticleBuilder) super.setFrictionStrength(GravityStrengthSupplier);
+    }
+
+    @Override
     public WorldParticleBuilder multiplyLifetime(float lifetimeMultiplier) {
         return (WorldParticleBuilder) super.multiplyLifetime(lifetimeMultiplier);
     }
