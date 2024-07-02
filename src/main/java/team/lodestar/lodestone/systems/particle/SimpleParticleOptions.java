@@ -32,6 +32,6 @@ public abstract class SimpleParticleOptions {
     public Supplier<Integer> lifetimeSupplier = ()->20;
     public Supplier<Integer> lifeDelaySupplier = ()->0;
     public Supplier<Float> gravityStrengthSupplier = ()->0f;
-    public Supplier<Float> frictionStrengthSupplier = ()->0f;
+    public Supplier<Float> frictionStrengthSupplier = ()->1f;
 
 }
