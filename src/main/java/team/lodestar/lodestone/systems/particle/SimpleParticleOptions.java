@@ -27,11 +27,11 @@ public abstract class SimpleParticleOptions {
     public ColorParticleData colorData = DEFAULT_COLOR;
     public GenericParticleData transparencyData = DEFAULT_GENERIC;
     public GenericParticleData scaleData = DEFAULT_GENERIC;
-    public GenericParticleData lengthData = DEFAULT_GENERIC;
     public SpinParticleData spinData = DEFAULT_SPIN;
 
     public Supplier<Integer> lifetimeSupplier = ()->20;
     public Supplier<Integer> lifeDelaySupplier = ()->0;
     public Supplier<Float> gravityStrengthSupplier = ()->0f;
+    public Supplier<Float> frictionStrengthSupplier = ()->0f;
 
 }

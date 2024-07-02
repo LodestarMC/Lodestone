@@ -77,6 +77,24 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
         return this;
     }
 
+    public AbstractParticleBuilder<T> multiplyFriction(float frictionMultiplier) {
+        return modifyFriction(f -> () -> f * frictionMultiplier);
+    }
+
+    public AbstractParticleBuilder<T> modifyFriction(Function<Float, Supplier<Float>> frictionReplacement) {
+        getParticleOptions().frictionStrengthSupplier = frictionReplacement.apply(getParticleOptions().frictionStrengthSupplier.get());
+        return this;
+    }
+
+    public AbstractParticleBuilder<T> setFrictionStrength(float friction) {
+        return setFrictionStrength(() -> friction);
+    }
+
+    public AbstractParticleBuilder<T> setFrictionStrength(Supplier<Float> frictionStrengthSupplier) {
+        getParticleOptions().frictionStrengthSupplier = frictionStrengthSupplier;
+        return this;
+    }
+
     public AbstractParticleBuilder<T> multiplyLifetime(float lifetimeMultiplier) {
         return modifyLifetime(i -> () -> (int) (i * lifetimeMultiplier));
     }
