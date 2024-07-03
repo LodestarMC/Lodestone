@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.events.LodestoneRenderEvents;
 import team.lodestar.lodestone.events.Stage;
 import team.lodestar.lodestone.handlers.RenderHandler;
@@ -54,6 +55,7 @@ public class LevelRendererMixin {
 
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "net.minecraft.client.renderer.PostChain.process(F)V", ordinal = 1))
     public void lodestone$injectionBeforeTransparencyChainProcess(CallbackInfo ci) {
+        LodestoneLib.debug("lodestone$injectionBeforeTransparencyChainProcess");
         PostProcessHandler.copyDepthBuffer();
     }
 
@@ -73,7 +75,7 @@ public class LevelRendererMixin {
         //RenderHandler.closeLodestoneRenderTargets();
     }
 
-    //EVENTS
+    //EVENTS 2456 / 2456
 
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", ordinal = 16))
     private void lodestone$injectEvent(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci){
@@ -101,7 +103,7 @@ public class LevelRendererMixin {
     }
 
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", ordinal = 12))
-    private void lodestone$injectEvent57(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci){
+    private void lodestone$injectEvent6(PoseStack poseStack, float partialTick, long finishNanoTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f projectionMatrix, CallbackInfo ci){
         LodestoneRenderEvents.AFTER_BLOCK_ENTITIES.invoker().render(poseStack, partialTick, Stage.AFTER_BLOCK_ENTITIES);
     }
 }

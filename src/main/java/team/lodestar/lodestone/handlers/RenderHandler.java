@@ -50,6 +50,7 @@ public class RenderHandler {
     public static float FOG_RED, FOG_GREEN, FOG_BLUE;
 
     public static void onClientSetup() {
+        LodestoneLib.debug("onClientSetup()");
         DELAYED_RENDER = new LodestoneRenderLayer(BUFFERS, PARTICLE_BUFFERS);
         LATE_DELAYED_RENDER = new LodestoneRenderLayer(LATE_BUFFERS, LATE_PARTICLE_BUFFERS);
     }

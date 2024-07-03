@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.*;
 
+import static net.minecraft.client.particle.ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+
 
 public class WorldParticleOptions extends SimpleParticleOptions implements ParticleOptions {
 

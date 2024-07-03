@@ -43,9 +43,13 @@ import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
 
 import java.awt.*;
 
+import static org.apache.commons.lang3.ClassUtils.getSimpleName;
+
 public class LodestoneLib implements ModInitializer {
 
     public static final Logger LOGGER = LogManager.getLogger();
+    public static final boolean debugMode = true;
+
     public static final String LODESTONE = "lodestone";
     public static final RandomSource RANDOM = RandomSource.create();
 
@@ -62,6 +66,7 @@ public class LodestoneLib implements ModInitializer {
             TEST_BLOCK = new TestBlock<>(FabricBlockSettings.create());
             TEST_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(TestBlockEntity::new, TEST_BLOCK).build();
             Registry.register(BuiltInRegistries.BLOCK, lodestonePath("test_block"), TEST_BLOCK);
+            Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, lodestonePath("test_block_entity"), TEST_BLOCK_ENTITY);
         }
 
         LodestoneArgumentTypeRegistry.registerArgumentTypes();
@@ -90,6 +95,23 @@ public class LodestoneLib implements ModInitializer {
 
         if (!FabricDataGenHelper.ENABLED) {
             //TODO ThrowawayBlockDataHandler.wipeCache();
+        }
+    }
+
+    public static void debug() {
+        debug("");
+    }
+
+    public static void debug(String message) {
+        if (debugMode) {
+            // Retrieve the class name of the caller
+            String className = new Exception().getStackTrace()[1].getClassName();
+            try {
+                Class<?> clazz = Class.forName(className);
+                LOGGER.info("Debugging: {}. {}", clazz.getSimpleName(), message);
+            } catch (ClassNotFoundException e) {
+                LOGGER.error("Class not found for name: {}", className, e);
+            }
         }
     }
 

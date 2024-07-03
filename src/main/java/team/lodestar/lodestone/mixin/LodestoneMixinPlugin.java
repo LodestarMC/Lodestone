@@ -50,6 +50,9 @@ public class LodestoneMixinPlugin implements IMixinConfigPlugin {
         if (mixinClassName.startsWith("team.lodestar.lodestone.mixin.client.integration.sodium58")) {
             return isSodiumLess059Installed();
         }
+        if (mixinClassName.startsWith("team.lodestar.lodestone.mixin.client.integration.iris")) {
+            return FabricLoader.getInstance().isModLoaded("iris");
+        }
 
         if (mixinClassName.startsWith("team.lodestar.lodestone.mixin.client.integration.notsodium")) {
             return !sodiumLoaded;
