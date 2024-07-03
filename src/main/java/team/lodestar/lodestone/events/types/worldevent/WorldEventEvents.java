@@ -1,12 +1,9 @@
 package team.lodestar.lodestone.events.types.worldevent;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
-import team.lodestar.lodestone.systems.worldevent.WorldEventRenderer;
 
 public class WorldEventEvents {
 
@@ -25,11 +22,6 @@ public class WorldEventEvents {
             e.onTick(worldEvent, level);
     });
 
-    public static final Event<Render> RENDER = EventFactory.createArrayBacked(Render.class, callbacks -> (worldEvent, renderer, poseStack, multiBufferSource, partialTicks) -> {
-        for (Render e : callbacks)
-            e.onRender(worldEvent, renderer, poseStack, multiBufferSource, partialTicks);
-    });
-
     @FunctionalInterface
     public interface Creation {
         void onCreation(WorldEventInstance worldEvent, Level level);
@@ -43,11 +35,6 @@ public class WorldEventEvents {
     @FunctionalInterface
     public interface Tick {
         void onTick(WorldEventInstance worldEvent, Level level);
-    }
-
-    @FunctionalInterface
-    public interface Render {
-        void onRender(WorldEventInstance worldEvent, WorldEventRenderer<WorldEventInstance> renderer, PoseStack poseStack, MultiBufferSource multiBufferSource, float partialTicks);
     }
 
 }
