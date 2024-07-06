@@ -5,9 +5,9 @@ plugins {
     id("eclipse")
     id("idea")
     id("maven-publish")
-    id("net.minecraftforge.gradle").version("[6.0,6.2)")
-    id("org.parchmentmc.librarian.forgegradle").version("1.+")
-    id("org.spongepowered.mixin")
+    id("net.neoforged.moddev").version("0.1.99")
+    //id("org.parchmentmc.librarian.forgegradle").version("1.+")
+    //id("org.spongepowered.mixin")
 }
 
 val minecraftVersion: String by extra
@@ -21,8 +21,8 @@ val modAuthors: String by extra
 val modDescription: String by extra
 val modLicense: String by extra
 val modName: String by extra
-val parchmentChannel: String by extra
-val parchmentVersion: String by extra
+val parchment_mappings_version: String by extra
+val parchment_minecraft_version: String by extra
 val forgeVersion: String by extra
 val jeiVersion: String by extra
 val curiosVersion: String by extra
@@ -46,13 +46,11 @@ java {
     }
 }
 
-mixin {
-    add(sourceSets.main.get(), "${modId}.refmap.json")
-    config("lodestone.mixins.json")
-}
-
-minecraft {
-    mappings(parchmentChannel, parchmentVersion)
+neoForge {
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
 
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
