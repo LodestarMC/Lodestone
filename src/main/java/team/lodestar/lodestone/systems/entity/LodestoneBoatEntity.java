@@ -16,7 +16,7 @@ import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 public class LodestoneBoatEntity extends Boat {
-    private final RegistryObject<Item> boatItem;
+    private final Supplier<Item> boatItem;
 
     /**
      * @deprecated Use {@link LodestoneBoatEntity#LodestoneBoatEntity(EntityType, Level, RegistryObject)}} instead

@@ -22,7 +22,7 @@ import java.util.function.Predicate;
 
 public class LodestoneBoatItem extends Item {
     private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
-    private final RegistryObject<EntityType<LodestoneBoatEntity>> boat;
+    private final Supplier<EntityType<LodestoneBoatEntity>> boat;
 
     public LodestoneBoatItem(Properties properties, RegistryObject<EntityType<LodestoneBoatEntity>> boat) {
         super(properties);

@@ -11,7 +11,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import team.lodestar.lodestone.systems.worldgen.ChancePlacementFilter;
 import team.lodestar.lodestone.systems.worldgen.DimensionPlacementFilter;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class LodestonePlacementFillerRegistry {
 
     public static PlacementModifierType<ChancePlacementFilter> CHANCE;

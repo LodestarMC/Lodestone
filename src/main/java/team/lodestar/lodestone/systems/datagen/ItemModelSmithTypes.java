@@ -10,8 +10,8 @@ import java.util.function.Function;
 
 public class ItemModelSmithTypes {
 
-    public static final ResourceLocation GENERATED = new ResourceLocation("item/generated");
-    public static final ResourceLocation HANDHELD = new ResourceLocation("item/handheld");
+    public static final ResourceLocation GENERATED = ResourceLocation.parse("item/generated");
+    public static final ResourceLocation HANDHELD = ResourceLocation.parse("item/handheld");
 
     public static ItemModelSmith NO_MODEL = new ItemModelSmith(((item, provider) -> {
     }));

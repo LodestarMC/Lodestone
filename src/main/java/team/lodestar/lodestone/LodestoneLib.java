@@ -43,7 +43,7 @@ public class LodestoneLib {
     }
 
     public static ResourceLocation lodestonePath(String path) {
-        return new ResourceLocation(LODESTONE, path);
+        return ResourceLocation.parse(LODESTONE, path);
     }
 
     public void gatherData(GatherDataEvent event) {

@@ -4,9 +4,9 @@ import com.google.common.base.Preconditions;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
+import net.neoforged.neoforge.client.model.generators.BlockModelProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
@@ -44,14 +44,14 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
     @Override
     public BlockModelBuilder getBuilder(String path) {
         Preconditions.checkNotNull(path, "Path must not be null");
-        ResourceLocation outputLoc = extendWithFolder(path.contains(":") ? new ResourceLocation(path) : new ResourceLocation(modid, path));
+        ResourceLocation outputLoc = extendWithFolder(path.contains(":") ? ResourceLocation.parse(path) : ResourceLocation.fromNamespaceAndPath(modid, path));
         this.existingFileHelper.trackGenerated(outputLoc, MODEL);
         return generatedModels.computeIfAbsent(outputLoc, factory);
     }
 
     @Override
     public BlockModelBuilder nested() {
-        return factory.apply(new ResourceLocation("dummy:dummy"));
+        return factory.apply(ResourceLocation.parse("dummy:dummy"));
     }
 
     public ResourceLocation extendWithFolder(ResourceLocation rl) {
