@@ -10,28 +10,9 @@ plugins {
     //id("org.spongepowered.mixin")
 }
 
-val minecraftVersion: String by extra
-val minecraftVersionRange: String by extra
-val loaderVersionRange: String by extra
-val forgeVersionRange: String by extra
-val modVersion: String by extra
-val modGroupId: String by extra
-val modId: String by extra
-val modAuthors: String by extra
-val modDescription: String by extra
-val modLicense: String by extra
-val modName: String by extra
-val parchment_mappings_version: String by extra
-val parchment_minecraft_version: String by extra
-val forgeVersion: String by extra
-val jeiVersion: String by extra
-val curiosVersion: String by extra
-val mixinVersion: String by extra
-val modJavaVersion: String by extra
-
-version = "$minecraftVersion-$modVersion"
+version = "${property("minecraft_version")}-${property("mod_version")}"
 if (System.getenv("BUILD_NUMBER") != null) {
-    version = "$minecraftVersion-$modVersion.${System.getenv("BUILD_NUMBER")}"
+    version = "${property("loader_version")}-${property("mod_version")}.${System.getenv("BUILD_NUMBER")}"
 }
 group = modGroupId
 
@@ -48,8 +29,8 @@ java {
 
 neoForge {
     parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
+        mappingsVersion = "${property("parchment_mappings_version")}"
+        minecraftVersion = "${property("parchment_minecraft_version")}"
     }
 
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
