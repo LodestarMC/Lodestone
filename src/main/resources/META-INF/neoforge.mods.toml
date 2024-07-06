@@ -1,16 +1,16 @@
 modLoader="javafml"
-loaderVersion="${loaderVersionRange}"
-license="${modLicense}"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
 [[mods]]
-modId="${modId}"
-version="${modVersion}"
-displayName="${modName}"
-authors="${modAuthors}"
-description='''${modDescription}'''
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+description='''${mod_description}'''
 [[dependencies.${modId}]]
-modId="forge"
+modId="neoforge" #mandatory
 mandatory=true
-versionRange="${forgeVersionRange}"
+versionRange="${neo_version_range}" #mandatory
 ordering="NONE"
 # Side this dependency is applied on - BOTH, CLIENT, or SERVER
 side="BOTH"
