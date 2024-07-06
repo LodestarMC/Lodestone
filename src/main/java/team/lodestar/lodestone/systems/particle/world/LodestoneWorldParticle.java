@@ -35,7 +35,6 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
     public final LodestoneBehaviorComponent behaviorComponent;
 
     public final RenderHandler.LodestoneRenderLayer renderLayer;
-    public final boolean shouldCull;
     public final ParticleEngine.MutableSpriteSet spriteSet;
     public final SimpleParticleOptions.ParticleSpritePicker spritePicker;
     public final SimpleParticleOptions.ParticleDiscardFunctionType discardFunctionType;
@@ -59,7 +58,6 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         this.behavior = options.behavior;
         this.behaviorComponent = behavior.getComponent(options.behaviorComponent);
         this.renderLayer = options.renderLayer;
-        this.shouldCull = options.shouldCull;
         this.spriteSet = spriteSet;
         this.spritePicker = options.spritePicker;
         this.discardFunctionType = options.discardFunctionType;
@@ -189,11 +187,6 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         if (behavior != null) {
             behavior.render(this, getVertexConsumer(consumer), camera, partialTicks);
         }
-    }
-
-    @Override
-    public boolean shouldCull() {
-        return shouldCull;
     }
 
     @Override

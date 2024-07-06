@@ -12,8 +12,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraftforge.data.loading.DatagenModLoader;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.data.loading.DatagenModLoader;
 import org.jetbrains.annotations.NotNull;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
@@ -39,35 +39,35 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
     public static LodestoneBlockProperties copy(BlockBehaviour pBlockBehaviour) {
         LodestoneBlockProperties properties = LodestoneBlockProperties.of();
-        properties.destroyTime = pBlockBehaviour.properties.destroyTime;
-        properties.explosionResistance = pBlockBehaviour.properties.explosionResistance;
-        properties.hasCollision = pBlockBehaviour.properties.hasCollision;
-        properties.isRandomlyTicking = pBlockBehaviour.properties.isRandomlyTicking;
-        properties.lightEmission = pBlockBehaviour.properties.lightEmission;
-        properties.mapColor = pBlockBehaviour.properties.mapColor;
-        properties.soundType = pBlockBehaviour.properties.soundType;
-        properties.friction = pBlockBehaviour.properties.friction;
-        properties.speedFactor = pBlockBehaviour.properties.speedFactor;
-        properties.dynamicShape = pBlockBehaviour.properties.dynamicShape;
-        properties.canOcclude = pBlockBehaviour.properties.canOcclude;
-        properties.isAir = pBlockBehaviour.properties.isAir;
-        properties.requiresCorrectToolForDrops = pBlockBehaviour.properties.requiresCorrectToolForDrops;
-        properties.jumpFactor = pBlockBehaviour.properties.jumpFactor;
-        properties.drops = pBlockBehaviour.properties.drops;
-        properties.ignitedByLava = pBlockBehaviour.properties.ignitedByLava;
-        properties.forceSolidOn = pBlockBehaviour.properties.forceSolidOn;
-        properties.pushReaction = pBlockBehaviour.properties.pushReaction;
-        properties.spawnParticlesOnBreak = pBlockBehaviour.properties.spawnParticlesOnBreak;
-        properties.instrument = pBlockBehaviour.properties.instrument;
-        properties.replaceable = pBlockBehaviour.properties.replaceable;
-        properties.isValidSpawn = pBlockBehaviour.properties.isValidSpawn;
-        properties.isRedstoneConductor = pBlockBehaviour.properties.isRedstoneConductor;
-        properties.isSuffocating = pBlockBehaviour.properties.isSuffocating;
-        properties.isViewBlocking = pBlockBehaviour.properties.isViewBlocking;
-        properties.emissiveRendering = pBlockBehaviour.properties.emissiveRendering;
-        properties.requiredFeatures = pBlockBehaviour.properties.requiredFeatures;
-        properties.offsetFunction = pBlockBehaviour.properties.offsetFunction;
-        properties.hasPostProcess = pBlockBehaviour.properties.hasPostProcess;
+        properties.destroyTime = pBlockBehaviour.properties().destroyTime;
+        properties.explosionResistance = pBlockBehaviour.properties().explosionResistance;
+        properties.hasCollision = pBlockBehaviour.properties().hasCollision;
+        properties.isRandomlyTicking = pBlockBehaviour.properties().isRandomlyTicking;
+        properties.lightEmission = pBlockBehaviour.properties().lightEmission;
+        properties.mapColor = pBlockBehaviour.properties().mapColor;
+        properties.soundType = pBlockBehaviour.properties().soundType;
+        properties.friction = pBlockBehaviour.properties().friction;
+        properties.speedFactor = pBlockBehaviour.properties().speedFactor;
+        properties.dynamicShape = pBlockBehaviour.properties().dynamicShape;
+        properties.canOcclude = pBlockBehaviour.properties().canOcclude;
+        properties.isAir = pBlockBehaviour.properties().isAir;
+        properties.requiresCorrectToolForDrops = pBlockBehaviour.properties().requiresCorrectToolForDrops;
+        properties.jumpFactor = pBlockBehaviour.properties().jumpFactor;
+        properties.drops = pBlockBehaviour.properties().drops;
+        properties.ignitedByLava = pBlockBehaviour.properties().ignitedByLava;
+        properties.forceSolidOn = pBlockBehaviour.properties().forceSolidOn;
+        properties.pushReaction = pBlockBehaviour.properties().pushReaction;
+        properties.spawnTerrainParticles = pBlockBehaviour.properties().spawnTerrainParticles;
+        properties.instrument = pBlockBehaviour.properties().instrument;
+        properties.replaceable = pBlockBehaviour.properties().replaceable;
+        properties.isValidSpawn = pBlockBehaviour.properties().isValidSpawn;
+        properties.isRedstoneConductor = pBlockBehaviour.properties().isRedstoneConductor;
+        properties.isSuffocating = pBlockBehaviour.properties().isSuffocating;
+        properties.isViewBlocking = pBlockBehaviour.properties().isViewBlocking;
+        properties.emissiveRendering = pBlockBehaviour.properties().emissiveRendering;
+        properties.requiredFeatures = pBlockBehaviour.properties().requiredFeatures;
+        properties.offsetFunction = pBlockBehaviour.properties().offsetFunction;
+        properties.hasPostProcess = pBlockBehaviour.properties().hasPostProcess;
 
         return properties;
     }
@@ -359,8 +359,8 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
 
     @Override
     @NotNull
-    public LodestoneBlockProperties noParticlesOnBreak() {
-        return (LodestoneBlockProperties) super.noParticlesOnBreak();
+    public LodestoneBlockProperties noTerrainParticles() {
+        return (LodestoneBlockProperties) super.noTerrainParticles();
     }
 
     @Override

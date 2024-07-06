@@ -4,7 +4,6 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.*;
-import net.minecraftforge.registries.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.*;
@@ -36,7 +35,7 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
         this.type = type;
     }
 
-    public WorldParticleOptions(RegistryObject<? extends LodestoneWorldParticleType> type) {
+    public WorldParticleOptions(Supplier<? extends LodestoneWorldParticleType> type) {
         this(type.get());
     }
 
@@ -59,14 +58,5 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
     @Override
     public ParticleType<?> getType() {
         return type;
-    }
-
-    @Override
-    public void writeToNetwork(FriendlyByteBuf buffer) {
-    }
-
-    @Override
-    public String writeToString() {
-        return "";
     }
 }
