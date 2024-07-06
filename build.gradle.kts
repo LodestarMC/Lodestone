@@ -14,71 +14,88 @@ version = "${property("minecraft_version")}-${property("mod_version")}"
 if (System.getenv("BUILD_NUMBER") != null) {
     version = "${property("loader_version")}-${property("mod_version")}.${System.getenv("BUILD_NUMBER")}"
 }
-group = modGroupId
+group = "${property("mod_group_id")}"
 
-val baseArchivesName = modId
+val baseArchivesName = "${property("mod_id")}"
 base {
     archivesName.set(baseArchivesName)
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(modJavaVersion))
+        languageVersion.set(JavaLanguageVersion.of("${property("mod_java_version")}"))
     }
 }
 
 neoForge {
+    // Specify the version of NeoForge to use.
+    version = "${property("neo_version")}"
+
     parchment {
         mappingsVersion = "${property("parchment_mappings_version")}"
         minecraftVersion = "${property("parchment_minecraft_version")}"
     }
 
-    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
+    // This line is optional. Access Transformers are automatically detected
+    // accessTransformers.add('src/main/resources/META-INF/accesstransformer.cfg')
 
-    copyIdeResources.set(true)
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
-        // applies to all the run configs below
-        configureEach {
-            workingDirectory(project.file("run"))
+        client {
+            client()
 
-            property("forge.logging.markers", "REGISTRIES")
-            property("forge.logging.console.level", "debug")
-
-            mods {
-                create("${modId}") {
-                    source(sourceSets.main.get())
-                }
-            }
-        }
-
-        create("client") {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property("forge.enabledGameTestNamespaces", modId)
-            arg("-mixin.config=" + modId + ".mixins.json")
+            systemProperty('neoforge.enabledGameTestNamespaces', "${property("mod_id")}")
         }
 
-        create("server") {
-            property("forge.enabledGameTestNamespaces", modId)
-            args("--nogui")
-            arg("-mixin.config=" + modId + ".mixins.json")
+        server {
+            server()
+            programArgument('--nogui')
+            systemProperty('neoforge.enabledGameTestNamespaces', "${property("mod_id")}")
         }
 
-        create("data") {
-            // example of overriding the workingDirectory set in configureEach above
-            workingDirectory(project.file("run-data"))
+        // This run config launches GameTestServer and runs all registered gametests, then exits.
+        // By default, the server will crash when no gametests are provided.
+        // The gametest system is also enabled by default for other run configs under the /test command.
+        gameTestServer {
+            type = "gameTestServer"
+            systemProperty('neoforge.enabledGameTestNamespaces', "${property("mod_id")}")
+        }
+
+        data {
+            data()
+
+            // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+            // gameDirectory = project.file('run-data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args(
-                    "--mod",
-                    modId,
-                    "--all",
-                    "--output",
-                    file("src/generated/resources/"),
-                    "--existing",
-                    file("src/main/resources/")
-            )
+            programArguments.addAll('--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath())
+        }
+
+        // applies to all the run configs above
+        configureEach {
+            // Recommended logging data for a userdev environment
+            // The markers can be added/remove as needed separated by commas.
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            systemProperty('forge.logging.markers', 'REGISTRIES')
+
+            // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        // define mod <-> source bindings
+        // these are used to tell the game which sources are for which mod
+        // mostly optional in a single mod project
+        // but multi mod projects should define one per mod
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
         }
     }
 }
