@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.systems.easing;
 
+import net.minecraft.util.Mth;
+
 import java.util.HashMap;
 
 /**
@@ -59,6 +61,21 @@ public abstract class Easing {
         return ease(t, b, c, 1);
     }
 
+    public float clamped(float t, float b, float c, float d) {
+        return Mth.clamp(ease(t, b, c, d), b, c);
+    }
+
+    public float clamped(double t, double b, double c, double d) {
+        return clamped((float)t, (float)b, (float)c, (float)d);
+    }
+
+    public float clamped(float t, float b, float c) {
+        return clamped(t, b, c, 1);
+    }
+
+    public float clamped(double t, double b, double c) {
+        return clamped(t, b, c, 1);
+    }
 
     /**
      * Simple linear tweening - no easing.
