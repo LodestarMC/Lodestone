@@ -47,6 +47,19 @@ public abstract class Easing {
      */
     public abstract float ease(float t, float b, float c, float d);
 
+    public float ease(double t, double b, double c, double d) {
+        return ease((float)t, (float)b, (float)c, (float)d);
+    }
+
+    public float ease(float t, float b, float c) {
+        return ease(t, b, c, 1);
+    }
+
+    public float ease(double t, double b, double c) {
+        return ease(t, b, c, 1);
+    }
+
+
     /**
      * Simple linear tweening - no easing.
      */
