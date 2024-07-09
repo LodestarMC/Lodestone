@@ -62,7 +62,7 @@ public abstract class Easing {
     }
 
     public float clamped(float value, float min, float max, float time) {
-        return Mth.clamp(ease(value, min, max, time), min, max);
+        return ease(Mth.clamp(value, 0, time), min, max, time);
     }
 
     public float clamped(double value, double min, double max, double time) {
