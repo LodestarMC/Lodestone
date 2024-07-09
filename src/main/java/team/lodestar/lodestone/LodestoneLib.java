@@ -15,6 +15,7 @@ import team.lodestar.lodestone.config.*;
 import team.lodestar.lodestone.data.*;
 import team.lodestar.lodestone.registry.common.*;
 import team.lodestar.lodestone.registry.common.particle.*;
+import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.item.*;
 
 @Mod(LodestoneLib.LODESTONE)
