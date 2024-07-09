@@ -41,48 +41,48 @@ public abstract class Easing {
     /**
      * The basic function for easing.
      *
-     * @param t the time (either frames or in seconds/milliseconds)
-     * @param b the beginning value
-     * @param c the value changed
-     * @param d the duration time
+     * @param value the time (either frames or in seconds/milliseconds)
+     * @param min the beginning value
+     * @param max the value changed
+     * @param time the duration time
      * @return the eased value
      */
-    public abstract float ease(float t, float b, float c, float d);
+    public abstract float ease(float value, float min, float max, float time);
 
-    public float ease(double t, double b, double c, double d) {
-        return ease((float)t, (float)b, (float)c, (float)d);
+    public float ease(double value, double min, double max, double time) {
+        return ease((float)value, (float)min, (float)max, (float)time);
     }
 
-    public float ease(float t, float b, float c) {
-        return ease(t, b, c, 1);
+    public float ease(float value, float min, float max) {
+        return ease(value, min, max, 1);
     }
 
-    public float ease(double t, double b, double c) {
-        return ease(t, b, c, 1);
+    public float ease(double value, double min, double max) {
+        return ease(value, min, max, 1);
     }
 
-    public float clamped(float t, float b, float c, float d) {
-        return Mth.clamp(ease(t, b, c, d), b, c);
+    public float clamped(float value, float min, float max, float time) {
+        return Mth.clamp(ease(value, min, max, time), min, max);
     }
 
-    public float clamped(double t, double b, double c, double d) {
-        return clamped((float)t, (float)b, (float)c, (float)d);
+    public float clamped(double value, double min, double max, double time) {
+        return clamped((float)value, (float)min, (float)max, (float)time);
     }
 
-    public float clamped(float t, float b, float c) {
-        return clamped(t, b, c, 1);
+    public float clamped(float value, float min, float max) {
+        return clamped(value, min, max, 1);
     }
 
-    public float clamped(double t, double b, double c) {
-        return clamped(t, b, c, 1);
+    public float clamped(double value, double min, double max) {
+        return clamped(value, min, max, 1);
     }
 
     /**
      * Simple linear tweening - no easing.
      */
     public static final Easing LINEAR = new Easing("linear") {
-        public float ease(float t, float b, float c, float d) {
-            return c * t / d + b;
+        public float ease(float value, float min, float max, float time) {
+            return max * value / time + min;
         }
     };
 
@@ -92,8 +92,8 @@ public abstract class Easing {
      * Quadratic easing in - accelerating from zero velocity.
      */
     public static final Easing QUAD_IN = new Easing("quadIn") {
-        public float ease(float t, float b, float c, float d) {
-            return c * (t /= d) * t + b;
+        public float ease(float value, float min, float max, float time) {
+            return max * (value /= time) * value + min;
         }
     };
 
@@ -102,8 +102,8 @@ public abstract class Easing {
      * Quadratic easing out - decelerating to zero velocity.
      */
     public static final Easing QUAD_OUT = new Easing("quadOut") {
-        public float ease(float t, float b, float c, float d) {
-            return -c * (t /= d) * (t - 2) + b;
+        public float ease(float value, float min, float max, float time) {
+            return -max * (value /= time) * (value - 2) + min;
         }
     };
 
@@ -111,9 +111,9 @@ public abstract class Easing {
      * Quadratic easing in/out - acceleration until halfway, then deceleration
      */
     public static final Easing QUAD_IN_OUT = new Easing("quadInOut") {
-        public float ease(float t, float b, float c, float d) {
-            if ((t /= d / 2) < 1) return c / 2 * t * t + b;
-            return -c / 2 * ((--t) * (t - 2) - 1) + b;
+        public float ease(float value, float min, float max, float time) {
+            if ((value /= time / 2) < 1) return max / 2 * value * value + min;
+            return -max / 2 * ((--value) * (value - 2) - 1) + min;
         }
     };
 
@@ -124,8 +124,8 @@ public abstract class Easing {
      * Cubic easing in - accelerating from zero velocity.
      */
     public static final Easing CUBIC_IN = new Easing("cubicIn") {
-        public float ease(float t, float b, float c, float d) {
-            return c * (t /= d) * t * t + b;
+        public float ease(float value, float min, float max, float time) {
+            return max * (value /= time) * value * value + min;
         }
     };
 
@@ -133,8 +133,8 @@ public abstract class Easing {
      * Cubic easing out - decelerating to zero velocity.
      */
     public static final Easing CUBIC_OUT = new Easing("cubicOut") {
-        public float ease(float t, float b, float c, float d) {
-            return c * ((t = t / d - 1) * t * t + 1) + b;
+        public float ease(float value, float min, float max, float time) {
+            return max * ((value = value / time - 1) * value * value + 1) + min;
         }
     };
 
@@ -142,9 +142,9 @@ public abstract class Easing {
      * Cubic easing in/out - acceleration until halfway, then deceleration.
      */
     public static final Easing CUBIC_IN_OUT = new Easing("cubicInOut") {
-        public float ease(float t, float b, float c, float d) {
-            if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
-            return c / 2 * ((t -= 2) * t * t + 2) + b;
+        public float ease(float value, float min, float max, float time) {
+            if ((value /= time / 2) < 1) return max / 2 * value * value * value + min;
+            return max / 2 * ((value -= 2) * value * value + 2) + min;
         }
     };
 
@@ -154,8 +154,8 @@ public abstract class Easing {
      * Quartic easing in - accelerating from zero velocity.
      */
     public static final Easing QUARTIC_IN = new Easing("quarticIn") {
-        public float ease(float t, float b, float c, float d) {
-            return c * (t /= d) * t * t * t + b;
+        public float ease(float value, float min, float max, float time) {
+            return max * (value /= time) * value * value * value + min;
         }
     };
 
@@ -163,8 +163,8 @@ public abstract class Easing {
      * Quartic easing out - decelerating to zero velocity.
      */
     public static final Easing QUARTIC_OUT = new Easing("quarticOut") {
-        public float ease(float t, float b, float c, float d) {
-            return -c * ((t = t / d - 1) * t * t * t - 1) + b;
+        public float ease(float value, float min, float max, float time) {
+            return -max * ((value = value / time - 1) * value * value * value - 1) + min;
         }
     };
 
@@ -172,9 +172,9 @@ public abstract class Easing {
      * Quartic easing in/out - acceleration until halfway, then deceleration.
      */
     public static final Easing QUARTIC_IN_OUT = new Easing("quarticInOut") {
-        public float ease(float t, float b, float c, float d) {
-            if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
-            return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
+        public float ease(float value, float min, float max, float time) {
+            if ((value /= time / 2) < 1) return max / 2 * value * value * value * value + min;
+            return -max / 2 * ((value -= 2) * value * value * value - 2) + min;
         }
     };
 
@@ -184,8 +184,8 @@ public abstract class Easing {
      * Quintic easing in - accelerating from zero velocity.
      */
     public static final Easing QUINTIC_IN = new Easing("quinticIn") {
-        public float ease(float t, float b, float c, float d) {
-            return c * (t /= d) * t * t * t * t + b;
+        public float ease(float value, float min, float max, float time) {
+            return max * (value /= time) * value * value * value * value + min;
         }
     };
 
@@ -193,8 +193,8 @@ public abstract class Easing {
      * Quintic easing out - decelerating to zero velocity.
      */
     public static final Easing QUINTIC_OUT = new Easing("quinticOut") {
-        public float ease(float t, float b, float c, float d) {
-            return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+        public float ease(float value, float min, float max, float time) {
+            return max * ((value = value / time - 1) * value * value * value * value + 1) + min;
         }
     };
 
@@ -202,9 +202,9 @@ public abstract class Easing {
      * Quintic easing in/out - acceleration until halfway, then deceleration.
      */
     public static final Easing QUINTIC_IN_OUT = new Easing("quinticInOut") {
-        public float ease(float t, float b, float c, float d) {
-            if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
-            return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
+        public float ease(float value, float min, float max, float time) {
+            if ((value /= time / 2) < 1) return max / 2 * value * value * value * value * value + min;
+            return max / 2 * ((value -= 2) * value * value * value * value + 2) + min;
         }
     };
 
@@ -215,8 +215,8 @@ public abstract class Easing {
      * Sinusoidal easing in - accelerating from zero velocity.
      */
     public static final Easing SINE_IN = new Easing("sineIn") {
-        public float ease(float t, float b, float c, float d) {
-            return -c * (float) Math.cos(t / d * (Math.PI / 2)) + c + b;
+        public float ease(float value, float min, float max, float time) {
+            return -max * (float) Math.cos(value / time * (Math.PI / 2)) + max + min;
         }
     };
 
@@ -224,8 +224,8 @@ public abstract class Easing {
      * Sinusoidal easing out - decelerating to zero velocity.
      */
     public static final Easing SINE_OUT = new Easing("sineOut") {
-        public float ease(float t, float b, float c, float d) {
-            return c * (float) Math.sin(t / d * (Math.PI / 2)) + b;
+        public float ease(float value, float min, float max, float time) {
+            return max * (float) Math.sin(value / time * (Math.PI / 2)) + min;
         }
     };
 
@@ -233,8 +233,8 @@ public abstract class Easing {
      * Sinusoidal easing in/out - accelerating until halfway, then decelerating.
      */
     public static final Easing SINE_IN_OUT = new Easing("sineInOut") {
-        public float ease(float t, float b, float c, float d) {
-            return -c / 2 * ((float) Math.cos(Math.PI * t / d) - 1) + b;
+        public float ease(float value, float min, float max, float time) {
+            return -max / 2 * ((float) Math.cos(Math.PI * value / time) - 1) + min;
         }
     };
 
@@ -244,8 +244,8 @@ public abstract class Easing {
      * Exponential easing in - accelerating from zero velocity.
      */
     public static final Easing EXPO_IN = new Easing("expoIn") {
-        public float ease(float t, float b, float c, float d) {
-            return (t == 0) ? b : c * (float) Math.pow(2, 10 * (t / d - 1)) + b;
+        public float ease(float value, float min, float max, float time) {
+            return (value == 0) ? min : max * (float) Math.pow(2, 10 * (value / time - 1)) + min;
         }
     };
 
@@ -253,8 +253,8 @@ public abstract class Easing {
      * Exponential easing out - decelerating to zero velocity.
      */
     public static final Easing EXPO_OUT = new Easing("expoOut") {
-        public float ease(float t, float b, float c, float d) {
-            return (t == d) ? b + c : c * (-(float) Math.pow(2, -10 * t / d) + 1) + b;
+        public float ease(float value, float min, float max, float time) {
+            return (value == time) ? min + max : max * (-(float) Math.pow(2, -10 * value / time) + 1) + min;
         }
     };
 
@@ -262,11 +262,11 @@ public abstract class Easing {
      * Exponential easing in/out - accelerating until halfway, then decelerating.
      */
     public static final Easing EXPO_IN_OUT = new Easing("expoInOut") {
-        public float ease(float t, float b, float c, float d) {
-            if (t == 0) return b;
-            if (t == d) return b + c;
-            if ((t /= d / 2) < 1) return c / 2 * (float) Math.pow(2, 10 * (t - 1)) + b;
-            return c / 2 * (-(float) Math.pow(2, -10 * --t) + 2) + b;
+        public float ease(float value, float min, float max, float time) {
+            if (value == 0) return min;
+            if (value == time) return min + max;
+            if ((value /= time / 2) < 1) return max / 2 * (float) Math.pow(2, 10 * (value - 1)) + min;
+            return max / 2 * (-(float) Math.pow(2, -10 * --value) + 2) + min;
         }
     };
 
@@ -277,8 +277,8 @@ public abstract class Easing {
      * Circular easing in - accelerating from zero velocity.
      */
     public static final Easing CIRC_IN = new Easing("circIn") {
-        public float ease(float t, float b, float c, float d) {
-            return -c * ((float) Math.sqrt(1 - (t /= d) * t) - 1) + b;
+        public float ease(float value, float min, float max, float time) {
+            return -max * ((float) Math.sqrt(1 - (value /= time) * value) - 1) + min;
         }
     };
 
@@ -286,8 +286,8 @@ public abstract class Easing {
      * Circular easing out - decelerating to zero velocity.
      */
     public static final Easing CIRC_OUT = new Easing("circOut") {
-        public float ease(float t, float b, float c, float d) {
-            return c * (float) Math.sqrt(1 - (t = t / d - 1) * t) + b;
+        public float ease(float value, float min, float max, float time) {
+            return max * (float) Math.sqrt(1 - (value = value / time - 1) * value) + min;
         }
     };
 
@@ -295,9 +295,9 @@ public abstract class Easing {
      * Circular easing in/out - acceleration until halfway, then deceleration.
      */
     public static final Easing CIRC_IN_OUT = new Easing("circInOut") {
-        public float ease(float t, float b, float c, float d) {
-            if ((t /= d / 2) < 1) return -c / 2 * ((float) Math.sqrt(1 - t * t) - 1) + b;
-            return c / 2 * ((float) Math.sqrt(1 - (t -= 2) * t) + 1) + b;
+        public float ease(float value, float min, float max, float time) {
+            if ((value /= time / 2) < 1) return -max / 2 * ((float) Math.sqrt(1 - value * value) - 1) + min;
+            return max / 2 * ((float) Math.sqrt(1 - (value -= 2) * value) + 1) + min;
         }
     };
 
@@ -383,18 +383,18 @@ public abstract class Easing {
             super("elasticIn");
         }
 
-        public float ease(float t, float b, float c, float d) {
+        public float ease(float value, float min, float max, float time) {
             float a = getAmplitude();
             float p = getPeriod();
-            if (t == 0) return b;
-            if ((t /= d) == 1) return b + c;
-            if (p == 0) p = d * .3f;
+            if (value == 0) return min;
+            if ((value /= time) == 1) return min + max;
+            if (p == 0) p = time * .3f;
             float s = 0;
-            if (a < Math.abs(c)) {
-                a = c;
+            if (a < Math.abs(max)) {
+                a = max;
                 s = p / 4;
-            } else s = p / (float) (2 * Math.PI) * (float) Math.asin(c / a);
-            return -(a * (float) Math.pow(2, 10 * (t -= 1)) * (float) Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+            } else s = p / (float) (2 * Math.PI) * (float) Math.asin(max / a);
+            return -(a * (float) Math.pow(2, 10 * (value -= 1)) * (float) Math.sin((value * time - s) * (2 * Math.PI) / p)) + min;
         }
     }
 
@@ -415,18 +415,18 @@ public abstract class Easing {
             super("elasticOut");
         }
 
-        public float ease(float t, float b, float c, float d) {
+        public float ease(float value, float min, float max, float time) {
             float a = getAmplitude();
             float p = getPeriod();
-            if (t == 0) return b;
-            if ((t /= d) == 1) return b + c;
-            if (p == 0) p = d * .3f;
+            if (value == 0) return min;
+            if ((value /= time) == 1) return min + max;
+            if (p == 0) p = time * .3f;
             float s = 0;
-            if (a < Math.abs(c)) {
-                a = c;
+            if (a < Math.abs(max)) {
+                a = max;
                 s = p / 4;
-            } else s = p / (float) (2 * Math.PI) * (float) Math.asin(c / a);
-            return a * (float) Math.pow(2, -10 * t) * (float) Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
+            } else s = p / (float) (2 * Math.PI) * (float) Math.asin(max / a);
+            return a * (float) Math.pow(2, -10 * value) * (float) Math.sin((value * time - s) * (2 * Math.PI) / p) + max + min;
         }
     }
 
@@ -447,20 +447,20 @@ public abstract class Easing {
             super("elasticInOut");
         }
 
-        public float ease(float t, float b, float c, float d) {
+        public float ease(float value, float min, float max, float time) {
             float a = getAmplitude();
             float p = getPeriod();
-            if (t == 0) return b;
-            if ((t /= d / 2) == 2) return b + c;
-            if (p == 0) p = d * (.3f * 1.5f);
+            if (value == 0) return min;
+            if ((value /= time / 2) == 2) return min + max;
+            if (p == 0) p = time * (.3f * 1.5f);
             float s = 0;
-            if (a < Math.abs(c)) {
-                a = c;
+            if (a < Math.abs(max)) {
+                a = max;
                 s = p / 4f;
-            } else s = p / (float) (2 * Math.PI) * (float) Math.asin(c / a);
-            if (t < 1)
-                return -.5f * (a * (float) Math.pow(2, 10 * (t -= 1)) * (float) Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-            return a * (float) Math.pow(2, -10 * (t -= 1)) * (float) Math.sin((t * d - s) * (2 * Math.PI) / p) * .5f + c + b;
+            } else s = p / (float) (2 * Math.PI) * (float) Math.asin(max / a);
+            if (value < 1)
+                return -.5f * (a * (float) Math.pow(2, 10 * (value -= 1)) * (float) Math.sin((value * time - s) * (2 * Math.PI) / p)) + min;
+            return a * (float) Math.pow(2, -10 * (value -= 1)) * (float) Math.sin((value * time - s) * (2 * Math.PI) / p) * .5f + max + min;
         }
     }
 
@@ -532,9 +532,9 @@ public abstract class Easing {
             super("backIn", overshoot);
         }
 
-        public float ease(float t, float b, float c, float d) {
+        public float ease(float value, float min, float max, float time) {
             float s = getOvershoot();
-            return c * (t /= d) * t * ((s + 1) * t - s) + b;
+            return max * (value /= time) * value * ((s + 1) * value - s) + min;
         }
     }
 
@@ -555,9 +555,9 @@ public abstract class Easing {
             super("backOut", overshoot);
         }
 
-        public float ease(float t, float b, float c, float d) {
+        public float ease(float value, float min, float max, float time) {
             float s = getOvershoot();
-            return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+            return max * ((value = value / time - 1) * value * ((s + 1) * value + s) + 1) + min;
         }
     }
 
@@ -579,10 +579,10 @@ public abstract class Easing {
             super("backInOut", overshoot);
         }
 
-        public float ease(float t, float b, float c, float d) {
+        public float ease(float value, float min, float max, float time) {
             float s = getOvershoot();
-            if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b;
-            return c / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2) + b;
+            if ((value /= time / 2) < 1) return max / 2 * (value * value * (((s *= (1.525)) + 1) * value - s)) + min;
+            return max / 2 * ((value -= 2) * value * (((s *= (1.525)) + 1) * value + s) + 2) + min;
         }
     }
 
@@ -592,8 +592,8 @@ public abstract class Easing {
      * Bounce easing in.
      */
     public static final Easing BOUNCE_IN = new Easing("bounceIn") {
-        public float ease(float t, float b, float c, float d) {
-            return c - Easing.BOUNCE_OUT.ease(d - t, 0, c, d) + b;
+        public float ease(float value, float min, float max, float time) {
+            return max - Easing.BOUNCE_OUT.ease(time - value, 0, max, time) + min;
         }
     };
 
@@ -601,15 +601,15 @@ public abstract class Easing {
      * Bounce easing out.
      */
     public static final Easing BOUNCE_OUT = new Easing("bounceOut") {
-        public float ease(float t, float b, float c, float d) {
-            if ((t /= d) < (1 / 2.75f)) {
-                return c * (7.5625f * t * t) + b;
-            } else if (t < (2 / 2.75f)) {
-                return c * (7.5625f * (t -= (1.5f / 2.75f)) * t + .75f) + b;
-            } else if (t < (2.5f / 2.75f)) {
-                return c * (7.5625f * (t -= (2.25f / 2.75f)) * t + .9375f) + b;
+        public float ease(float value, float min, float max, float time) {
+            if ((value /= time) < (1 / 2.75f)) {
+                return max * (7.5625f * value * value) + min;
+            } else if (value < (2 / 2.75f)) {
+                return max * (7.5625f * (value -= (1.5f / 2.75f)) * value + .75f) + min;
+            } else if (value < (2.5f / 2.75f)) {
+                return max * (7.5625f * (value -= (2.25f / 2.75f)) * value + .9375f) + min;
             } else {
-                return c * (7.5625f * (t -= (2.625f / 2.75f)) * t + .984375f) + b;
+                return max * (7.5625f * (value -= (2.625f / 2.75f)) * value + .984375f) + min;
             }
         }
     };
@@ -618,9 +618,9 @@ public abstract class Easing {
      * Bounce easing in/out.
      */
     public static final Easing BOUNCE_IN_OUT = new Easing("bounceInOut") {
-        public float ease(float t, float b, float c, float d) {
-            if (t < d / 2) return Easing.BOUNCE_IN.ease(t * 2, 0, c, d) * .5f + b;
-            return Easing.BOUNCE_OUT.ease(t * 2 - d, 0, c, d) * .5f + c * .5f + b;
+        public float ease(float value, float min, float max, float time) {
+            if (value < time / 2) return Easing.BOUNCE_IN.ease(value * 2, 0, max, time) * .5f + min;
+            return Easing.BOUNCE_OUT.ease(value * 2 - time, 0, max, time) * .5f + max * .5f + min;
         }
     };
 }
