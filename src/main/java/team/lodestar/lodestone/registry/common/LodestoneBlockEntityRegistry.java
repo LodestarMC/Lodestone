@@ -1,18 +1,10 @@
 package team.lodestar.lodestone.registry.common;
 
 import net.minecraft.client.renderer.blockentity.*;
+import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.*;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryObject;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -38,7 +30,7 @@ public class LodestoneBlockEntityRegistry {
     public static final Supplier<BlockEntityType<LodestoneSignBlockEntity>> SIGN = BLOCK_ENTITY_TYPES.register("sign", () -> BlockEntityType.Builder.of(LodestoneSignBlockEntity::new, getBlocks(LodestoneStandingSignBlock.class, LodestoneWallSignBlock.class)).build(null));
 
     public static Block[] getBlocks(Class<?>... blockClasses) {
-        IForgeRegistry<Block> blocks = ForgeRegistries.BLOCKS;
+        DefaultedRegistry<Block> blocks = BuiltInRegistries.BLOCK;
         ArrayList<Block> matchingBlocks = new ArrayList<>();
         for (Block block : blocks) {
             if (Arrays.stream(blockClasses).anyMatch(b -> b.isInstance(block))) {
@@ -49,7 +41,7 @@ public class LodestoneBlockEntityRegistry {
     }
 
     public static Block[] getBlocksExact(Class<?> clazz) {
-        IForgeRegistry<Block> blocks = ForgeRegistries.BLOCKS;
+        DefaultedRegistry<Block> blocks = BuiltInRegistries.BLOCK;
         ArrayList<Block> matchingBlocks = new ArrayList<>();
         for (Block block : blocks) {
             if (clazz.equals(block.getClass())) {
