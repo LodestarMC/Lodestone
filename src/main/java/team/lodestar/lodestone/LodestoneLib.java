@@ -32,7 +32,6 @@ public class LodestoneLib {
         LodestoneParticleRegistry.PARTICLES.register(modBus);
         LodestoneAttributeRegistry.ATTRIBUTES.register(modBus);
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register(modBus);
-        LodestonePaintingRegistry.register(modBus);
         LodestoneArgumentTypeRegistry.register(modBus);
 
         CuriosCompat.init();
