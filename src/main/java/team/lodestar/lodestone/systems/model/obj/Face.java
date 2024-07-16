@@ -42,13 +42,12 @@ public record Face(List<Vertex> vertices) {
         Vector3f normal = vertex.normal();
         Vec2 uv = vertex.uv();
 
-        buffer.vertex(matrix4f, position.x(), position.y(), position.z())
-                .color(255, 255, 255, 255)
-                .uv(uv.x, -uv.y)
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .normal(normalMatrix, normal.x(), normal.y(), normal.z())
-                .uv2(packedLight)
-                .endVertex();
+        buffer.addVertex(matrix4f, position.x(), position.y(), position.z())
+                .setColor(255, 255, 255, 255)
+                .setUv(uv.x, -uv.y)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setNormal(poseStack.last(), normal.x(), normal.y(), normal.z())
+                .setLight(packedLight);
     }
 
     public Vector3f getCentroid() {
