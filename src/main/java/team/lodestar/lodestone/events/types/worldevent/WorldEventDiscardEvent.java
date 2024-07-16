@@ -7,9 +7,4 @@ public class WorldEventDiscardEvent extends WorldEventInstanceEvent {
     public WorldEventDiscardEvent(WorldEventInstance worldEvent, Level level) {
         super(worldEvent, level);
     }
-
-    @Override
-    public boolean isCancelable() {
-        return false;
-    }
 }

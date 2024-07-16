@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.compability;
 
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 public class CuriosCompat {
     public static boolean LOADED;

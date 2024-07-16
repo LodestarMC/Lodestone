@@ -16,6 +16,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.helpers.NBTHelper;
 import team.lodestar.lodestone.network.capability.SyncLodestonePlayerCapabilityPacket;
@@ -141,7 +142,7 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
     }
 
     public static class ClientOnly {
-        public static void clientTick(TickEvent.ClientTickEvent event) {
+        public static void clientTick(ClientTickEvent event) {
             Minecraft minecraft = Minecraft.getInstance();
             Player player = minecraft.player;
             LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> {

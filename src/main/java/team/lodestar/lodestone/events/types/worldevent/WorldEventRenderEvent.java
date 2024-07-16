@@ -2,7 +2,6 @@ package team.lodestar.lodestone.events.types.worldevent;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventRenderer;
 
@@ -33,10 +32,5 @@ public class WorldEventRenderEvent extends WorldEventInstanceEvent {
 
     public float getPartialTicks() {
         return partialTicks;
-    }
-
-    @Override
-    public boolean isCancelable() {
-        return false;
     }
 }

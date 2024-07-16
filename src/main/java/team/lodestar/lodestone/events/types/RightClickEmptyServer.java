@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.events.types;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 
 /**
@@ -16,6 +16,6 @@ public class RightClickEmptyServer extends PlayerEvent {
 
     public static void onRightClickEmptyServer(Player player) {
         RightClickEmptyServer evt = new RightClickEmptyServer(player);
-        MinecraftForge.EVENT_BUS.post(evt);
+        NeoForge.EVENT_BUS.post(evt);
     }
 }
