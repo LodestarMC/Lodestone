@@ -6,7 +6,6 @@ import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.*;
-import net.minecraftforge.registries.*;
 import org.joml.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.helpers.*;
@@ -44,10 +43,10 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return create(new WorldParticleOptions(particle).setBehavior(behavior));
     }
 
-    public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle) {
+    public static WorldParticleBuilder create(Supplier<? extends LodestoneWorldParticleType> particle) {
         return create(particle, null);
     }
-    public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle, LodestoneBehaviorComponent behavior) {
+    public static WorldParticleBuilder create(Supplier<? extends LodestoneWorldParticleType> particle, LodestoneBehaviorComponent behavior) {
         return create(new WorldParticleOptions(particle.get()).setBehavior(behavior));
     }
 
