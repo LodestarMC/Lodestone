@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 import team.lodestar.lodestone.systems.config.LodestoneConfig;
 
@@ -27,15 +27,15 @@ public class ClientConfig extends LodestoneConfig {
             builder.comment("Are screen particles enabled?")
                     .define("enable_screen_particles", true));
 
-    public ClientConfig(ForgeConfigSpec.Builder builder) {
+    public ClientConfig(ModConfigSpec.Builder builder) {
         super(LODESTONE, "client", builder);
     }
 
     public static final ClientConfig INSTANCE;
-    public static final ForgeConfigSpec SPEC;
+    public static final ModConfigSpec SPEC;
 
     static {
-        final Pair<ClientConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
+        final Pair<ClientConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(ClientConfig::new);
         SPEC = specPair.getRight();
         INSTANCE = specPair.getLeft();
     }

@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.systems.config;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ public class LodestoneConfig {
      * @param builder    - a forge config builder instance.
      */
     @SuppressWarnings("rawtypes")
-    public LodestoneConfig(String modId, String configType, ForgeConfigSpec.Builder builder) {
+    public LodestoneConfig(String modId, String configType, ModConfigSpec.Builder builder) {
         for (Map.Entry<Pair<String, ConfigPath>, ArrayList<ConfigValueHolder>> next : VALUE_HOLDERS.entrySet()) {
             Pair<String, ConfigPath> s = next.getKey();
             if (s.getFirst().equals(modId + "/" + configType)) {
@@ -40,10 +40,10 @@ public class LodestoneConfig {
 
     public static class ConfigValueHolder<T> {
         private final BuilderSupplier<T> valueSupplier;
-        private ForgeConfigSpec.ConfigValue<T> config;
+        private ModConfigSpec.ConfigValue<T> config;
 
         /**
-         * @param modId         - Your mod id. Must match whatever you passed into the {@link LodestoneConfig#LodestoneConfig(String, String, ForgeConfigSpec.Builder)} constructor.
+         * @param modId         - Your mod id. Must match whatever you passed into the {@link LodestoneConfig#LodestoneConfig(String, String, ModConfigSpec.Builder)} constructor.
          * @param path          - Path towards your value separated with "/". The first string from a split of your path will be removed and added to the configType.
          * @param valueSupplier - Supplier to your config value. {@link ConfigValueHolder#config} will be set to the supplied value when config is initialized.
          */
@@ -55,7 +55,7 @@ public class LodestoneConfig {
         }
 
 
-        public void setConfig(ForgeConfigSpec.Builder builder) {
+        public void setConfig(ModConfigSpec.Builder builder) {
             config = valueSupplier.createBuilder(builder);
         }
 
@@ -63,7 +63,7 @@ public class LodestoneConfig {
             config.set(t);
         }
 
-        public ForgeConfigSpec.ConfigValue<T> getConfig() {
+        public ModConfigSpec.ConfigValue<T> getConfig() {
             return config;
         }
 
@@ -73,7 +73,7 @@ public class LodestoneConfig {
     }
 
     public interface BuilderSupplier<T> {
-        ForgeConfigSpec.ConfigValue<T> createBuilder(ForgeConfigSpec.Builder builder);
+        ModConfigSpec.ConfigValue<T> createBuilder(ModConfigSpec.Builder builder);
     }
 
     public record ConfigPath(String... strings) {
