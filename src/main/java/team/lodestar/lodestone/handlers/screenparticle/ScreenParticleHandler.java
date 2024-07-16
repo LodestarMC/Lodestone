@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import org.joml.*;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
@@ -54,10 +54,8 @@ public class ScreenParticleHandler {
         canSpawnParticles = true;
     }
 
-    public static void renderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase.equals(TickEvent.Phase.END)) {
-            canSpawnParticles = false;
-        }
+    public static void renderTick(RenderFrameEvent event) {
+        canSpawnParticles = false;
     }
 
     public static void renderItemStackEarly(PoseStack poseStack, ItemStack stack, int x, int y) {
@@ -84,8 +82,8 @@ public class ScreenParticleHandler {
                         currentItemY += yOffset;
                     }
                     else if (!renderingHotbar && minecraft.screen instanceof AbstractContainerScreen<?> containerScreen) {
-                        currentItemX += containerScreen.leftPos;
-                        currentItemY += containerScreen.topPos;
+                        currentItemX += containerScreen.getGuiLeft();
+                        currentItemY += containerScreen.getGuiTop();
                     }
                     for (ParticleEmitterHandler.ItemParticleSupplier emitter : emitters) {
                         renderParticles(spawnAndPullParticles(minecraft.level, emitter, stack, false));
@@ -102,9 +100,9 @@ public class ScreenParticleHandler {
         pullFromParticleVault(cacheKey, stack, target, isRenderedAfterItem);
         if (canSpawnParticles) {
             if (isRenderedAfterItem) {
-                emitter.spawnLateParticles(target, level, Minecraft.getInstance().timer.partialTick, stack, currentItemX, currentItemY);
+                emitter.spawnLateParticles(target, level, Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false), stack, currentItemX, currentItemY);
             } else {
-                emitter.spawnEarlyParticles(target, level, Minecraft.getInstance().timer.partialTick, stack, currentItemX, currentItemY);
+                emitter.spawnEarlyParticles(target, level, Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false), stack, currentItemX, currentItemY);
             }
         }
         ACTIVELY_ACCESSED_KEYS.add(cacheKey);
@@ -139,7 +137,7 @@ public class ScreenParticleHandler {
             return;
         }
         screenParticleTarget.particles.forEach((renderType, particles) -> {
-            renderType.begin(TESSELATOR.getBuilder(), Minecraft.getInstance().textureManager);
+            renderType.begin(TESSELATOR.getBuilder(), Minecraft.getInstance().getTextureManager());
             for (ScreenParticle next : particles) {
                 next.render(TESSELATOR.getBuilder());
             }

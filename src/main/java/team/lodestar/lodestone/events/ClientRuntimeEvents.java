@@ -5,13 +5,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RenderFrameEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.ViewportEvent;
 import org.joml.Matrix4f;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.handlers.*;
@@ -20,26 +21,24 @@ import team.lodestar.lodestone.systems.client.ClientTickCounter;
 
 import static team.lodestar.lodestone.LodestoneLib.RANDOM;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public class ClientRuntimeEvents {
 
     @SubscribeEvent
-    public static void clientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase.equals(TickEvent.Phase.END)) {
-            Minecraft minecraft = Minecraft.getInstance();
-            if (minecraft.level != null) {
-                ClientTickCounter.clientTick();
-                if (minecraft.isPaused()) {
-                    return;
-                }
-                Camera camera = minecraft.gameRenderer.getMainCamera();
-                GhostBlockHandler.tickGhosts();
-                WorldEventHandler.tick(minecraft.level);
-                PlacementAssistantHandler.tick(minecraft.player, minecraft.hitResult);
-                ScreenshakeHandler.clientTick(camera, RANDOM);
-                LodestonePlayerDataCapability.ClientOnly.clientTick(event);
-                ScreenParticleHandler.tickParticles();
+    public static void clientTick(ClientTickEvent.Post event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.level != null) {
+            ClientTickCounter.clientTick();
+            if (minecraft.isPaused()) {
+                return;
             }
+            Camera camera = minecraft.gameRenderer.getMainCamera();
+            GhostBlockHandler.tickGhosts();
+            WorldEventHandler.tick(minecraft.level);
+            PlacementAssistantHandler.tick(minecraft.player, minecraft.hitResult);
+            ScreenshakeHandler.clientTick(camera, RANDOM);
+            LodestonePlayerDataCapability.ClientOnly.clientTick(event);
+            ScreenParticleHandler.tickParticles();
         }
     }
 
@@ -61,7 +60,7 @@ public class ClientRuntimeEvents {
         Minecraft minecraft = Minecraft.getInstance();
         Camera camera = minecraft.gameRenderer.getMainCamera();
         Vec3 cameraPos = camera.getPosition();
-        float partial = event.getPartialTick();
+        float partial = event.getPartialTick().getGameTimeDeltaPartialTick(false);
         PoseStack poseStack = event.getPoseStack();
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
@@ -82,8 +81,12 @@ public class ClientRuntimeEvents {
     }
 
     @SubscribeEvent
-    public static void renderTick(TickEvent.RenderTickEvent event) {
-        ScreenParticleHandler.renderTick(event);
-        ClientTickCounter.renderTick(event);
+    public static void renderFrameEvent(RenderFrameEvent event) {
+        if (event instanceof RenderFrameEvent.Pre) {
+            ClientTickCounter.renderTick(event);
+        }
+        if (event instanceof RenderFrameEvent) {
+            ScreenParticleHandler.renderTick(event);
+        }
     }
 }

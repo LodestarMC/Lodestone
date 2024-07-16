@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 
@@ -14,7 +14,7 @@ public class ParticleEmitterHandler {
     public static final Map<Item, List<ItemParticleSupplier>> EMITTERS = new HashMap<>();
 
     public static void registerParticleEmitters(FMLClientSetupEvent event) {
-        DataHelper.getAll(ForgeRegistries.ITEMS.getValues(), i -> i instanceof ItemParticleSupplier).forEach(i -> {
+        DataHelper.getAll(BuiltInRegistries.ITEM.stream().toList(), i -> i instanceof ItemParticleSupplier).forEach(i -> {
                     ItemParticleSupplier emitter = (ItemParticleSupplier) i;
                     registerItemParticleEmitter(i, emitter);
                 }
