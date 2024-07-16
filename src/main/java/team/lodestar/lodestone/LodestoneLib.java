@@ -2,13 +2,12 @@ package team.lodestar.lodestone;
 
 import net.minecraft.resources.*;
 import net.minecraft.util.*;
-import net.minecraftforge.common.*;
-import net.minecraftforge.data.event.*;
-import net.minecraftforge.eventbus.api.*;
-import net.minecraftforge.fml.*;
-import net.minecraftforge.fml.common.*;
-import net.minecraftforge.fml.config.*;
-import net.minecraftforge.fml.javafmlmod.*;
+import net.neoforged.bus.api.*;
+import net.neoforged.fml.*;
+import net.neoforged.fml.common.*;
+import net.neoforged.fml.config.*;
+import net.neoforged.neoforge.common.*;
+import net.neoforged.neoforge.data.event.*;
 import org.apache.logging.log4j.*;
 import team.lodestar.lodestone.compability.*;
 import team.lodestar.lodestone.config.*;
@@ -24,9 +23,9 @@ public class LodestoneLib {
     public static final RandomSource RANDOM = RandomSource.create();
 
     public LodestoneLib() {
-        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-        IEventBus forgeBus = MinecraftForge.EVENT_BUS;
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
+        IEventBus modBus = ModLoadingContext.get().getActiveContainer().getEventBus();
+        IEventBus forgeBus = NeoForge.EVENT_BUS;
+        ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
 
         LodestoneBlockEntityRegistry.BLOCK_ENTITY_TYPES.register(modBus);
         LodestoneParticleRegistry.PARTICLES.register(modBus);
@@ -42,7 +41,7 @@ public class LodestoneLib {
     }
 
     public static ResourceLocation lodestonePath(String path) {
-        return ResourceLocation.parse(LODESTONE, path);
+        return ResourceLocation.fromNamespaceAndPath(LODESTONE, path);
     }
 
     public void gatherData(GatherDataEvent event) {
