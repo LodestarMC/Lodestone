@@ -1,7 +1,9 @@
 package team.lodestar.lodestone.helpers;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -11,9 +13,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 import team.lodestar.lodestone.compability.CuriosCompat;
 import team.lodestar.lodestone.systems.item.IEventResponderItem;
 
@@ -37,27 +39,6 @@ public class ItemHelper {
         ItemStack newStack = stack.copy();
         newStack.setCount(newCount);
         return newStack;
-    }
-
-    public static <T extends LivingEntity> boolean damageItem(ItemStack stack, int amount, T entityIn, Consumer<T> onBroken) {
-        if (!entityIn.level().isClientSide && (!(entityIn instanceof Player) || !((Player) entityIn).getAbilities().instabuild)) {
-            if (stack.isDamageableItem()) {
-                amount = stack.getItem().damageItem(stack, amount, entityIn, onBroken);
-                if (stack.hurt(amount, entityIn.getRandom(), entityIn instanceof ServerPlayer ? (ServerPlayer) entityIn : null)) {
-                    onBroken.accept(entityIn);
-                    Item item = stack.getItem();
-                    stack.shrink(1);
-                    if (entityIn instanceof Player) {
-                        ((Player) entityIn).awardStat(Stats.ITEM_BROKEN.get(item));
-                    }
-
-                    stack.setDamageValue(0);
-                    return true;
-                }
-
-            }
-        }
-        return false;
     }
 
     public static <T extends Entity> Entity getClosestEntity(List<T> entities, Vec3 pos) {
@@ -99,13 +80,9 @@ public class ItemHelper {
         return itemStacks;
     }
 
-    public static void applyEnchantments(LivingEntity user, Entity target, ItemStack stack) {
-        EnchantmentHelper.EnchantmentVisitor visitor = (enchantment, level) -> enchantment.doPostAttack(user, target, level);
-        if (user != null) {
-            EnchantmentHelper.runIterationOnInventory(visitor, user.getAllSlots());
-        }
-        if (user instanceof Player) {
-            EnchantmentHelper.runIterationOnItem(visitor, stack);
+    public static void applyEnchantments(LivingEntity user, Entity target, DamageSource source, ItemStack stack) {
+        if (user.level() instanceof ServerLevel serverLevel) {
+            EnchantmentHelper.doPostAttackEffectsWithItemSource(serverLevel, target, source, stack);
         }
     }
 

@@ -3,8 +3,8 @@ package team.lodestar.lodestone.systems.particle.screen.base;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 
 @OnlyIn(Dist.CLIENT)

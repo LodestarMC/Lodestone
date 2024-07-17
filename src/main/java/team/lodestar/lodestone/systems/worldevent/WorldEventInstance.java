@@ -4,7 +4,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PacketDistributor;
 import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
@@ -77,7 +76,7 @@ public abstract class WorldEventInstance {
 
     public WorldEventInstance deserializeNBT(CompoundTag tag) {
         uuid = tag.getUUID("uuid");
-        type = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(new ResourceLocation(tag.getString("type")));
+        type = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(ResourceLocation.parse(tag.getString("type")));
         discarded = tag.getBoolean("discarded");
         frozen = tag.getBoolean("frozen");
         return this;
