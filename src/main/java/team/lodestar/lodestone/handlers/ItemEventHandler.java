@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.handlers;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import team.lodestar.lodestone.helpers.ItemHelper;
 import team.lodestar.lodestone.systems.item.IEventResponderItem;
 
@@ -29,10 +29,9 @@ public class ItemEventHandler {
         }
     }
 
-    public static void respondToHurt(LivingHurtEvent event) {
-        if (event.isCanceled() || event.getAmount() <= 0) {
-            return;
-        }
+    public static void respondToHurt(LivingDamageEvent.Post event) {
+        if (event.getNewDamage() <= 0) return;
+
         LivingEntity target = event.getEntity();
         if (event.getSource().getEntity() instanceof LivingEntity attacker) {
             ItemHelper.getEventResponders(attacker).forEach(s -> ((IEventResponderItem) s.getItem()).hurtEvent(event, attacker, target, s));

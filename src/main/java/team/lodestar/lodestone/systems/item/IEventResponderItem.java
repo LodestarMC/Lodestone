@@ -2,15 +2,15 @@ package team.lodestar.lodestone.systems.item;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
 /**
  * An interface containing various methods which are triggered on various forge events.
  * Implement on your item for the methods to be called.
  */
 public interface IEventResponderItem {
-    default void takeDamageEvent(LivingHurtEvent event, LivingEntity attacker, LivingEntity attacked, ItemStack stack) {
+    default void takeDamageEvent(LivingDamageEvent.Post event, LivingEntity attacker, LivingEntity attacked, ItemStack stack) {
         takeDamageEvent(attacker, attacked, stack);
     }
 
@@ -18,7 +18,7 @@ public interface IEventResponderItem {
 
     }
 
-    default void hurtEvent(LivingHurtEvent event, LivingEntity attacker, LivingEntity target, ItemStack stack) {
+    default void hurtEvent(LivingDamageEvent.Post event, LivingEntity attacker, LivingEntity target, ItemStack stack) {
         hurtEvent(attacker, target, stack);
     }
 

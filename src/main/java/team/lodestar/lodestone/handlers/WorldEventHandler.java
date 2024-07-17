@@ -8,10 +8,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.events.types.worldevent.*;
@@ -34,7 +33,7 @@ public class WorldEventHandler {
                     WorldEventRenderer<WorldEventInstance> renderer = LodestoneWorldEventRendererRegistry.RENDERERS.get(instance.type);
                     if (renderer != null) {
                         if (renderer.canRender(instance)) {
-                            MinecraftForge.EVENT_BUS.post(new WorldEventRenderEvent(instance, renderer, stack, RenderHandler.DELAYED_RENDER.getTarget(), partialTicks));
+                            NeoForge.EVENT_BUS.post(new WorldEventRenderEvent(instance, renderer, stack, RenderHandler.DELAYED_RENDER.getTarget(), partialTicks));
                             renderer.render(instance, stack, RenderHandler.DELAYED_RENDER.getTarget(), partialTicks);
                         }
                     }
@@ -48,7 +47,7 @@ public class WorldEventHandler {
     }
 
     public static <T extends WorldEventInstance> T addWorldEvent(Level level, boolean shouldStart, T instance) {
-        MinecraftForge.EVENT_BUS.post(new WorldEventCreationEvent(instance, level));
+        NeoForge.EVENT_BUS.post(new WorldEventCreationEvent(instance, level));
         LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(capability -> {
             capability.inboundWorldEvents.add(instance);
             if (shouldStart) {
@@ -75,10 +74,10 @@ public class WorldEventHandler {
         }
     }
 
-    public static void worldTick(TickEvent.LevelTickEvent event) {
-        if (event.phase.equals(TickEvent.Phase.END)) {
-            if (!event.level.isClientSide) {
-                tick(event.level);
+    public static void worldTick(LevelTickEvent event) {
+        if (event instanceof LevelTickEvent.Post postEvent) {
+            if (!postEvent.getLevel().isClientSide) {
+                tick(event.getLevel());
             }
         }
     }
@@ -98,11 +97,11 @@ public class WorldEventHandler {
             while (iterator.hasNext()) {
                 WorldEventInstance instance = iterator.next();
                 if (instance.discarded) {
-                    MinecraftForge.EVENT_BUS.post(new WorldEventDiscardEvent(instance, level));
+                    NeoForge.EVENT_BUS.post(new WorldEventDiscardEvent(instance, level));
                     iterator.remove();
                 } else {
                     if (!instance.isFrozen()) {
-                        MinecraftForge.EVENT_BUS.post(new WorldEventTickEvent(instance, level));
+                        NeoForge.EVENT_BUS.post(new WorldEventTickEvent(instance, level));
                         instance.tick(level);
                     }
                     if (instance.dirty) {
@@ -133,7 +132,7 @@ public class WorldEventHandler {
         int worldEventCount = worldTag.getInt("worldEventCount");
         for (int i = 0; i < worldEventCount; i++) {
             CompoundTag instanceTag = worldTag.getCompound("worldEvent_" + i);
-            WorldEventType reader = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(new ResourceLocation(instanceTag.getString("type")));
+            WorldEventType reader = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(ResourceLocation.parse(instanceTag.getString("type")));
             WorldEventInstance eventInstance = reader.createInstance(instanceTag);
             capability.activeWorldEvents.add(eventInstance);
         }

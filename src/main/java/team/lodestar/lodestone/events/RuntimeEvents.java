@@ -2,15 +2,15 @@ package team.lodestar.lodestone.events;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
@@ -19,13 +19,17 @@ import team.lodestar.lodestone.handlers.LodestoneAttributeEventHandler;
 import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
 import team.lodestar.lodestone.handlers.WorldEventHandler;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class RuntimeEvents {
 
     @SubscribeEvent
-    public static void onHurt(LivingHurtEvent event) {
-        ItemEventHandler.respondToHurt(event);
-        LodestoneAttributeEventHandler.processAttributes(event);
+    public static void onHurt(LivingDamageEvent event) {
+        if (event instanceof LivingDamageEvent.Pre preEvent) {
+            LodestoneAttributeEventHandler.processAttributes(preEvent);
+        }
+        else if (event instanceof LivingDamageEvent.Post postEvent) {
+            ItemEventHandler.respondToHurt(postEvent);
+        }
     }
 
     @SubscribeEvent
@@ -40,7 +44,7 @@ public class RuntimeEvents {
     }
 
     @SubscribeEvent
-    public static void playerTick(TickEvent.PlayerTickEvent event) {
+    public static void playerTick(PlayerTickEvent event) {
         LodestonePlayerDataCapability.playerTick(event);
     }
 
@@ -55,7 +59,7 @@ public class RuntimeEvents {
     }
 
     @SubscribeEvent
-    public static void worldTick(TickEvent.LevelTickEvent event) {
+    public static void worldTick(LevelTickEvent event) {
         WorldEventHandler.worldTick(event);
     }
 

@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -8,9 +9,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.systems.placementassistance.IPlacementAssistant;
 
@@ -26,7 +26,7 @@ public class PlacementAssistantHandler {
     public static BlockHitResult target;
 
     public static void registerPlacementAssistants(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> DataHelper.getAll(new ArrayList<>(ForgeRegistries.BLOCKS.getValues()), b -> b instanceof IPlacementAssistant).forEach(i -> {
+        event.enqueueWork(() -> DataHelper.getAll(new ArrayList<>(BuiltInRegistries.BLOCK.stream().toList()), b -> b instanceof IPlacementAssistant).forEach(i -> {
                             IPlacementAssistant assistant = (IPlacementAssistant) i;
                             ASSISTANTS.add(assistant);
                         }
