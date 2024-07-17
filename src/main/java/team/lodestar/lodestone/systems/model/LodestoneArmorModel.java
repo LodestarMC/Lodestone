@@ -70,13 +70,13 @@ public class LodestoneArmorModel extends HumanoidModel<LivingEntity> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int p_350361_) {
         if (slot == EquipmentSlot.LEGS) {  //I don't know why this is needed, but it is.
             this.leggings.copyFrom(this.body);
             this.leftLegging.copyFrom(this.leftLeg);
             this.rightLegging.copyFrom(this.rightLeg);
         }
-        super.renderToBuffer(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        super.renderToBuffer(matrixStack, vertexConsumer, packedLight, packedOverlay, p_350361_);
     }
 
     public void copyFromDefault(HumanoidModel model) {

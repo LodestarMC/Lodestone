@@ -14,17 +14,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.RegistryObject;
 import team.lodestar.lodestone.systems.entity.LodestoneBoatEntity;
 
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class LodestoneBoatItem extends Item {
     private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
     private final Supplier<EntityType<LodestoneBoatEntity>> boat;
 
-    public LodestoneBoatItem(Properties properties, RegistryObject<EntityType<LodestoneBoatEntity>> boat) {
+    public LodestoneBoatItem(Properties properties, Supplier<EntityType<LodestoneBoatEntity>> boat) {
         super(properties);
         this.boat = boat;
     }

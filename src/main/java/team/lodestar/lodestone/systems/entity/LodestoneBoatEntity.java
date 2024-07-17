@@ -11,22 +11,22 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 public class LodestoneBoatEntity extends Boat {
     private final Supplier<Item> boatItem;
 
     /**
-     * @deprecated Use {@link LodestoneBoatEntity#LodestoneBoatEntity(EntityType, Level, RegistryObject)}} instead
+     * @deprecated Use {@link LodestoneBoatEntity#LodestoneBoatEntity(EntityType, Level, Supplier)}} instead
      */
     @Deprecated
-    public LodestoneBoatEntity(EntityType<? extends LodestoneBoatEntity> type, Level level, RegistryObject<Item> boatItem, RegistryObject<Item> plankItem) {
+    public LodestoneBoatEntity(EntityType<? extends LodestoneBoatEntity> type, Level level, Supplier<Item> boatItem, Supplier<Item> plankItem) {
         this(type, level, boatItem);
     }
 
-    public LodestoneBoatEntity(EntityType<? extends LodestoneBoatEntity> type, Level level, RegistryObject<Item> boatItem) {
+    public LodestoneBoatEntity(EntityType<? extends LodestoneBoatEntity> type, Level level, Supplier<Item> boatItem) {
         super(type, level);
         this.boatItem = boatItem;
     }

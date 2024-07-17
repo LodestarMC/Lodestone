@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 
@@ -68,22 +70,24 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    @NotNull
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         if (hasTileEntity(state)) {
-            if (world.getBlockEntity(pos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                ItemStack stack = simpleBlockEntity.onClone(state, target, world, pos, player);
+            if (level.getBlockEntity(pos) instanceof LodestoneBlockEntity simpleBlockEntity) {
+                ItemStack stack = simpleBlockEntity.onClone(state, target, level, pos, player);
                 if (!stack.isEmpty()) {
                     return stack;
                 }
             }
         }
-        return super.getCloneItemStack(state, target, world, pos, player);
+        return super.getCloneItemStack(state, target, level, pos, player);
     }
 
     @Override
-    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+    @NotNull
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         onBlockBroken(state, level, pos, player);
-        super.playerWillDestroy(level, pos, state, player);
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class DimensionPlacementFilter extends PlacementFilter {
     }
 
     public static Set<ResourceKey<Level>> fromStrings(List<? extends String> dimensions) {
-        return dimensions.stream().map(o -> ResourceKey.create(Registries.DIMENSION, (new ResourceLocation(o)))).collect(Collectors.toSet());
+        return dimensions.stream().map(o -> ResourceKey.create(Registries.DIMENSION, (ResourceLocation.parse(o)))).collect(Collectors.toSet());
     }
 
     @Override
