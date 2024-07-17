@@ -54,7 +54,7 @@ public abstract class MultiInstancePostProcessor<I extends DynamicShaderFxInstan
     public void beforeProcess(PoseStack viewModelStack) {
         for (int i = instances.size() - 1; i >= 0; i--) {
             DynamicShaderFxInstance instance = instances.get(i);
-            instance.update(MC.getDeltaFrameTime());
+            instance.update(MC.getTimer().getGameTimeDeltaPartialTick(false));
             if (instance.isRemoved()) {
                 instances.remove(i);
             }

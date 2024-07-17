@@ -50,7 +50,7 @@ public abstract class PostProcessor {
             }),
             Pair.of("nearPlaneDistance", u -> u.set(GameRenderer.PROJECTION_Z_NEAR)),
             Pair.of("farPlaneDistance", u -> u.set(MC.gameRenderer.getDepthFar())),
-            Pair.of("fov", u -> u.set((float) Math.toRadians(MC.gameRenderer.getFov(MC.gameRenderer.getMainCamera(), MC.getFrameTime(), true)))),
+            Pair.of("fov", u -> u.set((float) Math.toRadians(MC.gameRenderer.getFov(MC.gameRenderer.getMainCamera(), MC.getTimer().getGameTimeDeltaPartialTick(false), true)))),
             Pair.of("aspectRatio", u -> u.set((float) MC.getWindow().getWidth() / (float) MC.getWindow().getHeight()))
     );
 
@@ -150,13 +150,13 @@ public abstract class PostProcessor {
                 init();
 
             if (postChain != null) {
-                time += MC.getDeltaFrameTime() / 20.0;
+                time += MC.getTimer().getGameTimeDeltaPartialTick(false) / 20.0;
 
                 applyDefaultUniforms();
 
                 beforeProcess(viewModelStack);
                 if (!isActive) return;
-                postChain.process(MC.getFrameTime());
+                postChain.process(MC.getTimer().getGameTimeDeltaPartialTick(false));
 
                 GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, MC.getMainRenderTarget().frameBufferId);
                 afterProcess();

@@ -18,8 +18,8 @@ public class LodestoneGlslPreprocessor extends GlslPreprocessor {
     @Nullable
     @Override
     public String applyImport(boolean pUseFullPath, String pDirectory) {
-        ResourceLocation resourcelocation = new ResourceLocation(pDirectory);
-        ResourceLocation resourcelocation1 = new ResourceLocation(resourcelocation.getNamespace(), "shaders/include/" + resourcelocation.getPath());
+        ResourceLocation resourcelocation = ResourceLocation.parse(pDirectory);
+        ResourceLocation resourcelocation1 = ResourceLocation.fromNamespaceAndPath(resourcelocation.getNamespace(), "shaders/include/" + resourcelocation.getPath());
         try {
             Resource resource1 = Minecraft.getInstance().getResourceManager().getResource(resourcelocation1).get();
 
