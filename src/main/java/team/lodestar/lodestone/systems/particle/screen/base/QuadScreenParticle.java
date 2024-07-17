@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.AxisAngle4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -25,7 +25,7 @@ public abstract class QuadScreenParticle extends ScreenParticle {
 
     @Override
     public void render(BufferBuilder bufferBuilder) {
-        float partialTicks = Minecraft.getInstance().timer.partialTick;
+        float partialTicks = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
         float size = getQuadSize(partialTicks) * 10;
         float u0 = getU0();
         float u1 = getU1();
@@ -41,10 +41,10 @@ public abstract class QuadScreenParticle extends ScreenParticle {
             vector3f.add((float) x, (float) y, 0);
         }
         float quadZ = getQuadZPosition();
-        bufferBuilder.vertex(vectors[0].x(), vectors[0].y(), quadZ).uv(u1, v1).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
-        bufferBuilder.vertex(vectors[1].x(), vectors[1].y(), quadZ).uv(u1, v0).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
-        bufferBuilder.vertex(vectors[2].x(), vectors[2].y(), quadZ).uv(u0, v0).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
-        bufferBuilder.vertex(vectors[3].x(), vectors[3].y(), quadZ).uv(u0, v1).color(this.rCol, this.gCol, this.bCol, this.alpha).endVertex();
+        bufferBuilder.addVertex(vectors[0].x(), vectors[0].y(), quadZ).setUv(u1, v1).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
+        bufferBuilder.addVertex(vectors[1].x(), vectors[1].y(), quadZ).setUv(u1, v0).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
+        bufferBuilder.addVertex(vectors[2].x(), vectors[2].y(), quadZ).setUv(u0, v0).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
+        bufferBuilder.addVertex(vectors[3].x(), vectors[3].y(), quadZ).setUv(u0, v1).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
     }
 
     public float getQuadSize(float partialTicks) {

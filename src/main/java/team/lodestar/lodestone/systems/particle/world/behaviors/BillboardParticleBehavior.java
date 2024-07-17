@@ -51,9 +51,9 @@ public class BillboardParticleBehavior implements LodestoneParticleBehavior {
         float blue = particle.getBlue();
         float alpha = particle.getAlpha();
         int j = particle.getLightColor(partialTicks);
-        consumer.vertex(avector3f[0].x(), avector3f[0].y(), avector3f[0].z()).uv(u1, v1).color(red, green, blue, alpha).uv2(j).endVertex();
-        consumer.vertex(avector3f[1].x(), avector3f[1].y(), avector3f[1].z()).uv(u1, v0).color(red, green, blue, alpha).uv2(j).endVertex();
-        consumer.vertex(avector3f[2].x(), avector3f[2].y(), avector3f[2].z()).uv(u0, v0).color(red, green, blue, alpha).uv2(j).endVertex();
-        consumer.vertex(avector3f[3].x(), avector3f[3].y(), avector3f[3].z()).uv(u0, v1).color(red, green, blue, alpha).uv2(j).endVertex();
+        consumer.addVertex(avector3f[0].x(), avector3f[0].y(), avector3f[0].z()).setUv(u1, v1).setColor(red, green, blue, alpha).setLight(j);
+        consumer.addVertex(avector3f[1].x(), avector3f[1].y(), avector3f[1].z()).setUv(u1, v0).setColor(red, green, blue, alpha).setLight(j);
+        consumer.addVertex(avector3f[2].x(), avector3f[2].y(), avector3f[2].z()).setUv(u0, v0).setColor(red, green, blue, alpha).setLight(j);
+        consumer.addVertex(avector3f[3].x(), avector3f[3].y(), avector3f[3].z()).setUv(u0, v1).setColor(red, green, blue, alpha).setLight(j);
     }
 }

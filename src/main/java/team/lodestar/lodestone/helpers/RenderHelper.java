@@ -43,27 +43,27 @@ public class RenderHelper {
     }
 
     public static void vertexPos(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z) {
-        vertexConsumer.vertex(last, x, y, z).endVertex();
+        vertexConsumer.addVertex(last, x, y, z);
     }
 
     public static void vertexPosUV(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float u, float v) {
-        vertexConsumer.vertex(last, x, y, z).uv(u, v).endVertex();
+        vertexConsumer.addVertex(last, x, y, z).setUv(u, v);
     }
 
     public static void vertexPosUVLight(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float u, float v, int light) {
-        vertexConsumer.vertex(last, x, y, z).uv(u, v).uv2(light).endVertex();
+        vertexConsumer.addVertex(last, x, y, z).setUv(u, v).setLight(light);
     }
 
     public static void vertexPosColor(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float r, float g, float b, float a) {
-        vertexConsumer.vertex(last, x, y, z).color(r, g, b, a).endVertex();
+        vertexConsumer.addVertex(last, x, y, z).setColor(r, g, b, a);
     }
 
     public static void vertexPosColorUV(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float r, float g, float b, float a, float u, float v) {
-        vertexConsumer.vertex(last, x, y, z).color(r, g, b, a).uv(u, v).endVertex();
+        vertexConsumer.addVertex(last, x, y, z).setColor(r, g, b, a).setUv(u, v);
     }
 
     public static void vertexPosColorUVLight(VertexConsumer vertexConsumer, Matrix4f last, float x, float y, float z, float r, float g, float b, float a, float u, float v, int light) {
-        vertexConsumer.vertex(last, x, y, z).color(r, g, b, a).uv(u, v).uv2(light).endVertex();
+        vertexConsumer.addVertex(last, x, y, z).setColor(r, g, b, a).setUv(u, v).setLight(light);
     }
 
     public static Vector3f parametricSphere(float u, float v, float r) {
@@ -188,16 +188,16 @@ public class RenderHelper {
         float halfWidth = lineWidth / 2F;
 
         //Draw horizontal quad
-        builder.vertex(matrix, -halfWidth, 0, 0).color(r, g, b, a).uv2(0xF000F0).endVertex();
-        builder.vertex(matrix, halfWidth, 0, 0).color(r, g, b, a).uv2(0xF000F0).endVertex();
-        builder.vertex(matrix, halfWidth, 0, distance).color(r, g, b, a).uv2(0xF000F0).endVertex();
-        builder.vertex(matrix, -halfWidth, 0, distance).color(r, g, b, a).uv2(0xF000F0).endVertex();
+        builder.addVertex(matrix, -halfWidth, 0, 0).setColor(r, g, b, a).setLight(0xF000F0);
+        builder.addVertex(matrix, halfWidth, 0, 0).setColor(r, g, b, a).setLight(0xF000F0);
+        builder.addVertex(matrix, halfWidth, 0, distance).setColor(r, g, b, a).setLight(0xF000F0);
+        builder.addVertex(matrix, -halfWidth, 0, distance).setColor(r, g, b, a).setLight(0xF000F0);
 
         //Draw vertical Quad
-        builder.vertex(matrix, 0, -halfWidth, 0).color(r, g, b, a).uv2(0xF000F0).endVertex();
-        builder.vertex(matrix, 0, halfWidth, 0).color(r, g, b, a).uv2(0xF000F0).endVertex();
-        builder.vertex(matrix, 0, halfWidth, distance).color(r, g, b, a).uv2(0xF000F0).endVertex();
-        builder.vertex(matrix, 0, -halfWidth, distance).color(r, g, b, a).uv2(0xF000F0).endVertex();
+        builder.addVertex(matrix, 0, -halfWidth, 0).setColor(r, g, b, a).setLight(0xF000F0);
+        builder.addVertex(matrix, 0, halfWidth, 0).setColor(r, g, b, a).setLight(0xF000F0);
+        builder.addVertex(matrix, 0, halfWidth, distance).setColor(r, g, b, a).setLight(0xF000F0);
+        builder.addVertex(matrix, 0, -halfWidth, distance).setColor(r, g, b, a).setLight(0xF000F0);
 
         ps.popPose();
     }

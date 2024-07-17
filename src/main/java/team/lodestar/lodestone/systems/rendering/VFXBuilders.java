@@ -48,25 +48,25 @@ public class VFXBuilders {
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
 
         public ScreenVFXBuilder setPosTexDefaultFormat() {
-            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, this.zLevel).uv(u, v).endVertex();
+            supplier = (b, l, x, y, u, v) -> b.addVertex(l, x, y, this.zLevel).setUv(u, v);
             format = DefaultVertexFormat.POSITION_TEX;
             return this;
         }
 
         public ScreenVFXBuilder setPosColorDefaultFormat() {
-            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, this.zLevel).color(this.r, this.g, this.b, this.a).endVertex();
+            supplier = (b, l, x, y, u, v) -> b.addVertex(l, x, y, this.zLevel).setColor(this.r, this.g, this.b, this.a);
             format = DefaultVertexFormat.POSITION_COLOR;
             return this;
         }
 
-        public ScreenVFXBuilder setPosColorTexDefaultFormat() {
-            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, this.zLevel).color(this.r, this.g, this.b, this.a).uv(u, v).endVertex();
-            format = DefaultVertexFormat.POSITION_COLOR_TEX;
+        public ScreenVFXBuilder setPosTexColorDefaultFormat() {
+            supplier = (b, l, x, y, u, v) -> b.addVertex(l, x, y, this.zLevel).setUv(u, v).setColor(this.r, this.g, this.b, this.a);
+            format = DefaultVertexFormat.POSITION_TEX_COLOR;
             return this;
         }
 
         public ScreenVFXBuilder setPosColorTexLightmapDefaultFormat() {
-            supplier = (b, l, x, y, u, v) -> b.vertex(l, x, y, this.zLevel).color(this.r, this.g, this.b, this.a).uv(u, v).uv2(this.light).endVertex();
+            supplier = (b, l, x, y, u, v) -> b.addVertex(l, x, y, this.zLevel).setColor(this.r, this.g, this.b, this.a).setUv(u, v).setLight(this.light);
             format = DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP;
             return this;
         }
@@ -260,15 +260,15 @@ public class VFXBuilders {
         public static final HashMap<VertexFormatElement, WorldVertexConsumerActor> CONSUMER_INFO_MAP = new HashMap<>();
 
         static {
-            CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_POSITION, (consumer, last, builder, x, y, z, u, v) -> {
+            CONSUMER_INFO_MAP.put(VertexFormatElement.POSITION, (consumer, last, builder, x, y, z, u, v) -> {
                 if (last == null)
-                    consumer.vertex(x, y, z);
+                    consumer.addVertex(x, y, z);
                 else
-                    consumer.vertex(last, x, y, z);
+                    consumer.addVertex(last, x, y, z);
             });
-            CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_COLOR, (consumer, last, builder, x, y, z, u, v) -> consumer.color(builder.r, builder.g, builder.b, builder.a));
-            CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_UV0, (consumer, last, builder, x, y, z, u, v) -> consumer.uv(u, v));
-            CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_UV2, (consumer, last, builder, x, y, z, u, v) -> consumer.uv2(builder.light));
+            CONSUMER_INFO_MAP.put(VertexFormatElement.COLOR, (consumer, last, builder, x, y, z, u, v) -> consumer.setColor(builder.r, builder.g, builder.b, builder.a));
+            CONSUMER_INFO_MAP.put(VertexFormatElement.UV0, (consumer, last, builder, x, y, z, u, v) -> consumer.setUv(u, v));
+            CONSUMER_INFO_MAP.put(VertexFormatElement.UV2, (consumer, last, builder, x, y, z, u, v) -> consumer.setLight(builder.light));
         } //TODO: add more here 11!!~!!!!!!!!!!
 
         public WorldVFXBuilder setRenderType(RenderType renderType) {
@@ -281,12 +281,11 @@ public class VFXBuilders {
         }
 
         public WorldVFXBuilder setFormat(VertexFormat format) {
-            ImmutableList<VertexFormatElement> elements = format.getElements();
+            ImmutableList<VertexFormatElement> elements = ImmutableList.copyOf(format.getElements());
             return setFormatRaw(format).setVertexSupplier((consumer, last, builder, x, y, z, u, v) -> {
                 for (VertexFormatElement element : elements) {
                     CONSUMER_INFO_MAP.get(element).placeVertex(consumer, last, this, x, y, z, u, v);
                 }
-                consumer.endVertex();
             });
         }
 
