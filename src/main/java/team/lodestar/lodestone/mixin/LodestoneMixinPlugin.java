@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.mixin;
 
+import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.Version;
 import net.fabricmc.loader.api.VersionParsingException;
@@ -44,18 +45,17 @@ public class LodestoneMixinPlugin implements IMixinConfigPlugin {
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         boolean sodiumLoaded = FabricLoader.getInstance().isModLoaded("sodium");
-        if (mixinClassName.startsWith("team.lodestar.lodestone.mixin.client.integration.sodium510")) {
-            return isSodium059Installed();
-        }
+
         if (mixinClassName.startsWith("team.lodestar.lodestone.mixin.client.integration.sodium58")) {
-            return isSodiumLess059Installed();
+            return isSodiumLess059Installed() || FabricLoader.getInstance().isModLoaded("embeddium");
         }
-        if (mixinClassName.startsWith("team.lodestar.lodestone.mixin.client.integration.iris")) {
-            return FabricLoader.getInstance().isModLoaded("iris");
+
+        if (mixinClassName.startsWith("team.lodestar.lodestone.mixin.client.integration.sodium510")) {
+            return isSodium059Installed() && !FabricLoader.getInstance().isModLoaded("embeddium");
         }
 
         if (mixinClassName.startsWith("team.lodestar.lodestone.mixin.client.integration.notsodium")) {
-            return !sodiumLoaded;
+            return !sodiumLoaded && !FabricLoader.getInstance().isModLoaded("embeddium");
         }
 
         return true;

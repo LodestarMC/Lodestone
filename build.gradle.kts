@@ -88,7 +88,8 @@ dependencies {
 
     //modImplementation("io.github.ladysnake:satin:${property("satin_version")}")
     compileOnly("maven.modrinth:sodium:${property("sodium_version")}")
-    //modImplementation("maven.modrinth:embeddium:${property("embeddium_version")}")
+    //modImplementation("org.embeddedt:embeddium-fabric-1.20.1:${property("embeddium_version")}")
+    //modImplementation("org.embeddedt:embeddium-1.20.1:0.2.11-git.23aedfb+mc1.20.1")
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
     include("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
 }
