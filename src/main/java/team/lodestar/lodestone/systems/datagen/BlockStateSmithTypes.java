@@ -87,7 +87,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a directional block model and state.
      */
-    public static BlockStateSmith<DirectionalBlock> DIRECTIONAL_BLOCK = new BlockStateSmith<>(DirectionalBlock.class, (block, provider) -> {
+    public static BlockStateSmith<Block> DIRECTIONAL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
         String name = provider.getBlockName(block);
         ResourceLocation textureName = provider.getBlockTexture(name);
         BlockModelBuilder directionalModel = provider.models().cubeColumnHorizontal(name, textureName, provider.extend(textureName, "_top"));
@@ -97,7 +97,7 @@ public class BlockStateSmithTypes {
     /**
      * Generates a horizontal block model and state.
      */
-    public static BlockStateSmith<HorizontalDirectionalBlock> HORIZONTAL_BLOCK = new BlockStateSmith<>(HorizontalDirectionalBlock.class, (block, provider) -> {
+    public static BlockStateSmith<Block> HORIZONTAL_BLOCK = new BlockStateSmith<>(Block.class, (block, provider) -> {
         String name = provider.getBlockName(block);
         ResourceLocation textureName = provider.getBlockTexture(name);
         BlockModelBuilder horizontalModel = provider.models().cubeAll(name, textureName);
