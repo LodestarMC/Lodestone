@@ -8,12 +8,15 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.Util;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.registry.client.*;
 import team.lodestar.lodestone.systems.rendering.*;
@@ -73,20 +76,35 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
     @Override
     public void begin(BufferBuilder builder, TextureManager manager) {
-        RenderSystem.enableDepthTest();
-        RenderSystem.enableBlend();
-        blendFunction.run();
-        RenderSystem.setShader(shader);
-        RenderSystem.setShaderTexture(0, texture);
-        builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        if(FabricLoader.getInstance().isModLoaded("iris")){
+            RenderSystem.depthMask(false);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        } else {
+            RenderSystem.enableDepthTest();
+            RenderSystem.enableBlend();
+            blendFunction.run();
+            RenderSystem.setShader(shader);
+            RenderSystem.setShaderTexture(0, texture);
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
     }
 
     @Override
     public void end(Tesselator pTesselator) {
-        pTesselator.end();
-        RenderSystem.disableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
+        if(FabricLoader.getInstance().isModLoaded("iris")) {
+            pTesselator.end();
+            RenderSystem.depthMask(true);
+            RenderSystem.disableBlend();
+            RenderSystem.defaultBlendFunc();
+        } else {
+            pTesselator.end();
+            RenderSystem.disableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.enableDepthTest();
+        }
     }
 
     public LodestoneWorldParticleRenderType withDepthFade() {

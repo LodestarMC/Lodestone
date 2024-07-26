@@ -31,6 +31,8 @@ public class RenderHandler {
     public static final HashMap<RenderType, BufferBuilder> LATE_BUFFERS = new HashMap<>();
     public static final HashMap<RenderType, BufferBuilder> LATE_PARTICLE_BUFFERS = new HashMap<>();
 
+    public static boolean LARGER_BUFFER_SOURCES = FabricLoader.getInstance().isModLoaded("sodium");
+
     public static final HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
     public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
 
@@ -166,8 +168,8 @@ public class RenderHandler {
         final boolean isParticle = renderType.name.contains("particle");
         HashMap<RenderType, BufferBuilder> buffers = isParticle ? PARTICLE_BUFFERS : BUFFERS;
         HashMap<RenderType, BufferBuilder> lateBuffers = isParticle ? LATE_PARTICLE_BUFFERS : LATE_BUFFERS;
-        buffers.put(renderType, new BufferBuilder(renderType.bufferSize()));
-        lateBuffers.put(renderType, new BufferBuilder(renderType.bufferSize()));
+        buffers.put(renderType, new BufferBuilder(LARGER_BUFFER_SOURCES ? 2097152 : renderType.bufferSize()));
+        lateBuffers.put(renderType, new BufferBuilder(LARGER_BUFFER_SOURCES ? 2097152 : renderType.bufferSize()));
         if (NORMAL_TRANSPARENCY.equals(RenderHelper.getTransparencyShard(renderType))) {
             TRANSPARENT_RENDER_TYPES.add(renderType);
         }
@@ -189,7 +191,7 @@ public class RenderHandler {
         protected final MultiBufferSource.BufferSource particleTarget;
 
         public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers) {
-            this(buffers, particleBuffers, FabricLoader.getInstance().isModLoaded("sodium") ? 2097152 : 256);
+            this(buffers, particleBuffers, LARGER_BUFFER_SOURCES ? 2097152 : 256);
         }
         public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers, int size) {
             this.buffers = buffers;

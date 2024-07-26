@@ -9,6 +9,7 @@ import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 public class ClientConfig extends LodestoneConfig {
 
+
     public static ConfigValueHolder<Boolean> DELAYED_PARTICLE_RENDERING = new ConfigValueHolder<>(LODESTONE, "client/graphics/particle", builder ->
             builder.comment("Should particles render on the delayed buffer? This means they will properly render after clouds & water do, but could cause issues with mods like sodium.")
                     .define("buffer_particles", true));
@@ -26,6 +27,11 @@ public class ClientConfig extends LodestoneConfig {
     public static ConfigValueHolder<Boolean> ENABLE_SCREEN_PARTICLES = new ConfigValueHolder<>(LODESTONE, "client/screen_particles", builder ->
             builder.comment("Are screen particles enabled?")
                     .define("enable_screen_particles", true));
+
+    public static ConfigValueHolder<Boolean> DISABLE_SHADER_ON_PARTCLES = new ConfigValueHolder<>(LODESTONE, "client/graphics/particle", builder ->
+            builder.comment("Can be used to see WorldParticles with Iris")
+                    .define("disable_shader_particles", false)
+            );
 
     public ClientConfig(ModConfigSpec.Builder builder) {
         super(LODESTONE, "client", builder);
