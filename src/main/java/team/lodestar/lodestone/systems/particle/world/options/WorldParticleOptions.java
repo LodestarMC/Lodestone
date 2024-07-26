@@ -35,32 +35,15 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
     public final ParticleType<?> type;
     public LodestoneParticleBehavior behavior = LodestoneParticleBehavior.BILLBOARD;
     public LodestoneBehaviorComponent behaviorComponent;
-    public ParticleRenderType renderType = FabricLoader.getInstance().isModLoaded("iris") ? IRIS_ADDITIVE : LodestoneWorldParticleRenderType.ADDITIVE; //TODO this is it
+    public ParticleRenderType renderType = FabricLoader.getInstance().isModLoaded("iris") ? LodestoneWorldParticleRenderType.IRIS_ADDITIVE
+            : LodestoneWorldParticleRenderType.ADDITIVE; //TODO this is it
     public RenderHandler.LodestoneRenderLayer renderLayer = RenderHandler.DELAYED_RENDER;
     public boolean shouldCull;
     public final Collection<Consumer<LodestoneWorldParticle>> tickActors = new ArrayList<>();
     public final Collection<Consumer<LodestoneWorldParticle>> spawnActors = new ArrayList<>();
     public final Collection<Consumer<LodestoneWorldParticle>> renderActors = new ArrayList<>();
 
-    public static final ParticleRenderType IRIS_ADDITIVE = new ParticleRenderType() {
 
-        @Override
-        public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(false);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator pTesselator) {
-            pTesselator.end();
-            RenderSystem.depthMask(true);
-            RenderSystem.disableBlend();
-            RenderSystem.defaultBlendFunc();
-        }
-    };
 
     public boolean noClip = false;
 

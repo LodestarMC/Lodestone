@@ -48,6 +48,26 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
             LodestoneRenderTypeRegistry.ADDITIVE_BLOCK_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
             LodestoneRenderTypeRegistry.ADDITIVE_FUNCTION);
 
+    public static final ParticleRenderType IRIS_ADDITIVE = new ParticleRenderType() {
+
+        @Override
+        public void begin(BufferBuilder builder, TextureManager manager) {
+            RenderSystem.depthMask(false);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+        @Override
+        public void end(Tesselator pTesselator) {
+            pTesselator.end();
+            RenderSystem.depthMask(true);
+            RenderSystem.disableBlend();
+            RenderSystem.defaultBlendFunc();
+        }
+    };
+
     public final LodestoneRenderType renderType;
     protected final Supplier<ShaderInstance> shader;
     protected final ResourceLocation texture;
@@ -74,20 +94,20 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
     @Override
     public void begin(BufferBuilder builder, TextureManager manager) {
-        RenderSystem.depthMask(false);
+        RenderSystem.enableDepthTest();
         RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
-        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+        blendFunction.run();
+        RenderSystem.setShader(shader);
+        RenderSystem.setShaderTexture(0, texture);
         builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
     }
 
     @Override
     public void end(Tesselator pTesselator) {
         pTesselator.end();
-        RenderSystem.depthMask(true);
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
     }
 
     public LodestoneWorldParticleRenderType withDepthFade() {
