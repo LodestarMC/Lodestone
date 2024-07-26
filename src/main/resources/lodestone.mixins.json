@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "plugin": "team.lodestar.lodestone.mixin.LodestoneMixinPlugin",
   "mixins": [
+    "client.integration.iris.IrisRenderingPipelineAccessor",
     "client.integration.sodium510.SodiumWorldRendererMixin",
     "client.integration.sodium58.SodiumWorldRenderer58Mixin",
     "common.BlockItemMixin",
@@ -14,11 +15,11 @@
     "common.ServerPlayerGameModeMixin"
   ],
   "client": [
-    "client.EffectInstanceMixin",
     "client.AbstractContainerScreenMixin",
     "client.CameraMixin",
     "client.ClientSuggestionProviderMixin",
     "client.CreativeModeInventoryScreenMixin",
+    "client.EffectInstanceMixin",
     "client.EffectProgramMixin",
     "client.EntityRenderDispatcherMixin",
     "client.FabricSpriteProviderImplAccessor",
