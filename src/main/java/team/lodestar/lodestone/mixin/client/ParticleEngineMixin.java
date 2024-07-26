@@ -25,7 +25,12 @@ final class ParticleEngineMixin {
     @Inject(at = @At("RETURN"), method = "<clinit>")
     private static void lodestone$addTypes(CallbackInfo ci) {
         RENDER_ORDER = ImmutableList.<ParticleRenderType>builder().addAll(RENDER_ORDER)
-                .add(LodestoneWorldParticleRenderType.ADDITIVE, LodestoneWorldParticleRenderType.TRANSPARENT, LodestoneWorldParticleRenderType.LUMITRANSPARENT, LodestoneWorldParticleRenderType.TERRAIN_SHEET)
+                .add(
+                        LodestoneWorldParticleRenderType.ADDITIVE,
+                        LodestoneWorldParticleRenderType.TRANSPARENT,
+                        LodestoneWorldParticleRenderType.LUMITRANSPARENT,
+                        LodestoneWorldParticleRenderType.TERRAIN_SHEET
+                )
                 .build();
     }
 
