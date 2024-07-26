@@ -96,32 +96,27 @@ public class RenderHandler {
     }
 
     public static void beginBufferedRendering() {
-        if (IRIS_LOADED && false) {
-            // Oculus-specific shader handling (custom integration logic)
-            OculusIntegration.setupShaders();
-        } else {
-            //TODO RUNS
-            float[] shaderFogColor = RenderSystem.getShaderFogColor();
-            float fogRed = shaderFogColor[0];
-            float fogGreen = shaderFogColor[1];
-            float fogBlue = shaderFogColor[2];
-            float shaderFogStart = RenderSystem.getShaderFogStart();
-            float shaderFogEnd = RenderSystem.getShaderFogEnd();
-            FogShape shaderFogShape = RenderSystem.getShaderFogShape();
 
-            RenderSystem.setShaderFogStart(FOG_NEAR);
-            RenderSystem.setShaderFogEnd(FOG_FAR);
-            RenderSystem.setShaderFogShape(FOG_SHAPE);
-            RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
+        float[] shaderFogColor = RenderSystem.getShaderFogColor();
+        float fogRed = shaderFogColor[0];
+        float fogGreen = shaderFogColor[1];
+        float fogBlue = shaderFogColor[2];
+        float shaderFogStart = RenderSystem.getShaderFogStart();
+        float shaderFogEnd = RenderSystem.getShaderFogEnd();
+        FogShape shaderFogShape = RenderSystem.getShaderFogShape();
 
-            FOG_RED = fogRed;
-            FOG_GREEN = fogGreen;
-            FOG_BLUE = fogBlue;
+        RenderSystem.setShaderFogStart(FOG_NEAR);
+        RenderSystem.setShaderFogEnd(FOG_FAR);
+        RenderSystem.setShaderFogShape(FOG_SHAPE);
+        RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
 
-            FOG_NEAR = shaderFogStart;
-            FOG_FAR = shaderFogEnd;
-            FOG_SHAPE = shaderFogShape;
-        }
+        FOG_RED = fogRed;
+        FOG_GREEN = fogGreen;
+        FOG_BLUE = fogBlue;
+
+        FOG_NEAR = shaderFogStart;
+        FOG_FAR = shaderFogEnd;
+        FOG_SHAPE = shaderFogShape;
     }
 
     public static void endBufferedRendering() {
@@ -129,7 +124,6 @@ public class RenderHandler {
         RenderSystem.setShaderFogEnd(FOG_FAR);
         RenderSystem.setShaderFogShape(FOG_SHAPE);
         RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
-        //TODO RUNS
     }
 
     public static void renderBufferedParticles(LodestoneRenderLayer renderLayer, boolean transparentOnly) {
@@ -155,12 +149,10 @@ public class RenderHandler {
         for (RenderType type : renderTypes) {
             ShaderInstance instance = RenderHelper.getShader(type);
             if (UNIFORM_HANDLERS.containsKey(type)) {
-                //TODO RUNS
                 ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
                 handler.updateShaderData(instance);
             }
             if (LODESTONE_DEPTH_CACHE != null) {
-                //TODO RUNS
                 instance.setSampler("SceneDepthBuffer", LODESTONE_DEPTH_CACHE.getDepthTextureId());
                 instance.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
             }

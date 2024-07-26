@@ -57,18 +57,8 @@ public class LodestoneLib implements ModInitializer {
         return new ResourceLocation(LODESTONE, path);
     }
 
-    public static Block TEST_BLOCK;
-    public static BlockEntityType<?> TEST_BLOCK_ENTITY;
-
     @Override
     public void onInitialize() {
-
-        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
-            TEST_BLOCK = new TestBlock<>(FabricBlockSettings.create());
-            TEST_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(TestBlockEntity::new, TEST_BLOCK).build();
-            Registry.register(BuiltInRegistries.BLOCK, lodestonePath("test_block"), TEST_BLOCK);
-            Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, lodestonePath("test_block_entity"), TEST_BLOCK_ENTITY);
-        }
 
         LodestoneArgumentTypeRegistry.registerArgumentTypes();
         LodestoneCommandRegistry.registerCommands();
@@ -96,46 +86,6 @@ public class LodestoneLib implements ModInitializer {
 
         if (!FabricDataGenHelper.ENABLED) {
             //TODO ThrowawayBlockDataHandler.wipeCache();
-        }
-    }
-
-    //TEST code
-    static class TestBlockEntity extends LodestoneBlockEntity {
-
-        public TestBlockEntity(BlockPos pos, BlockState state) {
-            super(TEST_BLOCK_ENTITY, pos, state);
-        }
-
-        @Override
-        public void tick() {
-            super.tick();
-            if (level.isClientSide) {
-                var firstColor = Color.red;
-                var secondColor = Color.yellow;
-                var random = level.random;
-                final ColorParticleData colorData = ColorParticleData.create(firstColor, secondColor).setCoefficient(1.5f).setEasing(Easing.BOUNCE_IN_OUT).build();
-                int lifeTime = RandomHelper.randomBetween(random, 10, 15);
-                float scale = RandomHelper.randomBetween(random, 0.15f, 0.2f);
-                float velocity = RandomHelper.randomBetween(random, 0.02f, 0.03f);
-                WorldParticleBuilder.create(LodestoneParticleRegistry.WISP_PARTICLE)
-                        .setRenderTarget(RenderHandler.LATE_DELAYED_RENDER)
-                        .setScaleData(GenericParticleData.create(scale, 0).setEasing(Easing.SINE_IN).build())
-                        .setTransparencyData(GenericParticleData.create(0.4f, 0.8f, 0.2f).setEasing(Easing.QUAD_OUT).build())
-                        .setColorData(colorData)
-                        .setSpinData(SpinParticleData.create(0.2f, 0.4f).setSpinOffset((level.getGameTime() * 0.2f) % 6.28f).setEasing(Easing.QUARTIC_IN).build())
-                        .setLifetime(lifeTime)
-                        .addMotion(0, velocity * 1.5f, 0)
-                        .enableNoClip()
-                        .spawn(level, getBlockPos().getX() + 0.5, getBlockPos().getY() + 1, getBlockPos().getZ() + 0.5f);
-            }
-        }
-
-    }
-
-    static class TestBlock<T extends TestBlockEntity> extends LodestoneEntityBlock<T> {
-        public TestBlock(FabricBlockSettings settings) {
-            super(settings);
-            setBlockEntity(() -> (BlockEntityType<T>) TEST_BLOCK_ENTITY);
         }
     }
 
