@@ -1,5 +1,5 @@
 package team.lodestar.lodestone.systems.network;
-
+/*
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -18,3 +18,5 @@ public abstract class LodestoneServerPacket {
     public void execute(Supplier<NetworkEvent.Context> context) {
     }
 }
+
+ */

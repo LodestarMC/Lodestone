@@ -1,5 +1,5 @@
 package team.lodestar.lodestone.systems.network;
-
+/*
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -38,3 +38,5 @@ public abstract class LodestoneTwoWayPacket {
         }
     }
 }
+
+ */

@@ -1,5 +1,5 @@
 package team.lodestar.lodestone.registry.common;
-
+/*
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -45,3 +45,5 @@ public class LodestonePacketRegistry {
         TotemOfUndyingEffectPacket.register(LODESTONE_CHANNEL, index++);
     }
 }
+
+ */

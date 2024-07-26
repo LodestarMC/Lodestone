@@ -1,5 +1,5 @@
 package team.lodestar.lodestone.systems.network;
-
+/*
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
@@ -36,3 +36,5 @@ public abstract class LodestoneTwoWayNBTPacket extends LodestoneTwoWayPacket {
     public void clientExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
     }
 }
+
+ */
