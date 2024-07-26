@@ -74,20 +74,20 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
     @Override
     public void begin(BufferBuilder builder, TextureManager manager) {
-        RenderSystem.enableDepthTest();
+        RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
-        blendFunction.run();
-        RenderSystem.setShader(shader);
-        RenderSystem.setShaderTexture(0, texture);
+        RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        RenderSystem.setShader(LodestoneShaderRegistry.PARTICLE.getInstance());
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
         builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
     }
 
     @Override
     public void end(Tesselator pTesselator) {
         pTesselator.end();
+        RenderSystem.depthMask(true);
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
     }
 
     public LodestoneWorldParticleRenderType withDepthFade() {

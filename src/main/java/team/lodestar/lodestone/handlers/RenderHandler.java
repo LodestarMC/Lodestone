@@ -96,7 +96,7 @@ public class RenderHandler {
     }
 
     public static void beginBufferedRendering() {
-        if (IRIS_LOADED) {
+        if (IRIS_LOADED && false) {
             // Oculus-specific shader handling (custom integration logic)
             OculusIntegration.setupShaders();
         } else {
