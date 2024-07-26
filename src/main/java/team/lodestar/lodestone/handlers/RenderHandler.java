@@ -11,7 +11,6 @@ import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandle
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.math.Matrix4f;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.*;
@@ -20,13 +19,14 @@ import static team.lodestar.lodestone.systems.rendering.StateShards.NORMAL_TRANS
 
 /**
  * A handler responsible for all the backend rendering processes.
- * To have additive transparency work in a minecraft environment, we need to buffer our rendering till after clouds and water have rendered.
+ * To have additive transparency work in a Minecraft environment, we need to buffer our rendering till after clouds and water have rendered.
  * This happens for particles, as well as all of our custom RenderTypes
  */
 public class RenderHandler {
     public static HashMap<RenderType, BufferBuilder> BUFFERS = new HashMap<>();
     public static HashMap<RenderType, BufferBuilder> PARTICLE_BUFFERS = new HashMap<>();
     public static boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("rubidium");
+    public static final boolean OCULUS_LOADED = ModList.get().isLoaded("oculus");
 
     public static HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
     public static MultiBufferSource.BufferSource DELAYED_RENDER;
@@ -42,6 +42,9 @@ public class RenderHandler {
 
     public static void onClientSetup(FMLClientSetupEvent event) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : 256;
+        if (OCULUS_LOADED) {
+            size = 524288; // Example adjustment for Oculus
+        }
         DELAYED_RENDER = MultiBufferSource.immediateWithBuffers(BUFFERS, new BufferBuilder(size));
         DELAYED_PARTICLE_RENDER = MultiBufferSource.immediateWithBuffers(PARTICLE_BUFFERS, new BufferBuilder(size));
     }
@@ -64,26 +67,31 @@ public class RenderHandler {
         RenderSystem.enableDepthTest();
         RenderSystem.depthMask(false);
 
-        float[] shaderFogColor = RenderSystem.getShaderFogColor();
-        float fogRed = shaderFogColor[0];
-        float fogGreen = shaderFogColor[1];
-        float fogBlue = shaderFogColor[2];
-        float shaderFogStart = RenderSystem.getShaderFogStart();
-        float shaderFogEnd = RenderSystem.getShaderFogEnd();
-        FogShape shaderFogShape = RenderSystem.getShaderFogShape();
+        if (OCULUS_LOADED) {
+            // Oculus-specific shader handling (custom integration logic)
+            OculusIntegration.setupShaders();
+        } else {
+            float[] shaderFogColor = RenderSystem.getShaderFogColor();
+            float fogRed = shaderFogColor[0];
+            float fogGreen = shaderFogColor[1];
+            float fogBlue = shaderFogColor[2];
+            float shaderFogStart = RenderSystem.getShaderFogStart();
+            float shaderFogEnd = RenderSystem.getShaderFogEnd();
+            FogShape shaderFogShape = RenderSystem.getShaderFogShape();
 
-        RenderSystem.setShaderFogStart(FOG_NEAR);
-        RenderSystem.setShaderFogEnd(FOG_FAR);
-        RenderSystem.setShaderFogShape(FOG_SHAPE);
-        RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
+            RenderSystem.setShaderFogStart(FOG_NEAR);
+            RenderSystem.setShaderFogEnd(FOG_FAR);
+            RenderSystem.setShaderFogShape(FOG_SHAPE);
+            RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
 
-        FOG_RED = fogRed;
-        FOG_GREEN = fogGreen;
-        FOG_BLUE = fogBlue;
+            FOG_RED = fogRed;
+            FOG_GREEN = fogGreen;
+            FOG_BLUE = fogBlue;
 
-        FOG_NEAR = shaderFogStart;
-        FOG_FAR = shaderFogEnd;
-        FOG_SHAPE = shaderFogShape;
+            FOG_NEAR = shaderFogStart;
+            FOG_FAR = shaderFogEnd;
+            FOG_SHAPE = shaderFogShape;
+        }
     }
 
     public static void renderBufferedParticles(boolean transparentOnly) {
@@ -113,10 +121,15 @@ public class RenderHandler {
     }
 
     public static void endBufferedRendering(PoseStack poseStack) {
-        RenderSystem.setShaderFogStart(FOG_NEAR);
-        RenderSystem.setShaderFogEnd(FOG_FAR);
-        RenderSystem.setShaderFogShape(FOG_SHAPE);
-        RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
+        if (OCULUS_LOADED) {
+            // Restore any Oculus-specific settings
+            OculusIntegration.restoreShaders();
+        } else {
+            RenderSystem.setShaderFogStart(FOG_NEAR);
+            RenderSystem.setShaderFogEnd(FOG_FAR);
+            RenderSystem.setShaderFogShape(FOG_SHAPE);
+            RenderSystem.setShaderFogColor(FOG_RED, FOG_GREEN, FOG_BLUE);
+        }
         poseStack.popPose();
     }
 
@@ -136,6 +149,9 @@ public class RenderHandler {
 
     public static void addRenderType(RenderType type) {
         int size = LARGER_BUFFER_SOURCES ? 262144 : type.bufferSize();
+        if (OCULUS_LOADED) {
+            size = 524288; // Example adjustment for Oculus
+        }
         HashMap<RenderType, BufferBuilder> buffers = type.name.contains("particle") ? PARTICLE_BUFFERS : BUFFERS;
         buffers.put(type, new BufferBuilder(size));
     }
