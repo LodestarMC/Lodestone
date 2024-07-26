@@ -87,11 +87,9 @@ dependencies {
     }
 
     //modImplementation("io.github.ladysnake:satin:${property("satin_version")}")
-    modImplementation("org.anarres:jcpp:1.4.14")
-    modImplementation("io.github.douira:glsl-transformer:2.0.1")
-    modImplementation("org.antlr:antlr4-runtime:4.13.1")
-    modImplementation("maven.modrinth:sodium:${property("sodium_version")}")
-    modImplementation("maven.modrinth:iris:${property("iris_version")}")
+
+    compileOnly("maven.modrinth:sodium:${property("sodium_version")}")
+    compileOnly("maven.modrinth:iris:${property("iris_version")}")
     //modImplementation("org.embeddedt:embeddium-fabric-1.20.1:${property("embeddium_version")}")
     //modImplementation("org.embeddedt:embeddium-1.20.1:0.2.11-git.23aedfb+mc1.20.1")
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
