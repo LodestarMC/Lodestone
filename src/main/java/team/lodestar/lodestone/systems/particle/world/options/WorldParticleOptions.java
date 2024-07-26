@@ -4,6 +4,8 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.*;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.registries.*;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
@@ -23,7 +25,9 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
     public final ParticleType<?> type;
     public LodestoneParticleBehavior behavior = LodestoneParticleBehavior.BILLBOARD;
     public LodestoneBehaviorComponent behaviorComponent;
-    public ParticleRenderType renderType = LodestoneWorldParticleRenderType.ADDITIVE;
+    public ParticleRenderType renderType = ModList.get().isLoaded("oculus") ?
+            LodestoneWorldParticleRenderType.IRIS_ADDITIVE : LodestoneWorldParticleRenderType.ADDITIVE;
+
     public RenderHandler.LodestoneRenderLayer renderLayer = RenderHandler.DELAYED_RENDER;
     public boolean shouldCull;
     public final Collection<Consumer<LodestoneWorldParticle>> tickActors = new ArrayList<>();

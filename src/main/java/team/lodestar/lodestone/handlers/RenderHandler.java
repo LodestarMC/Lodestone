@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.*;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL30C;
 import team.lodestar.lodestone.helpers.RenderHelper;
@@ -32,6 +33,8 @@ public class RenderHandler {
     public static final HashMap<RenderType, BufferBuilder> LATE_PARTICLE_BUFFERS = new HashMap<>();
     public static final HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
     public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
+
+    public static boolean LARGER_BUFFER_SOURCES = ModList.get().isLoaded("embeddium") || ModList.get().isLoaded("rubidium");
 
     public static RenderTarget LODESTONE_DEPTH_CACHE = new TextureTarget(Minecraft.getInstance().getMainRenderTarget().width, Minecraft.getInstance().getMainRenderTarget().height, true, Minecraft.ON_OSX);
     public static LodestoneRenderLayer DELAYED_RENDER;
@@ -159,8 +162,8 @@ public class RenderHandler {
         final boolean isParticle = renderType.name.contains("particle");
         HashMap<RenderType, BufferBuilder> buffers = isParticle ? PARTICLE_BUFFERS : BUFFERS;
         HashMap<RenderType, BufferBuilder> lateBuffers = isParticle ? LATE_PARTICLE_BUFFERS : LATE_BUFFERS;
-        buffers.put(renderType, new BufferBuilder(renderType.bufferSize()));
-        lateBuffers.put(renderType, new BufferBuilder(renderType.bufferSize()));
+        buffers.put(renderType, new BufferBuilder(LARGER_BUFFER_SOURCES ? 2097152 : renderType.bufferSize()));
+        lateBuffers.put(renderType, new BufferBuilder(LARGER_BUFFER_SOURCES ? 2097152 : renderType.bufferSize()));
         if (NORMAL_TRANSPARENCY.equals(RenderHelper.getTransparencyShard(renderType))) {
             TRANSPARENT_RENDER_TYPES.add(renderType);
         }
@@ -182,7 +185,7 @@ public class RenderHandler {
         protected final MultiBufferSource.BufferSource particleTarget;
 
         public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers) {
-            this(buffers, particleBuffers, 256);
+            this(buffers, particleBuffers, LARGER_BUFFER_SOURCES ? 2097152 : 256);
         }
         public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers, int size) {
             this.buffers = buffers;
