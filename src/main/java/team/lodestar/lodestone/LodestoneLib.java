@@ -57,7 +57,6 @@ public class LodestoneLib implements ModInitializer {
         return new ResourceLocation(LODESTONE, path);
     }
 
-
     @Override
     public void onInitialize() {
 

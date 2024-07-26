@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.*;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL30C;
 import team.lodestar.lodestone.*;
-import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
@@ -31,12 +30,12 @@ public class RenderHandler {
     public static final HashMap<RenderType, BufferBuilder> LATE_BUFFERS = new HashMap<>();
     public static final HashMap<RenderType, BufferBuilder> LATE_PARTICLE_BUFFERS = new HashMap<>();
 
-    public static boolean LARGER_BUFFER_SOURCES = FabricLoader.getInstance().isModLoaded("sodium");
-
     public static final HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
     public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
 
-    //public static boolean LARGER_BUFFER_SOURCES = FabricLoader.getInstance().isModLoaded("sodium");
+    public static boolean LARGER_BUFFER_SOURCES = FabricLoader.getInstance().isModLoaded("sodium");
+    public static boolean IRIS_LOADED = FabricLoader.getInstance().isModLoaded("iris");
+
     public static RenderTarget LODESTONE_DEPTH_CACHE;
 
 
@@ -97,6 +96,7 @@ public class RenderHandler {
     }
 
     public static void beginBufferedRendering() {
+
         float[] shaderFogColor = RenderSystem.getShaderFogColor();
         float fogRed = shaderFogColor[0];
         float fogGreen = shaderFogColor[1];
@@ -145,6 +145,7 @@ public class RenderHandler {
     }
 
     public static void endBatches(MultiBufferSource.BufferSource source, Collection<RenderType> renderTypes) {
+
         for (RenderType type : renderTypes) {
             ShaderInstance instance = RenderHelper.getShader(type);
             if (UNIFORM_HANDLERS.containsKey(type)) {
@@ -169,7 +170,7 @@ public class RenderHandler {
         HashMap<RenderType, BufferBuilder> buffers = isParticle ? PARTICLE_BUFFERS : BUFFERS;
         HashMap<RenderType, BufferBuilder> lateBuffers = isParticle ? LATE_PARTICLE_BUFFERS : LATE_BUFFERS;
         buffers.put(renderType, new BufferBuilder(LARGER_BUFFER_SOURCES ? 2097152 : renderType.bufferSize()));
-        lateBuffers.put(renderType, new BufferBuilder(LARGER_BUFFER_SOURCES ? 2097152 : renderType.bufferSize()));
+        lateBuffers.put(renderType, new BufferBuilder(LARGER_BUFFER_SOURCES ? 2097152 :renderType.bufferSize()));
         if (NORMAL_TRANSPARENCY.equals(RenderHelper.getTransparencyShard(renderType))) {
             TRANSPARENT_RENDER_TYPES.add(renderType);
         }

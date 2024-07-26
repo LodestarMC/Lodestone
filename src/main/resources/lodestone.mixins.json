@@ -14,11 +14,11 @@
     "common.ServerPlayerGameModeMixin"
   ],
   "client": [
-    "client.EffectInstanceMixin",
     "client.AbstractContainerScreenMixin",
     "client.CameraMixin",
     "client.ClientSuggestionProviderMixin",
     "client.CreativeModeInventoryScreenMixin",
+    "client.EffectInstanceMixin",
     "client.EffectProgramMixin",
     "client.EntityRenderDispatcherMixin",
     "client.FabricSpriteProviderImplAccessor",
