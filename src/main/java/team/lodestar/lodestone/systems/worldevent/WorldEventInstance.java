@@ -24,6 +24,7 @@ public abstract class WorldEventInstance {
     public boolean frozen = false;
 
     public WorldEventInstance(WorldEventType type) {
+        if (type == null) throw new IllegalArgumentException("World event type cannot be null");
         this.uuid = UUID.randomUUID();
         this.type = type;
     }
@@ -45,41 +46,6 @@ public abstract class WorldEventInstance {
      * @param tag the CompoundTag to read the additional data from
      */
     protected abstract void readAdditionalSaveData(CompoundTag tag);
-
-    @Deprecated(since = "1.7.0")
-    @ApiStatus.Obsolete(since = "1.7.0")
-    public CompoundTag serializeNBT(CompoundTag tag) {
-        tag.putUUID("uuid", uuid);
-        tag.putString("type", type.id.toString());
-        tag.putBoolean("discarded", discarded);
-        tag.putBoolean("frozen", frozen);
-        this.addAdditionalSaveData(tag);
-        return tag;
-    }
-
-    @Deprecated(since = "1.7.0")
-    @ApiStatus.Obsolete(since = "1.7.0")
-    public WorldEventInstance deserializeNBT(CompoundTag tag) {
-        uuid = tag.getUUID("uuid");
-        type = LodestoneWorldEventTypeRegistry.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(tag.getString("type")));
-        discarded = tag.getBoolean("discarded");
-        frozen = tag.getBoolean("frozen");
-        this.readAdditionalSaveData(tag);
-        return this;
-    }
-
-    /**
-     * Syncs the world event to all players.
-     */
-    public void sync(Level level) {
-        if (!level.isClientSide && this.type.isClientSynced()) {
-            sync(this);
-        }
-    }
-
-    public void start(Level level) {
-        this.level = level;
-    }
 
     public void end(Level level) {
         discarded = true;
@@ -103,17 +69,54 @@ public abstract class WorldEventInstance {
         return level;
     }
 
+    @Deprecated(since = "1.7.0")
+    @ApiStatus.Internal
+    public CompoundTag serializeNBT(CompoundTag tag) {
+        tag.putUUID("uuid", uuid);
+        tag.putString("type", type.id.toString());
+        tag.putBoolean("discarded", discarded);
+        tag.putBoolean("frozen", frozen);
+        this.addAdditionalSaveData(tag);
+        return tag;
+    }
+
+    @Deprecated(since = "1.7.0")
+    @ApiStatus.Internal
+    public WorldEventInstance deserializeNBT(CompoundTag tag) {
+        uuid = tag.getUUID("uuid");
+        type = LodestoneWorldEventTypeRegistry.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(tag.getString("type")));
+        discarded = tag.getBoolean("discarded");
+        frozen = tag.getBoolean("frozen");
+        this.readAdditionalSaveData(tag);
+        return this;
+    }
+
+    @ApiStatus.Internal
+    public void sync(Level level) {
+        if (!level.isClientSide && this.type.isClientSynced()) {
+            sync(this);
+        }
+    }
+
+    @ApiStatus.Internal
+    public void start(Level level) {
+        this.level = level;
+    }
+
     // Update World Event Data Server -> Client
+    @ApiStatus.Internal
     public CompoundTag synchronizeNBT() {
         return serializeNBT(new CompoundTag());
     }
 
     //Duplicate World Event to Client, Only Call once per world event instance
+    @ApiStatus.Internal
     public static <T extends WorldEventInstance> void sync(T instance) {
         LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
     }
 
     //Duplicate World Event to Client, Only Call once per world event instance
+    @ApiStatus.Internal
     public static <T extends WorldEventInstance> void sync(T instance, ServerPlayer player) {
         LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
     }
