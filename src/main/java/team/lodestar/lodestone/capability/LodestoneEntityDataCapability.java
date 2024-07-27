@@ -14,7 +14,7 @@ import net.minecraftforge.network.PacketDistributor;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.handlers.FireEffectHandler;
 import team.lodestar.lodestone.helpers.NBTHelper;
-import team.lodestar.lodestone.network.capability.SyncLodestoneEntityCapabilityPacket;
+import team.lodestar.lodestone.networkold.capability.SyncLodestoneEntityCapabilityPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.systems.capability.LodestoneCapability;
 import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;

@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.network;
+package team.lodestar.lodestone.networkold;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;

@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.command;
 
-import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
@@ -11,7 +10,7 @@ import net.minecraftforge.network.PacketDistributor;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.command.arguments.WorldEventInstanceArgument;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
-import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPacket;
+import team.lodestar.lodestone.networkold.worldevent.UpdateWorldEventPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;

@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.network.screenshake;
+package team.lodestar.lodestone.networkold.screenshake;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.phys.Vec3;

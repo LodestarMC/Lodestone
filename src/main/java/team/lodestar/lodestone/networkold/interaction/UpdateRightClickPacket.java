@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.network.interaction;
+package team.lodestar.lodestone.networkold.interaction;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;

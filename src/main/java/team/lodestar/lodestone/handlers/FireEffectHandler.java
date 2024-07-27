@@ -8,7 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.PacketDistributor;
 import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
-import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
+import team.lodestar.lodestone.networkold.ClearFireEffectInstancePacket;
 import team.lodestar.lodestone.registry.client.LodestoneFireEffectRendererRegistry;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;

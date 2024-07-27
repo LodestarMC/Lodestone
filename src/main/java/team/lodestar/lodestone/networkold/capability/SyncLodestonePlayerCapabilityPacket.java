@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.network.capability;
+package team.lodestar.lodestone.networkold.capability;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;

@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
+import team.lodestar.lodestone.networkold.worldevent.SyncWorldEventPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 

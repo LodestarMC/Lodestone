@@ -14,7 +14,7 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.events.types.worldevent.*;
-import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPacket;
+import team.lodestar.lodestone.networkold.worldevent.UpdateWorldEventPacket;
 import team.lodestar.lodestone.registry.client.LodestoneWorldEventRendererRegistry;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
