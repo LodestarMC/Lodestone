@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.ApiStatus;
 import team.lodestar.lodestone.networkold.worldevent.SyncWorldEventPacket;
 import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
@@ -66,19 +67,41 @@ public abstract class WorldEventInstance {
         return level;
     }
 
+    /**
+     * Adds additional data to the given CompoundTag.
+     * This method should be overridden to save custom fields.
+     *
+     * @param tag the CompoundTag to add the additional data to
+     */
+    protected abstract void addAdditionalSaveData(CompoundTag tag);
+
+    /**
+     * Reads additional data from the given CompoundTag.
+     * This method should be overridden to load custom fields.
+     *
+     * @param tag the CompoundTag to read the additional data from
+     */
+    protected abstract void readAdditionalSaveData(CompoundTag tag);
+
+    @Deprecated(since = "1.7.0")
+    @ApiStatus.Obsolete(since = "1.7.0")
     public CompoundTag serializeNBT(CompoundTag tag) {
         tag.putUUID("uuid", uuid);
         tag.putString("type", type.id.toString());
         tag.putBoolean("discarded", discarded);
         tag.putBoolean("frozen", frozen);
+        this.addAdditionalSaveData(tag);
         return tag;
     }
 
+    @Deprecated(since = "1.7.0")
+    @ApiStatus.Obsolete(since = "1.7.0")
     public WorldEventInstance deserializeNBT(CompoundTag tag) {
         uuid = tag.getUUID("uuid");
         type = LodestoneWorldEventTypeRegistry.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(tag.getString("type")));
         discarded = tag.getBoolean("discarded");
         frozen = tag.getBoolean("frozen");
+        this.readAdditionalSaveData(tag);
         return this;
     }
 
