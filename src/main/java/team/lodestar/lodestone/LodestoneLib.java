@@ -37,7 +37,6 @@ public class LodestoneLib {
 
         modBus.addListener(this::gatherData);
         modBus.addListener(LodestoneItemProperties::populateItemGroups);
-        modBus.addListener(LodestoneWorldEventTypeRegistry::postRegistryEvent);
     }
 
     public static ResourceLocation lodestonePath(String path) {

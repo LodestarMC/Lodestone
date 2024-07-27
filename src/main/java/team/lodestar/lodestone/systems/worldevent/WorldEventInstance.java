@@ -16,7 +16,7 @@ import java.util.UUID;
  * They can exist on the client and are ticked separately.
  */
 public abstract class WorldEventInstance {
-    public UUID uuid; //TODO: figure out why this is here.
+    public UUID uuid;
     public WorldEventType type;
     public Level level;
     public boolean discarded;
@@ -28,47 +28,10 @@ public abstract class WorldEventInstance {
         this.type = type;
     }
 
-    /**
-     * Syncs the world event to all players.
-     */
-    public void sync(Level level) {
-        if (!level.isClientSide && this.type.isClientSynced()) {
-            sync(this);
-        }
-    }
-
-    public void start(Level level) {
-        this.level = level;
-    }
-
-    public void tick(Level level) {
-
-    }
-
-    public void end(Level level) {
-        discarded = true;
-    }
+    public abstract void tick(Level level);
 
     /**
-     * If the event is dirty, it will be synchronized to the client then set to not dirty.
-     */
-    public void setDirty() {
-        dirty = true;
-    }
-
-    /**
-     * If the event is frozen, it will not be ticked in {@link #tick(Level)}
-     */
-    public boolean isFrozen() {
-        return frozen;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    /**
-     * Adds additional data to the given CompoundTag.
+     * Adds additional data during serialization.
      * This method should be overridden to save custom fields.
      *
      * @param tag the CompoundTag to add the additional data to
@@ -76,7 +39,7 @@ public abstract class WorldEventInstance {
     protected abstract void addAdditionalSaveData(CompoundTag tag);
 
     /**
-     * Reads additional data from the given CompoundTag.
+     * Reads additional data during deserialization.
      * This method should be overridden to load custom fields.
      *
      * @param tag the CompoundTag to read the additional data from
@@ -103,6 +66,41 @@ public abstract class WorldEventInstance {
         frozen = tag.getBoolean("frozen");
         this.readAdditionalSaveData(tag);
         return this;
+    }
+
+    /**
+     * Syncs the world event to all players.
+     */
+    public void sync(Level level) {
+        if (!level.isClientSide && this.type.isClientSynced()) {
+            sync(this);
+        }
+    }
+
+    public void start(Level level) {
+        this.level = level;
+    }
+
+    public void end(Level level) {
+        discarded = true;
+    }
+
+    /**
+     * If the event is dirty, it will be synchronized to the client then set to not dirty.
+     */
+    public void setDirty() {
+        dirty = true;
+    }
+
+    /**
+     * If the event is frozen, it will not be ticked in {@link #tick(Level)}
+     */
+    public boolean isFrozen() {
+        return frozen;
+    }
+
+    public Level getLevel() {
+        return level;
     }
 
     // Update World Event Data Server -> Client
