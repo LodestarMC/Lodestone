@@ -11,6 +11,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.network.ClearFireEffectInstancePayload;
 import team.lodestar.lodestone.network.TotemOfUndyingPayload;
 import team.lodestar.lodestone.network.capability.SyncCapabilityPayload;
 import team.lodestar.lodestone.systems.network.*;
@@ -28,6 +29,8 @@ public class LodestonePayloadRegistry {
         final PayloadRegistrar registrar = event.registrar("1");
 
         LODESTONE_CHANNEL.playToClient(registrar, "totem_of_undying", TotemOfUndyingPayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "clear_fire_effect", ClearFireEffectInstancePayload::new);
+
         LODESTONE_CHANNEL.playBidirectional(registrar, "sync_capability", SyncCapabilityPayload::new);
     }
 
