@@ -12,6 +12,7 @@ public class WorldEventType {
 
 
     /**
+     * Creates a new world event type.
      * @param id The id of the event type
      * @param supplier The supplier for the event instance
      * @param clientSynced Should this event exist on the client? It will be automatically synced upon creation of the event in {@link WorldEventInstance#sync(net.minecraft.world.level.Level)}
@@ -22,6 +23,13 @@ public class WorldEventType {
         this.clientSynced = clientSynced;
     }
 
+    /**
+     * Creates a new world event type.
+     * <p>By default, the event will not be client-synced.</p>
+     * See {@link #WorldEventType(ResourceLocation, EventInstanceSupplier, boolean)} for more information.</p>
+     * @param id The id of the event type
+     * @param supplier The supplier for the event instance
+     */
     public WorldEventType(ResourceLocation id, EventInstanceSupplier<?> supplier) {
         this(id, supplier, false);
     }
