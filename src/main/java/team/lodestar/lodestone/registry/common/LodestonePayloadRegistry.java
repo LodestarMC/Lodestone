@@ -14,6 +14,10 @@ import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePayload;
 import team.lodestar.lodestone.network.TotemOfUndyingPayload;
 import team.lodestar.lodestone.network.capability.SyncCapabilityPayload;
+import team.lodestar.lodestone.network.screenshake.PositionedScreenshakePayload;
+import team.lodestar.lodestone.network.screenshake.ScreenshakePayload;
+import team.lodestar.lodestone.network.worldevent.SyncWorldEventPayload;
+import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPayload;
 import team.lodestar.lodestone.systems.network.*;
 
 import java.util.HashMap;
@@ -30,6 +34,11 @@ public class LodestonePayloadRegistry {
 
         LODESTONE_CHANNEL.playToClient(registrar, "totem_of_undying", TotemOfUndyingPayload::new);
         LODESTONE_CHANNEL.playToClient(registrar, "clear_fire_effect", ClearFireEffectInstancePayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "sync_world_event", SyncWorldEventPayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "update_world_event", UpdateWorldEventPayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "screenshake", ScreenshakePayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "positioned_screenshake", PositionedScreenshakePayload::new);
+
 
         LODESTONE_CHANNEL.playBidirectional(registrar, "sync_capability", SyncCapabilityPayload::new);
     }

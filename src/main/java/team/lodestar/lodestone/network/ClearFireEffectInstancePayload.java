@@ -20,7 +20,9 @@ public class ClearFireEffectInstancePayload extends OneSidedPayloadData {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void handle(IPayloadContext context) {
-        FireEffectHandler.setCustomFireInstance(Minecraft.getInstance().level.getEntity(entityId), null);
+        if (Minecraft.getInstance().level != null) {
+            FireEffectHandler.setCustomFireInstance(Minecraft.getInstance().level.getEntity(entityId), null);
+        }
     }
 
     @Override
