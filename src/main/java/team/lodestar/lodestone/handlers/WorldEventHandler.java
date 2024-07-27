@@ -132,7 +132,7 @@ public class WorldEventHandler {
         int worldEventCount = worldTag.getInt("worldEventCount");
         for (int i = 0; i < worldEventCount; i++) {
             CompoundTag instanceTag = worldTag.getCompound("worldEvent_" + i);
-            WorldEventType reader = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(ResourceLocation.parse(instanceTag.getString("type")));
+            WorldEventType reader = LodestoneWorldEventTypeRegistry.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(instanceTag.getString("type")));
             WorldEventInstance eventInstance = reader.createInstance(instanceTag);
             capability.activeWorldEvents.add(eventInstance);
         }
