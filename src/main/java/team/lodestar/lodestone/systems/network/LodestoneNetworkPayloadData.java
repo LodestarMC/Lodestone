@@ -37,5 +37,6 @@ public abstract class LodestoneNetworkPayloadData implements CustomPacketPayload
         serialize(tag);
         return tag;
     }
+
     public abstract void serialize(CompoundTag tag);
-|
+}

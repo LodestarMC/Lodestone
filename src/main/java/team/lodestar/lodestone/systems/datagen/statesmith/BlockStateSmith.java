@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.systems.datagen.statesmith;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.datagen.ItemModelSmithTypes;
 import team.lodestar.lodestone.systems.datagen.itemsmith.ItemModelSmith;

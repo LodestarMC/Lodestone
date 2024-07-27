@@ -6,12 +6,11 @@ import net.minecraft.world.item.context.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.level.block.state.properties.*;
-import net.minecraftforge.common.extensions.*;
 import team.lodestar.lodestone.systems.easing.*;
 
 import java.awt.*;
 
-public abstract class LodestoneLeavesBlock extends LeavesBlock implements IForgeBlock {
+public abstract class LodestoneLeavesBlock extends LeavesBlock {
 
     public final Color minColor;
     public final Color maxColor;

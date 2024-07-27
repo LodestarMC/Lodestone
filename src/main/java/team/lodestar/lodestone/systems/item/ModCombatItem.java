@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,10 +14,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 
 /**
  * A simple copy of a sword, without actually being a sword.
@@ -35,15 +38,22 @@ public class ModCombatItem extends TieredItem {
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
+    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
         if (attributes == null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = new ImmutableMultimap.Builder<>();
-            attributeBuilder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
-            attributeBuilder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
-            attributeBuilder.putAll(createExtraAttributes().build());
-            attributes = attributeBuilder.build();
+            return ItemAttributeModifiers.builder().add(
+                            Attributes.ATTACK_DAMAGE,
+                            new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (double)attackDamage, AttributeModifier.Operation.ADD_VALUE),
+                            EquipmentSlotGroup.MAINHAND
+                    )
+                    .add(
+                            Attributes.ATTACK_SPEED,
+                            new AttributeModifier(BASE_ATTACK_SPEED_ID, (double)attackSpeed, AttributeModifier.Operation.ADD_VALUE),
+                            EquipmentSlotGroup.MAINHAND
+                    )
+                    .build();
         }
-        return equipmentSlot == EquipmentSlot.MAINHAND ? this.attributes : super.getDefaultAttributeModifiers(equipmentSlot);
+
+        return super.getDefaultAttributeModifiers(stack);
     }
 
     public ImmutableMultimap.Builder<Attribute, AttributeModifier> createExtraAttributes() {
@@ -66,20 +76,15 @@ public class ModCombatItem extends TieredItem {
         }
     }
 
-    public boolean hurtEnemy(ItemStack p_43278_, LivingEntity p_43279_, LivingEntity p_43280_) {
-        p_43278_.hurtAndBreak(1, p_43280_, (p_43296_) -> {
-            p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-        });
+    public boolean hurtEnemy(ItemStack pStack, LivingEntity pTarget, LivingEntity pAttacker) {
+        pStack.hurtAndBreak(1, pAttacker, EquipmentSlot.MAINHAND);
         return true;
     }
 
-    public boolean mineBlock(ItemStack p_43282_, Level p_43283_, BlockState p_43284_, BlockPos p_43285_, LivingEntity p_43286_) {
-        if (p_43284_.getDestroySpeed(p_43283_, p_43285_) != 0.0F) {
-            p_43282_.hurtAndBreak(2, p_43286_, (p_43276_) -> {
-                p_43276_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-            });
+    public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntity) {
+        if (pState.getDestroySpeed(pLevel, pPos) != 0.0F) {
+            pStack.hurtAndBreak(2, pEntity, EquipmentSlot.MAINHAND);
         }
-
         return true;
     }
 
@@ -88,7 +93,7 @@ public class ModCombatItem extends TieredItem {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
-        return toolAction.equals(ToolActions.SWORD_DIG);
+    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+        return itemAbility.equals(ItemAbilities.SWORD_DIG);
     }
 }

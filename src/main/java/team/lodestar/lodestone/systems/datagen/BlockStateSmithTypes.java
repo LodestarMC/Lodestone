@@ -3,9 +3,9 @@ package team.lodestar.lodestone.systems.datagen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.*;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import team.lodestar.lodestone.systems.datagen.statesmith.BlockStateSmith;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
 
