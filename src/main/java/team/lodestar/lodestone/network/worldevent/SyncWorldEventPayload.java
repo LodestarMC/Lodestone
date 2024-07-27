@@ -32,14 +32,14 @@ public class SyncWorldEventPayload extends OneSidedPayloadData {
 
     @Override
     public void deserialize(CompoundTag tag) {
-        type = tag.getString(); //TODO
+        type = ResourceLocation.parse(tag.getString("type"));
         start = tag.getBoolean("start");
         eventData = tag.getCompound("eventData");
     }
 
     @Override
     public void serialize(CompoundTag tag) {
-        tag.putString();//TODO
+        tag.putString("type", type.toString());//TODO
         tag.putBoolean("start", start);
         tag.put("eventData", eventData);
     }

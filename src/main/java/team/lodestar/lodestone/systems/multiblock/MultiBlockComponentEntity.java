@@ -6,7 +6,9 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -45,11 +47,19 @@ public class MultiBlockComponentEntity extends LodestoneBlockEntity {
     }
 
     @Override
-    public InteractionResult onUse(Player player, InteractionHand hand) {
+    public InteractionResult onUseWithoutItem(Player pPlayer) {
         if (corePos != null && level.getBlockEntity(corePos) instanceof MultiBlockCoreEntity core) {
-            return core.onUse(player, hand);
+            return core.onUseWithoutItem(pPlayer);
         }
-        return super.onUse(player, hand);
+        return super.onUseWithoutItem(pPlayer);
+    }
+
+    @Override
+    public ItemInteractionResult onUseWithItem(Player pPlayer, ItemStack pStack, InteractionHand pHand) {
+        if (corePos != null && level.getBlockEntity(corePos) instanceof MultiBlockCoreEntity core) {
+            return core.onUseWithItem(pPlayer, pStack, pHand);
+        }
+        return super.onUseWithItem(pPlayer, pStack, pHand);
     }
 
     @Override

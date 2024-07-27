@@ -15,6 +15,9 @@ import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePayload;
 import team.lodestar.lodestone.network.TotemOfUndyingPayload;
 import team.lodestar.lodestone.network.capability.SyncCapabilityPayload;
+import team.lodestar.lodestone.network.interaction.RightClickEmptyPayload;
+import team.lodestar.lodestone.network.interaction.UpdateLeftClickPayload;
+import team.lodestar.lodestone.network.interaction.UpdateRightClickPayload;
 import team.lodestar.lodestone.network.screenshake.PositionedScreenshakePayload;
 import team.lodestar.lodestone.network.screenshake.ScreenshakePayload;
 import team.lodestar.lodestone.network.worldevent.SyncWorldEventPayload;
@@ -39,7 +42,11 @@ public class LodestonePayloadRegistry {
         LODESTONE_CHANNEL.playToClient(registrar, "update_world_event", UpdateWorldEventPayload::new);
         LODESTONE_CHANNEL.playToClient(registrar, "screenshake", ScreenshakePayload::new);
         LODESTONE_CHANNEL.playToClient(registrar, "positioned_screenshake", PositionedScreenshakePayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "reset_right_click", RightClickEmptyPayload::new);
 
+        LODESTONE_CHANNEL.playToServer(registrar, "right_click_empty", RightClickEmptyPayload::new);
+        LODESTONE_CHANNEL.playToServer(registrar, "update_left_click", UpdateLeftClickPayload::new);
+        LODESTONE_CHANNEL.playToServer(registrar, "update_right_click", UpdateRightClickPayload::new);
 
         LODESTONE_CHANNEL.playBidirectional(registrar, "sync_capability", SyncCapabilityPayload::new);
     }

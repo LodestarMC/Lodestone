@@ -7,8 +7,6 @@ import net.minecraft.client.resources.metadata.animation.AnimationMetadataSectio
 import net.minecraft.client.resources.metadata.animation.FrameSize;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
-import net.minecraftforge.client.textures.ForgeTextureMetadata;
-import net.minecraftforge.client.textures.ITextureAtlasSpriteLoader;
 import org.jetbrains.annotations.NotNull;
 
 public class LodestoneTextureAtlasSpriteLoader implements ITextureAtlasSpriteLoader {
