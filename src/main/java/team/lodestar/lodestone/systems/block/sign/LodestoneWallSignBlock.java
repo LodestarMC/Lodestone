@@ -9,8 +9,10 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import team.lodestar.lodestone.systems.blockentity.LodestoneSignBlockEntity;
 
 public class LodestoneWallSignBlock extends WallSignBlock implements EntityBlock {
-    public LodestoneWallSignBlock(Properties properties, WoodType type) {
-        super(properties, type);
+
+
+    public LodestoneWallSignBlock(WoodType pWoodType, Properties pProperties) {
+        super(pWoodType, pProperties);
     }
 
     @Override

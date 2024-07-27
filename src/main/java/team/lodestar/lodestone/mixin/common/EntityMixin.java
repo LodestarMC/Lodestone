@@ -21,7 +21,7 @@ public class EntityMixin {
         FireEffectHandler.entityUpdate(((Entity) (Object) this));
     }
 
-    @Inject(method = "setSecondsOnFire", at = @At(value = "RETURN"))
+    @Inject(method = "setRemainingFireTicks", at = @At(value = "RETURN"))
     private void lodestone$FireEffectOverride(int pSeconds, CallbackInfo ci) {
         FireEffectHandler.onVanillaFireTimeUpdate((Entity) (Object) this);
     }

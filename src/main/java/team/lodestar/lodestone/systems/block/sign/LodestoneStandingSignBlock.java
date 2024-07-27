@@ -9,8 +9,10 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import team.lodestar.lodestone.systems.blockentity.LodestoneSignBlockEntity;
 
 public class LodestoneStandingSignBlock extends StandingSignBlock implements EntityBlock {
-    public LodestoneStandingSignBlock(Properties properties, WoodType type) {
-        super(properties, type);
+
+
+    public LodestoneStandingSignBlock(WoodType pWoodType, Properties pProperties) {
+        super(pWoodType, pProperties);
     }
 
     @Override

@@ -35,6 +35,6 @@ public class WrappedItem implements IRecipeComponent {
 
     @Override
     public boolean matches(ItemStack stack) {
-        return stack.equals(this.stack, false); //TODO: not sure if this is right, need a check on this
+        return stack.equals(this.stack); //TODO: not sure if this is right, need a check on this
     }
 }

@@ -7,6 +7,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -45,8 +46,12 @@ public class LodestoneBlockEntity extends BlockEntity {
         return ItemStack.EMPTY;
     }
 
-    public InteractionResult onUse(Player player, InteractionHand hand) {
+    public InteractionResult onUseWithoutItem(Player pPlayer) {
         return InteractionResult.PASS;
+    }
+
+    public ItemInteractionResult onUseWithItem(Player pPlayer, ItemStack pStack, InteractionHand pHand) {
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     public void onEntityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
@@ -92,4 +97,6 @@ public class LodestoneBlockEntity extends BlockEntity {
     public void init() {
 
     }
+
+
 }

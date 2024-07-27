@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -125,12 +126,23 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult ray) {
-        if (hasTileEntity(state)) {
-            if (level.getBlockEntity(pos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                return simpleBlockEntity.onUse(player, hand);
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+        if (hasTileEntity(pState)) {
+            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity simpleBlockEntity) {
+                return simpleBlockEntity.onUseWithoutItem(pPlayer);
             }
         }
-        return super.use(state, level, pos, player, hand, ray);
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (hasTileEntity(pState)) {
+            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity simpleBlockEntity) {
+                return simpleBlockEntity.onUseWithItem(pPlayer, pStack, pHand);
+
+            }
+        }
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 }

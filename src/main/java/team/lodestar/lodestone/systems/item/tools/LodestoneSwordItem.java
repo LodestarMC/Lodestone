@@ -11,6 +11,7 @@ import net.minecraft.world.item.Tier;
 public class LodestoneSwordItem extends SwordItem {
     private Multimap<Attribute, AttributeModifier> attributes;
 
+
     public LodestoneSwordItem(Tier material, int attackDamage, float attackSpeed, Properties properties) {
         super(material, attackDamage + 3, attackSpeed - 2.4f, properties.durability(material.getUses()));
     }

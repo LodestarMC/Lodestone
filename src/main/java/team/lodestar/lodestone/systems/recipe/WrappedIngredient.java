@@ -16,7 +16,7 @@ public class WrappedIngredient implements IRecipeComponent {
 
     @Override
     public ItemStack getStack() {
-        return new ItemStack(getItem(), getCount(), ingredient.getItems()[0].getTag());
+        return new ItemStack(getItem(), getCount(), ingredient.getItems()[0].getComponentsPatch());
     }
 
     @Override

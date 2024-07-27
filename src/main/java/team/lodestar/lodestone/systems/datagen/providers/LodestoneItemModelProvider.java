@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.datagen.providers;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -23,7 +24,7 @@ public abstract class LodestoneItemModelProvider extends ItemModelProvider {
     }
 
     public String getItemName(Item item) {
-        return ForgeRegistries.ITEMS.getKey(item).getPath();
+        return BuiltInRegistries.ITEM.getKey(item).getPath();
     }
 
     public ResourceLocation getItemTexture(String path) {

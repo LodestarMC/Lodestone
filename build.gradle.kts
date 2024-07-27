@@ -27,6 +27,8 @@ java {
     }
 }
 
+
+
 neoForge {
     // Specify the version of NeoForge to use.
     version = "${property("neo_version")}"
@@ -37,7 +39,7 @@ neoForge {
     }
 
     // This line is optional. Access Transformers are automatically detected
-    // accessTransformers.add('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformers.add("src/main/resources/META-INF/accesstransformer.cfg")
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -139,16 +141,7 @@ repositories {
 }
 
 dependencies {
-    //minecraft("net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}")
 
-    //if (System.getProperty("idea.sync.active") != "true") {
-    //    annotationProcessor("org.spongepowered:mixin:${mixinVersion}:processor")
-    //}
-
-    // JEI Dependency
-//    compileOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-forge-api:${jeiVersion}"))
-//    compileOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-common-api:${jeiVersion}"))
-    //runtimeOnly(fg.deobf("mezz.jei:jei-${minecraftVersion}-forge:${jeiVersion}"))
     runtimeOnly("mezz.jei:jei-${property("minecraft_version")}-neoforge:${property("jei_version")}")
 
     // Curios dependency
