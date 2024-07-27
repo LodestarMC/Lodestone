@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -65,6 +66,11 @@ public class LodestonePayloadRegistry {
         }
 
         public <T extends LodestoneNetworkPayloadData> StreamCodec<ByteBuf, T> createCodec(PayloadDataSupplier<T> supplier) {
+
+//            static <B extends ByteBuf, T extends Packet<?>> StreamCodec<B, T> codec(StreamMemberEncoder<B, T> pEncoder, StreamDecoder<B, T> pDecoder) {
+//                return StreamCodec.ofMember(pEncoder, pDecoder);
+//            }
+
             return StreamCodec.composite(
                     ByteBufCodecs.STRING_UTF8, LodestoneNetworkPayloadData::name,
                     ByteBufCodecs.COMPOUND_TAG, LodestoneNetworkPayloadData::serialize,

@@ -27,10 +27,9 @@ public class SyncCapabilityPayload extends TwoSidedPayloadData {
         emptyTag.putInt("entityId", entityID);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void handleClient(IPayloadContext context) {
-        Entity entity = Minecraft.getInstance().player.level().getEntity(entityID);
+        Entity entity = context.player().level().getEntity(entityID);
         //TODO: deserialize capability
 
     }
