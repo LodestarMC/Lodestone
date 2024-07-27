@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -53,21 +54,21 @@ public class LodestoneBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+        return this.saveWithoutMetadata(pRegistries);
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
         if (tag != null) {
-            super.handleUpdateTag(tag);
+            super.handleUpdateTag(tag, lookupProvider);
         }
     }
 
     @Override
-    public void load(CompoundTag pTag) {
+    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         needsSync = true;
-        super.load(pTag);
+        super.loadAdditional(pTag, pRegistries);
     }
 
     @Override
@@ -76,9 +77,9 @@ public class LodestoneBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
-        handleUpdateTag(getUpdatePacket().getTag());
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        super.onDataPacket(net, pkt, lookupProvider);
+        handleUpdateTag(getUpdatePacket().getTag(), lookupProvider);
     }
 
     public void tick() {

@@ -2,15 +2,13 @@ package team.lodestar.lodestone.systems.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -37,15 +35,15 @@ public abstract class ItemHolderBlockEntity extends LodestoneBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compound) {
-        inventory.save(compound);
-        super.saveAdditional(compound);
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+        inventory.save(pTag);
+        super.saveAdditional(pTag, pRegistries);
     }
 
     @Override
-    public void load(CompoundTag compound) {
-        inventory.load(compound);
-        super.load(compound);
+    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+        inventory.load(pTag);
+        super.loadAdditional(pTag, pRegistries);
     }
 
     @Nonnull

@@ -2,8 +2,7 @@ package team.lodestar.lodestone.systems.item;
 
 import net.minecraft.resources.*;
 import net.minecraft.world.item.*;
-import net.minecraftforge.event.*;
-import net.minecraftforge.registries.*;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 import java.util.*;
 
