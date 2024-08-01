@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.model.obj.lod;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.RenderType;
 import team.lodestar.lodestone.systems.model.obj.ObjModel;
@@ -22,7 +23,8 @@ public class MultiLODModel extends ObjModel {
 
     @Override
     public void renderModel(PoseStack poseStack, RenderType renderType, int packedLight) {
-        Vector3f modelPosition = new Vector3f(0.0f, 0.0f, 0.0f);
+        Matrix4f pose = poseStack.last().pose();
+        Vector3f modelPosition = new Vector3f(pose.m03, pose.m13, pose.m23);
         LevelOfDetail<?> levelOfDetail = lodStrategy.getLODLevel(modelPosition);
         levelOfDetail.model().renderModel(poseStack, renderType, packedLight);
     }

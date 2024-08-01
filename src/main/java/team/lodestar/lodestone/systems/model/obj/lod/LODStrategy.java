@@ -41,7 +41,7 @@ public abstract class LODStrategy<T> implements LODBuilder<T> {
             float distanceSq = ((modelPosition.x()*modelPosition.x())-(cameraPosition.x()*cameraPosition.x())) + ((modelPosition.y()*modelPosition.y())-(cameraPosition.y()*cameraPosition.y())) + ((modelPosition.z()*modelPosition.z())-(cameraPosition.z()*cameraPosition.z()));
 
             for (LevelOfDetail<Float> levelOfDetail : levelsOfDetail) {
-                if (distanceSq <= levelOfDetail.argument()) {
+                if (distanceSq <= (levelOfDetail.argument()*levelOfDetail.argument())) {
                     return levelOfDetail;
                 }
             }

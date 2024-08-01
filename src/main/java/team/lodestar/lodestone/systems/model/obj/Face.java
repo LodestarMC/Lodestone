@@ -43,9 +43,9 @@ public record Face(List<Vertex> vertices) {
         buffer.vertex(matrix4f, position.x(), position.y(), position.z())
                 .color(255, 255, 255, 255)
                 .uv(uv.x, -uv.y)
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .normal(normalMatrix, normal.x(), normal.y(), normal.z())
                 .uv2(packedLight)
+                .normal(normalMatrix, normal.x(), normal.y(), normal.z())
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .endVertex();
     }
 
