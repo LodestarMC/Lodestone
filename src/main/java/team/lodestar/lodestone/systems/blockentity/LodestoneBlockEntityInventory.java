@@ -154,22 +154,18 @@ public class LodestoneBlockEntityInventory extends ItemStackHandlerContainer {
     }
 
     public boolean interact(LodestoneBlockEntity be, Level level, Player player, InteractionHand handIn, Predicate<ItemStack> predicate) {
+        boolean res = false;
+        ItemStack held = player.getItemInHand(handIn);
+        if (predicate.test(held)) {
+            player.swing(handIn, true);
 
-        if (!level.isClientSide) {
-            boolean res = false;
-            ItemStack held = player.getItemInHand(handIn);
-            if (predicate.test(held)) {
-                player.swing(handIn, true);
-
-                if (held.isEmpty()) {
-                    res = !interactExtractInv(be, player).isEmpty();
-                } else {
-                    res = interactInsertInv(be, held);
-                }
+            if (held.isEmpty()) {
+                res = !interactExtractInv(be, player).isEmpty();
+            } else {
+                res = interactInsertInv(be, held);
             }
-            return res;
         }
-        return false;
+        return res;
     }
 
     public boolean interactInsertInv(LodestoneBlockEntity be, ItemStack stack){
