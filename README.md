@@ -1,4 +1,6 @@
-**Lodestone** is a library used by all mods under the Lodestar team, containing important backend code mostly used for rendering.
+# **Lodestone** 
+Lodestone is a library used by all mods under the Lodestar team, containing important backend code mostly used for rendering.
+And is and Incredibly fancy VFX in minecraft library.
 
 **Used by:**<br>
 Fundamental Forces<br>
