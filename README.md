@@ -1,7 +1,15 @@
 # **Lodestone** 
 Lodestone is a library used by all mods under the Lodestar team, containing important backend code mostly used for rendering.
 And is and Incredibly fancy VFX in minecraft library.
-
+## FAQ
+- 1.21?
+The 1.21 port has major internal changes thus tanking longer than most updates and is also changing to neoforge.
+- should I use this for vfx?
+- YES!
+- In which ways can the project be used?
+- Check the [License](https://github.com/IGN-Styly/Lodestone/blob/master/LICENSE.txt).
+## Getting started
+Check out the [wiki](https://github.com/LodestarMC/Lodestone/wiki) to start.
 **Used by:**<br>
 Fundamental Forces<br>
 Malum<br>
