@@ -96,17 +96,11 @@ public class LodestonePayloadRegistry {
         }
 
         public final <B extends FriendlyByteBuf, T extends LodestoneNetworkPayloadData> StreamDecoder<B, T> decodePacket(PayloadDataSupplier<T> supplier) {
-            return t -> createPayload(supplier, t.readUtf(), t);
+            return t -> createPayload(supplier, t);
         }
 
-        public final <T extends LodestoneNetworkPayloadData> T createPayload(PayloadDataSupplier<T> supplier, String id, FriendlyByteBuf byteBuf) {
-            return createPayload(supplier, ResourceLocation.parse(id), byteBuf);
-        }
-
-        public <T extends LodestoneNetworkPayloadData> T createPayload(PayloadDataSupplier<T> supplier, ResourceLocation id, FriendlyByteBuf byteBuf) {
-            T payload = supplier.createPayload(id);
-            payload.deserialize(byteBuf);
-            return payload;
+        public <T extends LodestoneNetworkPayloadData> T createPayload(PayloadDataSupplier<T> supplier, FriendlyByteBuf byteBuf) {
+            return supplier.createPayload(byteBuf);
         }
 
         @SuppressWarnings("unchecked")
@@ -121,6 +115,6 @@ public class LodestonePayloadRegistry {
     }
 
     public interface PayloadDataSupplier<T extends LodestoneNetworkPayloadData> {
-        T createPayload(ResourceLocation resourceLocation);
+        T createPayload(FriendlyByteBuf byteBuf);
     }
 }

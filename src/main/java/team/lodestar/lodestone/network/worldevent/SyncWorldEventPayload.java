@@ -3,6 +3,7 @@ package team.lodestar.lodestone.network.worldevent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.*;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -14,12 +15,15 @@ import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
 public class SyncWorldEventPayload extends OneSidedPayloadData {
 
-    ResourceLocation type;
-    public boolean start;
-    public CompoundTag eventData;
+    final ResourceLocation type;
+    final boolean start;
+    final CompoundTag eventData;
 
-    public SyncWorldEventPayload(ResourceLocation type) {
-        super(type);
+    public SyncWorldEventPayload(FriendlyByteBuf byteBuf) {
+        super(byteBuf);
+        type = ResourceLocation.parse(byteBuf.readUtf());
+        start = byteBuf.readBoolean();
+        eventData = byteBuf.readNbt();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -31,16 +35,9 @@ public class SyncWorldEventPayload extends OneSidedPayloadData {
     }
 
     @Override
-    public void deserialize(CompoundTag tag) {
-        type = ResourceLocation.parse(tag.getString("type"));
-        start = tag.getBoolean("start");
-        eventData = tag.getCompound("eventData");
-    }
-
-    @Override
-    public void serialize(CompoundTag tag) {
-        tag.putString("type", type.toString());//TODO
-        tag.putBoolean("start", start);
-        tag.put("eventData", eventData);
+    public void serialize(FriendlyByteBuf byteBuf) {
+        byteBuf.writeUtf(type.toString());
+        byteBuf.writeBoolean(start);
+        byteBuf.writeNbt(eventData);
     }
 }

@@ -10,8 +10,8 @@ public abstract class LodestoneNetworkPayloadData implements CustomPacketPayload
 
     public final CustomPacketPayload.Type<? extends LodestoneNetworkPayloadData> dataType;
 
-    public LodestoneNetworkPayloadData(ResourceLocation id) {
-        this.dataType = LodestonePayloadRegistry.CHANNEL_MAP.get(id.getNamespace()).getPayloadType(id.getPath());
+    public LodestoneNetworkPayloadData(FriendlyByteBuf byteBuf) {
+        this.dataType = LodestonePayloadRegistry.CHANNEL_MAP.get(byteBuf.readUtf()).getPayloadType(byteBuf.readUtf());
     }
 
     @Override
@@ -23,7 +23,11 @@ public abstract class LodestoneNetworkPayloadData implements CustomPacketPayload
         return type().id();
     }
 
-    public abstract void deserialize(FriendlyByteBuf byteBuf);
-
     public abstract void serialize(FriendlyByteBuf byteBuf);
+
+    public static void serializePacketType(LodestoneNetworkPayloadData data, FriendlyByteBuf byteBuf) {
+        var packetType = data.getPacketType();
+        byteBuf.writeUtf(packetType.getNamespace());
+        byteBuf.writeUtf(packetType.getPath());
+    }
 }
