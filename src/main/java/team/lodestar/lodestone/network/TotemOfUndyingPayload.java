@@ -17,7 +17,7 @@ import team.lodestar.lodestone.systems.network.OneSidedPayloadData;
 
 public class TotemOfUndyingPayload extends OneSidedPayloadData {
 
-    private int entityId;
+    private final int entityId;
     private ItemStack stack;
 
     public TotemOfUndyingPayload(FriendlyByteBuf byteBuf) {
@@ -42,6 +42,7 @@ public class TotemOfUndyingPayload extends OneSidedPayloadData {
     @Override
     public void serialize(FriendlyByteBuf byteBuf) {
         byteBuf.writeInt(entityId);
+        RegistryFriendlyByteBuf
         //TODO: saving the stack requires registry access, need to figure out the whole RegistryFriendlyByteBuf thing
 //        stack.save()
     }

@@ -12,7 +12,7 @@ import team.lodestar.lodestone.systems.network.OneSidedPayloadData;
 
 public class ClearFireEffectInstancePayload extends OneSidedPayloadData {
 
-    private int entityId;
+    private final int entityId;
 
     public ClearFireEffectInstancePayload(FriendlyByteBuf byteBuf) {
         super(byteBuf);

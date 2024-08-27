@@ -15,8 +15,8 @@ import java.util.UUID;
 
 public class UpdateWorldEventPayload extends OneSidedPayloadData {
 
-    private UUID uuid;
-    private CompoundTag eventData;
+    private final UUID uuid;
+    private final CompoundTag eventData;
 
     public UpdateWorldEventPayload(FriendlyByteBuf byteBuf) {
         super(byteBuf);

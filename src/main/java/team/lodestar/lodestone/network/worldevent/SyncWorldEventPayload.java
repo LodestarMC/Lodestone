@@ -15,9 +15,9 @@ import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
 public class SyncWorldEventPayload extends OneSidedPayloadData {
 
-    final ResourceLocation type;
-    final boolean start;
-    final CompoundTag eventData;
+    private final ResourceLocation type;
+    private final boolean start;
+    private final CompoundTag eventData;
 
     public SyncWorldEventPayload(FriendlyByteBuf byteBuf) {
         super(byteBuf);
