@@ -8,7 +8,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.systems.network.LodestoneTwoWayNBTPacket;
 
 import java.util.UUID;
@@ -40,13 +39,13 @@ public class SyncLodestonePlayerCapabilityPacket extends LodestoneTwoWayNBTPacke
     @Override
     public void clientExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
         Player player = Minecraft.getInstance().level.getPlayerByUUID(uuid);
-        LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.deserializeNBT(data));
+        LodestonePlayerDataAttachment.getCapabilityOptional(player).ifPresent(c -> c.deserializeNBT(data));
     }
 
     @Override
     public void serverExecute(Supplier<NetworkEvent.Context> context, CompoundTag data) {
         Player player = context.get().getSender().level().getPlayerByUUID(uuid);
-        LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> c.deserializeNBT(data));
+        LodestonePlayerDataAttachment.getCapabilityOptional(player).ifPresent(c -> c.deserializeNBT(data));
     }
 
     public static void register(SimpleChannel instance, int index) {

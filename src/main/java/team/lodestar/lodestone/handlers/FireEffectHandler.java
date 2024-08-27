@@ -6,11 +6,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.network.PacketDistributor;
-import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
 import team.lodestar.lodestone.networkold.ClearFireEffectInstancePacket;
 import team.lodestar.lodestone.registry.client.LodestoneFireEffectRendererRegistry;
-import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectRenderer;
 
@@ -31,33 +29,26 @@ public class FireEffectHandler {
     }
 
     public static FireEffectInstance getFireEffectInstance(Entity entity) {
-        return LodestoneEntityDataCapability.getCapability(entity).fireEffectInstance;
+        return entity.getData(LodestoneAttachmentTypes.ENTITY_DATA).fireEffectInstance;
     }
 
     public static void setCustomFireInstance(Entity entity, FireEffectInstance instance) {
-        LodestoneEntityDataCapability.getCapabilityOptional(entity).ifPresent(c -> {
-            c.fireEffectInstance = instance;
-            if (c.fireEffectInstance != null) {
-                if (entity.getRemainingFireTicks() > 0) {
-                    entity.setRemainingFireTicks(0);
-                }
-                if (!entity.level().isClientSide) {
-                    c.fireEffectInstance.sync(entity);
-                }
-            } else if (!entity.level().isClientSide) {
-                LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
+        var oldInstance = entity.getData(LodestoneAttachmentTypes.ENTITY_DATA);
+
+        oldInstance.fireEffectInstance = instance;
+        if (oldInstance.fireEffectInstance != null) {
+            if (entity.getRemainingFireTicks() > 0) {
+                entity.setRemainingFireTicks(0);
             }
-        });
-    }
-
-    public static void serializeNBT(LodestoneEntityDataCapability capability, CompoundTag tag) {
-        if (capability.fireEffectInstance != null) {
-            capability.fireEffectInstance.serializeNBT(tag);
+            if (!entity.level().isClientSide) {
+                oldInstance.fireEffectInstance.sync(entity);
+            }
+        } else if (!entity.level().isClientSide) {
+            //TODO
+            LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
         }
-    }
 
-    public static void deserializeNBT(LodestoneEntityDataCapability capability, CompoundTag tag) {
-        capability.fireEffectInstance = FireEffectInstance.deserializeNBT(tag);
+        entity.setData(LodestoneAttachmentTypes.ENTITY_DATA, oldInstance);
     }
 
     public static class ClientOnly {

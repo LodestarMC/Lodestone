@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.capability;
+package team.lodestar.lodestone.capabilityold;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -52,12 +52,6 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
         }
     }
 
-    public static void playerJoin(EntityJoinLevelEvent event) {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer) {
-            LodestonePlayerDataCapability.getCapabilityOptional(serverPlayer).ifPresent(capability -> capability.hasJoinedBefore = true);
-            syncSelf(serverPlayer);
-        }
-    }
 
     public static void syncPlayerCapability(PlayerEvent.StartTracking event) {
         if (event.getTarget() instanceof Player player) {
@@ -67,19 +61,7 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
         }
     }
 
-    public static void playerTick(TickEvent.PlayerTickEvent event) {
-        LodestonePlayerDataCapability.getCapabilityOptional(event.player).ifPresent(c -> {
-            c.rightClickTime = c.rightClickHeld ? c.rightClickTime + 1 : 0;
-            c.leftClickTime = c.leftClickHeld ? c.leftClickTime + 1 : 0;
-        });
-    }
 
-    public static void playerClone(PlayerEvent.Clone event) {
-        event.getOriginal().revive();
-        LodestonePlayerDataCapability.getCapabilityOptional(event.getOriginal()).ifPresent(o -> LodestonePlayerDataCapability.getCapabilityOptional(event.getEntity()).ifPresent(c -> {
-            c.deserializeNBT(o.serializeNBT());
-        }));
-    }
 
     @Override
     public CompoundTag serializeNBT() {
@@ -141,22 +123,5 @@ public class LodestonePlayerDataCapability implements LodestoneCapability {
         return player.getCapability(CAPABILITY).orElse(new LodestonePlayerDataCapability());
     }
 
-    public static class ClientOnly {
-        public static void clientTick(ClientTickEvent event) {
-            Minecraft minecraft = Minecraft.getInstance();
-            Player player = minecraft.player;
-            LodestonePlayerDataCapability.getCapabilityOptional(player).ifPresent(c -> {
-                boolean left = minecraft.options.keyAttack.isDown();
-                boolean right = minecraft.options.keyUse.isDown();
-                if (left != c.leftClickHeld) {
-                    c.leftClickHeld = left;
-                    LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateLeftClickPacket(c.leftClickHeld));
-                }
-                if (right != c.rightClickHeld) {
-                    c.rightClickHeld = right;
-                    LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateRightClickPacket(c.rightClickHeld));
-                }
-            });
-        }
-    }
+
 }

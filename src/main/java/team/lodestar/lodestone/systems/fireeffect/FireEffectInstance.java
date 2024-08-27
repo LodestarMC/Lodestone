@@ -2,7 +2,6 @@ package team.lodestar.lodestone.systems.fireeffect;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
-import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
 import team.lodestar.lodestone.handlers.FireEffectHandler;
 import team.lodestar.lodestone.helpers.NBTHelper;
 import team.lodestar.lodestone.registry.common.LodestoneFireEffectRegistry;
@@ -30,12 +29,12 @@ public class FireEffectInstance {
     }
 
     public FireEffectInstance sync(Entity target) {
-        LodestoneEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create("fireEffect", "type", "duration").setWhitelist());
+        LodestoneEntityDataAttachment.syncTrackingAndSelf(target, NBTHelper.create("fireEffect", "type", "duration").setWhitelist());
         return this;
     }
 
     public FireEffectInstance syncDuration(Entity target) {
-        LodestoneEntityDataCapability.syncTrackingAndSelf(target, NBTHelper.create("fireEffect", "duration").setWhitelist());
+        LodestoneEntityDataAttachment.syncTrackingAndSelf(target, NBTHelper.create("fireEffect", "duration").setWhitelist());
         return this;
     }
 

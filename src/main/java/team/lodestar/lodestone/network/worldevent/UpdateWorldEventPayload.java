@@ -7,7 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
+import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.systems.network.OneSidedPayloadData;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
@@ -29,14 +29,14 @@ public class UpdateWorldEventPayload extends OneSidedPayloadData {
     public void handle(IPayloadContext context) {
         ClientLevel level = Minecraft.getInstance().level;
         if (level != null) {
-            level.getCapability(LodestoneWorldDataCapability.CAPABILITY).ifPresent(capability -> {
-                for (WorldEventInstance instance : capability.activeWorldEvents) {
-                    if (instance.uuid.equals(uuid)) {
-                        instance.deserializeNBT(eventData);
-                        break;
-                    }
+
+            var worldData = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
+            for (WorldEventInstance instance : worldData.activeWorldEvents) {
+                if (instance.uuid.equals(uuid)) {
+                    instance.deserializeNBT(eventData);
+                    break;
                 }
-            });
+            }
         }
     }
 

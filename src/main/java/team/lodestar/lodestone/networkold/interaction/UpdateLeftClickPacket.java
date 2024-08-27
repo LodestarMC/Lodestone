@@ -3,7 +3,6 @@ package team.lodestar.lodestone.networkold.interaction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
 
 import java.util.function.Supplier;
@@ -22,7 +21,7 @@ public class UpdateLeftClickPacket extends LodestoneServerPacket {
 
     @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
-        LodestonePlayerDataCapability.getCapabilityOptional(context.get().getSender()).ifPresent(c -> c.leftClickHeld = leftClickHeld);
+        LodestonePlayerDataAttachment.getCapabilityOptional(context.get().getSender()).ifPresent(c -> c.leftClickHeld = leftClickHeld);
     }
 
     public static void register(SimpleChannel instance, int index) {

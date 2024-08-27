@@ -11,9 +11,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
+import team.lodestar.lodestone.attachment.PlayerAttachment;
 import team.lodestar.lodestone.handlers.ItemEventHandler;
 import team.lodestar.lodestone.handlers.LodestoneAttributeEventHandler;
 import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
@@ -35,17 +33,17 @@ public class RuntimeEvents {
     @SubscribeEvent
     public static void entityJoin(EntityJoinLevelEvent event) {
         WorldEventHandler.playerJoin(event);
-        LodestonePlayerDataCapability.playerJoin(event);
+        PlayerAttachment.playerJoin(event);
     }
 
     @SubscribeEvent
     public static void playerClone(PlayerEvent.Clone event) {
-        LodestonePlayerDataCapability.playerClone(event);
+        PlayerAttachment.playerClone(event);
     }
 
     @SubscribeEvent
     public static void playerTick(PlayerTickEvent event) {
-        LodestonePlayerDataCapability.playerTick(event);
+        PlayerAttachment.playerTick(event);
     }
 
     @SubscribeEvent
@@ -65,18 +63,18 @@ public class RuntimeEvents {
 
     @SubscribeEvent
     public static void attachWorldCapability(AttachCapabilitiesEvent<Level> event) {
-        LodestoneWorldDataCapability.attachWorldCapability(event);
+        LodestoneWorldDataAttachment.attachWorldCapability(event);
     }
 
     @SubscribeEvent
     public static void attachEntityCapability(AttachCapabilitiesEvent<Entity> event) {
-        LodestonePlayerDataCapability.attachPlayerCapability(event);
-        LodestoneEntityDataCapability.attachEntityCapability(event);
+        LodestonePlayerDataAttachment.attachPlayerCapability(event);
+        LodestoneEntityDataAttachment.attachEntityCapability(event);
     }
 
     @SubscribeEvent
     public static void startTracking(PlayerEvent.StartTracking event) {
-        LodestonePlayerDataCapability.syncPlayerCapability(event);
-        LodestoneEntityDataCapability.syncEntityCapability(event);
+        LodestonePlayerDataAttachment.syncPlayerCapability(event);
+        LodestoneEntityDataAttachment.syncEntityCapability(event);
     }
 }
