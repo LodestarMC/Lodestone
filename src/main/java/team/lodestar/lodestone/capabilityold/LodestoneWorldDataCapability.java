@@ -16,7 +16,7 @@ import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
 import java.util.ArrayList;
 
-@Deprecated()
+@Deprecated(forRemoval = true)
 public class LodestoneWorldDataCapability implements LodestoneCapability {
 
     public static Capability<LodestoneWorldDataCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {

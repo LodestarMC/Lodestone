@@ -26,6 +26,7 @@ import team.lodestar.lodestone.registry.common.LodestonePacketRegistry;
 import team.lodestar.lodestone.systems.capability.LodestoneCapability;
 import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
 
+@Deprecated(forRemoval = true)
 public class LodestonePlayerDataCapability implements LodestoneCapability {
 
     public static Capability<LodestonePlayerDataCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
