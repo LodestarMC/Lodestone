@@ -62,17 +62,6 @@ public class RuntimeEvents {
     }
 
     @SubscribeEvent
-    public static void attachWorldCapability(AttachCapabilitiesEvent<Level> event) {
-        LodestoneWorldDataAttachment.attachWorldCapability(event);
-    }
-
-    @SubscribeEvent
-    public static void attachEntityCapability(AttachCapabilitiesEvent<Entity> event) {
-        LodestonePlayerDataAttachment.attachPlayerCapability(event);
-        LodestoneEntityDataAttachment.attachEntityCapability(event);
-    }
-
-    @SubscribeEvent
     public static void startTracking(PlayerEvent.StartTracking event) {
         LodestonePlayerDataAttachment.syncPlayerCapability(event);
         LodestoneEntityDataAttachment.syncEntityCapability(event);

@@ -14,13 +14,6 @@ import team.lodestar.lodestone.registry.common.LodestoneArgumentTypeRegistry;
 public class SetupEvents {
 
     @SubscribeEvent
-    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        LodestoneWorldDataAttachment.registerCapabilities(event);
-        LodestoneEntityDataAttachment.registerCapabilities(event);
-        LodestonePlayerDataAttachment.registerCapabilities(event);
-    }
-
-    @SubscribeEvent
     public static void registerCommon(FMLCommonSetupEvent event) {
         PlacementAssistantHandler.registerPlacementAssistants(event);
         LodestoneArgumentTypeRegistry.registerArgumentTypes();
