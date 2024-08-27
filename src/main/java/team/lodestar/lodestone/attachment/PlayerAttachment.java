@@ -1,8 +1,11 @@
 package team.lodestar.lodestone.attachment;
 
+import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -10,8 +13,10 @@ import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.UnknownNullability;
-import team.lodestar.lodestone.capabilityold.LodestonePlayerDataCapability;
+import team.lodestar.lodestone.network.interaction.UpdateLeftClickPayload;
+import team.lodestar.lodestone.network.interaction.UpdateRightClickPayload;
 import team.lodestar.lodestone.networkold.interaction.UpdateLeftClickPacket;
 import team.lodestar.lodestone.networkold.interaction.UpdateRightClickPacket;
 import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
@@ -47,9 +52,15 @@ public class PlayerAttachment implements INBTSerializable<CompoundTag> {
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
             var playerData = serverPlayer.getData(LodestoneAttachmentTypes.PLAYER_DATA);
             playerData.hasJoinedBefore = true;
-
-            //TODO?
             syncSelf(serverPlayer);
+        }
+    }
+
+    public static void syncPlayerCapability(PlayerEvent.StartTracking event) {
+        if (event.getTarget() instanceof Player player) {
+            if (player.level() instanceof ServerLevel) {
+                syncTracking(player);
+            }
         }
     }
 
@@ -72,11 +83,19 @@ public class PlayerAttachment implements INBTSerializable<CompoundTag> {
             boolean right = minecraft.options.keyUse.isDown();
             if (left != playerData.leftClickHeld) {
                 playerData.leftClickHeld = left;
-                LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateLeftClickPacket(playerData.leftClickHeld));
+
+                FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+                buf.writeBoolean(playerData.leftClickHeld);
+
+                PacketDistributor.sendToServer(new UpdateLeftClickPayload(buf));
             }
             if (right != playerData.rightClickHeld) {
                 playerData.rightClickHeld = right;
-                LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.SERVER.noArg(), new UpdateRightClickPacket(playerData.rightClickHeld));
+
+                FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+                buf.writeBoolean(playerData.rightClickHeld);
+
+                PacketDistributor.sendToServer(new UpdateRightClickPayload(buf));
             }
         }
     }

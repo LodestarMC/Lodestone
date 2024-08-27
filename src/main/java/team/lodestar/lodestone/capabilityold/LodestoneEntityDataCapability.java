@@ -8,11 +8,7 @@ import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
 @Deprecated(forRemoval = true)
 public class LodestoneEntityDataCapability  {
 
-    public static void syncEntityCapability(PlayerEvent.StartTracking event) {
-        if (event.getEntity().level() instanceof ServerLevel) {
-            LodestoneEntityDataCapability.syncTracking(event.getEntity());
-        }
-    }
+
 
     public static void syncTrackingAndSelf(Entity entity) {
         sync(entity, PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity));

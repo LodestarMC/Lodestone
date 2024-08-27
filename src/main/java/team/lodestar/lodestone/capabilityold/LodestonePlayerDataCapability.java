@@ -12,13 +12,7 @@ import team.lodestar.lodestone.networkold.capability.SyncLodestonePlayerCapabili
 @Deprecated(forRemoval = true)
 public class LodestonePlayerDataCapability {
 
-    public static void syncPlayerCapability(PlayerEvent.StartTracking event) {
-        if (event.getTarget() instanceof Player player) {
-            if (player.level() instanceof ServerLevel) {
-                syncTracking(player);
-            }
-        }
-    }
+
 
     public static void syncServer(Player player, NBTHelper.TagFilter filter) {
         sync(player, PacketDistributor.SERVER.noArg(), filter);

@@ -11,6 +11,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import team.lodestar.lodestone.attachment.EntityAttachment;
 import team.lodestar.lodestone.attachment.PlayerAttachment;
 import team.lodestar.lodestone.handlers.ItemEventHandler;
 import team.lodestar.lodestone.handlers.LodestoneAttributeEventHandler;
@@ -63,7 +64,7 @@ public class RuntimeEvents {
 
     @SubscribeEvent
     public static void startTracking(PlayerEvent.StartTracking event) {
-        LodestonePlayerDataAttachment.syncPlayerCapability(event);
-        LodestoneEntityDataAttachment.syncEntityCapability(event);
+        PlayerAttachment.syncPlayerCapability(event);
+        EntityAttachment.syncEntityCapability(event);
     }
 }
