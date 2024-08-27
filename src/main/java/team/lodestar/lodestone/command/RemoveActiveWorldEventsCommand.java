@@ -7,7 +7,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.command.arguments.WorldEventInstanceArgument;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
 import team.lodestar.lodestone.networkold.worldevent.UpdateWorldEventPacket;
@@ -31,7 +30,7 @@ public class RemoveActiveWorldEventsCommand {
                             CommandSourceStack source = ctx.getSource();
                             Level level = source.getLevel();
                             AtomicInteger count = new AtomicInteger();
-                            LodestoneWorldDataCapability.getCapabilityOptional(level).ifPresent(c -> {
+                            LodestoneWorldDataAttachment.getCapabilityOptional(level).ifPresent(c -> {
                                 count.set(c.activeWorldEvents.size());
                                 c.activeWorldEvents.forEach(instance -> {
                                     instance.end(level);
@@ -65,7 +64,7 @@ public class RemoveActiveWorldEventsCommand {
                                     CommandSourceStack source = ctx.getSource();
                                     WorldEventType type = WorldEventTypeArgument.getEventType(ctx, "type");
                                     AtomicInteger count = new AtomicInteger();
-                                    LodestoneWorldDataCapability.getCapabilityOptional(source.getLevel()).ifPresent(c -> {
+                                    LodestoneWorldDataAttachment.getCapabilityOptional(source.getLevel()).ifPresent(c -> {
                                         List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
                                         count.set(activeWorldEvents.size());
                                         activeWorldEvents.forEach(instance -> {

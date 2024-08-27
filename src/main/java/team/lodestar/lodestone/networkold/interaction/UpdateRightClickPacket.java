@@ -3,7 +3,6 @@ package team.lodestar.lodestone.networkold.interaction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.events.types.RightClickEmptyServer;
 import team.lodestar.lodestone.systems.network.LodestoneServerPacket;
 
@@ -26,7 +25,7 @@ public class UpdateRightClickPacket extends LodestoneServerPacket {
         if (rightClickHeld) {
             RightClickEmptyServer.onRightClickEmptyServer(context.get().getSender());
         }
-        LodestonePlayerDataCapability.getCapabilityOptional(context.get().getSender()).ifPresent(c -> c.rightClickHeld = rightClickHeld);
+        LodestonePlayerDataAttachment.getCapabilityOptional(context.get().getSender()).ifPresent(c -> c.rightClickHeld = rightClickHeld);
     }
 
     public static void register(SimpleChannel instance, int index) {

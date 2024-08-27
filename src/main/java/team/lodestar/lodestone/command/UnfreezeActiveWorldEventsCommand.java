@@ -5,7 +5,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.command.arguments.WorldEventInstanceArgument;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
@@ -24,7 +23,7 @@ public class UnfreezeActiveWorldEventsCommand {
                 // Unfreeze all active world events
                 .then(Commands.literal("all")
                         .executes(ctx -> {
-                            LodestoneWorldDataCapability.getCapabilityOptional(ctx.getSource().getLevel()).ifPresent(c -> {
+                            LodestoneWorldDataAttachment.getCapabilityOptional(ctx.getSource().getLevel()).ifPresent(c -> {
                                 List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents;
                                 List<WorldEventInstance> currentlyFrozen = activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).toList();
                                 if (currentlyFrozen.isEmpty()) {
@@ -59,7 +58,7 @@ public class UnfreezeActiveWorldEventsCommand {
                         .then(Commands.argument("type", WorldEventTypeArgument.worldEventType())
                                 .executes(ctx -> {
                                     WorldEventType type = WorldEventTypeArgument.getEventType(ctx, "type");
-                                    LodestoneWorldDataCapability.getCapabilityOptional(ctx.getSource().getLevel()).ifPresent(c -> {
+                                    LodestoneWorldDataAttachment.getCapabilityOptional(ctx.getSource().getLevel()).ifPresent(c -> {
                                         List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
                                         List<WorldEventInstance> currentlyFrozen = activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).toList();
                                         if (currentlyFrozen.isEmpty()) {

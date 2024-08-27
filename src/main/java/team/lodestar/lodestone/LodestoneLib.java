@@ -9,6 +9,7 @@ import net.neoforged.fml.config.*;
 import net.neoforged.neoforge.common.*;
 import net.neoforged.neoforge.data.event.*;
 import org.apache.logging.log4j.*;
+import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.compability.*;
 import team.lodestar.lodestone.config.*;
 import team.lodestar.lodestone.data.*;
@@ -31,6 +32,7 @@ public class LodestoneLib {
         LodestoneParticleRegistry.PARTICLES.register(modBus);
         LodestoneAttributeRegistry.ATTRIBUTES.register(modBus);
         LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register(modBus);
+        LodestoneAttachmentTypes.ATTACHMENT_TYPES.register(modBus);
         LodestoneArgumentTypeRegistry.register(modBus);
 
         CuriosCompat.init();

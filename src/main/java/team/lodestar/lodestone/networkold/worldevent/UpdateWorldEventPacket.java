@@ -8,7 +8,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
@@ -35,7 +34,7 @@ public class UpdateWorldEventPacket extends LodestoneClientPacket {
     public void execute(Supplier<NetworkEvent.Context> context) {
         ClientLevel level = Minecraft.getInstance().level;
         if (level != null) {
-            level.getCapability(LodestoneWorldDataCapability.CAPABILITY).ifPresent(capability -> {
+            level.getCapability(LodestoneWorldDataAttachment.CAPABILITY).ifPresent(capability -> {
                 for (WorldEventInstance instance : capability.activeWorldEvents) {
                     if (instance.uuid.equals(uuid)) {
                         instance.deserializeNBT(eventData);

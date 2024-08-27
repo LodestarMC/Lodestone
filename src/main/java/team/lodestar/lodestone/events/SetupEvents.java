@@ -6,9 +6,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import team.lodestar.lodestone.capability.LodestoneEntityDataCapability;
-import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
-import team.lodestar.lodestone.capability.LodestoneWorldDataCapability;
 import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 import team.lodestar.lodestone.registry.common.LodestoneArgumentTypeRegistry;
@@ -18,9 +15,9 @@ public class SetupEvents {
 
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        LodestoneWorldDataCapability.registerCapabilities(event);
-        LodestoneEntityDataCapability.registerCapabilities(event);
-        LodestonePlayerDataCapability.registerCapabilities(event);
+        LodestoneWorldDataAttachment.registerCapabilities(event);
+        LodestoneEntityDataAttachment.registerCapabilities(event);
+        LodestonePlayerDataAttachment.registerCapabilities(event);
     }
 
     @SubscribeEvent

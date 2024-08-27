@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.capability;
+package team.lodestar.lodestone.capabilityold;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -20,6 +20,7 @@ import team.lodestar.lodestone.systems.capability.LodestoneCapability;
 import team.lodestar.lodestone.systems.capability.LodestoneCapabilityProvider;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
 
+@Deprecated(forRemoval = true)
 public class LodestoneEntityDataCapability implements LodestoneCapability {
 
     public static Capability<LodestoneEntityDataCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {

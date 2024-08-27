@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.capability;
+package team.lodestar.lodestone.capabilityold;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
@@ -16,6 +16,7 @@ import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
 import java.util.ArrayList;
 
+@Deprecated(forRemoval = true)
 public class LodestoneWorldDataCapability implements LodestoneCapability {
 
     public static Capability<LodestoneWorldDataCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
