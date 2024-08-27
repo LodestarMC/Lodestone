@@ -1,7 +1,9 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -9,7 +11,10 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import team.lodestar.lodestone.events.types.worldevent.*;
+import team.lodestar.lodestone.network.ClearFireEffectInstancePayload;
+import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPayload;
 import team.lodestar.lodestone.networkold.worldevent.UpdateWorldEventPacket;
 import team.lodestar.lodestone.registry.client.LodestoneWorldEventRendererRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
@@ -108,8 +113,11 @@ public class WorldEventHandler {
                     instance.tick(level);
                 }
                 if (instance.dirty) {
-                    //TODO
-                    LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new UpdateWorldEventPacket(instance.uuid, instance.synchronizeNBT()));
+
+                    var buf = new FriendlyByteBuf(Unpooled.buffer());
+                    buf.writeUUID(instance.uuid);
+                    buf.writeNbt(instance.synchronizeNBT());
+                    PacketDistributor.sendToServer(new UpdateWorldEventPayload(buf));
                     instance.dirty = false;
                 }
 

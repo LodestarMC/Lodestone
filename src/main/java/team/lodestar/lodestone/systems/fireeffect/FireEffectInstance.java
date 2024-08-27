@@ -1,9 +1,14 @@
 package team.lodestar.lodestone.systems.fireeffect;
 
+import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
+import net.neoforged.neoforge.network.PacketDistributor;
 import team.lodestar.lodestone.handlers.FireEffectHandler;
 import team.lodestar.lodestone.helpers.NBTHelper;
+import team.lodestar.lodestone.network.ClearFireEffectInstancePayload;
+import team.lodestar.lodestone.network.capability.SyncCapabilityPayload;
 import team.lodestar.lodestone.registry.common.LodestoneFireEffectRegistry;
 
 /**

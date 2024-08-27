@@ -42,7 +42,7 @@ public class TotemOfUndyingPayload extends OneSidedPayloadData {
     @Override
     public void serialize(FriendlyByteBuf byteBuf) {
         byteBuf.writeInt(entityId);
-        RegistryFriendlyByteBuf
+
         //TODO: saving the stack requires registry access, need to figure out the whole RegistryFriendlyByteBuf thing
 //        stack.save()
     }

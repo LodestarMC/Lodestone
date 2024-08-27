@@ -1,10 +1,15 @@
 package team.lodestar.lodestone.systems.worldevent;
 
+import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.ApiStatus;
+import team.lodestar.lodestone.network.worldevent.SyncWorldEventPayload;
+import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPayload;
 import team.lodestar.lodestone.networkold.worldevent.SyncWorldEventPacket;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
 
@@ -111,12 +116,20 @@ public abstract class WorldEventInstance {
     //Duplicate World Event to Client, Only Call once per world event instance
     @ApiStatus.Internal
     public static <T extends WorldEventInstance> void sync(T instance) {
-        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.ALL.noArg(), new SyncWorldEventPacket(instance.type.id, true, instance.serializeNBT(new CompoundTag())));
+        var buf = new FriendlyByteBuf(Unpooled.buffer());
+        buf.writeResourceLocation(instance.type.id);
+        buf.writeBoolean(true);
+        buf.writeNbt(instance.serializeNBT(new CompoundTag()));
+        PacketDistributor.sendToServer(new SyncWorldEventPayload(buf));
     }
 
     //Duplicate World Event to Client, Only Call once per world event instance
     @ApiStatus.Internal
     public static <T extends WorldEventInstance> void sync(T instance, ServerPlayer player) {
-        LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new SyncWorldEventPacket(instance.type.id, false, instance.serializeNBT(new CompoundTag())));
+        var buf = new FriendlyByteBuf(Unpooled.buffer());
+        buf.writeResourceLocation(instance.type.id);
+        buf.writeBoolean(false);
+        buf.writeNbt(instance.serializeNBT(new CompoundTag()));
+        PacketDistributor.sendToPlayer(player, new SyncWorldEventPayload(buf));
     }
 }

@@ -1,14 +1,19 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import io.netty.buffer.Unpooled;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
+import net.neoforged.neoforge.network.PacketDistributor;
+import team.lodestar.lodestone.network.ClearFireEffectInstancePayload;
 import team.lodestar.lodestone.networkold.ClearFireEffectInstancePacket;
 import team.lodestar.lodestone.registry.client.LodestoneFireEffectRendererRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
+import team.lodestar.lodestone.registry.common.LodestonePayloadRegistry;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectRenderer;
 
@@ -44,8 +49,10 @@ public class FireEffectHandler {
                 oldInstance.fireEffectInstance.sync(entity);
             }
         } else if (!entity.level().isClientSide) {
-            //TODO
-            LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
+            var buf = new FriendlyByteBuf(Unpooled.buffer());
+            buf.writeInt(entity.getId());
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, new ClearFireEffectInstancePayload(buf));
+            //LodestonePacketRegistry.LODESTONE_CHANNEL.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClearFireEffectInstancePacket(entity.getId()));
         }
 
         entity.setData(LodestoneAttachmentTypes.ENTITY_DATA, oldInstance);
