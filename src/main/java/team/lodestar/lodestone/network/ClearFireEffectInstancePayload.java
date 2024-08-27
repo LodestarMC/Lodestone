@@ -2,6 +2,7 @@ package team.lodestar.lodestone.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -13,8 +14,9 @@ public class ClearFireEffectInstancePayload extends OneSidedPayloadData {
 
     private int entityId;
 
-    public ClearFireEffectInstancePayload(ResourceLocation type) {
-        super(type);
+    public ClearFireEffectInstancePayload(FriendlyByteBuf byteBuf) {
+        super(byteBuf);
+        entityId = byteBuf.readInt();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -26,12 +28,7 @@ public class ClearFireEffectInstancePayload extends OneSidedPayloadData {
     }
 
     @Override
-    public void deserialize(CompoundTag tag) {
-        entityId = tag.getInt("entityId");
-    }
-
-    @Override
-    public void serialize(CompoundTag tag) {
-        tag.putInt("entityId", entityId);
+    public void serialize(FriendlyByteBuf byteBuf) {
+        byteBuf.writeInt(entityId);
     }
 }

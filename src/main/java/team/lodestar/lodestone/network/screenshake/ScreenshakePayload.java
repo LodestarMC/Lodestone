@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.network.screenshake;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -16,8 +16,14 @@ public class ScreenshakePayload extends OneSidedPayloadData {
     public float intensity1, intensity2, intensity3;
     public Easing intensityCurveStartEasing = Easing.LINEAR, intensityCurveEndEasing = Easing.LINEAR;
 
-    public ScreenshakePayload(ResourceLocation type) {
-        super(type);
+    public ScreenshakePayload(FriendlyByteBuf byteBuf) {
+        super(byteBuf);
+        duration = byteBuf.readInt();
+        intensity1 = byteBuf.readFloat();
+        intensity2 = byteBuf.readFloat();
+        intensity3 = byteBuf.readFloat();
+        intensityCurveStartEasing = Easing.valueOf(byteBuf.readUtf());
+        intensityCurveEndEasing = Easing.valueOf(byteBuf.readUtf());
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -27,22 +33,12 @@ public class ScreenshakePayload extends OneSidedPayloadData {
     }
 
     @Override
-    public void deserialize(CompoundTag tag) {
-        duration = tag.getInt("duration");
-        intensity1 = tag.getFloat("intensity1");
-        intensity2 = tag.getFloat("intensity2");
-        intensity3 = tag.getFloat("intensity3");
-        intensityCurveStartEasing = Easing.valueOf(tag.getString("intensityCurveStartEasing"));
-        intensityCurveEndEasing = Easing.valueOf(tag.getString("intensityCurveEndEasing"));
-    }
-
-    @Override
-    public void serialize(CompoundTag tag) {
-        tag.putInt("duration", duration);
-        tag.putFloat("intensity1", intensity1);
-        tag.putFloat("intensity2", intensity2);
-        tag.putFloat("intensity3", intensity3);
-        tag.putString("intensityCurveStartEasing", intensityCurveStartEasing.name);
-        tag.putString("intensityCurveEndEasing", intensityCurveEndEasing.name);
+    public void serialize(FriendlyByteBuf byteBuf) {
+        byteBuf.writeInt(duration);
+        byteBuf.writeFloat(intensity1);
+        byteBuf.writeFloat(intensity2);
+        byteBuf.writeFloat(intensity3);
+        byteBuf.writeUtf(intensityCurveStartEasing.name);
+        byteBuf.writeUtf(intensityCurveEndEasing.name);
     }
 }

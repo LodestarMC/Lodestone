@@ -2,13 +2,15 @@ package team.lodestar.lodestone.network.interaction;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import team.lodestar.lodestone.systems.network.OneSidedPayloadData;
 
 public class ResetRightClickDelayPayload extends OneSidedPayloadData {
-    public ResetRightClickDelayPayload(ResourceLocation type) {
-        super(type);
+
+    public ResetRightClickDelayPayload(FriendlyByteBuf byteBuf) {
+        super(byteBuf);
     }
 
     @Override
@@ -17,12 +19,7 @@ public class ResetRightClickDelayPayload extends OneSidedPayloadData {
     }
 
     @Override
-    public void deserialize(CompoundTag tag) {
-
-    }
-
-    @Override
-    public void serialize(CompoundTag tag) {
+    public void serialize(FriendlyByteBuf tag) {
 
     }
 }

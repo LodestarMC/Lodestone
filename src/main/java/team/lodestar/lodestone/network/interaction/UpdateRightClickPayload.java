@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.network.interaction;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
@@ -11,8 +12,10 @@ public class UpdateRightClickPayload extends OneSidedPayloadData {
 
     private boolean rightClickHeld;
 
-    public UpdateRightClickPayload(ResourceLocation type) {
-        super(type);
+    public UpdateRightClickPayload(FriendlyByteBuf byteBuf) {
+        super(byteBuf);
+        rightClickHeld = byteBuf.readBoolean();
+
     }
 
     @Override
@@ -24,12 +27,7 @@ public class UpdateRightClickPayload extends OneSidedPayloadData {
     }
 
     @Override
-    public void deserialize(CompoundTag tag) {
-        rightClickHeld = tag.getBoolean("rightClickHeld");
-    }
-
-    @Override
-    public void serialize(CompoundTag tag) {
-        tag.putBoolean("rightClickHeld", rightClickHeld);
+    public void serialize(FriendlyByteBuf byteBuf) {
+        byteBuf.writeBoolean(rightClickHeld);
     }
 }

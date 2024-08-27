@@ -2,6 +2,7 @@ package team.lodestar.lodestone.network.capability;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.api.distmarker.Dist;
@@ -13,18 +14,14 @@ public class SyncCapabilityPayload extends TwoSidedPayloadData {
 
     private int entityID;
 
-    public SyncCapabilityPayload(ResourceLocation type) {
-        super(type);
+    public SyncCapabilityPayload(FriendlyByteBuf byteBuf) {
+        super(byteBuf);
+        this.entityID = byteBuf.readInt();
     }
 
     @Override
-    public void deserialize(CompoundTag tag) {
-        this.entityID = tag.getInt("entityId");
-    }
-
-    @Override
-    public void serialize(CompoundTag emptyTag) {
-        emptyTag.putInt("entityId", entityID);
+    public void serialize(FriendlyByteBuf byteBuf) {
+        byteBuf.writeInt(entityID);
     }
 
     @Override

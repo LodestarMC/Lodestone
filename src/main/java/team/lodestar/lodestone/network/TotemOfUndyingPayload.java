@@ -20,8 +20,9 @@ public class TotemOfUndyingPayload extends OneSidedPayloadData {
     private int entityId;
     private ItemStack stack;
 
-    public TotemOfUndyingPayload(ResourceLocation type) {
-        super(type);
+    public TotemOfUndyingPayload(FriendlyByteBuf byteBuf) {
+        super(byteBuf);
+        entityId = byteBuf.readInt();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -45,8 +46,4 @@ public class TotemOfUndyingPayload extends OneSidedPayloadData {
 //        stack.save()
     }
 
-    @Override
-    public void deserialize(FriendlyByteBuf byteBuf) {
-        entityId = byteBuf.readInt();
-    }
 }

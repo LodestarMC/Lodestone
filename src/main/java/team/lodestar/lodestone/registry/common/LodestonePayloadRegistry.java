@@ -1,12 +1,8 @@
 package team.lodestar.lodestone.registry.common;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.*;
 import net.minecraft.network.codec.*;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;

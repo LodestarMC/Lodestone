@@ -3,7 +3,7 @@ package team.lodestar.lodestone.network.worldevent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -18,8 +18,10 @@ public class UpdateWorldEventPayload extends OneSidedPayloadData {
     private UUID uuid;
     private CompoundTag eventData;
 
-    public UpdateWorldEventPayload(ResourceLocation type) {
-        super(type);
+    public UpdateWorldEventPayload(FriendlyByteBuf byteBuf) {
+        super(byteBuf);
+        uuid = byteBuf.readUUID();
+        eventData = byteBuf.readNbt();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -39,14 +41,8 @@ public class UpdateWorldEventPayload extends OneSidedPayloadData {
     }
 
     @Override
-    public void deserialize(CompoundTag tag) {
-        uuid = tag.getUUID("uuid");
-        eventData = tag.getCompound("eventData");
-    }
-
-    @Override
-    public void serialize(CompoundTag tag) {
-        tag.putUUID("uuid", uuid);
-        tag.put("eventData", eventData);
+    public void serialize(FriendlyByteBuf byteBuf) {
+        byteBuf.writeUUID(uuid);
+        byteBuf.writeNbt(eventData);
     }
 }
