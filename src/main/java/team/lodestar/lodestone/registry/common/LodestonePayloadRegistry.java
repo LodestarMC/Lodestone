@@ -2,8 +2,8 @@ package team.lodestar.lodestone.registry.common;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.*;
+import net.minecraft.network.codec.*;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -80,32 +80,36 @@ public class LodestonePayloadRegistry {
         public <T extends TwoSidedPayloadData> void playBidirectional(PayloadRegistrar registrar, String name, PayloadDataSupplier<T> payloadSupplier) {
             CustomPacketPayload.Type<T> type = getPayloadType(name);
             registrar.playBidirectional(type, createCodec(payloadSupplier), new DirectionalPayloadHandler<>(
-                            TwoSidedPayloadData::handleClient,
-                            TwoSidedPayloadData::handleServer));
+                    TwoSidedPayloadData::handleClient,
+                    TwoSidedPayloadData::handleServer));
         }
 
-        public <T extends LodestoneNetworkPayloadData> StreamCodec<ByteBuf, T> createCodec(PayloadDataSupplier<T> supplier) {
-
-//            static <B extends ByteBuf, T extends Packet<?>> StreamCodec<B, T> codec(StreamMemberEncoder<B, T> pEncoder, StreamDecoder<B, T> pDecoder) {
-//                return StreamCodec.ofMember(pEncoder, pDecoder);
-//            }
-
-            return StreamCodec.composite(
-                    ByteBufCodecs.STRING_UTF8, LodestoneNetworkPayloadData::name,
-                    ByteBufCodecs.COMPOUND_TAG, LodestoneNetworkPayloadData::serialize,
-                    (id, tag) -> createPayload(supplier, id, tag));
+        public <T extends LodestoneNetworkPayloadData> StreamCodec<FriendlyByteBuf, T> createCodec(PayloadDataSupplier<T> supplier) {
+            return StreamCodec.ofMember(encodePacket(), decodePacket(supplier));
         }
 
-        public final <T extends LodestoneNetworkPayloadData> T createPayload(PayloadDataSupplier<T> supplier, String path, CompoundTag tag) {
-            return createPayload(supplier, ResourceLocation.parse(path), tag);
+        public final <B extends FriendlyByteBuf, T extends LodestoneNetworkPayloadData> StreamMemberEncoder<B, T> encodePacket() {
+            return (b, t) -> {
+                t.writeUtf(b.getPacketType().toString());
+                b.serialize(t);
+            };
         }
 
-        public <T extends LodestoneNetworkPayloadData> T createPayload(PayloadDataSupplier<T> supplier, ResourceLocation resourceLocation, CompoundTag tag) {
-            T payload = supplier.createPayload(resourceLocation);
-            payload.deserialize(tag);
+        public final <B extends FriendlyByteBuf, T extends LodestoneNetworkPayloadData> StreamDecoder<B, T> decodePacket(PayloadDataSupplier<T> supplier) {
+            return t -> createPayload(supplier, t.readUtf(), t);
+        }
+
+        public final <T extends LodestoneNetworkPayloadData> T createPayload(PayloadDataSupplier<T> supplier, String id, FriendlyByteBuf byteBuf) {
+            return createPayload(supplier, ResourceLocation.parse(id), byteBuf);
+        }
+
+        public <T extends LodestoneNetworkPayloadData> T createPayload(PayloadDataSupplier<T> supplier, ResourceLocation id, FriendlyByteBuf byteBuf) {
+            T payload = supplier.createPayload(id);
+            payload.deserialize(byteBuf);
             return payload;
         }
 
+        @SuppressWarnings("unchecked")
         public <T extends LodestoneNetworkPayloadData> CustomPacketPayload.Type<T> getPayloadType(String path) {
             if (payloadTypeMap.containsKey(path)) {
                 return (CustomPacketPayload.Type<T>) payloadTypeMap.get(path);

@@ -3,6 +3,7 @@ package team.lodestar.lodestone.network;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -38,14 +39,14 @@ public class TotemOfUndyingPayload extends OneSidedPayloadData {
     }
 
     @Override
-    public void serialize(CompoundTag tag) {
-        tag.putInt("entityId", entityId);
+    public void serialize(FriendlyByteBuf byteBuf) {
+        byteBuf.writeInt(entityId);
         //TODO: saving the stack requires registry access, need to figure out the whole RegistryFriendlyByteBuf thing
 //        stack.save()
     }
 
     @Override
-    public void deserialize(CompoundTag tag) {
-        entityId = tag.getInt("entityId");
+    public void deserialize(FriendlyByteBuf byteBuf) {
+        entityId = byteBuf.readInt();
     }
 }
