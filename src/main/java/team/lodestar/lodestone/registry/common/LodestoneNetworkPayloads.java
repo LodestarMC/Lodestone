@@ -22,7 +22,7 @@ import team.lodestar.lodestone.systems.network.*;
 
 import java.util.HashMap;
 
-public class LodestonePayloadRegistry {
+public class LodestoneNetworkPayloads {
 
     public static final HashMap<String, PayloadNetworkChannel> CHANNEL_MAP = new HashMap<>();
 

@@ -3,7 +3,6 @@ package team.lodestar.lodestone.registry.common.particle;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneItemCrumbsParticleType;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;
@@ -12,7 +11,7 @@ import team.lodestar.lodestone.systems.particle.world.type.LodestoneTerrainParti
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
-public class LodestoneParticleRegistry {
+public class LodestoneParticleTypes {
 
     public static DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, LodestoneLib.LODESTONE);
 

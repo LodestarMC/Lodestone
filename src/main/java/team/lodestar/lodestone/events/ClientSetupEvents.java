@@ -19,7 +19,7 @@ public class ClientSetupEvents {
     @SubscribeEvent
     public static void registerParticleFactory(RegisterParticleProvidersEvent event) {
         registerParticleProviders(event);
-        LodestoneScreenParticleRegistry.registerParticleFactory(event);
+        LodestoneScreenParticleTypes.registerParticleFactory(event);
     }
 
     @SubscribeEvent
@@ -30,17 +30,17 @@ public class ClientSetupEvents {
     }
 
     private static void registerParticleProviders(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(LodestoneParticleRegistry.WISP_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(LodestoneParticleRegistry.SMOKE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(LodestoneParticleRegistry.SPARKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(LodestoneParticleRegistry.TWINKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(LodestoneParticleRegistry.STAR_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(LodestoneParticleRegistry.SPARK_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(LodestoneParticleRegistry.EXTRUDING_SPARK_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
-        event.registerSpriteSet(LodestoneParticleRegistry.THIN_EXTRUDING_SPARK_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleTypes.WISP_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleTypes.SMOKE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleTypes.SPARKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleTypes.TWINKLE_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleTypes.STAR_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleTypes.SPARK_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleTypes.EXTRUDING_SPARK_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(LodestoneParticleTypes.THIN_EXTRUDING_SPARK_PARTICLE.get(), LodestoneWorldParticleType.Factory::new);
 
 
-        event.registerSpriteSet(LodestoneParticleRegistry.TERRAIN_PARTICLE.get(), s -> new LodestoneTerrainParticleType.Factory());
-        event.registerSpriteSet(LodestoneParticleRegistry.ITEM_PARTICLE.get(), s -> new LodestoneItemCrumbsParticleType.Factory());
+        event.registerSpriteSet(LodestoneParticleTypes.TERRAIN_PARTICLE.get(), s -> new LodestoneTerrainParticleType.Factory());
+        event.registerSpriteSet(LodestoneParticleTypes.ITEM_PARTICLE.get(), s -> new LodestoneItemCrumbsParticleType.Factory());
     }
 }

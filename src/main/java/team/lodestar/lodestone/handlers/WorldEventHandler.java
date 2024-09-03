@@ -13,10 +13,8 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import team.lodestar.lodestone.events.types.worldevent.*;
-import team.lodestar.lodestone.network.ClearFireEffectInstancePayload;
 import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPayload;
-import team.lodestar.lodestone.networkold.worldevent.UpdateWorldEventPacket;
-import team.lodestar.lodestone.registry.client.LodestoneWorldEventRendererRegistry;
+import team.lodestar.lodestone.registry.client.LodestoneWorldEventRenderers;
 import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventRenderer;
@@ -32,7 +30,7 @@ public class WorldEventHandler {
                 var worldData = Minecraft.getInstance().level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
 
                 for (WorldEventInstance instance : worldData.activeWorldEvents) {
-                    WorldEventRenderer<WorldEventInstance> renderer = LodestoneWorldEventRendererRegistry.RENDERERS.get(instance.type);
+                    WorldEventRenderer<WorldEventInstance> renderer = LodestoneWorldEventRenderers.RENDERERS.get(instance.type);
                     if (renderer != null) {
                         if (renderer.canRender(instance)) {
                             NeoForge.EVENT_BUS.post(new WorldEventRenderEvent(instance, renderer, stack, RenderHandler.DELAYED_RENDER.getTarget(), partialTicks));

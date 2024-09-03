@@ -1,11 +1,13 @@
 package team.lodestar.lodestone.systems.datagen.statesmith;
 
+import net.minecraft.core.registries.*;
 import net.minecraft.world.level.block.Block;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.datagen.ItemModelSmithTypes;
 import team.lodestar.lodestone.systems.datagen.itemsmith.ItemModelSmith;
 import team.lodestar.lodestone.systems.datagen.providers.LodestoneBlockStateProvider;
 
+import java.rmi.registry.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -45,7 +47,7 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
             stateSupplier.act(blockClass.cast(block), data.provider);
             itemModelSmith.act(block::asItem, data.provider.itemModelProvider);
         } else {
-            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
+            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + registryObject.get().toString());
         }
     }
 

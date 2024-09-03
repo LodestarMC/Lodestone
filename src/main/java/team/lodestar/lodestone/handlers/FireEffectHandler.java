@@ -5,15 +5,11 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.neoforged.neoforge.network.PacketDistributor;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePayload;
-import team.lodestar.lodestone.networkold.ClearFireEffectInstancePacket;
-import team.lodestar.lodestone.registry.client.LodestoneFireEffectRendererRegistry;
 import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
-import team.lodestar.lodestone.registry.common.LodestonePayloadRegistry;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectInstance;
 import team.lodestar.lodestone.systems.fireeffect.FireEffectRenderer;
 

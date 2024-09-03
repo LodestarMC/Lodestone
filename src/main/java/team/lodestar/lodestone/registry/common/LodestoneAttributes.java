@@ -17,11 +17,11 @@ import java.util.function.Supplier;
 import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 /**
- * The attribute registry, {@link LodestoneAttributeRegistry#UUIDS} contains randomly generated uuids for each attribute registered, allowing you to have a constant uuid you may apply to attribute values.
+ * The attribute registry, {@link LodestoneAttributes#UUIDS} contains randomly generated uuids for each attribute registered, allowing you to have a constant uuid you may apply to attribute values.
  * Attribute modifiers might not like this idea so much though.
  */
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
-public class LodestoneAttributeRegistry {
+public class LodestoneAttributes {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(BuiltInRegistries.ATTRIBUTE, LODESTONE);
     public static final HashMap<Supplier<Attribute>, UUID> UUIDS = new HashMap<>();
     public static final DeferredHolder<Attribute, Attribute> MAGIC_RESISTANCE = registerAttribute(ATTRIBUTES, LODESTONE, "magic_resistance", (id) -> new RangedAttribute(id, 0.0D, 0.0D, 2048.0D).setSyncable(true));

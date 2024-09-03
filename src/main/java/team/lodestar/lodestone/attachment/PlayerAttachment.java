@@ -30,7 +30,7 @@ public class PlayerAttachment implements INBTSerializable<CompoundTag> {
     public int leftClickTime;
 
     @Override
-    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+    public CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
         tag.putBoolean("firstTimeJoin", hasJoinedBefore);
         return tag;

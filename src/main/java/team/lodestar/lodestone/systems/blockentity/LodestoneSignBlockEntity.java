@@ -13,6 +13,6 @@ public class LodestoneSignBlockEntity extends SignBlockEntity {
 
     @Override
     public BlockEntityType<?> getType() {
-        return LodestoneBlockEntityRegistry.SIGN.get();
+        return LodestoneBlockEntities.SIGN.get();
     }
 }

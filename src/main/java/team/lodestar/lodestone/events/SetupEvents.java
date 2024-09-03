@@ -5,10 +5,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
-import team.lodestar.lodestone.registry.common.LodestoneArgumentTypeRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneCommandArgumentTypes;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class SetupEvents {
@@ -16,7 +15,7 @@ public class SetupEvents {
     @SubscribeEvent
     public static void registerCommon(FMLCommonSetupEvent event) {
         PlacementAssistantHandler.registerPlacementAssistants(event);
-        LodestoneArgumentTypeRegistry.registerArgumentTypes();
+        LodestoneCommandArgumentTypes.registerArgumentTypes();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

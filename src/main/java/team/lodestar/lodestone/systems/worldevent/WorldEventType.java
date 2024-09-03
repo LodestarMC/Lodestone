@@ -2,7 +2,7 @@ package team.lodestar.lodestone.systems.worldevent;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import team.lodestar.lodestone.registry.client.LodestoneWorldEventRendererRegistry;
+import team.lodestar.lodestone.registry.client.LodestoneWorldEventRenderers;
 
 public class WorldEventType {
 
@@ -97,7 +97,7 @@ public class WorldEventType {
          */
         public WorldEventType build() {
             WorldEventType type = new WorldEventType(this.id, this.supplier, this.clientSynced);
-            LodestoneWorldEventRendererRegistry.registerRenderer(type, this.renderer);
+            LodestoneWorldEventRenderers.registerRenderer(type, this.renderer);
             return type;
         }
     }

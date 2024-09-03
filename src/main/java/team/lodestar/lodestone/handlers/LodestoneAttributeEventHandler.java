@@ -2,16 +2,13 @@ package team.lodestar.lodestone.handlers;
 
 import net.minecraft.core.*;
 import net.minecraft.core.registries.*;
-import net.minecraft.resources.*;
 import net.minecraft.world.damagesource.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.level.*;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneAttributes;
 import team.lodestar.lodestone.registry.common.tag.*;
-
-import javax.annotation.*;
 
 /**
  * A handler for common attributes I use in my mods.
@@ -25,12 +22,12 @@ public class LodestoneAttributeEventHandler {
         if (source.typeHolder().is(LodestoneDamageTypeTags.IS_MAGIC)) {
             float amount = event.getOriginalDamage();
             if (source.getEntity() instanceof LivingEntity attacker) {
-                AttributeInstance magicProficiency = attacker.getAttribute(LodestoneAttributeRegistry.MAGIC_PROFICIENCY);
+                AttributeInstance magicProficiency = attacker.getAttribute(LodestoneAttributes.MAGIC_PROFICIENCY);
                 if (magicProficiency != null && magicProficiency.getValue() > 0) {
                     amount *= (float) (1 + magicProficiency.getValue() * 0.1f);
                 }
             }
-            AttributeInstance magicResistance = target.getAttribute(LodestoneAttributeRegistry.MAGIC_RESISTANCE);
+            AttributeInstance magicResistance = target.getAttribute(LodestoneAttributes.MAGIC_RESISTANCE);
             if (magicResistance != null && magicResistance.getValue() > 0) {
                 amount *= (float) applyMagicResistance(magicResistance.getValue());
             }
@@ -38,7 +35,7 @@ public class LodestoneAttributeEventHandler {
         }
         if (source.getEntity() instanceof LivingEntity attacker) {
             if (!source.typeHolder().is(LodestoneDamageTypeTags.IS_MAGIC)) {
-                AttributeInstance magicDamage = attacker.getAttribute(LodestoneAttributeRegistry.MAGIC_DAMAGE);
+                AttributeInstance magicDamage = attacker.getAttribute(LodestoneAttributes.MAGIC_DAMAGE);
                 if (magicDamage != null) {
                     if (magicDamage.getValue() > 0 && !target.isDeadOrDying()) {
                         final Level level = source.getEntity().level();

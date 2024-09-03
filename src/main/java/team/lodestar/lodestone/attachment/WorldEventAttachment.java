@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.UnknownNullability;
-import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypes;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
@@ -39,7 +39,7 @@ public class WorldEventAttachment implements INBTSerializable<CompoundTag> {
         int worldEventCount = worldTag.getInt("worldEventCount");
         for (int i = 0; i < worldEventCount; i++) {
             CompoundTag instanceTag = worldTag.getCompound("worldEvent_" + i);
-            WorldEventType reader = LodestoneWorldEventTypeRegistry.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(instanceTag.getString("type")));
+            WorldEventType reader = LodestoneWorldEventTypes.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(instanceTag.getString("type")));
             WorldEventInstance eventInstance = reader.createInstance(instanceTag);
             activeWorldEvents.add(eventInstance);
         }

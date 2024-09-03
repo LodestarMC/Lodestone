@@ -29,7 +29,7 @@ public class MultiBlockComponentEntity extends LodestoneBlockEntity {
     }
 
     public MultiBlockComponentEntity(BlockPos pos, BlockState state) {
-        super(LodestoneBlockEntityRegistry.MULTIBLOCK_COMPONENT.get(), pos, state);
+        super(LodestoneBlockEntities.MULTIBLOCK_COMPONENT.get(), pos, state);
     }
 
     @Override

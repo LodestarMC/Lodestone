@@ -10,6 +10,6 @@ import team.lodestar.lodestone.systems.block.LodestoneEntityBlock;
 public class MultiblockComponentBlock extends LodestoneEntityBlock<MultiBlockComponentEntity> implements ILodestoneMultiblockComponent {
     public MultiblockComponentBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        setBlockEntity(LodestoneBlockEntityRegistry.MULTIBLOCK_COMPONENT);
+        setBlockEntity(LodestoneBlockEntities.MULTIBLOCK_COMPONENT);
     }
 }

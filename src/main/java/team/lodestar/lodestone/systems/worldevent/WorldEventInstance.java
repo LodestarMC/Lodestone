@@ -9,9 +9,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.ApiStatus;
 import team.lodestar.lodestone.network.worldevent.SyncWorldEventPayload;
-import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPayload;
-import team.lodestar.lodestone.networkold.worldevent.SyncWorldEventPacket;
-import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypes;
 
 import java.util.UUID;
 
@@ -88,7 +86,7 @@ public abstract class WorldEventInstance {
     @ApiStatus.Internal
     public WorldEventInstance deserializeNBT(CompoundTag tag) {
         uuid = tag.getUUID("uuid");
-        type = LodestoneWorldEventTypeRegistry.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(tag.getString("type")));
+        type = LodestoneWorldEventTypes.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(tag.getString("type")));
         discarded = tag.getBoolean("discarded");
         frozen = tag.getBoolean("frozen");
         this.readAdditionalSaveData(tag);

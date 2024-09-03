@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 
-public class LodestoneBlockEntityRegistry {
+public class LodestoneBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, LODESTONE);
 
     public static final Supplier<BlockEntityType<MultiBlockComponentEntity>> MULTIBLOCK_COMPONENT = BLOCK_ENTITY_TYPES.register("multiblock_component", () -> BlockEntityType.Builder.of(MultiBlockComponentEntity::new, getBlocks(ILodestoneMultiblockComponent.class)).build(null));

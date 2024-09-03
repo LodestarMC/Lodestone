@@ -12,8 +12,6 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
-import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.registry.client.*;
 import team.lodestar.lodestone.systems.rendering.*;
 import team.lodestar.lodestone.systems.rendering.rendeertype.*;
@@ -26,24 +24,24 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
     public static final Function<LodestoneWorldParticleRenderType, LodestoneWorldParticleRenderType> DEPTH_FADE = Util.memoize(LodestoneWorldParticleRenderType::addDepthFade);
 
     public static final LodestoneWorldParticleRenderType ADDITIVE = new LodestoneWorldParticleRenderType(
-            LodestoneRenderTypeRegistry.ADDITIVE_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
-            LodestoneRenderTypeRegistry.ADDITIVE_FUNCTION);
+            LodestoneRenderTypes.ADDITIVE_PARTICLE, LodestoneShaders.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
+            LodestoneRenderTypes.ADDITIVE_FUNCTION);
 
     public static final LodestoneWorldParticleRenderType TRANSPARENT = new LodestoneWorldParticleRenderType(
-            LodestoneRenderTypeRegistry.TRANSPARENT_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
-            LodestoneRenderTypeRegistry.TRANSPARENT_FUNCTION);
+            LodestoneRenderTypes.TRANSPARENT_PARTICLE, LodestoneShaders.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
+            LodestoneRenderTypes.TRANSPARENT_FUNCTION);
 
     public static final LodestoneWorldParticleRenderType LUMITRANSPARENT = new LodestoneWorldParticleRenderType(
-            LodestoneRenderTypeRegistry.LUMITRANSPARENT_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
-            LodestoneRenderTypeRegistry.TRANSPARENT_FUNCTION);
+            LodestoneRenderTypes.LUMITRANSPARENT_PARTICLE, LodestoneShaders.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
+            LodestoneRenderTypes.TRANSPARENT_FUNCTION);
 
     public static final LodestoneWorldParticleRenderType TERRAIN_SHEET = new LodestoneWorldParticleRenderType(
-            LodestoneRenderTypeRegistry.TRANSPARENT_BLOCK_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
-            LodestoneRenderTypeRegistry.TRANSPARENT_FUNCTION);
+            LodestoneRenderTypes.TRANSPARENT_BLOCK_PARTICLE, LodestoneShaders.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
+            LodestoneRenderTypes.TRANSPARENT_FUNCTION);
 
     public static final LodestoneWorldParticleRenderType ADDITIVE_TERRAIN_SHEET = new LodestoneWorldParticleRenderType(
-            LodestoneRenderTypeRegistry.ADDITIVE_BLOCK_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
-            LodestoneRenderTypeRegistry.ADDITIVE_FUNCTION);
+            LodestoneRenderTypes.ADDITIVE_BLOCK_PARTICLE, LodestoneShaders.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
+            LodestoneRenderTypes.ADDITIVE_FUNCTION);
 
     public final LodestoneRenderType renderType;
     protected final Supplier<ShaderInstance> shader;
@@ -92,7 +90,7 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
     }
 
     private static LodestoneWorldParticleRenderType addDepthFade(LodestoneWorldParticleRenderType original) {
-        final LodestoneRenderType renderType = LodestoneRenderTypeRegistry.copyAndStore(original, original.renderType, original.equals(LUMITRANSPARENT) ? ShaderUniformHandler.LUMITRANSPARENT_DEPTH_FADE : ShaderUniformHandler.DEPTH_FADE);
+        final LodestoneRenderType renderType = LodestoneRenderTypes.copyAndStore(original, original.renderType, original.equals(LUMITRANSPARENT) ? ShaderUniformHandler.LUMITRANSPARENT_DEPTH_FADE : ShaderUniformHandler.DEPTH_FADE);
         return new LodestoneWorldParticleRenderType(renderType, original.shader, original.texture, original.blendFunction);
     }
 

@@ -8,7 +8,7 @@ import team.lodestar.lodestone.recipe.NBTCarryRecipe;
 
 import java.util.function.Supplier;
 
-public class LodestoneRecipeSerializerRegistry {
+public class LodestoneRecipeSerializers {
 
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, LodestoneLib.LODESTONE);
 

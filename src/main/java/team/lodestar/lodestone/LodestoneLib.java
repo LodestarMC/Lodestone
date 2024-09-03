@@ -28,12 +28,12 @@ public class LodestoneLib {
         IEventBus forgeBus = NeoForge.EVENT_BUS;
         ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
 
-        LodestoneBlockEntityRegistry.BLOCK_ENTITY_TYPES.register(modBus);
-        LodestoneParticleRegistry.PARTICLES.register(modBus);
-        LodestoneAttributeRegistry.ATTRIBUTES.register(modBus);
-        LodestoneRecipeSerializerRegistry.RECIPE_SERIALIZERS.register(modBus);
+        LodestoneBlockEntities.BLOCK_ENTITY_TYPES.register(modBus);
+        LodestoneParticleTypes.PARTICLES.register(modBus);
+        LodestoneAttributes.ATTRIBUTES.register(modBus);
+        LodestoneRecipeSerializers.RECIPE_SERIALIZERS.register(modBus);
         LodestoneAttachmentTypes.ATTACHMENT_TYPES.register(modBus);
-        LodestoneArgumentTypeRegistry.register(modBus);
+        LodestoneCommandArgumentTypes.register(modBus);
 
         CuriosCompat.init();
 

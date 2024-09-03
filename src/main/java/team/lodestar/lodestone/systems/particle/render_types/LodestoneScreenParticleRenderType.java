@@ -21,7 +21,7 @@ public interface LodestoneScreenParticleRenderType {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            RenderSystem.setShader(LodestoneShaderRegistry.SCREEN_PARTICLE.getInstance());
+            RenderSystem.setShader(LodestoneShaders.SCREEN_PARTICLE.getInstance());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         }
@@ -39,7 +39,7 @@ public interface LodestoneScreenParticleRenderType {
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
-            RenderSystem.setShader(LodestoneShaderRegistry.SCREEN_PARTICLE.getInstance());
+            RenderSystem.setShader(LodestoneShaders.SCREEN_PARTICLE.getInstance());
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
@@ -59,7 +59,7 @@ public interface LodestoneScreenParticleRenderType {
         public void begin(BufferBuilder builder, TextureManager manager) {
             RenderSystem.depthMask(false);
             RenderSystem.enableBlend();
-            Supplier<ShaderInstance> instance = LodestoneShaderRegistry.SCREEN_PARTICLE.getInstance();
+            Supplier<ShaderInstance> instance = LodestoneShaders.SCREEN_PARTICLE.getInstance();
             RenderSystem.setShader(instance);
             instance.get().safeGetUniform("LumiTransparency").set(1f);
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
@@ -73,7 +73,7 @@ public interface LodestoneScreenParticleRenderType {
             RenderSystem.depthMask(true);
             RenderSystem.disableBlend();
             RenderSystem.defaultBlendFunc();
-            Supplier<ShaderInstance> instance = LodestoneShaderRegistry.SCREEN_PARTICLE.getInstance();
+            Supplier<ShaderInstance> instance = LodestoneShaders.SCREEN_PARTICLE.getInstance();
             instance.get().safeGetUniform("LumiTransparency").set(0f);
         }
     };

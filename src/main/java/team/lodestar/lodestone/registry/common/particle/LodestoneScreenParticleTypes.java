@@ -11,7 +11,7 @@ import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticleTy
 
 import java.util.ArrayList;
 
-public class LodestoneScreenParticleRegistry {
+public class LodestoneScreenParticleTypes {
 
     public static final ArrayList<ScreenParticleType<?>> PARTICLE_TYPES = new ArrayList<>();
     public static final ScreenParticleType<ScreenParticleOptions> WISP = registerType(new LodestoneScreenParticleType());

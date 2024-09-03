@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneAttributes;
 
 import java.util.Map;
 
@@ -31,7 +31,7 @@ public class ItemStackMixin {
     @ModifyVariable(method = "getTooltipLines", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getOperation()Lnet/minecraft/world/entity/ai/attributes/AttributeModifier$Operation;", ordinal = 0), index = 16)
     private boolean lodestone$getTooltip(boolean value, @Nullable Player player, TooltipFlag flag) {
         if (player != null) {
-            if (lodestone$attributeModifier.getId().equals(LodestoneAttributeRegistry.UUIDS.get(LodestoneAttributeRegistry.MAGIC_DAMAGE))) {
+            if (lodestone$attributeModifier.getId().equals(LodestoneAttributes.UUIDS.get(LodestoneAttributes.MAGIC_DAMAGE))) {
                 return true;
             }
         }
@@ -46,8 +46,8 @@ public class ItemStackMixin {
                 Attribute key = entry.getKey();
                 AttributeModifier modifier = entry.getValue();
                 double amount = modifier.getAmount();
-                if (modifier.getId().equals(LodestoneAttributeRegistry.UUIDS.get(LodestoneAttributeRegistry.MAGIC_DAMAGE))) {
-                    AttributeInstance instance = player.getAttribute(LodestoneAttributeRegistry.MAGIC_PROFICIENCY.get());
+                if (modifier.getId().equals(LodestoneAttributes.UUIDS.get(LodestoneAttributes.MAGIC_DAMAGE))) {
+                    AttributeInstance instance = player.getAttribute(LodestoneAttributes.MAGIC_PROFICIENCY.get());
                     if (instance != null && instance.getValue() > 0) {
                         amount *= (1 + instance.getValue() * 0.1f);
                     }

@@ -1,10 +1,8 @@
 package team.lodestar.lodestone.systems.rendering;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.renderer.RenderStateShard;
 import team.lodestar.lodestone.registry.client.*;
-import team.lodestar.lodestone.systems.particle.render_types.*;
 
 public class StateShards extends RenderStateShard {
 
@@ -14,7 +12,7 @@ public class StateShards extends RenderStateShard {
 
     public static final TransparencyStateShard ADDITIVE_TRANSPARENCY = new TransparencyStateShard("additive_transparency", () -> {
         RenderSystem.enableBlend();
-        LodestoneRenderTypeRegistry.ADDITIVE_FUNCTION.run();
+        LodestoneRenderTypes.ADDITIVE_FUNCTION.run();
     }, () -> {
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
@@ -22,7 +20,7 @@ public class StateShards extends RenderStateShard {
 
     public static final TransparencyStateShard NORMAL_TRANSPARENCY = new TransparencyStateShard("normal_transparency", () -> {
         RenderSystem.enableBlend();
-        LodestoneRenderTypeRegistry.TRANSPARENT_FUNCTION.run();
+        LodestoneRenderTypes.TRANSPARENT_FUNCTION.run();
     }, () -> {
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();

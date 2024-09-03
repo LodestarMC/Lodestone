@@ -12,7 +12,7 @@ import team.lodestar.lodestone.systems.worldgen.ChancePlacementFilter;
 import team.lodestar.lodestone.systems.worldgen.DimensionPlacementFilter;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
-public class LodestonePlacementFillerRegistry {
+public class LodestonePlacementFillers {
 
     public static PlacementModifierType<ChancePlacementFilter> CHANCE;
     public static PlacementModifierType<DimensionPlacementFilter> DIMENSION;

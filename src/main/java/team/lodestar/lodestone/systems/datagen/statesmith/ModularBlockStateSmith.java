@@ -49,7 +49,7 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
             stateSupplier.act(blockClass.cast(block), data.provider, actor, modelFileSupplier);
             itemModelSmith.act(block::asItem, data.provider.itemModelProvider);
         } else {
-            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + ForgeRegistries.BLOCKS.getKey(block));
+            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: " + registryObject.get().toString());
         }
     }
 

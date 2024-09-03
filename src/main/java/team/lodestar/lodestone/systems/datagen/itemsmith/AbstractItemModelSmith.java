@@ -8,13 +8,4 @@ import java.util.function.Supplier;
 
 public abstract class AbstractItemModelSmith {
 
-    public static class ItemModelSmithData {
-        public final LodestoneItemModelProvider provider;
-        public final Consumer<Supplier<? extends Item>> consumer;
-
-        public ItemModelSmithData(LodestoneItemModelProvider provider, Consumer<Supplier<? extends Item>> consumer) {
-            this.provider = provider;
-            this.consumer = consumer;
-        }
-    }
 }

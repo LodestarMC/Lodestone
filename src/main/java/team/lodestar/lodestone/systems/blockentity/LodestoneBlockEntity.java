@@ -33,7 +33,6 @@ public class LodestoneBlockEntity extends BlockEntity {
     }
 
     public void onBreak(@Nullable Player player) {
-        invalidateCaps();
     }
 
     public void onPlace(LivingEntity placer, ItemStack stack) {

@@ -12,7 +12,7 @@ import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
 
 import java.util.function.Supplier;
 
-public class LodestoneArgumentTypeRegistry {
+public class LodestoneCommandArgumentTypes {
     public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(BuiltInRegistries.COMMAND_ARGUMENT_TYPE, LodestoneLib.LODESTONE);
 
     public static final Supplier<ArgumentTypeInfo<WorldEventTypeArgument,?>> WORLD_EVENT_TYPE_ARG = COMMAND_ARGUMENT_TYPES.register("world_event_type_arg", () -> SingletonArgumentInfo.contextFree(WorldEventTypeArgument::worldEventType));

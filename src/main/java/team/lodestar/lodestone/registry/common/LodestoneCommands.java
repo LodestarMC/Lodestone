@@ -12,7 +12,7 @@ import team.lodestar.lodestone.command.*;
 import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
-public class LodestoneCommandRegistry {
+public class LodestoneCommands {
 
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
@@ -26,16 +26,8 @@ public class LodestoneCommandRegistry {
                                 .then(FreezeActiveWorldEventsCommand.register())
                                 .then(UnfreezeActiveWorldEventsCommand.register())
                         )
-                //.then(ScreenshakeCommand.register())
         );
         dispatcher.register(Commands.literal(LODESTONE)
                 .redirect(cmd));
     }
-
-    /*TODO
-    public static <T extends ArgumentType<?>> void registerArgumentType(ResourceLocation key, Class<T> argumentClass, ArgumentSerializer<T> serializer) {
-        ArgumentTypes.register(key.toString(), argumentClass, serializer);
-    }
-
-     */
 }

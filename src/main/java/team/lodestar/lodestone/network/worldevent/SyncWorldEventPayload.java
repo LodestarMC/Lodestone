@@ -9,7 +9,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import team.lodestar.lodestone.handlers.WorldEventHandler;
-import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypes;
 import team.lodestar.lodestone.systems.network.OneSidedPayloadData;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
@@ -29,7 +29,7 @@ public class SyncWorldEventPayload extends OneSidedPayloadData {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void handle(IPayloadContext context) {
-        WorldEventType eventType = LodestoneWorldEventTypeRegistry.WORLD_EVENT_TYPE_REGISTRY.get(type);
+        WorldEventType eventType = LodestoneWorldEventTypes.WORLD_EVENT_TYPE_REGISTRY.get(type);
         ClientLevel level = Minecraft.getInstance().level;
         WorldEventHandler.addWorldEvent(level, start, eventType.createInstance(eventData));
     }

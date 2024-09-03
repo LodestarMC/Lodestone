@@ -5,7 +5,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import team.lodestar.lodestone.helpers.DataHelper;
-import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneAttributes;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +19,7 @@ public class LodestoneLangDatagen extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        Set<DeferredHolder<Attribute, ? extends Attribute>> attributes = new HashSet<>(LodestoneAttributeRegistry.ATTRIBUTES.getEntries());
+        Set<DeferredHolder<Attribute, ? extends Attribute>> attributes = new HashSet<>(LodestoneAttributes.ATTRIBUTES.getEntries());
 
         attributes.forEach(a -> {
             String name = DataHelper.toTitleCase(a.getId().getPath(), "_");

@@ -4,14 +4,14 @@ import net.minecraft.network.*;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-import team.lodestar.lodestone.registry.common.LodestonePayloadRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneNetworkPayloads;
 
 public abstract class LodestoneNetworkPayloadData implements CustomPacketPayload {
 
     public final CustomPacketPayload.Type<? extends LodestoneNetworkPayloadData> dataType;
 
     public LodestoneNetworkPayloadData(FriendlyByteBuf byteBuf) {
-        this.dataType = LodestonePayloadRegistry.CHANNEL_MAP.get(byteBuf.readUtf()).getPayloadType(byteBuf.readUtf());
+        this.dataType = LodestoneNetworkPayloads.CHANNEL_MAP.get(byteBuf.readUtf()).getPayloadType(byteBuf.readUtf());
     }
 
     @Override

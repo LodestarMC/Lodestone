@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 import team.lodestar.lodestone.handlers.WorldEventHandler;
-import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypeRegistry;
+import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypes;
 import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
@@ -36,7 +36,7 @@ public class SyncWorldEventPacket extends LodestoneClientPacket {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void execute(Supplier<NetworkEvent.Context> context) {
-        WorldEventType eventType = LodestoneWorldEventTypeRegistry.EVENT_TYPES.get(type);
+        WorldEventType eventType = LodestoneWorldEventTypes.EVENT_TYPES.get(type);
         ClientLevel level = Minecraft.getInstance().level;
         WorldEventHandler.addWorldEvent(level, start, eventType.createInstance(eventData));
     }
