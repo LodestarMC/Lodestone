@@ -5,12 +5,16 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import team.lodestar.lodestone.attachment.WorldEventAttachment;
 import team.lodestar.lodestone.command.arguments.WorldEventInstanceArgument;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
+import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public class FreezeActiveWorldEventsCommand {
 
@@ -22,17 +26,18 @@ public class FreezeActiveWorldEventsCommand {
                 .requires(cs -> cs.hasPermission(2))
                 .then(Commands.literal("all")
                         .executes(ctx -> {
-                            LodestoneWorldDataAttachment.getCapabilityOptional(ctx.getSource().getLevel()).ifPresent(c -> {
-                                List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents;
-                                List<WorldEventInstance> notCurrentlyFrozen = activeWorldEvents.stream().filter(event -> !event.isFrozen()).toList();
-                                if (notCurrentlyFrozen.isEmpty()) {
-                                    ctx.getSource().sendFailure(Component.translatable("command.lodestone.worldevent.freeze.all.fail").withStyle(ChatFormatting.RED));
-                                } else {
-                                    notCurrentlyFrozen.forEach(instance -> instance.frozen = true);
-                                    notCurrentlyFrozen.forEach(WorldEventInstance::setDirty);
-                                    ctx.getSource().sendSuccess(() -> Component.translatable("command.lodestone.worldevent.freeze.all.success", notCurrentlyFrozen.size()).withStyle(ChatFormatting.AQUA), true);
-                                }
-                            });
+                            CommandSourceStack source = ctx.getSource();
+                            ServerLevel level = source.getLevel();
+                            WorldEventAttachment data = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
+                            List<WorldEventInstance> activeWorldEvents = data.activeWorldEvents;
+                            List<WorldEventInstance> notCurrentlyFrozen = activeWorldEvents.stream().filter(event -> !event.isFrozen()).toList();
+                            if (notCurrentlyFrozen.isEmpty()) {
+                                ctx.getSource().sendFailure(Component.translatable("command.lodestone.worldevent.freeze.all.fail").withStyle(ChatFormatting.RED));
+                            } else {
+                                notCurrentlyFrozen.forEach(instance -> instance.frozen = true);
+                                notCurrentlyFrozen.forEach(WorldEventInstance::setDirty);
+                                ctx.getSource().sendSuccess(() -> Component.translatable("command.lodestone.worldevent.freeze.all.success", notCurrentlyFrozen.size()).withStyle(ChatFormatting.AQUA), true);
+                            }
                             return 1;
                         })
                 )
@@ -55,17 +60,16 @@ public class FreezeActiveWorldEventsCommand {
                                 .then(Commands.argument("type", WorldEventTypeArgument.worldEventType())
                                         .executes(ctx -> {
                                             WorldEventType type = WorldEventTypeArgument.getEventType(ctx, "type");
-                                            LodestoneWorldDataAttachment.getCapabilityOptional(ctx.getSource().getLevel()).ifPresent(c -> {
-                                                List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
-                                                List<WorldEventInstance> notCurrentlyFrozen = activeWorldEvents.stream().filter(event -> !event.isFrozen()).toList();
-                                                if (notCurrentlyFrozen.isEmpty()) {
-                                                    ctx.getSource().sendFailure(Component.translatable("command.lodestone.worldevent.freeze.type.fail", type.id.toString()).withStyle(ChatFormatting.RED));
-                                                } else {
-                                                    notCurrentlyFrozen.forEach(instance -> instance.frozen = true);
-                                                    notCurrentlyFrozen.forEach(WorldEventInstance::setDirty);
-                                                    ctx.getSource().sendSuccess(() -> Component.translatable("command.lodestone.worldevent.freeze.type.success", notCurrentlyFrozen.size(), type.id.toString()).withStyle(ChatFormatting.AQUA), true);
-                                                }
-                                            });
+                                            WorldEventAttachment data = ctx.getSource().getLevel().getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
+                                            List<WorldEventInstance> activeWorldEvents = data.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
+                                            List<WorldEventInstance> notCurrentlyFrozen = activeWorldEvents.stream().filter(event -> !event.isFrozen()).toList();
+                                            if (notCurrentlyFrozen.isEmpty()) {
+                                                ctx.getSource().sendFailure(Component.translatable("command.lodestone.worldevent.freeze.type.fail", type.id.toString()).withStyle(ChatFormatting.RED));
+                                            } else {
+                                                notCurrentlyFrozen.forEach(instance -> instance.frozen = true);
+                                                notCurrentlyFrozen.forEach(WorldEventInstance::setDirty);
+                                                ctx.getSource().sendSuccess(() -> Component.translatable("command.lodestone.worldevent.freeze.type.success", notCurrentlyFrozen.size(), type.id.toString()).withStyle(ChatFormatting.AQUA), true);
+                                            }
                                             return 1;
                                         })
                                 )

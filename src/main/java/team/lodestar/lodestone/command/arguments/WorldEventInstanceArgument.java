@@ -17,6 +17,8 @@ import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
+import team.lodestar.lodestone.attachment.WorldEventAttachment;
+import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
 import java.util.Set;
@@ -59,11 +61,11 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
                     if (levelResourceKey == null) return;
                     Level level = server.getLevel(levelResourceKey);
                     if (level == null) return;
-                    LodestoneWorldDataAttachment.getCapabilityOptional(level).ifPresent(capability -> capability.activeWorldEvents.forEach(worldEventInstance -> {
-                        if (worldEventInstance.uuid.equals(uuid)) {
-                            eventInstance.set(worldEventInstance);
-                        }
-                    }));
+                    WorldEventAttachment data = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
+                    data.activeWorldEvents.stream()
+                            .filter(worldEventInstance -> worldEventInstance.uuid.equals(uuid))
+                            .findFirst()
+                            .ifPresent(eventInstance::set);
                 });
                 if (eventInstance.get() == null) {
                     throw ERROR_UNKNOWN_WORLD_EVENT_INSTANCE.create(uuid);
@@ -86,10 +88,9 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
                 if (levelResourceKey == null) return;
                 Level level = Minecraft.getInstance().level;
                 if (level == null) return;
-                LodestoneWorldDataAttachment.getCapabilityOptional(level).ifPresent(capability -> {
-                    capability.activeWorldEvents.forEach(worldEventInstance -> {
-                        builder.suggest(worldEventInstance.uuid.toString());
-                    });
+                WorldEventAttachment data = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
+                data.activeWorldEvents.forEach(worldEventInstance -> {
+                    builder.suggest(worldEventInstance.uuid.toString());
                 });
             });
         }

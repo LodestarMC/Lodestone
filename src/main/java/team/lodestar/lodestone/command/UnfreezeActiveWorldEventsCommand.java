@@ -2,11 +2,14 @@ package team.lodestar.lodestone.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import team.lodestar.lodestone.attachment.WorldEventAttachment;
 import team.lodestar.lodestone.command.arguments.WorldEventInstanceArgument;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
+import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
@@ -23,17 +26,16 @@ public class UnfreezeActiveWorldEventsCommand {
                 // Unfreeze all active world events
                 .then(Commands.literal("all")
                         .executes(ctx -> {
-                            LodestoneWorldDataAttachment.getCapabilityOptional(ctx.getSource().getLevel()).ifPresent(c -> {
-                                List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents;
-                                List<WorldEventInstance> currentlyFrozen = activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).toList();
-                                if (currentlyFrozen.isEmpty()) {
-                                    ctx.getSource().sendFailure(Component.translatable("command.lodestone.worldevent.unfreeze.all.fail").withStyle(ChatFormatting.RED));
-                                } else {
-                                    currentlyFrozen.forEach(instance -> instance.frozen = false);
-                                    currentlyFrozen.forEach(WorldEventInstance::setDirty);
-                                    ctx.getSource().sendSuccess(() -> Component.translatable("command.lodestone.worldevent.unfreeze.all.success", currentlyFrozen.size()).withStyle(ChatFormatting.AQUA), true);
-                                }
-                            });
+                            WorldEventAttachment worldEventAttachment = ctx.getSource().getLevel().getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
+                            List<WorldEventInstance> activeWorldEvents = worldEventAttachment.activeWorldEvents;
+                            List<WorldEventInstance> currentlyFrozen = activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).toList();
+                            if (currentlyFrozen.isEmpty()) {
+                                ctx.getSource().sendFailure(Component.translatable("command.lodestone.worldevent.unfreeze.all.fail").withStyle(ChatFormatting.RED));
+                            } else {
+                                currentlyFrozen.forEach(instance -> instance.frozen = false);
+                                currentlyFrozen.forEach(WorldEventInstance::setDirty);
+                                ctx.getSource().sendSuccess(() -> Component.translatable("command.lodestone.worldevent.unfreeze.all.success", currentlyFrozen.size()).withStyle(ChatFormatting.AQUA), true);
+                            }
                             return 1;
                         })
                 )
@@ -58,17 +60,16 @@ public class UnfreezeActiveWorldEventsCommand {
                         .then(Commands.argument("type", WorldEventTypeArgument.worldEventType())
                                 .executes(ctx -> {
                                     WorldEventType type = WorldEventTypeArgument.getEventType(ctx, "type");
-                                    LodestoneWorldDataAttachment.getCapabilityOptional(ctx.getSource().getLevel()).ifPresent(c -> {
-                                        List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
-                                        List<WorldEventInstance> currentlyFrozen = activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).toList();
-                                        if (currentlyFrozen.isEmpty()) {
-                                            ctx.getSource().sendFailure(Component.translatable("command.lodestone.worldevent.unfreeze.type.fail", type.id.toString()).withStyle(ChatFormatting.RED));
-                                        } else {
-                                            currentlyFrozen.forEach(instance -> instance.frozen = false);
-                                            currentlyFrozen.forEach(WorldEventInstance::setDirty);
-                                            ctx.getSource().sendSuccess(() -> Component.translatable("command.lodestone.worldevent.unfreeze.type.success", currentlyFrozen.size(), type.id.toString()).withStyle(ChatFormatting.AQUA), true);
-                                        }
-                                    });
+                                    WorldEventAttachment worldEventAttachment = ctx.getSource().getLevel().getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
+                                    List<WorldEventInstance> activeWorldEvents = worldEventAttachment.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
+                                    List<WorldEventInstance> currentlyFrozen = activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).toList();
+                                    if (currentlyFrozen.isEmpty()) {
+                                        ctx.getSource().sendFailure(Component.translatable("command.lodestone.worldevent.unfreeze.type.fail", type.id.toString()).withStyle(ChatFormatting.RED));
+                                    } else {
+                                        currentlyFrozen.forEach(instance -> instance.frozen = false);
+                                        currentlyFrozen.forEach(WorldEventInstance::setDirty);
+                                        ctx.getSource().sendSuccess(() -> Component.translatable("command.lodestone.worldevent.unfreeze.type.success", currentlyFrozen.size(), type.id.toString()).withStyle(ChatFormatting.AQUA), true);
+                                    }
                                     return 1;
                                 })
                         )

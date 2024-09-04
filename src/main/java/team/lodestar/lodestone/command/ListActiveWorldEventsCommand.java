@@ -8,7 +8,9 @@ import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.*;
 import net.minecraft.server.level.ServerLevel;
+import team.lodestar.lodestone.attachment.WorldEventAttachment;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
+import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
@@ -67,19 +69,17 @@ public class ListActiveWorldEventsCommand {
         private List<WorldEventInstance> activeWorldEvents;
 
         protected ActiveWorldEventReport(ServerLevel level) {
-            LodestoneWorldDataAttachment.getCapabilityOptional(level).ifPresent(c -> {
-                instanceCount = c.activeWorldEvents.size();
-                frozenCount = (int) c.activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).count();
-                activeWorldEvents = c.activeWorldEvents;
-            });
+            WorldEventAttachment data = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
+            instanceCount = data.activeWorldEvents.size();
+            frozenCount = (int) data.activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).count();
+            activeWorldEvents = data.activeWorldEvents;
         }
 
         protected ActiveWorldEventReport(ServerLevel level, WorldEventType worldEventType) {
-            LodestoneWorldDataAttachment.getCapabilityOptional(level).ifPresent(c -> {
-                instanceCount = (int) c.activeWorldEvents.stream().filter(worldEventInstance -> worldEventInstance.type.equals(worldEventType)).count();
-                frozenCount = (int) c.activeWorldEvents.stream().filter(worldEventInstance -> worldEventInstance.type.equals(worldEventType) && worldEventInstance.isFrozen()).count();
-                activeWorldEvents = c.activeWorldEvents;
-            });
+            WorldEventAttachment data = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
+            instanceCount = (int) data.activeWorldEvents.stream().filter(worldEventInstance -> worldEventInstance.type.equals(worldEventType)).count();
+            frozenCount = (int) data.activeWorldEvents.stream().filter(worldEventInstance -> worldEventInstance.type.equals(worldEventType) && worldEventInstance.isFrozen()).count();
+            activeWorldEvents = data.activeWorldEvents;
         }
 
         private void buildInteractiveMessage(Consumer<Component> consumer, int page) {
