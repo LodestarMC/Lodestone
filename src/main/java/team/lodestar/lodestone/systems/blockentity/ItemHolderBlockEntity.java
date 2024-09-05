@@ -22,7 +22,7 @@ public abstract class ItemHolderBlockEntity extends LodestoneBlockEntity {
 
     @Override
     public InteractionResult onUse(Player player, InteractionHand hand) {
-        inventory.interact(this, player.level(), player, hand, s -> true);
+        inventory.interact(player.level(), player, hand);
         return InteractionResult.SUCCESS;
     }
 
