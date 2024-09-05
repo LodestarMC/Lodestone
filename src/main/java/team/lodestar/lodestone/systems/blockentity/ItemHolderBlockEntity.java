@@ -33,13 +33,13 @@ public abstract class ItemHolderBlockEntity extends LodestoneBlockEntity {
 
     @Override
     protected void saveAdditional(CompoundTag compound) {
-        compound.put("Inventory", inventory.serializeNBT());
+        inventory.save(compound);
         super.saveAdditional(compound);
     }
 
     @Override
     public void load(CompoundTag compound) {
-        inventory.deserializeNBT(compound.getCompound("Inventory"));
+        inventory.load(compound);
         super.load(compound);
     }
 }
