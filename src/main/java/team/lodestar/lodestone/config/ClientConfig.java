@@ -23,6 +23,10 @@ public class ClientConfig extends LodestoneConfig {
             builder.comment("Are screen particles enabled?")
                     .define("enable_screen_particles", true));
 
+    public static ConfigValueHolder<Double> LOD_DISTANCE_MULTIPLIER = new ConfigValueHolder<>(LODESTONE, "client/model", builder ->
+            builder.comment("Multiplier for the distance at which model levels of detail are rendered. Higher numbers increase the distance at which detailed models are rendered.")
+                    .defineInRange("lod_distance_multiplier", 1d, 0.1d, 10d));
+
     public ClientConfig(ModConfigSpec.Builder builder) {
         super(LODESTONE, "client", builder);
     }
