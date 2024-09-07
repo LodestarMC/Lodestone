@@ -29,7 +29,6 @@ public class UpdateWorldEventPayload extends OneSidedPayloadData {
     public void handle(IPayloadContext context) {
         ClientLevel level = Minecraft.getInstance().level;
         if (level != null) {
-
             var worldData = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
             for (WorldEventInstance instance : worldData.activeWorldEvents) {
                 if (instance.uuid.equals(uuid)) {

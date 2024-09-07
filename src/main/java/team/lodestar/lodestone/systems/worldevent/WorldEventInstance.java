@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.*;
 import team.lodestar.lodestone.network.worldevent.SyncWorldEventPayload;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypes;
 
@@ -71,9 +71,8 @@ public abstract class WorldEventInstance {
         return level;
     }
 
-    @Deprecated(since = "1.7.0")
     @ApiStatus.Internal
-    public CompoundTag serializeNBT(CompoundTag tag) {
+    public final CompoundTag serializeNBT(CompoundTag tag) {
         tag.putUUID("uuid", uuid);
         tag.putString("type", type.id.toString());
         tag.putBoolean("discarded", discarded);
@@ -82,9 +81,8 @@ public abstract class WorldEventInstance {
         return tag;
     }
 
-    @Deprecated(since = "1.7.0")
     @ApiStatus.Internal
-    public WorldEventInstance deserializeNBT(CompoundTag tag) {
+    public final WorldEventInstance deserializeNBT(CompoundTag tag) {
         uuid = tag.getUUID("uuid");
         type = LodestoneWorldEventTypes.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(tag.getString("type")));
         discarded = tag.getBoolean("discarded");
@@ -114,20 +112,20 @@ public abstract class WorldEventInstance {
     //Duplicate World Event to Client, Only Call once per world event instance
     @ApiStatus.Internal
     public static <T extends WorldEventInstance> void sync(T instance) {
-        var buf = new FriendlyByteBuf(Unpooled.buffer());
-        buf.writeResourceLocation(instance.type.id);
-        buf.writeBoolean(true);
-        buf.writeNbt(instance.serializeNBT(new CompoundTag()));
-        PacketDistributor.sendToServer(new SyncWorldEventPayload(buf));
+        sync(instance, null);
     }
 
     //Duplicate World Event to Client, Only Call once per world event instance
     @ApiStatus.Internal
-    public static <T extends WorldEventInstance> void sync(T instance, ServerPlayer player) {
+    public static <T extends WorldEventInstance> void sync(T instance, @Nullable ServerPlayer player) {
         var buf = new FriendlyByteBuf(Unpooled.buffer());
         buf.writeResourceLocation(instance.type.id);
         buf.writeBoolean(false);
         buf.writeNbt(instance.serializeNBT(new CompoundTag()));
-        PacketDistributor.sendToPlayer(player, new SyncWorldEventPayload(buf));
+        if (player != null) {
+            PacketDistributor.sendToPlayer(player, new SyncWorldEventPayload(buf));
+            return;
+        }
+        PacketDistributor.sendToServer(new SyncWorldEventPayload(buf));
     }
 }

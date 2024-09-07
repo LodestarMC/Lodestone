@@ -26,6 +26,6 @@ public class LodestonePlacementFillers {
     }
 
     public static <P extends PlacementModifier> PlacementModifierType<P> register(String name, Codec<P> codec) {
-        return Registry.register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, name, () -> codec);
+        return Registry.register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, name, ()->codec);
     }
 }

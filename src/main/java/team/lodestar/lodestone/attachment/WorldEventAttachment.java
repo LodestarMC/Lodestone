@@ -16,7 +16,6 @@ public class WorldEventAttachment implements INBTSerializable<CompoundTag> {
     public final ArrayList<WorldEventInstance> activeWorldEvents = new ArrayList<>();
     public final ArrayList<WorldEventInstance> inboundWorldEvents = new ArrayList<>();
 
-
     @Override
     public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();

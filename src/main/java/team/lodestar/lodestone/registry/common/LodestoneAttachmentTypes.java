@@ -4,8 +4,6 @@ import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.attachment.EntityAttachment;
-import team.lodestar.lodestone.attachment.PlayerAttachment;
 import team.lodestar.lodestone.attachment.WorldEventAttachment;
 
 import java.util.function.Supplier;

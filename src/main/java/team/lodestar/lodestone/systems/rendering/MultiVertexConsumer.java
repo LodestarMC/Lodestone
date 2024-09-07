@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.utils;
+package team.lodestar.lodestone.systems.rendering;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import org.jetbrains.annotations.NotNull;

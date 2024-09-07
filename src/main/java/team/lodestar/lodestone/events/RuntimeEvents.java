@@ -1,7 +1,5 @@
 package team.lodestar.lodestone.events;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -11,8 +9,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import team.lodestar.lodestone.attachment.EntityAttachment;
-import team.lodestar.lodestone.attachment.PlayerAttachment;
 import team.lodestar.lodestone.handlers.ItemEventHandler;
 import team.lodestar.lodestone.handlers.LodestoneAttributeEventHandler;
 import team.lodestar.lodestone.handlers.PlacementAssistantHandler;

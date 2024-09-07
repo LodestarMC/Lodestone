@@ -14,7 +14,7 @@ public class ScreenshakePayload extends OneSidedPayloadData {
 
     public int duration;
     public float intensity1, intensity2, intensity3;
-    public Easing intensityCurveStartEasing = Easing.LINEAR, intensityCurveEndEasing = Easing.LINEAR;
+    public Easing intensityCurveStartEasing, intensityCurveEndEasing;
 
     public ScreenshakePayload(FriendlyByteBuf byteBuf) {
         super(byteBuf);
