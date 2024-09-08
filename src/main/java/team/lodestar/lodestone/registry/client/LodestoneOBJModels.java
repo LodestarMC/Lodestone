@@ -6,8 +6,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.model.obj.lod.MultiLODModel;
-import team.lodestar.lodestone.systems.model.obj.ObjModel;
+import team.lodestar.lodestone.systems.model.objold.lod.MultiLODModel;
+import team.lodestar.lodestone.systems.model.objold.ObjModel;
 
 import java.util.ArrayList;
 import java.util.List;

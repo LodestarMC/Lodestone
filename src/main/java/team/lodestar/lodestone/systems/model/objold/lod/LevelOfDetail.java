@@ -1,6 +1,6 @@
-package team.lodestar.lodestone.systems.model.obj.lod;
+package team.lodestar.lodestone.systems.model.objold.lod;
 
-import team.lodestar.lodestone.systems.model.obj.ObjModel;
+import team.lodestar.lodestone.systems.model.objold.ObjModel;
 
 public class LevelOfDetail<T> {
     private final ObjModel model;

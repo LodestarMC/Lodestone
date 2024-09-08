@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.model.obj.lod;
+package team.lodestar.lodestone.systems.model.objold.lod;
 
 import net.minecraft.resources.ResourceLocation;
 

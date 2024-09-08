@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.model.obj;
+package team.lodestar.lodestone.systems.model.objold;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -10,7 +10,6 @@ import net.minecraft.world.phys.Vec2;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import team.lodestar.lodestone.handlers.RenderHandler;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package team.lodestar.lodestone.systems.model.obj.lod;
+package team.lodestar.lodestone.systems.model.objold.lod;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
-import team.lodestar.lodestone.systems.model.obj.ObjModel;
+import team.lodestar.lodestone.systems.model.objold.ObjModel;
 
 import java.util.ArrayList;
 import java.util.List;

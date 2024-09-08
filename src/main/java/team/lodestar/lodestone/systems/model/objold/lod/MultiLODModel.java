@@ -1,9 +1,9 @@
-package team.lodestar.lodestone.systems.model.obj.lod;
+package team.lodestar.lodestone.systems.model.objold.lod;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.RenderType;
 import org.joml.Vector3f;
-import team.lodestar.lodestone.systems.model.obj.ObjModel;
+import team.lodestar.lodestone.systems.model.objold.ObjModel;
 
 public class MultiLODModel extends ObjModel {
     private final LODStrategy<?> lodStrategy;
