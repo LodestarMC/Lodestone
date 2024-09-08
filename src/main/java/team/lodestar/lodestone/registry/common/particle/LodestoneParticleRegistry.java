@@ -2,9 +2,6 @@ package team.lodestar.lodestone.registry.common.particle;
 
 import io.github.fabricators_of_create.porting_lib.util.LazyRegistrar;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import team.lodestar.lodestone.LodestoneLib;
@@ -25,8 +22,8 @@ public class LodestoneParticleRegistry {
     public static final RegistryObject<LodestoneWorldParticleType> EXTRUDING_SPARK_PARTICLE = PARTICLES.register("extruding_spark", LodestoneWorldParticleType::new);
     public static final RegistryObject<LodestoneWorldParticleType> THIN_EXTRUDING_SPARK_PARTICLE = PARTICLES.register("thin_extruding_spark", LodestoneWorldParticleType::new);
 
-    public static final RegistryObject<LodestoneTerrainParticleType> TERRAIN_PARTICLE = PARTICLES.register("terrain" , LodestoneTerrainParticleType::new);
-    public static final RegistryObject<LodestoneItemCrumbsParticleType> ITEM_PARTICLE = PARTICLES.register("item" , LodestoneItemCrumbsParticleType::new);
+    public static final RegistryObject<LodestoneTerrainParticleType> TERRAIN_PARTICLE = PARTICLES.register("terrain", LodestoneTerrainParticleType::new);
+    public static final RegistryObject<LodestoneItemCrumbsParticleType> ITEM_PARTICLE = PARTICLES.register("item", LodestoneItemCrumbsParticleType::new);
 }
 
 /*

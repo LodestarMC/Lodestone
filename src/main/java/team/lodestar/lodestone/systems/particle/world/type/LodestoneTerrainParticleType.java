@@ -1,15 +1,11 @@
 package team.lodestar.lodestone.systems.particle.world.type;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.particles.ParticleType;
 import org.jetbrains.annotations.Nullable;
-import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.LodestoneTerrainParticle;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
+import team.lodestar.lodestone.systems.particle.world.options.LodestoneTerrainParticleOptions;
 
 
 public class LodestoneTerrainParticleType extends AbstractLodestoneParticleType<LodestoneTerrainParticleOptions> {

@@ -5,7 +5,6 @@ import me.pepperbell.simplenetworking.SimpleChannel;
 import net.fabricmc.api.EnvType;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.network.ClearFireEffectInstancePacket;
-import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
 import team.lodestar.lodestone.network.TotemOfUndyingEffectPacket;
 import team.lodestar.lodestone.network.interaction.ResetRightClickDelayPacket;
 import team.lodestar.lodestone.network.interaction.RightClickEmptyPacket;
@@ -13,6 +12,7 @@ import team.lodestar.lodestone.network.interaction.UpdateLeftClickPacket;
 import team.lodestar.lodestone.network.interaction.UpdateRightClickPacket;
 import team.lodestar.lodestone.network.screenshake.PositionedScreenshakePacket;
 import team.lodestar.lodestone.network.screenshake.ScreenshakePacket;
+import team.lodestar.lodestone.network.worldevent.SyncWorldEventPacket;
 import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPacket;
 
 

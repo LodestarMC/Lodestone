@@ -1,14 +1,16 @@
 package team.lodestar.lodestone.handlers;
 
 import io.github.fabricators_of_create.porting_lib.entity.events.living.LivingHurtEvent;
-import net.minecraft.core.*;
-import net.minecraft.core.registries.*;
-import net.minecraft.world.damagesource.*;
-import net.minecraft.world.entity.*;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry;
-import team.lodestar.lodestone.registry.common.tag.*;
+import team.lodestar.lodestone.registry.common.tag.LodestoneDamageTypeTags;
 
 
 /**
@@ -53,9 +55,8 @@ public class LodestoneAttributeEventHandler {
 
     public static double applyMagicResistance(double magicResistance) {
         if (magicResistance >= 20) {
-            return Math.max(0.25f, 0.5f - (magicResistance-20)*0.0125f);
-        }
-        else {
+            return Math.max(0.25f, 0.5f - (magicResistance - 20) * 0.0125f);
+        } else {
             return 1 - magicResistance * 0.025f;
         }
     }

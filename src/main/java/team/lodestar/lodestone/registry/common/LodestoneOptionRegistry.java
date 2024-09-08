@@ -25,7 +25,6 @@ public class LodestoneOptionRegistry {
     }
 
 
-
     public static void addOption() {
 
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {

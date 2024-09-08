@@ -4,7 +4,6 @@ package team.lodestar.lodestone.systems.postprocess;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.renderer.RenderType;
-import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.events.Stage;
 
 import java.util.ArrayList;
@@ -29,7 +28,9 @@ public class PostProcessHandler {
     }
 
     public static void copyDepthBuffer() {
-        if (didCopyDepth) return;
+        if (didCopyDepth) {
+            return;
+        }
         instances.forEach(PostProcessor::copyDepthBuffer);
         didCopyDepth = true;
     }

@@ -1,14 +1,11 @@
 package team.lodestar.lodestone.systems.particle.world.type;
 
-import com.mojang.brigadier.*;
-import com.mojang.serialization.*;
-import net.minecraft.client.multiplayer.*;
-import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.*;
-import net.minecraft.network.*;
-import team.lodestar.lodestone.systems.particle.world.*;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
-import team.lodestar.lodestone.systems.particle.world.options.*;
+import com.mojang.brigadier.StringReader;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import team.lodestar.lodestone.systems.particle.world.options.WorldParticleOptions;
 
 
 public class AbstractLodestoneParticleType<T extends WorldParticleOptions> extends ParticleType<T> {

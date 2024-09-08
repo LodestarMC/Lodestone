@@ -1,11 +1,9 @@
 package team.lodestar.lodestone.registry.common;
 
 import net.minecraft.resources.ResourceLocation;
-import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 public class LodestoneWorldEventTypeRegistry {
 

@@ -1,8 +1,10 @@
 package team.lodestar.lodestone.systems.rendering;
 
-import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.renderer.*;
-import team.lodestar.lodestone.systems.rendering.rendeertype.*;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeProvider;
+import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeToken;
 
 public class LodestoneBufferWrapper implements MultiBufferSource {
 
@@ -16,8 +18,9 @@ public class LodestoneBufferWrapper implements MultiBufferSource {
 
     @Override
     public VertexConsumer getBuffer(RenderType renderType) {
-        if (renderType instanceof RenderType.CompositeRenderType composite)
+        if (renderType instanceof RenderType.CompositeRenderType composite) {
             return buffer.getBuffer(provider.applyAndCache(RenderTypeToken.createCachedToken(composite.state.textureState)));
+        }
         return buffer.getBuffer(renderType);
     }
 }

@@ -7,7 +7,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementFilter;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import team.lodestar.lodestone.registry.common.*;
+import team.lodestar.lodestone.registry.common.LodestonePlacementFillerRegistry;
 
 public class ChancePlacementFilter extends PlacementFilter {
     public static final Codec<ChancePlacementFilter> CODEC = ExtraCodecs.POSITIVE_FLOAT.fieldOf("chance").xmap(ChancePlacementFilter::new, (p_191907_) -> p_191907_.chance).codec();

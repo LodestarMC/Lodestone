@@ -14,7 +14,7 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-import team.lodestar.lodestone.systems.rendering.*;
+import team.lodestar.lodestone.systems.rendering.LodestoneRenderType;
 
 import java.util.List;
 import java.util.Optional;

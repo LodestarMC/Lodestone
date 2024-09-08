@@ -7,7 +7,10 @@ import net.minecraft.world.level.Level;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ParticleEmitterHandler {
     public static final Map<Item, List<ItemParticleSupplier>> EMITTERS = new HashMap<>();
@@ -23,8 +26,7 @@ public class ParticleEmitterHandler {
     public static void registerItemParticleEmitter(Item item, ItemParticleSupplier emitter) {
         if (EMITTERS.containsKey(item)) {
             EMITTERS.get(item).add(emitter);
-        }
-        else {
+        } else {
             EMITTERS.put(item, new ArrayList<>(List.of(emitter)));
         }
     }

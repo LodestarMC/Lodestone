@@ -2,16 +2,11 @@ package team.lodestar.lodestone.registry.client;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.datafixers.util.Pair;
-import net.fabricmc.fabric.api.client.rendering.v1.CoreShaderRegistrationCallback;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.server.packs.resources.ResourceProvider;
 import team.lodestar.lodestone.events.LodestoneShaderRegistrationEvent;
 import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
 
 import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
@@ -43,7 +38,7 @@ public class LodestoneShaderRegistry {
         });
     }
 
-    public static Consumer<ShaderInstance> getConsumer(){
+    public static Consumer<ShaderInstance> getConsumer() {
         return (shader) -> ((ExtendedShaderInstance) shader).getShaderHolder();
     }
 }

@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -21,10 +22,10 @@ import team.lodestar.lodestone.helpers.VecHelper;
 import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
 import team.lodestar.lodestone.systems.rendering.trail.TrailRenderPoint;
 
-import org.jetbrains.annotations.Nullable;
 import java.awt.*;
-import java.util.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -261,10 +262,11 @@ public class VFXBuilders {
 
         static {
             CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_POSITION, (consumer, last, builder, x, y, z, u, v) -> {
-                if (last == null)
+                if (last == null) {
                     consumer.vertex(x, y, z);
-                else
+                } else {
                     consumer.vertex(last, x, y, z);
+                }
             });
             CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_COLOR, (consumer, last, builder, x, y, z, u, v) -> consumer.color(builder.r, builder.g, builder.b, builder.a));
             CONSUMER_INFO_MAP.put(DefaultVertexFormat.ELEMENT_UV0, (consumer, last, builder, x, y, z, u, v) -> consumer.uv(u, v));
@@ -460,7 +462,7 @@ public class VFXBuilders {
             points[0] = new TrailRenderPoint(positions.get(0),
                     RenderHelper.perpendicularTrailPoints(positions.get(0), positions.get(1), widthFunc.apply(0f)));
             points[count] = new TrailRenderPoint(positions.get(count),
-                    RenderHelper.perpendicularTrailPoints(positions.get(count-1), positions.get(count), widthFunc.apply(1f)));
+                    RenderHelper.perpendicularTrailPoints(positions.get(count - 1), positions.get(count), widthFunc.apply(1f)));
             return renderPoints(points, u0, v0, u1, v1, vfxOperator);
         }
 

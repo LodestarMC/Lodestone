@@ -9,6 +9,7 @@ import org.joml.Matrix4f;
 import team.lodestar.lodestone.component.LodestonePlayerComponent;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
+import team.lodestar.lodestone.helpers.ShadersHelper;
 import team.lodestar.lodestone.systems.client.ClientTickCounter;
 
 import static team.lodestar.lodestone.LodestoneLib.RANDOM;
@@ -47,11 +48,19 @@ public class ClientRuntimeEvents {
         }
 
         if (stage == Stage.AFTER_PARTICLES) {
-            RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
+            if (!ShadersHelper.isShadersEnabled()) {
+                RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
+            }
         }
-        if (stage == Stage.AFTER_WEATHER) {
-            RenderHandler.endBatches();
+
+        if (!ShadersHelper.isShadersEnabled()) {
+            if (stage == Stage.AFTER_WEATHER) {
+                RenderHandler.endBatches();
+            }
+        } else {
+            ShadersHelper.renderStages(stage);
         }
+
         poseStack.popPose();
     }
 }

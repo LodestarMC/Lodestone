@@ -10,18 +10,20 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.Util;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import team.lodestar.lodestone.handlers.*;
-import team.lodestar.lodestone.registry.client.*;
-import team.lodestar.lodestone.systems.rendering.*;
-import team.lodestar.lodestone.systems.rendering.rendeertype.*;
+import team.lodestar.lodestone.handlers.RenderHandler;
+import team.lodestar.lodestone.helpers.ShadersHelper;
+import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry;
+import team.lodestar.lodestone.registry.client.LodestoneShaderRegistry;
+import team.lodestar.lodestone.systems.rendering.LodestoneRenderType;
+import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
-import java.util.function.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Environment(EnvType.CLIENT)
 public class LodestoneWorldParticleRenderType implements ParticleRenderType {
@@ -47,26 +49,6 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
     public static final LodestoneWorldParticleRenderType ADDITIVE_TERRAIN_SHEET = new LodestoneWorldParticleRenderType(
             LodestoneRenderTypeRegistry.ADDITIVE_BLOCK_PARTICLE, LodestoneShaderRegistry.PARTICLE, TextureAtlas.LOCATION_BLOCKS,
             LodestoneRenderTypeRegistry.ADDITIVE_FUNCTION);
-
-    public static final ParticleRenderType IRIS_ADDITIVE = new ParticleRenderType() {
-
-        @Override
-        public void begin(BufferBuilder builder, TextureManager manager) {
-            RenderSystem.depthMask(false);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public void end(Tesselator pTesselator) {
-            pTesselator.end();
-            RenderSystem.depthMask(true);
-            RenderSystem.disableBlend();
-            RenderSystem.defaultBlendFunc();
-        }
-    };
 
     public final LodestoneRenderType renderType;
     protected final Supplier<ShaderInstance> shader;
@@ -99,6 +81,9 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
         blendFunction.run();
         RenderSystem.setShader(shader);
         RenderSystem.setShaderTexture(0, texture);
+        if (ShadersHelper.isShadersEnabled()) {
+            RenderHandler.MATRIX4F = RenderSystem.getModelViewMatrix();
+        }
         builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
     }
 

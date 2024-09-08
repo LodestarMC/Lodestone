@@ -121,7 +121,9 @@ public abstract class PostProcessor {
 
     public final void copyDepthBuffer() {
         if (isActive) {
-            if (postChain == null || tempDepthBuffer == null) return;
+            if (postChain == null || tempDepthBuffer == null) {
+                return;
+            }
 
             tempDepthBuffer.copyDepthFrom(MC.getMainRenderTarget());
 
@@ -133,8 +135,9 @@ public abstract class PostProcessor {
     public void resize(int width, int height) {
         if (postChain != null) {
             postChain.resize(width, height);
-            if (tempDepthBuffer != null)
+            if (tempDepthBuffer != null) {
                 tempDepthBuffer.resize(width, height, Minecraft.ON_OSX);
+            }
         }
     }
 
@@ -146,8 +149,9 @@ public abstract class PostProcessor {
 
     public final void applyPostProcess() {
         if (isActive) {
-            if (!initialized)
+            if (!initialized) {
                 init();
+            }
 
             if (postChain != null) {
                 time += MC.getDeltaFrameTime() / 20.0;
@@ -155,7 +159,9 @@ public abstract class PostProcessor {
                 applyDefaultUniforms();
 
                 beforeProcess(viewModelStack);
-                if (!isActive) return;
+                if (!isActive) {
+                    return;
+                }
                 postChain.process(MC.getFrameTime());
 
                 GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, MC.getMainRenderTarget().frameBufferId);
@@ -177,8 +183,9 @@ public abstract class PostProcessor {
     public final void setActive(boolean active) {
         this.isActive = active;
 
-        if (!active)
+        if (!active) {
             time = 0.0;
+        }
     }
 
     public final boolean isActive() {

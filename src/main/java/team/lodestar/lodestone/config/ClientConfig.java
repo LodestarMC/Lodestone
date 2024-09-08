@@ -31,7 +31,7 @@ public class ClientConfig extends LodestoneConfig {
     public static ConfigValueHolder<Boolean> DISABLE_SHADER_ON_PARTCLES = new ConfigValueHolder<>(LODESTONE, "client/graphics/particle", builder ->
             builder.comment("Can be used to see WorldParticles with Iris")
                     .define("disable_shader_particles", false)
-            );
+    );
 
     public ClientConfig(ModConfigSpec.Builder builder) {
         super(LODESTONE, "client", builder);

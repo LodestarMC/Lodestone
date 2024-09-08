@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 /**
  * A powerful ItemStackHandler designed to work with block entities
  */
+
 /**
  * A powerful ItemStackHandler designed to work with block entities
  */
@@ -206,6 +207,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
     public ItemStack insertItem(Player playerEntity, ItemStack stack) {
         return insertItem(stack);
     }
+
     public ItemStack insertItem(ItemStack stack) {
         if (!stack.isEmpty()) {
             ItemStack simulate = insertItem(stack, true);

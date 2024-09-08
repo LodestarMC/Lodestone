@@ -42,9 +42,10 @@ public class ObjModel {
 
     /**
      * Renders the model.
-     * @param poseStack     The pose stack.
-     * @param renderType    The render type.
-     * @param packedLight   The packed light.
+     *
+     * @param poseStack   The pose stack.
+     * @param renderType  The render type.
+     * @param packedLight The packed light.
      */
     public void renderModel(PoseStack poseStack, RenderType renderType, int packedLight) {
         faces.forEach(face -> face.renderFace(poseStack, renderType, packedLight));

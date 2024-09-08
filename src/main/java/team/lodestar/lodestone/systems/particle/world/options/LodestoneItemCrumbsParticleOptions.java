@@ -3,9 +3,7 @@ package team.lodestar.lodestone.systems.particle.world.options;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.world.item.ItemStack;
-import team.lodestar.lodestone.systems.particle.world.type.*;
-
-import java.util.function.*;
+import team.lodestar.lodestone.systems.particle.world.type.LodestoneItemCrumbsParticleType;
 
 public class LodestoneItemCrumbsParticleOptions extends WorldParticleOptions {
 

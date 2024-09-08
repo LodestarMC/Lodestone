@@ -20,6 +20,7 @@ public class WorldEventTypeArgument implements ArgumentType<WorldEventType> {
 
     protected WorldEventTypeArgument() {
     }
+
     public static WorldEventTypeArgument worldEventType() {
         return new WorldEventTypeArgument();
     }
@@ -27,6 +28,7 @@ public class WorldEventTypeArgument implements ArgumentType<WorldEventType> {
     public static WorldEventType getEventType(CommandContext<?> context, String name) {
         return context.getArgument(name, WorldEventType.class);
     }
+
     @Override
     public WorldEventType parse(StringReader reader) throws CommandSyntaxException {
         ResourceLocation resourceLocation = ResourceLocation.read(reader);

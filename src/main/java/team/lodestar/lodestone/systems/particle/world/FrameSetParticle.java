@@ -3,8 +3,7 @@ package team.lodestar.lodestone.systems.particle.world;
 import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.multiplayer.ClientLevel;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
-import team.lodestar.lodestone.systems.particle.world.options.*;
+import team.lodestar.lodestone.systems.particle.world.options.WorldParticleOptions;
 
 import java.util.ArrayList;
 

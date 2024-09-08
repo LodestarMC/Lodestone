@@ -66,7 +66,9 @@ public class LodestoneArmorModel extends HumanoidModel<LivingEntity> {
             return ImmutableList.of(leftLegging, rightLegging, leggings);
         } else if (slot == EquipmentSlot.FEET) {
             return ImmutableList.of(leftFoot, rightFoot);
-        } else return ImmutableList.of();
+        } else {
+            return ImmutableList.of();
+        }
     }
 
     @Override

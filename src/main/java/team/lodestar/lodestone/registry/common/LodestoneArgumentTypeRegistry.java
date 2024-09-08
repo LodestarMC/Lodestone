@@ -15,10 +15,10 @@ public class LodestoneArgumentTypeRegistry {
 
     public static final LazyRegistrar<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = LazyRegistrar.create(BuiltInRegistries.COMMAND_ARGUMENT_TYPE, LodestoneLib.LODESTONE);
 
-    public static final RegistryObject<ArgumentTypeInfo<WorldEventTypeArgument,?>> WORLD_EVENT_TYPE_ARG = COMMAND_ARGUMENT_TYPES.register("world_event_type_arg",
+    public static final RegistryObject<ArgumentTypeInfo<WorldEventTypeArgument, ?>> WORLD_EVENT_TYPE_ARG = COMMAND_ARGUMENT_TYPES.register("world_event_type_arg",
             () -> registerByClass(WorldEventTypeArgument.class, SingletonArgumentInfo.contextFree(WorldEventTypeArgument::worldEventType)));
 
-    public static final RegistryObject<ArgumentTypeInfo<WorldEventInstanceArgument,?>> WORLD_EVENT_INSTANCE_ARG = COMMAND_ARGUMENT_TYPES.register("world_event_instance_arg",
+    public static final RegistryObject<ArgumentTypeInfo<WorldEventInstanceArgument, ?>> WORLD_EVENT_INSTANCE_ARG = COMMAND_ARGUMENT_TYPES.register("world_event_instance_arg",
             () -> registerByClass(WorldEventInstanceArgument.class, SingletonArgumentInfo.contextFree(WorldEventInstanceArgument::worldEventInstance)));
 
     public static <A extends ArgumentType<?>, T extends ArgumentTypeInfo.Template<A>, I extends ArgumentTypeInfo<A, T>> I registerByClass(Class<A> infoClass, I argumentTypeInfo) {

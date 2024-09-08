@@ -3,8 +3,7 @@ package team.lodestar.lodestone.forge_stuff;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public interface IItemHandler
-{
+public interface IItemHandler {
 
     int getSlots();
 

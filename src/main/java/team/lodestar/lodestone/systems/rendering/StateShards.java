@@ -2,7 +2,7 @@ package team.lodestar.lodestone.systems.rendering;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.renderer.RenderStateShard;
-import team.lodestar.lodestone.registry.client.*;
+import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry;
 
 public class StateShards extends RenderStateShard {
 

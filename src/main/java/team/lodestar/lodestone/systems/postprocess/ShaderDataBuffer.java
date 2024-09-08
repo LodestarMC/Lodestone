@@ -29,10 +29,12 @@ public class ShaderDataBuffer {
     }
 
     public void destroy() {
-        if (tbo != 0)
+        if (tbo != 0) {
             glDeleteBuffers(tbo);
-        if (tex != 0)
+        }
+        if (tex != 0) {
             glDeleteTextures(tex);
+        }
         tbo = 0;
         tex = 0;
     }

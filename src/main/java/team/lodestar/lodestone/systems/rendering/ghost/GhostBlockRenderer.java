@@ -127,7 +127,7 @@ public abstract class GhostBlockRenderer {
                     g = 1.0F;
                     b = 1.0F;
                 }
-                putBulkData(consumer, pose, quad, new float[] { 1.0F, 1.0F, 1.0F, 1.0F }, r, g, b, alpha, new int[] { packedLight, packedLight, packedLight, packedLight }, packedOverlay, true);
+                putBulkData(consumer, pose, quad, new float[]{1.0F, 1.0F, 1.0F, 1.0F}, r, g, b, alpha, new int[]{packedLight, packedLight, packedLight, packedLight}, packedOverlay, true);
             }
         }
 
@@ -164,7 +164,7 @@ public abstract class GhostBlockRenderer {
             int[] js = quad.getVertices();
             Vec3i vec3i = quad.getDirection().getNormal();
             Matrix4f matrix4f = poseEntry.pose();
-            Vector3f vector3f = poseEntry.normal().transform(new Vector3f((float)vec3i.getX(), (float)vec3i.getY(), (float)vec3i.getZ()));
+            Vector3f vector3f = poseEntry.normal().transform(new Vector3f((float) vec3i.getX(), (float) vec3i.getY(), (float) vec3i.getZ()));
             int j = js.length / 8;
             MemoryStack memoryStack = MemoryStack.stackPush();
 
@@ -172,7 +172,7 @@ public abstract class GhostBlockRenderer {
                 ByteBuffer byteBuffer = memoryStack.malloc(DefaultVertexFormat.BLOCK.getVertexSize());
                 IntBuffer intBuffer = byteBuffer.asIntBuffer();
 
-                for(int k = 0; k < j; ++k) {
+                for (int k = 0; k < j; ++k) {
                     intBuffer.clear();
                     intBuffer.put(js, k * 8, 8);
                     float f = byteBuffer.getFloat(0);
@@ -184,9 +184,9 @@ public abstract class GhostBlockRenderer {
                     float m;
                     float n;
                     if (mulColor) {
-                        float l = (float)(byteBuffer.get(12) & 255) / 255.0F;
-                        m = (float)(byteBuffer.get(13) & 255) / 255.0F;
-                        n = (float)(byteBuffer.get(14) & 255) / 255.0F;
+                        float l = (float) (byteBuffer.get(12) & 255) / 255.0F;
+                        m = (float) (byteBuffer.get(13) & 255) / 255.0F;
+                        n = (float) (byteBuffer.get(14) & 255) / 255.0F;
                         o = l * fs[k] * red;
                         p = m * fs[k] * green;
                         q = n * fs[k] * blue;

@@ -1,16 +1,13 @@
 package team.lodestar.lodestone.systems.particle.world.type;
 
-import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.impl.client.particle.FabricSpriteProviderImpl;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.particles.ParticleType;
-import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
-import team.lodestar.lodestone.systems.particle.world.options.*;
-
 import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
+import team.lodestar.lodestone.systems.particle.world.options.WorldParticleOptions;
 
 public class LodestoneWorldParticleType extends AbstractLodestoneParticleType<WorldParticleOptions> {
     public LodestoneWorldParticleType() {

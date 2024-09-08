@@ -1,12 +1,12 @@
 package team.lodestar.lodestone.systems.rendering.rendeertype;
 
 import net.minecraft.Util;
-import net.minecraft.resources.ResourceLocation;
 import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry;
-import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry.*;
-import team.lodestar.lodestone.systems.rendering.*;
+import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry.LodestoneCompositeStateBuilder;
+import team.lodestar.lodestone.systems.rendering.LodestoneRenderType;
 
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class RenderTypeProvider {
     private final Function<RenderTypeToken, LodestoneRenderType> function;

@@ -27,7 +27,8 @@ import static team.lodestar.lodestone.registry.common.LodestoneAttributeRegistry
 public class LivingEntityMixin {
 
 
-    @Shadow protected int useItemRemaining;
+    @Shadow
+    protected int useItemRemaining;
     @Unique
     private SoundType lodestone$type;
 
@@ -53,9 +54,9 @@ public class LivingEntityMixin {
     }
 
     @Inject(method = "startUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseDuration()I"), cancellable = true)
-    private void lodestone$injectUseEvent(InteractionHand hand, CallbackInfo ci, @Local ItemStack stack){
+    private void lodestone$injectUseEvent(InteractionHand hand, CallbackInfo ci, @Local ItemStack stack) {
 
-        int duration = LodestoneInteractionEvent.ON_ITEM_USE_START.invoker().onItemUseStart((LivingEntity) (Object)this, stack, stack.getUseDuration());
+        int duration = LodestoneInteractionEvent.ON_ITEM_USE_START.invoker().onItemUseStart((LivingEntity) (Object) this, stack, stack.getUseDuration());
         if (duration <= 0) {
             ci.cancel();
         }
@@ -69,7 +70,7 @@ public class LivingEntityMixin {
 
     @Inject(method = "canBeAffected", at = @At(value = "HEAD"), cancellable = true)
     private void lodestone$canBeAffected(MobEffectInstance effectInstance, CallbackInfoReturnable<Boolean> cir) {
-        boolean bl = LodestoneMobEffectEvents.APPLICABLE.invoker().canBeAffected((LivingEntity) (Object)this, effectInstance);
+        boolean bl = LodestoneMobEffectEvents.APPLICABLE.invoker().canBeAffected((LivingEntity) (Object) this, effectInstance);
         if (!bl) {
             cir.setReturnValue(false);
         }
@@ -77,7 +78,7 @@ public class LivingEntityMixin {
 
     @Inject(method = "addEffect(Lnet/minecraft/world/effect/MobEffectInstance;Lnet/minecraft/world/entity/Entity;)Z", at = @At(value = "INVOKE", target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;", shift = At.Shift.AFTER))
     private void lodestone$add(MobEffectInstance effectInstance, Entity entity, CallbackInfoReturnable<Boolean> cir, @Local(argsOnly = true) MobEffectInstance mobEffectInstance) {
-        LodestoneMobEffectEvents.ADDED.invoker().canBeAffected((LivingEntity) (Object)this, effectInstance, mobEffectInstance, entity);
+        LodestoneMobEffectEvents.ADDED.invoker().canBeAffected((LivingEntity) (Object) this, effectInstance, mobEffectInstance, entity);
     }
 
 }

@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementFilter;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import team.lodestar.lodestone.registry.common.*;
+import team.lodestar.lodestone.registry.common.LodestonePlacementFillerRegistry;
 
 import java.util.List;
 import java.util.Set;

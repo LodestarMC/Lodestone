@@ -113,9 +113,15 @@ public class ColorHelper {
         if (r == 0 && g == 0 && b == 0) {
             return new Color(i, i, i, alpha);
         }
-        if (r > 0 && r < i) r = i;
-        if (g > 0 && g < i) g = i;
-        if (b > 0 && b < i) b = i;
+        if (r > 0 && r < i) {
+            r = i;
+        }
+        if (g > 0 && g < i) {
+            g = i;
+        }
+        if (b > 0 && b < i) {
+            b = i;
+        }
 
         return new Color(Math.min((int) (r / FACTOR), 255),
                 Math.min((int) (g / FACTOR), 255),

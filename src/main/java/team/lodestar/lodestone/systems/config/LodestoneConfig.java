@@ -79,8 +79,12 @@ public class LodestoneConfig {
     public record ConfigPath(String... strings) {
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             ConfigPath otherPath = (ConfigPath) o;
             return Arrays.equals(strings, otherPath.strings);
         }

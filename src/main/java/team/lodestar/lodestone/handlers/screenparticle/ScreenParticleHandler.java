@@ -1,17 +1,14 @@
 package team.lodestar.lodestone.handlers.screenparticle;
 
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.ItemStack;
-import org.joml.*;
+import org.joml.Matrix4f;
 import team.lodestar.lodestone.config.ClientConfig;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleItemStackKey;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleItemStackRetrievalKey;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
+import team.lodestar.lodestone.systems.particle.screen.*;
 import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
 
 import java.util.*;
@@ -79,8 +76,7 @@ public class ScreenParticleHandler {
                         float yOffset = pose.m31();
                         currentItemX += xOffset;
                         currentItemY += yOffset;
-                    }
-                    else if (!renderingHotbar && minecraft.screen instanceof AbstractContainerScreen<?> containerScreen) {
+                    } else if (!renderingHotbar && minecraft.screen instanceof AbstractContainerScreen<?> containerScreen) {
                         currentItemX += containerScreen.leftPos;
                         currentItemY += containerScreen.topPos;
                     }

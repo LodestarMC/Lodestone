@@ -112,8 +112,9 @@ public class VecHelper {
     }
 
     public static Vec3 getCenterOf(Vec3i pos) {
-        if (pos.equals(Vec3i.ZERO))
+        if (pos.equals(Vec3i.ZERO)) {
             return CENTER_OF_ORIGIN;
+        }
         return Vec3.atLowerCornerOf(pos).add(.5f, .5f, .5f);
     }
 
@@ -123,10 +124,12 @@ public class VecHelper {
     }
 
     public static Vec3 rotate(Vec3 vec, double deg, Direction.Axis axis) {
-        if (deg == 0)
+        if (deg == 0) {
             return vec;
-        if (vec == Vec3.ZERO)
+        }
+        if (vec == Vec3.ZERO) {
             return vec;
+        }
 
         float angle = (float) (deg / 180f * Math.PI);
         double sin = Mth.sin(angle);
@@ -135,12 +138,15 @@ public class VecHelper {
         double y = vec.y;
         double z = vec.z;
 
-        if (axis == Direction.Axis.X)
+        if (axis == Direction.Axis.X) {
             return new Vec3(x, y * cos - z * sin, z * cos + y * sin);
-        if (axis == Direction.Axis.Y)
+        }
+        if (axis == Direction.Axis.Y) {
             return new Vec3(x * cos + z * sin, y, z * cos - x * sin);
-        if (axis == Direction.Axis.Z)
+        }
+        if (axis == Direction.Axis.Z) {
             return new Vec3(x * cos - y * sin, y * cos + x * sin, z);
+        }
         return vec;
     }
 

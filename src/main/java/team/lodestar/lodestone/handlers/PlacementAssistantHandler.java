@@ -26,10 +26,11 @@ public class PlacementAssistantHandler {
 
     public static void registerPlacementAssistants() {
         DataHelper.getAll(new ArrayList<>(BuiltInRegistries.BLOCK.stream().toList()), b -> b instanceof IPlacementAssistant).forEach(i -> {
-                            IPlacementAssistant assistant = (IPlacementAssistant) i;
-                            ASSISTANTS.add(assistant);
+            IPlacementAssistant assistant = (IPlacementAssistant) i;
+            ASSISTANTS.add(assistant);
         });
     }
+
     public static boolean placeBlock(Player player, InteractionHand interactionHand, BlockPos pos, BlockHitResult blockHitResult) {
         Level level = player.level();
         if (level.isClientSide) {

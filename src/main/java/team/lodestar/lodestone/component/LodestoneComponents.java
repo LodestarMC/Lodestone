@@ -20,7 +20,6 @@ public class LodestoneComponents implements EntityComponentInitializer, WorldCom
             ComponentRegistry.getOrCreate(LodestoneLib.lodestonePath("entity"), LodestoneEntityComponent.class);
 
 
-
     @Override
     public void registerWorldComponentFactories(WorldComponentFactoryRegistry registry) {
         registry.register(LODESTONE_WORLD_COMPONENT, LodestoneWorldComponent::new);

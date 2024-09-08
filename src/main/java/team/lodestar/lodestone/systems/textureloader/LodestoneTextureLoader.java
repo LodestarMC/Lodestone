@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.systems.textureloader;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import team.lodestar.lodestone.helpers.ColorHelper;

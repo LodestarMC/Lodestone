@@ -2,9 +2,9 @@ package team.lodestar.lodestone.systems.postprocess;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.EffectInstance;
+import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.LodestoneLib;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,8 +70,9 @@ public abstract class MultiInstancePostProcessor<I extends DynamicShaderFxInstan
             DynamicShaderFxInstance instance = instances.get(ins);
             int offset = ins * getDataSizePerInstance();
             instance.writeDataToBuffer((index, d) -> {
-                if (index >= getDataSizePerInstance() || index < 0)
+                if (index >= getDataSizePerInstance() || index < 0) {
                     throw new IndexOutOfBoundsException(index);
+                }
                 data[offset + index] = d;
             });
         }

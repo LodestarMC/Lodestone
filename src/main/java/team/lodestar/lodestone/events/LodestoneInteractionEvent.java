@@ -12,25 +12,29 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public interface LodestoneInteractionEvent {
     Event<PlayerRightClickEmpty> RIGHT_CLICK_EMPTY = EventFactory.createArrayBacked(PlayerRightClickEmpty.class, callbacks -> (event -> {
-        for(PlayerRightClickEmpty e : callbacks)
+        for (PlayerRightClickEmpty e : callbacks) {
             e.onRightClickEmpty(event);
+        }
     }));
 
     Event<PlayerRightClickBlock> RIGHT_CLICK_BLOCK = EventFactory.createArrayBacked(PlayerRightClickBlock.class, callbacks -> ((event, hand, pos, hitResult) -> {
-        for(PlayerRightClickBlock e : callbacks)
+        for (PlayerRightClickBlock e : callbacks) {
             return e.onRightClickBlock(event, hand, pos, hitResult);
+        }
         return false;
     }));
 
     Event<PlayerRightClickItem> RIGHT_CLICK_ITEM = EventFactory.createArrayBacked(PlayerRightClickItem.class, callbacks -> ((player, hand, itemStack) -> {
-        for(PlayerRightClickItem e : callbacks)
+        for (PlayerRightClickItem e : callbacks) {
             return e.onRightClickItem(player, hand, itemStack);
+        }
         return false;
     }));
 
     Event<OnItemUseStart> ON_ITEM_USE_START = EventFactory.createArrayBacked(OnItemUseStart.class, callbacks -> ((livingEntity, itemStack, duration) -> {
-        for(OnItemUseStart e : callbacks)
+        for (OnItemUseStart e : callbacks) {
             return e.onItemUseStart(livingEntity, itemStack, duration);
+        }
         return duration;
     }));
 

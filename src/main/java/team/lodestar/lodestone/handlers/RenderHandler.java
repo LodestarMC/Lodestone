@@ -1,21 +1,26 @@
 package team.lodestar.lodestone.handlers;
 
-import com.mojang.blaze3d.pipeline.*;
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.*;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL30C;
-import team.lodestar.lodestone.*;
+import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 import static team.lodestar.lodestone.systems.rendering.StateShards.NORMAL_TRANSPARENCY;
 
@@ -170,14 +175,16 @@ public class RenderHandler {
         HashMap<RenderType, BufferBuilder> buffers = isParticle ? PARTICLE_BUFFERS : BUFFERS;
         HashMap<RenderType, BufferBuilder> lateBuffers = isParticle ? LATE_PARTICLE_BUFFERS : LATE_BUFFERS;
         buffers.put(renderType, new BufferBuilder(LARGER_BUFFER_SOURCES ? 2097152 : renderType.bufferSize()));
-        lateBuffers.put(renderType, new BufferBuilder(LARGER_BUFFER_SOURCES ? 2097152 :renderType.bufferSize()));
+        lateBuffers.put(renderType, new BufferBuilder(LARGER_BUFFER_SOURCES ? 2097152 : renderType.bufferSize()));
         if (NORMAL_TRANSPARENCY.equals(RenderHelper.getTransparencyShard(renderType))) {
             TRANSPARENT_RENDER_TYPES.add(renderType);
         }
     }
 
     public static void copyDepthBuffer(RenderTarget tempRenderTarget) {
-        if (tempRenderTarget == null) return;
+        if (tempRenderTarget == null) {
+            return;
+        }
         RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
         tempRenderTarget.copyDepthFrom(mainRenderTarget);
         GlStateManager._glBindFramebuffer(GL30C.GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
@@ -194,6 +201,7 @@ public class RenderHandler {
         public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers) {
             this(buffers, particleBuffers, LARGER_BUFFER_SOURCES ? 2097152 : 256);
         }
+
         public LodestoneRenderLayer(HashMap<RenderType, BufferBuilder> buffers, HashMap<RenderType, BufferBuilder> particleBuffers, int size) {
             this.buffers = buffers;
             this.particleBuffers = particleBuffers;

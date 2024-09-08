@@ -1,30 +1,31 @@
 package team.lodestar.lodestone.systems.particle.builder;
 
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
-import net.minecraft.client.particle.*;
-import net.minecraft.core.*;
-import net.minecraft.world.level.*;
-import net.minecraft.world.level.block.state.*;
-import net.minecraft.world.phys.*;
-import net.minecraft.world.phys.shapes.*;
-import org.joml.*;
-import team.lodestar.lodestone.handlers.*;
-import team.lodestar.lodestone.helpers.*;
-import team.lodestar.lodestone.systems.particle.*;
-import team.lodestar.lodestone.systems.particle.data.*;
-import team.lodestar.lodestone.systems.particle.data.color.*;
-import team.lodestar.lodestone.systems.particle.data.spin.*;
-import team.lodestar.lodestone.systems.particle.world.*;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
-import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
-import team.lodestar.lodestone.systems.particle.world.options.*;
-import team.lodestar.lodestone.systems.particle.world.type.*;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
+import team.lodestar.lodestone.handlers.RenderHandler;
+import team.lodestar.lodestone.helpers.BlockHelper;
+import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
+import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
+import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
+import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
+import team.lodestar.lodestone.systems.particle.world.behaviors.components.LodestoneBehaviorComponent;
+import team.lodestar.lodestone.systems.particle.world.options.WorldParticleOptions;
+import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;
 
-import java.lang.*;
-import java.lang.Math;
 import java.util.*;
-import java.util.Random;
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleOptions> {
 
@@ -40,6 +41,7 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     public static WorldParticleBuilder create(LodestoneWorldParticleType particle) {
         return create(particle, null);
     }
+
     public static WorldParticleBuilder create(LodestoneWorldParticleType particle, LodestoneBehaviorComponent behavior) {
         return create(new WorldParticleOptions(particle).setBehavior(behavior));
     }
@@ -47,6 +49,7 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle) {
         return create(particle, null);
     }
+
     public static WorldParticleBuilder create(RegistryObject<? extends LodestoneWorldParticleType> particle, LodestoneBehaviorComponent behavior) {
         return create(new WorldParticleOptions(particle.get()).setBehavior(behavior));
     }
@@ -103,6 +106,7 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         }
         return this;
     }
+
     public <T extends LodestoneBehaviorComponent> WorldParticleBuilder modifyBehavior(Class<T> targetClass, Consumer<T> behaviorConsumer) {
         if (targetClass.isInstance(options.behaviorComponent)) {
             behaviorConsumer.accept((T) options.behaviorComponent);
@@ -259,10 +263,12 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         getParticleOptions().tickActors.add(particleActor);
         return this;
     }
+
     public WorldParticleBuilder addSpawnActor(Consumer<LodestoneWorldParticle> particleActor) {
         getParticleOptions().spawnActors.add(particleActor);
         return this;
     }
+
     public WorldParticleBuilder addRenderActor(Consumer<LodestoneWorldParticle> particleActor) {
         getParticleOptions().renderActors.add(particleActor);
         return this;
@@ -276,10 +282,12 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         getParticleOptions().tickActors.clear();
         return this;
     }
+
     public WorldParticleBuilder clearSpawnActors() {
         getParticleOptions().spawnActors.clear();
         return this;
     }
+
     public WorldParticleBuilder clearRenderActors() {
         getParticleOptions().renderActors.clear();
         return this;
@@ -300,7 +308,9 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     public WorldParticleBuilder repeat(Level level, double x, double y, double z, int n) {
-        for (int i = 0; i < n; i++) spawn(level, x, y, z);
+        for (int i = 0; i < n; i++) {
+            spawn(level, x, y, z);
+        }
         return this;
     }
 
@@ -327,12 +337,16 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     public WorldParticleBuilder repeatSurroundBlock(Level level, BlockPos pos, int n) {
-        for (int i = 0; i < n; i++) surroundBlock(level, pos);
+        for (int i = 0; i < n; i++) {
+            surroundBlock(level, pos);
+        }
         return this;
     }
 
     public WorldParticleBuilder repeatSurroundBlock(Level level, BlockPos pos, int n, Direction... directions) {
-        for (int i = 0; i < n; i++) surroundBlock(level, pos, directions);
+        for (int i = 0; i < n; i++) {
+            surroundBlock(level, pos, directions);
+        }
         return this;
     }
 
@@ -403,7 +417,9 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     public WorldParticleBuilder repeatRandomFace(Level level, BlockPos pos, int n) {
-        for (int i = 0; i < n; i++) spawnAtRandomFace(level, pos);
+        for (int i = 0; i < n; i++) {
+            spawnAtRandomFace(level, pos);
+        }
         return this;
     }
 
@@ -427,7 +443,9 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     public WorldParticleBuilder repeatCircle(Level level, double x, double y, double z, double distance, int times) {
-        for (int i = 0; i < times; i++) createCircle(level, x, y, z, distance, i, times);
+        for (int i = 0; i < times; i++) {
+            createCircle(level, x, y, z, distance, i, times);
+        }
         return this;
     }
 

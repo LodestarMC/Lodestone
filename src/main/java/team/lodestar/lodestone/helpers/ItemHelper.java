@@ -121,7 +121,9 @@ public class ItemHelper {
     }
 
     public static void quietlyGiveItemToPlayer(Player player, ItemStack stack) {
-        if (stack.isEmpty()) return;
+        if (stack.isEmpty()) {
+            return;
+        }
         Level level = player.level();
         ItemStack remainder = stack;
         if (!remainder.isEmpty()) {

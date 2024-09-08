@@ -1,9 +1,7 @@
 package team.lodestar.lodestone.systems.particle.world.behaviors.components;
 
-import net.minecraft.world.phys.*;
-import team.lodestar.lodestone.systems.particle.data.*;
-import team.lodestar.lodestone.systems.particle.world.*;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
+import net.minecraft.world.phys.Vec3;
+import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 
 public class ExtrudingSparkBehaviorComponent extends SparkBehaviorComponent {
 

@@ -94,7 +94,6 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     }
 
 
-
     public void onBlockBroken(BlockState state, BlockGetter level, BlockPos pos, @Nullable Player player) {
         if (hasTileEntity(state)) {
             if (level.getBlockEntity(pos) instanceof LodestoneBlockEntity simpleBlockEntity) {

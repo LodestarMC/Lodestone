@@ -6,12 +6,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.renderer.LevelRenderer;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.events.ClientRuntimeEvents;
 import team.lodestar.lodestone.events.LodestoneRenderEvents;
-import team.lodestar.lodestone.events.Stage;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
 import team.lodestar.lodestone.registry.client.LodestoneOBJModelRegistry;
@@ -47,6 +44,7 @@ public class LodestoneLibClient implements ClientModInitializer {
         LodestoneRenderEvents.AFTER_PARTICLES.register(ClientRuntimeEvents::renderStages);
         LodestoneRenderEvents.AFTER_WEATHER.register(ClientRuntimeEvents::renderStages);
         LodestoneRenderEvents.BEFORE_CLEAR.register(PostProcessHandler::onAfterSolidBlocks);
+        LodestoneRenderEvents.AFTER_LEVEL.register(ClientRuntimeEvents::renderStages);
 
         RenderHandler.onClientSetup();
     }

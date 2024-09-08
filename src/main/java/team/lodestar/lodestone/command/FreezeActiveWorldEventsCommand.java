@@ -11,7 +11,6 @@ import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FreezeActiveWorldEventsCommand {
@@ -54,23 +53,23 @@ public class FreezeActiveWorldEventsCommand {
                         )
                 )
                 .then(Commands.literal("type")
-                                .then(Commands.argument("type", WorldEventTypeArgument.worldEventType())
-                                        .executes(ctx -> {
-                                            WorldEventType type = WorldEventTypeArgument.getEventType(ctx, "type");
-                                            LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(ctx.getSource().getLevel()).ifPresent(c -> {
-                                                List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
-                                                List<WorldEventInstance> notCurrentlyFrozen = activeWorldEvents.stream().filter(event -> !event.isFrozen()).toList();
-                                                if (notCurrentlyFrozen.isEmpty()) {
-                                                    ctx.getSource().sendFailure(Component.translatable("command.lodestone.worldevent.freeze.type.fail", type.id.toString()).withStyle(ChatFormatting.RED));
-                                                } else {
-                                                    notCurrentlyFrozen.forEach(instance -> instance.frozen = true);
-                                                    notCurrentlyFrozen.forEach(WorldEventInstance::setDirty);
-                                                    ctx.getSource().sendSuccess(() -> Component.translatable("command.lodestone.worldevent.freeze.type.success", notCurrentlyFrozen.size(), type.id.toString()).withStyle(ChatFormatting.AQUA), true);
-                                                }
-                                            });
-                                            return 1;
-                                        })
-                                )
+                        .then(Commands.argument("type", WorldEventTypeArgument.worldEventType())
+                                .executes(ctx -> {
+                                    WorldEventType type = WorldEventTypeArgument.getEventType(ctx, "type");
+                                    LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(ctx.getSource().getLevel()).ifPresent(c -> {
+                                        List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
+                                        List<WorldEventInstance> notCurrentlyFrozen = activeWorldEvents.stream().filter(event -> !event.isFrozen()).toList();
+                                        if (notCurrentlyFrozen.isEmpty()) {
+                                            ctx.getSource().sendFailure(Component.translatable("command.lodestone.worldevent.freeze.type.fail", type.id.toString()).withStyle(ChatFormatting.RED));
+                                        } else {
+                                            notCurrentlyFrozen.forEach(instance -> instance.frozen = true);
+                                            notCurrentlyFrozen.forEach(WorldEventInstance::setDirty);
+                                            ctx.getSource().sendSuccess(() -> Component.translatable("command.lodestone.worldevent.freeze.type.success", notCurrentlyFrozen.size(), type.id.toString()).withStyle(ChatFormatting.AQUA), true);
+                                        }
+                                    });
+                                    return 1;
+                                })
+                        )
                 );
     }
 

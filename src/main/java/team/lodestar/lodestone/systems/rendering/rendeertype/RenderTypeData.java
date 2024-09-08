@@ -2,7 +2,8 @@ package team.lodestar.lodestone.systems.rendering.rendeertype;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderStateShard;
-import team.lodestar.lodestone.systems.rendering.*;
+import team.lodestar.lodestone.systems.rendering.LodestoneRenderType;
+import team.lodestar.lodestone.systems.rendering.StateShards;
 
 /**
  * Stores all relevant data from a RenderType.

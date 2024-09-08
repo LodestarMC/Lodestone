@@ -20,7 +20,7 @@ public class SpinParticleData extends GenericParticleData {
 
     @Override
     public SpinParticleData bake() {
-        return new SpinParticleData(spinOffset, startingValue*valueMultiplier, middleValue*valueMultiplier, endingValue*valueMultiplier, coefficient*coefficientMultiplier, startToMiddleEasing, middleToEndEasing);
+        return new SpinParticleData(spinOffset, startingValue * valueMultiplier, middleValue * valueMultiplier, endingValue * valueMultiplier, coefficient * coefficientMultiplier, startToMiddleEasing, middleToEndEasing);
     }
 
     @Override

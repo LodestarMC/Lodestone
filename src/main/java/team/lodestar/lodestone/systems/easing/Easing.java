@@ -82,7 +82,9 @@ public abstract class Easing {
      */
     public static final Easing QUAD_IN_OUT = new Easing("quadInOut") {
         public float ease(float t, float b, float c, float d) {
-            if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+            if ((t /= d / 2) < 1) {
+                return c / 2 * t * t + b;
+            }
             return -c / 2 * ((--t) * (t - 2) - 1) + b;
         }
     };
@@ -113,7 +115,9 @@ public abstract class Easing {
      */
     public static final Easing CUBIC_IN_OUT = new Easing("cubicInOut") {
         public float ease(float t, float b, float c, float d) {
-            if ((t /= d / 2) < 1) return c / 2 * t * t * t + b;
+            if ((t /= d / 2) < 1) {
+                return c / 2 * t * t * t + b;
+            }
             return c / 2 * ((t -= 2) * t * t + 2) + b;
         }
     };
@@ -143,7 +147,9 @@ public abstract class Easing {
      */
     public static final Easing QUARTIC_IN_OUT = new Easing("quarticInOut") {
         public float ease(float t, float b, float c, float d) {
-            if ((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
+            if ((t /= d / 2) < 1) {
+                return c / 2 * t * t * t * t + b;
+            }
             return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
         }
     };
@@ -173,7 +179,9 @@ public abstract class Easing {
      */
     public static final Easing QUINTIC_IN_OUT = new Easing("quinticInOut") {
         public float ease(float t, float b, float c, float d) {
-            if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
+            if ((t /= d / 2) < 1) {
+                return c / 2 * t * t * t * t * t + b;
+            }
             return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
         }
     };
@@ -233,9 +241,15 @@ public abstract class Easing {
      */
     public static final Easing EXPO_IN_OUT = new Easing("expoInOut") {
         public float ease(float t, float b, float c, float d) {
-            if (t == 0) return b;
-            if (t == d) return b + c;
-            if ((t /= d / 2) < 1) return c / 2 * (float) Math.pow(2, 10 * (t - 1)) + b;
+            if (t == 0) {
+                return b;
+            }
+            if (t == d) {
+                return b + c;
+            }
+            if ((t /= d / 2) < 1) {
+                return c / 2 * (float) Math.pow(2, 10 * (t - 1)) + b;
+            }
             return c / 2 * (-(float) Math.pow(2, -10 * --t) + 2) + b;
         }
     };
@@ -266,7 +280,9 @@ public abstract class Easing {
      */
     public static final Easing CIRC_IN_OUT = new Easing("circInOut") {
         public float ease(float t, float b, float c, float d) {
-            if ((t /= d / 2) < 1) return -c / 2 * ((float) Math.sqrt(1 - t * t) - 1) + b;
+            if ((t /= d / 2) < 1) {
+                return -c / 2 * ((float) Math.sqrt(1 - t * t) - 1) + b;
+            }
             return c / 2 * ((float) Math.sqrt(1 - (t -= 2) * t) + 1) + b;
         }
     };
@@ -356,14 +372,22 @@ public abstract class Easing {
         public float ease(float t, float b, float c, float d) {
             float a = getAmplitude();
             float p = getPeriod();
-            if (t == 0) return b;
-            if ((t /= d) == 1) return b + c;
-            if (p == 0) p = d * .3f;
+            if (t == 0) {
+                return b;
+            }
+            if ((t /= d) == 1) {
+                return b + c;
+            }
+            if (p == 0) {
+                p = d * .3f;
+            }
             float s = 0;
             if (a < Math.abs(c)) {
                 a = c;
                 s = p / 4;
-            } else s = p / (float) (2 * Math.PI) * (float) Math.asin(c / a);
+            } else {
+                s = p / (float) (2 * Math.PI) * (float) Math.asin(c / a);
+            }
             return -(a * (float) Math.pow(2, 10 * (t -= 1)) * (float) Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
         }
     }
@@ -388,14 +412,22 @@ public abstract class Easing {
         public float ease(float t, float b, float c, float d) {
             float a = getAmplitude();
             float p = getPeriod();
-            if (t == 0) return b;
-            if ((t /= d) == 1) return b + c;
-            if (p == 0) p = d * .3f;
+            if (t == 0) {
+                return b;
+            }
+            if ((t /= d) == 1) {
+                return b + c;
+            }
+            if (p == 0) {
+                p = d * .3f;
+            }
             float s = 0;
             if (a < Math.abs(c)) {
                 a = c;
                 s = p / 4;
-            } else s = p / (float) (2 * Math.PI) * (float) Math.asin(c / a);
+            } else {
+                s = p / (float) (2 * Math.PI) * (float) Math.asin(c / a);
+            }
             return a * (float) Math.pow(2, -10 * t) * (float) Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
         }
     }
@@ -420,16 +452,25 @@ public abstract class Easing {
         public float ease(float t, float b, float c, float d) {
             float a = getAmplitude();
             float p = getPeriod();
-            if (t == 0) return b;
-            if ((t /= d / 2) == 2) return b + c;
-            if (p == 0) p = d * (.3f * 1.5f);
+            if (t == 0) {
+                return b;
+            }
+            if ((t /= d / 2) == 2) {
+                return b + c;
+            }
+            if (p == 0) {
+                p = d * (.3f * 1.5f);
+            }
             float s = 0;
             if (a < Math.abs(c)) {
                 a = c;
                 s = p / 4f;
-            } else s = p / (float) (2 * Math.PI) * (float) Math.asin(c / a);
-            if (t < 1)
+            } else {
+                s = p / (float) (2 * Math.PI) * (float) Math.asin(c / a);
+            }
+            if (t < 1) {
                 return -.5f * (a * (float) Math.pow(2, 10 * (t -= 1)) * (float) Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+            }
             return a * (float) Math.pow(2, -10 * (t -= 1)) * (float) Math.sin((t * d - s) * (2 * Math.PI) / p) * .5f + c + b;
         }
     }
@@ -551,7 +592,9 @@ public abstract class Easing {
 
         public float ease(float t, float b, float c, float d) {
             float s = getOvershoot();
-            if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b;
+            if ((t /= d / 2) < 1) {
+                return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b;
+            }
             return c / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2) + b;
         }
     }
@@ -589,7 +632,9 @@ public abstract class Easing {
      */
     public static final Easing BOUNCE_IN_OUT = new Easing("bounceInOut") {
         public float ease(float t, float b, float c, float d) {
-            if (t < d / 2) return Easing.BOUNCE_IN.ease(t * 2, 0, c, d) * .5f + b;
+            if (t < d / 2) {
+                return Easing.BOUNCE_IN.ease(t * 2, 0, c, d) * .5f + b;
+            }
             return Easing.BOUNCE_OUT.ease(t * 2 - d, 0, c, d) * .5f + c * .5f + b;
         }
     };

@@ -27,10 +27,10 @@ public class LodestoneLangDatagen extends FabricLanguageProvider {
             String name = DataHelper.toTitleCase(a.getId().getPath(), "_");
             builder.add("attribute.name.lodestone." + a.getId().getPath(), name);
         });
-        addOption(builder,"screenshake_intensity", "Screenshake Intensity");
+        addOption(builder, "screenshake_intensity", "Screenshake Intensity");
         addOptionTooltip(builder, "screenshake_intensity", "Controls how much screenshake is applied to your screen.");
 
-        addOption(builder,"fire_offset", "Fire Overlay Offset");
+        addOption(builder, "fire_offset", "Fire Overlay Offset");
         addOptionTooltip(builder, "fire_offset", "Offsets the fire overlay effect downwards, clearing up your vision.");
 
         addCommand(builder, "devsetup", "World setup for not-annoying development work");
@@ -60,7 +60,6 @@ public class LodestoneLangDatagen extends FabricLanguageProvider {
     public static String getOptionTooltip(String option) {
         return "options." + LODESTONE + "." + option + ".tooltip";
     }
-
 
 
     @Override

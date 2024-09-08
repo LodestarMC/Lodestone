@@ -14,7 +14,7 @@ public class LodestoneWorldComponent implements AutoSyncedComponent, CommonTicki
     public final ArrayList<WorldEventInstance> activeWorldEvents = new ArrayList<>();
     public final ArrayList<WorldEventInstance> inboundWorldEvents = new ArrayList<>();
 
-    public LodestoneWorldComponent(Level level){
+    public LodestoneWorldComponent(Level level) {
         this.level = level;
     }
 
@@ -22,7 +22,7 @@ public class LodestoneWorldComponent implements AutoSyncedComponent, CommonTicki
     @Override
     public void tick() {
         WorldEventHandler.worldTick(level);
-        if(level.isClientSide()){
+        if (level.isClientSide()) {
             WorldEventHandler.tick(level);
         }
     }

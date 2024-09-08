@@ -37,6 +37,7 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
 
     protected WorldEventInstanceArgument() {
     }
+
     public static WorldEventInstanceArgument worldEventInstance() {
         return new WorldEventInstanceArgument();
     }
@@ -56,12 +57,18 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
             try {
                 UUID uuid = UUID.fromString(s1);
                 MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-                if (server == null) return null;
+                if (server == null) {
+                    return null;
+                }
                 Set<ResourceKey<Level>> levels = server.registryAccess().registry(Registries.DIMENSION).get().registryKeySet();
                 levels.forEach(levelResourceKey -> {
-                    if (levelResourceKey == null) return;
+                    if (levelResourceKey == null) {
+                        return;
+                    }
                     Level level = server.getLevel(levelResourceKey);
-                    if (level == null) return;
+                    if (level == null) {
+                        return;
+                    }
                     LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(capability -> capability.activeWorldEvents.forEach(worldEventInstance -> {
                         if (worldEventInstance.uuid.equals(uuid)) {
                             eventInstance.set(worldEventInstance);
@@ -86,10 +93,14 @@ public class WorldEventInstanceArgument implements ArgumentType<WorldEventInstan
         S s = context.getSource();
         if (s instanceof SharedSuggestionProvider sharedsuggestionprovider) {
             sharedsuggestionprovider.levels().forEach(levelResourceKey -> {
-                if (levelResourceKey == null) return;
+                if (levelResourceKey == null) {
+                    return;
+                }
 
                 final Minecraft client = ((ClientSuggestionProviderMixin) sharedsuggestionprovider).getMinecraft();
-                if (client == null) return;
+                if (client == null) {
+                    return;
+                }
                 LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(client).ifPresent(capability -> {
                     capability.activeWorldEvents.forEach(worldEventInstance -> {
                         builder.suggest(worldEventInstance.uuid.toString());

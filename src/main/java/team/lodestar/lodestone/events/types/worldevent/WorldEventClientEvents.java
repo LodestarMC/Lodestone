@@ -12,8 +12,9 @@ import team.lodestar.lodestone.systems.worldevent.WorldEventRenderer;
 @Environment(EnvType.CLIENT)
 public class WorldEventClientEvents {
     public static final Event<Render> RENDER = EventFactory.createArrayBacked(Render.class, callbacks -> (worldEvent, renderer, poseStack, multiBufferSource, partialTicks) -> {
-        for (Render e : callbacks)
+        for (Render e : callbacks) {
             e.onRender(worldEvent, renderer, poseStack, multiBufferSource, partialTicks);
+        }
     });
 
     @FunctionalInterface

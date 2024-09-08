@@ -19,7 +19,6 @@ public class LodestoneBlockTagDatagen extends FabricTagProvider.BlockTagProvider
     }
 
 
-
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
 

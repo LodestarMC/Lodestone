@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.systems.particle.world.behaviors.components;
 
-import net.minecraft.world.phys.*;
-import team.lodestar.lodestone.systems.particle.world.*;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
+import net.minecraft.world.phys.Vec3;
+import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
+import team.lodestar.lodestone.systems.particle.world.behaviors.LodestoneParticleBehavior;
 
-import java.util.function.*;
+import java.util.function.Function;
 
 public class DirectionalBehaviorComponent implements LodestoneBehaviorComponent {
 

@@ -24,7 +24,8 @@ public class FogRendererMixin {
     @Shadow
     private static float fogBlue;
 
-    @Inject(method = "setupColor", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clearColor(FFFF)V", ordinal = 1)) //, locals = LocalCapture.CAPTURE_FAILHARD
+    @Inject(method = "setupColor", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clearColor(FFFF)V", ordinal = 1))
+    //, locals = LocalCapture.CAPTURE_FAILHARD
     private static void jcraft$getFogColor(Camera camera, float tickDelta, ClientLevel world, int viewDistance, float skyDarkness, CallbackInfo ci) {
         RenderHandler.cacheFogData(fogRed, fogGreen, fogBlue);
     }

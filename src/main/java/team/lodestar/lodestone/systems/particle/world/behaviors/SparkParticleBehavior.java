@@ -1,12 +1,14 @@
 package team.lodestar.lodestone.systems.particle.world.behaviors;
 
-import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.*;
-import net.minecraft.util.*;
-import net.minecraft.world.phys.*;
-import team.lodestar.lodestone.systems.particle.world.*;
-import team.lodestar.lodestone.systems.particle.world.behaviors.components.*;
-import team.lodestar.lodestone.systems.rendering.*;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Camera;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
+import team.lodestar.lodestone.systems.particle.world.behaviors.components.LodestoneBehaviorComponent;
+import team.lodestar.lodestone.systems.particle.world.behaviors.components.SparkBehaviorComponent;
+import team.lodestar.lodestone.systems.rendering.VFXBuilders;
 
 public class SparkParticleBehavior implements LodestoneParticleBehavior {
 

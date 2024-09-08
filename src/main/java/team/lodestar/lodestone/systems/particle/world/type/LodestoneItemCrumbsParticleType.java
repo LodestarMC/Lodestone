@@ -4,8 +4,8 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import org.jetbrains.annotations.Nullable;
-import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.LodestoneItemCrumbParticle;
+import team.lodestar.lodestone.systems.particle.world.options.LodestoneItemCrumbsParticleOptions;
 
 
 public class LodestoneItemCrumbsParticleType extends AbstractLodestoneParticleType<LodestoneItemCrumbsParticleOptions> {

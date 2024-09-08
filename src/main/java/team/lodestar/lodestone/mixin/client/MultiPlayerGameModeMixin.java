@@ -37,7 +37,7 @@ public class MultiPlayerGameModeMixin {
     }
 
     @Inject(method = "performUseItemOn", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getItemInHand(Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true)
-    private void lodestone$injectEvent(LocalPlayer player, InteractionHand hand, BlockHitResult result, CallbackInfoReturnable<InteractionResult> cir, @Local BlockPos blockPos){
+    private void lodestone$injectEvent(LocalPlayer player, InteractionHand hand, BlockHitResult result, CallbackInfoReturnable<InteractionResult> cir, @Local BlockPos blockPos) {
         boolean shouldCancel = LodestoneInteractionEvent.RIGHT_CLICK_BLOCK.invoker().onRightClickBlock(player, hand, blockPos, result);
         if (shouldCancel) {
             cir.setReturnValue(InteractionResult.FAIL);

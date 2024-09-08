@@ -3,11 +3,10 @@ package team.lodestar.lodestone.systems.sound;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
-import team.lodestar.lodestone.systems.blockentity.*;
+import team.lodestar.lodestone.systems.blockentity.LodestoneBlockEntity;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class CachedBlockEntitySoundInstance<T extends LodestoneBlockEntity> extends LodestoneBlockEntitySoundInstance<T> {
@@ -37,8 +36,7 @@ public class CachedBlockEntitySoundInstance<T extends LodestoneBlockEntity> exte
                 existingSound.stop();
                 ACTIVE_SOUNDS.put(blockPos, sound);
             }
-        }
-        else {
+        } else {
             ACTIVE_SOUNDS.put(blockPos, sound);
         }
         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);

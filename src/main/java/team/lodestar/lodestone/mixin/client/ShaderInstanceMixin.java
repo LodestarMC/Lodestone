@@ -12,7 +12,9 @@ import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
 @Mixin(ShaderInstance.class)
 public class ShaderInstanceMixin {
 
-    @Shadow @Final private String name;
+    @Shadow
+    @Final
+    private String name;
 
     // Allow loading our ShaderPrograms from arbitrary namespaces.
     @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resources/ResourceLocation;<init>(Ljava/lang/String;)V"), allow = 1)

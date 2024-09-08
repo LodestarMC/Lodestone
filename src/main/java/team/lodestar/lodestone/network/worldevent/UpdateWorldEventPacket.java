@@ -12,11 +12,10 @@ import team.lodestar.lodestone.systems.network.LodestoneClientPacket;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
 public class UpdateWorldEventPacket extends LodestoneClientPacket {
-    private UUID uuid;
-    private CompoundTag eventData;
+    private final UUID uuid;
+    private final CompoundTag eventData;
 
     public UpdateWorldEventPacket(UUID uuid, CompoundTag eventData) {
         this.uuid = uuid;

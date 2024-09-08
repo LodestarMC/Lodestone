@@ -25,7 +25,7 @@ public class GenericParticleData {
     }
 
     public GenericParticleData bake() {
-        return new GenericParticleData(startingValue*valueMultiplier, middleValue*valueMultiplier, endingValue*valueMultiplier, coefficient*coefficientMultiplier, startToMiddleEasing, middleToEndEasing);
+        return new GenericParticleData(startingValue * valueMultiplier, middleValue * valueMultiplier, endingValue * valueMultiplier, coefficient * coefficientMultiplier, startToMiddleEasing, middleToEndEasing);
     }
 
     public GenericParticleData multiplyCoefficient(float coefficientMultiplier) {

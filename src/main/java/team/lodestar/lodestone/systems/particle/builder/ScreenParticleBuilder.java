@@ -2,17 +2,21 @@ package team.lodestar.lodestone.systems.particle.builder;
 
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
-import team.lodestar.lodestone.systems.particle.data.*;
-import team.lodestar.lodestone.systems.particle.data.color.*;
-import team.lodestar.lodestone.systems.particle.data.spin.*;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
+import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
+import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
+import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 import team.lodestar.lodestone.systems.particle.screen.GenericScreenParticle;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticleOptions> {
 
@@ -132,7 +136,9 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
     }
 
     public ScreenParticleBuilder repeat(double x, double y, int n) {
-        for (int i = 0; i < n; i++) spawn(x, y);
+        for (int i = 0; i < n; i++) {
+            spawn(x, y);
+        }
         return this;
     }
 
@@ -145,7 +151,9 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
     }
 
     public ScreenParticleBuilder repeatOnStack(double xOffset, double yOffset, int n) {
-        for (int i = 0; i < n; i++) spawnOnStack(xOffset, yOffset);
+        for (int i = 0; i < n; i++) {
+            spawnOnStack(xOffset, yOffset);
+        }
         return this;
     }
 

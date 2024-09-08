@@ -6,7 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.TagTypes;
 import net.minecraft.network.chat.*;
 import net.minecraft.server.level.ServerLevel;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
@@ -22,6 +21,7 @@ public class ListActiveWorldEventsCommand {
     private static final int whitespaceWidth = 20;
     private static final int ITEMS_PER_PAGE = 10;
     private static final int currentPage = 0;
+
     public ListActiveWorldEventsCommand() {
     }
 
@@ -164,7 +164,9 @@ public class ListActiveWorldEventsCommand {
 
         private void buildDetailsBody(Consumer<Component> consumer, CompoundTag tag) {
             tag.tags.forEach((key, value) -> {
-                if (key.equals("uuid") || key.equals("type") || key.equals("discarded") || key.equals("frozen")) return;
+                if (key.equals("uuid") || key.equals("type") || key.equals("discarded") || key.equals("frozen")) {
+                    return;
+                }
                 MutableComponent keyComponent = Component.literal(key + ": ").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN));
                 MutableComponent valueComponent = Component.literal(value.toString()).withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE));
                 consumer.accept(keyComponent.append(valueComponent));
@@ -258,7 +260,9 @@ public class ListActiveWorldEventsCommand {
         }
 
         private void buildWhitespace(Consumer<Component> consumer) {
-            for (int i = 0; i < whitespaceWidth; i++) consumer.accept(Component.literal(" "));
+            for (int i = 0; i < whitespaceWidth; i++) {
+                consumer.accept(Component.literal(" "));
+            }
         }
 
         private static MutableComponent getDashedLine() {

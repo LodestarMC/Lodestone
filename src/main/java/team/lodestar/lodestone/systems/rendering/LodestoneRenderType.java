@@ -1,11 +1,16 @@
 package team.lodestar.lodestone.systems.rendering;
 
-import com.mojang.blaze3d.systems.*;
-import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.*;
-import net.minecraft.client.renderer.*;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexSorting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 
-import java.util.*;
+import java.util.Optional;
 
 import static net.minecraft.client.renderer.RenderType.CompositeRenderType.OUTLINE;
 

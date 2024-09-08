@@ -1,10 +1,12 @@
 package team.lodestar.lodestone.systems.rendering.rendeertype;
 
-import net.minecraft.client.renderer.*;
-import net.minecraft.resources.*;
+import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.resources.ResourceLocation;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.function.Supplier;
 
 public class RenderTypeToken implements Supplier<RenderStateShard.EmptyTextureStateShard> {
 

@@ -38,9 +38,9 @@ public class ItemStackMixin {
             method = "getTooltipLines",
             at = @At(
                     value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getOperation()Lnet/minecraft/world/entity/ai/attributes/AttributeModifier$Operation;",
-            ordinal = 0
-    ))
+                    target = "Lnet/minecraft/world/entity/ai/attributes/AttributeModifier;getOperation()Lnet/minecraft/world/entity/ai/attributes/AttributeModifier$Operation;",
+                    ordinal = 0
+            ))
     private boolean lodestone$getTooltip2(boolean value, @Nullable Player player, TooltipFlag flag) {
         if (player != null) {
             if (lodestone$attributeModifier.getId().equals(LodestoneAttributeRegistry.UUIDS.get(LodestoneAttributeRegistry.MAGIC_DAMAGE))) {
@@ -77,7 +77,7 @@ public class ItemStackMixin {
     }
 
     @Inject(method = "getTooltipLines", at = @At(value = "RETURN"))
-    private void lodestone$tooltipEvent(@Nullable Player player, TooltipFlag isAdvanced, CallbackInfoReturnable<List<Component>> cir){
+    private void lodestone$tooltipEvent(@Nullable Player player, TooltipFlag isAdvanced, CallbackInfoReturnable<List<Component>> cir) {
         LodestoneItemEvent.ON_ITEM_TOOLTIP.invoker().on((ItemStack) (Object) this, player, cir.getReturnValue(), isAdvanced);
     }
 }

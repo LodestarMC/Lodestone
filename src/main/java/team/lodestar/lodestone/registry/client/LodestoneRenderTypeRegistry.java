@@ -1,27 +1,30 @@
 package team.lodestar.lodestone.registry.client;
 
-import com.mojang.blaze3d.platform.*;
-import com.mojang.blaze3d.systems.*;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.*;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
 import team.lodestar.lodestone.handlers.RenderHandler;
-import team.lodestar.lodestone.systems.rendering.*;
-import team.lodestar.lodestone.systems.rendering.rendeertype.*;
+import team.lodestar.lodestone.systems.rendering.LodestoneRenderType;
+import team.lodestar.lodestone.systems.rendering.StateShards;
+import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeData;
+import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeProvider;
+import team.lodestar.lodestone.systems.rendering.rendeertype.RenderTypeToken;
+import team.lodestar.lodestone.systems.rendering.rendeertype.ShaderUniformHandler;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
 import java.util.HashMap;
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.mojang.blaze3d.vertex.DefaultVertexFormat.*;
-import static com.mojang.blaze3d.vertex.VertexFormat.Mode.*;
-import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
+import static com.mojang.blaze3d.vertex.VertexFormat.Mode.QUADS;
 
 public class LodestoneRenderTypeRegistry extends RenderStateShard {
 
@@ -191,6 +194,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static LodestoneRenderType createGenericRenderType(String name, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder) {
         return createGenericRenderType(name, format, mode, builder, null);
     }
+
     /**
      * Creates a custom render type and creates a buffer builder for it.
      */
@@ -241,6 +245,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static LodestoneRenderType copyAndStore(Object index, LodestoneRenderType type) {
         return COPIES.computeIfAbsent(Pair.of(index, type), (p) -> GENERIC.apply(new RenderTypeData(type)));
     }
+
     public static LodestoneRenderType copyAndStore(Object index, LodestoneRenderType type, ShaderUniformHandler handler) {
         return applyUniformChanges(copyAndStore(index, type), handler);
     }

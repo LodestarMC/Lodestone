@@ -1,9 +1,9 @@
 package team.lodestar.lodestone.registry.common.tag;
 
-import net.minecraft.core.registries.*;
-import net.minecraft.resources.*;
-import net.minecraft.tags.*;
-import net.minecraft.world.damagesource.*;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageType;
 
 public class LodestoneDamageTypeTags {
 

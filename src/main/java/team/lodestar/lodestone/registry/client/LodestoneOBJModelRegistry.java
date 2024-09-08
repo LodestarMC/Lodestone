@@ -1,10 +1,7 @@
 package team.lodestar.lodestone.registry.client;
 
-import net.minecraft.resources.ResourceLocation;
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.model.obj.lod.MultiLODModel;
 import team.lodestar.lodestone.systems.model.obj.ObjModel;
-import team.lodestar.lodestone.systems.model.obj.lod.LODStrategy;
+import team.lodestar.lodestone.systems.model.obj.lod.MultiLODModel;
 
 import java.util.ArrayList;
 import java.util.List;

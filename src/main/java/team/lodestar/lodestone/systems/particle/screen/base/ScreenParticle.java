@@ -1,10 +1,10 @@
 package team.lodestar.lodestone.systems.particle.screen.base;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.util.RandomSource;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 
 @Environment(EnvType.CLIENT)
