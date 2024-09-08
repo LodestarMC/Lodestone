@@ -25,8 +25,7 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
     public final ParticleType<?> type;
     public LodestoneParticleBehavior behavior = LodestoneParticleBehavior.BILLBOARD;
     public LodestoneBehaviorComponent behaviorComponent;
-    public ParticleRenderType renderType = ModList.get().isLoaded("oculus") ?
-            LodestoneWorldParticleRenderType.IRIS_ADDITIVE : LodestoneWorldParticleRenderType.ADDITIVE;
+    public ParticleRenderType renderType = LodestoneWorldParticleRenderType.ADDITIVE;
 
     public RenderHandler.LodestoneRenderLayer renderLayer = RenderHandler.DELAYED_RENDER;
     public boolean shouldCull;
