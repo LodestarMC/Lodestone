@@ -44,9 +44,6 @@ sourceSets {
 }
 
 repositories {
-    flatDir {
-        dirs("lib")
-    }
     mavenCentral()
     maven("https://maven.theillusivec4.top/") { name = "Curios maven" }
     maven("https://dvs1.progwml6.com/files/maven") { name = "JEI maven" }
@@ -65,7 +62,6 @@ repositories {
     maven("https://mvn.devos.one/snapshots/")
     maven(url = "https://mvn.devos.one/releases/")
     maven( "https://maven.jamieswhiteshirt.com/libs-release")
-    maven("https://maven.shedaniel.me/")
 }
 
 dependencies {
