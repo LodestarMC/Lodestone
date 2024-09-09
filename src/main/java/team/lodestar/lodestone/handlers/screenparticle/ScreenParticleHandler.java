@@ -65,6 +65,7 @@ public class ScreenParticleHandler {
             return;
         }
         Minecraft minecraft = Minecraft.getInstance();
+
         if (minecraft.level != null && minecraft.player != null) {
             if (minecraft.isPaused()) {
                 return;
@@ -75,21 +76,15 @@ public class ScreenParticleHandler {
                     currentItemX = x + 8;
                     currentItemY = y + 8;
 
+                    final Matrix4f pose = poseStack.last().pose();
+                    float xOffset = pose.m30();
+                    float yOffset = pose.m31();
+                    currentItemX += (int) xOffset;
+                    currentItemY += (int) yOffset;
 
-                    if (currentItemX == 8 && currentItemY == 8) {
-                        final Matrix4f pose = poseStack.last().pose();
-                        float xOffset = pose.m30();
-                        float yOffset = pose.m31();
-                        currentItemX += xOffset;
-                        currentItemY += yOffset;
-                    }
-                    else if (!renderingHotbar && minecraft.screen instanceof AbstractContainerScreen<?> containerScreen) {
-                        currentItemX += containerScreen.leftPos;
-                        currentItemY += containerScreen.topPos;
-                    }
                     for (ParticleEmitterHandler.ItemParticleSupplier emitter : emitters) {
-                        renderParticles(spawnAndPullParticles(minecraft.level, emitter, stack, false));
-                        cachedItemParticles = spawnAndPullParticles(minecraft.level, emitter, stack, true);
+                        ScreenParticleHandler.renderParticles(ScreenParticleHandler.spawnAndPullParticles(minecraft.level, emitter, stack, false));
+                        cachedItemParticles = ScreenParticleHandler.spawnAndPullParticles(minecraft.level, emitter, stack, true);
                     }
                 }
             }
