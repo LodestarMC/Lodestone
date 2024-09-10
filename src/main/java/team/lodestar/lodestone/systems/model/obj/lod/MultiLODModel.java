@@ -5,10 +5,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import team.lodestar.lodestone.systems.model.obj.ObjModel;
 
-public class MultiLODModelNew<P> extends ObjModel {
+public class MultiLODModel<P> extends ObjModel {
     private final LODStrategy<?,P> lodStrategy;
     private P currentModelData;
-    public MultiLODModelNew(LODStrategy<?,P> lodStrategy) {
+    public MultiLODModel(LODStrategy<?,P> lodStrategy) {
         super(null);
         this.lodStrategy = lodStrategy;
     }
@@ -16,7 +16,7 @@ public class MultiLODModelNew<P> extends ObjModel {
     @Override
     public void loadModel() {
         for (LevelOfDetail<?> levelOfDetail : lodStrategy.levelsOfDetail) {
-            levelOfDetail.getModel().loadModel();
+            levelOfDetail.loadModel();
         }
     }
 
@@ -27,7 +27,11 @@ public class MultiLODModelNew<P> extends ObjModel {
      */
     public void prepareModel(P modelData) {
         LevelOfDetail<?> levelOfDetail = lodStrategy.getLODLevel(modelData);
-        if (levelOfDetail != null) currentModelData = modelData;
+        if (levelOfDetail == null) {
+            // TODO: Dont throw an exception just default to an LOD
+            throw new IllegalArgumentException("No level of detail found for model data: " + modelData);
+        }
+        currentModelData = modelData;
     }
     @Override
     public void render(PoseStack poseStack, RenderType renderType, MultiBufferSource.BufferSource bufferSource) {

@@ -29,6 +29,7 @@ import static com.mojang.blaze3d.platform.GlConst.GL_DRAW_FRAMEBUFFER;
 /**
  * Abstract world space post-process pass.
  * If your shader needs the world space depth buffer, add a target called "depthMain" for it to automatically
+ * @see <a href="https://github.com/LodestarMC/Lodestone/wiki/Post-Processing-Shaders">Lodestone Post Processing Wiki</a>
  */
 public abstract class PostProcessor {
     protected static final Minecraft MC = Minecraft.getInstance();

@@ -11,10 +11,6 @@ public class LevelOfDetail<T> extends ObjModel {
         this.argument = argument;
     }
 
-    public ObjModel getModel() {
-        return this;
-    }
-
     public T getArgument() {
         return argument;
     }

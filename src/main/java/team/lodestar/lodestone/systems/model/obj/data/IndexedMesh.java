@@ -5,6 +5,10 @@ import team.lodestar.lodestone.systems.model.obj.ObjModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a mesh with indices to vertices.
+ * <p>To get the vertices, use {@link #getVertices(ObjModel)} or
+ */
 public class IndexedMesh {
     public List<Integer> indices;
 
@@ -30,11 +34,14 @@ public class IndexedMesh {
 
     public List<Vertex> getVertices(ObjModel objModel) {
         List<Vertex> vertices = new ArrayList<>();
-        this.indices.forEach(index -> vertices.add(objModel.getVertices().get(index)));
         for (int index : this.indices) {
-            vertices.add(objModel.getVertices().get(index));
+            vertices.add(getVertex(objModel, index));
         }
         return vertices;
+    }
+
+    public Vertex getVertex(ObjModel objModel, int index) {
+        return objModel.getVertices().get(index);
     }
 
     public boolean isEdge() {

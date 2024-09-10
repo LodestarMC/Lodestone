@@ -103,7 +103,6 @@ public class ObjParser {
             int vertexIndex = Integer.parseInt(tokens[1]);
             int normalIndex = Integer.parseInt(tokens[2]);
             int textureIndex = Integer.parseInt(tokens[3]);
-            // Check to see if the vertex already exists, if it does then fetch it instead of creating a new one
             return getOrCreateIndexedVertex(vertexIndex, normalIndex, textureIndex);
         }
 

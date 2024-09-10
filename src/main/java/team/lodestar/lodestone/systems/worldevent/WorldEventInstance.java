@@ -16,6 +16,7 @@ import java.util.UUID;
 /**
  * World events are tickable instanced objects which are saved in a level capability, which means they are unique per dimension.
  * They can exist on the client and are ticked separately.
+ * @see <a href="https://github.com/LodestarMC/Lodestone/wiki/World-Events">Lodestone World Events Wiki</a>
  */
 public abstract class WorldEventInstance {
     public UUID uuid;
@@ -23,7 +24,7 @@ public abstract class WorldEventInstance {
     public Level level;
     public boolean discarded;
     public boolean dirty;
-    public boolean frozen = false;
+    public boolean frozen;
 
     public WorldEventInstance(WorldEventType type) {
         if (type == null) throw new IllegalArgumentException("World event type cannot be null");

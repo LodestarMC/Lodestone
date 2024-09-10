@@ -21,7 +21,7 @@ public class SyncWorldEventPayload extends OneSidedPayloadData {
 
     public SyncWorldEventPayload(FriendlyByteBuf byteBuf) {
         super(byteBuf);
-        type = ResourceLocation.parse(byteBuf.readUtf());
+        type = byteBuf.readResourceLocation();
         start = byteBuf.readBoolean();
         eventData = byteBuf.readNbt();
     }
@@ -36,7 +36,7 @@ public class SyncWorldEventPayload extends OneSidedPayloadData {
 
     @Override
     public void serialize(FriendlyByteBuf byteBuf) {
-        byteBuf.writeUtf(type.toString());
+        byteBuf.writeResourceLocation(type);
         byteBuf.writeBoolean(start);
         byteBuf.writeNbt(eventData);
     }
