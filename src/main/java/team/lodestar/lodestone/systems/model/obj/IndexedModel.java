@@ -5,6 +5,8 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import team.lodestar.lodestone.systems.model.obj.data.IndexedMesh;
+import team.lodestar.lodestone.systems.model.obj.data.Vertex;
 
 import java.util.ArrayList;
 import java.util.List;

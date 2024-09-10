@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexFormatElement;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import team.lodestar.lodestone.systems.model.obj.data.Vertex;
 
 public class ObjModel extends IndexedModel {
     public ObjModel(ResourceLocation modelId) {

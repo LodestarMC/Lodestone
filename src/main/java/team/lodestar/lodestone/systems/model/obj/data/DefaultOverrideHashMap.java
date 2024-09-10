@@ -1,8 +1,15 @@
-package team.lodestar.lodestone.systems.model.obj;
+package team.lodestar.lodestone.systems.model.obj.data;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A map that holds a "default" and "override" value for each key.
+ * <p>If the override value is set, it will be returned instead of the default value.</p>
+ * <p>Supplying an override value will not remove the default value but prioritize its return.</p>
+ * @param <K> The key type
+ * @param <V> The default/override value type
+ */
 public class DefaultOverrideHashMap<K,V> {
     private final Map<K, Entry<V>> map;
 
@@ -85,10 +92,6 @@ public class DefaultOverrideHashMap<K,V> {
     public static class Entry<V> {
         private V defaultValue;
         private V overrideValue;
-
-        public Entry() {
-
-        }
 
         public void setDefault(V defaultValue) {
             this.defaultValue = defaultValue;

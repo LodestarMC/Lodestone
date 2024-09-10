@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.model.obj;
+package team.lodestar.lodestone.systems.model.obj.data;
 
 import java.util.Objects;
 

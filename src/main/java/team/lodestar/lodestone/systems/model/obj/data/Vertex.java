@@ -1,9 +1,13 @@
-package team.lodestar.lodestone.systems.model.obj;
+package team.lodestar.lodestone.systems.model.obj.data;
 
 import com.mojang.blaze3d.vertex.VertexFormatElement;
 import net.minecraft.world.phys.Vec2;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import team.lodestar.lodestone.systems.model.obj.ObjParser;
+import team.lodestar.lodestone.systems.model.obj.VertexException;
+import team.lodestar.lodestone.systems.model.obj.data.IndexedVertex;
+import team.lodestar.lodestone.systems.model.obj.data.VertexData;
 
 import java.util.List;
 
@@ -45,6 +49,10 @@ public class Vertex extends VertexData {
 
     public void clearElements() {
         this.clear();
+    }
+
+    public void test() {
+        this.putVertexAttribute(VertexFormatElement.NORMAL, 1.0f, 0.0f, 1.0f);
     }
 
 }

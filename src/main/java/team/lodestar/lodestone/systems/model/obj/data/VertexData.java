@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.systems.model.obj;
+package team.lodestar.lodestone.systems.model.obj.data;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.system.MemoryUtil;
+import team.lodestar.lodestone.systems.model.obj.VertexException;
 
 import java.nio.FloatBuffer;
 import java.util.List;
@@ -17,6 +18,12 @@ import java.util.List;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
 
+/**
+ * Stores the data for a single vertex, allowing for easy definition and retrieval of vertex attributes
+ * <p>Due to the usage of a {@link DefaultOverrideHashMap}, default values can be set for each attribute, which will be used if no override is provided</p>
+ * <p>When parsing a model, default values are typically set to the parsed values from the model file</p>
+ * <p>You can override these values by calling {@link #put(VertexFormatElement, Float...)} and retrieve them with {@link #get(VertexFormatElement)}</p>
+ */
 public class VertexData implements VertexConsumer {
     private DefaultOverrideHashMap<VertexFormatElement, List<Float>> vertexAttributes;
 
@@ -70,15 +77,11 @@ public class VertexData implements VertexConsumer {
         return this.vertexAttributes.containsKeyOrDefault(element);
     }
 
-    private List<Float> getAttribute(VertexFormatElement element) {
-        return this.vertexAttributes.getOverride(element);
-    }
-
     private List<Float> getDefaultAttribute(VertexFormatElement element) {
         return this.vertexAttributes.getDefault(element);
     }
 
-    protected List<Float> getOrDefaultAttribute(VertexFormatElement element) {
+    public List<Float> getOrDefaultAttribute(VertexFormatElement element) {
         return this.vertexAttributes.getOrDefault(element, null);
     }
 

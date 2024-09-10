@@ -4,6 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.Resource;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import team.lodestar.lodestone.systems.model.obj.data.IndexedMesh;
+import team.lodestar.lodestone.systems.model.obj.data.IndexedVertex;
+import team.lodestar.lodestone.systems.model.obj.data.Vertex;
 
 import java.io.BufferedReader;
 import java.io.IOException;
