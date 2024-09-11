@@ -26,7 +26,7 @@ public class ChancePlacementFilter extends PlacementFilter {
     }
 
     public PlacementModifierType<?> type() {
-        return LodestonePlacementFillers.CHANCE;
+        return LodestonePlacementFillers.CHANCE.get();
     }
 
     @Override

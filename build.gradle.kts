@@ -1,111 +1,83 @@
-import java.text.SimpleDateFormat
-import java.util.*
-
 plugins {
-    id("eclipse")
-    id("idea")
+    id("java-library")
     id("maven-publish")
-    id("net.neoforged.moddev").version("1.0.11")
-    //id("org.parchmentmc.librarian.forgegradle").version("1.+")
-    //id("org.spongepowered.mixin")
+    id("net.neoforged.moddev") version "1.0.17"
 }
 
-version = "${property("minecraft_version")}-${property("mod_version")}"
-if (System.getenv("BUILD_NUMBER") != null) {
-    version = "${property("loader_version")}-${property("mod_version")}.${System.getenv("BUILD_NUMBER")}"
+tasks.named<Wrapper>("wrapper") {
+    // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
+    // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
+    // documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
+    // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
+    // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
+    distributionType = Wrapper.DistributionType.BIN
 }
 group = "${property("mod_group_id")}"
 
-val baseArchivesName = "${property("mod_id")}"
-base {
-    archivesName.set(baseArchivesName)
+repositories {
+    mavenLocal()
 }
 
+base {
+    archivesName.set("${property("mod_id")}")
+}
+
+// Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of("${property("mod_java_version")}"))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
-
-
 neoForge {
-    // Specify the version of NeoForge to use.
-    version = "${property("neo_version")}"
+    version.set(project.property("neo_version").toString())
 
     parchment {
-        mappingsVersion = "${property("parchment_mappings_version")}"
-        minecraftVersion = "${property("parchment_minecraft_version")}"
+        mappingsVersion.set(project.property("parchment_mappings_version").toString())
+        minecraftVersion.set(project.property("parchment_minecraft_version").toString())
     }
 
-    accessTransformers {
-        file("src/main/resources/META-INF/accesstransformer.cfg")
-    }
-
-    validateAccessTransformers = true
     // This line is optional. Access Transformers are automatically detected
-    //accessTransformers.add("src/main/resources/META-INF/accesstransformer.cfg")
+    // accessTransformers.set(project.files("src/main/resources/META-INF/accesstransformer.cfg"))
 
-
-    //validateAccessTransformers = true
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
     runs {
-        create("client") {
+        register("client") {
             client()
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty("neoforge.enabledGameTestNamespaces", "${property("mod_id")}")
+            systemProperty("neoforge.enabledGameTestNamespaces", project.property("mod_id").toString())
         }
 
-        create("server") {
+        register("server") {
             server()
             programArgument("--nogui")
-            systemProperty("neoforge.enabledGameTestNamespaces", "${property("mod_id")}")
+            systemProperty("neoforge.enabledGameTestNamespaces", project.property("mod_id").toString())
         }
 
-        // This run config launches GameTestServer and runs all registered gametests, then exits.
-        // By default, the server will crash when no gametests are provided.
-        // The gametest system is also enabled by default for other run configs under the /test command.
-        create("gameTestServer") {
+        register("gameTestServer") {
             type = "gameTestServer"
-            systemProperty("neoforge.enabledGameTestNamespaces", "${property("mod_id")}")
+            systemProperty("neoforge.enabledGameTestNamespaces", project.property("mod_id").toString())
         }
 
-        create("data") {
+        register("data") {
             data()
-
-            // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
-            // gameDirectory = project.file('run-data')
-
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll("--mod", "${property("mod_id")}", "--all", "--output", file("src/generated/resources/").getAbsolutePath(), "--existing", file("src/main/resources/").getAbsolutePath())
+            programArguments.addAll(
+                "--mod", project.property("mod_id").toString(),
+                "--all",
+                "--output", file("src/generated/resources/").absolutePath,
+                "--existing", file("src/main/resources/").absolutePath
+            )
         }
 
-        // applies to all the run configs above
         configureEach {
-            // Recommended logging data for a userdev environment
-            // The markers can be added/remove as needed separated by commas.
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
             systemProperty("forge.logging.markers", "REGISTRIES")
-
-            // Recommended logging level for the console
-            // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             logLevel = org.slf4j.event.Level.DEBUG
         }
     }
 
     mods {
-        // define mod <-> source bindings
-        // these are used to tell the game which sources are for which mod
-        // mostly optional in a single mod project
-        // but multi mod projects should define one per mod
         create("${property("mod_id")}") {
-            //sourceSet(sourceSets.main)
-            //modSource(property("mod_id").sourceSets["main"])
+            sourceSet(sourceSets.main.get())
         }
     }
 }
@@ -120,11 +92,8 @@ sourceSets {
 repositories {
     mavenCentral()
     maven {
-        name = "Curios maven"
-        url = uri("https://maven.theillusivec4.top/")
-        content {
-            includeGroupByRegex("top\\.theillusivec4.*")
-        }
+        name = "OctoStudios"
+        url = uri("https://maven.octo-studios.com/releases")
     }
     maven {
         name = "JEI maven"
@@ -157,28 +126,36 @@ dependencies {
 
 //    implementation(fg.deobf("com.sammy.malum:malum:${minecraftVersion}-1.6.72"))
 }
+val generateModMetadata by tasks.registering(ProcessResources::class) {
+    val replaceProperties = mapOf(
+        "minecraft_version" to project.findProperty("minecraft_version") as String,
+        "minecraft_version_range" to project.findProperty("minecraft_version_range") as String,
+        "neo_version" to project.findProperty("neo_version") as String,
+        "neo_version_range" to project.findProperty("neo_version_range") as String,
+        "loader_version_range" to project.findProperty("loader_version_range") as String,
+        "mod_id" to project.findProperty("mod_id") as String,
+        "mod_name" to project.findProperty("mod_name") as String,
+        "mod_license" to project.findProperty("mod_license") as String,
+        "mod_version" to project.findProperty("mod_version") as String,
+        "mod_authors" to project.findProperty("mod_authors") as String,
+        "mod_description" to project.findProperty("mod_description") as String
+    )
+    inputs.properties(replaceProperties)
+    expand(replaceProperties)
 
-tasks.withType<ProcessResources> {
-    inputs.property("version", version)
-
-    filesMatching(listOf("META-INF/mods.toml", "pack.mcmeta")) {
-        expand(
-                mapOf(
-                        "neo_version_range" to "${property("neo_version_range")}",
-                        "loader_version_range" to "${property("loader_version_range")}",
-                        "minecraft_version" to "${property("minecraft_version")}",
-                        "minecraft_version_range" to "${property("minecraft_version_range")}",
-                        "mod_authors" to "${property("mod_authors")}",
-                        "mod_description" to "${property("mod_description")}",
-                        "mod_id" to "${property("mod_id")}",
-                        "mod_java_version" to "${property("mod_java_version")}",
-                        "mod_name" to "${property("mod_name")}",
-                        "mod_version" to "${property("version")}",
-                        "mod_license" to "${property("mod_license")}"
-                )
-        )
+    // Exclude .java files or any other files that shouldn't have template expansion
+    filesMatching("**/*.java") {
+        exclude()
     }
+
+    from("src/main/templates")
+    into("build/generated/sources/modMetadata")
 }
+// Include the output of "generateModMetadata" as an input directory for the build.
+// This works with both building through Gradle and the IDE.
+sourceSets["main"].resources.srcDir(generateModMetadata)
+neoForge.ideSyncTask(generateModMetadata)
+
 
 java {
     withJavadocJar()
@@ -206,7 +183,7 @@ tasks.withType<Jar> {
 publishing {
     publications {
         register<MavenPublication>("mavenJava") {
-            artifactId = baseArchivesName
+            artifactId = "${property("mod_id")}"
             from(components["java"])
         }
     }

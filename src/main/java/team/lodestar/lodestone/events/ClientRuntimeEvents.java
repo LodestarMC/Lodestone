@@ -74,8 +74,8 @@ public class ClientRuntimeEvents {
     }
 
     @SubscribeEvent
-    public static void renderFrameEvent(RenderFrameEvent event) {
-        if (event instanceof RenderFrameEvent) {
+    public static void renderFrameEvent(RenderFrameEvent.Pre event) {//TODO Pre or Post?
+        if (event != null) {
             ScreenParticleHandler.renderTick(event);
         }
     }

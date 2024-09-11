@@ -54,7 +54,7 @@ public class ScreenParticleHandler {
         canSpawnParticles = true;
     }
 
-    public static void renderTick(RenderFrameEvent event) {
+    public static void renderTick(RenderFrameEvent.Pre event) {
         canSpawnParticles = false;
     }
 

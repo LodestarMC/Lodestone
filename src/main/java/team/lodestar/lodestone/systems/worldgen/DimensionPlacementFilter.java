@@ -41,7 +41,7 @@ public class DimensionPlacementFilter extends PlacementFilter {
 
     @Override
     public PlacementModifierType<?> type() {
-        return LodestonePlacementFillers.DIMENSION;
+        return LodestonePlacementFillers.DIMENSION.get();
     }
 
     public static Set<ResourceKey<Level>> fromStrings(List<? extends String> dimensions) {

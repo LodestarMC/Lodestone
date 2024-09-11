@@ -33,8 +33,8 @@ public class RenderHandler {
     public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
 
     public static RenderTarget LODESTONE_DEPTH_CACHE = new TextureTarget(Minecraft.getInstance().getMainRenderTarget().width, Minecraft.getInstance().getMainRenderTarget().height, true, Minecraft.ON_OSX);
-    public static LodestoneRenderLayer DELAYED_RENDER;
-    public static LodestoneRenderLayer LATE_DELAYED_RENDER;
+    public static LodestoneRenderLayer DELAYED_RENDER = new LodestoneRenderLayer(BUFFERS, PARTICLE_BUFFERS);
+    public static LodestoneRenderLayer LATE_DELAYED_RENDER = new LodestoneRenderLayer(LATE_BUFFERS, LATE_PARTICLE_BUFFERS);
 
     public static Matrix4f MAIN_PROJ;
     public static Matrix4f MATRIX4F;

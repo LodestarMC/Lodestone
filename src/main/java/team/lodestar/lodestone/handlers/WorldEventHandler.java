@@ -78,11 +78,9 @@ public class WorldEventHandler {
         }
     }
 
-    public static void worldTick(LevelTickEvent event) {
-        if (event instanceof LevelTickEvent.Post postEvent) {
-            if (!postEvent.getLevel().isClientSide) {
-                tick(event.getLevel());
-            }
+    public static void worldTick(LevelTickEvent.Post event) {
+        if (!event.getLevel().isClientSide) {
+            tick(event.getLevel());
         }
     }
 

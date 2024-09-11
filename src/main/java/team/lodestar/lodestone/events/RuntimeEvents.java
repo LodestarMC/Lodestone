@@ -15,13 +15,13 @@ import team.lodestar.lodestone.handlers.WorldEventHandler;
 public class RuntimeEvents {
 
     @SubscribeEvent
-    public static void onHurt(LivingDamageEvent event) {
-        if (event instanceof LivingDamageEvent.Pre preEvent) {
-            LodestoneAttributeEventHandler.processAttributes(preEvent);
-        }
-        else if (event instanceof LivingDamageEvent.Post postEvent) {
-            ItemEventHandler.respondToHurt(postEvent);
-        }
+    public static void onHurt(LivingDamageEvent.Post event) {
+        ItemEventHandler.respondToHurt(event);
+    }
+
+    @SubscribeEvent
+    public static void onHurt(LivingDamageEvent.Pre event) {
+        LodestoneAttributeEventHandler.processAttributes(event);
     }
 
     @SubscribeEvent
@@ -35,7 +35,7 @@ public class RuntimeEvents {
     }
 
     @SubscribeEvent
-    public static void worldTick(LevelTickEvent event) {
+    public static void worldTick(LevelTickEvent.Post event) {
         WorldEventHandler.worldTick(event);
     }
 }
