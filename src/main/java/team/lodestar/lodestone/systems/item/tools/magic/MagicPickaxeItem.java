@@ -1,12 +1,18 @@
 package team.lodestar.lodestone.systems.item.tools.magic;
 
 import com.google.common.collect.ImmutableMultimap;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.registry.common.LodestoneAttributes;
 import team.lodestar.lodestone.systems.item.tools.LodestonePickaxeItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MagicPickaxeItem extends LodestonePickaxeItem {
 
@@ -18,9 +24,10 @@ public class MagicPickaxeItem extends LodestonePickaxeItem {
     }
 
     @Override
-    public ImmutableMultimap.Builder<Attribute, AttributeModifier> createExtraAttributes() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = new ImmutableMultimap.Builder<>();
-        builder.put(LodestoneAttributes.MAGIC_DAMAGE.get(), new AttributeModifier(LodestoneAttributes.UUIDS.get(LodestoneAttributes.MAGIC_DAMAGE), "Weapon magic damage", magicDamage, AttributeModifier.Operation.ADDITION));
-        return builder;
+    public List<ItemAttributeModifiers.Entry> createExtraAttributes() {
+        List<ItemAttributeModifiers.Entry> entries = new ArrayList<>();
+        var magic = new ItemAttributeModifiers.Entry(LodestoneAttributes.MAGIC_DAMAGE, new AttributeModifier(LodestoneLib.lodestonePath("magic_damage"), magicDamage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+        entries.add(magic);
+        return entries;
     }
 }
