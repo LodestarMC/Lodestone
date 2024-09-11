@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -182,12 +183,26 @@ public class RenderHandler {
     }
 
     public static void copyDepthBuffer(RenderTarget tempRenderTarget) {
+        setupDepthBuffer();
+        enableStencil();
         if (tempRenderTarget == null) {
             return;
         }
         RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
         tempRenderTarget.copyDepthFrom(mainRenderTarget);
         GlStateManager._glBindFramebuffer(GL30C.GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
+    }
+
+    public static void setupDepthBuffer() {
+        if (LODESTONE_DEPTH_CACHE == null) {
+            LODESTONE_DEPTH_CACHE = new TextureTarget(Minecraft.getInstance().getMainRenderTarget().width, Minecraft.getInstance().getMainRenderTarget().height, true, Minecraft.ON_OSX);
+        }
+    }
+
+    public static void enableStencil() {
+        if (Minecraft.getInstance().getMainRenderTarget().isStencilEnabled()) {
+            LODESTONE_DEPTH_CACHE.enableStencil();
+        }
     }
 
     public static class LodestoneRenderLayer {
