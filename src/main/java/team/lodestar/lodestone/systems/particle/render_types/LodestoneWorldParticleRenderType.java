@@ -74,17 +74,6 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
         return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
     }
 
-    @Override
-    public void end(BufferBuilder builder) {
-        MeshData meshdata = builder.build();
-        if (meshdata != null) {
-            BufferUploader.drawWithShader(meshdata);
-        }
-        RenderSystem.disableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
-    }
-
     public LodestoneWorldParticleRenderType withDepthFade() {
         return DEPTH_FADE.apply(this);
     }

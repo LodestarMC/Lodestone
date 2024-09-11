@@ -14,6 +14,8 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public abstract class LodestoneArmorItem extends ArmorItem {
     protected Multimap<Attribute, AttributeModifier> attributes;
 
@@ -21,20 +23,25 @@ public abstract class LodestoneArmorItem extends ArmorItem {
         super(pMaterial, pType, pProperties);
     }
 
-
-    public abstract Multimap<Attribute, AttributeModifier> createExtraAttributes(ArmorItem.Type type);
-
     @Override
-    @NotNull
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot equipmentSlot) {
-        if (attributes == null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = new ImmutableMultimap.Builder<>();
-            attributeBuilder.putAll(defaultModifiers);
-            attributeBuilder.putAll(createExtraAttributes(type));
-            this.attributes = attributeBuilder.build();
+    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+        ItemAttributeModifiers modifiers = super.getDefaultAttributeModifiers(stack);
+        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+
+        List<ItemAttributeModifiers.Entry> entries = modifiers.modifiers();
+        for (ItemAttributeModifiers.Entry entry : entries) {
+            builder.add(entry.attribute(), entry.modifier(), entry.slot());
         }
-        return equipmentSlot == this.type.getSlot() ? this.attributes : ImmutableMultimap.of();
+
+        List<ItemAttributeModifiers.Entry> extraEntries = createExtraAttributes();
+        for (ItemAttributeModifiers.Entry entry : extraEntries) {
+            builder.add(entry.attribute(), entry.modifier(), entry.slot());
+        }
+
+        return builder.build();
     }
+
+    public abstract List<ItemAttributeModifiers.Entry> createExtraAttributes();
 
     public String getTexture() {
         return null;

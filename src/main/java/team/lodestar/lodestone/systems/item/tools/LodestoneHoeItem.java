@@ -6,28 +6,40 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LodestoneHoeItem extends HoeItem {
     private Multimap<Attribute, AttributeModifier> attributes;
 
     public LodestoneHoeItem(Tier material, int damage, float speed, Properties properties) {
-        super(material, damage - 2, speed, properties.durability(material.getUses()));
+        super(material, properties.durability(material.getUses()).attributes(createAttributes(material, damage - 2, speed)));
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
-        if (attributes == null) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = new ImmutableMultimap.Builder<>();
-            attributeBuilder.putAll(defaultModifiers);
-            attributeBuilder.putAll(createExtraAttributes().build());
-            attributes = attributeBuilder.build();
+    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+        ItemAttributeModifiers modifiers = super.getDefaultAttributeModifiers(stack);
+        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+
+        List<ItemAttributeModifiers.Entry> entries = modifiers.modifiers();
+        for (ItemAttributeModifiers.Entry entry : entries) {
+            builder.add(entry.attribute(), entry.modifier(), entry.slot());
         }
-        return equipmentSlot == EquipmentSlot.MAINHAND ? this.attributes : super.getDefaultAttributeModifiers(equipmentSlot);
+
+        List<ItemAttributeModifiers.Entry> extraEntries = createExtraAttributes();
+        for (ItemAttributeModifiers.Entry entry : extraEntries) {
+            builder.add(entry.attribute(), entry.modifier(), entry.slot());
+        }
+
+        return builder.build();
     }
 
-    public ImmutableMultimap.Builder<Attribute, AttributeModifier> createExtraAttributes() {
-        return new ImmutableMultimap.Builder<>();
+    public List<ItemAttributeModifiers.Entry> createExtraAttributes() {
+        return new ArrayList<>();
     }
 }
 
