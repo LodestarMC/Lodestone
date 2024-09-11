@@ -32,7 +32,7 @@ public class RenderHandler {
     public static final HashMap<RenderType, ShaderUniformHandler> UNIFORM_HANDLERS = new HashMap<>();
     public static final Collection<RenderType> TRANSPARENT_RENDER_TYPES = new ArrayList<>();
 
-    public static RenderTarget LODESTONE_DEPTH_CACHE = new TextureTarget(Minecraft.getInstance().getMainRenderTarget().width, Minecraft.getInstance().getMainRenderTarget().height, true, Minecraft.ON_OSX);
+    public static RenderTarget LODESTONE_DEPTH_CACHE;
     public static LodestoneRenderLayer DELAYED_RENDER = new LodestoneRenderLayer(BUFFERS, PARTICLE_BUFFERS);
     public static LodestoneRenderLayer LATE_DELAYED_RENDER = new LodestoneRenderLayer(LATE_BUFFERS, LATE_PARTICLE_BUFFERS);
 
@@ -166,10 +166,24 @@ public class RenderHandler {
     }
 
     public static void copyDepthBuffer(RenderTarget tempRenderTarget) {
+        setupDepthBuffer();
+        enableStencil();
         if (tempRenderTarget == null) return;
         RenderTarget mainRenderTarget = Minecraft.getInstance().getMainRenderTarget();
         tempRenderTarget.copyDepthFrom(mainRenderTarget);
         GlStateManager._glBindFramebuffer(GL30C.GL_DRAW_FRAMEBUFFER, mainRenderTarget.frameBufferId);
+    }
+
+    public static void setupDepthBuffer() {
+        if (LODESTONE_DEPTH_CACHE == null) {
+            LODESTONE_DEPTH_CACHE = new TextureTarget(Minecraft.getInstance().getMainRenderTarget().width, Minecraft.getInstance().getMainRenderTarget().height, true, Minecraft.ON_OSX);
+        }
+    }
+
+    public static void enableStencil() {
+        if (Minecraft.getInstance().getMainRenderTarget().isStencilEnabled()) {
+            LODESTONE_DEPTH_CACHE.enableStencil();
+        }
     }
 
     public static class LodestoneRenderLayer {
