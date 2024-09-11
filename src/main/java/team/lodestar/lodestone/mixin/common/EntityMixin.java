@@ -15,16 +15,6 @@ import team.lodestar.lodestone.systems.sound.ExtendedSoundType;
 @Mixin(Entity.class)
 public class EntityMixin {
 
-    @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;updateSwimming()V"))
-    private void lodestone$FireEffectTicking(CallbackInfo ci) {
-        FireEffectHandler.entityUpdate(((Entity) (Object) this));
-    }
-
-    @Inject(method = "setRemainingFireTicks", at = @At(value = "RETURN"))
-    private void lodestone$FireEffectOverride(int pSeconds, CallbackInfo ci) {
-        FireEffectHandler.onVanillaFireTimeUpdate((Entity) (Object) this);
-    }
-
     @Unique
     private SoundType lodestone$type;
 

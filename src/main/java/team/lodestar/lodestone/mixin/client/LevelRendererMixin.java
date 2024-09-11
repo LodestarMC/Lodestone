@@ -49,6 +49,6 @@ public class LevelRendererMixin {
 
     @Inject(method = "renderLevel", at = @At(value = "HEAD"))
     private void lodestoneLevelRendererPoseStackGrabber(DeltaTracker pDeltaTracker, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pFrustumMatrix, Matrix4f pProjectionMatrix, CallbackInfo ci) {
-        RenderHandler.MAIN_POSE_STACK = pPoseStack;
+        RenderHandler.MAIN_PROJ = pProjectionMatrix;
     }
 }

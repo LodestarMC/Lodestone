@@ -36,7 +36,7 @@ public class RenderHandler {
     public static LodestoneRenderLayer DELAYED_RENDER;
     public static LodestoneRenderLayer LATE_DELAYED_RENDER;
 
-    public static PoseStack MAIN_POSE_STACK;
+    public static Matrix4f MAIN_PROJ;
     public static Matrix4f MATRIX4F;
 
     public static float FOG_NEAR;
