@@ -106,6 +106,8 @@ public class LodestoneRenderTypes extends RenderStateShard {
      * Render Functions. You can create Render Types by statically applying these to your texture. Alternatively, use {@link #GENERIC} if none of the presets suit your needs.
      * For Static Definitions use {@link RenderTypeProvider#apply(RenderTypeToken)}, otherwise use {@link RenderTypeProvider#applyAndCache(RenderTypeToken)}
      */
+
+
     public static final RenderTypeProvider TEXTURE = new RenderTypeProvider((token) ->
             createGenericRenderType("texture", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
                     .setShaderState(LodestoneShaders.LODESTONE_TEXTURE)
@@ -148,6 +150,7 @@ public class LodestoneRenderTypes extends RenderStateShard {
                     .setLightmapState(LIGHTMAP)
                     .setCullState(CULL)
                     .setTextureState(token.get())));
+
     public static final RenderTypeProvider ADDITIVE_TEXTURE_TRIANGLE = new RenderTypeProvider((token) ->
             createGenericRenderType("additive_texture_triangle", POSITION_COLOR_TEX_LIGHTMAP, QUADS, builder()
                     .setShaderState(LodestoneShaders.TRIANGLE_TEXTURE)

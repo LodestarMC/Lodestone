@@ -1,16 +1,37 @@
 package team.lodestar.lodestone.systems.particle.world.type;
 
+import com.mojang.serialization.*;
+import com.mojang.serialization.codecs.*;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.network.*;
+import net.minecraft.network.codec.*;
+import net.minecraft.world.item.*;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.LodestoneItemCrumbParticle;
 
 import javax.annotation.Nullable;
 
 public class LodestoneItemCrumbsParticleType extends AbstractLodestoneParticleType<LodestoneItemCrumbsParticleOptions> {
+
+    //Lodestone particles do not support commands or networking as is, and as such, we do not need to implement a proper codec for em
+    public final MapCodec<LodestoneItemCrumbsParticleOptions> CODEC = RecordCodecBuilder.mapCodec(obj -> obj.stable(new LodestoneItemCrumbsParticleOptions(this, ItemStack.EMPTY)));
+    public final StreamCodec<RegistryFriendlyByteBuf, LodestoneItemCrumbsParticleOptions> STREAM_CODEC = StreamCodec.unit(new LodestoneItemCrumbsParticleOptions(this, ItemStack.EMPTY));
+
+
     public LodestoneItemCrumbsParticleType() {
         super();
+    }
+
+    @Override
+    public MapCodec<LodestoneItemCrumbsParticleOptions> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, LodestoneItemCrumbsParticleOptions> streamCodec() {
+        return STREAM_CODEC;
     }
 
     public static class Factory implements ParticleProvider<LodestoneItemCrumbsParticleOptions> {
