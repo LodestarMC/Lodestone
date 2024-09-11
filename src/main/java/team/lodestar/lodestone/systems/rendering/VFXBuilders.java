@@ -45,7 +45,9 @@ public class VFXBuilders {
         Supplier<ShaderInstance> shader = GameRenderer::getPositionTexShader;
         ResourceLocation texture;
         ScreenVertexPlacementSupplier supplier;
-        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+        VertexFormat.Mode mode = VertexFormat.Mode.QUADS;
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder bufferbuilder;
 
         public ScreenVFXBuilder setPosTexDefaultFormat() {
             supplier = (b, l, x, y, u, v) -> b.addVertex(l, x, y, this.zLevel).setUv(u, v);
@@ -192,6 +194,7 @@ public class VFXBuilders {
             if (texture != null) {
                 RenderSystem.setShaderTexture(0, texture);
             }
+            var bufferbuilder = tesselator.begin(mode, format);
             supplier.placeVertex(bufferbuilder, last, x0, y1, u0, v1);
             supplier.placeVertex(bufferbuilder, last, x1, y1, u1, v1);
             supplier.placeVertex(bufferbuilder, last, x1, y0, u1, v0);
@@ -200,8 +203,8 @@ public class VFXBuilders {
         }
 
         public ScreenVFXBuilder draw(PoseStack stack) {
-            if (bufferbuilder.building()) {
-                bufferbuilder.end();
+            if (bufferbuilder.building) {
+                bufferbuilder.buildOrThrow();
             }
             begin();
             blit(stack);
@@ -214,13 +217,12 @@ public class VFXBuilders {
         }
 
         public ScreenVFXBuilder begin() {
-            bufferbuilder.begin(VertexFormat.Mode.QUADS, format);
+            bufferbuilder = tesselator.begin(VertexFormat.Mode.QUADS, format);
             return this;
         }
 
         public ScreenVFXBuilder end() {
-            //bufferbuilder.end();
-            BufferUploader.drawWithShader(bufferbuilder.end());
+            BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
             return this;
         }
 

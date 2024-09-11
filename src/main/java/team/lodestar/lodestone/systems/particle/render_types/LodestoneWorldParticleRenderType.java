@@ -2,10 +2,7 @@ package team.lodestar.lodestone.systems.particle.render_types;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.*;
@@ -68,18 +65,21 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
     }
 
     @Override
-    public void begin(BufferBuilder builder, TextureManager manager) {
+    public BufferBuilder begin(Tesselator tesselator, TextureManager manager) {
         RenderSystem.enableDepthTest();
         RenderSystem.enableBlend();
         blendFunction.run();
         RenderSystem.setShader(shader);
         RenderSystem.setShaderTexture(0, texture);
-        builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
     }
 
     @Override
-    public void end(Tesselator pTesselator) {
-        pTesselator.end();
+    public void end(BufferBuilder builder) {
+        MeshData meshdata = builder.build();
+        if (meshdata != null) {
+            BufferUploader.drawWithShader(meshdata);
+        }
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();

@@ -137,11 +137,11 @@ public class ScreenParticleHandler {
             return;
         }
         screenParticleTarget.particles.forEach((renderType, particles) -> {
-            renderType.begin(TESSELATOR.getBuilder(), Minecraft.getInstance().getTextureManager());
+            var builder = renderType.begin(TESSELATOR, Minecraft.getInstance().getTextureManager());
             for (ScreenParticle next : particles) {
-                next.render(TESSELATOR.getBuilder());
+                next.render(builder);
             }
-            renderType.end(TESSELATOR);
+            renderType.end(builder);
         });
     }
 
