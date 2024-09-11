@@ -20,10 +20,11 @@ out vec2 texCoord0;
 out vec2 texCoord2;
 
 void main() {
-    gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
+    vec4 pos = ModelViewMat * vec4(Position, 1.0);
+    gl_Position = ProjMat * pos;
 
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
-    vertexDistance = fogDistance(ModelViewMat, IViewRotMat, Position, FogShape);
+    vertexDistance = fogDistance(pos.xyz, FogShape);
 
     texCoord0 = UV0;
     texCoord2 = UV2;

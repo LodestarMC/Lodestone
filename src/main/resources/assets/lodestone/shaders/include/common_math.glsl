@@ -77,6 +77,6 @@ vec4 applyFog(vec4 initialColor, float fogStart, float fogEnd, vec4 fogColor, fl
     return linear_fog(vec4(initialColor.rgb, initialColor.a*linear_fog_fade(vertexDistance, fogStart, fogEnd)), vertexDistance, fogStart, fogEnd, vec4(fogColor.rgb, initialColor.r));
 }
 
-float fogDistance(mat4 ModelViewMat, mat3 IViewRotMat, vec3 Position, int FogShape) {
-    return fog_distance(ModelViewMat, IViewRotMat * Position, FogShape);
+float fogDistance(vec3 Position, int FogShape) {
+    return fog_distance(Position, FogShape);
 }

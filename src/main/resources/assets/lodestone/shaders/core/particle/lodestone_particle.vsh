@@ -28,7 +28,7 @@ void main() {
     pixelDepthClip = getDepthFromClipSpace(clipSpacePos);
 
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
-    vertexDistance = fogDistance(ModelViewMat, IViewRotMat, Position, FogShape);
+    vertexDistance = fogDistance(viewSpacePos.xyz, FogShape);
 
     texCoord0 = UV0;
 }
