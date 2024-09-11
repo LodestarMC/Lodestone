@@ -13,6 +13,6 @@ public class LodestoneBlockTags {
     }
 
     public static TagKey<Block> forgeTag(String name) {
-        return BlockTags.create(new ResourceLocation("forge", name));
+        return BlockTags.create(ResourceLocation.fromNamespaceAndPath("forge", name));
     }
 }

@@ -5,7 +5,7 @@ plugins {
     id("eclipse")
     id("idea")
     id("maven-publish")
-    id("net.neoforged.moddev").version("0.1.99")
+    id("net.neoforged.moddev").version("1.0.11")
     //id("org.parchmentmc.librarian.forgegradle").version("1.+")
     //id("org.spongepowered.mixin")
 }
@@ -38,9 +38,16 @@ neoForge {
         minecraftVersion = "${property("parchment_minecraft_version")}"
     }
 
-    // This line is optional. Access Transformers are automatically detected
-    accessTransformers.add("src/main/resources/META-INF/accesstransformer.cfg")
+    accessTransformers {
+        file("src/main/resources/META-INF/accesstransformer.cfg")
+    }
 
+    validateAccessTransformers = true
+    // This line is optional. Access Transformers are automatically detected
+    //accessTransformers.add("src/main/resources/META-INF/accesstransformer.cfg")
+
+
+    //validateAccessTransformers = true
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
@@ -142,7 +149,7 @@ repositories {
 
 dependencies {
 
-    runtimeOnly("mezz.jei:jei-${property("minecraft_version")}-neoforge:${property("jei_version")}")
+    //runtimeOnly("mezz.jei:jei-${property("minecraft_version")}-neoforge:${property("jei_version")}")
 
     // Curios dependency
     compileOnly("top.theillusivec4.curios:curios-neoforge:${property("curios_version")}:api")

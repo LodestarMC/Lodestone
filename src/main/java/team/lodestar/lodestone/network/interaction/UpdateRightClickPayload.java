@@ -21,10 +21,6 @@ public class UpdateRightClickPayload extends OneSidedPayloadData {
         if (rightClickHeld) {
             RightClickEmptyServer.onRightClickEmptyServer(context.player());
         }
-
-        var data = context.player().getData(LodestoneAttachmentTypes.PLAYER_DATA);
-        data.rightClickHeld = rightClickHeld;
-        context.player().setData(LodestoneAttachmentTypes.PLAYER_DATA, data);
     }
 
     @Override

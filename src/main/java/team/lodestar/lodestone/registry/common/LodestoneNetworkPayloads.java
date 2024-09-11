@@ -10,7 +10,6 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.network.TotemOfUndyingPayload;
 import team.lodestar.lodestone.network.interaction.RightClickEmptyPayload;
-import team.lodestar.lodestone.network.interaction.UpdateLeftClickPayload;
 import team.lodestar.lodestone.network.interaction.UpdateRightClickPayload;
 import team.lodestar.lodestone.network.screenshake.PositionedScreenshakePayload;
 import team.lodestar.lodestone.network.screenshake.ScreenshakePayload;
@@ -31,7 +30,6 @@ public class LodestoneNetworkPayloads {
         final PayloadRegistrar registrar = event.registrar("1");
 
         LODESTONE_CHANNEL.playToClient(registrar, "totem_of_undying", TotemOfUndyingPayload::new);
-        LODESTONE_CHANNEL.playToClient(registrar, "clear_fire_effect", ClearFireEffectInstancePayload::new);
         LODESTONE_CHANNEL.playToClient(registrar, "sync_world_event", SyncWorldEventPayload::new);
         LODESTONE_CHANNEL.playToClient(registrar, "update_world_event", UpdateWorldEventPayload::new);
         LODESTONE_CHANNEL.playToClient(registrar, "screenshake", ScreenshakePayload::new);
@@ -39,7 +37,6 @@ public class LodestoneNetworkPayloads {
         LODESTONE_CHANNEL.playToClient(registrar, "reset_right_click", RightClickEmptyPayload::new);
 
         LODESTONE_CHANNEL.playToServer(registrar, "right_click_empty", RightClickEmptyPayload::new);
-        LODESTONE_CHANNEL.playToServer(registrar, "update_left_click", UpdateLeftClickPayload::new);
         LODESTONE_CHANNEL.playToServer(registrar, "update_right_click", UpdateRightClickPayload::new);
     }
 

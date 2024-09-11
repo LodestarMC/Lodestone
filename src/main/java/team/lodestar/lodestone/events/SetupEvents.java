@@ -13,7 +13,6 @@ public class SetupEvents {
 
     @SubscribeEvent
     public static void registerCommon(FMLCommonSetupEvent event) {
-        PlacementAssistantHandler.registerPlacementAssistants(event);
         LodestoneCommandArgumentTypes.registerArgumentTypes();
     }
 

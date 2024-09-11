@@ -65,7 +65,6 @@ public class WorldEventHandler {
         if (event.getEntity() instanceof Player player) {
             if (player.level() instanceof ServerLevel level) {
 
-                var playerData = player.getData(LodestoneAttachmentTypes.PLAYER_DATA);
                 var worldData = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
 
                 if (player instanceof ServerPlayer serverPlayer) {

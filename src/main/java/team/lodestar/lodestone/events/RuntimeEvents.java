@@ -30,11 +30,6 @@ public class RuntimeEvents {
     }
 
     @SubscribeEvent
-    public static void placeBlock(PlayerInteractEvent.RightClickBlock event) {
-        PlacementAssistantHandler.placeBlock(event);
-    }
-
-    @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
         ItemEventHandler.respondToDeath(event);
     }

@@ -106,7 +106,7 @@ public abstract class PostProcessor {
 
         try {
             ResourceLocation file = getPostChainLocation();
-            file = new ResourceLocation(file.getNamespace(), "shaders/post/" + file.getPath() + ".json");
+            file = ResourceLocation.fromNamespaceAndPath(file.getNamespace(), "shaders/post/" + file.getPath() + ".json");
             postChain = new PostChain(
                     MC.getTextureManager(),
                     MC.getResourceManager(),

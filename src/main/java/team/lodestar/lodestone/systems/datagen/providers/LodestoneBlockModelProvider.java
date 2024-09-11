@@ -58,7 +58,7 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
         if (rl.getPath().contains("/")) {
             return rl;
         }
-        return new ResourceLocation(rl.getNamespace(), folder + "/" + rl.getPath());
+        return ResourceLocation.fromNamespaceAndPath(rl.getNamespace(), folder + "/" + rl.getPath());
     }
 
     private static class LodestoneBlockModelBuilder extends BlockModelBuilder {
@@ -76,7 +76,7 @@ public final class LodestoneBlockModelProvider extends BlockModelProvider {
             ResourceLocation actualLocation = texture;
             if (!texture.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE) && !provider.staticTextures.contains(texture)) {
                 String actualPath = texture.getPath().replace("block/", "block/" + LodestoneBlockStateProvider.getTexturePath());
-                actualLocation = new ResourceLocation(texture.getNamespace(), actualPath);
+                actualLocation = ResourceLocation.fromNamespaceAndPath(texture.getNamespace(), actualPath);
             }
             BLOCK_TEXTURE_CACHE.put(key, actualLocation);
             return super.texture(key, actualLocation);

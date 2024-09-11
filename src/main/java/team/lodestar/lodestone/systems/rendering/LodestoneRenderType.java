@@ -31,7 +31,7 @@ public class LodestoneRenderType extends RenderType {
 
     @Override
     public void end(BufferBuilder builder, VertexSorting sorting) {
-        if (builder.building()) {
+        if (builder.building) {
             if (this.sortOnUpload) {
                 builder.setQuadSorting(sorting);
             }

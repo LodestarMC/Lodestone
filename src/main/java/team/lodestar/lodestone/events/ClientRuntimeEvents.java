@@ -32,7 +32,6 @@ public class ClientRuntimeEvents {
             Camera camera = minecraft.gameRenderer.getMainCamera();
             GhostBlockHandler.tickGhosts();
             WorldEventHandler.tick(minecraft.level);
-            PlacementAssistantHandler.tick(minecraft.player, minecraft.hitResult);
             ScreenshakeHandler.clientTick(camera, RANDOM);
             ScreenParticleHandler.tickParticles();
         }

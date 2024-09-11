@@ -25,7 +25,7 @@ public class ObjModel {
         LodestoneLib.LOGGER.info("Loading model: " + modelLocation);
         String modID = this.modelLocation.getNamespace();
         String fileName = this.modelLocation.getPath();
-        ResourceLocation resourceLocation = new ResourceLocation(modID, "obj/" + fileName + ".obj");
+        ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(modID, "obj/" + fileName + ".obj");
         Optional<Resource> resourceO = Minecraft.getInstance().getResourceManager().getResource(resourceLocation);
         if (resourceO.isEmpty()) {
             throw new RuntimeException("Resource not found: " + resourceLocation);

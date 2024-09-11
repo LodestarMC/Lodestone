@@ -111,6 +111,6 @@ public abstract class LodestoneBlockStateProvider extends BlockStateProvider {
 
     //TODO: move this to some sorta ResourceLocationHelper if it ever becomes needed.
     public ResourceLocation extend(ResourceLocation resourceLocation, String suffix) {
-        return new ResourceLocation(resourceLocation.getNamespace(), resourceLocation.getPath() + suffix);
+        return ResourceLocation.fromNamespaceAndPath(resourceLocation.getNamespace(), resourceLocation.getPath() + suffix);
     }
 }
