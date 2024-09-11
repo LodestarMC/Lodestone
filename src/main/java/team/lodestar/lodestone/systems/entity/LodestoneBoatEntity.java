@@ -70,10 +70,4 @@ public class LodestoneBoatEntity extends Boat {
     public Item getDropItem() {
         return boatItem.get();
     }
-
-    @Override
-    @NotNull
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

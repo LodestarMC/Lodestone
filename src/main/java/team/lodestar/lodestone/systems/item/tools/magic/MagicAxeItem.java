@@ -18,7 +18,7 @@ public class MagicAxeItem extends LodestoneAxeItem {
 
     public final float magicDamage;
 
-    public MagicAxeItem(Tier material, float damage, float speed, float magicDamage, Item.Properties properties) {
+    public MagicAxeItem(Tier material, int damage, float speed, float magicDamage, Item.Properties properties) {
         super(material, damage, speed, properties.durability(material.getUses()));
         this.magicDamage = magicDamage;
     }

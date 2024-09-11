@@ -70,21 +70,5 @@ public class MultiBlockComponentEntity extends LodestoneBlockEntity {
         super.onBreak(player);
     }
 
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (corePos != null && level.getBlockEntity(corePos) instanceof MultiBlockCoreEntity core) {
-            return core.getCapability(cap);
-        }
-        return super.getCapability(cap);
-    }
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (corePos != null && level.getBlockEntity(corePos) instanceof MultiBlockCoreEntity core) {
-            return core.getCapability(cap, side);
-        }
-        return super.getCapability(cap, side);
-    }
+    //TODO caps?
 }

@@ -2,10 +2,13 @@ package team.lodestar.lodestone.mixin.common;
 
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
+import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.Nullable;
@@ -15,10 +18,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import team.lodestar.lodestone.registry.common.LodestoneAttributes;
 
+import java.util.List;
 import java.util.Map;
 
 @Mixin(ItemStack.class)
 public class ItemStackMixin {
+    /* TODO just add magic damage to components and it should be added automatically
     @Unique
     private AttributeModifier lodestone$attributeModifier;
 
@@ -38,8 +43,8 @@ public class ItemStackMixin {
         return value;
     }
 
-    @ModifyVariable(method = "getTooltipLines", at = @At("STORE"))
-    private Multimap<Attribute, AttributeModifier> lodestone$getTooltip(Multimap<Attribute, AttributeModifier> map, @Nullable Player player, TooltipFlag flag) {
+    @ModifyVariable(method = "getTooltipLines", at = @At("STORE"), argsOnly = true)
+    private List<Component> lodestone$getTooltip(ItemStack value, @Local(argsOnly = true) Player player, @Local(argsOnly = true) Item.TooltipContext tooltipContext) {
         if (player != null) {
             Multimap<Attribute, AttributeModifier> copied = LinkedHashMultimap.create();
             for (Map.Entry<Attribute, AttributeModifier> entry : map.entries()) {
@@ -63,4 +68,6 @@ public class ItemStackMixin {
         }
         return map;
     }
+
+     */
 }

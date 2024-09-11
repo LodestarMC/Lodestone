@@ -14,13 +14,11 @@
     "client.CameraMixin",
     "client.CreativeModeInventoryScreenMixin",
     "client.EffectProgramMixin",
-    "client.EntityRenderDispatcherMixin",
     "client.GameRendererMixin",
     "client.GuiGraphicsMixin",
     "client.GuiMixin",
     "client.LevelRendererMixin",
     "client.MultiPlayerGameModeMixin",
-    "client.ScreenEffectRendererMixin",
     "client.GuiGraphicsMixin"
   ],
   "injectors": {

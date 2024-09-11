@@ -30,7 +30,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
     public final int allowedItemSize;
     public Predicate<ItemStack> inputPredicate;
     public Predicate<ItemStack> outputPredicate;
-    public final LazyOptional<IItemHandler> inventoryOptional = LazyOptional.of(() -> this);
+    //TODO? public final LazyOptional<IItemHandler> inventoryOptional = LazyOptional.of(() -> this);
 
     public ArrayList<ItemStack> nonEmptyItemStacks = new ArrayList<>();
 
