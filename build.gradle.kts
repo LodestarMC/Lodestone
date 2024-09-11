@@ -159,6 +159,8 @@ dependencies {
 
     compileOnly(fg.deobf("curse.maven:oculus-581495:5299671"))
 //    implementation(fg.deobf("com.sammy.malum:malum:${minecraftVersion}-1.6.72"))
+
+    implementation(fg.deobf("curse.maven:immersive-engineering-231951:5224387"))
 }
 
 tasks.withType<ProcessResources> {
