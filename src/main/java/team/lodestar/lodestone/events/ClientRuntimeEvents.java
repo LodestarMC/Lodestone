@@ -30,7 +30,6 @@ public class ClientRuntimeEvents {
                 return;
             }
             Camera camera = minecraft.gameRenderer.getMainCamera();
-            GhostBlockHandler.tickGhosts();
             WorldEventHandler.tick(minecraft.level);
             ScreenshakeHandler.clientTick(camera, RANDOM);
             ScreenParticleHandler.tickParticles();
@@ -61,7 +60,6 @@ public class ClientRuntimeEvents {
         poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
 
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SKY)) {
-            GhostBlockHandler.renderGhosts(poseStack);
             WorldEventHandler.ClientOnly.renderWorldEvents(poseStack, partial);
         }
 
