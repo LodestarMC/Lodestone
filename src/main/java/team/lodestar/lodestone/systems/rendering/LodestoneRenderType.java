@@ -29,39 +29,6 @@ public class LodestoneRenderType extends RenderType {
         this.isOutline = pState.outlineProperty == RenderType.OutlineProperty.IS_OUTLINE;
     }
 
-    @Override
-    public void end(BufferBuilder builder, VertexSorting sorting) {
-        if (builder.building) {
-            if (this.sortOnUpload) {
-                builder.setQuadSorting(sorting);
-            }
-
-            BufferBuilder.RenderedBuffer buffer = builder.end();
-            if (buffer.isEmpty()) {
-                buffer.release();
-                return;
-            }
-
-            this.setupRenderState();
-            RenderSystem.colorMask(true, true, true, true);
-            RenderSystem.depthMask(false);
-            BufferUploader.drawWithShader(buffer);
-            if (Minecraft.getInstance().levelRenderer.transparencyChain != null) {
-                // Set up depth state
-                RenderSystem.colorMask(false, false, false, false);
-                RenderSystem.depthMask(true);
-
-                // Redraw buffer
-                ShaderInstance shader = RenderSystem.getShader();
-                shader.apply();
-                BufferUploader.lastImmediateBuffer.draw();
-                shader.clear();
-            }
-            this.clearRenderState();
-            RenderSystem.colorMask(true, true, true, true);
-        }
-    }
-
     public Optional<RenderType> outline() {
         return this.outline;
     }
