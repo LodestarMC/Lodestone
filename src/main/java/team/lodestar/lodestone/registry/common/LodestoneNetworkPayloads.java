@@ -8,9 +8,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.network.ClearFireEffectInstancePayload;
 import team.lodestar.lodestone.network.TotemOfUndyingPayload;
-import team.lodestar.lodestone.network.capability.SyncPlayerAttachmentPayload;
 import team.lodestar.lodestone.network.interaction.RightClickEmptyPayload;
 import team.lodestar.lodestone.network.interaction.UpdateLeftClickPayload;
 import team.lodestar.lodestone.network.interaction.UpdateRightClickPayload;
@@ -43,8 +41,6 @@ public class LodestoneNetworkPayloads {
         LODESTONE_CHANNEL.playToServer(registrar, "right_click_empty", RightClickEmptyPayload::new);
         LODESTONE_CHANNEL.playToServer(registrar, "update_left_click", UpdateLeftClickPayload::new);
         LODESTONE_CHANNEL.playToServer(registrar, "update_right_click", UpdateRightClickPayload::new);
-
-        LODESTONE_CHANNEL.playBidirectional(registrar, "sync_capability", SyncPlayerAttachmentPayload::new);
     }
 
     /**

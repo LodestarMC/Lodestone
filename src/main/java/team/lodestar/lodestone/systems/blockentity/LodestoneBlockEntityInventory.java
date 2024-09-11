@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -8,11 +9,11 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import team.lodestar.lodestone.helpers.BlockHelper;
 
 import javax.annotation.Nonnull;
@@ -105,12 +106,12 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
         firstEmptyItemIndex = -1;
     }
 
-    public void load(CompoundTag compound) {
-        load(compound, "inventory");
+    public void load(HolderLookup.Provider provider, CompoundTag compound) {
+        load(provider, compound, "inventory");
     }
 
-    public void load(CompoundTag compound, String name) {
-        deserializeNBT(compound.getCompound(name));
+    public void load(HolderLookup.Provider provider, CompoundTag compound, String name) {
+        deserializeNBT(provider, compound.getCompound(name));
         if (stacks.size() != slotCount) {
             int missing = slotCount - stacks.size();
             for (int i = 0; i < missing; i++) {
@@ -120,12 +121,12 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
         updateData();
     }
 
-    public void save(CompoundTag compound) {
-        save(compound, "inventory");
+    public void save(HolderLookup.Provider provider, CompoundTag compound) {
+        save(provider, compound, "inventory");
     }
 
-    public void save(CompoundTag compound, String name) {
-        compound.put(name, serializeNBT());
+    public void save(HolderLookup.Provider provider, CompoundTag compound, String name) {
+        compound.put(name, serializeNBT(provider));
     }
 
     public NonNullList<ItemStack> getStacks() {

@@ -16,7 +16,6 @@ import net.neoforged.neoforge.client.event.ViewportEvent;
 import org.joml.Matrix4f;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
-import team.lodestar.lodestone.systems.client.ClientTickCounter;
 
 import static team.lodestar.lodestone.LodestoneLib.RANDOM;
 
@@ -27,7 +26,6 @@ public class ClientRuntimeEvents {
     public static void clientTick(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level != null) {
-            ClientTickCounter.clientTick();
             if (minecraft.isPaused()) {
                 return;
             }
@@ -36,7 +34,6 @@ public class ClientRuntimeEvents {
             WorldEventHandler.tick(minecraft.level);
             PlacementAssistantHandler.tick(minecraft.player, minecraft.hitResult);
             ScreenshakeHandler.clientTick(camera, RANDOM);
-            PlayerAttachment.ClientOnly.clientTick(event);
             ScreenParticleHandler.tickParticles();
         }
     }
@@ -81,9 +78,6 @@ public class ClientRuntimeEvents {
 
     @SubscribeEvent
     public static void renderFrameEvent(RenderFrameEvent event) {
-        if (event instanceof RenderFrameEvent.Pre) {
-            ClientTickCounter.renderTick(event);
-        }
         if (event instanceof RenderFrameEvent) {
             ScreenParticleHandler.renderTick(event);
         }

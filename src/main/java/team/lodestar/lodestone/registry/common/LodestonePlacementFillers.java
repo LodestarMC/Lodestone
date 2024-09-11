@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.registry.common;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
@@ -25,7 +26,7 @@ public class LodestonePlacementFillers {
         });
     }
 
-    public static <P extends PlacementModifier> PlacementModifierType<P> register(String name, Codec<P> codec) {
-        return Registry.register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, name, ()->codec);
+    private static <P extends PlacementModifier> PlacementModifierType<P> register(String pName, MapCodec<P> pCodec) {
+        return Registry.register(BuiltInRegistries.PLACEMENT_MODIFIER_TYPE, pName, () -> pCodec);
     }
 }

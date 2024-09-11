@@ -5,13 +5,10 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import team.lodestar.lodestone.handlers.ItemEventHandler;
 import team.lodestar.lodestone.handlers.LodestoneAttributeEventHandler;
-import team.lodestar.lodestone.handlers.PlacementAssistantHandler;
 import team.lodestar.lodestone.handlers.WorldEventHandler;
 
 @EventBusSubscriber
@@ -30,17 +27,6 @@ public class RuntimeEvents {
     @SubscribeEvent
     public static void entityJoin(EntityJoinLevelEvent event) {
         WorldEventHandler.playerJoin(event);
-        PlayerAttachment.playerJoin(event);
-    }
-
-    @SubscribeEvent
-    public static void playerClone(PlayerEvent.Clone event) {
-        PlayerAttachment.playerClone(event);
-    }
-
-    @SubscribeEvent
-    public static void playerTick(PlayerTickEvent event) {
-        PlayerAttachment.playerTick(event);
     }
 
     @SubscribeEvent
@@ -56,11 +42,5 @@ public class RuntimeEvents {
     @SubscribeEvent
     public static void worldTick(LevelTickEvent event) {
         WorldEventHandler.worldTick(event);
-    }
-
-    @SubscribeEvent
-    public static void startTracking(PlayerEvent.StartTracking event) {
-        PlayerAttachment.syncPlayerCapability(event);
-        EntityAttachment.syncEntityCapability(event);
     }
 }

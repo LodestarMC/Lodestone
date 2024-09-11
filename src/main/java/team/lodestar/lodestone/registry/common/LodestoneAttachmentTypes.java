@@ -14,12 +14,4 @@ public class LodestoneAttachmentTypes {
     public static final Supplier<AttachmentType<WorldEventAttachment>> WORLD_EVENT_DATA = ATTACHMENT_TYPES.register(
             "world_event_data", () -> AttachmentType.serializable(WorldEventAttachment::new).build()
     );
-
-    public static final Supplier<AttachmentType<PlayerAttachment>> PLAYER_DATA = ATTACHMENT_TYPES.register(
-            "player_data", () -> AttachmentType.serializable(PlayerAttachment::new).build()
-    );
-
-    public static final Supplier<AttachmentType<EntityAttachment>> ENTITY_DATA = ATTACHMENT_TYPES.register(
-            "entity_data", () -> AttachmentType.serializable(EntityAttachment::new).build()
-    );
 }

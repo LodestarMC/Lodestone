@@ -1,12 +1,14 @@
 package team.lodestar.lodestone.systems.worldgen;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
@@ -19,8 +21,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DimensionPlacementFilter extends PlacementFilter {
-    public static final Codec<DimensionPlacementFilter> CODEC = RecordCodecBuilder.create((codec) -> codec.group(
-            ResourceLocation.CODEC.listOf().fieldOf("dimensions").forGetter(o -> o.dimensions.stream().map(ResourceKey::location).collect(Collectors.toList()))).apply(codec, (r) -> new DimensionPlacementFilter(r.stream().map(o -> ResourceKey.create(Registries.DIMENSION, o)).collect(Collectors.toSet()))));
+
+    public static final MapCodec<DimensionPlacementFilter> CODEC = RecordCodecBuilder.mapCodec(
+            codec -> codec.group(ResourceLocation.CODEC.listOf().fieldOf("dimensions").forGetter(obj -> obj.dimensions.stream()
+                    .map(ResourceKey::location).collect(Collectors.toList())))
+                    .apply(codec, (r) -> new DimensionPlacementFilter(r.stream().map(o -> ResourceKey.create(Registries.DIMENSION, o))
+                            .collect(Collectors.toSet())))
+    );
 
     private final Set<ResourceKey<Level>> dimensions;
 
