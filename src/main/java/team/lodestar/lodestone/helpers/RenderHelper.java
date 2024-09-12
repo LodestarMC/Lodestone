@@ -25,14 +25,14 @@ import java.util.function.Supplier;
 public class RenderHelper {
     public static final int FULL_BRIGHT = 15728880;
 
-    public static ShaderInstance getShader(RenderType type) {
+    public static Optional<ShaderInstance> getShader(RenderType type) {
         if (type instanceof LodestoneRenderType renderType) {
             Optional<Supplier<ShaderInstance>> shader = renderType.state.shaderState.shader;
             if (shader.isPresent()) {
-                return shader.get().get();
+                return Optional.ofNullable(shader.get().get());
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public static RenderStateShard.TransparencyStateShard getTransparencyShard(RenderType type) {

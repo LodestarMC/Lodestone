@@ -138,17 +138,23 @@ public class RenderHandler {
 
     public static void endBatches(MultiBufferSource.BufferSource source, Collection<RenderType> renderTypes) {
         for (RenderType type : renderTypes) {
-            ShaderInstance instance = RenderHelper.getShader(type);
-            if (UNIFORM_HANDLERS.containsKey(type)) {
-                ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
-                handler.updateShaderData(instance);
-            }
-            instance.setSampler("SceneDepthBuffer", LODESTONE_DEPTH_CACHE.getDepthTextureId());
-            instance.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
+            Optional<ShaderInstance> optional = RenderHelper.getShader(type);
+            if (optional.isPresent()) {
+                ShaderInstance instance = optional.get();
+                if (UNIFORM_HANDLERS.containsKey(type)) {
+                    ShaderUniformHandler handler = UNIFORM_HANDLERS.get(type);
+                    handler.updateShaderData(instance);
+                }
+                instance.setSampler("SceneDepthBuffer", LODESTONE_DEPTH_CACHE.getDepthTextureId());
+                instance.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
 
-            source.endBatch(type);
-            if (instance instanceof ExtendedShaderInstance extendedShaderInstance) {
-                extendedShaderInstance.setUniformDefaults();
+                source.endBatch(type);
+                if (instance instanceof ExtendedShaderInstance extendedShaderInstance) {
+                    extendedShaderInstance.setUniformDefaults();
+                }
+            }
+            else {
+                source.endBatch(type);
             }
         }
     }
