@@ -23,7 +23,6 @@ public class NBTCarryRecipe extends ShapedRecipe {
     public final Ingredient copyFrom;
 
     public NBTCarryRecipe(ShapedRecipe compose, Ingredient copyFrom) {
-        //TODO: AT these guys
         super(compose.getGroup(), compose.category(), compose.pattern, compose.result, compose.showNotification());
         this.copyFrom = copyFrom;
     }
