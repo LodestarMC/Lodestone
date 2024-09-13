@@ -14,6 +14,8 @@ tasks.named<Wrapper>("wrapper") {
 }
 group = "${property("mod_group_id")}"
 
+version = "${property("minecraft_version")}-${property("mod_version")}"
+
 repositories {
     mavenLocal()
 }
@@ -28,7 +30,9 @@ java {
         languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
-
+tasks.javadoc {
+    enabled = false
+}
 neoForge {
     version.set(project.property("neo_version").toString())
 
