@@ -30,17 +30,6 @@ public class ObjModel extends IndexedModel {
         });
     }
 
-    public float[] makeVertexAttributeArray(VertexFormatElement element) {
-        float[] elements = new float[vertices.size() * element.count()];
-        vertices.stream()
-                .map(vertex -> vertex.getOrDefaultAttribute(element))
-                .forEachOrdered(attributeList -> attributeList
-                        .forEach(attribute -> elements[attributeList.indexOf(attribute)] = attribute)
-                );
-
-        return elements;
-    }
-
     public static class Builder {
         private final ResourceLocation modelId;
         private VertexFormat.Mode bakeMode;

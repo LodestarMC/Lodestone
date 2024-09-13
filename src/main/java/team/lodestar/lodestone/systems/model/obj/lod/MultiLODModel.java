@@ -5,6 +5,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import team.lodestar.lodestone.systems.model.obj.ObjModel;
 
+/**
+ * A model that can switch between different levels of detail based on the model data.
+ * @param <P> The type of model data that determines the level of detail on a per model basis.
+ */
 public class MultiLODModel<P> extends ObjModel {
     private final LODStrategy<?,P> lodStrategy;
     private P currentModelData;
