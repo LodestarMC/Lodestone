@@ -142,4 +142,15 @@ public class Vertex implements VertexConsumer {
             }
         });
     }
+
+    public String toString() {
+        return "Vertex{" +
+                "position=" + position.get() +
+                ", normal=" + normal.get() +
+                ", uv=" + uv.get() +
+                ", color=" + color.get() +
+                ", packedLight=" + packedLight.get() +
+                ", packedOverlay=" + packedOverlay.get() +
+                '}';
+    }
 }

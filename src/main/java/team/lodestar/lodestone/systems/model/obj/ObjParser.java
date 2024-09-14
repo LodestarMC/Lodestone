@@ -100,9 +100,9 @@ public class ObjParser {
 
         private IndexedVertex parseIndexedVertex(String line) {
             String[] tokens = line.split("/");
-            int vertexIndex = Integer.parseInt(tokens[1]);
-            int normalIndex = Integer.parseInt(tokens[2]);
-            int textureIndex = Integer.parseInt(tokens[3]);
+            int vertexIndex = Integer.parseInt(tokens[0]) - 1;
+            int textureIndex = tokens.length > 1 && !tokens[1].isEmpty() ? Integer.parseInt(tokens[1]) - 1 : -1;
+            int normalIndex = tokens.length > 2 && !tokens[2].isEmpty() ? Integer.parseInt(tokens[2]) - 1 : -1;
             return getOrCreateIndexedVertex(vertexIndex, normalIndex, textureIndex);
         }
 
