@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import team.lodestar.lodestone.systems.model.obj.data.IndexedMesh;
 import team.lodestar.lodestone.systems.model.obj.data.Vertex;
+import team.lodestar.lodestone.systems.model.obj.modifier.ModelModifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public abstract class IndexedModel {
     protected List<Vertex> vertices;
     protected List<IndexedMesh> meshes;
     protected List<Integer> bakedIndices;
+    protected List<ModelModifier<?>> modifiers;
     protected ResourceLocation modelId;
 
     public IndexedModel(ResourceLocation modelId) {
@@ -28,12 +30,22 @@ public abstract class IndexedModel {
 
     public abstract void render(PoseStack poseStack, RenderType renderType, MultiBufferSource.BufferSource bufferSource);
 
+    public void applyModifiers() {
+        if (modifiers != null) {
+            modifiers.forEach(modifier -> modifier.apply(this));
+        }
+    }
+
     public List<Vertex> getVertices() {
         return this.vertices;
     }
 
     public List<IndexedMesh> getMeshes() {
         return this.meshes;
+    }
+
+    public void setMeshes(List<IndexedMesh> meshes) {
+        this.meshes = meshes;
     }
 
     public List<Integer> getBakedIndices() {
