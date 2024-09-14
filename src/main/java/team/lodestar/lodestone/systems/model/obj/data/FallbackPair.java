@@ -1,5 +1,9 @@
 package team.lodestar.lodestone.systems.model.obj.data;
 
+/**
+ * Represents a pair of values where one takes precedence over the other.
+ * @param <T> The type of the values
+ */
 public class FallbackPair<T> {
     T defaultValue;
     T overrideValue;

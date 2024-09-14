@@ -10,6 +10,7 @@ import team.lodestar.lodestone.systems.model.obj.ObjModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * An LODStrategy or Level of Detail Strategy is a class containing the logic for determining which level of detail to use for a given {@link ObjModel}.
@@ -19,25 +20,22 @@ import java.util.List;
  */
 public abstract class LODStrategy<T> implements LODBuilder<T> {
 
-    public static LODStrategy<Float> Distance(LODBuilderSetup<Float> lodBuilderSetup) {
-        return new LODStrategy.DistanceLODStrategy(lodBuilderSetup);
-    }
-
-    public static LODStrategy<GraphicsStatus> Graphics(LODBuilderSetup<GraphicsStatus> lodBuilderSetup) {
-        return new LODStrategy.GraphicsSettingsLODStrategy(lodBuilderSetup);
-    }
-
     public List<LevelOfDetail<T>> levelsOfDetail = new ArrayList<>();
+
+    public LODStrategy(Consumer<LODBuilder<T>> lodBuilderSetup) {
+        lodBuilderSetup.accept(this);
+    }
 
     public abstract LevelOfDetail<T> getLODLevel(PoseStack poseStack);
 
-    public LODStrategy(LODBuilderSetup<T> lodBuilderSetup) {
-        lodBuilderSetup.lodBuilder(this);
+    public static LODStrategy<Float> Distance(Consumer<LODBuilder<Float>> lodBuilder) {
+        return new LODStrategy.DistanceLODStrategy(lodBuilder);
     }
 
-    public interface LODBuilderSetup<T> {
-        void lodBuilder(LODBuilder<T> builder);
+    public static LODStrategy<GraphicsStatus> Graphics(Consumer<LODBuilder<GraphicsStatus>> lodBuilder) {
+        return new LODStrategy.GraphicsSettingsLODStrategy(lodBuilder);
     }
+
 
     /**
      * A LODStrategy that uses the distance from the camera to the model to determine the level of detail.
@@ -48,8 +46,8 @@ public abstract class LODStrategy<T> implements LODBuilder<T> {
      * <p>LOD4 - 30+ blocks</p>
      */
     private static class DistanceLODStrategy extends LODStrategy<Float> {
-        public DistanceLODStrategy(LODBuilderSetup<Float> lodBuilderSetup) {
-            super(lodBuilderSetup);
+        public DistanceLODStrategy(Consumer<LODBuilder<Float>> lodBuilder) {
+            super(lodBuilder);
         }
 
         @Override
@@ -84,8 +82,8 @@ public abstract class LODStrategy<T> implements LODBuilder<T> {
      * Fabulous - LOD3
      */
     private static class GraphicsSettingsLODStrategy extends LODStrategy<GraphicsStatus> {
-        public GraphicsSettingsLODStrategy(LODBuilderSetup<GraphicsStatus> lodBuilderSetup) {
-            super(lodBuilderSetup);
+        public GraphicsSettingsLODStrategy(Consumer<LODBuilder<GraphicsStatus>> lodBuilder) {
+            super(lodBuilder);
         }
 
         @Override

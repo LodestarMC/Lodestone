@@ -18,13 +18,14 @@ public class TriangulateModifier extends ModelModifier<TriangulateSettings> {
 
     public static TriangulateModifier of(TriangulateSettings.QuadMethod quadMethod, TriangulateSettings.NgonMethod ngonMethod) {
         return new TriangulateModifier(new TriangulateSettings(quadMethod, ngonMethod));
+    }
 
+    public TriangulateModifier() {
+        this(new TriangulateSettings(TriangulateSettings.QuadMethod.ShortestDiagonal, TriangulateSettings.NgonMethod.Clip));
     }
 
     @Override
     public void apply(IndexedModel model) {
-        //newMeshes.clear();
-
         for (IndexedMesh mesh : new ArrayList<>(model.getMeshes())) {
             apply(model, mesh);
         }

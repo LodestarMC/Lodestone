@@ -12,6 +12,11 @@ import org.joml.Vector3f;
 import org.joml.Vector4i;
 import team.lodestar.lodestone.systems.model.obj.ObjParser;
 
+/**
+ * Represents a vertex with position, normal, uv, color, light, and overlay data.
+ * <p>Each vertex attribute uses a {@link FallbackPair} to ensure that default values are used if the data is not present</p>
+ * <p>To set your own data, use the {@link VertexConsumer} methods</p>
+ */
 public class Vertex implements VertexConsumer {
     private final FallbackPair<Vector3f> position;
     private final FallbackPair<Vector3f> normal;
@@ -27,6 +32,15 @@ public class Vertex implements VertexConsumer {
         this.color = FallbackPair.ofDefault(new Vector4i(255, 255, 255, 255));
         this.packedLight = FallbackPair.ofDefault(LightTexture.FULL_BRIGHT);
         this.packedOverlay = FallbackPair.ofDefault(OverlayTexture.NO_OVERLAY);
+    }
+
+    public Vertex(Vector3f position, Vector3f normal, Vector2f uv, Vector4i color, int packedLight, int packedOverlay) {
+        this.position = FallbackPair.ofDefault(position);
+        this.normal = FallbackPair.ofDefault(normal);
+        this.uv = FallbackPair.ofDefault(uv);
+        this.color = FallbackPair.ofDefault(color);
+        this.packedLight = FallbackPair.ofDefault(packedLight);
+        this.packedOverlay = FallbackPair.ofDefault(packedOverlay);
     }
 
     public Vector3f getPosition() {
@@ -141,6 +155,15 @@ public class Vertex implements VertexConsumer {
                 this.supplyNormal(vertexConsumer, poseStack);
             }
         });
+    }
+
+    public void clearOverrides() {
+        this.position.clearOverride();
+        this.normal.clearOverride();
+        this.uv.clearOverride();
+        this.color.clearOverride();
+        this.packedLight.clearOverride();
+        this.packedOverlay.clearOverride();
     }
 
     public String toString() {

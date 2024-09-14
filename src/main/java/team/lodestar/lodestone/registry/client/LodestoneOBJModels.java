@@ -21,7 +21,7 @@ import java.util.Map;
 
 @EventBusSubscriber(modid = LodestoneLib.LODESTONE, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class LodestoneOBJModels {
-    public static Map<ResourceLocation, ModelHolder> MODELS = new HashMap<>();
+    // TODO: Track models by ResourceLocation & cache their modification history to prevent reparsing and reapplying modifiers
     public static List<ObjModel> OBJ_MODELS = new ArrayList<>();
     public static List<MultiLODModel> LOD_MODELS = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class LodestoneOBJModels {
 //    public static final ObjModel CUBE = register(new ObjModel(LodestoneLib.lodestonePath("cube")));
 //    public static final ObjModel SUZANNE = register(ObjModel.Builder.of(LodestoneLib.lodestonePath("one"))
 //            .withModifiers(queue -> {
-//                queue.queueModifier(TriangulateModifier.of(TriangulateSettings.QuadMethod.ShortestDiagonal, TriangulateSettings.NgonMethod.Clip));
+//                queue.queueModifier(new TriangulateModifier());
 //            })
 //            .build()
 //    );
@@ -69,16 +69,5 @@ public class LodestoneOBJModels {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onClientSetup(FMLClientSetupEvent event) {
         loadModels();
-    }
-
-    public static class ModelHolder {
-        private final ObjModel model;
-
-        public ModelHolder(ObjModel model) {
-            this.model = model;
-        }
-        public boolean isMultiLODModel() {
-            return model instanceof MultiLODModel;
-        }
     }
 }
