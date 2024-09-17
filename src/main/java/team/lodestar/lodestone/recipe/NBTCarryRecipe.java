@@ -1,21 +1,16 @@
 package team.lodestar.lodestone.recipe;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.*;
 import net.minecraft.core.*;
 import net.minecraft.core.component.*;
 import net.minecraft.network.*;
 import net.minecraft.network.codec.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import team.lodestar.lodestone.registry.common.LodestoneRecipeSerializers;
 
 import javax.annotation.Nonnull;
-import java.util.stream.*;
 
 public class NBTCarryRecipe extends ShapedRecipe {
     public static final String NAME = "nbt_carry";
