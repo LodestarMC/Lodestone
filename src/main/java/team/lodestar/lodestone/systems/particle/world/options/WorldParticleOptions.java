@@ -8,6 +8,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.registries.*;
 import team.lodestar.lodestone.handlers.*;
+import team.lodestar.lodestone.helpers.*;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.*;
 import team.lodestar.lodestone.systems.particle.world.*;
@@ -32,6 +33,7 @@ public class WorldParticleOptions extends SimpleParticleOptions implements Parti
     public final Collection<Consumer<LodestoneWorldParticle>> tickActors = new ArrayList<>();
     public final Collection<Consumer<LodestoneWorldParticle>> spawnActors = new ArrayList<>();
     public final Collection<Consumer<LodestoneWorldParticle>> renderActors = new ArrayList<>();
+    public int particleLight = RenderHelper.FULL_BRIGHT;
 
     public boolean noClip = false;
 
