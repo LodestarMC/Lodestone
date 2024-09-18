@@ -87,7 +87,8 @@ public class ItemHelper {
     }
 
     public static ArrayList<ItemStack> getEventResponders(LivingEntity attacker) {
-        ArrayList<Tuple<SlotReference, ItemStack>> equippedCurios = TrinketsHelper.getEquippedTrinkets(attacker, p -> p.getItem() instanceof IEventResponderItem);
+        ArrayList<Tuple<SlotReference, ItemStack>> equippedCurios
+                = TrinketsCompat.LOADED ? TrinketsHelper.getEquippedTrinkets(attacker, p -> p.getItem() instanceof IEventResponderItem) : new ArrayList<>();
 
         ArrayList<ItemStack> itemStacks = TrinketsCompat.LOADED ? new ArrayList<>(equippedCurios.stream().map(Tuple::getB).toList()) : new ArrayList<>();
         ItemStack stack = attacker.getMainHandItem();

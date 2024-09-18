@@ -75,7 +75,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
 
-    modApi("dev.emi:trinkets:${property("trinkets_version")}") { isTransitive = false }
+    modImplementation("dev.emi:trinkets:${property("trinkets_version")}") { isTransitive = false }
 
     modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${property("cca_version")}")
     modApi("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${property("cca_version")}")

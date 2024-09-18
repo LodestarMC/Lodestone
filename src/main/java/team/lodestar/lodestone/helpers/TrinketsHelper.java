@@ -18,7 +18,9 @@ import java.util.function.Predicate;
 public class TrinketsHelper {
 
     public static Optional<Tuple<SlotReference, ItemStack>> getEquippedTrinket(LivingEntity entity, Predicate<ItemStack> predicate) {
-        return TrinketsApi.TRINKET_COMPONENT.maybeGet(entity).flatMap(trinketComponent -> trinketComponent.getEquipped(predicate).stream().findFirst());
+        return TrinketsApi.TRINKET_COMPONENT.maybeGet(entity).flatMap(trinketComponent ->
+                trinketComponent.getEquipped(predicate).stream().findFirst()
+        );
     }
 
     public static Optional<Tuple<SlotReference, ItemStack>> getEquippedTrinket(LivingEntity entity, Item curio) {
