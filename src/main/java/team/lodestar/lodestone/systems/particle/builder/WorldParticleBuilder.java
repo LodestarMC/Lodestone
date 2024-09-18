@@ -284,6 +284,19 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
         return this;
     }
 
+    public WorldParticleBuilder setNaturalLighting() {
+        return setLightLevel(-1);
+    }
+
+    public WorldParticleBuilder setFullBrightLighting() {
+        return setLightLevel(RenderHelper.FULL_BRIGHT);
+    }
+
+    public WorldParticleBuilder setLightLevel(int particleLight) {
+        options.particleLight = particleLight;
+        return this;
+    }
+
     public WorldParticleBuilder spawn(Level level, double x, double y, double z) {
         double yaw = RANDOM.nextFloat() * Math.PI * 2, pitch = RANDOM.nextFloat() * Math.PI - Math.PI / 2, xSpeed = RANDOM.nextFloat() * maxXSpeed, ySpeed = RANDOM.nextFloat() * maxYSpeed, zSpeed = RANDOM.nextFloat() * maxZSpeed;
         this.xMotion += Math.sin(yaw) * Math.cos(pitch) * xSpeed;
