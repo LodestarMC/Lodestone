@@ -76,10 +76,10 @@ public abstract class LODStrategy<T> implements LODBuilder<T> {
 
     /**
      * A LODStrategy that uses the graphics settings to determine the level of detail.
-     * Ex:
-     * Fast - LOD1
-     * Fancy - LOD2
-     * Fabulous - LOD3
+     * <p>For Example:</p>
+     * <p>Fast - LOD1</p>
+     * <p>Fancy - LOD2</p>
+     * <p>Fabulous - LOD3</p>
      */
     private static class GraphicsSettingsLODStrategy extends LODStrategy<GraphicsStatus> {
         public GraphicsSettingsLODStrategy(Consumer<LODBuilder<GraphicsStatus>> lodBuilder) {

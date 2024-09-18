@@ -1,13 +1,13 @@
 package team.lodestar.lodestone.systems.model.obj;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import team.lodestar.lodestone.systems.model.obj.data.IndexedMesh;
-import team.lodestar.lodestone.systems.model.obj.data.Vertex;
-import team.lodestar.lodestone.systems.model.obj.modifier.ModelModifier;
+import team.lodestar.lodestone.systems.model.obj.data.*;
+import team.lodestar.lodestone.systems.model.obj.modifier.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +26,22 @@ public abstract class IndexedModel {
         this.bakedIndices = new ArrayList<>();
     }
 
-    public abstract void loadModel();
+    public void render(PoseStack poseStack, RenderType renderType, MultiBufferSource.BufferSource bufferSource) {
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(renderType);
+        this.render(poseStack, vertexConsumer, renderType);
+    }
 
-    public abstract void render(PoseStack poseStack, RenderType renderType, MultiBufferSource.BufferSource bufferSource);
+    public void render(PoseStack poseStack, VertexConsumer vertexConsumer, RenderType renderType) {
+        for (IndexedMesh mesh : this.meshes) {
+            if (mesh.isCompatibleWith(renderType.mode())) {
+                for (Vertex vertex : mesh.getVertices(this)) {
+                    vertex.supplyVertexData(vertexConsumer, renderType.format(), poseStack);
+                }
+            }
+        }
+    }
+
+    public abstract void loadModel();
 
     public void applyModifiers() {
         if (modifiers != null) {

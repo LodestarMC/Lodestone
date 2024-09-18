@@ -1,20 +1,17 @@
 package team.lodestar.lodestone.systems.model.obj;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.model.obj.data.IndexedMesh;
-import team.lodestar.lodestone.systems.model.obj.data.Vertex;
 import team.lodestar.lodestone.systems.model.obj.modifier.ModelModifier;
 import team.lodestar.lodestone.systems.model.obj.modifier.ModifierQueue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
+/**
+ * An {@link IndexedModel} that is parsed from an Wavefront OBJ file.
+ */
 public class ObjModel extends IndexedModel {
     public ObjModel(ResourceLocation modelId) {
         super(modelId);
@@ -22,26 +19,14 @@ public class ObjModel extends IndexedModel {
 
     @Override
     public void loadModel() {
-        ObjParser.startParse(this);
+        ObjParser parser = new ObjParser();
+        parser.startParse(this);
         this.applyModifiers();
-    }
-
-    @Override
-    public void render(PoseStack poseStack, RenderType renderType, MultiBufferSource.BufferSource bufferSource) {
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(renderType);
-        for (IndexedMesh mesh : meshes) {
-            if (mesh.isCompatibleWith(renderType.mode())) {
-                for (Vertex vertex : mesh.getVertices(this)) {
-                    vertex.supplyVertexData(vertexConsumer, renderType.format(), poseStack);
-                }
-            }
-        }
     }
 
     public static class Builder implements ModifierQueue {
         private final ResourceLocation modelId;
         private VertexFormat.Mode bakeMode;
-        private boolean convertQuadsToTriangles;
         private final boolean cacheModifications = false;
         private List<ModelModifier<?>> modifiers;
 
@@ -57,9 +42,9 @@ public class ObjModel extends IndexedModel {
             return this;
         }
 
-        public Builder withModifiers(ModifierQueueSetup setup) {
+        public Builder withModifiers(Consumer<ModifierQueue> modifierQueue) {
             this.modifiers = new ArrayList<>();
-            setup.setup(this);
+            modifierQueue.accept(this);
             return this;
         }
 
@@ -74,8 +59,5 @@ public class ObjModel extends IndexedModel {
             return model;
         }
 
-        public interface ModifierQueueSetup {
-            void setup(ModifierQueue queue);
-        }
     }
 }
