@@ -48,6 +48,8 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
     public final Collection<Consumer<LodestoneWorldParticle>> tickActors;
     public final Collection<Consumer<LodestoneWorldParticle>> renderActors;
 
+    public final int particleLight;
+
     private boolean reachedPositiveAlpha;
     private boolean reachedPositiveScale;
 
@@ -71,6 +73,7 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
         this.spinData = options.spinData;
         this.tickActors = options.tickActors;
         this.renderActors = options.renderActors;
+        this.particleLight = options.particleLight;
         this.roll = options.spinData.spinOffset + options.spinData.startingValue;
         this.xd = xd;
         this.yd = yd;
@@ -164,7 +167,10 @@ public class LodestoneWorldParticle extends TextureSheetParticle {
 
     @Override
     public int getLightColor(float pPartialTick) {
-        return RenderHelper.FULL_BRIGHT;
+        if (particleLight == -1) {
+            return super.getLightColor(pPartialTick);
+        }
+        return particleLight;
     }
 
     @Override

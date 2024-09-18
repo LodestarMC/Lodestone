@@ -13,6 +13,7 @@ import org.joml.Vector3d;
 import org.joml.Vector3f;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.helpers.BlockHelper;
+import team.lodestar.lodestone.helpers.RenderHelper;
 import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
@@ -290,6 +291,19 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
 
     public WorldParticleBuilder clearRenderActors() {
         getParticleOptions().renderActors.clear();
+        return this;
+    }
+
+    public WorldParticleBuilder setNaturalLighting() {
+        return setLightLevel(-1);
+    }
+
+    public WorldParticleBuilder setFullBrightLighting() {
+        return setLightLevel(RenderHelper.FULL_BRIGHT);
+    }
+
+    public WorldParticleBuilder setLightLevel(int particleLight) {
+        options.particleLight = particleLight;
         return this;
     }
 
