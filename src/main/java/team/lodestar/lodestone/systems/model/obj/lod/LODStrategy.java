@@ -10,35 +10,32 @@ import team.lodestar.lodestone.systems.model.obj.ObjModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * An LODStrategy or Level of Detail Strategy is a class containing the logic for determining which level of detail to use for a given {@link ObjModel}.
  * <p>The LODStrategy is what stores the LODs and determines which LOD to use based on the model's P data.</p>
  *
  * @param <T> The type of argument that the LODStrategy uses to determine the level of detail.
- * @param <P> The type of model specific data that the LODStrategy uses to determine the level of detail.
  */
-public abstract class LODStrategy<T,P> implements LODBuilder<T> {
-
-    public static LODStrategy<Float, Vector3f> Distance(LODBuilderSetup<Float> lodBuilderSetup) {
-        return new LODStrategy.DistanceLODStrategy(lodBuilderSetup);
-    }
-
-    public static LODStrategy<GraphicsStatus,Void> Performance(LODBuilderSetup<GraphicsStatus> lodBuilderSetup) {
-        return new LODStrategy.GraphicsSettingsLODStrategy(lodBuilderSetup);
-    }
+public abstract class LODStrategy<T> implements LODBuilder<T> {
 
     public List<LevelOfDetail<T>> levelsOfDetail = new ArrayList<>();
 
-    public abstract LevelOfDetail<T> getLODLevel(P modelData);
-
-    public LODStrategy(LODBuilderSetup<T> lodBuilderSetup) {
-        lodBuilderSetup.lodBuilder(this);
+    public LODStrategy(Consumer<LODBuilder<T>> lodBuilderSetup) {
+        lodBuilderSetup.accept(this);
     }
 
-    public interface LODBuilderSetup<T> {
-        void lodBuilder(LODBuilder<T> builder);
+    public abstract LevelOfDetail<T> getLODLevel(PoseStack poseStack);
+
+    public static LODStrategy<Float> Distance(Consumer<LODBuilder<Float>> lodBuilder) {
+        return new LODStrategy.DistanceLODStrategy(lodBuilder);
     }
+
+    public static LODStrategy<GraphicsStatus> Graphics(Consumer<LODBuilder<GraphicsStatus>> lodBuilder) {
+        return new LODStrategy.GraphicsSettingsLODStrategy(lodBuilder);
+    }
+
 
     /**
      * A LODStrategy that uses the distance from the camera to the model to determine the level of detail.
@@ -48,15 +45,15 @@ public abstract class LODStrategy<T,P> implements LODBuilder<T> {
      * <p>LOD3 - 20-30 blocks</p>
      * <p>LOD4 - 30+ blocks</p>
      */
-    private static class DistanceLODStrategy extends LODStrategy<Float, Vector3f> {
-        public DistanceLODStrategy(LODBuilderSetup<Float> lodBuilderSetup) {
-            super(lodBuilderSetup);
+    private static class DistanceLODStrategy extends LODStrategy<Float> {
+        public DistanceLODStrategy(Consumer<LODBuilder<Float>> lodBuilder) {
+            super(lodBuilder);
         }
 
         @Override
-        public LevelOfDetail<Float> getLODLevel(Vector3f modelPosition) {
+        public LevelOfDetail<Float> getLODLevel(PoseStack poseStack) {
             Vector3f cameraPosition = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().toVector3f();
-            float distanceSq = cameraPosition.distanceSquared(modelPosition);
+            float distanceSq = cameraPosition.distanceSquared(this.getPositionFromPose(poseStack));
 
             for (LevelOfDetail<Float> levelOfDetail : levelsOfDetail) {
                 if (distanceSq <= levelOfDetail.getArgument()) {
@@ -71,7 +68,7 @@ public abstract class LODStrategy<T,P> implements LODBuilder<T> {
             levelsOfDetail.add(new LevelOfDetail<>(modelLocation, argument*argument));
         }
 
-        private Vector3f getPosFromPose(PoseStack poseStack) {
+        private Vector3f getPositionFromPose(PoseStack poseStack) {
             Matrix4f pose = poseStack.last().pose();
             return new Vector3f(pose.m30(), pose.m31(), pose.m32());
         }
@@ -84,13 +81,13 @@ public abstract class LODStrategy<T,P> implements LODBuilder<T> {
      * Fancy - LOD2
      * Fabulous - LOD3
      */
-    private static class GraphicsSettingsLODStrategy extends LODStrategy<GraphicsStatus, Void> {
-        public GraphicsSettingsLODStrategy(LODBuilderSetup<GraphicsStatus> lodBuilderSetup) {
-            super(lodBuilderSetup);
+    private static class GraphicsSettingsLODStrategy extends LODStrategy<GraphicsStatus> {
+        public GraphicsSettingsLODStrategy(Consumer<LODBuilder<GraphicsStatus>> lodBuilder) {
+            super(lodBuilder);
         }
 
         @Override
-        public LevelOfDetail<GraphicsStatus> getLODLevel(Void modelData) {
+        public LevelOfDetail<GraphicsStatus> getLODLevel(PoseStack poseStack) {
             GraphicsStatus graphicsQuality = Minecraft.getInstance().options.graphicsMode().get();
             for (LevelOfDetail<GraphicsStatus> levelOfDetail : levelsOfDetail) {
                 if (graphicsQuality == levelOfDetail.getArgument()) {

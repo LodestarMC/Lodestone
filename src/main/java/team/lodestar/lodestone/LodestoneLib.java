@@ -34,6 +34,7 @@ public class LodestoneLib {
         LodestoneRecipeSerializers.RECIPE_SERIALIZERS.register(modBus);
         LodestoneAttachmentTypes.ATTACHMENT_TYPES.register(modBus);
         LodestonePlacementFillers.MODIFIERS.register(modBus);
+        LodestoneWorldEventTypes.WORLD_EVENT_TYPES.register(modBus);
         LodestoneCommandArgumentTypes.register(modBus);
 
         CuriosCompat.init();

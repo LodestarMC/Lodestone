@@ -1,13 +1,14 @@
 package team.lodestar.lodestone.systems.model.obj.data;
 
-import team.lodestar.lodestone.systems.model.obj.ObjModel;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import team.lodestar.lodestone.systems.model.obj.IndexedModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents a mesh with indices to vertices.
- * <p>To get the vertices, use {@link #getVertices(ObjModel)} or
+ * <p>To get the vertices, use {@link #getVertices(IndexedModel)} or
  */
 public class IndexedMesh {
     public List<Integer> indices;
@@ -32,16 +33,20 @@ public class IndexedMesh {
         return this.indices.size();
     }
 
-    public List<Vertex> getVertices(ObjModel objModel) {
+    public List<Vertex> getVertices(IndexedModel model) {
         List<Vertex> vertices = new ArrayList<>();
         for (int index : this.indices) {
-            vertices.add(getVertex(objModel, index));
+            vertices.add(getVertex(model, index));
         }
         return vertices;
     }
 
-    public Vertex getVertex(ObjModel objModel, int index) {
-        return objModel.getVertices().get(index);
+    public Vertex getVertex(IndexedModel model, int index) {
+        return model.getVertices().get(index);
+    }
+
+    public boolean isCompatibleWith(VertexFormat.Mode mode) {
+        return this.indices.size() == mode.primitiveLength;
     }
 
     public boolean isEdge() {
