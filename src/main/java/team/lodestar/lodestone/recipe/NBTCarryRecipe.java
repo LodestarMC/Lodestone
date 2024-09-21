@@ -4,10 +4,13 @@ import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.*;
 import net.minecraft.core.*;
 import net.minecraft.core.component.*;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.network.*;
 import net.minecraft.network.codec.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
+import team.lodestar.lodestone.recipe.builder.LodestoneShapedRecipeBuilder;
 import team.lodestar.lodestone.registry.common.LodestoneRecipeSerializers;
 
 import javax.annotation.Nonnull;
@@ -72,6 +75,20 @@ public class NBTCarryRecipe extends ShapedRecipe {
         public static void toNetwork(RegistryFriendlyByteBuf byteBuf, @Nonnull NBTCarryRecipe recipe) {
             ShapedRecipe.Serializer.STREAM_CODEC.encode(byteBuf, recipe);
             Ingredient.CONTENTS_STREAM_CODEC.encode(byteBuf, recipe.copyFrom);
+        }
+    }
+
+    public static class Builder extends LodestoneShapedRecipeBuilder {
+        Ingredient copyFrom;
+
+        public Builder(ShapedRecipeBuilder parent, Ingredient copyFrom) {
+            super(parent);
+            this.copyFrom = copyFrom;
+        }
+
+        @Override
+        public ShapedRecipe build(ResourceLocation id) {
+            return new NBTCarryRecipe(super.build(id), this.copyFrom);
         }
     }
 }

@@ -41,8 +41,9 @@ neoForge {
         minecraftVersion.set(project.property("parchment_minecraft_version").toString())
     }
 
-    // This line is optional. Access Transformers are automatically detected
-    // accessTransformers.set(project.files("src/main/resources/META-INF/accesstransformer.cfg"))
+    accessTransformers.from(
+        project.files("src/main/resources/META-INF/recipebuilders.cfg")
+    )
 
     runs {
         register("client") {
