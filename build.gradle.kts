@@ -5,16 +5,14 @@ plugins {
 }
 
 tasks.named<Wrapper>("wrapper") {
-    // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
-    // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
-    // documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
-    // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
-    // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
     distributionType = Wrapper.DistributionType.BIN
 }
 group = "${property("mod_group_id")}"
 
 version = "${property("minecraft_version")}-${property("mod_version")}"
+if (System.getenv("BUILD_NUMBER") != null) {
+    version = "$version.${System.getenv("BUILD_NUMBER")}"
+}
 
 repositories {
     mavenLocal()
