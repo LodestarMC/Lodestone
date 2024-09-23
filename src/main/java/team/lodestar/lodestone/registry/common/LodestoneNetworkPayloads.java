@@ -3,25 +3,25 @@ package team.lodestar.lodestone.registry.common;
 import net.minecraft.network.*;
 import net.minecraft.network.codec.*;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.*;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.*;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.network.TotemOfUndyingPayload;
-import team.lodestar.lodestone.network.interaction.RightClickEmptyPayload;
-import team.lodestar.lodestone.network.interaction.UpdateRightClickPayload;
 import team.lodestar.lodestone.network.screenshake.PositionedScreenshakePayload;
 import team.lodestar.lodestone.network.screenshake.ScreenshakePayload;
 import team.lodestar.lodestone.network.worldevent.SyncWorldEventPayload;
 import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPayload;
 import team.lodestar.lodestone.systems.network.*;
 
+import java.lang.reflect.*;
 import java.util.HashMap;
 
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class LodestoneNetworkPayloads {
-
-    public static final HashMap<String, PayloadNetworkChannel> CHANNEL_MAP = new HashMap<>();
 
     public static final PayloadNetworkChannel LODESTONE_CHANNEL = new PayloadNetworkChannel(LodestoneLib.LODESTONE);
 
@@ -29,15 +29,11 @@ public class LodestoneNetworkPayloads {
     public static void register(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
 
-        LODESTONE_CHANNEL.playToClient(registrar, "totem_of_undying", TotemOfUndyingPayload::new);
-        LODESTONE_CHANNEL.playToClient(registrar, "sync_world_event", SyncWorldEventPayload::new);
-        LODESTONE_CHANNEL.playToClient(registrar, "update_world_event", UpdateWorldEventPayload::new);
-        LODESTONE_CHANNEL.playToClient(registrar, "screenshake", ScreenshakePayload::new);
-        LODESTONE_CHANNEL.playToClient(registrar, "positioned_screenshake", PositionedScreenshakePayload::new);
-        LODESTONE_CHANNEL.playToClient(registrar, "reset_right_click", RightClickEmptyPayload::new);
-
-        LODESTONE_CHANNEL.playToServer(registrar, "right_click_empty", RightClickEmptyPayload::new);
-        LODESTONE_CHANNEL.playToServer(registrar, "update_right_click", UpdateRightClickPayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "totem_of_undying", TotemOfUndyingPayload.class, TotemOfUndyingPayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "sync_world_event", SyncWorldEventPayload.class, SyncWorldEventPayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "update_world_event", UpdateWorldEventPayload.class, UpdateWorldEventPayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "screenshake", ScreenshakePayload.class, ScreenshakePayload::new);
+        LODESTONE_CHANNEL.playToClient(registrar, "positioned_screenshake", PositionedScreenshakePayload.class, PositionedScreenshakePayload::new);
     }
 
     /**
@@ -47,28 +43,27 @@ public class LodestoneNetworkPayloads {
      */
     public static class PayloadNetworkChannel {
 
-        private final HashMap<String, CustomPacketPayload.Type<? extends LodestoneNetworkPayloadData>> payloadTypeMap = new HashMap<>();
+        public static final HashMap<Class<? extends LodestoneNetworkPayloadData>, CustomPacketPayload.Type<? extends LodestoneNetworkPayloadData>> PAYLOAD_TO_TYPE = new HashMap<>();
 
         public final String namespace;
 
         public PayloadNetworkChannel(String namespace) {
             this.namespace = namespace;
-            CHANNEL_MAP.put(namespace, this);
         }
 
-        public <T extends OneSidedPayloadData> void playToClient(PayloadRegistrar registrar, String name, PayloadDataSupplier<T> payloadSupplier) {
-            CustomPacketPayload.Type<T> type = getPayloadType(name);
-            registrar.playToClient(type, createCodec(payloadSupplier), OneSidedPayloadData::handle);
+        public <T extends OneSidedPayloadData> void playToClient(PayloadRegistrar registrar, String name, Class<T> clazz, PayloadDataSupplier<T> decoder) {
+            CustomPacketPayload.Type<T> type = createPayloadType(clazz, name);
+            registrar.playToClient(type, createCodec(decoder), OneSidedPayloadData::handle);
         }
 
-        public <T extends OneSidedPayloadData> void playToServer(PayloadRegistrar registrar, String name, PayloadDataSupplier<T> payloadSupplier) {
-            CustomPacketPayload.Type<T> type = getPayloadType(name);
-            registrar.playToServer(type, createCodec(payloadSupplier), OneSidedPayloadData::handle);
+        public <T extends OneSidedPayloadData> void playToServer(PayloadRegistrar registrar, String name, Class<T> clazz, PayloadDataSupplier<T> decoder) {
+            CustomPacketPayload.Type<T> type = createPayloadType(clazz, name);
+            registrar.playToServer(type, createCodec(decoder), OneSidedPayloadData::handle);
         }
 
-        public <T extends TwoSidedPayloadData> void playBidirectional(PayloadRegistrar registrar, String name, PayloadDataSupplier<T> payloadSupplier) {
-            CustomPacketPayload.Type<T> type = getPayloadType(name);
-            registrar.playBidirectional(type, createCodec(payloadSupplier), new DirectionalPayloadHandler<>(
+        public <T extends TwoSidedPayloadData> void playBidirectional(PayloadRegistrar registrar, String name, Class<T> clazz, PayloadDataSupplier<T> decoder) {
+            CustomPacketPayload.Type<T> type = createPayloadType(clazz, name);
+            registrar.playBidirectional(type, createCodec(decoder), new DirectionalPayloadHandler<>(
                     TwoSidedPayloadData::handleClient,
                     TwoSidedPayloadData::handleServer));
         }
@@ -78,29 +73,25 @@ public class LodestoneNetworkPayloads {
         }
 
         public final <B extends FriendlyByteBuf, T extends LodestoneNetworkPayloadData> StreamMemberEncoder<B, T> encodePacket() {
-            return (b, t) -> {
-                t.writeUtf(b.getPacketType().toString());
-                b.serialize(t);
-            };
+            return LodestoneNetworkPayloadData::serialize;
         }
 
         public final <B extends FriendlyByteBuf, T extends LodestoneNetworkPayloadData> StreamDecoder<B, T> decodePacket(PayloadDataSupplier<T> supplier) {
-            return t -> createPayload(supplier, t);
+            return byteBuf -> {
+                try {
+                    return supplier.createPayload(byteBuf);
+                } catch (Exception e) {
+                    throw new RuntimeException("Couldn't decode payload type from channel " + namespace, e);
+                }
+            };
         }
 
-        public <T extends LodestoneNetworkPayloadData> T createPayload(PayloadDataSupplier<T> supplier, FriendlyByteBuf byteBuf) {
-            return supplier.createPayload(byteBuf);
-        }
-
-        @SuppressWarnings("unchecked")
-        public <T extends LodestoneNetworkPayloadData> CustomPacketPayload.Type<T> getPayloadType(String path) {
-            if (payloadTypeMap.containsKey(path)) {
-                return (CustomPacketPayload.Type<T>) payloadTypeMap.get(path);
-            }
-            CustomPacketPayload.Type<T> type = CustomPacketPayload.createType(namespace + "/" + path);
-            payloadTypeMap.put(path, type);
+        public <T extends LodestoneNetworkPayloadData> CustomPacketPayload.Type<T> createPayloadType(Class<T> clazz, String id) {
+            CustomPacketPayload.Type<T> type = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(namespace, id));
+            PAYLOAD_TO_TYPE.put(clazz, type);
             return type;
         }
+
     }
 
     public interface PayloadDataSupplier<T extends LodestoneNetworkPayloadData> {

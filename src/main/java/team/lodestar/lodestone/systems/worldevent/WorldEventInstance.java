@@ -73,7 +73,8 @@ public abstract class WorldEventInstance {
     }
 
     @ApiStatus.Internal
-    public final CompoundTag serializeNBT(CompoundTag tag) {
+    public final CompoundTag serializeNBT() {
+        CompoundTag tag = new CompoundTag();
         tag.putUUID("uuid", uuid);
         tag.putString("type", type.id.toString());
         tag.putBoolean("discarded", discarded);
@@ -94,7 +95,7 @@ public abstract class WorldEventInstance {
 
     @ApiStatus.Internal
     public void sync(Level level) {
-        if (!level.isClientSide && this.type.isClientSynced()) {
+        if (!level.isClientSide && type.isClientSynced()) {
             sync(this);
         }
     }
@@ -107,7 +108,7 @@ public abstract class WorldEventInstance {
     // Update World Event Data Server -> Client
     @ApiStatus.Internal
     public CompoundTag synchronizeNBT() {
-        return serializeNBT(new CompoundTag());
+        return serializeNBT();
     }
 
     //Duplicate World Event to Client, Only Call once per world event instance
@@ -119,14 +120,10 @@ public abstract class WorldEventInstance {
     //Duplicate World Event to Client, Only Call once per world event instance
     @ApiStatus.Internal
     public static <T extends WorldEventInstance> void sync(T instance, @Nullable ServerPlayer player) {
-        var buf = new FriendlyByteBuf(Unpooled.buffer());
-        buf.writeResourceLocation(instance.type.id);
-        buf.writeBoolean(false);
-        buf.writeNbt(instance.serializeNBT(new CompoundTag()));
         if (player != null) {
-            PacketDistributor.sendToPlayer(player, new SyncWorldEventPayload(buf));
+            PacketDistributor.sendToPlayer(player, new SyncWorldEventPayload(instance, false));
             return;
         }
-        PacketDistributor.sendToServer(new SyncWorldEventPayload(buf));
+        PacketDistributor.sendToServer(new SyncWorldEventPayload(instance, false));
     }
 }

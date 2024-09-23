@@ -23,8 +23,7 @@ public class WorldEventAttachment implements INBTSerializable<CompoundTag> {
         worldTag.putInt("worldEventCount", activeWorldEvents.size());
         for (int i = 0; i < activeWorldEvents.size(); i++) {
             WorldEventInstance instance = activeWorldEvents.get(i);
-            CompoundTag instanceTag = new CompoundTag();
-            instance.serializeNBT(instanceTag);
+            CompoundTag instanceTag = instance.serializeNBT();
             worldTag.put("worldEvent_" + i, instanceTag);
         }
         tag.put("worldEventData", worldTag);

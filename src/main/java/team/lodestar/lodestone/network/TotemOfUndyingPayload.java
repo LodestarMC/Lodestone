@@ -21,7 +21,6 @@ public class TotemOfUndyingPayload extends OneSidedPayloadData {
     private ItemStack stack;
 
     public TotemOfUndyingPayload(FriendlyByteBuf byteBuf) {
-        super(byteBuf);
         entityId = byteBuf.readInt();
     }
 

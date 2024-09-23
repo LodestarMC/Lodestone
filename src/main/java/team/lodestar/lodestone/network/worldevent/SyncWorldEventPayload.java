@@ -11,7 +11,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import team.lodestar.lodestone.handlers.WorldEventHandler;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypes;
 import team.lodestar.lodestone.systems.network.OneSidedPayloadData;
-import team.lodestar.lodestone.systems.worldevent.WorldEventType;
+import team.lodestar.lodestone.systems.worldevent.*;
 
 public class SyncWorldEventPayload extends OneSidedPayloadData {
 
@@ -20,10 +20,16 @@ public class SyncWorldEventPayload extends OneSidedPayloadData {
     private final CompoundTag eventData;
 
     public SyncWorldEventPayload(FriendlyByteBuf byteBuf) {
-        super(byteBuf);
-        type = byteBuf.readResourceLocation();
-        start = byteBuf.readBoolean();
-        eventData = byteBuf.readNbt();
+        this(byteBuf.readResourceLocation(), byteBuf.readBoolean(), byteBuf.readNbt());
+    }
+    public SyncWorldEventPayload(WorldEventInstance instance, boolean start) {
+        this(instance.type.id, start, instance.serializeNBT());
+    }
+
+    public SyncWorldEventPayload(ResourceLocation type, boolean start, CompoundTag eventData) {
+        this.type = type;
+        this.start = start;
+        this.eventData = eventData;
     }
 
     @OnlyIn(Dist.CLIENT)

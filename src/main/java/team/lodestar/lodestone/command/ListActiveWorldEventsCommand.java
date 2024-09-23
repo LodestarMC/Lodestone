@@ -155,7 +155,7 @@ public class ListActiveWorldEventsCommand {
             consumer.accept(frozenStatus);
             consumer.accept(getDashedSpaceLine().withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)));
             consumer.accept(worldEventData);
-            buildDetailsBody(consumer, worldEventInstance.serializeNBT(new CompoundTag()));
+            buildDetailsBody(consumer, worldEventInstance.serializeNBT());
             consumer.accept(getDashedLine().withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)));
             buildInteractiveFooter(consumer, worldEventInstance);
         }

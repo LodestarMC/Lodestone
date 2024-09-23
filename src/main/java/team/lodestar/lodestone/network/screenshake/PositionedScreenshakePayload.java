@@ -11,10 +11,10 @@ import team.lodestar.lodestone.systems.screenshake.PositionedScreenshakeInstance
 
 public class PositionedScreenshakePayload extends ScreenshakePayload {
 
-    public Vec3 position;
-    public float falloffDistance;
-    public float maxDistance;
-    public Easing falloffEasing;
+    public final Vec3 position;
+    public final float falloffDistance;
+    public final float maxDistance;
+    public final Easing falloffEasing;
 
     public PositionedScreenshakePayload(FriendlyByteBuf byteBuf) {
         super(byteBuf);

@@ -12,12 +12,11 @@ import team.lodestar.lodestone.systems.screenshake.ScreenshakeInstance;
 
 public class ScreenshakePayload extends OneSidedPayloadData {
 
-    public int duration;
-    public float intensity1, intensity2, intensity3;
-    public Easing intensityCurveStartEasing, intensityCurveEndEasing;
+    public final int duration;
+    public final float intensity1, intensity2, intensity3;
+    public final Easing intensityCurveStartEasing, intensityCurveEndEasing;
 
     public ScreenshakePayload(FriendlyByteBuf byteBuf) {
-        super(byteBuf);
         duration = byteBuf.readInt();
         intensity1 = byteBuf.readFloat();
         intensity2 = byteBuf.readFloat();

@@ -108,14 +108,9 @@ public class WorldEventHandler {
                     instance.tick(level);
                 }
                 if (instance.dirty) {
-
-                    var buf = new FriendlyByteBuf(Unpooled.buffer());
-                    buf.writeUUID(instance.uuid);
-                    buf.writeNbt(instance.synchronizeNBT());
-                    PacketDistributor.sendToServer(new UpdateWorldEventPayload(buf));
+                    PacketDistributor.sendToServer(new UpdateWorldEventPayload(instance.uuid, instance.synchronizeNBT()));
                     instance.dirty = false;
                 }
-
             }
         }
     }

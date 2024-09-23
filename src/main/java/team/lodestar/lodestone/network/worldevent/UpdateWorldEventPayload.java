@@ -19,9 +19,16 @@ public class UpdateWorldEventPayload extends OneSidedPayloadData {
     private final CompoundTag eventData;
 
     public UpdateWorldEventPayload(FriendlyByteBuf byteBuf) {
-        super(byteBuf);
-        uuid = byteBuf.readUUID();
-        eventData = byteBuf.readNbt();
+        this(byteBuf.readUUID(), byteBuf.readNbt());
+    }
+
+    public UpdateWorldEventPayload(WorldEventInstance instance) {
+        this(instance.uuid, instance.serializeNBT());
+    }
+
+    public UpdateWorldEventPayload(UUID uuid, CompoundTag eventData) {
+        this.uuid = uuid;
+        this.eventData = eventData;
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -79,10 +79,7 @@ public class RemoveActiveWorldEventsCommand {
 
     private static void endAndUpdate(WorldEventInstance instance, Level level) {
         instance.end(level);
-        var buf = new FriendlyByteBuf(Unpooled.buffer());
-        buf.writeUUID(instance.uuid);
-        buf.writeNbt(instance.synchronizeNBT());
-        PacketDistributor.sendToServer(new UpdateWorldEventPayload(buf));
+        PacketDistributor.sendToAllPlayers(new UpdateWorldEventPayload(instance));
         instance.dirty = false;
     }
 }
