@@ -42,17 +42,4 @@ public abstract class LodestoneArmorItem extends ArmorItem {
     }
 
     public abstract List<ItemAttributeModifiers.Entry> createExtraAttributes();
-
-    public String getTexture() {
-        return null;
-    }
-
-    public String getTextureLocation() {
-        return null;
-    }
-
-    @Override
-    public @Nullable ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-        return ResourceLocation.fromNamespaceAndPath(getTextureLocation(), getTexture() + ".png");
-    }
 }
