@@ -1,28 +1,69 @@
 package team.lodestar.lodestone.mixin.common;
 
-import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.Multimap;
-import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.player.Player;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import team.lodestar.lodestone.registry.common.LodestoneAttributes;
+import org.spongepowered.asm.mixin.Shadow;
+import team.lodestar.lodestone.systems.item.IComponentResponderItem;
 
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 @Mixin(ItemStack.class)
-public class ItemStackMixin {
+public abstract class ItemStackMixin {
+
+    @Shadow public abstract Item getItem();
+
+    @Shadow public abstract int getCount();
+
+    @Shadow public abstract DataComponentMap getComponents();
+
+    @Shadow @Final private PatchedDataComponentMap components;
+
+    @WrapMethod(method = "getComponents")
+    private DataComponentMap lodestone$getComponents(Operation<DataComponentMap> method) {
+        DataComponentMap original = method.call();
+        DataComponentMap.Builder builder = DataComponentMap.builder().addAll(original);
+        if (this.getItem() instanceof IComponentResponderItem componentItem) {
+            componentItem.readComponent(this.getCount(), builder, IComponentResponderItem.ComponentGetter.create(original));
+        }
+        return builder.build();
+    }
+
+    @WrapMethod(method = "remove")
+    private <T> T lodestone$remove(DataComponentType<T> type, Operation<T> operation) {
+        DataComponentMap original = this.getComponents();
+        DataComponentMap.Builder builder = DataComponentMap.builder().addAll(original);
+        if (this.getItem() instanceof IComponentResponderItem componentItem) {
+            IComponentResponderItem.RemoveComponentOperation<T> removeOp = new IComponentResponderItem.RemoveComponentOperation<>(
+                    original.get(type), type
+            );
+            componentItem.removeComponent(this.getCount(), builder, removeOp, IComponentResponderItem.ComponentGetter.create(original));
+            if (removeOp.isCancelled) return original.get(type);
+        }
+       return operation.call(type);
+    }
+
+    @WrapMethod(method = "set")
+    private <T> T lodestone$set(DataComponentType<T> type, T value, Operation<T> operation) {
+        DataComponentMap original = this.getComponents();
+        DataComponentMap.Builder builder = DataComponentMap.builder().addAll(original);
+        if (this.getItem() instanceof IComponentResponderItem componentItem) {
+            IComponentResponderItem.ModifyComponentOperation<T> modifyOp = new IComponentResponderItem.ModifyComponentOperation<>(
+                    original.get(type), value, type
+            );
+            componentItem.setComponent(this.getCount(), builder, modifyOp, IComponentResponderItem.ComponentGetter.create(original));
+            if (modifyOp.isCancelled) return original.get(type);
+        }
+        return this.components.set(type, value);
+    }
+
     /* TODO just add magic damage to components and it should be added automatically
     @Unique
     private AttributeModifier lodestone$attributeModifier;
