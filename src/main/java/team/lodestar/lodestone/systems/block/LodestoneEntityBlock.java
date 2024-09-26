@@ -129,7 +129,7 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         if (hasTileEntity(pState)) {
             if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity blockEntity) {
-                var earlyResult = blockEntity.onUse(pPlayer);
+                var earlyResult = blockEntity.onUse(pPlayer, InteractionHand.MAIN_HAND);
                 return earlyResult.consumesAction() ? earlyResult.result() : blockEntity.onUseWithoutItem(pPlayer);
             }
         }
@@ -140,8 +140,8 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (hasTileEntity(pState)) {
             if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity blockEntity) {
-                var earlyResult = blockEntity.onUse(pPlayer);
-                return earlyResult.consumesAction() ? earlyResult :  blockEntity.onUseWithItem(pPlayer, pStack, pHand);
+                var earlyResult = blockEntity.onUse(pPlayer, pHand);
+                return earlyResult.consumesAction() ? earlyResult : blockEntity.onUseWithItem(pPlayer, pStack, pHand);
 
             }
         }
