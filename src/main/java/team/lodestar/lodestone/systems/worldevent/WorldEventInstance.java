@@ -124,6 +124,6 @@ public abstract class WorldEventInstance {
             PacketDistributor.sendToPlayer(player, new SyncWorldEventPayload(instance, false));
             return;
         }
-        PacketDistributor.sendToServer(new SyncWorldEventPayload(instance, false));
+        PacketDistributor.sendToAllPlayers(new SyncWorldEventPayload(instance, false));
     }
 }

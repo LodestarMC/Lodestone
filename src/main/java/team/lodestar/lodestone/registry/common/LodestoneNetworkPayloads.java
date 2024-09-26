@@ -2,7 +2,7 @@ package team.lodestar.lodestone.registry.common;
 
 import net.minecraft.network.*;
 import net.minecraft.network.codec.*;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.protocol.common.custom.*;
 import net.minecraft.resources.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.*;
@@ -17,13 +17,12 @@ import team.lodestar.lodestone.network.worldevent.SyncWorldEventPayload;
 import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPayload;
 import team.lodestar.lodestone.systems.network.*;
 
-import java.lang.reflect.*;
 import java.util.HashMap;
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class LodestoneNetworkPayloads {
 
-    public static final PayloadNetworkChannel LODESTONE_CHANNEL = new PayloadNetworkChannel(LodestoneLib.LODESTONE);
+    public static final PayloadRegistryHelper LODESTONE_CHANNEL = new PayloadRegistryHelper(LodestoneLib.LODESTONE);
 
     @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent event) {
@@ -41,13 +40,13 @@ public class LodestoneNetworkPayloads {
      * Payload Data that extends {@link LodestoneNetworkPayloadData} will use a resource location to first figure out which channel they belong to using the namespace, and the payload type using the path.
      * Lodestone payload data is designed to be extended, see {@link OneSidedPayloadData} and {@link TwoSidedPayloadData}.
      */
-    public static class PayloadNetworkChannel {
+    public static class PayloadRegistryHelper {
 
         public static final HashMap<Class<? extends LodestoneNetworkPayloadData>, CustomPacketPayload.Type<? extends LodestoneNetworkPayloadData>> PAYLOAD_TO_TYPE = new HashMap<>();
 
         public final String namespace;
 
-        public PayloadNetworkChannel(String namespace) {
+        public PayloadRegistryHelper(String namespace) {
             this.namespace = namespace;
         }
 

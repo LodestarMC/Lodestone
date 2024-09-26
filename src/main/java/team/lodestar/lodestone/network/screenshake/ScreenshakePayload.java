@@ -25,6 +25,15 @@ public class ScreenshakePayload extends OneSidedPayloadData {
         intensityCurveEndEasing = Easing.valueOf(byteBuf.readUtf());
     }
 
+    public ScreenshakePayload(int duration, float intensity1, float intensity2, float intensity3, Easing intensityCurveStartEasing, Easing intensityCurveEndEasing) {
+        this.duration = duration;
+        this.intensity1 = intensity1;
+        this.intensity2 = intensity2;
+        this.intensity3 = intensity3;
+        this.intensityCurveStartEasing = intensityCurveStartEasing;
+        this.intensityCurveEndEasing = intensityCurveEndEasing;
+    }
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public void handle(IPayloadContext context) {

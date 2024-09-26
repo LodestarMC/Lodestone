@@ -37,8 +37,8 @@ public class WorldEventAttachment implements INBTSerializable<CompoundTag> {
         int worldEventCount = worldTag.getInt("worldEventCount");
         for (int i = 0; i < worldEventCount; i++) {
             CompoundTag instanceTag = worldTag.getCompound("worldEvent_" + i);
-            WorldEventType reader = LodestoneWorldEventTypes.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(instanceTag.getString("type")));
-            WorldEventInstance eventInstance = reader.createInstance(instanceTag);
+            WorldEventType type = LodestoneWorldEventTypes.WORLD_EVENT_TYPE_REGISTRY.get(ResourceLocation.parse(instanceTag.getString("type")));
+            WorldEventInstance eventInstance = type.createInstance(instanceTag);
             activeWorldEvents.add(eventInstance);
         }
     }

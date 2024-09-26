@@ -31,9 +31,14 @@ public class ClientRuntimeEvents {
             }
             Camera camera = minecraft.gameRenderer.getMainCamera();
             WorldEventHandler.tick(minecraft.level);
-            ScreenshakeHandler.clientTick(camera, RANDOM);
+            ScreenshakeHandler.clientTick(camera);
             ScreenParticleHandler.tickParticles();
         }
+    }
+
+    public static void cameraSetup(ViewportEvent.ComputeCameraAngles event) {
+        ScreenshakeHandler.cameraSetup(event.getCamera());
+
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

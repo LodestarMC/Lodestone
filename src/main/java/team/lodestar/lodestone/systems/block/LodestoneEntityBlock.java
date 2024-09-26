@@ -63,8 +63,8 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     @Override
     public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
         if (hasTileEntity(pState)) {
-            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                simpleBlockEntity.onPlace(pPlacer, pStack);
+            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity blockEntity) {
+                blockEntity.onPlace(pPlacer, pStack);
             }
         }
         super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
@@ -74,8 +74,8 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     @NotNull
     public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         if (hasTileEntity(state)) {
-            if (level.getBlockEntity(pos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                ItemStack stack = simpleBlockEntity.onClone(state, target, level, pos, player);
+            if (level.getBlockEntity(pos) instanceof LodestoneBlockEntity blockEntity) {
+                ItemStack stack = blockEntity.onClone(state, target, level, pos, player);
                 if (!stack.isEmpty()) {
                     return stack;
                 }
@@ -99,8 +99,8 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
 
     public void onBlockBroken(BlockState state, BlockGetter level, BlockPos pos, @Nullable Player player) {
         if (hasTileEntity(state)) {
-            if (level.getBlockEntity(pos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                simpleBlockEntity.onBreak(player);
+            if (level.getBlockEntity(pos) instanceof LodestoneBlockEntity blockEntity) {
+                blockEntity.onBreak(player);
             }
         }
     }
@@ -108,8 +108,8 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     @Override
     public void entityInside(BlockState pState, Level pLevel, BlockPos pPos, Entity pEntity) {
         if (hasTileEntity(pState)) {
-            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                simpleBlockEntity.onEntityInside(pState, pLevel, pPos, pEntity);
+            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity blockEntity) {
+                blockEntity.onEntityInside(pState, pLevel, pPos, pEntity);
             }
         }
         super.entityInside(pState, pLevel, pPos, pEntity);
@@ -118,8 +118,8 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     @Override
     public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
         if (hasTileEntity(pState)) {
-            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                simpleBlockEntity.onNeighborUpdate(pState, pPos, pFromPos);
+            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity blockEntity) {
+                blockEntity.onNeighborUpdate(pState, pPos, pFromPos);
             }
         }
         super.neighborChanged(pState, pLevel, pPos, pBlock, pFromPos, pIsMoving);
@@ -128,8 +128,9 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     @Override
     protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         if (hasTileEntity(pState)) {
-            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                return simpleBlockEntity.onUseWithoutItem(pPlayer);
+            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity blockEntity) {
+                blockEntity.onUse(pPlayer);
+                return blockEntity.onUseWithoutItem(pPlayer);
             }
         }
         return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
@@ -138,8 +139,9 @@ public class LodestoneEntityBlock<T extends LodestoneBlockEntity> extends Block 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if (hasTileEntity(pState)) {
-            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity simpleBlockEntity) {
-                return simpleBlockEntity.onUseWithItem(pPlayer, pStack, pHand);
+            if (pLevel.getBlockEntity(pPos) instanceof LodestoneBlockEntity blockEntity) {
+                blockEntity.onUse(pPlayer);
+                return blockEntity.onUseWithItem(pPlayer, pStack, pHand);
 
             }
         }

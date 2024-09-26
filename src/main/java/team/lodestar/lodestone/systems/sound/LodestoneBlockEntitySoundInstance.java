@@ -11,7 +11,7 @@ public class LodestoneBlockEntitySoundInstance<T extends LodestoneBlockEntity> e
     public T blockEntity;
 
     public LodestoneBlockEntitySoundInstance(T blockEntity, SoundEvent soundEvent, float volume, float pitch) {
-        super(soundEvent, SoundSource.BLOCKS, LodestoneLib.RANDOM);
+        super(soundEvent, SoundSource.BLOCKS, blockEntity.getLevel().getRandom());
         this.blockEntity = blockEntity;
         this.volume = volume;
         this.pitch = pitch;
