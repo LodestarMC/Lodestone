@@ -45,8 +45,8 @@ public class LodestoneBlockEntity extends BlockEntity {
         return ItemStack.EMPTY;
     }
 
-    public void onUse(Player pPlayer) {
-
+    public ItemInteractionResult onUse(Player pPlayer) {
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     public InteractionResult onUseWithoutItem(Player pPlayer) {
