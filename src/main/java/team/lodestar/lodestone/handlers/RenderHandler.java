@@ -42,7 +42,7 @@ public class RenderHandler {
     public static FogShape FOG_SHAPE;
     public static float FOG_RED, FOG_GREEN, FOG_BLUE;
 
-    public static void onClientSetup(FMLClientSetupEvent event) {
+    public static void onClientSetup() {
         DELAYED_RENDER = new LodestoneRenderLayer(BUFFERS, PARTICLE_BUFFERS);
         LATE_DELAYED_RENDER = new LodestoneRenderLayer(LATE_BUFFERS, LATE_PARTICLE_BUFFERS);
     }
@@ -74,16 +74,16 @@ public class RenderHandler {
         endBufferedRendering();
     }
 
-    public static void cacheFogData(ViewportEvent.RenderFog event) {
-        FOG_NEAR = event.getNearPlaneDistance();
-        FOG_FAR = event.getFarPlaneDistance();
-        FOG_SHAPE = event.getFogShape();
+    public static void cacheFogData(float start, float end, FogShape shape) {
+        FOG_NEAR = start;
+        FOG_FAR = end;
+        FOG_SHAPE = shape;
     }
 
-    public static void cacheFogData(ViewportEvent.ComputeFogColor event) {
-        FOG_RED = event.getRed();
-        FOG_GREEN = event.getGreen();
-        FOG_BLUE = event.getBlue();
+    public static void cacheFogData(float fogRed, float fogGreen, float fogBlue) {
+        FOG_RED = fogRed;
+        FOG_GREEN = fogGreen;
+        FOG_BLUE = fogBlue;
     }
 
     public static void beginBufferedRendering() {

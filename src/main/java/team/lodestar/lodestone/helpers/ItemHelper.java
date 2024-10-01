@@ -1,6 +1,9 @@
 package team.lodestar.lodestone.helpers;
 
+import dev.emi.trinkets.api.SlotReference;
+import io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -60,7 +63,10 @@ public class ItemHelper {
     }
 
     public static ArrayList<ItemStack> getEventResponders(LivingEntity attacker) {
-        ArrayList<ItemStack> itemStacks = TrinketCompat.LOADED ? CurioHelper.getEquippedCurios(attacker, p -> p.getItem() instanceof IEventResponderItem) : new ArrayList<>();
+        ArrayList<Tuple<SlotReference, ItemStack>> equippedCurios
+                = TrinketCompat.LOADED ? TrinketsHelper.getEquippedTrinkets(attacker, p -> p.getItem() instanceof IEventResponderItem) : new ArrayList<>();
+
+        ArrayList<ItemStack> itemStacks = TrinketCompat.LOADED ? new ArrayList<>(equippedCurios.stream().map(Tuple::getB).toList()) : new ArrayList<>();
         ItemStack stack = attacker.getMainHandItem();
         if (stack.getItem() instanceof IEventResponderItem) {
             itemStacks.add(stack);
@@ -88,15 +94,13 @@ public class ItemHelper {
     }
 
     public static void quietlyGiveItemToPlayer(Player player, ItemStack stack) {
-        if (stack.isEmpty()) return;
-        IItemHandler inventory = new PlayerMainInvWrapper(player.getInventory());
+        if (stack.isEmpty()) {
+            return;
+        }
         Level level = player.level();
         ItemStack remainder = stack;
         if (!remainder.isEmpty()) {
-            remainder = ItemHandlerHelper.insertItemStacked(inventory, remainder, false);
-        }
-        if (!remainder.isEmpty() && !level.isClientSide) {
-            spawnItemOnEntity(player, stack);
+            ItemHandlerHelper.giveItemToPlayer(player, remainder);
         }
     }
 

@@ -23,7 +23,7 @@ public class LodestoneCommandArgumentTypes {
         ArgumentTypeInfos.registerByClass(WorldEventTypeArgument.class, WORLD_EVENT_TYPE_ARG.get());
         ArgumentTypeInfos.registerByClass(WorldEventInstanceArgument.class, WORLD_EVENT_INSTANCE_ARG.get());
     }
-    public static void register(IEventBus modEventBus) {
-        COMMAND_ARGUMENT_TYPES.register(modEventBus);
+    public static void register() {
+        COMMAND_ARGUMENT_TYPES.register();
     }
 }

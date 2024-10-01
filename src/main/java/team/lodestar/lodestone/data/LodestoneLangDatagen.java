@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
+import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
+
 
 public class LodestoneLangDatagen extends FabricLanguageProvider {
 

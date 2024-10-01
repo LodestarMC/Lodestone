@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.registry.common;
 
 import io.github.fabricators_of_create.porting_lib.util.DeferredRegister;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.minecraft.client.renderer.blockentity.*;
 import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -49,8 +50,8 @@ public class LodestoneBlockEntities {
 
     public static class ClientOnly {
 
-        public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
-               event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
+        public static void registerRenderer() {
+            BlockEntityRenderers.register(SIGN.get(), SignRenderer::new);
         }
     }
 }

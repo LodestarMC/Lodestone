@@ -58,7 +58,7 @@ public class LodestoneOBJModels {
         LOD_MODELS.forEach(MultiLODModel::loadModel);
     }
 
-    public static void onClientSetup(FMLClientSetupEvent event) {
+    public static void onClientSetup() {
         loadModels();
     }
 }

@@ -6,14 +6,15 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
-import team.lodestar.lodestone.attachment.WorldEventAttachment;
 import team.lodestar.lodestone.command.arguments.WorldEventInstanceArgument;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
+import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPayload;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RemoveActiveWorldEventsCommand {
 
@@ -27,10 +28,15 @@ public class RemoveActiveWorldEventsCommand {
                         .executes(ctx -> {
                             CommandSourceStack source = ctx.getSource();
                             Level level = source.getLevel();
-                            WorldEventAttachment worldEventAttachment = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
-                            int count = worldEventAttachment.activeWorldEvents.size();
-                            worldEventAttachment.activeWorldEvents.forEach(instance -> endAndUpdate(instance, level));
-                            if (count > 0) {
+                            AtomicInteger count = new AtomicInteger();
+                            LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(c -> {
+                                count.set(c.activeWorldEvents.size());
+                                c.activeWorldEvents.forEach(instance -> {
+                                    instance.end(level);
+                                    LodestonePacketRegistry.LODESTONE_CHANNEL.sendToClientsInCurrentServer(new UpdateWorldEventPacket(instance.uuid, instance.synchronizeNBT()));
+                                });
+                            });
+                            if (count.get() > 0) {
                                 source.sendSuccess(() -> Component.translatable("command.lodestone.worldevent.remove.all.success", String.valueOf(count)), true);
                                 return 1;
                             } else {
@@ -54,14 +60,18 @@ public class RemoveActiveWorldEventsCommand {
                         .then(Commands.argument("type", WorldEventTypeArgument.worldEventType())
                                 .executes(ctx -> {
                                     CommandSourceStack source = ctx.getSource();
-                                    Level level = source.getLevel();
                                     WorldEventType type = WorldEventTypeArgument.getEventType(ctx, "type");
-                                    WorldEventAttachment worldEventAttachment = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
-                                    int count;
-                                    List<WorldEventInstance> activeWorldEvents = worldEventAttachment.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
-                                    count = activeWorldEvents.size();
-                                    activeWorldEvents.forEach(instance -> endAndUpdate(instance, source.getLevel()));
-                                    if (count > 0) {
+                                    AtomicInteger count = new AtomicInteger();
+                                    LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(source.getLevel()).ifPresent(c -> {
+                                        List<WorldEventInstance> activeWorldEvents = c.activeWorldEvents.stream().filter(instance -> instance.type == type).toList();
+                                        count.set(activeWorldEvents.size());
+                                        activeWorldEvents.forEach(instance -> {
+                                            instance.end(source.getLevel());
+                                            LodestonePacketRegistry.LODESTONE_CHANNEL.sendToClientsInCurrentServer(new UpdateWorldEventPacket(instance.uuid, instance.synchronizeNBT()));
+                                        });
+                                    });
+
+                                    if (count.get() > 0) {
                                         source.sendSuccess(() -> Component.translatable("command.lodestone.worldevent.remove.type.success", String.valueOf(count), type.id.toString()).withStyle(ChatFormatting.AQUA), true);
                                         return 1;
                                     } else {

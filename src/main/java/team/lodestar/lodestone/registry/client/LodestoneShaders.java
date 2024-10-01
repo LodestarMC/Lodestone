@@ -1,11 +1,16 @@
 package team.lodestar.lodestone.registry.client;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import team.lodestar.lodestone.LodestoneLib;
+import team.lodestar.lodestone.events.LodestoneShaderRegistrationEvent;
+import team.lodestar.lodestone.systems.rendering.shader.ExtendedShaderInstance;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
 
@@ -24,24 +29,20 @@ public class LodestoneShaders {
     public static ShaderHolder SCROLLING_TRIANGLE_TEXTURE = new ShaderHolder(lodestonePath("shapes/scrolling_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "Speed", "LumiTransparency");
 
 
-    public static void shaderRegistry(RegisterShadersEvent event) {
-        registerShader(event, LODESTONE_TEXTURE);
-        registerShader(event, LODESTONE_TEXT);
-        registerShader(event, PARTICLE);
-        registerShader(event, SCREEN_PARTICLE);
-        registerShader(event, DISTORTED_TEXTURE);
-        registerShader(event, SCROLLING_TEXTURE);
-        registerShader(event, TRIANGLE_TEXTURE);
-        registerShader(event, SCROLLING_TRIANGLE_TEXTURE);
+    public static void init() {
+        LodestoneShaderRegistrationEvent.EVENT.register((provider, shaderList1) -> {
+            shaderList1.add(Pair.of(LODESTONE_TEXTURE.createInstance(provider), getConsumer()));
+            shaderList1.add(Pair.of(LODESTONE_TEXT.createInstance(provider), getConsumer()));
+            shaderList1.add(Pair.of(PARTICLE.createInstance(provider), getConsumer()));
+            shaderList1.add(Pair.of(SCREEN_PARTICLE.createInstance(provider), getConsumer()));
+            shaderList1.add(Pair.of(DISTORTED_TEXTURE.createInstance(provider), getConsumer()));
+            shaderList1.add(Pair.of(SCROLLING_TEXTURE.createInstance(provider), getConsumer()));
+            shaderList1.add(Pair.of(TRIANGLE_TEXTURE.createInstance(provider), getConsumer()));
+            shaderList1.add(Pair.of(SCROLLING_TRIANGLE_TEXTURE.createInstance(provider), getConsumer()));
+        });
     }
 
-    public static void registerShader(RegisterShadersEvent event, ShaderHolder shaderHolder) {
-        try {
-            ResourceProvider provider = event.getResourceProvider();
-            event.registerShader(shaderHolder.createInstance(provider), shaderHolder::setShaderInstance);
-        } catch (IOException e) {
-            LodestoneLib.LOGGER.error("Error registering shader", e);
-            e.printStackTrace();
-        }
+    public static Consumer<ShaderInstance> getConsumer() {
+        return (shader) -> ((ExtendedShaderInstance) shader).getShaderHolder();
     }
 }

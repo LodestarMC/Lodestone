@@ -8,8 +8,8 @@ import net.minecraft.commands.Commands;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.*;
 import net.minecraft.server.level.ServerLevel;
-import team.lodestar.lodestone.attachment.WorldEventAttachment;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
+import team.lodestar.lodestone.component.LodestoneComponents;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
@@ -68,17 +68,19 @@ public class ListActiveWorldEventsCommand {
         private List<WorldEventInstance> activeWorldEvents;
 
         protected ActiveWorldEventReport(ServerLevel level) {
-            WorldEventAttachment data = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
-            instanceCount = data.activeWorldEvents.size();
-            frozenCount = (int) data.activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).count();
-            activeWorldEvents = data.activeWorldEvents;
+            LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(c -> {
+                instanceCount = c.activeWorldEvents.size();
+                frozenCount = (int) c.activeWorldEvents.stream().filter(WorldEventInstance::isFrozen).count();
+                activeWorldEvents = c.activeWorldEvents;
+            });
         }
 
         protected ActiveWorldEventReport(ServerLevel level, WorldEventType worldEventType) {
-            WorldEventAttachment data = level.getData(LodestoneAttachmentTypes.WORLD_EVENT_DATA);
-            instanceCount = (int) data.activeWorldEvents.stream().filter(worldEventInstance -> worldEventInstance.type.equals(worldEventType)).count();
-            frozenCount = (int) data.activeWorldEvents.stream().filter(worldEventInstance -> worldEventInstance.type.equals(worldEventType) && worldEventInstance.isFrozen()).count();
-            activeWorldEvents = data.activeWorldEvents;
+            LodestoneComponents.LODESTONE_WORLD_COMPONENT.maybeGet(level).ifPresent(c -> {
+                instanceCount = (int) c.activeWorldEvents.stream().filter(worldEventInstance -> worldEventInstance.type.equals(worldEventType)).count();
+                frozenCount = (int) c.activeWorldEvents.stream().filter(worldEventInstance -> worldEventInstance.type.equals(worldEventType) && worldEventInstance.isFrozen()).count();
+                activeWorldEvents = c.activeWorldEvents;
+            });
         }
 
         private void buildInteractiveMessage(Consumer<Component> consumer, int page) {

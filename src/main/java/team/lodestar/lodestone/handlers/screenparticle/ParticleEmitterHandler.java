@@ -12,7 +12,7 @@ import java.util.*;
 public class ParticleEmitterHandler {
     public static final Map<Item, List<ItemParticleSupplier>> EMITTERS = new HashMap<>();
 
-    public static void registerParticleEmitters(FMLClientSetupEvent event) {
+    public static void registerParticleEmitters() {
         DataHelper.getAll(BuiltInRegistries.ITEM.stream().toList(), i -> i instanceof ItemParticleSupplier).forEach(i -> {
                     ItemParticleSupplier emitter = (ItemParticleSupplier) i;
                     registerItemParticleEmitter(i, emitter);

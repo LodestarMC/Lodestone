@@ -8,13 +8,13 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
+import team.lodestar.lodestone.helpers.ShadersHelper;
 
 import static team.lodestar.lodestone.LodestoneLib.RANDOM;
 
 public class ClientRuntimeEvents {
 
-    public static void clientTick(ClientTickEvent.Post event) {
-        Minecraft minecraft = Minecraft.getInstance();
+    public static void clientTick(Minecraft minecraft) {
         if (minecraft.level != null) {
             if (minecraft.isPaused()) {
                 return;
@@ -26,48 +26,35 @@ public class ClientRuntimeEvents {
         }
     }
 
-    public static void cameraSetup(ViewportEvent.ComputeCameraAngles event) {
-        ScreenshakeHandler.cameraSetup(event.getCamera());
-
-    }
-
-    public static void renderFog(ViewportEvent.RenderFog event) {
-        RenderHandler.cacheFogData(event);
-    }
-
-    public static void fogColors(ViewportEvent.ComputeFogColor event) {
-        RenderHandler.cacheFogData(event);
-    }
 
     /**
      * The main render loop of Lodestone. We end all of our batches here.
      */
-    public static void renderStages(RenderLevelStageEvent event) {
+    public static void renderStages(PoseStack poseStack, float partial, Stage stage) {
         Minecraft minecraft = Minecraft.getInstance();
         Camera camera = minecraft.gameRenderer.getMainCamera();
         Vec3 cameraPos = camera.getPosition();
-        float partial = event.getPartialTick().getGameTimeDeltaPartialTick(false);
-        PoseStack poseStack = event.getPoseStack();
         poseStack.pushPose();
         poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
 
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SKY)) {
+        if (stage == Stage.AFTER_SKY) {
             WorldEventHandler.ClientOnly.renderWorldEvents(poseStack, partial);
         }
 
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) {
-            RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
+        if (stage == Stage.AFTER_PARTICLES) {
+            if (!ShadersHelper.isShadersEnabled()) {
+                RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
+            }
         }
-        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
-            RenderHandler.endBatches();
+
+        if (!ShadersHelper.isShadersEnabled()) {
+            if (stage == Stage.AFTER_WEATHER) {
+                RenderHandler.endBatches();
+            }
+        } else {
+            ShadersHelper.renderStages(stage);
         }
 
         poseStack.popPose();
-    }
-
-    public static void renderFrameEvent(RenderFrameEvent.Pre event) {//TODO Pre or Post?
-        if (event != null) {
-            ScreenParticleHandler.renderTick(event);
-        }
     }
 }

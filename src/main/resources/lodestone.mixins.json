@@ -6,20 +6,29 @@
   "mixins": [
     "common.BlockItemMixin",
     "common.EntityMixin",
+    "common.ItemEntityMixin",
     "common.ItemStackMixin",
-    "common.LivingEntityMixin"
+    "common.LivingEntityMixin",
+    "common.ServerPlayerGameModeMixin"
   ],
   "client": [
     "client.AbstractContainerScreenMixin",
     "client.CameraMixin",
+    "client.ClientSuggestionProviderMixin",
     "client.CreativeModeInventoryScreenMixin",
+    "client.EffectInstanceMixin",
     "client.EffectProgramMixin",
+    "client.FabricSpriteProviderImplAccessor",
+    "client.FogRendererMixin",
     "client.GameRendererMixin",
     "client.GuiGraphicsMixin",
     "client.GuiMixin",
     "client.LevelRendererMixin",
+    "client.MinecraftMixin",
     "client.MultiPlayerGameModeMixin",
-    "client.GuiGraphicsMixin"
+    "client.ParticleEngineMixin",
+    "client.ScreenEffectRendererMixin",
+    "client.ShaderInstanceMixin"
   ],
   "injectors": {
     "defaultRequire": 1
