@@ -11,12 +11,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
+import team.lodestar.lodestone.forge_stuff.ItemHandlerHelper;
+import team.lodestar.lodestone.forge_stuff.ItemStackHandler;
 import team.lodestar.lodestone.helpers.BlockHelper;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -71,7 +70,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
     }
 
     @Override
-    public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+    public boolean isItemValid(int slot, @NotNull ItemStack stack) {
         if (inputPredicate != null) {
             if (!inputPredicate.test(stack)) {
                 return false;
@@ -80,7 +79,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
         return super.isItemValid(slot, stack);
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public ItemStack extractItem(int slot, int amount, boolean simulate) {
         if (outputPredicate != null) {
@@ -197,7 +196,7 @@ public class LodestoneBlockEntityInventory extends ItemStackHandler {
     }
 
     public void extractItem(Player playerEntity, ItemStack stack, int slot) {
-        ItemHandlerHelper.giveItemToPlayer(playerEntity, stack);
+        io.github.fabricators_of_create.porting_lib.transfer.item.ItemHandlerHelper.giveItemToPlayer(playerEntity, stack);
         setStackInSlot(slot, ItemStack.EMPTY);
     }
 

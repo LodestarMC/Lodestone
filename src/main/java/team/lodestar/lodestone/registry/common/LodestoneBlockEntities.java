@@ -1,15 +1,11 @@
 package team.lodestar.lodestone.registry.common;
 
+import io.github.fabricators_of_create.porting_lib.util.DeferredRegister;
 import net.minecraft.client.renderer.blockentity.*;
 import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import team.lodestar.lodestone.systems.block.sign.LodestoneStandingSignBlock;
 import team.lodestar.lodestone.systems.block.sign.LodestoneWallSignBlock;
 import team.lodestar.lodestone.systems.blockentity.LodestoneSignBlockEntity;
@@ -51,9 +47,8 @@ public class LodestoneBlockEntities {
         return matchingBlocks.toArray(new Block[0]);
     }
 
-    @EventBusSubscriber(modid = LODESTONE, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
     public static class ClientOnly {
-        @SubscribeEvent
+
         public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {
                event.registerBlockEntityRenderer(SIGN.get(), SignRenderer::new);
         }

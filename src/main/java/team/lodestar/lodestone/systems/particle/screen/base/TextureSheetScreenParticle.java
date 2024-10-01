@@ -1,12 +1,13 @@
 package team.lodestar.lodestone.systems.particle.screen.base;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
+
+@Environment(EnvType.CLIENT)
 public abstract class TextureSheetScreenParticle extends QuadScreenParticle {
     protected TextureAtlasSprite sprite;
 

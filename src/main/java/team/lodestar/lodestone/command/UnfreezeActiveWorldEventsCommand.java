@@ -2,14 +2,12 @@ package team.lodestar.lodestone.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import team.lodestar.lodestone.attachment.WorldEventAttachment;
 import team.lodestar.lodestone.command.arguments.WorldEventInstanceArgument;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
-import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 

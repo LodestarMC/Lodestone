@@ -1,9 +1,9 @@
 package team.lodestar.lodestone.systems.datagen;
 
+import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
 import team.lodestar.lodestone.systems.datagen.itemsmith.ItemModelSmith;
 
 import java.util.function.Function;

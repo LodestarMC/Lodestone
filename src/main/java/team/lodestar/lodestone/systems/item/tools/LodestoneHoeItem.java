@@ -21,8 +21,8 @@ public class LodestoneHoeItem extends HoeItem {
     }
 
     @Override
-    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
-        ItemAttributeModifiers modifiers = super.getDefaultAttributeModifiers(stack);
+    public ItemAttributeModifiers getDefaultAttributeModifiers() {
+        ItemAttributeModifiers modifiers = super.getDefaultAttributeModifiers();
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
 
         List<ItemAttributeModifiers.Entry> entries = modifiers.modifiers();

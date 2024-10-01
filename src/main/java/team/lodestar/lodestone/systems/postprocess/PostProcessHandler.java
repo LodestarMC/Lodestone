@@ -1,10 +1,9 @@
 package team.lodestar.lodestone.systems.postprocess;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.minecraft.client.renderer.RenderType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
  * Handles world-space post-processing.
  * Based on vanilla {@link net.minecraft.client.renderer.PostChain} system, but allows the shader to access the world depth buffer.
  */
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+
 public class PostProcessHandler {
     private static final List<PostProcessor> instances = new ArrayList<>();
 
@@ -38,7 +37,6 @@ public class PostProcessHandler {
         instances.forEach(i -> i.resize(width, height));
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onWorldRenderLast(RenderLevelStageEvent event) {
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SOLID_BLOCKS)) {
             PostProcessor.viewModelStack = event.getPoseStack(); // Copy PoseStack from LevelRenderer#renderLevel
@@ -50,5 +48,23 @@ public class PostProcessHandler {
 
             didCopyDepth = false; // reset for next frame
         }
+    }
+
+    public static void onAfterSolidBlocks(WorldRenderContext ctx) {
+        PostProcessor.viewModelStack = ctx.matrixStack(); // Copy PoseStack from LevelRenderer#renderLevel
+    }
+
+    public static void onWorldRenderLast(WorldRenderContext ctx) {
+        copyDepthBuffer(); // copy the depth buffer if the mixin didn't trigger
+
+        instances.forEach(PostProcessor::applyPostProcess);
+
+        didCopyDepth = false; // reset for next frame
+        //TODO runs
+    }
+
+    public static void onAfterSolidBlocks(RenderType renderType, PoseStack poseStack, Stage stage) {
+        PostProcessor.viewModelStack = poseStack;
+        //TODO runs
     }
 }

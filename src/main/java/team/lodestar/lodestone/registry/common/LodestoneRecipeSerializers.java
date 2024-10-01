@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.registry.common;
 
+import io.github.fabricators_of_create.porting_lib.util.DeferredRegister;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.recipe.NBTCarryRecipe;
 

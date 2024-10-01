@@ -8,30 +8,30 @@ import net.minecraft.world.item.Item;
 
 public class LodestoneItemTags {
 
-    public static final TagKey<Item> NUGGETS_COPPER = forgeTag("nuggets/copper");
-    public static final TagKey<Item> INGOTS_COPPER = forgeTag("ingots/copper");
-    public static final TagKey<Item> NUGGETS_LEAD = forgeTag("nuggets/lead");
-    public static final TagKey<Item> INGOTS_LEAD = forgeTag("ingots/lead");
-    public static final TagKey<Item> NUGGETS_SILVER = forgeTag("nuggets/silver");
-    public static final TagKey<Item> INGOTS_SILVER = forgeTag("ingots/silver");
-    public static final TagKey<Item> NUGGETS_ALUMINUM = forgeTag("nuggets/aluminum");
-    public static final TagKey<Item> INGOTS_ALUMINUM = forgeTag("ingots/aluminum");
-    public static final TagKey<Item> NUGGETS_NICKEL = forgeTag("nuggets/nickel");
-    public static final TagKey<Item> INGOTS_NICKEL = forgeTag("ingots/nickel");
-    public static final TagKey<Item> NUGGETS_URANIUM = forgeTag("nuggets/uranium");
-    public static final TagKey<Item> INGOTS_URANIUM = forgeTag("ingots/uranium");
-    public static final TagKey<Item> NUGGETS_OSMIUM = forgeTag("nuggets/osmium");
-    public static final TagKey<Item> INGOTS_OSMIUM = forgeTag("ingots/osmium");
-    public static final TagKey<Item> NUGGETS_ZINC = forgeTag("nuggets/zinc");
-    public static final TagKey<Item> INGOTS_ZINC = forgeTag("ingots/zinc");
-    public static final TagKey<Item> NUGGETS_TIN = forgeTag("nuggets/tin");
-    public static final TagKey<Item> INGOTS_TIN = forgeTag("ingots/tin");
+    public static final TagKey<Item> NUGGETS_COPPER = cTag("nuggets/copper");
+    public static final TagKey<Item> INGOTS_COPPER = cTag("ingots/copper");
+    public static final TagKey<Item> NUGGETS_LEAD = cTag("nuggets/lead");
+    public static final TagKey<Item> INGOTS_LEAD = cTag("ingots/lead");
+    public static final TagKey<Item> NUGGETS_SILVER = cTag("nuggets/silver");
+    public static final TagKey<Item> INGOTS_SILVER = cTag("ingots/silver");
+    public static final TagKey<Item> NUGGETS_ALUMINUM = cTag("nuggets/aluminum");
+    public static final TagKey<Item> INGOTS_ALUMINUM = cTag("ingots/aluminum");
+    public static final TagKey<Item> NUGGETS_NICKEL = cTag("nuggets/nickel");
+    public static final TagKey<Item> INGOTS_NICKEL = cTag("ingots/nickel");
+    public static final TagKey<Item> NUGGETS_URANIUM = cTag("nuggets/uranium");
+    public static final TagKey<Item> INGOTS_URANIUM = cTag("ingots/uranium");
+    public static final TagKey<Item> NUGGETS_OSMIUM = cTag("nuggets/osmium");
+    public static final TagKey<Item> INGOTS_OSMIUM = cTag("ingots/osmium");
+    public static final TagKey<Item> NUGGETS_ZINC = cTag("nuggets/zinc");
+    public static final TagKey<Item> INGOTS_ZINC = cTag("ingots/zinc");
+    public static final TagKey<Item> NUGGETS_TIN = cTag("nuggets/tin");
+    public static final TagKey<Item> INGOTS_TIN = cTag("ingots/tin");
 
     public static TagKey<Item> modTag(String path) {
         return TagKey.create(Registries.ITEM, ResourceLocation.parse(path));
     }
 
-    public static TagKey<Item> forgeTag(String name) {
-        return ItemTags.create(ResourceLocation.fromNamespaceAndPath("forge", name));
+    public static TagKey<Item> cTag(String name) {
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", name));
     }
 }

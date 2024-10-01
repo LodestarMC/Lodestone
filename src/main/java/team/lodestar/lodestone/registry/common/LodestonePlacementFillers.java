@@ -1,9 +1,9 @@
 package team.lodestar.lodestone.registry.common;
 
+import io.github.fabricators_of_create.porting_lib.util.DeferredHolder;
+import io.github.fabricators_of_create.porting_lib.util.DeferredRegister;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import team.lodestar.lodestone.systems.worldgen.ChancePlacementFilter;
 import team.lodestar.lodestone.systems.worldgen.DimensionPlacementFilter;
 

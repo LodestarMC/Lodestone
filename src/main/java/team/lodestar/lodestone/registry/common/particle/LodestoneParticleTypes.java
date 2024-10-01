@@ -1,8 +1,8 @@
 package team.lodestar.lodestone.registry.common.particle;
 
+import io.github.fabricators_of_create.porting_lib.util.DeferredRegister;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneItemCrumbsParticleType;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;

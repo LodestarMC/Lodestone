@@ -11,12 +11,12 @@ import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 
 @Mixin(Gui.class)
 public class GuiMixin {
-    @Inject(at = @At("HEAD"), method = "renderHotbar")
+    @Inject(at = @At("HEAD"), method = "renderHotbarAndDecorations")
     private void lodestone$RenderHotbarStart(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         ScreenParticleHandler.renderingHotbar = true;
     }
 
-    @Inject(at = @At("RETURN"), method = "renderHotbar")
+    @Inject(at = @At("RETURN"), method = "renderHotbarAndDecorations")
     private void lodestone$RenderHotbarEnd(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         ScreenParticleHandler.renderingHotbar = false;
     }

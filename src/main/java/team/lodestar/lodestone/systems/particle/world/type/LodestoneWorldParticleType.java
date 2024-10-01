@@ -11,10 +11,11 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.*;
 import net.minecraft.network.codec.*;
 import net.minecraft.world.level.block.*;
+import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.particle.world.LodestoneWorldParticle;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 
-import javax.annotation.Nullable;
+
 
 public class LodestoneWorldParticleType extends AbstractLodestoneParticleType<WorldParticleOptions> {
 

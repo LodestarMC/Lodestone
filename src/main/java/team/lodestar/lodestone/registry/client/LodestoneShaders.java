@@ -2,10 +2,6 @@ package team.lodestar.lodestone.registry.client;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.server.packs.resources.ResourceProvider;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
 
@@ -13,7 +9,6 @@ import java.io.IOException;
 
 import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = LodestoneLib.LODESTONE, bus = EventBusSubscriber.Bus.MOD)
 public class LodestoneShaders {
 
     public static ShaderHolder LODESTONE_TEXTURE = new ShaderHolder(lodestonePath("lodestone_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "LumiTransparency");
@@ -29,8 +24,6 @@ public class LodestoneShaders {
     public static ShaderHolder SCROLLING_TRIANGLE_TEXTURE = new ShaderHolder(lodestonePath("shapes/scrolling_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "Speed", "LumiTransparency");
 
 
-
-    @SubscribeEvent
     public static void shaderRegistry(RegisterShadersEvent event) {
         registerShader(event, LODESTONE_TEXTURE);
         registerShader(event, LODESTONE_TEXT);

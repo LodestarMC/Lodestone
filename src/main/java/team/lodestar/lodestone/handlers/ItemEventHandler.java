@@ -1,8 +1,6 @@
 package team.lodestar.lodestone.handlers;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import team.lodestar.lodestone.helpers.ItemHelper;
 import team.lodestar.lodestone.systems.item.IEventResponderItem;
 

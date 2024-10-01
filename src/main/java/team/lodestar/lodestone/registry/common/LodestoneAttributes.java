@@ -1,13 +1,10 @@
 package team.lodestar.lodestone.registry.common;
 
+import io.github.fabricators_of_create.porting_lib.util.DeferredHolder;
+import io.github.fabricators_of_create.porting_lib.util.DeferredRegister;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -20,7 +17,7 @@ import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
  * The attribute registry, {@link LodestoneAttributes#UUIDS} contains randomly generated uuids for each attribute registered, allowing you to have a constant uuid you may apply to attribute values.
  * Attribute modifiers might not like this idea so much though.
  */
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+
 public class LodestoneAttributes {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(BuiltInRegistries.ATTRIBUTE, LODESTONE);
     public static final HashMap<Supplier<Attribute>, UUID> UUIDS = new HashMap<>();
@@ -37,7 +34,6 @@ public class LodestoneAttributes {
         return registryObject;
     }
 
-    @SubscribeEvent
     public static void modifyEntityAttributes(EntityAttributeModificationEvent event) {
         event.getTypes().forEach(e -> {
             event.add(e, MAGIC_RESISTANCE);

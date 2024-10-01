@@ -1,12 +1,12 @@
 package team.lodestar.lodestone.systems.datagen.providers;
 
 import com.google.common.base.Preconditions;
+import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
+import io.github.fabricators_of_create.porting_lib.models.generators.BlockModelBuilder;
+import io.github.fabricators_of_create.porting_lib.models.generators.BlockModelProvider;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
-import net.neoforged.neoforge.client.model.generators.BlockModelProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;

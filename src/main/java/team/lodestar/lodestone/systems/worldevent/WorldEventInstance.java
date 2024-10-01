@@ -6,7 +6,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.*;
 import team.lodestar.lodestone.network.worldevent.SyncWorldEventPayload;
 import team.lodestar.lodestone.registry.common.LodestoneWorldEventTypes;

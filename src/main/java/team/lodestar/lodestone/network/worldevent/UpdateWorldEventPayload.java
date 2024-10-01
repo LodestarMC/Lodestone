@@ -1,13 +1,12 @@
 package team.lodestar.lodestone.network.worldevent;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
+
 import team.lodestar.lodestone.systems.network.OneSidedPayloadData;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 
@@ -31,7 +30,7 @@ public class UpdateWorldEventPayload extends OneSidedPayloadData {
         this.eventData = eventData;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Override
     public void handle(IPayloadContext context) {
         ClientLevel level = Minecraft.getInstance().level;

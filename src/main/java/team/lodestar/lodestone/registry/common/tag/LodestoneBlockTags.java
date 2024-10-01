@@ -12,7 +12,7 @@ public class LodestoneBlockTags {
         return TagKey.create(Registries.BLOCK, ResourceLocation.parse(path));
     }
 
-    public static TagKey<Block> forgeTag(String name) {
-        return BlockTags.create(ResourceLocation.fromNamespaceAndPath("forge", name));
+    public static TagKey<Block> cTag(String name) {
+        return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("c", name));
     }
 }

@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import org.joml.*;
 import team.lodestar.lodestone.config.ClientConfig;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;

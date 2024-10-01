@@ -1,0 +1,101 @@
+accessWidener v2 named
+transitive-accessible method net/minecraft/client/Camera setRotation (FF)V
+transitive-accessible method net/minecraft/client/renderer/RenderType$CompositeState$CompositeStateBuilder <init> ()V
+transitive-accessible field net/minecraft/client/Minecraft rightClickDelay I
+transitive-accessible field net/minecraft/world/item/crafting/ShapedRecipe result Lnet/minecraft/world/item/ItemStack;
+transitive-accessible field net/minecraft/world/effect/MobEffectInstance amplifier I
+transitive-accessible field net/minecraft/world/effect/MobEffectInstance duration I
+transitive-accessible method net/minecraft/world/entity/LivingEntity onEffectUpdated (Lnet/minecraft/world/effect/MobEffectInstance;ZLnet/minecraft/world/entity/Entity;)V
+transitive-accessible class net/minecraft/client/renderer/RenderStateShard$TransparencyStateShard
+transitive-accessible field net/minecraft/client/renderer/RenderStateShard$ShaderStateShard shader Ljava/util/Optional;
+transitive-accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen leftPos I
+transitive-accessible field net/minecraft/client/gui/screens/inventory/AbstractContainerScreen topPos I
+
+transitive-accessible method net/minecraft/world/level/block/state/BlockBehaviour$Properties <init> ()V
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour properties Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties destroyTime F
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties explosionResistance F
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties hasCollision Z
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isRandomlyTicking Z
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties lightEmission Ljava/util/function/ToIntFunction;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties mapColor Ljava/util/function/Function;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties soundType Lnet/minecraft/world/level/block/SoundType;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties friction F
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties speedFactor F
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties dynamicShape Z
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties canOcclude Z
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isAir Z
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties requiresCorrectToolForDrops Z
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties jumpFactor F
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties ignitedByLava Z
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties forceSolidOn Z
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties pushReaction Lnet/minecraft/world/level/material/PushReaction;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties instrument Lnet/minecraft/world/level/block/state/properties/NoteBlockInstrument;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties replaceable Z
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isValidSpawn Lnet/minecraft/world/level/block/state/BlockBehaviour$StateArgumentPredicate;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isRedstoneConductor Lnet/minecraft/world/level/block/state/BlockBehaviour$StatePredicate;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isSuffocating Lnet/minecraft/world/level/block/state/BlockBehaviour$StatePredicate;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties isViewBlocking Lnet/minecraft/world/level/block/state/BlockBehaviour$StatePredicate;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties emissiveRendering Lnet/minecraft/world/level/block/state/BlockBehaviour$StatePredicate;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties requiredFeatures Lnet/minecraft/world/flag/FeatureFlagSet;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties hasPostProcess Lnet/minecraft/world/level/block/state/BlockBehaviour$StatePredicate;
+
+transitive-accessible field net/minecraft/world/entity/vehicle/Boat lastYd D
+transitive-accessible field net/minecraft/world/entity/vehicle/Boat status Lnet/minecraft/world/entity/vehicle/Boat$Status;
+transitive-accessible class net/minecraft/client/particle/ParticleEngine$MutableSpriteSet
+transitive-accessible field net/minecraft/client/particle/ParticleEngine$MutableSpriteSet sprites Ljava/util/List;
+transitive-accessible method net/minecraft/client/renderer/GameRenderer getFov (Lnet/minecraft/client/Camera;FZ)D
+transitive-accessible field net/minecraft/client/renderer/PostChain passes Ljava/util/List;
+transitive-accessible field net/minecraft/client/renderer/EffectInstance samplerMap Ljava/util/Map;
+
+transitive-accessible class net/minecraft/client/renderer/RenderStateShard$ShaderStateShard
+transitive-accessible class net/minecraft/client/renderer/RenderStateShard$EmptyTextureStateShard
+transitive-accessible class net/minecraft/client/renderer/RenderStateShard$CullStateShard
+transitive-accessible class net/minecraft/client/renderer/RenderStateShard$LightmapStateShard
+transitive-accessible class net/minecraft/client/renderer/RenderStateShard$TransparencyStateShard
+
+transitive-accessible field net/minecraft/client/renderer/RenderType$CompositeState shaderState Lnet/minecraft/client/renderer/RenderStateShard$ShaderStateShard;
+transitive-accessible field net/minecraft/client/renderer/RenderType$CompositeState transparencyState Lnet/minecraft/client/renderer/RenderStateShard$TransparencyStateShard;
+transitive-accessible field net/minecraft/client/renderer/RenderType$CompositeState textureState Lnet/minecraft/client/renderer/RenderStateShard$EmptyTextureStateShard;
+transitive-accessible field net/minecraft/client/renderer/RenderType$CompositeState cullState Lnet/minecraft/client/renderer/RenderStateShard$CullStateShard;
+transitive-accessible field net/minecraft/client/renderer/RenderType$CompositeState lightmapState Lnet/minecraft/client/renderer/RenderStateShard$LightmapStateShard;
+transitive-accessible field net/minecraft/client/renderer/RenderStateShard name Ljava/lang/String;
+transitive-accessible field net/minecraft/client/renderer/ShaderInstance uniformMap Ljava/util/Map;
+transitive-extendable method net/minecraft/client/renderer/ShaderInstance parseUniformNode (Lcom/google/gson/JsonElement;)V
+transitive-accessible method net/minecraft/client/renderer/ShaderInstance parseUniformNode (Lcom/google/gson/JsonElement;)V
+transitive-accessible field net/minecraft/client/renderer/ShaderInstance uniforms Ljava/util/List;
+
+transitive-accessible field net/minecraft/client/renderer/RenderType$CompositeState outlineProperty Lnet/minecraft/client/renderer/RenderType$OutlineProperty;
+transitive-accessible class net/minecraft/client/renderer/RenderType$OutlineProperty
+transitive-accessible field net/minecraft/client/renderer/RenderType sortOnUpload Z
+transitive-accessible field net/minecraft/client/renderer/LevelRenderer transparencyChain Lnet/minecraft/client/renderer/PostChain;
+transitive-accessible field com/mojang/blaze3d/vertex/BufferUploader lastImmediateBuffer Lcom/mojang/blaze3d/vertex/VertexBuffer;
+
+transitive-accessible field net/minecraft/client/renderer/RenderType$CompositeRenderType OUTLINE Ljava/util/function/BiFunction;
+transitive-accessible field net/minecraft/client/renderer/entity/BoatRenderer boatResources Ljava/util/Map;
+transitive-mutable field net/minecraft/client/renderer/entity/BoatRenderer boatResources Ljava/util/Map;
+transitive-accessible field net/minecraft/client/Minecraft pause Z
+transitive-accessible field net/minecraft/client/particle/ParticleEngine spriteSets Ljava/util/Map;
+transitive-accessible field net/minecraft/client/renderer/RenderType$CompositeState states Lcom/google/common/collect/ImmutableList;
+transitive-accessible method net/minecraft/client/renderer/RenderStateShard$EmptyTextureStateShard cutoutTexture ()Ljava/util/Optional;
+transitive-accessible method net/minecraft/client/particle/ParticleEngine register (Lnet/minecraft/core/particles/ParticleType;Lnet/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration;)V
+transitive-accessible class net/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration
+transitive-accessible field net/minecraft/nbt/CompoundTag tags Ljava/util/Map;
+
+transitive-accessible field net/minecraft/commands/synchronization/ArgumentTypeInfos BY_CLASS Ljava/util/Map;
+transitive-accessible field net/minecraft/client/renderer/RenderType$CompositeRenderType state Lnet/minecraft/client/renderer/RenderType$CompositeState;
+
+# 1.21
+transitive-accessible field net/minecraft/client/gui/screens/options/OptionsSubScreen list Lnet/minecraft/client/gui/components/OptionsList;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties drops Lnet/minecraft/resources/ResourceKey;
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties spawnTerrainParticles Z
+transitive-accessible field net/minecraft/world/level/block/state/BlockBehaviour$Properties offsetFunction Lnet/minecraft/world/level/block/state/BlockBehaviour$OffsetFunction;
+transitive-accessible field com/mojang/blaze3d/vertex/BufferBuilder building Z
+transitive-accessible field net/minecraft/world/item/crafting/ShapedRecipe pattern Lnet/minecraft/world/item/crafting/ShapedRecipePattern;
+accessible field net/minecraft/data/recipes/SimpleCookingRecipeBuilder category Lnet/minecraft/data/recipes/RecipeCategory;
+accessible field net/minecraft/data/recipes/SimpleCookingRecipeBuilder bookCategory Lnet/minecraft/world/item/crafting/CookingBookCategory;
+accessible field net/minecraft/data/recipes/SimpleCookingRecipeBuilder ingredient Lnet/minecraft/world/item/crafting/Ingredient;
+accessible field net/minecraft/data/recipes/SimpleCookingRecipeBuilder experience F
+accessible field net/minecraft/data/recipes/SimpleCookingRecipeBuilder cookingTime I
+accessible field net/minecraft/data/recipes/SimpleCookingRecipeBuilder factory Lnet/minecraft/world/item/crafting/AbstractCookingRecipe$Factory;
+accessible field net/minecraft/data/recipes/SimpleCookingRecipeBuilder group Ljava/lang/String;

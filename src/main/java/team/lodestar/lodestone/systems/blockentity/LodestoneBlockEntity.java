@@ -1,5 +1,8 @@
 package team.lodestar.lodestone.systems.blockentity;
 
+import io.github.fabricators_of_create.porting_lib.block.CustomDataPacketHandlingBlockEntity;
+import io.github.fabricators_of_create.porting_lib.block.CustomUpdateTagHandlingBlockEntity;
+import io.github.fabricators_of_create.porting_lib.extensions.extensions.BlockEntityExtensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -19,12 +22,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 import team.lodestar.lodestone.systems.block.LodestoneEntityBlock;
 
 /**
  * A simple block entity with various frequently used methods called from {@link LodestoneEntityBlock}
  */
-public class LodestoneBlockEntity extends BlockEntity {
+public class LodestoneBlockEntity extends BlockEntity implements CustomUpdateTagHandlingBlockEntity, CustomDataPacketHandlingBlockEntity {
 
     public boolean needsSync;
 
@@ -41,7 +45,7 @@ public class LodestoneBlockEntity extends BlockEntity {
     public void onNeighborUpdate(BlockState state, BlockPos pos, BlockPos neighbor) {
     }
 
-    public ItemStack onClone(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+    public ItemStack onClone(BlockState state, BlockGetter level, BlockPos pos) {
         return ItemStack.EMPTY;
     }
 
@@ -67,13 +71,6 @@ public class LodestoneBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
-        if (tag != null) {
-            super.handleUpdateTag(tag, lookupProvider);
-        }
-    }
-
-    @Override
     protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         needsSync = true;
         super.loadAdditional(pTag, pRegistries);
@@ -86,7 +83,6 @@ public class LodestoneBlockEntity extends BlockEntity {
 
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
-        super.onDataPacket(net, pkt, lookupProvider);
         handleUpdateTag(getUpdatePacket().getTag(), lookupProvider);
     }
 
@@ -101,5 +97,13 @@ public class LodestoneBlockEntity extends BlockEntity {
 
     }
 
+    @Override
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+        return new CompoundTag();
+    }
 
+    @Override
+    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
+
+    }
 }

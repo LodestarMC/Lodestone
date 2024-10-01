@@ -7,8 +7,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.*;
 import net.minecraft.client.renderer.*;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.*;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL30C;
 import team.lodestar.lodestone.helpers.RenderHelper;

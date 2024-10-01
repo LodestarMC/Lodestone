@@ -5,24 +5,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.RenderFrameEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import net.neoforged.neoforge.client.event.ViewportEvent;
 import org.joml.Matrix4f;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 
 import static team.lodestar.lodestone.LodestoneLib.RANDOM;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public class ClientRuntimeEvents {
 
-    @SubscribeEvent
     public static void clientTick(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level != null) {
@@ -41,12 +31,10 @@ public class ClientRuntimeEvents {
 
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void renderFog(ViewportEvent.RenderFog event) {
         RenderHandler.cacheFogData(event);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void fogColors(ViewportEvent.ComputeFogColor event) {
         RenderHandler.cacheFogData(event);
     }
@@ -54,7 +42,6 @@ public class ClientRuntimeEvents {
     /**
      * The main render loop of Lodestone. We end all of our batches here.
      */
-    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void renderStages(RenderLevelStageEvent event) {
         Minecraft minecraft = Minecraft.getInstance();
         Camera camera = minecraft.gameRenderer.getMainCamera();
@@ -78,7 +65,6 @@ public class ClientRuntimeEvents {
         poseStack.popPose();
     }
 
-    @SubscribeEvent
     public static void renderFrameEvent(RenderFrameEvent.Pre event) {//TODO Pre or Post?
         if (event != null) {
             ScreenParticleHandler.renderTick(event);

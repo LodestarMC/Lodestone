@@ -9,7 +9,6 @@ import net.neoforged.fml.config.*;
 import net.neoforged.neoforge.common.*;
 import net.neoforged.neoforge.data.event.*;
 import org.apache.logging.log4j.*;
-import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.compability.*;
 import team.lodestar.lodestone.config.*;
 import team.lodestar.lodestone.data.*;
@@ -37,7 +36,7 @@ public class LodestoneLib {
         LodestoneWorldEventTypes.WORLD_EVENT_TYPES.register(modBus);
         LodestoneCommandArgumentTypes.register(modBus);
 
-        CuriosCompat.init();
+        TrinketCompat.init();
 
         modBus.addListener(this::gatherData);
         modBus.addListener(LodestoneItemProperties::populateItemGroups);

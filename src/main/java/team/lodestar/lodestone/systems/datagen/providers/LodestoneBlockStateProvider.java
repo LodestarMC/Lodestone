@@ -1,11 +1,14 @@
 package team.lodestar.lodestone.systems.datagen.providers;
 
+import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
+import io.github.fabricators_of_create.porting_lib.models.generators.BlockStateProvider;
+import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
+import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
+import io.github.fabricators_of_create.porting_lib.models.generators.VariantBlockStateBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.client.model.generators.*;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import team.lodestar.lodestone.systems.datagen.statesmith.ModularBlockStateSmith;
 
 import java.util.HashSet;

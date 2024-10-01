@@ -1,64 +1,69 @@
 package team.lodestar.lodestone.data;
 
-import net.minecraft.data.PackOutput;
+
+import io.github.fabricators_of_create.porting_lib.util.DeferredHolder;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.neoforged.neoforge.common.data.LanguageProvider;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.registry.common.LodestoneAttributes;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
-import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
-public class LodestoneLangDatagen extends LanguageProvider {
-    public LodestoneLangDatagen(PackOutput output) {
-        super(output, LODESTONE, "en_us");
+public class LodestoneLangDatagen extends FabricLanguageProvider {
+
+    protected LodestoneLangDatagen(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        super(dataOutput, registryLookup);
     }
 
     @Override
-    protected void addTranslations() {
+    public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
         Set<DeferredHolder<Attribute, ? extends Attribute>> attributes = new HashSet<>(LodestoneAttributes.ATTRIBUTES.getEntries());
 
         attributes.forEach(a -> {
             String name = DataHelper.toTitleCase(a.getId().getPath(), "_");
-            add("attribute.name.lodestone." + a.getId().getPath(), name);
+            translationBuilder.add("attribute.name.lodestone." + a.getId().getPath(), name);
         });
-        addOption("screenshake_intensity", "Screenshake Intensity");
-        addOptionTooltip("screenshake_intensity", "Controls how much screenshake is applied to your screen.");
+        addOption(translationBuilder,"screenshake_intensity", "Screenshake Intensity");
+        addOptionTooltip(translationBuilder,"screenshake_intensity", "Controls how much screenshake is applied to your screen.");
 
-        addOption("fire_offset", "Fire Overlay Offset");
-        addOptionTooltip("fire_offset", "Offsets the fire overlay effect downwards, clearing up your vision.");
+        addOption(translationBuilder,"fire_offset", "Fire Overlay Offset");
+        addOptionTooltip(translationBuilder,"fire_offset", "Offsets the fire overlay effect downwards, clearing up your vision.");
 
-        addCommand("devsetup", "World setup for not-annoying development work");
-        addCommand("screenshake", "Command Successful, enjoy your screenshake.");
+        addCommand(translationBuilder,"devsetup", "World setup for not-annoying development work");
+        addCommand(translationBuilder,"screenshake", "Command Successful, enjoy your screenshake.");
 
     }
 
-    public void addCommand(String command, String feedback) {
-        add(getCommand(command), feedback);
+    public void addCommand(TranslationBuilder translationBuilder, String command, String feedback) {
+        translationBuilder.add(getCommand(command), feedback);
     }
 
     public static String getCommand(String command) {
         return "command." + LODESTONE + "." + command;
     }
 
-    public void addOption(String option, String result) {
-        add(getOption(option), result);
+    public void addOption(TranslationBuilder translationBuilder, String option, String result) {
+        translationBuilder.add(getOption(option), result);
     }
 
     public static String getOption(String option) {
         return "options." + LODESTONE + "." + option;
     }
 
-    public void addOptionTooltip(String option, String result) {
-        add(getOptionTooltip(option), result);
+    public void addOptionTooltip(TranslationBuilder translationBuilder, String option, String result) {
+        translationBuilder.add(getOptionTooltip(option), result);
     }
 
     public static String getOptionTooltip(String option) {
         return "options." + LODESTONE + "." + option + ".tooltip";
     }
+
+
 
     @Override
     public String getName() {

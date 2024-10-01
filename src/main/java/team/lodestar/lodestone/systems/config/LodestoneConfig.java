@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.systems.config;
 
 import com.mojang.datafixers.util.Pair;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +43,7 @@ public class LodestoneConfig {
         private ModConfigSpec.ConfigValue<T> config;
 
         /**
-         * @param modId         - Your mod id. Must match whatever you passed into the {@link LodestoneConfig#LodestoneConfig(String, String, ModConfigSpec.Builder)} constructor.
+         * @param modId         - Your mod id. Must match whatever you passed into the {@link LodestoneConfig#LodestoneConfig(String, String, ForgeConfigSpec.Builder)} constructor.
          * @param path          - Path towards your value separated with "/". The first string from a split of your path will be removed and added to the configType.
          * @param valueSupplier - Supplier to your config value. {@link ConfigValueHolder#config} will be set to the supplied value when config is initialized.
          */
@@ -79,8 +79,12 @@ public class LodestoneConfig {
     public record ConfigPath(String... strings) {
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             ConfigPath otherPath = (ConfigPath) o;
             return Arrays.equals(strings, otherPath.strings);
         }

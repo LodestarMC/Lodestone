@@ -1,5 +1,7 @@
 package team.lodestar.lodestone.network;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -9,10 +11,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-import team.lodestar.lodestone.systems.network.LodestoneNetworkPayloadData;
+
 import team.lodestar.lodestone.systems.network.OneSidedPayloadData;
 
 public class TotemOfUndyingPayload extends OneSidedPayloadData {
@@ -24,7 +23,7 @@ public class TotemOfUndyingPayload extends OneSidedPayloadData {
         entityId = byteBuf.readInt();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     @Override
     public void handle(IPayloadContext context) {
         Minecraft minecraft = Minecraft.getInstance();

@@ -1,7 +1,7 @@
 package team.lodestar.lodestone.systems.datagen.statesmith;
 
+import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
 import team.lodestar.lodestone.systems.datagen.providers.LodestoneBlockStateProvider;
 
 import java.util.function.Consumer;

@@ -2,8 +2,6 @@ package team.lodestar.lodestone.handlers;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 import team.lodestar.lodestone.helpers.DataHelper;
 import team.lodestar.lodestone.systems.block.LodestoneBlockProperties;
 import team.lodestar.lodestone.systems.block.LodestoneThrowawayBlockData;

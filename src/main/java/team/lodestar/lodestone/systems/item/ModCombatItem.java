@@ -2,6 +2,9 @@ package team.lodestar.lodestone.systems.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.github.fabricators_of_create.porting_lib.tool.ItemAbilities;
+import io.github.fabricators_of_create.porting_lib.tool.ItemAbility;
+import io.github.fabricators_of_create.porting_lib.tool.extensions.ItemStackExtensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -18,15 +21,13 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
 
 /**
  * A simple copy of a sword, without actually being a sword.
  * Minecraft has some hardcoded instanceof SwordItem checks, which we use this to avoid.
  */
 
-public class ModCombatItem extends TieredItem {
+public class ModCombatItem extends TieredItem implements ItemStackExtensions {
     private final float attackDamage;
     private final float attackSpeed;
     private Multimap<Attribute, AttributeModifier> attributes;
@@ -38,7 +39,7 @@ public class ModCombatItem extends TieredItem {
     }
 
     @Override
-    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+    public ItemAttributeModifiers getDefaultAttributeModifiers() {
         if (attributes == null) {
             return ItemAttributeModifiers.builder().add(
                             Attributes.ATTACK_DAMAGE,
@@ -53,7 +54,7 @@ public class ModCombatItem extends TieredItem {
                     .build();
         }
 
-        return super.getDefaultAttributeModifiers(stack);
+        return super.getDefaultAttributeModifiers();
     }
 
     public ImmutableMultimap.Builder<Attribute, AttributeModifier> createExtraAttributes() {
@@ -93,7 +94,7 @@ public class ModCombatItem extends TieredItem {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+    public boolean canPerformAction(ItemAbility itemAbility) {
         return itemAbility.equals(ItemAbilities.SWORD_DIG);
     }
 }

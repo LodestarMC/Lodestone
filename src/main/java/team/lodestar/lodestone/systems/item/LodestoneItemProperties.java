@@ -1,9 +1,9 @@
 package team.lodestar.lodestone.systems.item;
 
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.*;
 import net.minecraft.world.item.*;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 import java.util.*;
 
@@ -16,11 +16,13 @@ public class LodestoneItemProperties extends Item.Properties {
         this.tab = tab;
     }
 
-    public static void populateItemGroups(BuildCreativeModeTabContentsEvent event) {
-        final ResourceKey<CreativeModeTab> tabKey = event.getTabKey();
-        if (TAB_SORTING.containsKey(tabKey)) {
-            TAB_SORTING.get(tabKey).stream().map(BuiltInRegistries.ITEM::get)
-                    .forEach(event::accept);
+
+    public static void populateItemGroups(CreativeModeTab tab, FabricItemGroupEntries entry) {
+        Optional<ResourceKey<CreativeModeTab>> opt = BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(tab);
+        if (opt.isPresent()) {
+            if (TAB_SORTING.containsKey(opt.get())) {
+                TAB_SORTING.get(opt.get()).stream().map(BuiltInRegistries.ITEM::get).forEach(entry::accept);
+            }
         }
     }
 }

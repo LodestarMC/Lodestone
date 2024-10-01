@@ -1,10 +1,5 @@
 package team.lodestar.lodestone.events;
 
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import team.lodestar.lodestone.handlers.RenderHandler;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
@@ -13,16 +8,13 @@ import team.lodestar.lodestone.systems.particle.world.type.LodestoneItemCrumbsPa
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneTerrainParticleType;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class ClientSetupEvents {
 
-    @SubscribeEvent
     public static void registerParticleFactory(RegisterParticleProvidersEvent event) {
         registerParticleProviders(event);
         LodestoneScreenParticleTypes.registerParticleFactory(event);
     }
 
-    @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         RenderHandler.onClientSetup(event);
         ParticleEmitterHandler.registerParticleEmitters(event);

@@ -8,10 +8,9 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.network.*;
 import net.minecraft.network.codec.*;
 import net.minecraft.world.item.*;
+import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.LodestoneItemCrumbParticle;
-
-import javax.annotation.Nullable;
 
 public class LodestoneItemCrumbsParticleType extends AbstractLodestoneParticleType<LodestoneItemCrumbsParticleOptions> {
 

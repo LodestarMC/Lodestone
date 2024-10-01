@@ -18,7 +18,7 @@ public class BlockItemMixin {
     @Unique
     private SoundType lodestone$type;
 
-    @ModifyVariable(method = "place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/BlockItem;getPlaceSound(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/sounds/SoundEvent;"))
+    @ModifyVariable(method = "place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/BlockItem;getPlaceSound(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/sounds/SoundEvent;"))
     private SoundType lodestone$GetStepSound(SoundType type) {
         return this.lodestone$type = type;
     }

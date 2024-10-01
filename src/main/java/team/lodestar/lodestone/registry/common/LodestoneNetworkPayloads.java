@@ -4,11 +4,6 @@ import net.minecraft.network.*;
 import net.minecraft.network.codec.*;
 import net.minecraft.network.protocol.common.custom.*;
 import net.minecraft.resources.*;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.*;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
-import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.network.TotemOfUndyingPayload;
 import team.lodestar.lodestone.network.screenshake.PositionedScreenshakePayload;
@@ -19,12 +14,10 @@ import team.lodestar.lodestone.systems.network.*;
 
 import java.util.HashMap;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class LodestoneNetworkPayloads {
 
     public static final PayloadRegistryHelper LODESTONE_CHANNEL = new PayloadRegistryHelper(LodestoneLib.LODESTONE);
 
-    @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
 

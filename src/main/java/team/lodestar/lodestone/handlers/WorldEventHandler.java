@@ -1,21 +1,14 @@
 package team.lodestar.lodestone.handlers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 import team.lodestar.lodestone.events.types.worldevent.*;
 import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPayload;
 import team.lodestar.lodestone.registry.client.LodestoneWorldEventRenderers;
-import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventRenderer;
 

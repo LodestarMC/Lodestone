@@ -22,10 +22,9 @@ public class LodestoneAxeItem extends AxeItem {
         super(material, properties.durability(material.getUses()).attributes(createAttributes(material, damage + 6, speed - 3.2f)));
     }
 
-
     @Override
-    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
-        ItemAttributeModifiers modifiers = super.getDefaultAttributeModifiers(stack);
+    public ItemAttributeModifiers getDefaultAttributeModifiers() {
+        ItemAttributeModifiers modifiers = super.getDefaultAttributeModifiers();
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
 
         List<ItemAttributeModifiers.Entry> entries = modifiers.modifiers();

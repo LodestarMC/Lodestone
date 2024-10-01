@@ -9,12 +9,10 @@ import net.minecraft.server.level.ServerLevel;
 import team.lodestar.lodestone.attachment.WorldEventAttachment;
 import team.lodestar.lodestone.command.arguments.WorldEventInstanceArgument;
 import team.lodestar.lodestone.command.arguments.WorldEventTypeArgument;
-import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
 import team.lodestar.lodestone.systems.worldevent.WorldEventInstance;
 import team.lodestar.lodestone.systems.worldevent.WorldEventType;
 
 import java.util.List;
-import java.util.logging.Level;
 
 public class FreezeActiveWorldEventsCommand {
 

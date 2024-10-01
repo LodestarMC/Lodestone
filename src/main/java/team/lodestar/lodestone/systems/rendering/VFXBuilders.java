@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -21,7 +22,7 @@ import team.lodestar.lodestone.helpers.VecHelper;
 import team.lodestar.lodestone.systems.rendering.trail.TrailPoint;
 import team.lodestar.lodestone.systems.rendering.trail.TrailRenderPoint;
 
-import javax.annotation.Nullable;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
