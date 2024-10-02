@@ -19,7 +19,6 @@ public abstract class GuiGraphicsMixin {
     @Final
     private PoseStack pose;
 
-    //If some previous methods need special case handling, disable this with lodestone$bl
     @Inject(at = @At(value = "HEAD"), method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;IIII)V")
     private void lodestone$renderGuiItem(LivingEntity entity, Level level, ItemStack stack, int x, int y, int p_283260_, int p_281995_, CallbackInfo ci) {
         ScreenParticleHandler.renderItemStackEarly(pose, stack, x, y);

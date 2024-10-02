@@ -73,14 +73,11 @@ public class ScreenParticleHandler {
             if (!stack.isEmpty()) {
                 List<ParticleEmitterHandler.ItemParticleSupplier> emitters = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitters != null) {
-                    currentItemX = x + 8;
-                    currentItemY = y + 8;
-
                     final Matrix4f pose = poseStack.last().pose();
-                    float xOffset = pose.m30();
-                    float yOffset = pose.m31();
-                    currentItemX += (int) xOffset;
-                    currentItemY += (int) yOffset;
+                    int xOffset = (int) (8 + pose.m30());
+                    int yOffset = (int) (8 + pose.m31());
+                    currentItemX = x + xOffset;
+                    currentItemY = y + yOffset;
 
                     for (ParticleEmitterHandler.ItemParticleSupplier emitter : emitters) {
                         ScreenParticleHandler.renderParticles(ScreenParticleHandler.spawnAndPullParticles(minecraft.level, emitter, stack, false));
