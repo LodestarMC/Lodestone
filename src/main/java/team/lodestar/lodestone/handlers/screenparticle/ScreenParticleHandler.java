@@ -70,9 +70,11 @@ public class ScreenParticleHandler {
             if (!stack.isEmpty()) {
                 List<ParticleEmitterHandler.ItemParticleSupplier> emitters = ParticleEmitterHandler.EMITTERS.get(stack.getItem());
                 if (emitters != null) {
-                    currentItemX = x + 8;
-                    currentItemY = y + 8;
-
+                    final Matrix4f pose = poseStack.last().pose();
+                    int xOffset = (int) (8 + pose.m30());
+                    int yOffset = (int) (8 + pose.m31());
+                    currentItemX = x + xOffset;
+                    currentItemY = y + yOffset;
 
                     if (currentItemX == 8 && currentItemY == 8) {
                         final Matrix4f pose = poseStack.last().pose();
