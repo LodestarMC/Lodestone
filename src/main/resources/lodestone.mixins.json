@@ -8,7 +8,7 @@
     "common.EntityMixin",
     "common.ItemStackMixin",
     "common.LivingEntityMixin",
-    "common.attributeslib.IFormattableAttributeMixin"
+    "common.attributeslib.AttributeLibClientMixin"
   ],
   "client": [
     "client.AbstractContainerScreenMixin",
