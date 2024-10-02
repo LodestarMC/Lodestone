@@ -7,7 +7,8 @@
     "common.BlockItemMixin",
     "common.EntityMixin",
     "common.ItemStackMixin",
-    "common.LivingEntityMixin"
+    "common.LivingEntityMixin",
+    "common.attributeslib.IFormattableAttributeMixin"
   ],
   "client": [
     "client.AbstractContainerScreenMixin",
@@ -20,8 +21,7 @@
     "client.GuiMixin",
     "client.LevelRendererMixin",
     "client.MultiPlayerGameModeMixin",
-    "client.ScreenEffectRendererMixin",
-    "client.GuiGraphicsMixin"
+    "client.ScreenEffectRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

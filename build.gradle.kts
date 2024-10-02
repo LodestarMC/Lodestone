@@ -139,6 +139,10 @@ repositories {
             includeGroup("curse.maven")
         }
     }
+    maven {
+        // Shadows_of_Fire's Maven
+        url = uri("https://maven.shadowsoffire.dev/releases")
+    }
 }
 
 dependencies {
@@ -157,7 +161,10 @@ dependencies {
     compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}:api"))
     runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}"))
 
+    implementation(fg.deobf("curse.maven:placebo-283644:5414631"))
+    implementation(fg.deobf("curse.maven:apothic-attributes-898963:5634071"))
     compileOnly(fg.deobf("curse.maven:oculus-581495:5299671"))
+
 //    implementation(fg.deobf("com.sammy.malum:malum:${minecraftVersion}-1.6.72"))
 }
 
