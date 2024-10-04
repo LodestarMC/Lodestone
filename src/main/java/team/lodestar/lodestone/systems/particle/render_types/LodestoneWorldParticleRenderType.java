@@ -2,13 +2,19 @@ package team.lodestar.lodestone.systems.particle.render_types;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+import team.lodestar.lodestone.handlers.*;
+import team.lodestar.lodestone.helpers.ShadersHelper;
 import team.lodestar.lodestone.registry.client.*;
 import team.lodestar.lodestone.systems.rendering.*;
 import team.lodestar.lodestone.systems.rendering.rendeertype.*;
@@ -82,6 +88,4 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
         final LodestoneRenderType renderType = LodestoneRenderTypes.copyAndStore(original, original.renderType, original.equals(LUMITRANSPARENT) ? ShaderUniformHandler.LUMITRANSPARENT_DEPTH_FADE : ShaderUniformHandler.DEPTH_FADE);
         return new LodestoneWorldParticleRenderType(renderType, original.shader, original.texture, original.blendFunction);
     }
-
-
 }

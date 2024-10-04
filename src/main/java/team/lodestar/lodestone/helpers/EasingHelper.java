@@ -4,6 +4,7 @@ import net.minecraft.util.Mth;
 import team.lodestar.lodestone.systems.easing.Easing;
 
 public class EasingHelper {
+
     public static float weightedEasingLerp(Easing easing, float pDelta, float pStart, float pMiddle, float pEnd) {
         float distanceFromMiddle = Mth.abs(0.5f - pDelta) / 0.5f;
         float middleBasedDelta = easing.ease(1 - distanceFromMiddle, 0, 1, 1);

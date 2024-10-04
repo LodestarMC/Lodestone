@@ -17,7 +17,6 @@ import org.joml.Matrix4f;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 
-import static team.lodestar.lodestone.LodestoneLib.RANDOM;
 
 @EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public class ClientRuntimeEvents {
@@ -73,7 +72,13 @@ public class ClientRuntimeEvents {
         }
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
             RenderHandler.endBatches();
+            RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
         }
+
+        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
+            RenderHandler.endBatches();
+        }
+
 
         poseStack.popPose();
     }
