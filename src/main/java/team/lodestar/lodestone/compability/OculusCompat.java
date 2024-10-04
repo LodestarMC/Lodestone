@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.helpers;
+package team.lodestar.lodestone.compability;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.irisshaders.iris.Iris;
@@ -8,7 +8,7 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.fml.ModList;
 import team.lodestar.lodestone.handlers.RenderHandler;
 
-public class ShadersHelper {
+public class OculusCompat {
     public static boolean LOADED;
 
     public static class LoadedOnly {

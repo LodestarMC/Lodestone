@@ -13,11 +13,9 @@ import org.apache.logging.log4j.*;
 import team.lodestar.lodestone.compability.*;
 import team.lodestar.lodestone.config.*;
 import team.lodestar.lodestone.data.*;
-import team.lodestar.lodestone.handlers.RenderHandler;
-import team.lodestar.lodestone.helpers.ShadersHelper;
+import team.lodestar.lodestone.compability.OculusCompat;
 import team.lodestar.lodestone.registry.common.*;
 import team.lodestar.lodestone.registry.common.particle.*;
-import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.item.*;
 
 @Mod(LodestoneLib.LODESTONE)
@@ -39,7 +37,7 @@ public class LodestoneLib {
         LodestoneArgumentTypeRegistry.register(modBus);
 
         CuriosCompat.init();
-        ShadersHelper.init();
+        OculusCompat.init();
 
         modBus.addListener(this::gatherData);
         modBus.addListener(LodestoneItemProperties::populateItemGroups);

@@ -54,7 +54,7 @@ public class VecHelper {
      * @param gameTime - Defines the current game time value
      * @param time     - Defines the total time for one position to complete a full rotation cycle
      */
-    public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distance, float total, long gameTime, float time) {
+    public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distance, float total, float gameTime, float time) {
         return rotatingRadialOffsets(pos, distance, distance, total, gameTime, time);
     }
 
@@ -62,7 +62,7 @@ public class VecHelper {
      * A method that returns an array list of positions on the perimeter of a sphere around a given Vec3 position.
      * These positions constantly rotate around the center of the circle based on gameTime.
      */
-    public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distanceX, float distanceZ, float total, long gameTime, float time) {
+    public static ArrayList<Vec3> rotatingRadialOffsets(Vec3 pos, float distanceX, float distanceZ, float total, float gameTime, float time) {
         ArrayList<Vec3> positions = new ArrayList<>();
         for (int i = 0; i < total; i++) {
             positions.add(rotatingRadialOffset(pos, distanceX, distanceZ, i, total, gameTime, time));
@@ -82,7 +82,7 @@ public class VecHelper {
      * A method that returns a single position on the perimeter of a circle around a given Vec3 position.
      * These positions constantly rotate around the center of the circle based on gameTime
      */
-    public static Vec3 rotatingRadialOffset(Vec3 pos, float distanceX, float distanceZ, float current, float total, long gameTime, float time) {
+    public static Vec3 rotatingRadialOffset(Vec3 pos, float distanceX, float distanceZ, float current, float total, float gameTime, float time) {
         double angle = current / total * (Math.PI * 2);
         angle += ((gameTime % time) / time) * (Math.PI * 2);
         double dx2 = (distanceX * Math.cos(angle));

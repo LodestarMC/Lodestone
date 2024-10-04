@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import team.lodestar.lodestone.handlers.*;
-import team.lodestar.lodestone.helpers.ShadersHelper;
+import team.lodestar.lodestone.compability.OculusCompat;
 import team.lodestar.lodestone.registry.client.*;
 import team.lodestar.lodestone.systems.rendering.*;
 import team.lodestar.lodestone.systems.rendering.rendeertype.*;
@@ -97,7 +97,7 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
         blendFunction.run();
         RenderSystem.setShader(shader);
         RenderSystem.setShaderTexture(0, texture);
-        if (ShadersHelper.isShadersEnabled()) RenderHandler.MATRIX4F = RenderSystem.getModelViewMatrix();
+        if (OculusCompat.isShadersEnabled()) RenderHandler.MATRIX4F = RenderSystem.getModelViewMatrix();
         builder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
     }
 

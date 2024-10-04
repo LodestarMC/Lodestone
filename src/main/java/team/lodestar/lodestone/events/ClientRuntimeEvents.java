@@ -16,7 +16,7 @@ import org.joml.Matrix4f;
 import team.lodestar.lodestone.capability.LodestonePlayerDataCapability;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
-import team.lodestar.lodestone.helpers.ShadersHelper;
+import team.lodestar.lodestone.compability.OculusCompat;
 import team.lodestar.lodestone.systems.client.ClientTickCounter;
 
 import static team.lodestar.lodestone.LodestoneLib.RANDOM;
@@ -73,15 +73,15 @@ public class ClientRuntimeEvents {
         }
 
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) {
-            if (!ShadersHelper.isShadersEnabled()) RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
+            if (!OculusCompat.isShadersEnabled()) RenderHandler.MATRIX4F = new Matrix4f(RenderSystem.getModelViewMatrix());
         }
 
-        if (!ShadersHelper.isShadersEnabled()) {
+        if (!OculusCompat.isShadersEnabled()) {
             if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
                 RenderHandler.endBatches();
             }
         } else {
-            ShadersHelper.renderStages(event);
+            OculusCompat.renderStages(event);
         }
 
         poseStack.popPose();
