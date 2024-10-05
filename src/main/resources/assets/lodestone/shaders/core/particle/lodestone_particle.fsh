@@ -18,7 +18,6 @@ uniform vec2 ScreenSize;
 in float vertexDistance;
 in vec4 vertexColor;
 in vec2 texCoord0;
-in float pixelDepthClip;
 
 out vec4 fragColor;
 
@@ -33,7 +32,7 @@ void main() {
     float sceneDepthClip = getDepth(SceneDepthBuffer, screenUV);
 
     vec3 sceneViewSpace = viewSpaceFromDepth(sceneDepthClip, screenUV, InvProjMat);
-    vec3 pixelViewSpace = viewSpaceFromDepth(pixelDepthClip, screenUV, InvProjMat);
+    vec3 pixelViewSpace = viewSpaceFromDepth(gl_FragDepth, screenUV, InvProjMat);
 
     float depthFade = applyDepthFade(sceneViewSpace.z, pixelViewSpace.z, DepthFade);
 
