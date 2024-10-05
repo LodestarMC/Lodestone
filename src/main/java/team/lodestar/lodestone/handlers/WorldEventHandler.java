@@ -108,7 +108,7 @@ public class WorldEventHandler {
                     instance.tick(level);
                 }
                 if (instance.dirty) {
-                    PacketDistributor.sendToServer(new UpdateWorldEventPayload(instance.uuid, instance.synchronizeNBT()));
+                    PacketDistributor.sendToAllPlayers(new UpdateWorldEventPayload(instance.uuid, instance.synchronizeNBT()));
                     instance.dirty = false;
                 }
             }
