@@ -1,2 +1,3 @@
-// 1.20.1	2023-11-27T02:52:51.8197566	Tags for minecraft:damage_type mod id lodestone
+// 1.20.1	2024-10-05T23:59:41.07392	Tags for minecraft:damage_type mod id lodestone
+5ffa76b375d4236f1d832601fff778bc8ce15f51 data/forge/tags/damage_type/can_trigger_magic_damage.json
 10324698ef50d9ab1c367abd0d46152a26bf5ed5 data/forge/tags/damage_type/is_magic.json
