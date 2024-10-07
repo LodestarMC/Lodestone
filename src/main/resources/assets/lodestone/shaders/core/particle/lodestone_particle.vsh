@@ -17,10 +17,11 @@ uniform int FogShape;
 out vec4 vertexColor;
 out float vertexDistance;
 out vec2 texCoord0;
+out vec4 viewSpacePos;
 
 void main() {
     vec4 localSpacePos = vec4(Position, 1.0);
-    vec4 viewSpacePos = ModelViewMat * localSpacePos;
+    viewSpacePos = ModelViewMat * localSpacePos;
     vec4 clipSpacePos = ProjMat * viewSpacePos;
     gl_Position = clipSpacePos;
 
