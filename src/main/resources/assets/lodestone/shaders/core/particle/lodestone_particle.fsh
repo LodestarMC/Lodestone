@@ -18,6 +18,7 @@ uniform vec2 ScreenSize;
 in float vertexDistance;
 in vec4 vertexColor;
 in vec2 texCoord0;
+in vec4 viewSpacePos;
 
 out vec4 fragColor;
 
@@ -28,13 +29,10 @@ void main() {
     vec4 color = transformColor(texture(Sampler0, texCoord0), LumiTransparency, vertexColor, ColorModulator);
     fragColor = applyFog(color, FogStart, FogEnd, FogColor, vertexDistance);
 
-
     float sceneDepthClip = getDepth(SceneDepthBuffer, screenUV);
-
     vec3 sceneViewSpace = viewSpaceFromDepth(sceneDepthClip, screenUV, InvProjMat);
-    vec3 pixelViewSpace = viewSpaceFromDepth(gl_FragDepth, screenUV, InvProjMat);
 
-    float depthFade = applyDepthFade(sceneViewSpace.z, pixelViewSpace.z, DepthFade);
+    float depthFade = applyDepthFade(sceneViewSpace.z, viewSpacePos.z, DepthFade);
 
     fragColor.a *= depthFade;
 }
