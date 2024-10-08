@@ -27,6 +27,9 @@ public abstract class LODStrategy<T> implements LODBuilder<T> {
     }
 
     public abstract LevelOfDetail<T> getLODLevel(PoseStack poseStack);
+    public LevelOfDetail<T> getDefaultLOD() {
+        return levelsOfDetail.get(levelsOfDetail.size() - 1);
+    }
 
     public static LODStrategy<Float> Distance(Consumer<LODBuilder<Float>> lodBuilder) {
         return new LODStrategy.DistanceLODStrategy(lodBuilder);
@@ -60,7 +63,7 @@ public abstract class LODStrategy<T> implements LODBuilder<T> {
                     return levelOfDetail;
                 }
             }
-            return levelsOfDetail.get(levelsOfDetail.size() - 1);
+            return getDefaultLOD();
         }
 
         @Override
@@ -94,7 +97,7 @@ public abstract class LODStrategy<T> implements LODBuilder<T> {
                     return levelOfDetail;
                 }
             }
-            return null;
+            return getDefaultLOD();
         }
 
         @Override
