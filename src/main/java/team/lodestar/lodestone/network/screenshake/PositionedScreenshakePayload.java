@@ -1,8 +1,6 @@
 package team.lodestar.lodestone.network.screenshake;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import team.lodestar.lodestone.handlers.ScreenshakeHandler;
@@ -22,6 +20,14 @@ public class PositionedScreenshakePayload extends ScreenshakePayload {
         falloffDistance = byteBuf.readFloat();
         maxDistance = byteBuf.readFloat();
         falloffEasing = Easing.valueOf(byteBuf.readUtf());
+    }
+
+    public PositionedScreenshakePayload(int duration, float intensity1, float intensity2, float intensity3, Easing intensityCurveStartEasing, Easing intensityCurveEndEasing, Vec3 position, float falloffDistance, float maxDistance, Easing falloffEasing) {
+        super(duration, intensity1, intensity2, intensity3, intensityCurveStartEasing, intensityCurveEndEasing);
+        this.position = position;
+        this.falloffDistance = falloffDistance;
+        this.maxDistance = maxDistance;
+        this.falloffEasing = falloffEasing;
     }
 
 

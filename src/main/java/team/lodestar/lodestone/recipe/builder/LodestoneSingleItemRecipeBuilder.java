@@ -5,6 +5,7 @@ import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.SingleItemRecipe;
+import team.lodestar.lodestone.helpers.ReflectionHelper;
 
 import java.util.Objects;
 
@@ -15,8 +16,7 @@ public class LodestoneSingleItemRecipeBuilder extends SingleItemRecipeBuilder im
                 parent.ingredient, parent.result,
                 parent.count
         );
-        this.criteria = parent.criteria;
-        this.group(parent.group);
+        ReflectionHelper.copyFields(parent, this);
     }
 
     @Override

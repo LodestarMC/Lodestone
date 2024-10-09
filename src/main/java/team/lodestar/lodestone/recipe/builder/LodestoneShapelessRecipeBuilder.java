@@ -5,15 +5,14 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
+import team.lodestar.lodestone.helpers.ReflectionHelper;
 
 import java.util.Objects;
 
 public class LodestoneShapelessRecipeBuilder extends ShapelessRecipeBuilder implements LodestoneRecipeBuilder<ShapelessRecipe> {
     public LodestoneShapelessRecipeBuilder(ShapelessRecipeBuilder parent) {
         super(parent.category, parent.resultStack);
-        this.ingredients = parent.ingredients;
-        this.criteria = parent.criteria;
-        this.group(parent.group);
+        ReflectionHelper.copyFields(parent, this);
     }
 
     @Override
