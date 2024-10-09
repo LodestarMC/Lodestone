@@ -1,5 +1,6 @@
 package team.lodestar.lodestone.systems.easing;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.util.Mth;
 
 import java.util.HashMap;
@@ -25,6 +26,8 @@ import java.util.HashMap;
  * @author davedes (java port)
  */
 public abstract class Easing {
+
+    public static final Codec<Easing> CODEC = Codec.STRING.xmap(Easing::valueOf, e -> e.name);
 
     public static final HashMap<String, Easing> EASINGS = new HashMap<>();
     public final String name;
