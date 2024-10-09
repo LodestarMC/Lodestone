@@ -10,7 +10,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import team.lodestar.lodestone.handlers.ScreenshakeHandler;
-import team.lodestar.lodestone.helpers.CodecHelper;
 import team.lodestar.lodestone.helpers.ReflectionHelper;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.network.OneSidedPayloadData;
@@ -22,17 +21,19 @@ public class ScreenshakePayload extends OneSidedPayloadData {
     public float intensity1, intensity2, intensity3;
     public Easing intensityCurveStartEasing, intensityCurveEndEasing;
 
-    private static final StreamCodec<ByteBuf, ScreenshakePayload> CODEC = ByteBufCodecs.fromCodec(RecordCodecBuilder.create(obj -> obj.group(
+    public static final Codec<ScreenshakePayload> CODEC = RecordCodecBuilder.create(obj -> obj.group(
             Codec.INT.fieldOf("duration").forGetter(p -> p.duration),
             Codec.FLOAT.fieldOf("intensity1").forGetter(p -> p.intensity1),
             Codec.FLOAT.fieldOf("intensity2").forGetter(p -> p.intensity2),
             Codec.FLOAT.fieldOf("intensity3").forGetter(p -> p.intensity3),
-            Codec.STRING.xmap(Easing::valueOf, Easing::toString).fieldOf("intensityCurveStartEasing").forGetter(p -> p.intensityCurveStartEasing),
-            Codec.STRING.xmap(Easing::valueOf, Easing::toString).fieldOf("intensityCurveEndEasing").forGetter(p -> p.intensityCurveEndEasing)
-    ).apply(obj, ScreenshakePayload::new)));
+            Easing.CODEC.fieldOf("intensityCurveStartEasing").forGetter(p -> p.intensityCurveStartEasing),
+            Easing.CODEC.fieldOf("intensityCurveEndEasing").forGetter(p -> p.intensityCurveEndEasing)
+    ).apply(obj, ScreenshakePayload::new));
+
+    public static final StreamCodec<ByteBuf, ScreenshakePayload> STREAM_CODEC = ByteBufCodecs.fromCodec(CODEC);
 
     public ScreenshakePayload(FriendlyByteBuf byteBuf) {
-        ReflectionHelper.copyFields(this, CODEC.decode(byteBuf));
+        ReflectionHelper.copyFields(this, STREAM_CODEC.decode(byteBuf));
     }
 
     public ScreenshakePayload(int duration, float intensity1, float intensity2, float intensity3, Easing intensityCurveStartEasing, Easing intensityCurveEndEasing) {
@@ -52,6 +53,6 @@ public class ScreenshakePayload extends OneSidedPayloadData {
 
     @Override
     public void serialize(FriendlyByteBuf byteBuf) {
-        CODEC.encode(byteBuf, this);
+        STREAM_CODEC.encode(byteBuf, this);
     }
 }
