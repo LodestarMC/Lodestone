@@ -20,8 +20,12 @@ void main() {
     vec2 uv = texCoord0;
     float y = uv.y;
     float width = y;
+    if (width > 0.7) {
+        float delta = pow((width - 0.7) / 0.3, 2.0);
+        width = uv.y * (1.0-delta);
+    }
     if (abs(uv.x-0.5)*2. > width) {
-        discard;
+        return;
     }
     uv.x -= 0.5*(1.-width);
     if (width != 0.){
