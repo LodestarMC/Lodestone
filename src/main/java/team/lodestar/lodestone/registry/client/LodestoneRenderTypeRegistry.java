@@ -217,10 +217,10 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     }
 
     public static LodestoneCompositeStateBuilder builder(ResourceLocation texture, Object... objects) {
-        return builder(new RenderStateShard.TextureStateShard(texture, false, false), objects);
+        return builder(objects).setTextureState(texture);
     }
     public static LodestoneCompositeStateBuilder builder(RenderTypeToken token, Object... objects) {
-        return builder(token.get(), objects);
+        return builder(objects).setTextureState(token.get());
     }
     public static LodestoneCompositeStateBuilder builder(Object... objects) {
         return builder().setStateShards(objects);
