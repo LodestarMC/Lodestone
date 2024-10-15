@@ -247,7 +247,10 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
                 if (object instanceof RenderStateShard.EmptyTextureStateShard shard) {
                     setTextureState(shard);
                 }
-                if (object instanceof RenderStateShard.ShaderStateShard shard) {
+                if (object instanceof ShaderHolder shaderHolder) {
+                    setShaderState(shaderHolder.getShard());
+                }
+                else if (object instanceof RenderStateShard.ShaderStateShard shard) {
                     setShaderState(shard);
                 }
                 if (object instanceof RenderStateShard.TransparencyStateShard shard) {
