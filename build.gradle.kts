@@ -209,6 +209,7 @@ tasks.withType<Jar> {
         ))
     }
     finalizedBy("reobfJar")
+    finalizedBy("reobfJarJar")
 }
 
 publishing {

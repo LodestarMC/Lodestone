@@ -19,7 +19,7 @@ out vec4 fragColor;
 void main() {
     vec2 uv = texCoord0;
     float y = uv.y;
-    float width = y;
+    float width = (0.5-abs(y-0.5))*2.0;
     if (abs(uv.x-0.5)*2. > width) {
         discard;
     }

@@ -25,21 +25,30 @@ public class LodestoneShaderRegistry {
     public static ShaderHolder SCREEN_PARTICLE = new ShaderHolder(lodestonePath("screen/screen_particle"), DefaultVertexFormat.POSITION_TEX_COLOR);
     public static ShaderHolder DISTORTED_TEXTURE = new ShaderHolder(lodestonePath("screen/distorted_texture"), DefaultVertexFormat.POSITION_COLOR_TEX, "Speed", "TimeOffset", "Intensity", "XFrequency", "YFrequency", "UVCoordinates");
 
-    public static ShaderHolder SCROLLING_TEXTURE = new ShaderHolder(lodestonePath("shapes/scrolling_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "Speed", "LumiTransparency");
     public static ShaderHolder TRIANGLE_TEXTURE = new ShaderHolder(lodestonePath("shapes/triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "LumiTransparency");
-    public static ShaderHolder SCROLLING_TRIANGLE_TEXTURE = new ShaderHolder(lodestonePath("shapes/scrolling_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "Speed", "LumiTransparency");
+    public static ShaderHolder TWO_SIDED_TRIANGLE_TEXTURE = new ShaderHolder(lodestonePath("shapes/two_sided_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "LumiTransparency");
+    public static ShaderHolder ROUNDED_TRIANGLE_TEXTURE = new ShaderHolder(lodestonePath("shapes/rounded_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "LumiTransparency");
 
+    public static ShaderHolder SCROLLING_TEXTURE = new ShaderHolder(lodestonePath("shapes/scrolling_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "Speed", "LumiTransparency");
+    public static ShaderHolder SCROLLING_TRIANGLE_TEXTURE = new ShaderHolder(lodestonePath("shapes/scrolling_triangle_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "Speed", "LumiTransparency");
 
 
     @SubscribeEvent
     public static void shaderRegistry(RegisterShadersEvent event) {
         registerShader(event, LODESTONE_TEXTURE);
         registerShader(event, LODESTONE_TEXT);
+
         registerShader(event, PARTICLE);
+
         registerShader(event, SCREEN_PARTICLE);
         registerShader(event, DISTORTED_TEXTURE);
-        registerShader(event, SCROLLING_TEXTURE);
+
         registerShader(event, TRIANGLE_TEXTURE);
+        registerShader(event, TWO_SIDED_TRIANGLE_TEXTURE);
+        registerShader(event, ROUNDED_TRIANGLE_TEXTURE);
+
+
+        registerShader(event, SCROLLING_TEXTURE);
         registerShader(event, SCROLLING_TRIANGLE_TEXTURE);
     }
 
