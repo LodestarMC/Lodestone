@@ -63,7 +63,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static final LodestoneRenderType ADDITIVE_BLOCK = createGenericRenderType("additive_block",
             builder(TextureAtlas.LOCATION_BLOCKS, ADDITIVE_TRANSPARENCY, LodestoneShaderRegistry.LODESTONE_TEXTURE, NO_CULL, LIGHTMAP));
 
-    public static final LodestoneRenderType ADDITIVE_SOLID = createGenericRenderType("additive_block", POSITION_COLOR_LIGHTMAP, QUADS,
+    public static final LodestoneRenderType ADDITIVE_SOLID = createGenericRenderType("additive_solid", POSITION_COLOR_LIGHTMAP, QUADS,
             builder(ADDITIVE_TRANSPARENCY, POSITION_COLOR_LIGHTMAP_SHADER, NO_CULL, LIGHTMAP));
 
     public static final LodestoneRenderType TRANSPARENT_PARTICLE = createGenericRenderType("transparent_particle", PARTICLE, QUADS,
@@ -75,7 +75,7 @@ public class LodestoneRenderTypeRegistry extends RenderStateShard {
     public static final LodestoneRenderType TRANSPARENT_BLOCK = createGenericRenderType("transparent_block",
             builder(TextureAtlas.LOCATION_BLOCKS, NORMAL_TRANSPARENCY, LodestoneShaderRegistry.LODESTONE_TEXTURE, NO_CULL, LIGHTMAP));
 
-    public static final LodestoneRenderType TRANSPARENT_SOLID = createGenericRenderType("transparent_block", POSITION_COLOR_LIGHTMAP, QUADS,
+    public static final LodestoneRenderType TRANSPARENT_SOLID = createGenericRenderType("transparent_solid", POSITION_COLOR_LIGHTMAP, QUADS,
             builder(NORMAL_TRANSPARENCY, POSITION_COLOR_LIGHTMAP_SHADER, NO_CULL, LIGHTMAP));
 
     public static final LodestoneRenderType LUMITRANSPARENT_PARTICLE = copyWithUniformChanges("lodestone:lumitransparent_particle", TRANSPARENT_PARTICLE, ShaderUniformHandler.LUMITRANSPARENT);
