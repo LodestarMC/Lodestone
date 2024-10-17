@@ -7,15 +7,18 @@ import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry;
 import team.lodestar.lodestone.registry.client.LodestoneRenderTypeRegistry.*;
 import team.lodestar.lodestone.systems.rendering.*;
 
+import java.util.*;
 import java.util.function.*;
 
 public class RenderTypeProvider {
     private final Function<RenderTypeToken, LodestoneRenderType> function;
     private final Function<RenderTypeToken, LodestoneRenderType> memorizedFunction;
+    private final HashMap<ShaderUniformHandler, Function<RenderTypeToken, LodestoneRenderType>> uniformHandlerCache;
 
     public RenderTypeProvider(Function<RenderTypeToken, LodestoneRenderType> function) {
         this.function = function;
         this.memorizedFunction = Util.memoize(function);
+        this.uniformHandlerCache = new HashMap<>();
     }
 
     public LodestoneRenderType apply(RenderTypeToken token) {
@@ -23,7 +26,8 @@ public class RenderTypeProvider {
     }
 
     public LodestoneRenderType apply(RenderTypeToken token, ShaderUniformHandler uniformHandler) {
-        return LodestoneRenderTypeRegistry.applyUniformChanges(apply(token), uniformHandler);
+        var renderType = apply(token);
+        return LodestoneRenderTypeRegistry.applyUniformChanges(renderType, uniformHandler);
     }
 
     public LodestoneRenderType applyAndCache(RenderTypeToken token) {
@@ -31,7 +35,11 @@ public class RenderTypeProvider {
     }
 
     public LodestoneRenderType applyAndCache(RenderTypeToken token, ShaderUniformHandler uniformHandler) {
-        return LodestoneRenderTypeRegistry.applyUniformChanges(applyAndCache(token), uniformHandler);
+        if (!uniformHandlerCache.containsKey(uniformHandler)) {
+            uniformHandlerCache.put(uniformHandler, Util.memoize(function));
+        }
+        var renderType = uniformHandlerCache.get(uniformHandler).apply(token);
+        return LodestoneRenderTypeRegistry.applyUniformChanges(renderType, uniformHandler);
     }
 
     public LodestoneRenderType applyWithModifier(RenderTypeToken token, Consumer<LodestoneCompositeStateBuilder> modifier) {
@@ -51,6 +59,6 @@ public class RenderTypeProvider {
 
     public LodestoneRenderType applyWithModifierAndCache(RenderTypeToken token, ShaderUniformHandler uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
         LodestoneRenderTypeRegistry.addRenderTypeModifier(modifier);
-        return LodestoneRenderTypeRegistry.applyUniformChanges(applyAndCache(token), uniformHandler);
+        return applyAndCache(token, uniformHandler);
     }
 }
