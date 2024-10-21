@@ -33,7 +33,7 @@ void main() {
         width = uv.y * (1.0-delta);
     }
     if (abs(uv.x-0.5)*2. > width) {
-        return;
+        discard;
     }
 
     uv.x -= 0.5*(1.-width);
