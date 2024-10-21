@@ -4,6 +4,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import team.lodestar.lodestone.registry.client.LodestoneWorldEventRenderers;
 
+import javax.annotation.Nullable;
+
 public class WorldEventType {
 
     public final ResourceLocation id;
@@ -71,7 +73,7 @@ public class WorldEventType {
          * @param renderer The renderer for the event. Set to null if you don't want a renderer for this world event.
          * @return The builder instance with the clientSynced flag set and the renderer assigned.
          */
-        public Builder<T> clientSynced(WorldEventRenderer<T> renderer) {
+        public Builder<T> clientSynced(@Nullable WorldEventRenderer<T> renderer) {
             this.clientSynced = true;
             this.renderer = renderer;
             return this;

@@ -14,7 +14,6 @@ import java.util.function.Consumer;
 
 /**
  * An LODStrategy or Level of Detail Strategy is a class containing the logic for determining which level of detail to use for a given {@link ObjModel}.
- * <p>The LODStrategy is what stores the LODs and determines which LOD to use based on the model's P data.</p>
  *
  * @param <T> The type of argument that the LODStrategy uses to determine the level of detail.
  */
