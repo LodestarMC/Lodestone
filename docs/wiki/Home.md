@@ -111,3 +111,5 @@ dependencies {
 # Documented Features
 - [InWorld Particles](https://github.com/LodestarMC/Lodestone/wiki/InWorld-Particles)
 - [Post Processing Shaders](https://github.com/LodestarMC/Lodestone/wiki/Post-Processing-Shaders)
+- [World Events](https://github.com/LodestarMC/Lodestone/wiki/World-Events)
+- [OBJ Models](https://github.com/LodestarMC/Lodestone/wiki/Obj-Models)
