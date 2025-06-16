@@ -24,7 +24,12 @@ public class LodestoneMixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         boolean sodiumLoaded = FabricLoader.getInstance().isModLoaded("sodium");
 
+        //tbh not needed as we use pseudo
         if (mixinClassName.startsWith("team.lodestar.lodestone.mixin.client.integration.sodium")) {
+            return sodiumLoaded;
+        }
+
+        if (mixinClassName.startsWith("team.lodestar.lodestone.mixin.client.integration.embeddium")) {
             return sodiumLoaded;
         }
 

@@ -88,8 +88,10 @@ dependencies {
 
     //modImplementation("io.github.ladysnake:satin:${property("satin_version")}")
 
-    compileOnly("maven.modrinth:sodium:${property("sodium_version")}")
-    compileOnly("maven.modrinth:iris:${property("iris_version")}")
+    modCompileOnly("maven.modrinth:sodium:${property("sodium_version")}")
+    modCompileOnly("curse.maven:embeddium-908741:5566632")
+
+    modCompileOnly("maven.modrinth:iris:${property("iris_version")}")
     //modImplementation("org.embeddedt:embeddium-fabric-1.20.1:${property("embeddium_version")}")
     //modImplementation("org.embeddedt:embeddium-1.20.1:0.2.11-git.23aedfb+mc1.20.1")
     modApi("com.jamieswhiteshirt:reach-entity-attributes:${property("reach_entity_attributes_version")}")
@@ -111,7 +113,7 @@ tasks {
     }
 
     compileJava{
-        targetCompatibility = "17"
+        targetCompatibility = "21"
     }
 
 }

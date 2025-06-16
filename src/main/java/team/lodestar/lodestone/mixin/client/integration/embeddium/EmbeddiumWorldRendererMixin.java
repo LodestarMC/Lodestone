@@ -1,4 +1,4 @@
-package team.lodestar.lodestone.mixin.client.integration.sodium;
+package team.lodestar.lodestone.mixin.client.integration.embeddium;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -17,19 +17,11 @@ import team.lodestar.lodestone.events.Stage;
 
 @Pseudo
 @Mixin(SodiumWorldRenderer.class)
-public class SodiumWorldRendererMixin {
+public class EmbeddiumWorldRendererMixin {
 
     @Inject(method = "drawChunkLayer", at = @At(value = "TAIL"), remap = false, require = 0)
-    private void lodestone$injectEvent6(RenderType renderLayer, ChunkRenderMatrices matrices, double x, double y, double z, CallbackInfo ci) {
-        LodestoneRenderEvents.BEFORE_CLEAR.invoker().render(renderLayer, toPoseStack(matrices), Stage.AFTER_SOLID_BLOCKS);
-    }
-
-    @Unique
-    private PoseStack toPoseStack(ChunkRenderMatrices chunkRenderMatrices) {
-        var poseStack = new PoseStack();
-        var poseMatrix = chunkRenderMatrices.modelView();
-        // Assuming poseMatrix is of type Matrix4f
-        poseStack.last().pose().set(poseMatrix);
-        return poseStack;
+    private void lodestone$injectEvent6(RenderType renderLayer, PoseStack matrixStack, double x, double y, double z, CallbackInfo ci) {
+        LodestoneRenderEvents.BEFORE_CLEAR.invoker().render(renderLayer, matrixStack, Stage.AFTER_SOLID_BLOCKS);
     }
 }
+
