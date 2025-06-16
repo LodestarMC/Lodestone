@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "plugin": "team.lodestar.lodestone.mixin.LodestoneMixinPlugin",
   "mixins": [
+    "client.integration.embeddium.EmbeddiumWorldRendererMixin",
     "client.integration.sodium.SodiumWorldRendererMixin",
     "common.BlockItemMixin",
     "common.EntityMixin",
