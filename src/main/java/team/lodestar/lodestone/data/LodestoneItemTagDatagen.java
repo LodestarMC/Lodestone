@@ -2,12 +2,9 @@ package team.lodestar.lodestone.data;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.datagen.providers.*;
 
@@ -17,8 +14,8 @@ import static team.lodestar.lodestone.registry.common.tag.LodestoneItemTags.*;
 
 
 public class LodestoneItemTagDatagen extends LodestoneItemTagsProvider {
-    public LodestoneItemTagDatagen(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockProvider, @Nullable ExistingFileHelper existingFileHelper) {
-        super(output, provider, blockProvider, LodestoneLib.LODESTONE, existingFileHelper);
+    public LodestoneItemTagDatagen(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockProvider) {
+        super(output, provider, blockProvider, LodestoneLib.LODESTONE);
     }
 
     @Override

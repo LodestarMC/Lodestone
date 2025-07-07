@@ -49,11 +49,10 @@ public class LodestoneLib {
     public void gatherData(GatherDataEvent event) {
         var lookupProvider = event.getLookupProvider();
         var packOutput = event.getGenerator().getPackOutput();
-        var existingFileHelper = event.getExistingFileHelper();
-        LodestoneBlockTagDatagen blockTagDatagen = new LodestoneBlockTagDatagen(packOutput, lookupProvider, existingFileHelper);
+        LodestoneBlockTagDatagen blockTagDatagen = new LodestoneBlockTagDatagen(packOutput, lookupProvider);
         event.getGenerator().addProvider(true, new LodestoneLangDatagen(packOutput));
         event.getGenerator().addProvider(true, blockTagDatagen);
-        event.getGenerator().addProvider(true, new LodestoneItemTagDatagen(packOutput, lookupProvider, blockTagDatagen.contentsGetter(), existingFileHelper));
-        event.getGenerator().addProvider(true, new LodestoneDamageTypeDatagen(packOutput, lookupProvider, existingFileHelper));
+        event.getGenerator().addProvider(true, new LodestoneItemTagDatagen(packOutput, lookupProvider, blockTagDatagen.contentsGetter()));
+        event.getGenerator().addProvider(true, new LodestoneDamageTypeDatagen(packOutput, lookupProvider));
     }
 }

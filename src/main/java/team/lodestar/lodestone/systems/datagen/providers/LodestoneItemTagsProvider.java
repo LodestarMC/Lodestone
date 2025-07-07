@@ -19,8 +19,8 @@ import java.util.concurrent.*;
 
 public abstract class LodestoneItemTagsProvider extends ItemTagsProvider {
 
-    public LodestoneItemTagsProvider(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pLookupProvider, CompletableFuture<TagLookup<Block>> pBlockTags, String modId, @Nullable ExistingFileHelper existingFileHelper) {
-        super(pOutput, pLookupProvider, pBlockTags, modId, existingFileHelper);
+    public LodestoneItemTagsProvider(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pLookupProvider, CompletableFuture<TagLookup<Block>> pBlockTags, String modId) {
+        super(pOutput, pLookupProvider, pBlockTags, modId);
     }
 
     @Override

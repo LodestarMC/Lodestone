@@ -1,7 +1,7 @@
 plugins {
     id("java-library")
     id("maven-publish")
-    id("net.neoforged.moddev") version "2.0.30-beta"
+    id("net.neoforged.moddev") version "2.0.99"
 }
 
 version = "${property("minecraft_version")}-${property("mod_version")}"
@@ -30,7 +30,7 @@ configurations.runtimeClasspath {
 }
 
 neoForge {
-    version.set(project.property("neo_version").toString())
+    version = project.property("neo_version").toString()
 
     parchment {
         mappingsVersion.set(project.property("parchment_mappings_version").toString())
@@ -62,8 +62,8 @@ neoForge {
             systemProperty("neoforge.enabledGameTestNamespaces", project.property("mod_id").toString())
         }
 
-        register("data") {
-            data()
+        register("clientData") {
+            clientData()
             programArguments.addAll(
                 "--mod", project.property("mod_id").toString(),
                 "--all",
@@ -184,13 +184,13 @@ publishing {
     }
 }
 
-idea {
-    module {
-        for (fileName in listOf("run", "out", "logs")) {
-            excludeDirs.add(file(fileName))
-        }
-    }
-}
+//idea {
+//    module {
+//        for (fileName in listOf("run", "out", "logs")) {
+//            excludeDirs.add(file(fileName))
+//        }
+//    }
+//}
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
