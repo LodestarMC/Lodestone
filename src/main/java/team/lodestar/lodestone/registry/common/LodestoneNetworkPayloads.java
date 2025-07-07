@@ -19,7 +19,7 @@ import team.lodestar.lodestone.systems.network.particle.NetworkedParticleEffectP
 
 import java.util.HashMap;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class LodestoneNetworkPayloads {
 
     public static final PayloadRegistryHelper LODESTONE_CHANNEL = new PayloadRegistryHelper(LodestoneLib.LODESTONE);

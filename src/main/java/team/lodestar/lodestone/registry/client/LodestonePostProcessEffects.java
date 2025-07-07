@@ -12,7 +12,7 @@ import team.lodestar.lodestone.systems.postprocess.effects.*;
 
 import java.util.function.Supplier;
 
-@EventBusSubscriber(modid = LodestoneLib.LODESTONE, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = LodestoneLib.LODESTONE, value = Dist.CLIENT)
 public class LodestonePostProcessEffects {
     public static final BloomPostProcessor BLOOM = register(BloomPostProcessor::new);
     public static final PhysicallyBasedBloomPostProcessor PB_BLOOM = register(PhysicallyBasedBloomPostProcessor::new);

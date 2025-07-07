@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import static team.lodestar.lodestone.LodestoneLib.lodestonePath;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = LodestoneLib.LODESTONE, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = LodestoneLib.LODESTONE)
 public class LodestoneShaders {
 
     public static ShaderHolder LODESTONE_TEXTURE = new ShaderHolder(lodestonePath("lodestone_texture"), DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, "LumiTransparency");

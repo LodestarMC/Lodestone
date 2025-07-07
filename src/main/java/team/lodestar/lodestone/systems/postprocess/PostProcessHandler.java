@@ -15,7 +15,7 @@ import java.util.List;
  * Handles world-space post-processing.
  * Based on vanilla {@link net.minecraft.client.renderer.PostChain} system, but allows the shader to access the world depth buffer.
  */
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class PostProcessHandler {
     private static final List<PostProcessor> instances = new ArrayList<>();
 

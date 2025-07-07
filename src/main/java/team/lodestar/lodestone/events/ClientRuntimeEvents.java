@@ -21,7 +21,7 @@ import team.lodestar.lodestone.systems.easing.*;
 import team.lodestar.lodestone.systems.rendering.LodestoneRenderSystem;
 
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class ClientRuntimeEvents {
 
     @SubscribeEvent

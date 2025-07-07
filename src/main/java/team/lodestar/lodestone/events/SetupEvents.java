@@ -10,7 +10,7 @@ import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 import team.lodestar.lodestone.registry.common.LodestoneCommandArgumentTypes;
 import team.lodestar.lodestone.systems.item.*;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class SetupEvents {
 
     @SubscribeEvent

@@ -10,7 +10,7 @@ import team.lodestar.lodestone.LodestoneLib;
 
 import static org.lwjgl.opengl.GL43.*;
 
-@EventBusSubscriber(value = Dist.CLIENT, modid = LodestoneLib.LODESTONE, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = LodestoneLib.LODESTONE)
 public class SystemDetails {
     private static String VENDOR;
     private static String RENDERER;

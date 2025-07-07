@@ -11,7 +11,7 @@ import team.lodestar.lodestone.command.*;
 
 import static team.lodestar.lodestone.LodestoneLib.LODESTONE;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber
 public class LodestoneCommands {
 
     @SubscribeEvent

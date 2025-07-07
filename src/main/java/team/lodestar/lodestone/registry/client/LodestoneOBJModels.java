@@ -17,7 +17,7 @@ import team.lodestar.lodestone.systems.model.obj.modifier.modifiers.TriangulateM
 import java.util.ArrayList;
 import java.util.List;
 
-@EventBusSubscriber(modid = LodestoneLib.LODESTONE, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = LodestoneLib.LODESTONE, value = Dist.CLIENT)
 public class LodestoneOBJModels {
     // TODO: Track models by ResourceLocation & cache their modification history to prevent reparsing and reapplying modifiers
     public static List<ObjModel> OBJ_MODELS = new ArrayList<>();
