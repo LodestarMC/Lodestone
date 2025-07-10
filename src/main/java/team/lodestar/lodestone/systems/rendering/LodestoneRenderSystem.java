@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.rendering;
 
-import com.mojang.blaze3d.pipeline.RenderCall;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import java.nio.ByteBuffer;
@@ -13,11 +12,11 @@ import static org.lwjgl.opengl.GL43.*;
 
 public class LodestoneRenderSystem extends RenderSystem {
     private static final List<IBufferObject> bufferObjects = new ArrayList<>();
-    public static void wrap(RenderCall renderCall) {
+    public static void wrap(Runnable renderCall) {
         if (!RenderSystem.isOnRenderThread()) {
-            RenderSystem.recordRenderCall(renderCall);
+            RenderSystem.queueFencedTask(renderCall);
         } else {
-            renderCall.execute();
+            renderCall.run();
         }
     }
 
