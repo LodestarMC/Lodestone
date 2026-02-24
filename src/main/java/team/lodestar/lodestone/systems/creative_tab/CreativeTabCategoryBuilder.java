@@ -3,7 +3,6 @@ package team.lodestar.lodestone.systems.creative_tab;
 import com.mojang.datafixers.util.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
-import net.neoforged.neoforge.registries.*;
 
 import java.util.*;
 import java.util.function.*;

@@ -18,9 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
 import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
 
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.function.ToIntFunction;
+import java.util.function.*;
 
 /**
  * An extension of Block Properties, allowing you to add {@link LodestoneThrowawayBlockData}
@@ -92,15 +90,15 @@ public class LodestoneBlockProperties extends BlockBehaviour.Properties {
         return this;
     }
 
-    public LodestoneBlockProperties addDatagenData(Function<LodestoneDatagenBlockData, LodestoneDatagenBlockData> function) {
+    public LodestoneBlockProperties addDatagenData(Consumer<LodestoneDatagenBlockData> function) {
         if (DatagenModLoader.isRunningDataGen()) {
-            ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.put(this, function.apply(ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, new LodestoneDatagenBlockData())));
+            function.accept(getDatagenData());
         }
         return this;
     }
 
     public LodestoneDatagenBlockData getDatagenData() {
-        return ThrowawayBlockDataHandler.DATAGEN_DATA_CACHE.getOrDefault(this, LodestoneDatagenBlockData.EMPTY);
+        return LodestoneDatagenBlockData.getDatagenData(this);
     }
 
     public LodestoneBlockProperties addTag(TagKey<Block> tag) {

@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.Resource;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Optional;
 
 public abstract class LodestoneParser<M extends IRenderableModel> {

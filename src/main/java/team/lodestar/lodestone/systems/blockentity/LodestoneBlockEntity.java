@@ -2,7 +2,6 @@ package team.lodestar.lodestone.systems.blockentity;
 
 import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.*;
 import net.minecraft.sounds.*;
@@ -24,9 +23,6 @@ import team.lodestar.lodestone.helpers.block.*;
 import team.lodestar.lodestone.systems.block.LodestoneEntityBlock;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.function.Consumer;
 
 /**
  * A simple block entity with various methods normally found inside of Block delegated here from {@link LodestoneEntityBlock}

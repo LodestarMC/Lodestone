@@ -2,15 +2,11 @@ package team.lodestar.lodestone.systems.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.RepeaterBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-
-import java.util.function.Function;
 
 public class LodestoneHorizontalBlock extends HorizontalDirectionalBlock {
 

@@ -4,11 +4,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import team.lodestar.lodestone.systems.blockentity.*;
+import team.lodestar.lodestone.systems.blockentity.*;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class CachedBlockEntitySoundInstance<T extends LodestoneBlockEntity> extends LodestoneBlockEntitySoundInstance<T> {

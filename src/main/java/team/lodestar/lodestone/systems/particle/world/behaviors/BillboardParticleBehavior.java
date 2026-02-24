@@ -6,6 +6,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
 import org.joml.*;
 import team.lodestar.lodestone.systems.particle.world.*;
+import team.lodestar.lodestone.systems.particle.world.*;
 
 public class BillboardParticleBehavior implements LodestoneParticleBehavior {
 

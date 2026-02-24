@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.screenshake;
 
-import net.minecraft.core.*;
 import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.systems.easing.*;
 

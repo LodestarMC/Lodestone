@@ -2,14 +2,15 @@ package team.lodestar.lodestone.systems.particle;
 
 import it.unimi.dsi.fastutil.floats.*;
 import it.unimi.dsi.fastutil.ints.*;
-import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
-import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
+import team.lodestar.lodestone.systems.particle.data.*;
+import team.lodestar.lodestone.systems.particle.data.color.*;
+import team.lodestar.lodestone.systems.particle.data.spin.*;
 
 import java.awt.*;
+import java.util.*;
 import java.util.function.*;
 
-public abstract class SimpleParticleOptions {
+public abstract class SimpleParticleOptions<T extends IParticle> {
 
     public static final ColorParticleData DEFAULT_COLOR = ColorParticleData.create(Color.WHITE, Color.WHITE).build();
     public static final SpinParticleData DEFAULT_SPIN = SpinParticleData.create(0).build().lock();
@@ -36,6 +37,10 @@ public abstract class SimpleParticleOptions {
     public Int2IntFunction lifeDelayModifier = i -> i;
     public Float2FloatFunction gravityModifier = f -> f;
     public Float2FloatFunction frictionModifier = f -> f;
+
+    public final Collection<Consumer<T>> tickActors = new ArrayList<>();
+    public final Collection<Consumer<T>> spawnActors = new ArrayList<>();
+    public final Collection<Consumer<T>> renderActors = new ArrayList<>();
 
 
     public int getLifetime() {

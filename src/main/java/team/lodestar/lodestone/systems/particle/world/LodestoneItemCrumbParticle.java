@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import team.lodestar.lodestone.systems.particle.world.options.LodestoneItemCrumbsParticleOptions;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 
 public class LodestoneItemCrumbParticle extends LodestoneWorldParticle {
 

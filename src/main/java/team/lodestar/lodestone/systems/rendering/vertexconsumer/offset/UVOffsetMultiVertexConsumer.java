@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.rendering.vertexconsumer.offset;
 import com.mojang.blaze3d.vertex.*;
 import org.jetbrains.annotations.*;
 import team.lodestar.lodestone.systems.rendering.vertexconsumer.*;
+import team.lodestar.lodestone.systems.rendering.vertexconsumer.*;
 
 /**
  * A {@link VertexConsumer} that forwards all calls to multiple other {@link VertexConsumer}s.

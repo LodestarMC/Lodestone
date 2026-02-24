@@ -3,23 +3,40 @@ package team.lodestar.lodestone.systems.particle.screen;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.*;
 import net.minecraft.client.gui.*;
-import team.lodestar.lodestone.config.*;
-import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
-import team.lodestar.lodestone.systems.particle.screen.base.ScreenParticle;
+import team.lodestar.lodestone.common.config.*;
+import team.lodestar.lodestone.systems.particle.render_types.*;
+import team.lodestar.lodestone.systems.particle.screen.base.*;
 
 import javax.annotation.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class ScreenParticleHolder {
 
     public static final Tesselator TESSELATOR = new Tesselator();
 
-    public final Map<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> particles = new HashMap<>();
+    protected final Map<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> particles = new HashMap<>();
 
     public ScreenParticleHolder() {
+    }
+
+    public ScreenParticle addParticle(ScreenParticleOptions options, double x, double y, double xMotion, double yMotion) {
+        var minecraft = Minecraft.getInstance();
+        var type = options.type;
+        var particle = type.provider.createParticle(minecraft.level, options, x, y, xMotion, yMotion);
+        var list = getParticles(options.renderType);
+        list.add(particle);
+        return particle;
+    }
+
+    public ArrayList<ScreenParticle> getParticles(LodestoneScreenParticleRenderType renderType) {
+        if (!particles.containsKey(renderType)) {
+            particles.put(renderType, new ArrayList<>());
+        }
+        return particles.get(renderType);
+    }
+
+    public void clear() {
+        particles.forEach((k, v) -> v.clear());
     }
 
     public void tick() {
@@ -47,9 +64,10 @@ public class ScreenParticleHolder {
         if (!ClientConfig.ENABLE_SCREEN_PARTICLES.getConfigValue()) {
             return;
         }
+        var textureManager = Minecraft.getInstance().getTextureManager();
         particles.forEach((renderType, particles) -> {
             if (!particles.isEmpty()) {
-                var builder = renderType.begin(TESSELATOR, Minecraft.getInstance().getTextureManager());
+                var builder = renderType.begin(TESSELATOR, textureManager);
                 for (ScreenParticle next : particles) {
                     next.render(builder, poseStack);
                 }
@@ -65,4 +83,5 @@ public class ScreenParticleHolder {
     public boolean isEmpty() {
         return particles.values().stream().allMatch(ArrayList::isEmpty);
     }
+
 }

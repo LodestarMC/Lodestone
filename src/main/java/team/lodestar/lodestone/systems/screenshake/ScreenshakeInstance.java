@@ -8,6 +8,7 @@ import net.minecraft.network.codec.*;
 import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.systems.easing.*;
+import team.lodestar.lodestone.systems.easing.*;
 
 import java.util.*;
 

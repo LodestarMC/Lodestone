@@ -1,0 +1,46 @@
+package team.lodestar.lodestone.handlers.screenparticle;
+
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import team.lodestar.lodestone.helpers.DataHelper;
+import team.lodestar.lodestone.systems.particle.screen.ScreenParticleHolder;
+
+import java.util.*;
+
+public class ItemScreenParticleEmitterHandler {
+    public static final Map<Item, List<ItemScreenParticleEmitter>> EMITTERS = new HashMap<>();
+
+    public static void registerParticleEmitters(FMLClientSetupEvent event) {
+        DataHelper.getAll(BuiltInRegistries.ITEM.stream().toList(), i -> i instanceof ItemScreenParticleEmitter).forEach(i -> {
+                    ItemScreenParticleEmitter emitter = (ItemScreenParticleEmitter) i;
+                    registerItemParticleEmitter(i, emitter);
+                }
+        );
+    }
+
+    public static void registerItemParticleEmitter(Item item, ItemScreenParticleEmitter emitter) {
+        if (EMITTERS.containsKey(item)) {
+            EMITTERS.get(item).add(emitter);
+        }
+        else {
+            EMITTERS.put(item, new ArrayList<>(List.of(emitter)));
+        }
+    }
+
+    public static void registerItemParticleEmitter(ItemScreenParticleEmitter emitter, Item... items) {
+        for (Item item : items) {
+            registerItemParticleEmitter(item, emitter);
+        }
+    }
+
+    public interface ItemScreenParticleEmitter {
+        default void spawnEarlyParticles(ScreenParticleHolder target, Level level, float partialTick, ItemStack stack, float x, float y) {
+        }
+
+        default void spawnLateParticles(ScreenParticleHolder target, Level level, float partialTick, ItemStack stack, float x, float y) {
+        }
+    }
+}

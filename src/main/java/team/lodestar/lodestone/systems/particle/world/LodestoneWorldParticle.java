@@ -7,14 +7,14 @@ import net.minecraft.client.particle.*;
 import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
 import org.joml.Vector3f;
-import team.lodestar.lodestone.config.ClientConfig;
-import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
+import team.lodestar.lodestone.systems.particle.*;
+import team.lodestar.lodestone.systems.particle.world.behaviors.*;
+import team.lodestar.lodestone.common.config.ClientConfig;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
 import team.lodestar.lodestone.systems.particle.world.options.WorldParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneWorldParticleRenderType;
-import team.lodestar.lodestone.systems.particle.world.behaviors.*;
 import team.lodestar.lodestone.systems.rendering.buffer.LodestoneRenderLayer;
 
 import javax.annotation.Nullable;
@@ -22,7 +22,7 @@ import java.awt.*;
 import java.util.Collection;
 import java.util.function.Consumer;
 
-public class LodestoneWorldParticle extends TextureSheetParticle {
+public class LodestoneWorldParticle extends TextureSheetParticle implements IParticle {
 
     public final LodestoneParticleBehavior behavior;
     public final ParticleEngine.MutableSpriteSet spriteSet;

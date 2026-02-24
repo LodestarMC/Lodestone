@@ -26,6 +26,6 @@ public abstract class GuiGraphicsMixin {
 
     @Inject(at = @At(value = "TAIL"), method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;IIII)V")
     private void lodestone$renderGuiItemLate(LivingEntity pEntity, Level pLevel, ItemStack pStack, int pX, int pY, int pSeed, int pGuiOffset, CallbackInfo ci) {
-        ScreenParticleHandler.renderItemStackLate(pose);
+        ScreenParticleHandler.renderLateParticles(pose);
     }
 }

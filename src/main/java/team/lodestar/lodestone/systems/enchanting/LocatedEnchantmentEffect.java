@@ -2,7 +2,6 @@ package team.lodestar.lodestone.systems.enchanting;
 
 import net.minecraft.core.*;
 import net.minecraft.world.item.enchantment.*;
-import net.minecraft.world.item.enchantment.effects.*;
 
 import java.util.Optional;
 import java.util.function.*;

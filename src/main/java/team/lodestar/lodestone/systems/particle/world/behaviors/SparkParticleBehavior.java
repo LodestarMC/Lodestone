@@ -6,6 +6,8 @@ import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.rendering.*;
+import team.lodestar.lodestone.systems.particle.world.*;
+import team.lodestar.lodestone.systems.rendering.*;
 
 /**
  * A particle behavior, renders as a moving spark that follows the velocity of the particle.

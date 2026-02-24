@@ -1,6 +1,6 @@
 package team.lodestar.lodestone.systems.rendering.buffer;
 
-import team.lodestar.lodestone.handlers.LodestoneRenderHandler;
+import team.lodestar.lodestone.handlers.rendering.LodestoneRenderHandler;
 
 public class LodestoneRenderLayer {
 

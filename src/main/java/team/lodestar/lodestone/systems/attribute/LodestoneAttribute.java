@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.attribute;
 
-import net.minecraft.*;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.*;

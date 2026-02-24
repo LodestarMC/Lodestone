@@ -7,13 +7,12 @@ import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import org.joml.Vector3d;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
-import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
+import team.lodestar.lodestone.systems.particle.*;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.data.color.ColorParticleData;
 import team.lodestar.lodestone.systems.particle.data.spin.SpinParticleData;
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 import team.lodestar.lodestone.systems.particle.screen.base.TextureSheetScreenParticle;
-import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.options.WorldParticleOptions;
 
 import javax.annotation.Nullable;
@@ -21,48 +20,15 @@ import java.awt.*;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class LodestoneScreenParticle extends TextureSheetScreenParticle {
-
-    protected final ParticleEngine.MutableSpriteSet spriteSet;
-    protected final SimpleParticleOptions.ParticleSpritePicker spritePicker;
+public class LodestoneScreenParticle extends TextureSheetScreenParticle implements IParticle {
 
     private final LodestoneScreenParticleRenderType renderType;
-
-    protected final ColorParticleData colorData;
-    protected final GenericParticleData transparencyData;
-    protected final GenericParticleData scaleData;
-    @Nullable
-    protected final GenericParticleData lengthData;
-    protected final SpinParticleData spinData;
-
-    public final Collection<Consumer<LodestoneScreenParticle>> tickActors;
-    public final Collection<Consumer<LodestoneScreenParticle>> renderActors;
-
-    private final boolean tracksStack;
-    private final double stackTrackXOffset;
-    private final double stackTrackYOffset;
-
-    private int lifeDelay;
-
-    private float quadLength;
-
-    float[] hsv1 = new float[3], hsv2 = new float[3];
+    private final LodestoneCommonParticleData<LodestoneScreenParticle> data;
 
     public LodestoneScreenParticle(ClientLevel world, ScreenParticleOptions options, ParticleEngine.MutableSpriteSet spriteSet, double x, double y, double xMotion, double yMotion) {
         super(world, x, y);
-        this.spriteSet = spriteSet;
-        this.spritePicker = options.spritePicker;
+        this.data = new LodestoneCommonParticleData<>(options, spriteSet);
         this.renderType = options.renderType;
-        this.colorData = options.colorData;
-        this.transparencyData = options.transparencyData;
-        this.scaleData = options.scaleData;
-        this.lengthData = options.lengthData != WorldParticleOptions.DEFAULT_GENERIC ? options.lengthData : null;
-        this.spinData = options.spinData;
-        this.tickActors = options.tickActors;
-        this.renderActors = options.renderActors;
-        this.tracksStack = options.tracksStack;
-        this.stackTrackXOffset = options.stackTrackXOffset;
-        this.stackTrackYOffset = options.stackTrackYOffset;
         this.roll = options.spinData.spinOffset + options.spinData.startingValue;
         this.setLifetime(options.getLifetime());
         this.lifeDelay = options.getLifeDelay();

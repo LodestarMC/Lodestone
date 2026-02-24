@@ -6,6 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 import team.lodestar.lodestone.systems.model.IRenderableModel;
 import team.lodestar.lodestone.systems.model.obj.data.*;
 import team.lodestar.lodestone.systems.model.obj.modifier.*;
+import team.lodestar.lodestone.systems.model.obj.data.*;
+import team.lodestar.lodestone.systems.model.obj.modifier.*;
 
 import java.util.ArrayList;
 import java.util.List;

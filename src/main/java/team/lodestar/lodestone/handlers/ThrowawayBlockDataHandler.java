@@ -1,24 +1,19 @@
 package team.lodestar.lodestone.handlers;
 
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
-import team.lodestar.lodestone.helpers.DataHelper;
-import team.lodestar.lodestone.systems.block.LodestoneBlockProperties;
-import team.lodestar.lodestone.systems.block.LodestoneThrowawayBlockData;
-import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
+import net.minecraft.client.renderer.*;
+import net.minecraft.core.registries.*;
+import net.neoforged.fml.event.lifecycle.*;
+import team.lodestar.lodestone.helpers.*;
+import team.lodestar.lodestone.systems.block.*;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class ThrowawayBlockDataHandler {
 
     public static HashMap<LodestoneBlockProperties, LodestoneThrowawayBlockData> THROWAWAY_DATA_CACHE = new HashMap<>();
-    public static HashMap<LodestoneBlockProperties, LodestoneDatagenBlockData> DATAGEN_DATA_CACHE = new HashMap<>();
 
-    public static void wipeCache(InterModEnqueueEvent event) {
+    public static void wipeCaches(InterModEnqueueEvent event) {
         THROWAWAY_DATA_CACHE = null;
-        DATAGEN_DATA_CACHE = null;
     }
 
     public static void setRenderLayers(FMLClientSetupEvent event) {

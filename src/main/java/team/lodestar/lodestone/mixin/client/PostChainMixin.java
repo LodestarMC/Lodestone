@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.texture.CustomizableTextureTarget;
 import team.lodestar.lodestone.systems.texture.InternalTextureFormat;
 

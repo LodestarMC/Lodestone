@@ -3,21 +3,34 @@ package team.lodestar.lodestone.systems.datagen;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.data.loading.*;
 import team.lodestar.lodestone.handlers.ThrowawayBlockDataHandler;
+import team.lodestar.lodestone.systems.block.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Various throwaway data stored in {@link ThrowawayBlockDataHandler#THROWAWAY_DATA_CACHE}, which is only ever instantiated during the data-generation process.
  */
+@SuppressWarnings("UnusedReturnValue")
 public class LodestoneDatagenBlockData {
+
+    private static HashMap<LodestoneBlockProperties, LodestoneDatagenBlockData> DATAGEN_DATA_CACHE;
 
     public static final LodestoneDatagenBlockData EMPTY = new LodestoneDatagenBlockData();
 
     private final List<TagKey<Block>> tags = new ArrayList<>();
     public boolean noLootDatagen = false;
+
+    public static LodestoneDatagenBlockData getDatagenData(LodestoneBlockProperties properties) {
+        if (!DatagenModLoader.isRunningDataGen()) {
+            throw new UnsupportedOperationException("Cannot access datagen data outside of datagen");
+        }
+        if (DATAGEN_DATA_CACHE == null) {
+            DATAGEN_DATA_CACHE = new HashMap<>();
+        }
+        return LodestoneDatagenBlockData.DATAGEN_DATA_CACHE.computeIfAbsent(properties, p -> new LodestoneDatagenBlockData());
+    }
 
     public LodestoneDatagenBlockData addTag(TagKey<Block> blockTagKey) {
         tags.add(blockTagKey);

@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.*;
 import net.minecraft.world.level.block.state.properties.*;
 import team.lodestar.lodestone.systems.easing.*;
+import team.lodestar.lodestone.systems.easing.*;
 
 import java.awt.*;
 

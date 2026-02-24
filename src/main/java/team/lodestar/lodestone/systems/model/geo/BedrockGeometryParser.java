@@ -7,9 +7,10 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.util.GsonHelper;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import team.lodestar.lodestone.systems.model.geo.data.*;
+import team.lodestar.lodestone.systems.model.geo.data.*;
 import team.lodestar.lodestone.helpers.JsonHelper;
 import team.lodestar.lodestone.systems.model.LodestoneParser;
-import team.lodestar.lodestone.systems.model.geo.data.*;
 
 import javax.annotation.Nullable;
 import java.io.IOException;

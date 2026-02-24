@@ -3,8 +3,8 @@ package team.lodestar.lodestone.systems.datagen.providers.sound;
 import net.minecraft.sounds.*;
 import net.neoforged.neoforge.common.data.*;
 import team.lodestar.lodestone.systems.sound.*;
+import team.lodestar.lodestone.systems.sound.*;
 
-import java.util.*;
 import java.util.function.*;
 
 @SuppressWarnings("unused")

@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.rendering;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.*;
 import team.lodestar.lodestone.systems.rendering.rendeertype.*;
+import team.lodestar.lodestone.systems.rendering.rendeertype.*;
 
 public class LodestoneBufferWrapper implements MultiBufferSource {
 

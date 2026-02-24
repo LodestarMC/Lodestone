@@ -13,7 +13,6 @@ import org.apache.commons.lang3.mutable.*;
 
 import javax.annotation.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class LodestoneEnchantmentValueEffectHelper {
 

@@ -4,10 +4,10 @@ import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import org.jetbrains.annotations.NotNull;
-import team.lodestar.lodestone.handlers.LodestoneRenderHandler;
-import team.lodestar.lodestone.systems.rendering.LodestoneRenderType;
+import org.jetbrains.annotations.*;
 import team.lodestar.lodestone.systems.rendering.rendeertype.*;
+import team.lodestar.lodestone.handlers.rendering.LodestoneRenderHandler;
+import team.lodestar.lodestone.systems.rendering.LodestoneRenderType;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.SequencedMap;
 import java.util.function.Supplier;
 
+@ApiStatus.Internal
 public class LodestoneBufferSource extends MultiBufferSource.BufferSource {
     protected final Supplier<ByteBufferBuilder> bufferSupplier;
 
@@ -57,7 +58,7 @@ public class LodestoneBufferSource extends MultiBufferSource.BufferSource {
     public void endBatch(@NotNull RenderType renderType) {
         LodestoneRenderHandler.updateUniforms(renderType);
         super.endBatch(renderType);
-        LodestoneRenderHandler.resetUniforms(renderType);
+        LodestoneRenderHandler.restoreUniformValues(renderType);
     }
 
     public Collection<RenderType> getAdditives() {

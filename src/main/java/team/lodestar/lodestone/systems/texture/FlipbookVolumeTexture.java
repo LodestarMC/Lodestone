@@ -10,7 +10,6 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 import team.lodestar.lodestone.helpers.TextureHelper;
-import team.lodestar.lodestone.systems.rendering.LodestoneRenderSystem;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

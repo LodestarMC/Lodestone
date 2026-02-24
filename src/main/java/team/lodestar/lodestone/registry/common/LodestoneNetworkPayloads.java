@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.registry.common;
 
-import io.netty.buffer.ByteBufUtil;
 import net.minecraft.network.*;
 import net.minecraft.network.codec.*;
 import net.minecraft.network.protocol.common.custom.*;
@@ -11,11 +10,10 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.network.TotemOfUndyingPayload;
-import team.lodestar.lodestone.network.ScreenshakePayload;
-import team.lodestar.lodestone.network.worldevent.SyncWorldEventPayload;
-import team.lodestar.lodestone.network.worldevent.UpdateWorldEventPayload;
 import team.lodestar.lodestone.systems.network.*;
+import team.lodestar.lodestone.common.network.ScreenshakePayload;
+import team.lodestar.lodestone.common.network.worldevent.SyncWorldEventPayload;
+import team.lodestar.lodestone.common.network.worldevent.UpdateWorldEventPayload;
 import team.lodestar.lodestone.systems.network.particle.NetworkedParticleEffectPayload;
 
 import java.util.HashMap;
@@ -29,7 +27,6 @@ public class LodestoneNetworkPayloads {
     public static void register(RegisterPayloadHandlersEvent event) {
         var registrar = event.registrar("1");
 
-        LODESTONE_CHANNEL.playToClient(registrar, "totem_of_undying", TotemOfUndyingPayload.class, TotemOfUndyingPayload::new);
         LODESTONE_CHANNEL.playToClient(registrar, "sync_world_event", SyncWorldEventPayload.class, SyncWorldEventPayload::new);
         LODESTONE_CHANNEL.playToClient(registrar, "update_world_event", UpdateWorldEventPayload.class, UpdateWorldEventPayload::new);
         LODESTONE_CHANNEL.playToClient(registrar, "screenshake", ScreenshakePayload.class, ScreenshakePayload::new);

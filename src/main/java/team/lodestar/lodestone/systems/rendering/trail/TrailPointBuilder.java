@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.rendering.trail;
 
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.world.phys.Vec3;
 import org.joml.*;
 

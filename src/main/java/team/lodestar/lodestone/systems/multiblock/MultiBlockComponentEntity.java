@@ -2,21 +2,19 @@ package team.lodestar.lodestone.systems.multiblock;
 
 import net.minecraft.core.*;
 import net.minecraft.nbt.*;
-import net.minecraft.resources.*;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.*;
 import net.neoforged.neoforge.items.*;
 import org.jetbrains.annotations.Nullable;
+import team.lodestar.lodestone.systems.blockentity.*;
+import team.lodestar.lodestone.systems.blockentity.*;
 import team.lodestar.lodestone.helpers.*;
 import team.lodestar.lodestone.registry.common.*;
-import team.lodestar.lodestone.systems.blockentity.*;
 
 /**
  * A basic Multiblock component block entity. Defers some important actions to the core of the multiblock.

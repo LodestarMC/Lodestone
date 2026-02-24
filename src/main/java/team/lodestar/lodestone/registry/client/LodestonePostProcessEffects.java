@@ -8,7 +8,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.systems.postprocess.PostProcessHandler;
 import team.lodestar.lodestone.systems.postprocess.PostProcessor;
-import team.lodestar.lodestone.systems.postprocess.effects.*;
+import team.lodestar.lodestone.systems.postprocess.effect.*;
 
 import java.util.function.Supplier;
 

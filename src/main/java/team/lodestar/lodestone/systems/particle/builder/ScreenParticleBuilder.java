@@ -2,11 +2,11 @@ package team.lodestar.lodestone.systems.particle.builder;
 
 import it.unimi.dsi.fastutil.floats.*;
 import it.unimi.dsi.fastutil.ints.*;
-import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
-import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.data.*;
 import team.lodestar.lodestone.systems.particle.data.color.*;
 import team.lodestar.lodestone.systems.particle.data.spin.*;
+import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
+import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
 import team.lodestar.lodestone.systems.particle.render_types.LodestoneScreenParticleRenderType;
 import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticle;
@@ -19,15 +19,15 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
 
     private static final Random RANDOM = new Random();
 
-    final ScreenParticleType<?> type;
+    final ScreenParticleType type;
     final ScreenParticleOptions options;
     final ScreenParticleHolder target;
 
-    public static ScreenParticleBuilder create(ScreenParticleType<?> type, ScreenParticleHolder target) {
+    public static ScreenParticleBuilder create(ScreenParticleType type, ScreenParticleHolder target) {
         return new ScreenParticleBuilder(type, target);
     }
 
-    protected ScreenParticleBuilder(ScreenParticleType<?> type, ScreenParticleHolder target) {
+    protected ScreenParticleBuilder(ScreenParticleType type, ScreenParticleHolder target) {
         this.type = type;
         this.options = new ScreenParticleOptions(type);
         this.target = target;
@@ -38,49 +38,6 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
         return options;
     }
 
-    /**
-     * @deprecated Use one of the following instead:
-     * {@link #modifyColorData(Consumer)}
-     * {@link #modifyScaleData(Consumer)}}
-     * {@link #modifyLengthData(Consumer)}}
-     * {@link #modifyTransparencyData(Consumer)}}
-     * {@link #modifySpinData(Consumer)}}
-     */
-    @Deprecated(forRemoval = true, since = "1.7.2")
-    public ScreenParticleBuilder modifyData(Supplier<GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        dataConsumer.accept(dataType.get());
-        return this;
-    }
-
-    /**
-     * @deprecated Use one of the following instead:
-     * {@link #modifyColorData(Consumer)}
-     * {@link #modifyScaleData(Consumer)}}
-     * {@link #modifyLengthData(Consumer)}}
-     * {@link #modifyTransparencyData(Consumer)}}
-     * {@link #modifySpinData(Consumer)}}
-     */
-    @Deprecated(forRemoval = true, since = "1.7.2")
-    public ScreenParticleBuilder modifyData(Function<ScreenParticleBuilder, GenericParticleData> dataType, Consumer<GenericParticleData> dataConsumer) {
-        dataConsumer.accept(dataType.apply(this));
-        return this;
-    }
-
-    /**
-     * @deprecated Use one of the following instead:
-     * {@link #modifyColorData(Consumer)}
-     * {@link #modifyScaleData(Consumer)}}
-     * {@link #modifyLengthData(Consumer)}}
-     * {@link #modifyTransparencyData(Consumer)}}
-     * {@link #modifySpinData(Consumer)}}
-     */
-    @Deprecated(forRemoval = true, since = "1.7.2")
-    public final ScreenParticleBuilder modifyData(Collection<Supplier<GenericParticleData>> dataTypes, Consumer<GenericParticleData> dataConsumer) {
-        for (Supplier<GenericParticleData> dataFunction : dataTypes) {
-            dataConsumer.accept(dataFunction.get());
-        }
-        return this;
-    }
 
     public ScreenParticleBuilder setRenderType(LodestoneScreenParticleRenderType renderType) {
         options.renderType = renderType;
@@ -161,7 +118,7 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
         double yaw2 = RANDOM.nextFloat() * Math.PI * 2, pitch2 = RANDOM.nextFloat() * Math.PI - Math.PI / 2, xDist = RANDOM.nextFloat() * maxXOffset, yDist = RANDOM.nextFloat() * maxYOffset;
         double xPos = Math.sin(yaw2) * Math.cos(pitch2) * xDist;
         double yPos = Math.sin(pitch2) * yDist;
-        ScreenParticleHandler.addParticle(target, options, x + xPos, y + yPos, xMotion, yMotion);
+        target.addParticle(options, x + xPos, y + yPos, xMotion, yMotion);
         return this;
     }
 

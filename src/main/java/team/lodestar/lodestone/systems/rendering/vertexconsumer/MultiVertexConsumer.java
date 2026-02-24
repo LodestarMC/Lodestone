@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.systems.rendering.vertexconsumer;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A {@link VertexConsumer} that forwards all calls to multiple other {@link VertexConsumer}s.

@@ -4,13 +4,14 @@ import net.minecraft.core.*;
 import net.minecraft.core.registries.*;
 import net.minecraft.data.*;
 import net.minecraft.data.tags.*;
-import net.minecraft.resources.*;
 import net.minecraft.tags.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.neoforged.neoforge.common.data.*;
 import net.neoforged.neoforge.registries.*;
 import org.jetbrains.annotations.*;
+import team.lodestar.lodestone.systems.block.*;
+import team.lodestar.lodestone.systems.datagen.*;
 import team.lodestar.lodestone.systems.block.*;
 import team.lodestar.lodestone.systems.datagen.*;
 

@@ -1,7 +1,6 @@
 package team.lodestar.lodestone.mixin.client;
 
 import net.minecraft.client.gui.screens.inventory.*;
-import net.minecraft.world.item.*;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;

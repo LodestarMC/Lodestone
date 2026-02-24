@@ -5,41 +5,19 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-import team.lodestar.lodestone.systems.rendering.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class RenderHelper {
     public static final int FULL_BRIGHT = 15728880;
-
-    public static Optional<ShaderInstance> getShader(RenderType type) {
-        if (type instanceof LodestoneRenderType renderType) {
-            Optional<Supplier<ShaderInstance>> shader = renderType.state.shaderState.shader;
-            if (shader.isPresent()) {
-                return Optional.ofNullable(shader.get().get());
-            }
-        }
-        return Optional.empty();
-    }
-
-    public static RenderStateShard.TransparencyStateShard getTransparencyShard(RenderType type) {
-        if (type instanceof LodestoneRenderType compositeRenderType) {
-            return compositeRenderType.state.transparencyState;
-        }
-        return null;
-    }
 
     public static Vector3f parametricSphere(float u, float v, float r) {
         return new Vector3f(Mth.cos(u) * Mth.sin(v) * r, Mth.cos(v) * r, Mth.sin(u) * Mth.sin(v) * r);

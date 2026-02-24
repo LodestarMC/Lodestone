@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.particle.world.options;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.world.item.ItemStack;
 import team.lodestar.lodestone.systems.particle.world.type.*;
+import team.lodestar.lodestone.systems.particle.world.type.*;
 
 import java.util.function.*;
 

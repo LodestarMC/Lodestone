@@ -4,7 +4,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.recipe.NBTCarryRecipe;
+import team.lodestar.lodestone.systems.recipe.NBTCarryRecipe;
 
 import java.util.function.Supplier;
 

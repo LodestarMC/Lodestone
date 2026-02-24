@@ -1,6 +1,5 @@
 package team.lodestar.lodestone.systems.rendering.rendeertype;
 
-import com.mojang.datafixers.util.*;
 import net.minecraft.client.renderer.ShaderInstance;
 
 import javax.annotation.*;

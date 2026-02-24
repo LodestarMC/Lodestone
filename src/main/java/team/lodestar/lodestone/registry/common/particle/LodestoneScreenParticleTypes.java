@@ -1,24 +1,22 @@
 package team.lodestar.lodestone.registry.common.particle;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleOptions;
-import team.lodestar.lodestone.systems.particle.screen.ScreenParticleType;
-import team.lodestar.lodestone.systems.particle.screen.LodestoneScreenParticleType;
+import net.minecraft.client.*;
+import net.minecraft.client.particle.*;
+import net.minecraft.resources.*;
+import net.neoforged.neoforge.client.event.*;
+import team.lodestar.lodestone.*;
+import team.lodestar.lodestone.systems.particle.screen.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class LodestoneScreenParticleTypes {
 
-    public static final ArrayList<ScreenParticleType<?>> PARTICLE_TYPES = new ArrayList<>();
-    public static final ScreenParticleType<ScreenParticleOptions> WISP = registerType(new LodestoneScreenParticleType());
-    public static final ScreenParticleType<ScreenParticleOptions> SMOKE = registerType(new LodestoneScreenParticleType());
-    public static final ScreenParticleType<ScreenParticleOptions> SPARKLE = registerType(new LodestoneScreenParticleType());
-    public static final ScreenParticleType<ScreenParticleOptions> TWINKLE = registerType(new LodestoneScreenParticleType());
-    public static final ScreenParticleType<ScreenParticleOptions> STAR = registerType(new LodestoneScreenParticleType());
+    public static final ArrayList<ScreenParticleType> PARTICLE_TYPES = new ArrayList<>();
+    public static final ScreenParticleType WISP = registerType(new LodestoneScreenParticleType());
+    public static final ScreenParticleType SMOKE = registerType(new LodestoneScreenParticleType());
+    public static final ScreenParticleType SPARKLE = registerType(new LodestoneScreenParticleType());
+    public static final ScreenParticleType TWINKLE = registerType(new LodestoneScreenParticleType());
+    public static final ScreenParticleType STAR = registerType(new LodestoneScreenParticleType());
 
     public static void registerParticleFactory(RegisterParticleProvidersEvent event) {//TODO maybe use event?
         registerProvider(WISP, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("wisp"))));
@@ -28,12 +26,12 @@ public class LodestoneScreenParticleTypes {
         registerProvider(STAR, new LodestoneScreenParticleType.Factory(getSpriteSet(LodestoneLib.lodestonePath("star"))));
     }
 
-    public static <T extends ScreenParticleOptions> ScreenParticleType<T> registerType(ScreenParticleType<T> type) {
+    public static ScreenParticleType registerType(ScreenParticleType type) {
         PARTICLE_TYPES.add(type);
         return type;
     }
 
-    public static <T extends ScreenParticleOptions> void registerProvider(ScreenParticleType<T> type, ScreenParticleType.ParticleProvider<T> provider) {
+    public static void registerProvider(ScreenParticleType type, ScreenParticleType.ScreenParticleProvider provider) {
         type.provider = provider;
     }
 

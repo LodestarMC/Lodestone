@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.datagen.providers.sound;
 import net.minecraft.data.*;
 import net.neoforged.neoforge.common.data.*;
 import team.lodestar.lodestone.systems.sound.*;
+import team.lodestar.lodestone.systems.sound.*;
 
 import java.util.function.*;
 

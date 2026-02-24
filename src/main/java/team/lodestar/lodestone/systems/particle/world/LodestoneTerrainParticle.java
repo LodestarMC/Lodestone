@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.*;
 import team.lodestar.lodestone.systems.particle.world.options.LodestoneTerrainParticleOptions;
 
 public class LodestoneTerrainParticle extends LodestoneWorldParticle {

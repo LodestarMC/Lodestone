@@ -2,15 +2,13 @@ package team.lodestar.lodestone.systems.particle.world.behaviors;
 
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.*;
-import net.minecraft.core.Direction;
 import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
 import org.joml.*;
-import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
+import team.lodestar.lodestone.systems.particle.world.*;
 import team.lodestar.lodestone.systems.particle.world.*;
 
 import java.lang.Math;
-import java.util.function.*;
 
 public class PointyDirectionalParticleBehavior implements LodestoneParticleBehavior {
 

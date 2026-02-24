@@ -12,12 +12,12 @@ import net.minecraft.resources.*;
 import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
 import org.joml.*;
-import team.lodestar.lodestone.handlers.*;
-import team.lodestar.lodestone.helpers.*;
 import team.lodestar.lodestone.systems.rendering.cube.*;
-import team.lodestar.lodestone.systems.rendering.buffer.LodestoneRenderLayer;
 import team.lodestar.lodestone.systems.rendering.rendeertype.*;
 import team.lodestar.lodestone.systems.rendering.trail.*;
+import team.lodestar.lodestone.handlers.rendering.*;
+import team.lodestar.lodestone.helpers.*;
+import team.lodestar.lodestone.systems.rendering.buffer.LodestoneRenderLayer;
 
 import javax.annotation.*;
 import java.awt.*;

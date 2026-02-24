@@ -1,7 +1,5 @@
 package team.lodestar.lodestone.systems.rendering.rendeertype;
 
-import net.minecraft.client.renderer.*;
-import net.minecraft.resources.*;
 import team.lodestar.lodestone.registry.client.*;
 
 import java.util.*;

@@ -3,7 +3,7 @@ package team.lodestar.lodestone.systems.particle;
 import net.minecraft.world.level.*;
 import net.minecraft.world.phys.*;
 import team.lodestar.lodestone.systems.particle.builder.*;
-import team.lodestar.lodestone.systems.particle.world.options.*;
+import team.lodestar.lodestone.systems.particle.builder.*;
 
 import javax.annotation.*;
 import java.util.function.*;

@@ -6,7 +6,6 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import team.lodestar.lodestone.systems.datagen.itemsmith.EmptyItemModelSmith;
 import team.lodestar.lodestone.systems.datagen.itemsmith.ItemModelSmith;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class ItemModelSmithTypes {

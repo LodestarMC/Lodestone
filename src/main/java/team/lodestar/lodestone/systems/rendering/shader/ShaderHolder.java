@@ -9,8 +9,6 @@ import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import team.lodestar.lodestone.LodestoneLib;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
 import java.util.function.Supplier;
 
 public class ShaderHolder implements LodestoneShader {
@@ -18,7 +16,7 @@ public class ShaderHolder implements LodestoneShader {
     protected final ResourceLocation shaderLocation;
     protected final VertexFormat shaderFormat;
 
-    protected ExtendedShaderInstance shaderInstance;
+    protected LodestoneCoreShaderInstance shaderInstance;
 
     protected RenderStateShard.ShaderStateShard shard;
 
@@ -27,8 +25,8 @@ public class ShaderHolder implements LodestoneShader {
         this.shaderFormat = shaderFormat;
     }
 
-    public ExtendedShaderInstance createInstance(ResourceProvider provider) throws IOException {
-        return new ExtendedShaderInstance(provider, this);
+    public LodestoneCoreShaderInstance createInstance(ResourceProvider provider) throws IOException {
+        return new LodestoneCoreShaderInstance(provider, this);
     }
 
     public ResourceLocation getShaderLocation() {
@@ -39,7 +37,7 @@ public class ShaderHolder implements LodestoneShader {
         return shaderFormat;
     }
 
-    public ExtendedShaderInstance getShaderInstance() {
+    public LodestoneCoreShaderInstance getShaderInstance() {
         return shaderInstance;
     }
 
@@ -48,7 +46,7 @@ public class ShaderHolder implements LodestoneShader {
     }
 
     public void setShaderInstance(ShaderInstance reloadedShaderInstance) {
-        this.shaderInstance = (ExtendedShaderInstance) reloadedShaderInstance;
+        this.shaderInstance = (LodestoneCoreShaderInstance) reloadedShaderInstance;
     }
 
     public RenderStateShard.ShaderStateShard getShard() {

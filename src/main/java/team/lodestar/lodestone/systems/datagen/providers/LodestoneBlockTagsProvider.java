@@ -14,7 +14,6 @@ import team.lodestar.lodestone.systems.datagen.LodestoneDatagenBlockData;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.*;
 
 public abstract class LodestoneBlockTagsProvider extends BlockTagsProvider {
 

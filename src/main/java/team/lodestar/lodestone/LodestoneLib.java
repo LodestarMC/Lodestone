@@ -7,12 +7,10 @@ import net.neoforged.fml.*;
 import net.neoforged.fml.common.*;
 import net.neoforged.fml.config.*;
 import net.neoforged.neoforge.common.*;
-import net.neoforged.neoforge.data.event.*;
 import org.apache.logging.log4j.*;
+import team.lodestar.lodestone.common.compability.*;
+import team.lodestar.lodestone.common.config.*;
 import team.lodestar.lodestone.registry.common.LodestoneAttachmentTypes;
-import team.lodestar.lodestone.compability.*;
-import team.lodestar.lodestone.config.*;
-import team.lodestar.lodestone.datagen.*;
 import team.lodestar.lodestone.registry.common.*;
 import team.lodestar.lodestone.registry.common.particle.*;
 

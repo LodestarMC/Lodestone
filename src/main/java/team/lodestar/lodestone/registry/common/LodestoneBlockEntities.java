@@ -51,7 +51,7 @@ public class LodestoneBlockEntities {
         return matchingBlocks.toArray(new Block[0]);
     }
 
-    @EventBusSubscriber(modid = LODESTONE, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = LODESTONE, value = Dist.CLIENT)
     public static class ClientOnly {
         @SubscribeEvent
         public static void registerRenderer(EntityRenderersEvent.RegisterRenderers event) {

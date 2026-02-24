@@ -6,9 +6,9 @@ import net.minecraft.util.*;
 import net.minecraft.world.phys.*;
 import org.joml.*;
 import team.lodestar.lodestone.systems.particle.world.*;
+import team.lodestar.lodestone.systems.particle.world.*;
 
 import java.lang.Math;
-import java.util.function.*;
 
 public class DirectionalParticleBehavior implements LodestoneParticleBehavior {
 

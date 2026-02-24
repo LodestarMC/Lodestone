@@ -1,13 +1,9 @@
 package team.lodestar.lodestone.systems.particle.world.type;
 
-import com.mojang.serialization.*;
-import com.mojang.serialization.codecs.*;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.network.*;
-import net.minecraft.network.codec.*;
-import net.minecraft.world.item.*;
+import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.options.*;
 import team.lodestar.lodestone.systems.particle.world.LodestoneItemCrumbParticle;
 
