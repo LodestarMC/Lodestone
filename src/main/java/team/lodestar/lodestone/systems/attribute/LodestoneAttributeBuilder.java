@@ -4,16 +4,16 @@ import net.minecraft.resources.*;
 import net.minecraft.world.entity.ai.attributes.*;
 
 public class LodestoneAttributeBuilder {
-    public final ResourceLocation id;
-    public final double defaultValue;
-    public final double minValue;
-    public final double maxValue;
+    private final ResourceLocation id;
+    private final double defaultValue;
+    private final double minValue;
+    private final double maxValue;
 
-    public ResourceLocation baseId;
-    public boolean forcePercentage;
+    private ResourceLocation baseId;
+    private boolean forcePercentage;
 
-    public boolean syncable;
-    public Attribute.Sentiment sentiment = Attribute.Sentiment.POSITIVE;
+    private boolean syncable;
+    private Attribute.Sentiment sentiment = Attribute.Sentiment.POSITIVE;
 
     public LodestoneAttributeBuilder(ResourceLocation id, double defaultValue) {
         this(id, defaultValue, 0, 0);

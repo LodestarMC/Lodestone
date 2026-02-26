@@ -9,12 +9,12 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.function.Function;
 
+@SuppressWarnings({"NullableProblems", "unused"})
 public abstract class LodestoneItemModelProvider extends ItemModelProvider {
 
     private String texturePath = "";
     private Function<String, String> modelNameModifier;
     private Function<String, String> textureNameModifier;
-    private Function<String, String> genericLocationModifier;
 
     public LodestoneItemModelProvider(PackOutput output, String modid, ExistingFileHelper existingFileHelper) {
         super(output, modid, existingFileHelper);
@@ -35,10 +35,6 @@ public abstract class LodestoneItemModelProvider extends ItemModelProvider {
 
     public void setTextureNameModifier(Function<String, String> textureNameModifier) {
         this.textureNameModifier = textureNameModifier;
-    }
-
-    public void setGenericLocationModifier(Function<String, String> genericLocationModifier) {
-        this.genericLocationModifier = genericLocationModifier;
     }
 
     public void setTexturePath(String texturePath) {

@@ -28,10 +28,7 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
 
     @SafeVarargs
     public final void act(StateSmithData data, ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<? extends Block>... blocks) {
-        for (Supplier<? extends Block> block : blocks) {
-            act(data, itemModelSmith, actor, modelFileSupplier, block);
-        }
-        List.of(blocks).forEach(data.consumer);
+        act(data, itemModelSmith, actor, modelFileSupplier, List.of(blocks));
     }
 
     public void act(StateSmithData data, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<Supplier<? extends Block>> blocks) {
@@ -39,19 +36,8 @@ public class ModularBlockStateSmith<T extends Block> extends AbstractBlockStateS
     }
 
     public void act(StateSmithData data, ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Collection<Supplier<? extends Block>> blocks) {
-        blocks.forEach(r -> act(data, itemModelSmith, actor, modelFileSupplier, r));
-        new ArrayList<>(blocks).forEach(data.consumer);
-    }
-
-    private void act(StateSmithData data, ItemModelSmith itemModelSmith, StateFunction<T> actor, ModelFileSupplier modelFileSupplier, Supplier<? extends Block> registryObject) {
-        Block block = registryObject.get();
-        if (blockClass.isInstance(block)) {
-            stateSupplier.act(blockClass.cast(block), data.provider, actor, modelFileSupplier);
-            if (!itemModelSmith.equals(ItemModelSmithTypes.NO_DATAGEN)) {
-                itemModelSmith.act(data.provider.itemModelProvider, block::asItem);
-            }
-        } else {
-            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: {}", registryObject.get().toString());
+        for (Supplier<? extends Block> block : blocks) {
+            tryAct(data, itemModelSmith, block, (b, p) -> stateSupplier.act(b, p, actor, modelFileSupplier));
         }
     }
 

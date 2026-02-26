@@ -1,7 +1,9 @@
 package team.lodestar.lodestone.systems.datagen.itemsmith;
 
+import com.jcraft.jorbis.Block;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
+import team.lodestar.lodestone.systems.datagen.ItemModelSmithTypes;
 import team.lodestar.lodestone.systems.datagen.providers.LodestoneItemModelProvider;
 
 import java.util.ArrayList;
@@ -23,38 +25,38 @@ public class ItemModelSmith {
         this.modelSupplier = modelSupplier;
     }
 
-    public ItemModelSmithConfiguration modifyResult(Consumer<ItemModelSmithResult> modifier) {
+    public ConfiguredItemModelSmith modifyResult(Consumer<ItemModelSmithResult> modifier) {
         return configure().modifyResult(modifier);
     }
 
-    public ItemModelSmithConfiguration addModelNameAffix(String affix) {
+    public ConfiguredItemModelSmith addModelNameAffix(String affix) {
         return configure().addModelNameAffix(affix);
     }
 
-    public ItemModelSmithConfiguration modifyModelName(Function<String, String> modelNameModifier) {
+    public ConfiguredItemModelSmith modifyModelName(Function<String, String> modelNameModifier) {
         return configure().modifyModelName(modelNameModifier);
     }
 
-    public ItemModelSmithConfiguration addTextureNameAffix(String affix) {
+    public ConfiguredItemModelSmith addTextureNameAffix(String affix) {
         return configure().addTextureNameAffix(affix);
     }
 
-    public ItemModelSmithConfiguration modifyTextureName(Function<String, String> textureNameModifier) {
+    public ConfiguredItemModelSmith modifyTextureName(Function<String, String> textureNameModifier) {
         return configure().modifyTextureName(textureNameModifier);
     }
 
-    protected ItemModelSmithConfiguration configure() {
-        return new ItemModelSmithConfiguration(modelSupplier);
+    protected ConfiguredItemModelSmith configure() {
+        return new ConfiguredItemModelSmith(modelSupplier);
     }
 
     @SafeVarargs
     public final List<ItemModelSmithResult> act(ItemModelSmithData data, Supplier<? extends Item>... items) {
-        return act(data, Arrays.stream(items).toList());
+        return act(data, List.of(items));
     }
 
     public final List<ItemModelSmithResult> act(ItemModelSmithData data, Collection<Supplier<? extends Item>> items) {
         var copy = new ArrayList<>(items);
-        List<ItemModelSmithResult> result = new ArrayList<>();
+        var result = new ArrayList<ItemModelSmithResult>();
         for (Supplier<? extends Item> item : copy) {
             result.add(act(data, item));
         }
@@ -69,8 +71,8 @@ public class ItemModelSmith {
     public ItemModelSmithResult act(LodestoneItemModelProvider provider, Supplier<? extends Item> itemSupplier) {
         var item = itemSupplier.get();
         preDatagen(provider, item);
-        ItemModelBuilder model = modelSupplier.act(item, provider);
-        ItemModelSmithResult result = new ItemModelSmithResult(provider, item, model);
+        var model = modelSupplier.act(item, provider);
+        var result = new ItemModelSmithResult(provider, item, model);
         postDatagen(result);
         return result;
     }

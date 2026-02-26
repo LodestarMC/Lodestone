@@ -13,8 +13,8 @@ import java.util.function.Supplier;
 
 public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T> {
 
-    public final SmithStateSupplier<T> stateSupplier;
-    public final ItemModelSmith itemModelSmith;
+    protected final SmithStateSupplier<T> stateSupplier;
+    protected final ItemModelSmith itemModelSmith;
 
     public BlockStateSmith(Class<T> blockClass, SmithStateSupplier<T> stateSupplier) {
         this(blockClass, ItemModelSmithTypes.BLOCK_MODEL_ITEM, stateSupplier);
@@ -28,26 +28,12 @@ public class BlockStateSmith<T extends Block> extends AbstractBlockStateSmith<T>
 
     @SafeVarargs
     public final void act(StateSmithData data, Supplier<? extends Block>... blocks) {
-        for (Supplier<? extends Block> block : blocks) {
-            act(data, block);
-        }
-        List.of(blocks).forEach(data.consumer);
+        act(data, List.of(blocks));
     }
 
     public void act(StateSmithData data, Collection<Supplier<? extends Block>> blocks) {
-        blocks.forEach(r -> act(data, r));
-        new ArrayList<>(blocks).forEach(data.consumer);
-    }
-
-    private void act(StateSmithData data, Supplier<? extends Block> registryObject) {
-        Block block = registryObject.get();
-        if (blockClass.isInstance(block)) {
-            stateSupplier.act(blockClass.cast(block), data.provider);
-            if (!itemModelSmith.equals(ItemModelSmithTypes.NO_DATAGEN)) {
-                itemModelSmith.act(data.provider.itemModelProvider, block::asItem);
-            }
-        } else {
-            LodestoneLib.LOGGER.warn("Block does not match the state smith it was assigned: {}", registryObject.get().toString());
+        for (Supplier<? extends Block> block : blocks) {
+            tryAct(data, itemModelSmith, block, stateSupplier::act);
         }
     }
 

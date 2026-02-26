@@ -52,7 +52,6 @@ public abstract class RegistryReadyBlockSoundType extends ExtendedSoundType {
         return fallSound.get();
     }
 
-
     public DeferredHolder<SoundEvent, SoundEvent> getBreakSoundHolder() {
         return breakSound;
     }

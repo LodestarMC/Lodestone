@@ -9,28 +9,7 @@ import team.lodestar.lodestone.systems.datagen.providers.LodestoneItemModelProvi
 
 import java.util.function.Consumer;
 
-public class ItemModelSmithResult {
-    private final LodestoneItemModelProvider provider;
-    private final Item item;
-    private final ItemModelBuilder builder;
-
-    public ItemModelSmithResult(LodestoneItemModelProvider provider, Item item, ItemModelBuilder builder) {
-        this.provider = provider;
-        this.item = item;
-        this.builder = builder;
-    }
-
-    public LodestoneItemModelProvider getProvider() {
-        return provider;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public ItemModelBuilder getBuilder() {
-        return builder;
-    }
+public record ItemModelSmithResult(LodestoneItemModelProvider provider, Item item, ItemModelBuilder builder) {
 
     public ItemModelBuilder parentedToThis(ExistingFileHelper existingFileHelper) {
         return new ItemModelBuilder(builder.getLocation(), existingFileHelper).parent(builder);

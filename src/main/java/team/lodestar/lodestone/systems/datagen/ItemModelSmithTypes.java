@@ -20,7 +20,9 @@ public class ItemModelSmithTypes {
         String name = provider.getItemName(item);
         return provider.createGenericModel(item, parent, provider.getItemTexture(name));
     })));
+
     public static ItemModelSmith GENERATED_ITEM = PARENTED_ITEM.apply(GENERATED);
+
     public static ItemModelSmith HANDHELD_ITEM = PARENTED_ITEM.apply(HANDHELD);
 
     public static ItemModelSmith BUILTIN_ENTITY_ITEM = new ItemModelSmith(((item, provider) -> provider.createParentedModel(item, BUILTIN_ENTITY)));
