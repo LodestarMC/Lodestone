@@ -114,12 +114,6 @@ configurations.runtimeClasspath {
 }
 
 neoForge {
-    version.set(neoVersion)
-
-    parchment {
-        mappingsVersion.set(parchmentMappingsVersion)
-        minecraftVersion.set(parchmentMinecraftVersion)
-    }
     accessTransformers {
         publish(file("src/main/resources/META-INF/blockproperties.cfg"))
         publish(file("src/main/resources/META-INF/miscellaneous.cfg"))
