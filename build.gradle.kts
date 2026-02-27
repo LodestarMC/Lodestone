@@ -43,51 +43,34 @@ allprojects {
         }
         mavenLocal()
         mavenCentral()
-        maven { //Our Stuff
+        maven {
             name = "BlameJared maven"
             url = uri("https://maven.blamejared.com/")
+            content {
+                includeGroup("team.lodestar")
+            }
         }
-        maven { //JEI
-            name = "JEI maven"
-            url = uri("https://dvs1.progwml6.com/files/maven")
-        }
-        maven { //Curse Maven, Generic
+        maven {
             name = "Curse Maven"
             url = uri("https://cursemaven.com")
             content {
                 includeGroup("curse.maven")
             }
         }
-        maven { //ParchmentMC Maven, Generic
+        maven {
             name = "ParchmentMC"
             url = uri("https://maven.parchmentmc.org")
             content {
                 includeGroup("org.parchmentmc.data")
             }
         }
-        maven { //Mod Maven, Generic
+        maven {
             name = "ModMaven"
             url = uri("https://modmaven.dev")
         }
-        maven { //Modrinth Maven, Generic
+        maven {
             name = "Modrinth maven"
             url = uri("https://api.modrinth.com/maven")
-        }
-
-        maven { //KubeJS
-            url = uri("https://maven.latvian.dev/releases")
-            content {
-                includeGroup("dev.latvian.mods")
-                includeGroup("dev.latvian.apps")
-            }
-        }
-        maven { //KubeJS Dependencies
-            name = "jitpack"
-            url = uri("https://jitpack.io")
-            content {
-                includeGroup("io.github")
-                includeGroup("com.github.rtyley")
-            }
         }
     }
     neoForge {
