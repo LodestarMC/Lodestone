@@ -1,3 +1,19 @@
+rootProject.name = "Lodestone"
+
+rootProject.name = "lodestone"
+
+listOf(
+    "core",
+    "datagen",
+    "renderer",
+    "toolkit",
+    "curios",
+    "all"
+).forEach {
+    include(it)
+    project(":$it").projectDir = file("Lodestone/$it")
+}
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -15,8 +31,6 @@ pluginManagement {
         }
     }
 }
-
-rootProject.name = "Lodestone"
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"

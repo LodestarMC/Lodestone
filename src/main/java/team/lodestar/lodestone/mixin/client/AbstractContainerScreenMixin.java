@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
 import team.lodestar.lodestone.systems.creative_tab.*;
 
-
 @Mixin(AbstractContainerScreen.class)
 public class AbstractContainerScreenMixin {
 

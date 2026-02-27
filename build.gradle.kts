@@ -4,22 +4,101 @@ plugins {
     id("net.neoforged.moddev") version "2.0.30-beta"
 }
 
-version = "${property("minecraft_version")}-${property("mod_version")}"
+var baseArchivesName = "${project.property("mod_id")}"
+var projectGroup = "${project.property("mod_group_id")}"
+var projectVersion = "${property("minecraft_version")}-${property("mod_version")}"
 if (System.getenv("BUILD_NUMBER") != null) {
-    version = "$version.${System.getenv("BUILD_NUMBER")}"
+    projectVersion = "$projectVersion.${System.getenv("BUILD_NUMBER")}"
 }
-val baseArchivesName = project.property("mod_id").toString()
-base {
-    archivesName.set(project.property("mod_id").toString())
-}
-group = "${property("mod_group_id")}"
+var neoVersion = "${property("neo_version")}"
+var parchmentMappingsVersion = "${property("parchment_mappings_version")}"
+var parchmentMinecraftVersion = "${property("parchment_minecraft_version")}"
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+base {
+    archivesName.set(baseArchivesName)
+}
+subprojects {
+    plugins.apply("java-library")
+    plugins.apply("maven-publish")
+    plugins.apply("net.neoforged.moddev")
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
+    base {
+        archivesName.set("${baseArchivesName}-${project.name}")
+    }
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
     }
 }
+allprojects {
+    group = projectGroup
+    version = version
 
+    repositories {
+        flatDir {
+            dirs("lib")
+        }
+        mavenLocal()
+        mavenCentral()
+        maven { //Our Stuff
+            name = "BlameJared maven"
+            url = uri("https://maven.blamejared.com/")
+        }
+        maven { //JEI
+            name = "JEI maven"
+            url = uri("https://dvs1.progwml6.com/files/maven")
+        }
+        maven { //Curse Maven, Generic
+            name = "Curse Maven"
+            url = uri("https://cursemaven.com")
+            content {
+                includeGroup("curse.maven")
+            }
+        }
+        maven { //ParchmentMC Maven, Generic
+            name = "ParchmentMC"
+            url = uri("https://maven.parchmentmc.org")
+            content {
+                includeGroup("org.parchmentmc.data")
+            }
+        }
+        maven { //Mod Maven, Generic
+            name = "ModMaven"
+            url = uri("https://modmaven.dev")
+        }
+        maven { //Modrinth Maven, Generic
+            name = "Modrinth maven"
+            url = uri("https://api.modrinth.com/maven")
+        }
+
+        maven { //KubeJS
+            url = uri("https://maven.latvian.dev/releases")
+            content {
+                includeGroup("dev.latvian.mods")
+                includeGroup("dev.latvian.apps")
+            }
+        }
+        maven { //KubeJS Dependencies
+            name = "jitpack"
+            url = uri("https://jitpack.io")
+            content {
+                includeGroup("io.github")
+                includeGroup("com.github.rtyley")
+            }
+        }
+    }
+    neoForge {
+        version.set(neoVersion)
+
+        parchment {
+            mappingsVersion.set(parchmentMappingsVersion)
+            minecraftVersion.set(parchmentMinecraftVersion)
+        }
+    }
+}
 tasks.named<Wrapper>("wrapper") {
     distributionType = Wrapper.DistributionType.BIN
 }
@@ -35,11 +114,11 @@ configurations.runtimeClasspath {
 }
 
 neoForge {
-    version.set(project.property("neo_version").toString())
+    version.set(neoVersion)
 
     parchment {
-        mappingsVersion.set(project.property("parchment_mappings_version").toString())
-        minecraftVersion.set(project.property("parchment_minecraft_version").toString())
+        mappingsVersion.set(parchmentMappingsVersion)
+        minecraftVersion.set(parchmentMinecraftVersion)
     }
     accessTransformers {
         publish(file("src/main/resources/META-INF/blockproperties.cfg"))
@@ -58,26 +137,23 @@ neoForge {
     runs {
         register("client") {
             client()
-
-            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty("neoforge.enabledGameTestNamespaces", project.property("mod_id").toString())
+            systemProperty("neoforge.enabledGameTestNamespaces", baseArchivesName)
         }
 
         register("server") {
             server()
-            programArgument("--nogui")
-            systemProperty("neoforge.enabledGameTestNamespaces", project.property("mod_id").toString())
+            systemProperty("neoforge.enabledGameTestNamespaces", baseArchivesName)
         }
 
         register("gameTestServer") {
             type = "gameTestServer"
-            systemProperty("neoforge.enabledGameTestNamespaces", project.property("mod_id").toString())
+            systemProperty("neoforge.enabledGameTestNamespaces", baseArchivesName)
         }
 
         register("data") {
             data()
             programArguments.addAll(
-                "--mod", project.property("mod_id").toString(),
+                "--mod", baseArchivesName,
                 "--all",
                 "--output", file("src/generated/resources/").absolutePath,
                 "--existing", file("src/main/resources/").absolutePath
@@ -104,80 +180,6 @@ sourceSets {
     }
 }
 
-repositories {
-    flatDir {
-        dirs("lib")
-    }
-    mavenLocal()
-    mavenCentral()
-    maven { //Our Stuff
-        name = "BlameJared maven"
-        url = uri("https://maven.blamejared.com/")
-    }
-    maven { //Curios
-        name = "Curios maven"
-        url = uri("https://maven.theillusivec4.top/")
-    }
-    maven { //JEI
-        name = "JEI maven"
-        url = uri("https://dvs1.progwml6.com/files/maven")
-    }
-
-    maven { //Curse Maven, Generic
-        name = "Curse Maven"
-        url = uri("https://cursemaven.com")
-        content {
-            includeGroup("curse.maven")
-        }
-    }
-    maven { //ParchmentMC Maven, Generic
-        name = "ParchmentMC"
-        url = uri("https://maven.parchmentmc.org")
-        content {
-            includeGroup("org.parchmentmc.data")
-        }
-    }
-    maven { //Mod Maven, Generic
-        name = "ModMaven"
-        url = uri("https://modmaven.dev")
-    }
-    maven { //Modrinth Maven, Generic
-        name = "Modrinth maven"
-        url = uri("https://api.modrinth.com/maven")
-    }
-
-    maven { //KubeJS
-        url = uri("https://maven.latvian.dev/releases")
-        content {
-            includeGroup("dev.latvian.mods")
-            includeGroup("dev.latvian.apps")
-        }
-    }
-    maven { //KubeJS Dependencies
-        name = "jitpack"
-        url = uri("https://jitpack.io")
-        content {
-            includeGroup("io.github")
-            includeGroup("com.github.rtyley")
-        }
-    }
-}
-
-dependencies {
-    compileOnlyApi("top.theillusivec4.curios:curios-neoforge:${property("curios_version")}:api")
-    localRuntime("top.theillusivec4.curios:curios-neoforge:${property("curios_version")}")
-
-//    implementation("curse.maven:architectury-api-419699:5786327")
-//    implementation("curse.maven:octo-lib-916747:6932487")
-//    implementation("curse.maven:immersive-ui-1021685:6886575")
-
-//    runtimeOnly(("com.sammy.malum:malum:${property("minecraft_version")}-1.9.0.184"))
-
-    compileOnly("maven.modrinth:sodium:mc${property("minecraft_version")}-${property("sodium_version")}-neoforge")
-    compileOnly("maven.modrinth:iris:${property("iris_version")}+${property("minecraft_version")}-neoforge")
-    //runtimeOnly("maven.modrinth:sodium:mc${property("minecraft_version")}-${property("sodium_version")}-neoforge")
-    //runtimeOnly("maven.modrinth:iris:${property("iris_version")}+${property("minecraft_version")}-neoforge")
-}
 val generateModMetadata by tasks.registering(ProcessResources::class) {
     val replaceProperties = mapOf(
         "minecraft_version" to project.findProperty("minecraft_version") as String,

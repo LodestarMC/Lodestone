@@ -21,7 +21,7 @@ import java.util.Map;
 public abstract class EffectInstanceMixin {
 
     @Unique
-    private Map<String, SamplerType> samplerTypeMap = Maps.newHashMap();
+    private final Map<String, SamplerType> lodestone$samplerTypeMap = Maps.newHashMap();
 
     @Redirect(method = "parseSamplerNode", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z"))
     private boolean samplerDimension(List<String> samplerNames, Object s, @Local JsonElement json) {
@@ -32,7 +32,7 @@ public abstract class EffectInstanceMixin {
             if (type == null) {
                 LodestoneLib.LOGGER.warn("Unknown sampler type: " + type1);
             } else {
-                samplerTypeMap.put(name, type);
+                lodestone$samplerTypeMap.put(name, type);
             }
         }
         return samplerNames.add(name);
@@ -40,15 +40,16 @@ public abstract class EffectInstanceMixin {
 
     @Redirect(method = "apply", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;bindTexture(I)V"))
     private void bindTex(int textureBinding, @Local String s) {
-        if (samplerTypeMap.containsKey(s)) {
-            SamplerType type = samplerTypeMap.get(s);
-            bindTexture(type.getGlType(), textureBinding);
+        if (lodestone$samplerTypeMap.containsKey(s)) {
+            SamplerType type = lodestone$samplerTypeMap.get(s);
+            lodestone$bindTexture(type.getGlType(), textureBinding);
         } else {
             RenderSystem.bindTexture(textureBinding);
         }
     }
 
-    private void bindTexture(int samplerType, int texture) {
+    @Unique
+    private void lodestone$bindTexture(int samplerType, int texture) {
         GlStateManager.TextureState activeTexture = GlStateManager.TEXTURES[GlStateManager.activeTexture];
         if (texture != activeTexture.binding) {
             activeTexture.binding = texture;

@@ -1,0 +1,19 @@
+{
+    "required": true,
+    "package": "team.lodestar.lodestone.core.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "refmap": "lodestone.refmap.json",
+    "mixins": [
+        "common.BlockItemMixin",
+        "common.EntityMixin",
+        "common.LivingEntityMixin"
+    ],
+    "client": [
+        "client.LevelRendererMixin",
+        "client.MultiPlayerGameModeMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "minVersion": "0.8.5"
+}

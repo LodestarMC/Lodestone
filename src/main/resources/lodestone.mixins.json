@@ -6,7 +6,7 @@
     "mixins": [
         "common.BlockItemMixin",
         "common.EntityMixin",
-        "common.LivingEntityMixin"
+      "team.lodestar.lodestone.core.mixin.common.LivingEntityMixin"
     ],
     "client": [
         "client.AbstractContainerScreenMixin",
@@ -17,7 +17,7 @@
         "client.GuiGraphicsMixin",
         "client.GuiMixin",
         "client.LevelRendererMixin",
-        "client.MultiPlayerGameModeMixin",
+        "team.lodestar.lodestone.core.mixin.client.MultiPlayerGameModeMixin",
         "client.VertexBufferMixin",
         "client.PostChainMixin",
         "client.ShaderInstanceMixin"
