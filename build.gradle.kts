@@ -97,6 +97,29 @@ allprojects {
             mappingsVersion.set(parchmentMappingsVersion)
             minecraftVersion.set(parchmentMinecraftVersion)
         }
+        runs {
+            register("client") {
+                client()
+                systemProperty("neoforge.enabledGameTestNamespaces", baseArchivesName)
+            }
+            register("server") {
+                server()
+                systemProperty("neoforge.enabledGameTestNamespaces", baseArchivesName)
+            }
+            register("data") {
+                data()
+                programArguments.addAll(
+                    "--mod", baseArchivesName,
+                    "--all",
+                    "--output", file("src/generated/resources/").absolutePath,
+                    "--existing", file("src/main/resources/").absolutePath
+                )
+            }
+            configureEach {
+                systemProperty("forge.logging.markers", "REGISTRIES")
+                logLevel = org.slf4j.event.Level.DEBUG
+            }
+        }
     }
 }
 tasks.named<Wrapper>("wrapper") {
@@ -128,40 +151,9 @@ neoForge {
         "src/main/resources/META-INF/rendering.cfg",
         "src/main/resources/META-INF/renderstates.cfg"
     )
-    runs {
-        register("client") {
-            client()
-            systemProperty("neoforge.enabledGameTestNamespaces", baseArchivesName)
-        }
-
-        register("server") {
-            server()
-            systemProperty("neoforge.enabledGameTestNamespaces", baseArchivesName)
-        }
-
-        register("gameTestServer") {
-            type = "gameTestServer"
-            systemProperty("neoforge.enabledGameTestNamespaces", baseArchivesName)
-        }
-
-        register("data") {
-            data()
-            programArguments.addAll(
-                "--mod", baseArchivesName,
-                "--all",
-                "--output", file("src/generated/resources/").absolutePath,
-                "--existing", file("src/main/resources/").absolutePath
-            )
-        }
-
-        configureEach {
-            systemProperty("forge.logging.markers", "REGISTRIES")
-            logLevel = org.slf4j.event.Level.DEBUG
-        }
-    }
 
     mods {
-        create("${property("mod_id")}") {
+        create(baseArchivesName) {
             sourceSet(sourceSets.main.get())
         }
     }
