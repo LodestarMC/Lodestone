@@ -9,8 +9,8 @@
       "team.lodestar.lodestone.core.mixin.common.LivingEntityMixin"
     ],
     "client": [
-        "client.AbstractContainerScreenMixin",
-        "client.CreativeModeInventoryScreenMixin",
+        "team.lodestar.lodestone.toolkit.mixin.client.AbstractContainerScreenMixin",
+        "team.lodestar.lodestone.toolkit.mixin.client.CreativeModeInventoryScreenMixin",
         "client.EffectInstanceMixin",
         "client.EffectProgramMixin",
         "client.GameRendererMixin",

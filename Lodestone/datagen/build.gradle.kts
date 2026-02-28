@@ -7,8 +7,6 @@ dependencies {
 }
 
 tasks.jar {
-    archiveClassifier.set("datagen")
-
     from(
         project(":core").sourceSets.main.get().output
     )

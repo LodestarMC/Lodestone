@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import team.lodestar.lodestone.systems.blockentity.*;
-import team.lodestar.lodestone.systems.blockentity.*;
 
 import java.util.Map;
 import java.util.WeakHashMap;

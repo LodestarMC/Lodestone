@@ -3,7 +3,6 @@ package team.lodestar.lodestone.systems.particle.data.spin;
 import net.minecraft.util.RandomSource;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.particle.data.*;
-import team.lodestar.lodestone.systems.particle.data.*;
 
 public class SpinParticleDataBuilder extends GenericParticleDataBuilder implements SpinParticleDataWrapper {
     protected float spinOffset;

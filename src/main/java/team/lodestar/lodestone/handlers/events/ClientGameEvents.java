@@ -14,7 +14,6 @@ import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.handlers.item.*;
 import team.lodestar.lodestone.handlers.rendering.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
-import team.lodestar.lodestone.handlers.screenshake.*;
 import team.lodestar.lodestone.handlers.worldevent.*;
 import team.lodestar.lodestone.registry.client.LodestoneModels;
 import team.lodestar.lodestone.systems.rendering.LodestoneRenderSystem;

@@ -11,8 +11,6 @@ dependencies {
 }
 
 tasks.jar {
-    archiveClassifier.set("all")
-
     from(
         project(":core").sourceSets.main.get().output,
         project(":datagen").sourceSets.main.get().output,

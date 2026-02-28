@@ -18,25 +18,29 @@ base {
     archivesName.set(baseArchivesName)
 }
 subprojects {
+    val projectName = project.name
     plugins.apply("java-library")
     plugins.apply("maven-publish")
     plugins.apply("net.neoforged.moddev")
     tasks.withType<Test> {
         useJUnitPlatform()
     }
-    base {
-        archivesName.set("${baseArchivesName}-${project.name}")
+    tasks.jar {
+        archiveClassifier.set(projectName)
     }
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(21))
-        }
+    base {
+        archivesName.set("${baseArchivesName}-${projectName}")
     }
 }
 allprojects {
     group = projectGroup
     version = version
 
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+    }
     repositories {
         flatDir {
             dirs("lib")
