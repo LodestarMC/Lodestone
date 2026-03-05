@@ -1,5 +1,3 @@
-rootProject.name = "Lodestone"
-
 rootProject.name = "lodestone"
 
 listOf(
