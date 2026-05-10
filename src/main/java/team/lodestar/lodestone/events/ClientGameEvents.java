@@ -10,20 +10,26 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.GameShuttingDownEvent;
+import org.lwjgl.glfw.GLFW;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.handlers.*;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.registry.client.LodestoneModels;
+import team.lodestar.lodestone.systems.particle.editor.ParticleEditorOverlayRenderer;
+import team.lodestar.lodestone.systems.particle.editor.ParticleEditorPreviewSession;
+import team.lodestar.lodestone.systems.particle.editor.ParticleEditorScreen;
 import team.lodestar.lodestone.systems.rendering.LodestoneRenderSystem;
 import team.lodestar.lodestone.systems.rendering.renderpass.RenderPassHandler;
 
 
 @EventBusSubscriber(value = Dist.CLIENT)
 public class ClientGameEvents {
+    private static boolean particleEditorHotkeyDown;
 
     @SubscribeEvent
     public static void clientTick(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
+        handleParticleEditorHotkey(minecraft);
         final ClientLevel level = minecraft.level;
         if (level != null) {
             if (minecraft.isPaused()) {
@@ -33,7 +39,20 @@ public class ClientGameEvents {
             WorldEventHandler.tick(level);
             ScreenshakeHandler.clientTick(level, camera);
             ScreenParticleHandler.tickParticles();
+            ParticleEditorPreviewSession.tick(minecraft);
         }
+    }
+
+    private static void handleParticleEditorHotkey(Minecraft minecraft) {
+        if (minecraft.level == null || minecraft.player == null) {
+            particleEditorHotkeyDown = false;
+            return;
+        }
+        boolean down = GLFW.glfwGetKey(minecraft.getWindow().getWindow(), GLFW.GLFW_KEY_RIGHT_ALT) == GLFW.GLFW_PRESS;
+        if (down && !particleEditorHotkeyDown && minecraft.screen == null) {
+            minecraft.setScreen(new ParticleEditorScreen());
+        }
+        particleEditorHotkeyDown = down;
     }
 
     @SubscribeEvent
@@ -67,6 +86,10 @@ public class ClientGameEvents {
         PoseStack poseStack = event.getPoseStack();
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_SKY)) {
             WorldEventRenderHandler.renderWorldEvents(minecraft.level, poseStack, camera, partial);
+        }
+
+        if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) {
+            ParticleEditorOverlayRenderer.render(minecraft, poseStack, camera);
         }
 
         if (event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_WEATHER)) {
