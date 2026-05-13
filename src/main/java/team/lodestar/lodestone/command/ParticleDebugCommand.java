@@ -3,6 +3,7 @@ package team.lodestar.lodestone.command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.client.Minecraft;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -10,6 +11,7 @@ import net.minecraft.network.chat.*;
 import team.lodestar.lodestone.modules.rendering.handlers.ParticleHandler;
 import team.lodestar.lodestone.modules.rendering.particle.pool.ParticlePool;
 import team.lodestar.lodestone.modules.rendering.particle.pool.ParticlePoolGroup;
+import team.lodestar.lodestone.systems.particle.editor.ParticleEditorScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,12 @@ public class ParticleDebugCommand {
 
     public static LiteralArgumentBuilder<CommandSourceStack> register() {
         return Commands.literal("particles")
+                .then(Commands.literal("editor")
+                        .executes(ctx -> {
+                            Minecraft.getInstance().execute(() -> Minecraft.getInstance().setScreen(new ParticleEditorScreen()));
+                            return 1;
+                        })
+                )
                 .then(Commands.literal("list")
                         .executes(ctx -> executeList(ctx.getSource(), 0))
                         .then(Commands.argument("page", IntegerArgumentType.integer(0))
