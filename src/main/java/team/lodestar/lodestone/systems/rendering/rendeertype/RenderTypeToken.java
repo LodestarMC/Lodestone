@@ -3,6 +3,7 @@ package team.lodestar.lodestone.systems.rendering.rendeertype;
 import net.minecraft.client.renderer.*;
 import net.minecraft.resources.*;
 import team.lodestar.lodestone.registry.client.*;
+import team.lodestar.lodestone.systems.rendering.uniform.UniformData;
 
 import java.util.*;
 import java.util.function.*;
@@ -41,12 +42,8 @@ public class RenderTypeToken {
         return CACHED_STATE_TOKENS.computeIfAbsent(texture, RenderTypeToken::new);
     }
 
-    public ComplexRenderTypeToken addUniformHandler(ShaderUniformHandler uniformHandler) {
-        return new ComplexRenderTypeToken(this).addUniformHandler(uniformHandler);
-    }
-
-    public ComplexRenderTypeToken addUniformHandler(Consumer<ShaderUniformHandler> uniformHandler) {
-        return new ComplexRenderTypeToken(this).addUniformHandler(uniformHandler);
+    public ComplexRenderTypeToken addUniformData(UniformData data) {
+        return new ComplexRenderTypeToken(this).addUniformData(data);
     }
 
     public ComplexRenderTypeToken addModifier(Consumer<LodestoneRenderTypes.LodestoneCompositeStateBuilder> modifier) {
@@ -54,7 +51,7 @@ public class RenderTypeToken {
     }
 
     protected RenderTypeToken unique() {
-        return new RenderTypeToken(this.identifier, this.texture);
+        return new RenderTypeToken(identifier, texture);
     }
 
     public UUID getIdentifier() {

@@ -2,18 +2,16 @@ package team.lodestar.lodestone.systems.rendering.shader;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.blaze3d.shaders.Uniform;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import net.minecraft.util.GsonHelper;
 import team.lodestar.lodestone.*;
+import team.lodestar.lodestone.systems.rendering.uniform.UniformData;
+import team.lodestar.lodestone.systems.rendering.uniform.UniformDataBuilder;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.*;
-import java.util.function.Consumer;
 
 public class ExtendedShaderInstance extends ShaderInstance {
 
@@ -37,7 +35,7 @@ public class ExtendedShaderInstance extends ShaderInstance {
 
     protected final ShaderHolder shaderHolder;
 
-    protected final Map<String, Consumer<Uniform>> defaultUniformData = new HashMap<>();
+    protected final UniformData defaultUniforms;
 
     public ExtendedShaderInstance(ResourceProvider pResourceProvider, ShaderHolder shaderHolder) throws IOException {
         super(pResourceProvider, shaderHolder.getShaderLocation(), shaderHolder.getShaderFormat());
@@ -45,69 +43,49 @@ public class ExtendedShaderInstance extends ShaderInstance {
         var jsonLocation = shaderHolder.getShaderLocation().withPath(p -> "shaders/core/" + p + ".json");
         try (Reader reader = pResourceProvider.openAsReader(jsonLocation)) {
             JsonObject shaderJson = GsonHelper.parse(reader);
-            parseDefaultUniformValues(shaderJson);
+            defaultUniforms = parseDefaultUniformValues(shaderJson);
         }
     }
 
-    public void setUniformDefaults() {
-        for (Map.Entry<String, Consumer<Uniform>> defaultDataEntry : getDefaultUniformData().entrySet()) {
-            Uniform t = uniformMap.get(defaultDataEntry.getKey());
-            defaultDataEntry.getValue().accept(t);
-        }
+    public void applyUniformDefaults() {
+        defaultUniforms.applyData(this);
     }
 
     public ShaderHolder getShaderHolder() {
         return shaderHolder;
     }
 
-    public Map<String, Consumer<Uniform>> getDefaultUniformData() {
-        return defaultUniformData;
-    }
-
-    public void parseDefaultUniformValues(JsonObject shaderJson) {
+    public UniformData parseDefaultUniformValues(JsonObject shaderJson) {
         var shaderUniforms = GsonHelper.getAsJsonArray(shaderJson, "uniforms", null);
         if (shaderUniforms == null) {
-            return;
+            return null;
         }
+        UniformDataBuilder builder = UniformData.create();
+
         for (JsonElement uniformJson : shaderUniforms) {
-            JsonObject uniformObject = GsonHelper.convertToJsonObject(uniformJson, "uniform");
+            var uniformObject = GsonHelper.convertToJsonObject(uniformJson, "uniform");
             var uniformName = GsonHelper.getAsString(uniformObject, "name");
             if (EXCLUDED_UNIFORMS.contains(uniformName)) {
                 continue;
             }
-            Uniform uniform = uniformMap.get(uniformName);
+            var uniform = uniformMap.get(uniformName);
             if (uniform == null) {
                 LodestoneLib.LOGGER.warn(
                         "Shader json {} has a uniform {} that is not present in the shader instance uniform map. This may cause issues.",
                         shaderHolder.getShaderLocation(), uniformName);
                 continue;
             }
-            Consumer<Uniform> consumer;
-            if (uniform.getType() <= 3) {
-                IntBuffer buffer = uniform.getIntBuffer();
-                buffer.position(0);
-                int[] array = new int[uniform.getCount()];
-                for (int i = 0; i < uniform.getCount(); i++) {
-                    array[i] = buffer.get(i);
-                }
-                consumer = u -> {
-                    buffer.position(0);
-                    buffer.put(array);
-                };
-            } else {
-                FloatBuffer buffer = uniform.getFloatBuffer();
-                buffer.position(0);
-                float[] array = new float[uniform.getCount()];
-                for (int i = 0; i < uniform.getCount(); i++) {
-                    array[i] = buffer.get(i);
-                }
-                consumer = u -> {
-                    buffer.position(0);
-                    buffer.put(array);
-                };
-            }
 
-            getDefaultUniformData().put(uniformName, consumer);
+            var array = GsonHelper.getAsJsonArray(uniformObject, "values");
+
+
+            var values = new ArrayList<Float>();
+            for (int i = 0; i < array.size(); i++) {
+                var jsonElement = array.get(i).getAsFloat();
+                values.add(jsonElement);
+            }
+            builder.setUniform(uniformName, values);
         }
+        return builder.build();
     }
 }

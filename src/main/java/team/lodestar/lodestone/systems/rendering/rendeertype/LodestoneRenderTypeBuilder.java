@@ -1,6 +1,7 @@
 package team.lodestar.lodestone.systems.rendering.rendeertype;
 
 import team.lodestar.lodestone.registry.client.*;
+import team.lodestar.lodestone.systems.rendering.uniform.UniformData;
 
 import java.util.*;
 import java.util.function.*;
@@ -14,17 +15,12 @@ public class LodestoneRenderTypeBuilder {
         this.token = token;
     }
 
-    public LodestoneRenderTypeBuilder withUniformHandler(ShaderUniformHandler uniformHandler) {
-        token = token.addUniformHandler(uniformHandler);
+    public LodestoneRenderTypeBuilder addUniformData(UniformData uniformData) {
+        token = token.addUniformData(uniformData);
         return this;
     }
 
-    public LodestoneRenderTypeBuilder withUniformHandler(Consumer<ShaderUniformHandler> modifier) {
-        token = token.addUniformHandler(modifier);
-        return this;
-    }
-
-    public LodestoneRenderTypeBuilder withModifier(Consumer<LodestoneRenderTypes.LodestoneCompositeStateBuilder> modifier) {
+    public LodestoneRenderTypeBuilder addModifier(Consumer<LodestoneRenderTypes.LodestoneCompositeStateBuilder> modifier) {
         token = token.addModifier(modifier);
         return this;
     }

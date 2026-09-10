@@ -129,26 +129,29 @@ public class LodestoneRenderingSystem {
 
     public static void updateUniforms(RenderType renderType) {
         Optional<ShaderInstance> optional = RenderHelper.getShader(renderType);
-        if (optional.isPresent()) {
-            ShaderInstance shader = optional.get();
-            if (renderType instanceof LodestoneRenderType lodestoneRenderType) {
-                var handler = lodestoneRenderType.getUniformHandler();
-                if (handler != null) {
-                    handler.updateShaderData(shader);
-                }
-            }
-            shader.setSampler("SceneDepthBuffer", LodestoneRenderingSystem.LODESTONE_DEPTH_CACHE.getDepthTextureId());
-            shader.setSampler("SceneDiffuseBuffer", Minecraft.getInstance().getMainRenderTarget().getColorTextureId());
-            shader.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
+        if (optional.isEmpty()) {
+            return;
         }
+        ShaderInstance shader = optional.get();
+        if (renderType instanceof LodestoneRenderType lodestoneRenderType) {
+            var data = lodestoneRenderType.getUniformData();
+            if (data != null) {
+                data.applyData(shader);
+            }
+        }
+        shader.setSampler("SceneDepthBuffer", LodestoneRenderingSystem.LODESTONE_DEPTH_CACHE.getDepthTextureId());
+        shader.setSampler("SceneDiffuseBuffer", Minecraft.getInstance().getMainRenderTarget().getColorTextureId());
+        shader.safeGetUniform("InvProjMat").set(new Matrix4f(RenderSystem.getProjectionMatrix()).invert());
     }
 
     public static void resetUniforms(RenderType renderType) {
-        Optional<ShaderInstance> optional = RenderHelper.getShader(renderType);
-        if (optional.isPresent()) {
-            if (optional.get() instanceof ExtendedShaderInstance shader) {
-                shader.setUniformDefaults();
-            }
+        var optional = RenderHelper.getShader(renderType);
+        if (optional.isEmpty()) {
+            return;
         }
+        if (!(optional.get() instanceof ExtendedShaderInstance shader)) {
+            return;
+        }
+        shader.applyUniformDefaults();
     }
 }

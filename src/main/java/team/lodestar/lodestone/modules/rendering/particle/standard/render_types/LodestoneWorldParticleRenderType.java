@@ -15,12 +15,14 @@ import net.minecraft.resources.ResourceLocation;
 import team.lodestar.lodestone.registry.client.*;
 import team.lodestar.lodestone.systems.rendering.rendeertype.*;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
+import team.lodestar.lodestone.systems.rendering.uniform.UniformData;
 
+import java.util.HashMap;
 import java.util.function.*;
 
 public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
-    public static final Function<LodestoneWorldParticleRenderType, LodestoneWorldParticleRenderType> DEPTH_FADE = Util.memoize(LodestoneWorldParticleRenderType::addDepthFade);
+    private final HashMap<Object, LodestoneWorldParticleRenderType> copies = new HashMap<>();
 
     public static final LodestoneWorldParticleRenderType ADDITIVE = new LodestoneWorldParticleRenderType(
             LodestoneRenderTypes.ADDITIVE_PARTICLE, LodestoneShaders.PARTICLE, TextureAtlas.LOCATION_PARTICLES,
@@ -77,11 +79,10 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
     }
 
     public LodestoneWorldParticleRenderType withDepthFade() {
-        return DEPTH_FADE.apply(this);
-    }
-
-    private static LodestoneWorldParticleRenderType addDepthFade(LodestoneWorldParticleRenderType original) {
-        LodestoneRenderType depthFade = original.renderType.copy("depth_fade", ShaderUniformHandler::withDepthFade);
-        return new LodestoneWorldParticleRenderType(depthFade, original.shader, original.texture, original.blendFunction);
+        if (!copies.containsKey("depth_fade")) {
+            LodestoneRenderType depthFade = renderType.copyAndModify("depth_fade", UniformData.DEPTH_FADE);
+            copies.put("depth_fade", new LodestoneWorldParticleRenderType(depthFade, shader, texture, blendFunction));
+        }
+        return copies.get("depth_fade");
     }
 }

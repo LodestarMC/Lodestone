@@ -10,6 +10,7 @@ import team.lodestar.lodestone.*;
 import team.lodestar.lodestone.systems.rendering.*;
 import team.lodestar.lodestone.systems.rendering.rendeertype.*;
 import team.lodestar.lodestone.systems.rendering.shader.ShaderHolder;
+import team.lodestar.lodestone.systems.rendering.uniform.UniformData;
 
 import javax.annotation.*;
 import java.util.function.*;
@@ -65,9 +66,9 @@ public class LodestoneRenderTypes extends RenderStateShard {
             b -> b.setStateShards(StateShards.NORMAL_TRANSPARENCY, LodestoneShaders.LODESTONE_TEXTURE, NO_CULL, LIGHTMAP, COLOR_WRITE)
     );
 
-    public static final LodestoneRenderType LUMITRANSPARENT_PARTICLE = TRANSPARENT_PARTICLE.copy("lumitransparent", ShaderUniformHandler.LUMITRANSPARENT);
-    public static final LodestoneRenderType LUMITRANSPARENT_BLOCK_PARTICLE = TRANSPARENT_BLOCK_PARTICLE.copy("lumitransparent", ShaderUniformHandler.LUMITRANSPARENT);
-    public static final LodestoneRenderType LUMITRANSPARENT_BLOCK = TRANSPARENT_BLOCK.copy("lumitransparent", ShaderUniformHandler.LUMITRANSPARENT);
+    public static final LodestoneRenderType LUMITRANSPARENT_PARTICLE = TRANSPARENT_PARTICLE.copyAndModify("lumitransparent", UniformData.LUMITRANSPARENT);
+    public static final LodestoneRenderType LUMITRANSPARENT_BLOCK_PARTICLE = TRANSPARENT_BLOCK_PARTICLE.copyAndModify("lumitransparent", UniformData.LUMITRANSPARENT);
+    public static final LodestoneRenderType LUMITRANSPARENT_BLOCK = TRANSPARENT_BLOCK.copyAndModify("lumitransparent", UniformData.LUMITRANSPARENT);
 
     public static final RenderTypeProvider TEXTURE = new RenderTypeProvider((token) ->
             createGenericRenderType(token, "texture", POSITION_COLOR_TEX_LIGHTMAP,
@@ -175,16 +176,17 @@ public class LodestoneRenderTypes extends RenderStateShard {
     }
 
     public static LodestoneRenderType createGenericRenderType(@Nullable RenderTypeToken token, String name, VertexFormat format, VertexFormat.Mode mode, LodestoneCompositeStateBuilder builder) {
-        ShaderUniformHandler uniformHandler = null;
+        UniformData uniformData = null;
         if (token instanceof ComplexRenderTypeToken complex) {
-            uniformHandler = complex.getUniformHandler();
-            if (complex.getModifier() != null) {
-                complex.getModifier().accept(builder);
+            uniformData = complex.getUniformData();
+            var modifier = complex.getModifier();
+            if (modifier != null) {
+                modifier.accept(builder);
             }
         }
         var renderTypeMode = builder.modeOverride != null ? builder.modeOverride : mode;
         var compositeState = builder.createCompositeState();
-        return new LodestoneRenderType(name, format, renderTypeMode, 256, false, true, compositeState, uniformHandler);
+        return new LodestoneRenderType(name, format, renderTypeMode, 256, false, true, compositeState, uniformData);
     }
 
     public static LodestoneCompositeStateBuilder builder(Object... objects) {

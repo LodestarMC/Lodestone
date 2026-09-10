@@ -1,15 +1,14 @@
 package team.lodestar.lodestone.systems.rendering.rendeertype;
 
-import net.minecraft.client.renderer.*;
-import net.minecraft.resources.*;
 import team.lodestar.lodestone.registry.client.*;
+import team.lodestar.lodestone.systems.rendering.uniform.UniformData;
 
 import java.util.*;
 import java.util.function.*;
 
 public class ComplexRenderTypeToken extends RenderTypeToken {
 
-    private ShaderUniformHandler uniformHandler;
+    private UniformData uniformData;
     private Consumer<LodestoneRenderTypes.LodestoneCompositeStateBuilder> modifier;
 
     public ComplexRenderTypeToken(RenderTypeToken token) {
@@ -17,19 +16,8 @@ public class ComplexRenderTypeToken extends RenderTypeToken {
     }
 
     @Override
-    public ComplexRenderTypeToken addUniformHandler(ShaderUniformHandler uniformHandler) {
-        this.uniformHandler = uniformHandler;
-        return this;
-    }
-
-    @Override
-    public ComplexRenderTypeToken addUniformHandler(Consumer<ShaderUniformHandler> modifier) {
-        if (uniformHandler != null) {
-            modifier.accept(uniformHandler);
-        } else {
-            addUniformHandler(new ShaderUniformHandler());
-            modifier.accept(this.uniformHandler);
-        }
+    public ComplexRenderTypeToken addUniformData(UniformData data) {
+        this.uniformData = data;
         return this;
     }
 
@@ -41,11 +29,11 @@ public class ComplexRenderTypeToken extends RenderTypeToken {
 
     @Override
     protected RenderTypeToken unique() {
-        return new ComplexRenderTypeToken(this).addUniformHandler(this.uniformHandler).addModifier(this.modifier);
+        return new ComplexRenderTypeToken(this).addUniformData(uniformData).addModifier(modifier);
     }
 
-    public ShaderUniformHandler getUniformHandler() {
-        return uniformHandler;
+    public UniformData getUniformData() {
+        return uniformData;
     }
 
     public Consumer<LodestoneRenderTypes.LodestoneCompositeStateBuilder> getModifier() {
@@ -58,13 +46,13 @@ public class ComplexRenderTypeToken extends RenderTypeToken {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ComplexRenderTypeToken that = (ComplexRenderTypeToken) o;
-        boolean equalUniform = Objects.equals(uniformHandler, that.uniformHandler);
+        boolean equalUniform = Objects.equals(uniformData, that.uniformData);
         boolean equalModifier = Objects.equals(modifier, that.modifier);
         return equalUniform && equalModifier;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), uniformHandler, modifier);
+        return Objects.hash(super.hashCode(), uniformData, modifier);
     }
 }

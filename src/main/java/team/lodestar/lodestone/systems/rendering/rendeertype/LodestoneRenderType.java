@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.*;
 import team.lodestar.lodestone.registry.client.*;
 import team.lodestar.lodestone.registry.client.LodestoneRenderTypes.*;
 import team.lodestar.lodestone.systems.rendering.StateShards;
+import team.lodestar.lodestone.systems.rendering.uniform.UniformData;
 
 import javax.annotation.*;
 import java.util.*;
@@ -15,7 +16,7 @@ import static net.minecraft.client.renderer.RenderType.CompositeRenderType.OUTLI
 
 public class LodestoneRenderType extends RenderType {
 
-    public final HashMap<Object, LodestoneRenderType> copies = new HashMap<>();
+    private final HashMap<Object, LodestoneRenderType> copies = new HashMap<>();
 
     public final RenderType.CompositeState state;
     private final RenderType outline;
@@ -23,9 +24,9 @@ public class LodestoneRenderType extends RenderType {
 
     private final boolean isAdditive;
 
-    private final ShaderUniformHandler uniformHandler;
+    private final UniformData uniformData;
 
-    public LodestoneRenderType(String pName, VertexFormat pFormat, VertexFormat.Mode pMode, int pBufferSize, boolean pAffectsCrumbling, boolean pSortOnUpload, RenderType.CompositeState pState, @Nullable ShaderUniformHandler uniformHandler) {
+    public LodestoneRenderType(String pName, VertexFormat pFormat, VertexFormat.Mode pMode, int pBufferSize, boolean pAffectsCrumbling, boolean pSortOnUpload, RenderType.CompositeState pState, @Nullable UniformData uniformData) {
         super(pName, pFormat, pMode, pBufferSize, pAffectsCrumbling, pSortOnUpload,
                 () -> pState.states.forEach(RenderStateShard::setupRenderState),
                 () -> pState.states.forEach(RenderStateShard::clearRenderState));
@@ -33,29 +34,21 @@ public class LodestoneRenderType extends RenderType {
         this.outline = pState.outlineProperty == RenderType.OutlineProperty.AFFECTS_OUTLINE ? pState.textureState.cutoutTexture().map((p_173270_) -> OUTLINE.apply(p_173270_, pState.cullState)).orElse(null) : null;
         this.isOutline = pState.outlineProperty == RenderType.OutlineProperty.IS_OUTLINE;
         this.isAdditive = isAdditive(this);
-        this.uniformHandler = uniformHandler;
+        this.uniformData = uniformData;
     }
 
     // Constructors for copying and modifying render types
     // They are a bit ugly but alas
     protected LodestoneRenderType(String name, LodestoneRenderType original) {
-        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, original.state, original.uniformHandler);
+        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, original.state, original.uniformData);
     }
 
-    protected LodestoneRenderType(String name, LodestoneRenderType original, ShaderUniformHandler uniformHandler) {
-        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, original.state, uniformHandler);
+    protected LodestoneRenderType(String name, LodestoneRenderType original, UniformData uniformData) {
+        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, original.state, uniformData);
     }
 
-    protected LodestoneRenderType(String name, LodestoneRenderType original, Consumer<ShaderUniformHandler> uniformHandler) {
-        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, original.state, new ShaderUniformHandler(original.uniformHandler).accept(uniformHandler));
-    }
-
-    protected LodestoneRenderType(String name, LodestoneRenderType original, ShaderUniformHandler uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
-        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, LodestoneRenderTypes.builder(original.state).accepts(modifier).createCompositeState(), uniformHandler);
-    }
-
-    protected LodestoneRenderType(String name, LodestoneRenderType original, Consumer<ShaderUniformHandler> uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
-        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, LodestoneRenderTypes.builder(original.state).accepts(modifier).createCompositeState(), new ShaderUniformHandler(original.uniformHandler).accept(uniformHandler));
+    protected LodestoneRenderType(String name, LodestoneRenderType original, UniformData uniformData, Consumer<LodestoneCompositeStateBuilder> modifier) {
+        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, LodestoneRenderTypes.builder(original.state).accepts(modifier).createCompositeState(), uniformData);
     }
 
     public LodestoneRenderType copy(Object key) {
@@ -65,28 +58,14 @@ public class LodestoneRenderType extends RenderType {
         return copies.get(key);
     }
 
-    public LodestoneRenderType copy(Object key, ShaderUniformHandler uniformHandler) {
+    public LodestoneRenderType copyAndModify(Object key, UniformData uniformHandler) {
         if (!copies.containsKey(key)) {
             copies.put(key, new LodestoneRenderType(name, this, uniformHandler));
         }
         return copies.get(key);
     }
 
-    public LodestoneRenderType copy(Object key, Consumer<ShaderUniformHandler> uniformHandler) {
-        if (!copies.containsKey(key)) {
-            copies.put(key, new LodestoneRenderType(name, this, uniformHandler));
-        }
-        return copies.get(key);
-    }
-
-    public LodestoneRenderType copy(Object key, ShaderUniformHandler uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
-        if (!copies.containsKey(key)) {
-            copies.put(key, new LodestoneRenderType(name, this, uniformHandler, modifier));
-        }
-        return copies.get(key);
-    }
-
-    public LodestoneRenderType copy(Object key, Consumer<ShaderUniformHandler> uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
+    public LodestoneRenderType copyAndModify(Object key, UniformData uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
         if (!copies.containsKey(key)) {
             copies.put(key, new LodestoneRenderType(name, this, uniformHandler, modifier));
         }
@@ -97,8 +76,8 @@ public class LodestoneRenderType extends RenderType {
         return renderType.state.transparencyState.equals(StateShards.ADDITIVE_TRANSPARENCY) || renderType.state.transparencyState.equals(ADDITIVE_TRANSPARENCY);
     }
 
-    public @Nullable ShaderUniformHandler getUniformHandler() {
-        return uniformHandler;
+    public @Nullable UniformData getUniformData() {
+        return uniformData;
     }
 
     @Override
