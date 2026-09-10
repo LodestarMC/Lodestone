@@ -136,7 +136,7 @@ public class LodestoneRenderingSystem {
         if (renderType instanceof LodestoneRenderType lodestoneRenderType) {
             var data = lodestoneRenderType.getUniformData();
             if (data != null) {
-                data.applyData(shader);
+                data.setValues(shader);
             }
         }
         shader.setSampler("SceneDepthBuffer", LodestoneRenderingSystem.LODESTONE_DEPTH_CACHE.getDepthTextureId());

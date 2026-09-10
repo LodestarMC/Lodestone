@@ -48,7 +48,7 @@ public class ExtendedShaderInstance extends ShaderInstance {
     }
 
     public void applyUniformDefaults() {
-        defaultUniforms.applyData(this);
+        defaultUniforms.setValues(this);
     }
 
     public ShaderHolder getShaderHolder() {

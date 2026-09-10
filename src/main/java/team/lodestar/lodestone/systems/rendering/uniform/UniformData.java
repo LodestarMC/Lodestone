@@ -5,7 +5,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.*;
 
 public class UniformData {
 
@@ -30,7 +29,7 @@ public class UniformData {
         return builder.accept(this).accept(other).build();
     }
 
-    public void applyData(ShaderInstance instance) {
+    public void setValues(ShaderInstance instance) {
         for (String key : uniformValues.keySet()) {
             float[] value = ArrayUtils.toPrimitive(uniformValues.get(key));
             instance.safeGetUniform(key).set(value);
