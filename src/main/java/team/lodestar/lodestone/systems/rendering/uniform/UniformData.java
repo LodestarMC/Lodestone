@@ -1,8 +1,12 @@
 package team.lodestar.lodestone.systems.rendering.uniform;
 
+import com.mojang.blaze3d.shaders.AbstractUniform;
+import com.mojang.blaze3d.shaders.Uniform;
 import net.minecraft.client.renderer.ShaderInstance;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -31,8 +35,24 @@ public class UniformData {
 
     public void setValues(ShaderInstance instance) {
         for (String key : uniformValues.keySet()) {
-            float[] value = ArrayUtils.toPrimitive(uniformValues.get(key));
-            instance.safeGetUniform(key).set(value);
+            if (instance.getUniform(key) instanceof Uniform uniform) {
+                int type = uniform.getType();
+
+                float[] floatValues = ArrayUtils.toPrimitive(uniformValues.get(key));
+                if (type <= 3) {
+                    int[] intValues = new int[floatValues.length];
+                    for (int i = 0; i < floatValues.length; i++) {
+                        intValues[i] = (int) floatValues[i];
+                    }
+                    var buffer = uniform.getIntBuffer();
+                    buffer.position(0);
+                    buffer.put(intValues);
+                } else {
+                    var buffer = uniform.getFloatBuffer();
+                    buffer.position(0);
+                    buffer.put(floatValues);
+                }
+            }
         }
         for (String key : samplerValues.keySet()) {
             int value = samplerValues.get(key);
