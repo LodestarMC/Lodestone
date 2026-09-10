@@ -16,6 +16,21 @@ public class UniformDataBuilder {
         return this;
     }
 
+    public UniformDataBuilder accept(UniformData data) {
+        if (data == null) {
+            return this;
+        }
+        var builder = UniformData.create();
+        for (String key : data.uniformValues.keySet()) {
+            float[] primitive = ArrayUtils.toPrimitive(data.uniformValues.get(key));
+            builder.setUniform(key, primitive);
+        }
+        for (String key : data.samplerValues.keySet()) {
+            builder.setSampler(key, data.samplerValues.get(key));
+        }
+        return builder;
+    }
+
     public UniformDataBuilder useLuminescenceAsAlpha() {
         return setUniform("LumiTransparency", 1f);
     }

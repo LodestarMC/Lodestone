@@ -66,9 +66,9 @@ public class LodestoneRenderTypes extends RenderStateShard {
             b -> b.setStateShards(StateShards.NORMAL_TRANSPARENCY, LodestoneShaders.LODESTONE_TEXTURE, NO_CULL, LIGHTMAP, COLOR_WRITE)
     );
 
-    public static final LodestoneRenderType LUMITRANSPARENT_PARTICLE = TRANSPARENT_PARTICLE.copyAndModify("lumitransparent", UniformData.LUMITRANSPARENT);
-    public static final LodestoneRenderType LUMITRANSPARENT_BLOCK_PARTICLE = TRANSPARENT_BLOCK_PARTICLE.copyAndModify("lumitransparent", UniformData.LUMITRANSPARENT);
-    public static final LodestoneRenderType LUMITRANSPARENT_BLOCK = TRANSPARENT_BLOCK.copyAndModify("lumitransparent", UniformData.LUMITRANSPARENT);
+    public static final LodestoneRenderType LUMITRANSPARENT_PARTICLE = TRANSPARENT_PARTICLE.copy("lumitransparent", UniformData.LUMITRANSPARENT);
+    public static final LodestoneRenderType LUMITRANSPARENT_BLOCK_PARTICLE = TRANSPARENT_BLOCK_PARTICLE.copy("lumitransparent", UniformData.LUMITRANSPARENT);
+    public static final LodestoneRenderType LUMITRANSPARENT_BLOCK = TRANSPARENT_BLOCK.copy("lumitransparent", UniformData.LUMITRANSPARENT);
 
     public static final RenderTypeProvider TEXTURE = new RenderTypeProvider((token) ->
             createGenericRenderType(token, "texture", POSITION_COLOR_TEX_LIGHTMAP,
@@ -209,7 +209,10 @@ public class LodestoneRenderTypes extends RenderStateShard {
             return this;
         }
 
-        public LodestoneCompositeStateBuilder accepts(Consumer<LodestoneCompositeStateBuilder> modifier) {
+        public LodestoneCompositeStateBuilder accept(@Nullable Consumer<LodestoneCompositeStateBuilder> modifier) {
+            if (modifier == null) {
+                return this;
+            }
             modifier.accept(this);
             return this;
         }

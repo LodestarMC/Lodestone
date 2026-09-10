@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.*;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -80,7 +79,7 @@ public class LodestoneWorldParticleRenderType implements ParticleRenderType {
 
     public LodestoneWorldParticleRenderType withDepthFade() {
         if (!copies.containsKey("depth_fade")) {
-            LodestoneRenderType depthFade = renderType.copyAndModify("depth_fade", UniformData.DEPTH_FADE);
+            LodestoneRenderType depthFade = renderType.copy("depth_fade", UniformData.DEPTH_FADE);
             copies.put("depth_fade", new LodestoneWorldParticleRenderType(depthFade, shader, texture, blendFunction));
         }
         return copies.get("depth_fade");

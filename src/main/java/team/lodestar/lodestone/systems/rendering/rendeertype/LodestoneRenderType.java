@@ -37,37 +37,20 @@ public class LodestoneRenderType extends RenderType {
         this.uniformData = uniformData;
     }
 
-    // Constructors for copying and modifying render types
-    // They are a bit ugly but alas
-    protected LodestoneRenderType(String name, LodestoneRenderType original) {
-        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, original.state, original.uniformData);
-    }
-
-    protected LodestoneRenderType(String name, LodestoneRenderType original, UniformData uniformData) {
-        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, original.state, uniformData);
-    }
-
-    protected LodestoneRenderType(String name, LodestoneRenderType original, UniformData uniformData, Consumer<LodestoneCompositeStateBuilder> modifier) {
-        this(name, original.format, original.mode, original.bufferSize, original.affectsCrumbling, original.sortOnUpload, LodestoneRenderTypes.builder(original.state).accepts(modifier).createCompositeState(), uniformData);
-    }
-
     public LodestoneRenderType copy(Object key) {
-        if (!copies.containsKey(key)) {
-            copies.put(key, new LodestoneRenderType(name, this));
-        }
-        return copies.get(key);
+        return copy(key, null);
     }
 
-    public LodestoneRenderType copyAndModify(Object key, UniformData uniformHandler) {
-        if (!copies.containsKey(key)) {
-            copies.put(key, new LodestoneRenderType(name, this, uniformHandler));
-        }
-        return copies.get(key);
+    public LodestoneRenderType copy(Object key, UniformData addedData) {
+        return copy(key, addedData, null);
     }
 
-    public LodestoneRenderType copyAndModify(Object key, UniformData uniformHandler, Consumer<LodestoneCompositeStateBuilder> modifier) {
+    public LodestoneRenderType copy(Object key, UniformData addedData, Consumer<LodestoneCompositeStateBuilder> modifier) {
         if (!copies.containsKey(key)) {
-            copies.put(key, new LodestoneRenderType(name, this, uniformHandler, modifier));
+            var builder = LodestoneRenderTypes.builder(state).accept(modifier);
+            var data = addedData.fuse(uniformData);
+            var copy = new LodestoneRenderType(name, format, mode, bufferSize, affectsCrumbling, sortOnUpload, builder.createCompositeState(), data);
+            copies.put(key, copy);
         }
         return copies.get(key);
     }

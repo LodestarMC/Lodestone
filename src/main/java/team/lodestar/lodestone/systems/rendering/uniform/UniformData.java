@@ -25,9 +25,9 @@ public class UniformData {
         this.samplerValues = samplerValues;
     }
 
-    public UniformData accept(Consumer<UniformData> modifier) {
-        modifier.accept(this);
-        return this;
+    public UniformData fuse(UniformData other) {
+        var builder = UniformData.create();
+        return builder.accept(this).accept(other).build();
     }
 
     public void applyData(ShaderInstance instance) {
