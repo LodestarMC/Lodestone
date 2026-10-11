@@ -13,12 +13,12 @@ import team.lodestar.lodestone.modules.rendering.particle.standard.screen.*;
 import java.util.*;
 import java.util.function.*;
 
-public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticleOptions> {
+public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticleConfig> {
 
     private static final Random RANDOM = new Random();
 
     final ScreenParticleType<?> type;
-    final ScreenParticleOptions options;
+    final ScreenParticleConfig options;
     final ScreenParticleHolder target;
 
     public static ScreenParticleBuilder create(ScreenParticleType<?> type, ScreenParticleHolder target) {
@@ -27,12 +27,12 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
 
     protected ScreenParticleBuilder(ScreenParticleType<?> type, ScreenParticleHolder target) {
         this.type = type;
-        this.options = new ScreenParticleOptions(type);
+        this.options = new ScreenParticleConfig(type);
         this.target = target;
     }
 
     @Override
-    public ScreenParticleOptions getParticleOptions() {
+    public ScreenParticleConfig getParticleOptions() {
         return options;
     }
 
@@ -159,7 +159,7 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
         double yaw2 = RANDOM.nextFloat() * Math.PI * 2, pitch2 = RANDOM.nextFloat() * Math.PI - Math.PI / 2, xDist = RANDOM.nextFloat() * maxXOffset, yDist = RANDOM.nextFloat() * maxYOffset;
         double xPos = Math.sin(yaw2) * Math.cos(pitch2) * xDist;
         double yPos = Math.sin(pitch2) * yDist;
-        ScreenParticleHandler.addParticle(target, options, x + xPos, y + yPos, xMotion, yMotion);
+        ItemScreenParticleHandler.addParticle(target, options, x + xPos, y + yPos, xMotion, yMotion);
         return this;
     }
 
@@ -172,7 +172,7 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
         options.tracksStack = true;
         options.stackTrackXOffset = xOffset;
         options.stackTrackYOffset = yOffset;
-        spawn(ScreenParticleHandler.currentItemX + xOffset, ScreenParticleHandler.currentItemY + yOffset);
+        spawn(ItemScreenParticleHandler.currentItemX + xOffset, ItemScreenParticleHandler.currentItemY + yOffset);
         return this;
     }
 
@@ -352,7 +352,7 @@ public class ScreenParticleBuilder extends AbstractParticleBuilder<ScreenParticl
     }
 
     @Override
-    public ScreenParticleBuilder setSpritePicker(SimpleParticleOptions.ParticleSpritePicker spritePicker) {
+    public ScreenParticleBuilder setSpritePicker(LodestoneParticleConfig.Animator spritePicker) {
         return (ScreenParticleBuilder) super.setSpritePicker(spritePicker);
     }
 }

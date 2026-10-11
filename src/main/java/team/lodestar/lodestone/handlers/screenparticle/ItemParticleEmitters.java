@@ -10,33 +10,33 @@ import team.lodestar.lodestone.modules.rendering.particle.standard.screen.Screen
 
 import java.util.*;
 
-public class ParticleEmitterHandler {
-    public static final Map<Item, List<ItemParticleSupplier>> EMITTERS = new HashMap<>();
+public class ItemParticleEmitters {
+
+    public static final Map<Item, List<ItemParticleEmitter>> EMITTERS = new HashMap<>();
 
     public static void registerParticleEmitters(FMLClientSetupEvent event) {
-        DataHelper.getAll(BuiltInRegistries.ITEM.stream().toList(), i -> i instanceof ItemParticleSupplier).forEach(i -> {
-                    ItemParticleSupplier emitter = (ItemParticleSupplier) i;
-                    registerItemParticleEmitter(i, emitter);
-                }
-        );
+        for (Item item : BuiltInRegistries.ITEM) {
+            if (item instanceof ItemParticleEmitter supplier) {
+                registerItemParticleEmitter(item, supplier);
+            }
+        }
     }
 
-    public static void registerItemParticleEmitter(Item item, ItemParticleSupplier emitter) {
+    public static void registerItemParticleEmitter(Item item, ItemParticleEmitter emitter) {
         if (EMITTERS.containsKey(item)) {
             EMITTERS.get(item).add(emitter);
-        }
-        else {
+        } else {
             EMITTERS.put(item, new ArrayList<>(List.of(emitter)));
         }
     }
 
-    public static void registerItemParticleEmitter(ItemParticleSupplier emitter, Item... items) {
+    public static void registerItemParticleEmitter(ItemParticleEmitter emitter, Item... items) {
         for (Item item : items) {
             registerItemParticleEmitter(item, emitter);
         }
     }
 
-    public interface ItemParticleSupplier {
+    public interface ItemParticleEmitter {
         default void spawnEarlyParticles(ScreenParticleHolder target, Level level, float partialTicks, ItemStack stack, float x, float y) {
         }
 

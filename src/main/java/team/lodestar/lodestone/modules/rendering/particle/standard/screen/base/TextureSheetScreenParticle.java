@@ -39,7 +39,7 @@ public abstract class TextureSheetScreenParticle extends QuadScreenParticle {
     }
 
     public void pickSprite(SpriteSet pSprite) {
-        this.setSprite(pSprite.get(this.random));
+        this.setSprite(pSprite.get(this.RANDOM));
     }
 
     public void setSpriteFromAge(SpriteSet pSprite) {

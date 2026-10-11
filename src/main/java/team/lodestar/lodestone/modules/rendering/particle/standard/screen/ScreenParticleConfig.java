@@ -1,12 +1,12 @@
 package team.lodestar.lodestone.modules.rendering.particle.standard.screen;
 
-import team.lodestar.lodestone.modules.rendering.particle.standard.SimpleParticleOptions;
+import team.lodestar.lodestone.modules.rendering.particle.standard.LodestoneParticleConfig;
 import team.lodestar.lodestone.modules.rendering.particle.standard.render_types.LodestoneScreenParticleRenderType;
 
 import java.util.*;
 import java.util.function.Consumer;
 
-public class ScreenParticleOptions extends SimpleParticleOptions {
+public class ScreenParticleConfig extends LodestoneParticleConfig {
 
     public final ScreenParticleType<?> type;
     public LodestoneScreenParticleRenderType renderType = LodestoneScreenParticleRenderType.ADDITIVE;
@@ -19,7 +19,8 @@ public class ScreenParticleOptions extends SimpleParticleOptions {
     public double stackTrackXOffset;
     public double stackTrackYOffset;
 
-    public ScreenParticleOptions(ScreenParticleType<?> type) {
+    public ScreenParticleConfig(ScreenParticleType<?> type) {
+        super();
         this.type = type;
     }
 }

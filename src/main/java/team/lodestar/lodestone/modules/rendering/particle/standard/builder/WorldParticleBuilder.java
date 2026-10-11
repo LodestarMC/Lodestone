@@ -15,10 +15,9 @@ import team.lodestar.lodestone.modules.rendering.particle.standard.*;
 import team.lodestar.lodestone.modules.rendering.particle.standard.data.*;
 import team.lodestar.lodestone.modules.rendering.particle.standard.data.color.*;
 import team.lodestar.lodestone.modules.rendering.particle.standard.data.spin.*;
+import team.lodestar.lodestone.modules.rendering.particle.standard.renderer.*;
 import team.lodestar.lodestone.modules.rendering.particle.standard.world.*;
-import team.lodestar.lodestone.modules.rendering.particle.standard.world.behaviors.*;
 import team.lodestar.lodestone.modules.rendering.particle.standard.world.options.*;
-import team.lodestar.lodestone.modules.rendering.particle.standard.world.type.*;
 import team.lodestar.lodestone.systems.rendering.LodestoneRenderLayer;
 
 import java.lang.Math;
@@ -27,11 +26,11 @@ import java.util.*;
 import java.util.function.*;
 
 @SuppressWarnings({"unused", "UnusedReturnValue"})
-public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleOptions> {
+public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleConfig> {
 
     private static final Random RANDOM = new Random();
 
-    final WorldParticleOptions options;
+    final WorldParticleConfig options;
 
     boolean forceSpawn = false;
     double zMotion = 0;
@@ -47,38 +46,38 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     public static WorldParticleBuilder create(LodestoneWorldParticleType particle) {
-        return create(new WorldParticleOptions(particle));
+        return create(new WorldParticleConfig(particle));
     }
 
-    public static WorldParticleBuilder create(WorldParticleOptions options) {
+    public static WorldParticleBuilder create(WorldParticleConfig options) {
         return new WorldParticleBuilder(options);
     }
 
-    protected WorldParticleBuilder(WorldParticleOptions options) {
+    protected WorldParticleBuilder(WorldParticleConfig options) {
         this.options = options;
     }
 
     @Override
-    public WorldParticleOptions getParticleOptions() {
+    public WorldParticleConfig getParticleOptions() {
         return options;
     }
 
-    public <T extends LodestoneParticleBehavior> WorldParticleBuilder setBehavior(Class<T> targetClass, Function<T, LodestoneParticleBehavior> behaviorFunction) {
+    public <T extends LodestoneParticleRenderer> WorldParticleBuilder setBehavior(Class<T> targetClass, Function<T, LodestoneParticleRenderer> behaviorFunction) {
         var behavior = getBehavior(targetClass);
         return setBehavior(behavior != null ? behaviorFunction.apply(behavior) : null);
     }
 
-    public <T extends LodestoneParticleBehavior> GenericParticleData getBehaviorData(Class<T> targetClass, Function<T, GenericParticleData> dataFunction) {
+    public <T extends LodestoneParticleRenderer> GenericParticleData getBehaviorData(Class<T> targetClass, Function<T, GenericParticleData> dataFunction) {
         var behavior = getBehavior(targetClass);
         return behavior != null ? dataFunction.apply(behavior) : null;
     }
 
-    public WorldParticleBuilder setBehavior(LodestoneParticleBehavior behavior) {
+    public WorldParticleBuilder setBehavior(LodestoneParticleRenderer behavior) {
         getParticleOptions().setBehavior(behavior);
         return this;
     }
 
-    public <T extends LodestoneParticleBehavior> T getBehavior(Class<T> targetClass) {
+    public <T extends LodestoneParticleRenderer> T getBehavior(Class<T> targetClass) {
         if (targetClass.isInstance(getParticleOptions().behavior)) {
             return targetClass.cast(getParticleOptions().behavior);
         }
@@ -623,7 +622,7 @@ public class WorldParticleBuilder extends AbstractParticleBuilder<WorldParticleO
     }
 
     @Override
-    public WorldParticleBuilder setSpritePicker(SimpleParticleOptions.ParticleSpritePicker spritePicker) {
+    public WorldParticleBuilder setSpritePicker(LodestoneParticleConfig.Animator spritePicker) {
         return (WorldParticleBuilder) super.setSpritePicker(spritePicker);
     }
 }

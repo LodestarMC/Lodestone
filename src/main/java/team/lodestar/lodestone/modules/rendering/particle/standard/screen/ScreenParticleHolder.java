@@ -14,24 +14,24 @@ import java.util.Map;
 
 public class ScreenParticleHolder {
 
-    public static final Tesselator TESSELATOR = new Tesselator();
+    protected static final Tesselator TESSELATOR = new Tesselator();
 
-    public final Map<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> particles = new HashMap<>();
+    protected final Map<LodestoneScreenParticleRenderType, ArrayList<ScreenParticle>> particles = new HashMap<>();
 
     public ScreenParticleHolder() {
     }
 
     public void tick() {
-        particles.forEach((pair, particles) -> {
-            Iterator<ScreenParticle> iterator = particles.iterator();
+        for (ArrayList<ScreenParticle> particles : particles.values()) {
+            var iterator = particles.iterator();
             while (iterator.hasNext()) {
-                ScreenParticle particle = iterator.next();
+                var particle = iterator.next();
                 particle.tick();
                 if (!particle.isAlive()) {
                     iterator.remove();
                 }
             }
-        });
+        }
     }
 
     public void render() {
@@ -44,13 +44,14 @@ public class ScreenParticleHolder {
 
     public void render(@Nullable PoseStack poseStack) {
         particles.forEach((renderType, particles) -> {
-            if (!particles.isEmpty()) {
-                var builder = renderType.begin(TESSELATOR, Minecraft.getInstance().getTextureManager());
-                for (ScreenParticle next : particles) {
-                    next.render(builder, poseStack);
-                }
-                renderType.end(builder);
+            if (particles.isEmpty()) {
+                return;
             }
+            var builder = renderType.begin(TESSELATOR, Minecraft.getInstance().getTextureManager());
+            for (ScreenParticle next : particles) {
+                next.render(builder, poseStack);
+            }
+            renderType.end(builder);
         });
     }
 
@@ -60,5 +61,9 @@ public class ScreenParticleHolder {
 
     public boolean isEmpty() {
         return particles.values().stream().allMatch(ArrayList::isEmpty);
+    }
+
+    public void clear() {
+        particles.values().forEach(ArrayList::clear);
     }
 }

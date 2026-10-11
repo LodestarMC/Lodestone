@@ -5,11 +5,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import team.lodestar.lodestone.handlers.screenparticle.ParticleEmitterHandler;
+import team.lodestar.lodestone.handlers.screenparticle.ItemParticleEmitters;
 import team.lodestar.lodestone.registry.common.particle.*;
-import team.lodestar.lodestone.modules.rendering.particle.standard.world.type.LodestoneItemCrumbsParticleType;
-import team.lodestar.lodestone.modules.rendering.particle.standard.world.type.LodestoneTerrainParticleType;
-import team.lodestar.lodestone.modules.rendering.particle.standard.world.type.LodestoneWorldParticleType;
+import team.lodestar.lodestone.modules.rendering.particle.standard.old.LodestoneItemCrumbsParticleType;
+import team.lodestar.lodestone.modules.rendering.particle.standard.old.LodestoneTerrainParticleType;
+import team.lodestar.lodestone.modules.rendering.particle.standard.old.LodestoneWorldParticleType;
 
 @EventBusSubscriber(value = Dist.CLIENT)
 public class ClientModEvents {
@@ -22,7 +22,7 @@ public class ClientModEvents {
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
-        ParticleEmitterHandler.registerParticleEmitters(event);
+        ItemParticleEmitters.registerParticleEmitters(event);
     }
 
     private static void registerParticleProviders(RegisterParticleProvidersEvent event) {

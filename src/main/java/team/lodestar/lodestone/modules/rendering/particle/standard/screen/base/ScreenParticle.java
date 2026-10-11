@@ -10,37 +10,31 @@ import team.lodestar.lodestone.modules.rendering.particle.standard.render_types.
 @OnlyIn(Dist.CLIENT)
 public abstract class ScreenParticle {
 
+    public static final RandomSource RANDOM = RandomSource.create();
+
     public final ClientLevel level;
-    public double xOld;
-    public double yOld;
-    public double x;
-    public double y;
-    public double xMotion;
-    public double yMotion;
-    public double xMoved;
-    public double yMoved;
+
+    public double xOld, yOld;
+    public double x, y;
+    public double xMotion, yMotion;
+    public double xMoved, yMoved;
     public boolean removed;
-    public final RandomSource random = RandomSource.create();
-    public int age;
-    public int lifetime;
-    public float gravity;
+    public int age, lifetime;
     public float size = 1;
-    public float rCol = 1.0F;
-    public float gCol = 1.0F;
-    public float bCol = 1.0F;
-    public float alpha = 1.0F;
-    public float roll;
-    public float oRoll;
+    public float r = 1, g = 1, b = 1, a = 1;
+    public float oRoll, roll;
+
+    public float gravity;
     public float friction = 0.98F;
 
-    protected ScreenParticle(ClientLevel pLevel, double pX, double pY) {
-        this.level = pLevel;
+    protected ScreenParticle(ClientLevel level, double x, double y) {
+        this.level = level;
         this.setSize(0.2F);
-        this.x = pX;
-        this.y = pY;
-        this.xOld = pX;
-        this.yOld = pY;
-        this.lifetime = (int) (4.0F / (this.random.nextFloat() * 0.9F + 0.1F));
+        this.x = x;
+        this.y = y;
+        this.xOld = x;
+        this.yOld = y;
+        this.lifetime = (int) (4.0F / (RANDOM.nextFloat() * 0.9F + 0.1F));
     }
 
     public ScreenParticle(ClientLevel pLevel, double pX, double pY, double pXSpeed, double pYSpeed) {
@@ -53,6 +47,10 @@ public abstract class ScreenParticle {
         this.yMotion = this.yMotion / d1 * d0 * (double) 0.4F + (double) 0.1F;
     }
 
+    public abstract void render(BufferBuilder bufferBuilder, PoseStack poseStack);
+
+    public abstract LodestoneScreenParticleRenderType getRenderType();
+
     public void setParticleSpeed(double pXd, double pYd) {
         this.xMotion = pXd;
         this.yMotion = pYd;
@@ -64,13 +62,13 @@ public abstract class ScreenParticle {
     }
 
     public void setColor(float pParticleRed, float pParticleGreen, float pParticleBlue) {
-        this.rCol = pParticleRed;
-        this.gCol = pParticleGreen;
-        this.bCol = pParticleBlue;
+        this.r = pParticleRed;
+        this.g = pParticleGreen;
+        this.b = pParticleBlue;
     }
 
     protected void setAlpha(float pAlpha) {
-        this.alpha = pAlpha;
+        this.a = pAlpha;
     }
 
     public void setLifetime(int pParticleLifeTime) {
@@ -96,10 +94,6 @@ public abstract class ScreenParticle {
             this.yMoved += yMotion;
         }
     }
-
-    public abstract void render(BufferBuilder bufferBuilder, PoseStack poseStack);
-
-    public abstract LodestoneScreenParticleRenderType getRenderType();
 
     public void remove() {
         this.removed = true;

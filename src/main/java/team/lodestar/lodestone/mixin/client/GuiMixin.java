@@ -7,17 +7,18 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
+import team.lodestar.lodestone.handlers.screenparticle.ItemScreenParticleHandler;
 
 @Mixin(Gui.class)
 public class GuiMixin {
+
     @Inject(at = @At("HEAD"), method = "renderHotbar")
     private void lodestone$RenderHotbarStart(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        ScreenParticleHandler.renderingHotbar = true;
+        ItemScreenParticleHandler.setRenderingHotbar(true);
     }
 
     @Inject(at = @At("RETURN"), method = "renderHotbar")
     private void lodestone$RenderHotbarEnd(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        ScreenParticleHandler.renderingHotbar = false;
+        ItemScreenParticleHandler.setRenderingHotbar(false);
     }
 }

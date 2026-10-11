@@ -4,9 +4,9 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import team.lodestar.lodestone.LodestoneLib;
-import team.lodestar.lodestone.modules.rendering.particle.standard.world.type.LodestoneItemCrumbsParticleType;
-import team.lodestar.lodestone.modules.rendering.particle.standard.world.type.LodestoneWorldParticleType;
-import team.lodestar.lodestone.modules.rendering.particle.standard.world.type.LodestoneTerrainParticleType;
+import team.lodestar.lodestone.modules.rendering.particle.standard.old.LodestoneItemCrumbsParticleType;
+import team.lodestar.lodestone.modules.rendering.particle.standard.old.LodestoneWorldParticleType;
+import team.lodestar.lodestone.modules.rendering.particle.standard.old.LodestoneTerrainParticleType;
 
 import java.util.function.Supplier;
 

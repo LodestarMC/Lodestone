@@ -14,7 +14,7 @@ import team.lodestar.lodestone.helpers.VecHelper;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class QuadScreenParticle extends ScreenParticle {
-    protected float quadSize = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
+    protected float quadSize = 0.1F * (RANDOM.nextFloat() * 0.5F + 0.5F) * 2.0F;
 
     protected QuadScreenParticle(ClientLevel pLevel, double pX, double pY) {
         super(pLevel, pX, pY);
@@ -37,16 +37,16 @@ public abstract class QuadScreenParticle extends ScreenParticle {
         float quadZ = getQuadZPosition();
         if (poseStack != null) {
             var pose = poseStack.last();
-            bufferBuilder.addVertex(pose, vectors[0].x(), vectors[0].y(), quadZ).setUv(u1, v1).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
-            bufferBuilder.addVertex(pose, vectors[1].x(), vectors[1].y(), quadZ).setUv(u1, v0).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
-            bufferBuilder.addVertex(pose, vectors[2].x(), vectors[2].y(), quadZ).setUv(u0, v0).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
-            bufferBuilder.addVertex(pose, vectors[3].x(), vectors[3].y(), quadZ).setUv(u0, v1).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
+            bufferBuilder.addVertex(pose, vectors[0].x(), vectors[0].y(), quadZ).setUv(u1, v1).setColor(this.r, this.g, this.b, this.a);
+            bufferBuilder.addVertex(pose, vectors[1].x(), vectors[1].y(), quadZ).setUv(u1, v0).setColor(this.r, this.g, this.b, this.a);
+            bufferBuilder.addVertex(pose, vectors[2].x(), vectors[2].y(), quadZ).setUv(u0, v0).setColor(this.r, this.g, this.b, this.a);
+            bufferBuilder.addVertex(pose, vectors[3].x(), vectors[3].y(), quadZ).setUv(u0, v1).setColor(this.r, this.g, this.b, this.a);
         }
         else {
-            bufferBuilder.addVertex(vectors[0].x(), vectors[0].y(), quadZ).setUv(u1, v1).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
-            bufferBuilder.addVertex(vectors[1].x(), vectors[1].y(), quadZ).setUv(u1, v0).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
-            bufferBuilder.addVertex(vectors[2].x(), vectors[2].y(), quadZ).setUv(u0, v0).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
-            bufferBuilder.addVertex(vectors[3].x(), vectors[3].y(), quadZ).setUv(u0, v1).setColor(this.rCol, this.gCol, this.bCol, this.alpha);
+            bufferBuilder.addVertex(vectors[0].x(), vectors[0].y(), quadZ).setUv(u1, v1).setColor(this.r, this.g, this.b, this.a);
+            bufferBuilder.addVertex(vectors[1].x(), vectors[1].y(), quadZ).setUv(u1, v0).setColor(this.r, this.g, this.b, this.a);
+            bufferBuilder.addVertex(vectors[2].x(), vectors[2].y(), quadZ).setUv(u0, v0).setColor(this.r, this.g, this.b, this.a);
+            bufferBuilder.addVertex(vectors[3].x(), vectors[3].y(), quadZ).setUv(u0, v1).setColor(this.r, this.g, this.b, this.a);
         }
     }
 

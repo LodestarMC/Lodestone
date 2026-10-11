@@ -9,7 +9,7 @@ import team.lodestar.lodestone.modules.rendering.particle.standard.data.spin.*;
 
 import java.util.function.*;
 
-public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
+public abstract class AbstractParticleBuilder<T extends LodestoneParticleConfig> {
 
     double xMotion = 0, yMotion = 0;
     double maxXSpeed = 0, maxYSpeed = 0;
@@ -63,12 +63,12 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
     }
 
     public AbstractParticleBuilder<T> setTransparencyData(GenericParticleDataWrapper transparencyData) {
-        getParticleOptions().transparencyData = transparencyData.unwrap();
+        getParticleOptions().alphaData = transparencyData.unwrap();
         return this;
     }
 
     public GenericParticleData getTransparencyData() {
-        return getParticleOptions().transparencyData;
+        return getParticleOptions().alphaData;
     }
 
     public AbstractParticleBuilder<T> modifySpinData(Consumer<SpinParticleData> dataConsumer) {
@@ -90,7 +90,7 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
     }
 
     public AbstractParticleBuilder<T> setLifeDelay(Supplier<Integer> supplier) {
-        getParticleOptions().lifeDelaySupplier = supplier;
+        getParticleOptions().delaySupplier = supplier;
         return this;
     }
 
@@ -189,8 +189,8 @@ public abstract class AbstractParticleBuilder<T extends SimpleParticleOptions> {
         return this;
     }
 
-    public AbstractParticleBuilder<T> setSpritePicker(SimpleParticleOptions.ParticleSpritePicker spritePicker) {
-        getParticleOptions().spritePicker = spritePicker;
+    public AbstractParticleBuilder<T> setSpritePicker(LodestoneParticleConfig.Animator spritePicker) {
+        getParticleOptions().animator = spritePicker;
         return this;
     }
 
