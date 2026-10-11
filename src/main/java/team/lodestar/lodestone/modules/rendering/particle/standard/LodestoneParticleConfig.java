@@ -12,12 +12,12 @@ import java.util.function.*;
 
 public class LodestoneParticleConfig {
 
-    public LodestoneParticleConfig(LodestoneParticleBody.Type type) {
-        this.type = type;
-    }
-
     public enum Animator {
         FIRST_INDEX, LAST_INDEX, WITH_AGE, WITH_AGE_INVERSE, RANDOM_SPRITE
+    }
+
+    public LodestoneParticleConfig(LodestoneParticleBody.Type type) {
+        this.type = type;
     }
 
     protected final LodestoneParticleBody.Type type;
@@ -37,7 +37,7 @@ public class LodestoneParticleConfig {
     protected Supplier<Float> frictionSupplier = () -> 1f;
 
     protected Int2IntFunction lifetimeModifier = i -> i;
-    protected Int2IntFunction lifeDelayModifier = i -> i;
+    protected Int2IntFunction delayModifier = i -> i;
     protected Float2FloatFunction gravityModifier = f -> f;
     protected Float2FloatFunction frictionModifier = f -> f;
 
@@ -65,8 +65,8 @@ public class LodestoneParticleConfig {
         return lifetimeModifier.apply(lifetimeSupplier.get());
     }
 
-    public int getLifeDelay() {
-        return lifeDelayModifier.apply(delaySupplier.get());
+    public int getDelay() {
+        return delayModifier.apply(delaySupplier.get());
     }
 
     public float getGravity() {

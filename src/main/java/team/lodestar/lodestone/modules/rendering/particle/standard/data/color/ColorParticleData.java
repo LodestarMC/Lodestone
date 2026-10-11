@@ -91,10 +91,9 @@ public class ColorParticleData implements ColorParticleDataWrapper {
         return this;
     }
 
-    public void rgbToHsv(float[] hsv1, float[] hsv2) {
+    public void fillHSVArrays(float[] hsv1, float[] hsv2) {
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, r1)), (int) (255 * Math.min(1.0f, g1)), (int) (255 * Math.min(1.0f, b1)), hsv1);
         Color.RGBtoHSB((int) (255 * Math.min(1.0f, r2)), (int) (255 * Math.min(1.0f, g2)), (int) (255 * Math.min(1.0f, b2)), hsv2);
-
     }
 
     public float getProgress(float age, float lifetime) {

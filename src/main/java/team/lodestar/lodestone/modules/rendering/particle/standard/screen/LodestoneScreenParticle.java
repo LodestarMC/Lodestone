@@ -70,7 +70,7 @@ public class LodestoneScreenParticle extends TextureSheetScreenParticle {
         this.xMotion = xMotion;
         this.yMotion = yMotion;
 
-        colorData.rgbToHsv(hsv1, hsv2);
+        colorData.fillHSVArrays(hsv1, hsv2);
         if (spriteSet != null) {
             switch (spritePicker) {
                 case FIRST_INDEX, WITH_AGE -> pickSprite(0);

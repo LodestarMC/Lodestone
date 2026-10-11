@@ -126,7 +126,7 @@ public abstract class AbstractParticleBuilder<T extends LodestoneParticleConfig>
     }
 
     public AbstractParticleBuilder<T> modifyLifeDelay(Int2IntFunction modifier) {
-        return setLifeDelayModifier(getParticleOptions().lifeDelayModifier.andThenInt(modifier));
+        return setLifeDelayModifier(getParticleOptions().delayModifier.andThenInt(modifier));
     }
 
     public AbstractParticleBuilder<T> setLifeDelayModifier(float multiplier) {
@@ -134,7 +134,7 @@ public abstract class AbstractParticleBuilder<T extends LodestoneParticleConfig>
     }
 
     public AbstractParticleBuilder<T> setLifeDelayModifier(Int2IntFunction modifier) {
-        getParticleOptions().lifeDelayModifier = modifier;
+        getParticleOptions().delayModifier = modifier;
         return this;
     }
 

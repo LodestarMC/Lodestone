@@ -3,7 +3,6 @@ package team.lodestar.lodestone.modules.rendering.particle.standard.screen;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.*;
 import net.minecraft.client.gui.*;
-import team.lodestar.lodestone.modules.rendering.particle.standard.render_types.LodestoneScreenParticleRenderType;
 import team.lodestar.lodestone.modules.rendering.particle.standard.screen.base.ScreenParticle;
 
 import javax.annotation.*;
