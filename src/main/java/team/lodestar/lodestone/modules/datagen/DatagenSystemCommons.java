@@ -51,7 +51,6 @@ public class DatagenSystemCommons {
 
     public static ResourceLocation modifyTexturePath(ResourceLocation texture) {
         if (IMMUTABLE_TEXTURES.contains(texture)) {
-            IMMUTABLE_TEXTURES.remove(texture);
             return texture;
         }
         if (texture.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
