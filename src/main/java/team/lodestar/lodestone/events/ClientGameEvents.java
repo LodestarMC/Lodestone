@@ -12,6 +12,7 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.GameShuttingDownEvent;
 import team.lodestar.lodestone.LodestoneLib;
 import team.lodestar.lodestone.handlers.*;
+import team.lodestar.lodestone.handlers.item_events.ItemEventHandler;
 import team.lodestar.lodestone.handlers.screenparticle.ScreenParticleHandler;
 import team.lodestar.lodestone.modules.rendering.*;
 import team.lodestar.lodestone.modules.toolkit.worldevent.*;

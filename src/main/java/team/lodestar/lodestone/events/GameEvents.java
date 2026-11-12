@@ -6,7 +6,7 @@ import net.neoforged.neoforge.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
-import team.lodestar.lodestone.handlers.*;
+import team.lodestar.lodestone.handlers.item_events.ItemEventHandler;
 import team.lodestar.lodestone.modules.toolkit.enchanting.*;
 import team.lodestar.lodestone.modules.toolkit.worldevent.*;
 
