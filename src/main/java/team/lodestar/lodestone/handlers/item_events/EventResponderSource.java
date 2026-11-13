@@ -31,8 +31,8 @@ public class EventResponderSource {
         return new EventResponderCollection(this, result);
     }
 
-    public Optional<IEventResponder> mapEffectBody(ItemStack stack) {
-        if (stack.getItem() instanceof IEventResponder responder) {
+    public Optional<IEventResponderItem> mapEffectBody(ItemStack stack) {
+        if (stack.getItem() instanceof IEventResponderItem responder) {
             return Optional.of(responder);
         }
         return Optional.empty();

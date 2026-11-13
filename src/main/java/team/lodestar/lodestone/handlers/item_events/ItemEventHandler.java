@@ -6,11 +6,10 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.living.*;
 import team.lodestar.lodestone.*;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 /**
- * A handler for firing {@link IEventResponder} events
+ * A handler for firing {@link IEventResponderItem} events
  */
 public class ItemEventHandler {
 
@@ -71,7 +70,7 @@ public class ItemEventHandler {
 
     public static void addAttributeTooltips(AddAttributeTooltipsEvent event) {
         var stack = event.getStack();
-        if (stack.getItem() instanceof IEventResponder eventResponderItem) {
+        if (stack.getItem() instanceof IEventResponderItem eventResponderItem) {
             eventResponderItem.modifyAttributeTooltipEvent(event);
         }
     }

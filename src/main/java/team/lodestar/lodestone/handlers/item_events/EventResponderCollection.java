@@ -7,11 +7,11 @@ import java.util.function.BiConsumer;
 
 public record EventResponderCollection(EventResponderSource source, Collection<Entry> items) {
 
-    public void run(BiConsumer<IEventResponder, ItemStack> consumer) {
-        run(IEventResponder.class, consumer);
+    public void run(BiConsumer<IEventResponderItem, ItemStack> consumer) {
+        run(IEventResponderItem.class, consumer);
     }
 
-    public <T extends IEventResponder> void run(Class<T> type, BiConsumer<T, ItemStack> consumer) {
+    public <T extends IEventResponderItem> void run(Class<T> type, BiConsumer<T, ItemStack> consumer) {
         for (Entry entry : items) {
             var item = entry.item();
             if (!type.isInstance(item)) {
@@ -21,7 +21,7 @@ public record EventResponderCollection(EventResponderSource source, Collection<E
         }
     }
 
-    public record Entry(IEventResponder item, ItemStack stack) {
+    public record Entry(IEventResponderItem item, ItemStack stack) {
 
     }
 }
