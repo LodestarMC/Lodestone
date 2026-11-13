@@ -15,9 +15,9 @@ public class ItemEventHandler {
 
     private static final HashSet<EventResponderSource> SOURCES = new HashSet<>();
 
-    public static final EventResponderSource HELD_ITEM = registerSource(new EventResponderSource(LodestoneLib.lodestonePath("held_item"), e -> List.of(e.getMainHandItem())));
+    public static final EventResponderSource HELD_ITEM = registerSource(new ItemEventResponderSource(LodestoneLib.lodestonePath("held_item"), e -> List.of(e.getMainHandItem())));
 
-    public static final EventResponderSource ARMOR = registerSource(new EventResponderSource(LodestoneLib.lodestonePath("armor"), e -> {
+    public static final EventResponderSource ARMOR = registerSource(new ItemEventResponderSource(LodestoneLib.lodestonePath("armor"), e -> {
         ArrayList<ItemStack> stacks = new ArrayList<>();
         for (ItemStack stack : e.getArmorSlots()) {
             stacks.add(stack);
