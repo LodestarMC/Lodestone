@@ -6,7 +6,6 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 public class ItemEventResponderSource extends EventResponderSource {
 
@@ -22,7 +21,7 @@ public class ItemEventResponderSource extends EventResponderSource {
         var stacks = stackPool.gatherItems(entity);
         var result = new ArrayList<EventResponderCollection.Entry>();
         for (ItemStack stack : stacks) {
-            if (stack.getItem() instanceof IEventResponderItem responder) {
+            if (stack.getItem() instanceof IEventResponderBody responder) {
                 result.add(new EventResponderCollection.Entry(responder, stack));
             }
         }

@@ -13,11 +13,11 @@ public class EventResponderProcessor {
         this.result = result;
     }
 
-    public void run(BiConsumer<IEventResponderItem, ItemStack> consumer) {
-        run(IEventResponderItem.class, consumer);
+    public void run(BiConsumer<IEventResponderBody, ItemStack> consumer) {
+        run(IEventResponderBody.class, consumer);
     }
 
-    public <T extends IEventResponderItem> void run(Class<T> type, BiConsumer<T, ItemStack> consumer) {
+    public <T extends IEventResponderBody> void run(Class<T> type, BiConsumer<T, ItemStack> consumer) {
         for (EventResponderCollection collection : result) {
             collection.run(type, consumer);
         }

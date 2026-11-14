@@ -12,9 +12,9 @@ import javax.annotation.Nullable;
 /**
  * An interface containing various methods which are triggered alongside various forge events.
  * Implement on your item for the methods to be called.
- * Does not necessarily have to be bound to an itemstack.
+ * Does not necessarily have to be bound to an ItemStack.
  */
-public interface IEventResponderItem {
+public interface IEventResponderBody {
 
     default void modifyAttributeTooltipEvent(AddAttributeTooltipsEvent event) {
 

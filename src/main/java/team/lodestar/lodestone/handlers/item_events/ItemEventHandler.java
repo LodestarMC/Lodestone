@@ -9,7 +9,7 @@ import team.lodestar.lodestone.*;
 import java.util.*;
 
 /**
- * A handler for firing {@link IEventResponderItem} events
+ * A handler for firing {@link IEventResponderBody} events
  */
 public class ItemEventHandler {
 
@@ -70,7 +70,7 @@ public class ItemEventHandler {
 
     public static void addAttributeTooltips(AddAttributeTooltipsEvent event) {
         var stack = event.getStack();
-        if (stack.getItem() instanceof IEventResponderItem eventResponderItem) {
+        if (stack.getItem() instanceof IEventResponderBody eventResponderItem) {
             eventResponderItem.modifyAttributeTooltipEvent(event);
         }
     }
