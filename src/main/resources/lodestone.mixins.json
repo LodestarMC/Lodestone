@@ -7,8 +7,7 @@
     "modules.core.common.BlockItemMixin",
     "modules.core.common.EntityMixin",
     "modules.core.common.LivingEntityMixin",
-    "modules.toolkit.LevelChunkMixin",
-    "modules.toolkit.client.ClientHooksMixin"
+    "modules.toolkit.LevelChunkMixin"
   ],
   "client": [
     "client.EffectInstanceMixin",
