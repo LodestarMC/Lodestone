@@ -13,19 +13,17 @@ public record EventResponderCollection(EventResponderSource source, Collection<E
 
     public <T extends IEventResponderBody> void run(Class<T> type, BiConsumer<T, ItemStack> consumer) {
         for (Entry entry : items) {
-            var body = entry.body();
-            if (!type.isInstance(body)) {
+            var item = entry.body();
+            if (!type.isInstance(item)) {
                 continue;
             }
-            consumer.accept(type.cast(body), entry.stack());
+            consumer.accept(type.cast(item), entry.stack());
         }
     }
 
     public record Entry(IEventResponderBody body, ItemStack stack) {
-
         public Entry(IEventResponderBody body) {
             this(body, ItemStack.EMPTY);
         }
-
     }
 }

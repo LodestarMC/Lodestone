@@ -7,7 +7,8 @@
     "modules.core.common.BlockItemMixin",
     "modules.core.common.EntityMixin",
     "modules.core.common.LivingEntityMixin",
-    "modules.toolkit.LevelChunkMixin"
+    "modules.toolkit.LevelChunkMixin",
+    "modules.toolkit.client.ClientHooksMixin"
   ],
   "client": [
     "client.EffectInstanceMixin",
@@ -22,6 +23,7 @@
     "modules.core.client.LevelRendererMixin",
     "modules.core.client.MultiPlayerGameModeMixin",
     "modules.toolkit.client.AbstractContainerScreenMixin",
+    "modules.toolkit.client.ClientTooltipComponentMixin",
     "modules.toolkit.client.CreativeModeInventoryScreenMixin"
   ],
   "injectors": {
