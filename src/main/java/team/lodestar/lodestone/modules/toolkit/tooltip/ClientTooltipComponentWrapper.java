@@ -10,7 +10,7 @@ public class ClientTooltipComponentWrapper implements TooltipComponent {
 
     private final ClientTooltipComponent component;
 
-    protected ClientTooltipComponentWrapper(ClientTooltipComponent component) {
+    private ClientTooltipComponentWrapper(ClientTooltipComponent component) {
         this.component = component;
     }
 
