@@ -22,4 +22,12 @@ public class LodestoneConfigHolder<T extends LodestoneConfig> {
     public void register(ModContainer modContainer) {
         modContainer.registerConfig(configType, spec);
     }
+
+    public T getConfig() {
+        return instance;
+    }
+
+    public ModConfigSpec getSpec() {
+        return spec;
+    }
 }
