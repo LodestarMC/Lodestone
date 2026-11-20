@@ -4,7 +4,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class LodestoneConfigHolder<T extends LodestoneConfig> {
 
@@ -12,11 +12,13 @@ public class LodestoneConfigHolder<T extends LodestoneConfig> {
     protected final T instance;
     protected final ModConfigSpec spec;
 
-    public LodestoneConfigHolder(ModConfig.Type configType, Function<ModConfigSpec.Builder, T> supplier) {
-        var build = new ModConfigSpec.Builder().configure(supplier);
+    public LodestoneConfigHolder(ModConfig.Type configType, Supplier<T> supplier) {
+        var builder = new ModConfigSpec.Builder();
         this.configType = configType;
-        this.spec = build.getRight();
-        this.instance = build.getLeft();
+        this.instance = supplier.get();
+        instance.createValues(builder);
+
+        this.spec = builder.build();
     }
 
     public void register(ModContainer modContainer) {
