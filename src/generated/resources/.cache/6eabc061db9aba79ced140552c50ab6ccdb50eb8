@@ -1,6 +1,0 @@
-// 1.21.1	2026-01-28T03:31:52.1384662	Tags for minecraft:damage_type mod id lodestone
-5ffa76b375d4236f1d832601fff778bc8ce15f51 data/c/tags/damage_type/can_trigger_magic_damage.json
-35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/c/tags/damage_type/ignores_magic_attack_cooldown_scalar.json
-10324698ef50d9ab1c367abd0d46152a26bf5ed5 data/c/tags/damage_type/is_magic.json
-ea919a71ded017e8468b29e511206fde79d25590 data/lodestone/tags/damage_type/affected_by_magic_proficiency.json
-ea919a71ded017e8468b29e511206fde79d25590 data/lodestone/tags/damage_type/affected_by_magic_resistance.json
